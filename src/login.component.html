@@ -1,0 +1,41 @@
+<div class="formContainer">
+	<form class="ui form attached segment large loginForm" role="form" (submit)="onSubmit(loginForm.value, $event)">
+		<div class="field">
+			<div class="ui left icon input">
+				<i class="user icon"></i>
+				<input type="text"
+				       name="email"
+				       placeholder="your@email.com"
+				       [(ngModel)]="model.username"
+				       required email
+				       #username="ngModel"
+				>
+			</div>
+		</div>
+		<div class="field">
+			<div class="ui left icon input">
+				<i class="lock icon"></i>
+				<input type="password"
+				       name="password"
+				       placeholder="Password"
+				       [(ngModel)]="model.password"
+				       required password
+				       #password="ngModel"
+				>
+			</div>
+		</div>
+	</form>
+	<div class="ui bottom attached negative message" *ngIf="(username.touched && !username.valid) || (password.touched && !password.valid) || (!!errorMessage)">
+		<ul class="list" *ngIf="username.touched && !username.valid">
+			<li *ngIf="username.errors.required">email is required.</li>
+			<li *ngIf="!username.errors.required && username.errors.invalidEmailAddress">Enter a valid email address.</li>
+		</ul>
+		<ul class="list" *ngIf="errorMessage">
+			<li>{{errorMessage}}</li>
+		</ul>
+		<ul class="list" *ngIf="password.touched && !password.valid">
+			<li *ngIf="password.errors.required">password is required.</li>
+			<li *ngIf="!password.errors.required && password.errors.invalidPassword">password is invalid.</li>
+		</ul>
+	</div>
+</div>
