@@ -5,7 +5,13 @@
 		"noImplicitAny": false,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
-		"moduleResolution": "node"
+		"moduleResolution": "node",
+		"baseUrl": ".",
+		"paths": {
+			"angular2-carbonldp/*": [ "../angular2-carbonldp/dist/*" ],
+			"carbon-panel/*": [ "src/*" ],
+			"carbonldp/*": [ "../CarbonLDP-JS-SDK/dist/*" ]
+		}
 	},
 	"exclude": [
 		"dist",
