@@ -1,16 +1,35 @@
-import {Injectable, EventEmitter} from "@angular/core";
+import { Injectable, EventEmitter } from "@angular/core";
 
 @Injectable()
 export class SidebarService {
 	private _items:SidebarItem[] = [];
+	private _toggleEmitter:EventEmitter<any> = new EventEmitter();
+	private _toggledEmitter:EventEmitter<boolean> = new EventEmitter();
+	private _isVisible:boolean;
 
 	get items():SidebarItem[] {
 		return this._items;
 	}
 
+	get toggleEmitter():EventEmitter<any> {
+		return this._toggleEmitter;
+	}
+
+	get toggledEmitter():EventEmitter<any> {
+		return this._toggledEmitter;
+	}
+
+	get isVisible():boolean {
+		return this._isVisible;
+	}
+
+	constructor() {
+		this.toggledEmitter.subscribe( ( isVisible:boolean ) => {
+			this._isVisible = isVisible;
+		} );
+	}
+
 	addAppEmitter:EventEmitter<any> = new EventEmitter();
-	toggleEmitter:EventEmitter<any> = new EventEmitter();
-	toggleMenuButtonEmitter:EventEmitter<any> = new EventEmitter();
 
 	addItem( item:SidebarLink | SidebarSubmenu | SidebarDivider | SidebarGroup ):void {
 		this.items.push( item );
@@ -62,7 +81,8 @@ export interface SidebarLink extends SidebarItem {
 export interface SidebarSubmenu extends SidebarItem {
 	type:"submenu";
 	name:string;
-	children:SidebarItem[];
+	children:(SidebarLink | SidebarSubmenu | SidebarDivider | SidebarGroup)[];
+	open?:boolean;
 	closeable?:boolean;
 	onClose?:EventEmitter<any>;
 	icon?:string;
@@ -76,7 +96,7 @@ export interface SidebarDivider extends SidebarItem {
 
 export interface SidebarGroup extends SidebarItem {
 	type:"group";
-	children:SidebarItem;
+	children:(SidebarLink | SidebarSubmenu | SidebarDivider | SidebarGroup)[];
 }
 
 export default SidebarService;

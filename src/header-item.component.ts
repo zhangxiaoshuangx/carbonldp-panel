@@ -1,8 +1,9 @@
-import {Component, ElementRef, Input, AfterViewInit} from "@angular/core";
-import {CORE_DIRECTIVES} from "@angular/common";
-import {ROUTER_DIRECTIVES, Router, Instruction} from "@angular/router-deprecated";
+import { Component, ElementRef, Input, AfterViewInit } from "@angular/core";
+import { CORE_DIRECTIVES } from "@angular/common";
+import { ROUTER_DIRECTIVES, Router, Instruction } from "@angular/router-deprecated";
 
-import {HeaderItem} from "carbon-panel/header.service";
+import { RouterService } from "carbon-panel/router.service";
+import { HeaderItem } from "carbon-panel/header.service";
 
 import $ from "jquery";
 import "semantic-ui/semantic";
@@ -19,18 +20,18 @@ import style from "./header-item.component.css!text";
 export class HeaderItemComponent implements AfterViewInit {
 	@Input( "item" ) item:HeaderItem;
 
+	private element:ElementRef;
 	private $element:JQuery;
+	private routerService:RouterService;
 
-	constructor( private element:ElementRef, private router:Router ) {}
+	constructor( element:ElementRef, routerService:RouterService ) {
+		this.element = element;
+		this.routerService = routerService;
+	}
 
 	ngAfterViewInit():void {
 		this.$element = $( this.element.nativeElement );
 		this.createDropdownMenus();
-	}
-
-	isActive( route:string ):boolean {
-		let instruction:Instruction = this.router.generate( [ route ] );
-		return this.router.isRouteActive( instruction );
 	}
 
 	createDropdownMenus():void {

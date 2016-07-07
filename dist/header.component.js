@@ -41,18 +41,13 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
             }],
         execute: function() {
             HeaderComponent = (function () {
-                function HeaderComponent(router, element, headerService) {
-                    this.router = router;
+                function HeaderComponent(element, headerService) {
                     this.element = element;
                     this.headerService = headerService;
                 }
                 HeaderComponent.prototype.ngAfterContentInit = function () {
                     this.$element = jquery_1.default(this.element.nativeElement);
                     this.createCollapsableMenus();
-                };
-                HeaderComponent.prototype.isActive = function (route) {
-                    var instruction = this.router.generate([route]);
-                    return this.router.isRouteActive(instruction);
                 };
                 HeaderComponent.prototype.createCollapsableMenus = function () {
                     var verticalMenu = this.$element.find(".ui.vertical.menu");
@@ -69,7 +64,7 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
                         styles: [header_component_css_text_1.default],
                         directives: [common_1.CORE_DIRECTIVES, router_deprecated_1.ROUTER_DIRECTIVES, header_item_component_1.HeaderItemComponent]
                     }), 
-                    __metadata('design:paramtypes', [router_deprecated_1.Router, core_1.ElementRef, header_service_1.HeaderService])
+                    __metadata('design:paramtypes', [core_1.ElementRef, header_service_1.HeaderService])
                 ], HeaderComponent);
                 return HeaderComponent;
             }());

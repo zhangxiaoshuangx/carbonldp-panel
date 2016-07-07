@@ -20,14 +20,39 @@ System.register(["@angular/core"], function(exports_1, context_1) {
         execute: function() {
             SidebarService = (function () {
                 function SidebarService() {
+                    var _this = this;
                     this._items = [];
+                    this._toggleEmitter = new core_1.EventEmitter();
+                    this._toggledEmitter = new core_1.EventEmitter();
                     this.addAppEmitter = new core_1.EventEmitter();
-                    this.toggleEmitter = new core_1.EventEmitter();
-                    this.toggleMenuButtonEmitter = new core_1.EventEmitter();
+                    this.toggledEmitter.subscribe(function (isVisible) {
+                        _this._isVisible = isVisible;
+                    });
                 }
                 Object.defineProperty(SidebarService.prototype, "items", {
                     get: function () {
                         return this._items;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(SidebarService.prototype, "toggleEmitter", {
+                    get: function () {
+                        return this._toggleEmitter;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(SidebarService.prototype, "toggledEmitter", {
+                    get: function () {
+                        return this._toggledEmitter;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(SidebarService.prototype, "isVisible", {
+                    get: function () {
+                        return this._isVisible;
                     },
                     enumerable: true,
                     configurable: true

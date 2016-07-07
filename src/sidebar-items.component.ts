@@ -1,7 +1,9 @@
-import {Component, ElementRef, Input} from "@angular/core";
-import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
+import { Component, Input } from "@angular/core";
+import { ROUTER_DIRECTIVES } from "@angular/router-deprecated";
 
-import {SidebarItem} from "carbon-panel/sidebar.service";
+import { CollapsibleDirective, CollapsibleTitleDirective, CollapsibleContentDirective } from "carbon-panel/semantic/collapsible.directive";
+import { RouterService } from "carbon-panel/router.service";
+import { SidebarItem } from "carbon-panel/sidebar.service";
 
 import template from "./sidebar-items.component.html!";
 import style from "./sidebar-items.component.css!text";
@@ -10,28 +12,15 @@ import style from "./sidebar-items.component.css!text";
 	selector: "cp-sidebar-items",
 	template: template,
 	styles: [ style ],
-	directives: [ ROUTER_DIRECTIVES, SidebarItemsComponent ]
+	directives: [ ROUTER_DIRECTIVES, SidebarItemsComponent, CollapsibleDirective, CollapsibleTitleDirective, CollapsibleContentDirective ]
 } )
 export class SidebarItemsComponent {
 	@Input( "items" ) items:SidebarItem[];
 
-	private $element:JQuery;
+	private routerService:RouterService;
 
-	constructor( private element:ElementRef ) {}
-
-	ngAfterContentInit():void {
-		this.$element = $( this.element.nativeElement );
-	}
-
-	ngAfterViewInit():void {
-		this.initializeAccordion();
-	}
-
-	initializeAccordion():void {
-		this.$element.accordion( {
-			trigger: ".item.submenu, .item.submenu .title",
-			title: ".title"
-		} );
+	constructor( routerService:RouterService ) {
+		this.routerService = routerService;
 	}
 }
 

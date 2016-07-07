@@ -1,9 +1,9 @@
-import {Component, ElementRef, AfterContentInit} from "@angular/core";
-import {CORE_DIRECTIVES} from "@angular/common";
-import {ROUTER_DIRECTIVES, Router, Instruction} from "@angular/router-deprecated";
+import { Component, ElementRef, AfterContentInit } from "@angular/core";
+import { CORE_DIRECTIVES } from "@angular/common";
+import { ROUTER_DIRECTIVES } from "@angular/router-deprecated";
 
-import {HeaderService} from "carbon-panel/header.service";
-import {HeaderItemComponent} from "carbon-panel/header-item.component";
+import { HeaderService } from "carbon-panel/header.service";
+import { HeaderItemComponent } from "carbon-panel/header-item.component";
 
 import $ from "jquery";
 import "semantic-ui/semantic";
@@ -18,14 +18,11 @@ import style from "./header.component.css!text";
 	directives: [ CORE_DIRECTIVES, ROUTER_DIRECTIVES, HeaderItemComponent ]
 } )
 export class HeaderComponent implements AfterContentInit {
-	router:Router;
-	element:ElementRef;
-	$element:JQuery;
-
+	private element:ElementRef;
+	private $element:JQuery;
 	private headerService:HeaderService;
 
-	constructor( router:Router, element:ElementRef, headerService:HeaderService ) {
-		this.router = router;
+	constructor( element:ElementRef, headerService:HeaderService ) {
 		this.element = element;
 		this.headerService = headerService;
 	}
@@ -35,14 +32,9 @@ export class HeaderComponent implements AfterContentInit {
 		this.createCollapsableMenus();
 	}
 
-	isActive( route:string ):boolean {
-		let instruction:Instruction = this.router.generate( [ route ] );
-		return this.router.isRouteActive( instruction );
-	}
-
 	createCollapsableMenus():void {
 		let verticalMenu:JQuery = this.$element.find( ".ui.vertical.menu" );
-		this.$element.find( ".item.open" ).on( "click", function( e ) {
+		this.$element.find( ".item.open" ).on( "click", function ( e ) {
 			e.preventDefault();
 			verticalMenu.toggle();
 		} );

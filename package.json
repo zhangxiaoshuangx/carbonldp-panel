@@ -13,19 +13,18 @@
   },
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
-  "jspm": {},
+  "jspm": { },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "@angular/common": "^2.0.0-rc.3",
-    "@angular/compiler": "^2.0.0-rc.3",
-    "@angular/core": "^2.0.0-rc.3",
-    "@angular/forms": "^0.1.1",
-    "@angular/http": "^2.0.0-rc.3",
-    "@angular/platform-browser": "^2.0.0-rc.3",
-    "@angular/platform-browser-dynamic": "^2.0.0-rc.3",
-    "@angular/router-deprecated": "^2.0.0-rc.2",
+    "@angular/common": "2.0.0-rc.1",
+    "@angular/compiler": "2.0.0-rc.1",
+    "@angular/core": "2.0.0-rc.1",
+    "@angular/http": "2.0.0-rc.1",
+    "@angular/platform-browser": "2.0.0-rc.1",
+    "@angular/platform-browser-dynamic": "2.0.0-rc.1",
+    "@angular/router-deprecated": "2.0.0-rc.1",
     "del": "^2.2.1",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
@@ -45,14 +44,13 @@
     "zone.js": "^0.6.6"
   },
   "peerDependencies": {
-    "@angular/common": "^2.0.0-rc.3",
-    "@angular/compiler": "^2.0.0-rc.3",
-    "@angular/core": "^2.0.0-rc.3",
-    "@angular/http": "^2.0.0-rc.3",
-    "@angular/forms": "^0.1.1",
-    "@angular/platform-browser": "^2.0.0-rc.3",
-    "@angular/platform-browser-dynamic": "^2.0.0-rc.3",
-    "@angular/router-deprecated": "^2.0.0-rc.2",
+    "@angular/common": "2.0.0-rc.1",
+    "@angular/compiler": "2.0.0-rc.1",
+    "@angular/core": "2.0.0-rc.1",
+    "@angular/http": "2.0.0-rc.1",
+    "@angular/platform-browser": "2.0.0-rc.1",
+    "@angular/platform-browser-dynamic": "2.0.0-rc.1",
+    "@angular/router-deprecated": "2.0.0-rc.1",
     "jquery": "^2.2.4"
   }
 }

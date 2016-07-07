@@ -314,6 +314,8 @@ interface JQuery {
 
 	sidebar( arguments?:any ):JQuery;
 	tab( arguments?:SemanticTabArguments ):JQuery;
+	// TODO
+	tab( action:string, arguments?:any );
 	transition( arguments:any ):JQuery;
 	visibility( arguments:SemanticVisibilityArguments ):JQuery;
 }

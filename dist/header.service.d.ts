@@ -12,7 +12,7 @@ export interface HeaderItem {
     name: string;
     icon?: string;
     route?: any[];
-    emitter?: EventEmitter<any>;
+    onClick?: EventEmitter<any>;
     index?: number;
     children?: HeaderItem[];
 }

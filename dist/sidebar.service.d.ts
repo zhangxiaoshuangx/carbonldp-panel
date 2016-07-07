@@ -1,10 +1,15 @@
 import { EventEmitter } from "@angular/core";
 export declare class SidebarService {
     private _items;
+    private _toggleEmitter;
+    private _toggledEmitter;
+    private _isVisible;
     readonly items: SidebarItem[];
+    readonly toggleEmitter: EventEmitter<any>;
+    readonly toggledEmitter: EventEmitter<any>;
+    readonly isVisible: boolean;
+    constructor();
     addAppEmitter: EventEmitter<any>;
-    toggleEmitter: EventEmitter<any>;
-    toggleMenuButtonEmitter: EventEmitter<any>;
     addItem(item: SidebarLink | SidebarSubmenu | SidebarDivider | SidebarGroup): void;
     addItems(items: (SidebarLink | SidebarSubmenu | SidebarDivider | SidebarGroup)[]): void;
     removeItem(item: SidebarLink | SidebarSubmenu | SidebarDivider | SidebarGroup): void;
@@ -23,7 +28,8 @@ export interface SidebarLink extends SidebarItem {
 export interface SidebarSubmenu extends SidebarItem {
     type: "submenu";
     name: string;
-    children: SidebarItem[];
+    children: (SidebarLink | SidebarSubmenu | SidebarDivider | SidebarGroup)[];
+    open?: boolean;
     closeable?: boolean;
     onClose?: EventEmitter<any>;
     icon?: string;
@@ -35,6 +41,6 @@ export interface SidebarDivider extends SidebarItem {
 }
 export interface SidebarGroup extends SidebarItem {
     type: "group";
-    children: SidebarItem;
+    children: (SidebarLink | SidebarSubmenu | SidebarDivider | SidebarGroup)[];
 }
 export default SidebarService;

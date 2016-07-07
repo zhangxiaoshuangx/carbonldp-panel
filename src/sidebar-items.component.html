@@ -1,7 +1,9 @@
 <template ngFor let-item [ngForOf]="items">
 	<template [ngIf]="item.type === 'link'">
 		<a class="item"
-		   [routerLink]="item.route">
+		   [ngClass]="{ active: routerService.isActive( item.route ) }"
+		   [routerLink]="item.route"
+		>
 			<i *ngIf="item.icon" [class]="item.icon"></i>
 			{{ item.name }}
 		</a>
@@ -16,14 +18,18 @@
 		<cp-sidebar-items [items]="item.children"></cp-sidebar-items>
 	</template>
 	<template [ngIf]="item.type === 'submenu'">
-		<a class="item submenu">
+		<a class="item submenu"
+		   suiCollapsible
+		   [(suiActive)]="item.open"
+		   [ngClass]="{ active: item.isActive ? item.isActive() : false }"
+		>
+			<button *ngIf="item.onClose" class="ui right floated circular icon mini inverted button" (click)="item.onClose.emit( item )">
+				<i class="icon remove"></i>
+			</button>
 			<a class="title">
 				<i class="right aligned dropdown icon"></i>
 				{{item.name}}
 			</a>
-			<button *ngIf="item.onClose" class="ui right floated circular icon mini inverted button" (click)="item.onClose.emit( item )">
-				<i class="icon remove"></i>
-			</button>
 			<div class="content">
 				<cp-sidebar-items [items]="item.children"></cp-sidebar-items>
 			</div>

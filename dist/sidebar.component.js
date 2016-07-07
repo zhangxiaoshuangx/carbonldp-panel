@@ -43,13 +43,14 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
             SidebarComponent = (function () {
                 function SidebarComponent(router, element, location, sidebarService) {
                     var _this = this;
-                    this.router = router;
                     this.element = element;
-                    this.sidebarService = sidebarService;
+                    this.router = router;
                     this.location = location;
-                    this.sidebarService.toggleEmitter.subscribe(function () {
+                    this.sidebarService = sidebarService;
+                    this.sidebarService.toggleEmitter.subscribe(function (event) {
                         _this.toggle();
                     });
+                    this.sidebarService.toggledEmitter.emit(true);
                 }
                 SidebarComponent.prototype.ngAfterViewInit = function () {
                     this.$element = jquery_1.default(this.element.nativeElement);
@@ -57,15 +58,16 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
                 };
                 SidebarComponent.prototype.toggle = function () {
                     var _this = this;
-                    this.sidebarService.toggleMenuButtonEmitter.emit(null);
                     if (this.$element.is(":visible")) {
                         this.$element.animate({ "width": "0" }, 400, function () {
                             _this.$element.hide();
+                            _this.sidebarService.toggledEmitter.emit(false);
                         });
                     }
                     else {
                         this.$element.show();
                         this.$element.animate({ "width": "300px" }, 400);
+                        this.sidebarService.toggledEmitter.emit(true);
                     }
                 };
                 SidebarComponent.prototype.refreshAccordion = function () {
@@ -76,35 +78,6 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
                         },
                         exclusive: false
                     });
-                };
-                SidebarComponent.prototype.isActive = function (slug, fullRoute) {
-                    switch (typeof slug) {
-                        case "string":
-                            var url = this.location.path().split("/");
-                            if (fullRoute) {
-                                return url.indexOf(slug) > -1;
-                            }
-                            else {
-                                return url[url.length - 1].indexOf(slug) > -1;
-                            }
-                        case "object":
-                            // TODO: Change this to use a non private variables implementation.
-                            var instruction = this.router.generate(slug);
-                            var router = this.router;
-                            if (!fullRoute) {
-                                while (instruction.child) {
-                                    instruction = instruction.child;
-                                    if (typeof router._childRouter === "undefined" || router._childRouter === null)
-                                        continue;
-                                    if (typeof router._childRouter._currentInstruction === "undefined" || router._childRouter._currentInstruction === null)
-                                        continue;
-                                    router = router._childRouter;
-                                }
-                            }
-                            return router.isRouteActive(instruction);
-                        default:
-                            return false;
-                    }
                 };
                 SidebarComponent = __decorate([
                     core_1.Component({

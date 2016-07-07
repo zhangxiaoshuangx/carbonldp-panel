@@ -1,12 +1,8 @@
-import { ElementRef } from "@angular/core";
+import { RouterService } from "carbon-panel/router.service";
 import { SidebarItem } from "carbon-panel/sidebar.service";
 export declare class SidebarItemsComponent {
-    private element;
     items: SidebarItem[];
-    private $element;
-    constructor(element: ElementRef);
-    ngAfterContentInit(): void;
-    ngAfterViewInit(): void;
-    initializeAccordion(): void;
+    private routerService;
+    constructor(routerService: RouterService);
 }
 export default SidebarItemsComponent;

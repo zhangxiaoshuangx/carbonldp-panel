@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/router-deprecated", "./sidebar-items.component.html!", "./sidebar-items.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/router-deprecated", "carbon-panel/semantic/collapsible.directive", "carbon-panel/router.service", "./sidebar-items.component.html!", "./sidebar-items.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/router-deprecated", "./sidebar-items
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_deprecated_1, sidebar_items_component_html_1, sidebar_items_component_css_text_1;
+    var core_1, router_deprecated_1, collapsible_directive_1, router_service_1, sidebar_items_component_html_1, sidebar_items_component_css_text_1;
     var SidebarItemsComponent;
     return {
         setters:[
@@ -20,6 +20,12 @@ System.register(["@angular/core", "@angular/router-deprecated", "./sidebar-items
             function (router_deprecated_1_1) {
                 router_deprecated_1 = router_deprecated_1_1;
             },
+            function (collapsible_directive_1_1) {
+                collapsible_directive_1 = collapsible_directive_1_1;
+            },
+            function (router_service_1_1) {
+                router_service_1 = router_service_1_1;
+            },
             function (sidebar_items_component_html_1_1) {
                 sidebar_items_component_html_1 = sidebar_items_component_html_1_1;
             },
@@ -28,21 +34,9 @@ System.register(["@angular/core", "@angular/router-deprecated", "./sidebar-items
             }],
         execute: function() {
             SidebarItemsComponent = (function () {
-                function SidebarItemsComponent(element) {
-                    this.element = element;
+                function SidebarItemsComponent(routerService) {
+                    this.routerService = routerService;
                 }
-                SidebarItemsComponent.prototype.ngAfterContentInit = function () {
-                    this.$element = $(this.element.nativeElement);
-                };
-                SidebarItemsComponent.prototype.ngAfterViewInit = function () {
-                    this.initializeAccordion();
-                };
-                SidebarItemsComponent.prototype.initializeAccordion = function () {
-                    this.$element.accordion({
-                        trigger: ".item.submenu, .item.submenu .title",
-                        title: ".title"
-                    });
-                };
                 __decorate([
                     core_1.Input("items"), 
                     __metadata('design:type', Array)
@@ -52,9 +46,9 @@ System.register(["@angular/core", "@angular/router-deprecated", "./sidebar-items
                         selector: "cp-sidebar-items",
                         template: sidebar_items_component_html_1.default,
                         styles: [sidebar_items_component_css_text_1.default],
-                        directives: [router_deprecated_1.ROUTER_DIRECTIVES, SidebarItemsComponent]
+                        directives: [router_deprecated_1.ROUTER_DIRECTIVES, SidebarItemsComponent, collapsible_directive_1.CollapsibleDirective, collapsible_directive_1.CollapsibleTitleDirective, collapsible_directive_1.CollapsibleContentDirective]
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef])
+                    __metadata('design:paramtypes', [router_service_1.RouterService])
                 ], SidebarItemsComponent);
                 return SidebarItemsComponent;
             }());

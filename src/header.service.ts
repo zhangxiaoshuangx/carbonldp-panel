@@ -1,4 +1,4 @@
-import {Injectable, EventEmitter} from "@angular/core";
+import { Injectable, EventEmitter } from "@angular/core";
 
 @Injectable()
 export class HeaderService {
@@ -45,7 +45,7 @@ export interface HeaderItem {
 	icon?:string;
 
 	route?:any[];
-	emitter?:EventEmitter<any>;
+	onClick?:EventEmitter<any>;
 
 	index?:number;
 
