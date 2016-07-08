@@ -37,9 +37,39 @@ let config = {
 gulp.task( "build", [ "clean:dist" ], ( done ) => {
 	runSequence(
 		"clean:dist",
-		[ "compile:typescript", "compile:templates", "compile:styles", "prepare-npm-package" ],
+		[ "compile:typescript", "compile:templates", "compile:styles", "build:prepare-npm-package" ],
 		done
 	);
+} );
+
+gulp.task( "build:prepare-npm-package", ( done ) => {
+	runSequence(
+		[ "build:prepare-npm-package:copy:docs", "build:prepare-npm-package:copy:package-json" ],
+		done
+	);
+} );
+
+gulp.task( "build:prepare-npm-package:copy:docs", () => {
+	return gulp.src( [
+		"README.md",
+		"CHANGELOG.md",
+		"LICENSE",
+	] ).pipe( gulp.dest( config.dist.tsOutput ) );
+} );
+
+gulp.task( "build:prepare-npm-package:copy:package-json", () => {
+	return gulp.src( "package.json" )
+		.pipe( jeditor( ( json ) => {
+			delete json.private;
+			delete json.scripts;
+			delete json.devDependencies;
+
+			json.main = json.main.replace( "dist/", "" );
+			json.typings = json.typings.replace( "dist/", "" );
+
+			return json;
+		} ) )
+		.pipe( gulp.dest( config.dist.tsOutput ) );
 } );
 
 gulp.task( "clean:dist", ( done ) => {
@@ -84,39 +114,9 @@ gulp.task( "compile:typescript", () => {
 		;
 } );
 
-gulp.task( "lint", [ "ts-lint" ] );
+gulp.task( "lint", [ "lint:typescript" ] );
 
-gulp.task( "prepare-npm-package", ( done ) => {
-	runSequence(
-		[ "prepare-npm-package:copy-docs", "prepare-npm-package:copy-package-json" ],
-		done
-	);
-} );
-
-gulp.task( "prepare-npm-package:copy-docs", () => {
-	return gulp.src( [
-		"README.md",
-		"CHANGELOG.md",
-		"LICENSE",
-	] ).pipe( gulp.dest( config.dist.tsOutput ) );
-} );
-
-gulp.task( "prepare-npm-package:copy-package-json", () => {
-	return gulp.src( "package.json" )
-		.pipe( jeditor( ( json ) => {
-			delete json.private;
-			delete json.scripts;
-			delete json.devDependencies;
-
-			json.main = json.main.replace( "dist/", "" );
-			json.typings = json.typings.replace( "dist/", "" );
-
-			return json;
-		} ) )
-		.pipe( gulp.dest( config.dist.tsOutput ) );
-} );
-
-gulp.task( "ts-lint", () => {
+gulp.task( "lint:typescript", () => {
 	return gulp.src( config.source.typescript )
 		.pipe( tslint( {
 			tslint: require( "tslint" )
