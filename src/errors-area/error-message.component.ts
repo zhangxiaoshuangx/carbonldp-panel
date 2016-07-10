@@ -8,6 +8,7 @@ import template from "./error-message.component.html!";
 @Component( {
 	selector: "cp-error-message",
 	template: template,
+	styles: [ ":host{ display:block; }" ],
 } )
 
 export class ErrorMessageComponent implements OnChanges {
