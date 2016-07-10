@@ -38,8 +38,10 @@ export class ErrorMessageComponent implements OnChanges {
 	}
 
 	close( event:Event, messageDiv:HTMLElement ):void {
-		$( messageDiv ).transition( "fade" );
-		this.onClose.emit( true );
+		$( messageDiv ).transition( {
+			animation: "fade",
+			onComplete: ()=> {this.onClose.emit( true );}
+		} );
 	}
 }
 

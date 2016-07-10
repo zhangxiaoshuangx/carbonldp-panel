@@ -30,6 +30,10 @@ export class ErrorsAreaComponent implements AfterViewInit {
 		);
 	}
 
+	removeMessage( event:boolean, message:Message, index:number ):void {
+		this.messages.splice( index, 1 );
+	}
+
 }
 
 export default ErrorsAreaComponent;
