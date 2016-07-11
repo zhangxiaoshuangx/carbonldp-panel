@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 
 import "semantic-ui/semantic";
 
-import CreateAppComponent from "./create-app.component";
+import { CreateAppComponent } from "./create-app.component";
 
 import template from "./create-app.view.html!";
 

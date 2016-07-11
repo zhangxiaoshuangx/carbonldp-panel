@@ -3,12 +3,12 @@ import { ROUTER_DIRECTIVES, RouteConfig, RouterOutlet } from "@angular/router-de
 
 import { MyAppsSidebarService } from "./my-apps-sidebar.service";
 // import { AppDetailView } from "./app/app-detail.view";
-// import { AppsListView } from "./apps-list/apps-list.view";
+import { AppsCatalogView } from "./apps-catalog/apps-catalog.view";
 import { CreateAppView } from "./create-app/create-app.view";
 
 @Component( {
 	selector: "my-apps",
-	template: `<h1>My apps!!!!!</h1><router-outlet></router-outlet>`,
+	template: `<router-outlet></router-outlet>`,
 	directives: [ ROUTER_DIRECTIVES, RouterOutlet ],
 	providers: [
 		provide( MyAppsSidebarService, { useClass: MyAppsSidebarService } )
@@ -18,7 +18,7 @@ import { CreateAppView } from "./create-app/create-app.view";
 	{
 		path: "/",
 		as: "List",
-		component: CreateAppView,
+		component: AppsCatalogView,
 		useAsDefault: true,
 		data: {
 			alias: "List",

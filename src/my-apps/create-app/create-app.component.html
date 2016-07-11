@@ -37,5 +37,5 @@
                   (onClose)="clearMessages($event)"></cp-error-message>
 <div class="ui bottom attached success message" *ngIf="!!displaySuccessMessage">
 	<i class="close icon" (click)="clearMessages($event)"></i>
-	The app "<a [routerLink]="['App', {slug: persistedSlug}]">{{persistedName}}</a>" was created successfully.
+	The app "<a [routerLink]="['/', {slug: persistedSlug}]">{{persistedName}}</a>" was created successfully.
 </div>
