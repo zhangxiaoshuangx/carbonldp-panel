@@ -18,12 +18,11 @@ import $ from "jquery";
 import "semantic-ui/semantic";
 
 import template from "./apps-catalog.component.html!";
-import style from "./apps-catalog.component.css!text";
 
 @Component( {
 	selector: "cp-apps-catalog",
 	template: template,
-	styles: [ style ],
+	styles: [ ":host { display: block; }" ],
 	directives: [ ROUTER_DIRECTIVES, AppsTilesComponent, AppsListComponent ],
 } )
 export class AppsCatalogComponent implements OnInit {

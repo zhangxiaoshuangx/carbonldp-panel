@@ -52,8 +52,7 @@
 			<div *ngIf="!errorMessage && !warningMessage && !loading">
 				<cp-apps-tiles *ngIf="tileView"
 				               [apps]="results"
-				               (deleteApp)="askConfirmationToDeleteApp( $event )"
-				               (openApp)="openApp( $event )"></cp-apps-tiles>
+				               (deleteApp)="askConfirmationToDeleteApp( $event )"></cp-apps-tiles>
 				<cp-apps-list *ngIf="!tileView"
 				              [apps]="results"
 				              (deleteApp)="askConfirmationToDeleteApp( $event )"

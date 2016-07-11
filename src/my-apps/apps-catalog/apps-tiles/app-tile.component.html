@@ -1,5 +1,5 @@
 <div class="content">
-	<a class="header" (click)="onOpenApp( app )">
+	<a class="header" [routerLink]="['App',{slug: app.slug}]">
 		{{app.name}}
 	</a>
 </div>
