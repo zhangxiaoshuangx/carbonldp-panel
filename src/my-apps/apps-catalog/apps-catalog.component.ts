@@ -9,7 +9,7 @@ import * as HTTP from "carbonldp/HTTP";
 import { MyAppsSidebarService } from "./../my-apps-sidebar.service";
 import { AppsTilesComponent } from "./apps-tiles/apps-tiles.component";
 import { AppsListComponent } from "./apps-list/apps-list.component";
-import * as App from "./../app/app";
+import * as App from "./../app-content/app";
 
 import { Message } from "./../../errors-area/error-message.component";
 import { AppContextService } from "./../app-context.service";
@@ -122,7 +122,7 @@ export class AppsCatalogComponent implements OnInit {
 
 	openApp( app:App.Class ):void {
 		this.myAppsSidebarService.addApp( app );
-		this.router.navigate( [ "/AppDev/MyApps/App", { slug: app.slug }, "AppDashboard" ] );
+		this.router.navigate( [ "App", { slug: app.slug }, "AppDashboard" ] );
 	}
 
 	deleteApp( app:App.Class ):Promise<HTTP.Response.Class> {

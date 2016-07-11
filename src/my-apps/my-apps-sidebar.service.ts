@@ -2,7 +2,7 @@ import { Injectable, EventEmitter } from "@angular/core";
 
 import { SidebarService, SidebarGroup, SidebarDivider, SidebarSubmenu } from "./../sidebar.service";
 
-import * as App from "./app/app";
+import * as App from "./app-content/app";
 
 @Injectable()
 export class MyAppsSidebarService {
@@ -58,9 +58,9 @@ export class MyAppsSidebarService {
 				},
 				{
 					type: "link",
-					name: "SPARQL Editor",
+					name: "SPARQL Client",
 					icon: "terminal icon",
-					route: [ "AppDev", "MyApps", "App", { slug: app.slug }, "SPARQLEditor" ],
+					route: [ "AppDev", "MyApps", "App", { slug: app.slug }, "SPARQLClient" ],
 				},
 				{
 					type: "link",

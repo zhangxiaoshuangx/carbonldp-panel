@@ -1,7 +1,6 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
-// import { ROUTER_DIRECTIVES } from "@angular/router-deprecated";
 
-import * as App from "../../app/app";
+import * as App from "../../app-content/app";
 import { AppActionButtonsComponent } from "./../app-action-buttons/app-action-buttons.component";
 
 import "semantic-ui/semantic";

@@ -2,7 +2,7 @@ import { Component, provide } from "@angular/core";
 import { ROUTER_DIRECTIVES, RouteConfig, RouterOutlet } from "@angular/router-deprecated";
 
 import { MyAppsSidebarService } from "./my-apps-sidebar.service";
-// import { AppDetailView } from "./app/app-detail.view";
+import { AppContentView } from "./app-content/app-content.view";
 import { AppsCatalogView } from "./apps-catalog/apps-catalog.view";
 import { CreateAppView } from "./create-app/create-app.view";
 
@@ -25,19 +25,19 @@ import { CreateAppView } from "./create-app/create-app.view";
 			displayName: "My Apps",
 		},
 	},
-	// {
-	// 	path: "/:slug/...",
-	// 	as: "App",
-	// 	component: AppDetailView,
-	// 	data: {
-	// 		alias: "App",
-	// 		displayName: "App",
-	// 		params: {
-	// 			name: "slug",
-	// 			redirectTo: "AppDashboard",
-	// 		},
-	// 	},
-	// },
+	{
+		path: "/:slug/...",
+		as: "App",
+		component: AppContentView,
+		data: {
+			alias: "App",
+			displayName: "App",
+			params: {
+				name: "slug",
+				redirectTo: "AppDashboard",
+			},
+		},
+	},
 	{
 		path: "/create",
 		as: "Create",

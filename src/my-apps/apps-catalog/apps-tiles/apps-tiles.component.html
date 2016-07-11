@@ -2,7 +2,7 @@
 	<cp-app-tile class="card"
 	             *ngFor="let app of apps; let i = index;"
 	             [app]="app"
-	             (deleteApp)="deleteApp(app)"
-	             (openApp)="openApp( $event )">
+	             (deleteApp)="onDeleteApp(app)"
+	             (openApp)="onOpenApp( $event )">
 	</cp-app-tile>
 </div>
