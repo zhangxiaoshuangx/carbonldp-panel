@@ -1,0 +1,32 @@
+:host .content .header .slug {
+  color: #FF4500; }
+
+:host .content .description .ui.accordion {
+  width: 100%; }
+
+:host .content .description .edit.form.segment {
+  padding: 0; }
+
+:host .content .inverted.dimmer .description {
+  color: #000000; }
+
+:host > .content > .status.indicator {
+  float: right; }
+
+.ui.items > :host.item .meta input {
+  margin-right: 0; }
+
+.ui.items > :host.item.added-property {
+  background-color: #F1FAFF;
+  padding-left: 15px;
+  padding-right: 15px; }
+
+.ui.items > :host.item.has-changed {
+  background-color: #FFFFE0;
+  padding-left: 15px;
+  padding-right: 15px; }
+
+.ui.divided.items > :host.item .content {
+  margin-top: 2%; }
+
+/*# sourceMappingURL=property.component.css.map */

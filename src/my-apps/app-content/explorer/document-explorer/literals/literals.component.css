@@ -1,0 +1,13 @@
+:host {
+  display: block;
+  padding-top: .5em;
+  padding-bottom: .5em; }
+  :host .ui.striped.table tbody tr.modified-literal {
+    background-color: #FFFBB4; }
+  :host .ui.striped.table tbody tr.added-literal {
+    background-color: #D9EEFF; }
+  :host .ui[class*="very compact"].table th {
+    padding-top: .2em;
+    padding-bottom: .2em; }
+
+/*# sourceMappingURL=literals.component.css.map */

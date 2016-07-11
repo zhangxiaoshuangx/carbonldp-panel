@@ -1,0 +1,4 @@
+document-named-fragments .segment[data-tab="allNamedFragments"] table tr, document-named-fragments .segment[data-tab="allNamedFragments"] table td {
+  cursor: pointer; }
+
+/*# sourceMappingURL=style.css.map */

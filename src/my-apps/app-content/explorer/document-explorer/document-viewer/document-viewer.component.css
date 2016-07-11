@@ -1,0 +1,16 @@
+:host {
+  display: block;
+  padding: 0; }
+  :host .saving-message {
+    z-index: 1; }
+  :host .document-content {
+    overflow-y: scroll;
+    overflow-x: hidden; }
+
+.ui.basic.segment.document-content {
+  margin-top: 0; }
+
+.ui.grid > .row > :host.ui.segment.column {
+  padding: 0; }
+
+/*# sourceMappingURL=document-viewer.component.css.map */

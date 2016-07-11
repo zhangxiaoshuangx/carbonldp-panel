@@ -125,7 +125,13 @@ gulp.task( "lint:typescript", () => {
 		;
 } );
 
-gulp.task( "watch", [ "watch:styles", "watch:templates", "watch:typescript" ] );
+gulp.task( "watch", ( done ) => {
+	runSequence(
+		[ "compile:styles", "compile:templates", "compile:typescript" ],
+		[ "watch:styles", "watch:templates", "watch:typescript" ],
+		done
+	);
+} );
 
 gulp.task( "watch:styles", () => {
 	return gulp.watch( config.source.styles, [ "compile:styles" ] );

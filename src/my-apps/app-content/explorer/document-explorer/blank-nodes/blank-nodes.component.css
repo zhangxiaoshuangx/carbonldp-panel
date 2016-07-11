@@ -1,0 +1,4 @@
+:host .segment[data-tab="all"] table tr, :host .segment[data-tab="all"] table td {
+  cursor: pointer; }
+
+/*# sourceMappingURL=blank-nodes.component.css.map */
