@@ -1,8 +1,5 @@
 import { Component, ElementRef, Input, Output, EventEmitter, SimpleChange, ViewChild } from "@angular/core";
 
-import $ from "jquery";
-import "semantic-ui/semantic";
-
 import { Message } from "carbon-panel/errors-area/error-message.component";
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 import * as SDKContext from "carbonldp/SDKContext";
@@ -10,15 +7,17 @@ import * as RDFDocument from "carbonldp/RDF/Document";
 import { JSONLDParser as JSONLDParser } from "carbonldp/HTTP";
 import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
-import DocumentsResolverService from "./../documents-resolver.service.ts";
-
-import DocumentResourceComponent from "./../document-resource/document-resource.component";
+import { DocumentsResolverService } from "./../documents-resolver.service";
+import { DocumentResourceComponent } from "./../document-resource/document-resource.component";
 import { RootRecords } from "./../document-resource/document-resource.component";
-import BlankNodesComponent from "./../blank-nodes/blank-nodes.component";
-import NamedFragmentsComponent from "./../named-fragments/named-fragments.component";
-import PropertyComponent from "./../property/property.component";
+import { BlankNodesComponent } from "./../blank-nodes/blank-nodes.component";
+import { NamedFragmentsComponent }from "./../named-fragments/named-fragments.component";
+import { PropertyComponent } from "./../property/property.component";
 import { BlankNodeRecords } from "./../blank-nodes/blank-node.component";
 import { NamedFragmentRecords } from "./../named-fragments/named-fragment.component";
+
+import $ from "jquery";
+import "semantic-ui/semantic";
 
 import template from "./document-viewer.component.html!";
 import style from "./document-viewer.component.css!text";
@@ -31,7 +30,7 @@ import style from "./document-viewer.component.css!text";
 	directives: [ DocumentResourceComponent, BlankNodesComponent, NamedFragmentsComponent, PropertyComponent ],
 } )
 
-export default class DocumentViewerComponent {
+export class DocumentViewerComponent {
 	element:ElementRef;
 	$element:JQuery;
 	sections:string[] = [ "bNodes", "namedFragments", "documentResource" ];
@@ -97,7 +96,7 @@ export default class DocumentViewerComponent {
 	}
 
 	ngOnChanges( changes:{[propName:string]:SimpleChange} ):void {
-		if ( changes[ "uri" ] && ! ! changes[ "uri" ].currentValue && changes[ "uri" ].currentValue !== changes[ "uri" ].previousValue ) {
+		if( changes[ "uri" ] && ! ! changes[ "uri" ].currentValue && changes[ "uri" ].currentValue !== changes[ "uri" ].previousValue ) {
 			this.loadingDocument = true;
 			this.getDocument( this.uri, this.documentContext ).then( ( document:RDFDocument.Class ) => {
 				this.document = document[ 0 ];
@@ -106,7 +105,7 @@ export default class DocumentViewerComponent {
 	}
 
 	receiveDocument( document:RDFDocument.Class ):void {
-		if ( ! ! document ) {
+		if( ! ! document ) {
 			this.loadingDocument = true;
 			this.setRoot();
 			this.generateFragments();
@@ -150,7 +149,7 @@ export default class DocumentViewerComponent {
 	}
 
 	goToSection( section:string ):void {
-		if ( this.sections.indexOf( section ) === - 1 ) return;
+		if( this.sections.indexOf( section ) === - 1 ) return;
 		this.scrollTo( ">div:first-child" );
 		this.$element.find( ".secondary.menu.document.tabs .item" ).tab( "changeTab", section );
 	}
@@ -171,12 +170,12 @@ export default class DocumentViewerComponent {
 	}
 
 	modifyRootNodeWithChanges():void {
-		if ( ! ! this.rootNodeRecords ) {
+		if( ! ! this.rootNodeRecords ) {
 			this.rootNodeRecords.deletions.forEach( ( property, key )=> {
 				delete this.rootNode[ key ];
 			} );
 			this.rootNodeRecords.changes.forEach( ( property, key )=> {
-				if ( property.modified.id !== property.modified.name ) {
+				if( property.modified.id !== property.modified.name ) {
 					delete this.rootNode[ key ];
 					this.rootNode[ property.modified.name ] = property.modified.value;
 				} else {
@@ -198,7 +197,7 @@ export default class DocumentViewerComponent {
 				delete tempBNode[ key ];
 			} );
 			bNodeRecords.changes.forEach( ( property, key )=> {
-				if ( property.modified.id !== property.modified.name ) {
+				if( property.modified.id !== property.modified.name ) {
 					delete tempBNode[ key ];
 					tempBNode[ property.modified.name ] = property.modified.value;
 				} else {
@@ -220,7 +219,7 @@ export default class DocumentViewerComponent {
 				delete tempNamedFragment[ key ];
 			} );
 			namedFragmentRecords.changes.forEach( ( property, key )=> {
-				if ( property.modified.id !== property.modified.name ) {
+				if( property.modified.id !== property.modified.name ) {
 					delete tempNamedFragment[ key ];
 					tempNamedFragment[ property.modified.name ] = property.modified.value;
 				} else {
@@ -261,10 +260,10 @@ export default class DocumentViewerComponent {
 				statusMessage: (<XMLHttpRequest>error.response.request).statusText,
 				endpoint: (<any>error.response.request).responseURL,
 			};
-			if ( ! ! error.response.data ) {
+			if( ! ! error.response.data ) {
 				// TODO: Change this method to use the correct HTTPError when Javascript SDK implements it
 				this.getErrors( error ).then( ( errors )=> {
-					this.savingErrorMessage.errors = errors;
+					this.savingErrorMessage[ "errors" ] = errors;
 				} );
 			}
 		} ).then( ()=> {
@@ -291,9 +290,11 @@ export default class DocumentViewerComponent {
 	}
 
 	private scrollTo( selector:string ):void {
-		if ( ! this.$element ) return;
+		if( ! this.$element ) return;
 		let divPosition:JQueryCoordinates = this.$element.find( selector ).position();
-		if ( ! divPosition ) return;
+		if( ! divPosition ) return;
 		this.$element.animate( { scrollTop: divPosition.top }, "fast" );
 	}
 }
+
+export default DocumentViewerComponent;

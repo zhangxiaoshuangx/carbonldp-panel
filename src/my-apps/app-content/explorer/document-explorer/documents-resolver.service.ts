@@ -7,7 +7,7 @@ import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
 
 @Injectable()
-export default class DocumentsResolverService {
+export class DocumentsResolverService {
 
 	carbon:Carbon;
 
@@ -19,9 +19,9 @@ export default class DocumentsResolverService {
 	}
 
 	get( uri:string, documentContext:SDKContext.Class ):Promise<RDFDocument.Class> {
-		if ( ! uri || ! documentContext ) return <any> Promise.reject( new Error( "Provide the required parameters" ) );
+		if( ! uri || ! documentContext ) return <any> Promise.reject( new Error( "Provide the required parameters" ) );
 		let requestOptions:HTTP.Request.Options = { sendCredentialsOnCORS: true, };
-		if ( documentContext && documentContext.auth.isAuthenticated() ) documentContext.auth.addAuthentication( requestOptions );
+		if( documentContext && documentContext.auth.isAuthenticated() ) documentContext.auth.addAuthentication( requestOptions );
 
 		HTTP.Request.Util.setAcceptHeader( "application/ld+json", requestOptions );
 		HTTP.Request.Util.setPreferredInteractionModel( NS.LDP.Class.RDFSource, requestOptions );
@@ -31,7 +31,7 @@ export default class DocumentsResolverService {
 				return [ persistedDocument, eTag ];
 			} );
 		} ).then( ( [parsedDocument, eTag]:[RDFDocument.Class, string] ) => {
-			if ( ! parsedDocument[ 0 ] ) return null;
+			if( ! parsedDocument[ 0 ] ) return null;
 			this.documents.set( uri, { document: parsedDocument, ETag: eTag } );
 			return parsedDocument;
 		} ).catch( ( error ) => {
@@ -49,7 +49,7 @@ export default class DocumentsResolverService {
 	}
 
 	update( uri:string, body:string, documentContext:SDKContext.Class ):Promise<RDFDocument.Class> {
-		if ( ! uri || ! body ) return <any> Promise.reject( new Error( "Provide the required parameters" ) );
+		if( ! uri || ! body ) return <any> Promise.reject( new Error( "Provide the required parameters" ) );
 		//Refresh document ETag
 		let eTag:string = this.documents.get( uri ).ETag;
 		return this.callUpdate( uri, body, eTag, documentContext );
@@ -57,7 +57,7 @@ export default class DocumentsResolverService {
 
 	private callUpdate( uri:string, body:string, eTag:string, documentContext:SDKContext.Class ):Promise<RDFDocument.Class> {
 		let requestOptions:HTTP.Request.Options = { sendCredentialsOnCORS: true, };
-		if ( documentContext && documentContext.auth.isAuthenticated() ) documentContext.auth.addAuthentication( requestOptions );
+		if( documentContext && documentContext.auth.isAuthenticated() ) documentContext.auth.addAuthentication( requestOptions );
 		HTTP.Request.Util.setAcceptHeader( "application/ld+json", requestOptions );
 		HTTP.Request.Util.setContentTypeHeader( "application/ld+json", requestOptions );
 		HTTP.Request.Util.setIfMatchHeader( eTag, requestOptions );
@@ -65,7 +65,7 @@ export default class DocumentsResolverService {
 		return HTTP.Request.Service.put( uri, body, requestOptions ).then( ( response:HTTP.Response.Class ) => {
 			return this.get( uri, documentContext );
 		} ).then( ( parsedDocument:RDFDocument.Class ) => {
-			if ( ! parsedDocument[ 0 ] ) return null;
+			if( ! parsedDocument[ 0 ] ) return null;
 			return parsedDocument;
 		} ).catch( ( error ) => {
 			console.error( error );
@@ -73,3 +73,5 @@ export default class DocumentsResolverService {
 		} );
 	}
 }
+
+export default DocumentsResolverService;

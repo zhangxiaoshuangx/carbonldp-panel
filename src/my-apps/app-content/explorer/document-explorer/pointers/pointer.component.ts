@@ -1,13 +1,13 @@
 import { Component, ElementRef, Input, Output, SimpleChange, EventEmitter } from "@angular/core";
 import { Control, AbstractControl, Validators } from '@angular/common';
 
-import $ from "jquery";
-import "semantic-ui/semantic";
-
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 import * as URI from "carbonldp/RDF/URI";
 
 import { Modes } from "./../property/property.component"
+
+import $ from "jquery";
+import "semantic-ui/semantic";
 
 import template from "./pointer.component.html!";
 import style from "./pointer.component.css!text";
@@ -18,7 +18,7 @@ import style from "./pointer.component.css!text";
 	styles: [ style ],
 } )
 
-export default class PointerComponent {
+export class PointerComponent {
 
 	$element:JQuery;
 	element:ElementRef;
@@ -32,7 +32,7 @@ export default class PointerComponent {
 	@Input() set mode( value:string ) {
 		this._mode = value;
 		this.onEditMode.emit( this.mode === Modes.EDIT );
-		if ( this.mode === Modes.EDIT ) {
+		if( this.mode === Modes.EDIT ) {
 			this.initializePointersDropdown();
 		}
 	}
@@ -51,9 +51,9 @@ export default class PointerComponent {
 	@Input() set pointer( value:PointerRow ) {
 		this._pointer = value;
 
-		if ( typeof this.pointer.copy !== "undefined" ) {
+		if( typeof this.pointer.copy !== "undefined" ) {
 			this.id = ! ! this.tempPointer[ "@id" ] ? this.tempPointer[ "@id" ] : this.pointer.copy[ "@id" ];
-		} else if ( typeof this.pointer.added !== "undefined" ) {
+		} else if( typeof this.pointer.added !== "undefined" ) {
 			this.id = ! ! this.tempPointer[ "@id" ] ? this.tempPointer[ "@id" ] : this.pointer.added[ "@id" ];
 		}
 	}
@@ -76,7 +76,7 @@ export default class PointerComponent {
 
 	set id( id:string ) {
 		this._id = id;
-		if ( ! ! this.idInput && this.idInput.value !== this.id )(<Control>this.idInput).updateValue( this.id );
+		if( ! ! this.idInput && this.idInput.value !== this.id )(<Control>this.idInput).updateValue( this.id );
 		this.checkForChangesOnPointers();
 	}
 
@@ -92,7 +92,7 @@ export default class PointerComponent {
 	}
 
 	deletePointer():void {
-		if ( typeof this.pointer.added !== "undefined" ) {
+		if( typeof this.pointer.added !== "undefined" ) {
 			this.onDeleteNewPointer.emit( this.pointer );
 		} else {
 			this.pointer.deleted = this.pointer.copy;
@@ -101,14 +101,14 @@ export default class PointerComponent {
 	}
 
 	ngOnChanges( changes:{[propName:string]:SimpleChange} ):void {
-		if ( ( changes[ "bNodes" ].currentValue !== changes[ "bNodes" ].previousValue ) ||
+		if( ( changes[ "bNodes" ].currentValue !== changes[ "bNodes" ].previousValue ) ||
 			( changes[ "namedFragments" ].currentValue !== changes[ "namedFragments" ].previousValue ) ) {
 			this.checkForChangesOnPointers();
 		}
 	}
 
 	checkForChangesOnPointers():void {
-		if ( typeof this.id === "undefined" ) return;
+		if( typeof this.id === "undefined" ) return;
 		let idx:number = this.bNodes.concat( this.namedFragments ).findIndex( ( nfOrBN )=> {return nfOrBN[ "@id" ] === this.id;} );
 		this.isBNode = URI.Util.isBNodeID( <string>this.id );
 		this.isNamedFragment = URI.Util.isFragmentOf( this.id, this.documentURI );
@@ -119,13 +119,13 @@ export default class PointerComponent {
 		this.mode = Modes.READ;
 		let copyOrAdded:string = typeof this.pointer.copy !== "undefined" ? "copy" : "added";
 
-		if ( typeof this.tempPointer[ "@id" ] === "undefined" ) {
+		if( typeof this.tempPointer[ "@id" ] === "undefined" ) {
 			this.id = this.pointer[ copyOrAdded ][ "@id" ];
 			delete this.tempPointer[ "@id" ];
 		} else this.id = this.tempPointer[ "@id" ];
 
 
-		if ( typeof this.pointer.added !== "undefined" && typeof this.id === "undefined" ) {
+		if( typeof this.pointer.added !== "undefined" && typeof this.id === "undefined" ) {
 			this.onDeleteNewPointer.emit( this.pointer );
 		}
 	}
@@ -133,11 +133,11 @@ export default class PointerComponent {
 	save():void {
 		let copyOrAdded:string = typeof this.pointer.copy !== "undefined" ? "copy" : "added";
 
-		if ( typeof this.id !== "undefined" && (this.id !== this.pointer[ copyOrAdded ][ "@id" ] || this.id !== this.tempPointer[ "@id" ] ) ) {
+		if( typeof this.id !== "undefined" && (this.id !== this.pointer[ copyOrAdded ][ "@id" ] || this.id !== this.tempPointer[ "@id" ] ) ) {
 			this.tempPointer[ "@id" ] = this.id;
 		}
 
-		if ( (! ! this.pointer.copy) && (this.tempPointer[ "@id" ] === this.pointer.copy[ "@id" ] ) ) {
+		if( (! ! this.pointer.copy) && (this.tempPointer[ "@id" ] === this.pointer.copy[ "@id" ] ) ) {
 			delete this.tempPointer[ "@id" ];
 			delete this.pointer.modified;
 		}
@@ -148,12 +148,12 @@ export default class PointerComponent {
 
 
 	private idValidator( control:AbstractControl ):any {
-		if ( ! ! control && (typeof control.value === "undefined" || control.value.trim().length === 0) ) {
+		if( ! ! control && (typeof control.value === "undefined" || control.value.trim().length === 0) ) {
 			return { "emptyControl": true };
 		}
-		if ( ! ! control ) {
-			if ( ! control.value.match( /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g ) ) {
-				if ( ! URI.Util.isBNodeID( control.value ) ) return { "invalidId": true };
+		if( ! ! control ) {
+			if( ! control.value.match( /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g ) ) {
+				if( ! URI.Util.isBNodeID( control.value ) ) return { "invalidId": true };
 			}
 		}
 		return null;
@@ -161,7 +161,7 @@ export default class PointerComponent {
 
 	private initializePointersDropdown():void {
 		this.pointersDropdown = $( this.element.nativeElement.querySelector( ".fragments.search.dropdown" ) );
-		if ( ! ! this.pointersDropdown ) {
+		if( ! ! this.pointersDropdown ) {
 			this.pointersDropdown.dropdown( {
 				allowAdditions: true,
 				onChange: this.changeId.bind( this )
@@ -171,13 +171,13 @@ export default class PointerComponent {
 	}
 
 	changeId( id:string, text?:string, choice?:JQuery ):void {
-		if ( id === "empty" ) id = null;
+		if( id === "empty" ) id = null;
 		(<Control>this.idInput).updateValue( id === "empty" ? "" : id );
 		this.id = id;
 	}
 
 	getFriendlyName( uri:string ):string {
-		if ( URI.Util.hasFragment( uri ) )return URI.Util.getFragment( uri );
+		if( URI.Util.hasFragment( uri ) )return URI.Util.getFragment( uri );
 		return URI.Util.getSlug( uri );
 	}
 
@@ -199,3 +199,5 @@ export interface PointerRow {
 export interface Pointer {
 	"@id":string;
 }
+
+export default PointerComponent;

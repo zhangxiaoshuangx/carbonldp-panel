@@ -1,15 +1,15 @@
 import { Component, ElementRef, Input, Output, EventEmitter } from "@angular/core";
 
-import $ from "jquery";
-import "semantic-ui/semantic";
-import "jstree";
-
 import * as Pointer from "carbonldp/Pointer";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
 import * as HTTP from "carbonldp/HTTP";
 import * as URI from "carbonldp/RDF/URI";
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
+
+import $ from "jquery";
+import "semantic-ui/semantic";
+import "jstree";
 
 import template from "./document-tree-view.component.html!";
 import style from "./document-tree-view.component.css!text";
@@ -20,7 +20,7 @@ import style from "./document-tree-view.component.css!text";
 	styles: [ style ],
 } )
 
-export default class DocumentTreeViewComponent {
+export class DocumentTreeViewComponent {
 	element:ElementRef;
 	$element:JQuery;
 
@@ -166,11 +166,6 @@ export default class DocumentTreeViewComponent {
 		return URI.Util.getSlug( <string>pointer );
 	}
 
-	private removeTrailingSlash( slug:string ):string {
-		if( slug.endsWith( "/" ) ) {
-			return slug.substr( 0, slug.length - 1 );
-		} else {
-			return slug;
-		}
-	}
 }
+
+export default DocumentTreeViewComponent;

@@ -1,22 +1,23 @@
 import { Component, ElementRef, Input, Output, EventEmitter } from "@angular/core";
 
-import $ from "jquery";
-import "semantic-ui/semantic";
-
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 
-import PropertyComponent from "./../property/property.component";
+import { PropertyComponent } from "./../property/property.component";
 import { Property, PropertyRow, Modes } from "./../property/property.component";
+
+import $ from "jquery";
+import "semantic-ui/semantic";
 
 import template from "./document-resource.component.html!";
 
 @Component( {
 	selector: "document-resource",
 	template: template,
+	styles: [ ":host { display:block; }" ],
 	directives: [ PropertyComponent ],
 } )
 
-export default class DocumentResourceComponent {
+export class DocumentResourceComponent {
 
 	element:ElementRef;
 	$element:JQuery;
@@ -73,15 +74,15 @@ export default class DocumentResourceComponent {
 	}
 
 	canDisplay( propertyName:any ):boolean {
-		if ( typeof propertyName === "undefined" ) return false;
-		if ( this.displayOnly.length === 0 && this.hiddenProperties.length === 0 ) return true;
-		if ( this.displayOnly.length > 0 ) return this.displayOnly.indexOf( propertyName ) !== - 1 ? true : false;
+		if( typeof propertyName === "undefined" ) return false;
+		if( this.displayOnly.length === 0 && this.hiddenProperties.length === 0 ) return true;
+		if( this.displayOnly.length > 0 ) return this.displayOnly.indexOf( propertyName ) !== - 1 ? true : false;
 		return this.hiddenProperties.indexOf( propertyName ) !== - 1 ? false : true;
 	}
 
 	changeProperty( property:PropertyRow, index:number ):void {
-		if ( typeof this.records === "undefined" ) this.records = new RootRecords();
-		if ( typeof property.modified !== "undefined" ) {
+		if( typeof this.records === "undefined" ) this.records = new RootRecords();
+		if( typeof property.modified !== "undefined" ) {
 			this.records.changes.set( property.modified.id, property );
 		} else {
 			this.records.changes.delete( property.copy.id );
@@ -91,11 +92,11 @@ export default class DocumentResourceComponent {
 	}
 
 	deleteProperty( property:PropertyRow, index:number ):void {
-		if ( typeof this.records === "undefined" ) this.records = new RootRecords();
-		if ( typeof property.added !== "undefined" ) {
+		if( typeof this.records === "undefined" ) this.records = new RootRecords();
+		if( typeof property.added !== "undefined" ) {
 			this.records.additions.delete( property.added.id );
 			this.properties.splice( index, 1 );
-		} else if ( typeof property.deleted !== "undefined" ) {
+		} else if( typeof property.deleted !== "undefined" ) {
 			this.records.deletions.set( property.deleted.id, property );
 		}
 		this.updateExistingProperties();
@@ -103,9 +104,9 @@ export default class DocumentResourceComponent {
 	}
 
 	addProperty( property:PropertyRow, index:number ):void {
-		if ( typeof this.records === "undefined" ) this.records = new RootRecords();
-		if ( typeof property.added !== "undefined" ) {
-			if ( property.added.id === property.added.name ) {
+		if( typeof this.records === "undefined" ) this.records = new RootRecords();
+		if( typeof property.added !== "undefined" ) {
+			if( property.added.id === property.added.name ) {
 				this.records.additions.set( property.added.id, property );
 			} else {
 				this.records.additions.delete( property.added.id );
@@ -125,7 +126,7 @@ export default class DocumentResourceComponent {
 			}
 		};
 		this.properties.splice( 2, 0, newProperty );
-		if ( ! ! this.$element ) setTimeout( ()=>this.$element.find( "property.added-property" ).first().transition( "drop" ) );
+		if( ! ! this.$element ) setTimeout( ()=>this.$element.find( "property.added-property" ).first().transition( "drop" ) );
 	}
 
 	getProperties():void {
@@ -144,12 +145,12 @@ export default class DocumentResourceComponent {
 
 	updateExistingProperties():void {
 		this.existingProperties = Object.keys( this.rootNode );
-		if ( ! this.records ) return;
+		if( ! this.records ) return;
 		this.records.additions.forEach( ( value, key )=> {
 			this.existingProperties.push( key );
 		} );
 		this.records.changes.forEach( ( value, key )=> {
-			if ( value.modified.id !== value.modified.name ) {
+			if( value.modified.id !== value.modified.name ) {
 				this.existingProperties.splice( this.existingProperties.indexOf( value.modified.id ), 1, value.modified.name );
 			}
 		} );
@@ -164,3 +165,5 @@ export class RootRecords {
 	deletions:Map<string,PropertyRow> = new Map<string, PropertyRow>();
 	additions:Map<string,PropertyRow> = new Map<string, PropertyRow>();
 }
+
+export default DocumentResourceComponent;

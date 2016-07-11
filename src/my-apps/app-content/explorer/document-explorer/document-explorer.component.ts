@@ -1,29 +1,28 @@
 import { Component, ElementRef, Input } from "@angular/core";
 
-import $ from "jquery";
-import "semantic-ui/semantic";
-
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
 import * as HTTP from "carbonldp/HTTP";
 
-import DocumentsResolverService from "./documents-resolver.service.ts"
-import DocumentViewerComponent from "./document-viewer/document-viewer.component";
-import DocumentTreeViewComponent from "./document-tree-view/document-tree-view.component";
+import { DocumentsResolverService } from "./documents-resolver.service"
+import { DocumentViewerComponent } from "./document-viewer/document-viewer.component";
+import { DocumentTreeViewComponent } from "./document-tree-view/document-tree-view.component";
+import { Message } from "./../../../../errors-area/error-message.component";
 
-import { Message } from "carbon-panel/errors-area/error-message.component";
+import $ from "jquery";
+import "semantic-ui/semantic";
 
 import template from "./document-explorer.component.html!";
 import style from "./document-explorer.component.css!text";
 
 @Component( {
-	selector: "document-explorer",
+	selector: "cp-document-explorer",
 	template: template,
 	styles: [ style ],
 	directives: [ DocumentTreeViewComponent, DocumentViewerComponent ],
 } )
 
-export default class DocumentExplorerComponent {
+export class DocumentExplorerComponent {
 
 	element:ElementRef;
 	$element:JQuery;
@@ -72,3 +71,5 @@ export default class DocumentExplorerComponent {
 		this.messages.push( message );
 	}
 }
+
+export default DocumentExplorerComponent;

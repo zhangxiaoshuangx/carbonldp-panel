@@ -1,12 +1,12 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 
-import "semantic-ui/semantic";
-
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 
-import PointerComponent from "./pointer.component";
+import { PointerComponent } from "./pointer.component";
 import { Modes } from "./../property/property.component";
 import { Pointer, PointerRow } from "./pointer.component";
+
+import "semantic-ui/semantic";
 
 import template from "./pointers.component.html!";
 import style from "./pointers.component.css!text";
@@ -18,7 +18,7 @@ import style from "./pointers.component.css!text";
 	directives: [ PointerComponent ],
 } )
 
-export default class PointersComponent {
+export class PointersComponent {
 
 	modes:Modes = Modes;
 	tokens:string[] = [ "@id", "@type" ];
@@ -50,14 +50,14 @@ export default class PointersComponent {
 	}
 
 	savePointer( modifiedPointer:Pointer, originalPointer:Pointer, index:number ) {
-		if ( modifiedPointer.hasOwnProperty( "@id" ) ) {
+		if( modifiedPointer.hasOwnProperty( "@id" ) ) {
 			this.pointers[ index ].modified = modifiedPointer;
 		}
 		this.onPointersChanges.emit( this.pointers );
 	}
 
 	saveNewPointer( newPointer:Pointer, originalPointer:Pointer, index:number ) {
-		if ( newPointer.hasOwnProperty( "@id" ) ) {
+		if( newPointer.hasOwnProperty( "@id" ) ) {
 			this.pointers[ index ].added = newPointer;
 		}
 		this.onPointersChanges.emit( this.pointers );
@@ -100,3 +100,5 @@ export default class PointersComponent {
 		this.onGoToNamedFragment.emit( id );
 	}
 }
+
+export default PointersComponent;

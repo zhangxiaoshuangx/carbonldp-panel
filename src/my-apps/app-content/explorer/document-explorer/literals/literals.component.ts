@@ -1,10 +1,10 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 
-import "semantic-ui/semantic";
-
-import LiteralComponent from "./literal.component";
+import { LiteralComponent } from "./literal.component";
 import { Modes } from "./../property/property.component";
 import { Literal, LiteralRow } from "./literal.component";
+
+import "semantic-ui/semantic";
 
 import template from "./literals.component.html!";
 import style from "./literals.component.css!text";
@@ -16,7 +16,7 @@ import style from "./literals.component.css!text";
 	directives: [ LiteralComponent ],
 } )
 
-export default class LiteralsComponent {
+export class LiteralsComponent {
 
 	modes:Modes = Modes;
 	tokens:string[] = [ "@value", "@type", "@language" ];
@@ -98,3 +98,5 @@ export default class LiteralsComponent {
 		return this.isLanguagePresent || this.isEditingLiteral;
 	}
 }
+
+export default LiteralsComponent;

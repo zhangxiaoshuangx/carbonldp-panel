@@ -2,7 +2,8 @@
   "name": "carbon-panel",
   "dependencies": {},
   "globalDependencies": {
-    "jquery": "registry:dt/jquery#1.10.0+20160620094458",
+    "jquery": "registry:dt/jquery#1.10.0+20160704162008",
+    "jstree": "registry:dt/jstree#0.0.0+20160602160216",
     "node": "registry:dt/node#6.0.0+20160621231320"
   }
 }

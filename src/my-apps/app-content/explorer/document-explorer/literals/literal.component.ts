@@ -1,15 +1,15 @@
 import { Component, ElementRef, Input, Output, EventEmitter } from "@angular/core";
 import { Control, AbstractControl, Validators } from '@angular/common';
 
-import $ from "jquery";
-import "semantic-ui/semantic";
-
 import * as NS from "carbonldp/NS";
 import * as Utils from "carbonldp/Utils";
 import * as SDKLiteral from "carbonldp/RDF/Literal";
 import * as URI from "carbonldp/RDF/URI";
 
 import { Modes } from "./../property/property.component"
+
+import $ from "jquery";
+import "semantic-ui/semantic";
 
 import template from "./literal.component.html!";
 import style from "./literal.component.css!text";
@@ -20,7 +20,7 @@ import style from "./literal.component.css!text";
 	styles: [ style ],
 } )
 
-export default class LiteralComponent {
+export class LiteralComponent {
 
 	element:ElementRef;
 	private _mode = Modes.READ;
@@ -31,7 +31,7 @@ export default class LiteralComponent {
 	@Input() set mode( value:string ) {
 		this._mode = value;
 		this.onEditMode.emit( this.mode === Modes.EDIT );
-		if ( this.mode === Modes.EDIT ) {
+		if( this.mode === Modes.EDIT ) {
 			this.initializeTypesDropdown();
 			this.initializeLanguageDropdown()
 		}
@@ -793,7 +793,7 @@ export default class LiteralComponent {
 
 	set value( value:string|boolean|number ) {
 		this._value = value;
-		if ( ! ! this.valueInput && this.valueInput.value !== this.value )(<Control>this.valueInput).updateValue( this.value );
+		if( ! ! this.valueInput && this.valueInput.value !== this.value )(<Control>this.valueInput).updateValue( this.value );
 	}
 
 	// Literal Type;
@@ -801,11 +801,11 @@ export default class LiteralComponent {
 	get type() {return this._type;}
 
 	set type( type:string ) {
-		if ( type === "empty" ) {type = null;}
-		else if ( ! type || type.length === 0 ) type = NS.XSD.DataType.string;
+		if( type === "empty" ) {type = null;}
+		else if( ! type || type.length === 0 ) type = NS.XSD.DataType.string;
 		this._type = type;
 		this.isStringType = type === NS.XSD.DataType.string;
-		if ( ! ! this.typeInput && this.typeInput.value !== this.type )(<Control>this.typeInput).updateValue( this.type );
+		if( ! ! this.typeInput && this.typeInput.value !== this.type )(<Control>this.typeInput).updateValue( this.type );
 		this.valueInput.updateValueAndValidity();
 	}
 
@@ -815,8 +815,8 @@ export default class LiteralComponent {
 
 	set language( language:string ) {
 		this._language = language;
-		if ( ! ! this.languageDropdown && ! this.language ) this.languageDropdown.dropdown( "set selected", "empty" );
-		if ( ! ! this.languageInput && this.languageInput.value !== this.language )(<Control>this.languageInput).updateValue( this.language );
+		if( ! ! this.languageDropdown && ! this.language ) this.languageDropdown.dropdown( "set selected", "empty" );
+		if( ! ! this.languageInput && this.languageInput.value !== this.language )(<Control>this.languageInput).updateValue( this.language );
 		this.languageInput.updateValueAndValidity();
 	}
 
@@ -827,12 +827,12 @@ export default class LiteralComponent {
 	@Input() set literal( value:LiteralRow ) {
 		this._literal = value;
 
-		if ( typeof this.literal.copy !== "undefined" ) {
+		if( typeof this.literal.copy !== "undefined" ) {
 			this.value = ! ! this.tempLiteral[ "@value" ] ? this.tempLiteral[ "@value" ] : this.literal.copy[ "@value" ];
 			this.type = ! ! this.tempLiteral[ "@type" ] ? this.tempLiteral[ "@type" ] : this.literal.copy[ "@type" ];
 			this.language = ! ! this.tempLiteral[ "@language" ] ? this.tempLiteral[ "@language" ] : this.literal.copy[ "@language" ];
 
-		} else if ( typeof this.literal.added !== "undefined" ) {
+		} else if( typeof this.literal.added !== "undefined" ) {
 			this.value = ! ! this.tempLiteral[ "@value" ] ? this.tempLiteral[ "@value" ] : this.literal.added[ "@value" ];
 			this.type = ! ! this.tempLiteral[ "@type" ] ? this.tempLiteral[ "@type" ] : this.literal.added[ "@type" ];
 			this.language = ! ! this.tempLiteral[ "@language" ] ? this.tempLiteral[ "@language" ] : this.literal.added[ "@language" ];
@@ -861,7 +861,7 @@ export default class LiteralComponent {
 	}
 
 	deleteLiteral():void {
-		if ( typeof this.literal.added !== "undefined" ) {
+		if( typeof this.literal.added !== "undefined" ) {
 			this.onDeleteNewLiteral.emit( this.literal );
 		} else {
 			this.literal.deleted = this.literal.copy;
@@ -873,22 +873,22 @@ export default class LiteralComponent {
 		this.mode = Modes.READ;
 		let copyOrAdded:string = typeof this.literal.copy !== "undefined" ? "copy" : "added";
 
-		if ( typeof this.tempLiteral[ "@value" ] === "undefined" ) {
+		if( typeof this.tempLiteral[ "@value" ] === "undefined" ) {
 			this.value = this.literal[ copyOrAdded ][ "@value" ];
 			delete this.tempLiteral[ "@value" ];
 		} else this.value = this.tempLiteral[ "@value" ];
 
-		if ( typeof this.tempLiteral[ "@type" ] === "undefined" ) {
+		if( typeof this.tempLiteral[ "@type" ] === "undefined" ) {
 			this.type = this.literal[ copyOrAdded ][ "@type" ];
 			delete this.tempLiteral[ "@type" ];
 		} else this.type = this.tempLiteral[ "@type" ];
 
-		if ( typeof this.tempLiteral[ "@language" ] === "undefined" ) {
+		if( typeof this.tempLiteral[ "@language" ] === "undefined" ) {
 			this.language = this.literal[ copyOrAdded ][ "@language" ];
 			delete this.tempLiteral[ "@language" ];
 		} else this.language = this.tempLiteral[ "@language" ];
 
-		if ( typeof this.literal.added !== "undefined" && typeof this.value === "undefined" ) {
+		if( typeof this.literal.added !== "undefined" && typeof this.value === "undefined" ) {
 			this.onDeleteNewLiteral.emit( this.literal );
 		}
 	}
@@ -896,35 +896,35 @@ export default class LiteralComponent {
 	save():void {
 		let copyOrAdded:string = typeof this.literal.copy !== "undefined" ? "copy" : "added";
 
-		if ( typeof this.value !== "undefined" && (this.value !== this.literal[ copyOrAdded ][ "@value" ] || this.value !== this.tempLiteral[ "@value" ] ) ) {
+		if( typeof this.value !== "undefined" && (this.value !== this.literal[ copyOrAdded ][ "@value" ] || this.value !== this.tempLiteral[ "@value" ] ) ) {
 			this.tempLiteral[ "@value" ] = this.value;
 		}
-		if ( typeof this.type !== "undefined" && (this.type !== this.literal[ copyOrAdded ][ "@type" ] || this.type !== this.tempLiteral[ "@type" ] ) ) {
+		if( typeof this.type !== "undefined" && (this.type !== this.literal[ copyOrAdded ][ "@type" ] || this.type !== this.tempLiteral[ "@type" ] ) ) {
 			this.tempLiteral[ "@type" ] = this.type;
 		}
-		if ( typeof this.language !== "undefined" && ( this.language !== this.literal[ copyOrAdded ][ "@language" ] || this.language !== this.tempLiteral[ "@language" ] ) ) {
+		if( typeof this.language !== "undefined" && ( this.language !== this.literal[ copyOrAdded ][ "@language" ] || this.language !== this.tempLiteral[ "@language" ] ) ) {
 			this.tempLiteral[ "@language" ] = this.language;
 		}
 
-		if ( this.tempLiteral[ "@type" ] !== NS.XSD.DataType.string ) delete this.tempLiteral[ "@language" ];
-		if ( this.tempLiteral[ "@type" ] === NS.XSD.DataType.string || this.type === NS.XSD.DataType.string ) delete this.tempLiteral[ "@type" ];
+		if( this.tempLiteral[ "@type" ] !== NS.XSD.DataType.string ) delete this.tempLiteral[ "@language" ];
+		if( this.tempLiteral[ "@type" ] === NS.XSD.DataType.string || this.type === NS.XSD.DataType.string ) delete this.tempLiteral[ "@type" ];
 
 		// Check for tempLiteral to contain valid json+ld for literals
 		// 1. @value always present, if not clean whole object.
 		// 2. If @type empty or NS.XSD.DataType.string, then delete @type from tempLiteral.
 		// 3. If @language empty or when @type different than NS.XSD.DataType.string, then delete @language from tempLiteral.
-		if ( this.tempLiteral[ "@type" ] === null || typeof this.tempLiteral[ "@type" ] === "undefined" ) delete this.tempLiteral[ "@type" ];
-		if ( this.tempLiteral[ "@language" ] === null || typeof this.tempLiteral[ "@language" ] === "undefined" || (typeof this.tempLiteral[ "@type" ] !== "undefined" && this.tempLiteral[ "@type" ] !== NS.XSD.DataType.string) ) {
+		if( this.tempLiteral[ "@type" ] === null || typeof this.tempLiteral[ "@type" ] === "undefined" ) delete this.tempLiteral[ "@type" ];
+		if( this.tempLiteral[ "@language" ] === null || typeof this.tempLiteral[ "@language" ] === "undefined" || (typeof this.tempLiteral[ "@type" ] !== "undefined" && this.tempLiteral[ "@type" ] !== NS.XSD.DataType.string) ) {
 			delete this.tempLiteral[ "@language" ];
 		}
-		if ( this.tempLiteral[ "@value" ] === null || typeof this.tempLiteral[ "@value" ] === "undefined" ) {
+		if( this.tempLiteral[ "@value" ] === null || typeof this.tempLiteral[ "@value" ] === "undefined" ) {
 			delete this.tempLiteral[ "@value" ];
 			delete this.tempLiteral[ "@type" ];
 			delete this.tempLiteral[ "@language" ];
 		}
 
-		if ( ! ! this.literal.copy ) {
-			if ( (this.tempLiteral[ "@value" ] === this.literal.copy[ "@value" ] ) &&
+		if( ! ! this.literal.copy ) {
+			if( (this.tempLiteral[ "@value" ] === this.literal.copy[ "@value" ] ) &&
 				(this.tempLiteral[ "@type" ] === this.literal.copy[ "@type" ] ) &&
 				(this.tempLiteral[ "@language" ] === this.literal.copy[ "@language" ] ) ) {
 				delete this.tempLiteral[ "@value" ];
@@ -934,7 +934,7 @@ export default class LiteralComponent {
 			} else {
 				this.literal.modified = this.tempLiteral;
 			}
-		} else if ( ! ! this.literal.added ) {
+		} else if( ! ! this.literal.added ) {
 			this.literal.added = this.tempLiteral;
 		}
 
@@ -944,13 +944,13 @@ export default class LiteralComponent {
 
 	changeType( type:string, text?:string, choice?:JQuery ):void {
 		this.isStringType = type === NS.XSD.DataType.string;
-		if ( type === NS.XSD.DataType.string ) { type = null; }
-		if ( ! this.isStringType ) { this.language = null; }
+		if( type === NS.XSD.DataType.string ) { type = null; }
+		if( ! this.isStringType ) { this.language = null; }
 		this.type = type;
 	}
 
 	changeLanguage( language:string, text?:string, choice?:JQuery ):void {
-		if ( language === "empty" ) language = null;
+		if( language === "empty" ) language = null;
 		(<Control>this.languageInput).updateValue( language === "empty" ? "" : language );
 		this.language = language;
 	}
@@ -983,7 +983,7 @@ export default class LiteralComponent {
 	private getXSDDataTypes():any[] {
 		let xsdDataTypes:any[] = [];
 		Utils.forEachOwnProperty( NS.XSD.DataType, ( key:string, value:any ):void => {
-			if ( URI.Util.isAbsolute( key ) ) {
+			if( URI.Util.isAbsolute( key ) ) {
 				xsdDataTypes.push( {
 					title: value,
 					description: NS.XSD.DataType[ value ],
@@ -1050,7 +1050,7 @@ export default class LiteralComponent {
 				valid = Utils.isString( control.value );
 				break;
 		}
-		if ( ! valid ) {
+		if( ! valid ) {
 			return { "invalidTypeError": true };
 		}
 		return null;
@@ -1068,3 +1068,5 @@ export interface Literal {
 	"@type"?:string;
 	"@language"?:string;
 }
+
+export default LiteralComponent;

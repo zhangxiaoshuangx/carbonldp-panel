@@ -1,14 +1,14 @@
 import { Component, ElementRef, Input, Output, EventEmitter, SimpleChange } from "@angular/core";
 
-import $ from "jquery";
-import "semantic-ui/semantic";
-
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 import * as URI from "carbonldp/RDF/URI";
 
-import NamedFragmentComponent from "./named-fragment.component"
+import { NamedFragmentComponent } from "./named-fragment.component"
 import { NamedFragmentRecords } from "./named-fragment.component"
-import PropertyComponent from "./../property/property.component";
+import { PropertyComponent } from "./../property/property.component";
+
+import $ from "jquery";
+import "semantic-ui/semantic";
 
 import template from "./named-fragments.component.html!";
 import style from "./named-fragments.component.css!text";
@@ -20,7 +20,7 @@ import style from "./named-fragments.component.css!text";
 	directives: [ PropertyComponent, NamedFragmentComponent ],
 } )
 
-export default class NamedFragmentsComponent {
+export class NamedFragmentsComponent {
 
 	element:ElementRef;
 	$element:JQuery;
@@ -47,7 +47,7 @@ export default class NamedFragmentsComponent {
 	}
 
 	ngOnChanges( changes:{[propName:string]:SimpleChange} ):void {
-		if ( ( changes[ "namedFragments" ].currentValue !== changes[ "namedFragments" ].previousValue ) ) {
+		if( ( changes[ "namedFragments" ].currentValue !== changes[ "namedFragments" ].previousValue ) ) {
 			this.openedNamedFragments = [];
 			this.goToNamedFragment( "all-namedFragments" );
 		}
@@ -58,12 +58,12 @@ export default class NamedFragmentsComponent {
 	}
 
 	notifyNamedFragmentHasChanged( records:NamedFragmentRecords, namedFragment:RDFNode.Class ) {
-		if ( typeof records === "undefined" || records === null ) {
+		if( typeof records === "undefined" || records === null ) {
 			this.namedFragmentsChanges.delete( namedFragment[ "@id" ] );
 			this.onChanges.emit( this.namedFragmentsChanges );
 			return;
 		}
-		if ( records.changes.size > 0 || records.additions.size > 0 || records.deletions.size > 0 ) {
+		if( records.changes.size > 0 || records.additions.size > 0 || records.deletions.size > 0 ) {
 			this.namedFragmentsChanges.set( namedFragment[ "@id" ], records );
 		} else {
 			this.namedFragmentsChanges.delete( namedFragment[ "@id" ] );
@@ -73,12 +73,12 @@ export default class NamedFragmentsComponent {
 
 	openNamedFragment( nodeOrId:RDFNode.Class|string ):void {
 		let node:RDFNode.Class;
-		if ( typeof nodeOrId === "string" ) {
+		if( typeof nodeOrId === "string" ) {
 			node = this.namedFragments.find( ( node )=> { return node[ "@id" ] === nodeOrId} );
 		} else {
 			node = nodeOrId;
 		}
-		if ( this.openedNamedFragments.indexOf( node ) === - 1 )this.openedNamedFragments.push( node );
+		if( this.openedNamedFragments.indexOf( node ) === - 1 )this.openedNamedFragments.push( node );
 		setTimeout( () => {
 			this.refreshTabs();
 			this.goToNamedFragment( "namedfragment_" + this.getNormalizedUri( node[ "@id" ] ) );
@@ -90,7 +90,7 @@ export default class NamedFragmentsComponent {
 	}
 
 	goToNamedFragment( id:string ) {
-		if ( ! this.nodesTab )
+		if( ! this.nodesTab )
 			return;
 		this.nodesTab.find( "> [data-tab='" + id + "']" ).click();
 		this.onOpenNamedFragment.emit( "namedFragments" );
@@ -100,7 +100,7 @@ export default class NamedFragmentsComponent {
 		let idx:number = this.openedNamedFragments.indexOf( namedFragment );
 		this.openedNamedFragments.splice( idx, 1 );
 		this.goToNamedFragment( "all-namedFragments" );
-		if ( this.namedFragmentsChanges.has( namedFragment[ "@id" ] ) )this.notifyNamedFragmentHasChanged( null, namedFragment );
+		if( this.namedFragmentsChanges.has( namedFragment[ "@id" ] ) )this.notifyNamedFragmentHasChanged( null, namedFragment );
 	}
 
 	refreshTabs():void {
@@ -116,3 +116,5 @@ export default class NamedFragmentsComponent {
 	}
 
 }
+
+export default NamedFragmentsComponent;

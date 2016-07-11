@@ -15,11 +15,11 @@ import { ConfigurationView } from "./configuration/configuration.view";
 
 
 import template from "./app-content.view.html!";
-// TODO: Use encapsulated styles
 
 @Component( {
 	selector: "cp-app-content",
 	template: template,
+	styles: [ ":host { display:block; }" ],
 	directives: [ ROUTER_DIRECTIVES, RouterOutlet ],
 	providers: [ AppContextService, ],
 } )
