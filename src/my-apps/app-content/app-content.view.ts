@@ -16,7 +16,6 @@ import { ConfigurationView } from "./configuration/configuration.view";
 
 import template from "./app-content.view.html!";
 // TODO: Use encapsulated styles
-// import "./app-detail.view.css!";
 
 @Component( {
 	selector: "cp-app-content",

@@ -7,8 +7,9 @@ import { AppsCatalogView } from "./apps-catalog/apps-catalog.view";
 import { CreateAppView } from "./create-app/create-app.view";
 
 @Component( {
-	selector: "my-apps",
+	selector: "cp-my-apps",
 	template: `<router-outlet></router-outlet>`,
+	styles: [ ":host { display: block; }" ],
 	directives: [ ROUTER_DIRECTIVES, RouterOutlet ],
 	providers: [
 		provide( MyAppsSidebarService, { useClass: MyAppsSidebarService } )
