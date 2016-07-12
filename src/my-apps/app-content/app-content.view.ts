@@ -96,8 +96,6 @@ export class AppContentView {
 			this.myAppsSidebarService.addApp( this.app );
 			this.myAppsSidebarService.openApp( this.app );
 		} ).catch( ( error:any ):void => {
-			// TODO: Check error type
-			console.log( error );
 			this.timer = 5;
 			let countDown:any = setInterval( ():void => {
 				this.timer --;
