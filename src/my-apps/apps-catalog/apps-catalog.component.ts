@@ -135,19 +135,19 @@ export class AppsCatalogComponent implements OnInit {
 				content = "Denied Access.";
 				break;
 			case error instanceof HTTP.Errors.UnauthorizedError:
-				content = "Wrong credentials.";
+				content = "No access to the requested resource(s).";
 				break;
 			case error instanceof HTTP.Errors.BadGatewayError:
-				content = "An error occurred while trying to login. Please try again later. Error: " + error.response.status;
+				content = "An error occurred while trying to fetch apps. Please try again later. Error: " + error.response.status;
 				break;
 			case error instanceof HTTP.Errors.GatewayTimeoutError:
-				content = "An error occurred while trying to login. Please try again later. Error: " + error.response.status;
+				content = "An error occurred while trying to fetch apps. Please try again later. Error: " + error.response.status;
 				break;
 			case error instanceof HTTP.Errors.InternalServerErrorError:
-				content = "An error occurred while trying to login. Please try again later. Error: " + error.response.status;
+				content = "An error occurred while trying to fetch apps. Please try again later. Error: " + error.response.status;
 				break;
 			case error instanceof HTTP.Errors.UnknownError:
-				content = "An error occurred while trying to login. Please try again later. Error: " + error.response.status;
+				content = "An error occurred while trying to fetch apps. Please try again later. Error: " + error.response.status;
 				break;
 			case error instanceof HTTP.Errors.ServiceUnavailableError:
 				content = "Service currently unavailable.";
@@ -186,9 +186,7 @@ export class AppsCatalogComponent implements OnInit {
 			this.loading = false;
 			if( this.apps.length === 0 ) this.warningMessage = "There are currently no apps to show."
 		} ).catch( ( error:any ):void => {
-			// TODO: Show a more specific error message
-			console.error( error );
-			this.errorMessage = "An error occurred. Please, try again later.";
+			this.errorMessage = this.getErrorMessage( error ).content;
 			this.loading = false;
 		} );
 	}

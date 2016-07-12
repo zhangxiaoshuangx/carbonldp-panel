@@ -13,13 +13,13 @@ import { EditAppView } from "./edit-app/edit-app.view";
 import { ExplorerView } from "./explorer/explorer.view";
 import { ConfigurationView } from "./configuration/configuration.view";
 
-
 import template from "./app-content.view.html!";
+import style from "./app-content.view.css!text";
 
 @Component( {
 	selector: "cp-app-content",
 	template: template,
-	styles: [ ":host { display:block; }" ],
+	styles: [ style ],
 	directives: [ ROUTER_DIRECTIVES, RouterOutlet ],
 	providers: [ AppContextService, ],
 } )
@@ -102,7 +102,7 @@ export class AppContentView {
 			let countDown:any = setInterval( ():void => {
 				this.timer --;
 				if( this.timer === 0 ) {
-					this.router.navigate( [ "/List" ] );
+					this.router.navigate( [ "List" ] );
 					clearInterval( countDown );
 				}
 			}, 1000 );
