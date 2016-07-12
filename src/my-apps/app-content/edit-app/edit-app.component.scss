@@ -1,0 +1,17 @@
+:host {
+	display: block;
+	.list {
+		.item {
+			.content {
+				color: #000000;
+			}
+		}
+	}
+	p.noAllowedOrigins {
+		color: #808080;
+		font-size: 1.5em;
+	}
+	.hidden {
+		display: none;
+	}
+}
