@@ -15,16 +15,16 @@
 		</div>
 	</div>
 	<div class="stretched row">
-		<document-treeview class="five wide column treeview-container"
-		                   [documentContext]="documentContext"
-		                   (onError)="handleError($event)"
-		                   (onLoadingDocument)="onLoadingDocument($event)"
-		                   (onResolveUri)="resolveDocument($event)"></document-treeview>
-		<document-viewer class="eleven wide column"
-		                 [document]="inspectingDocument"
-		                 [documentContext]="documentContext"
-		                 (onSavingDocument)="showLoading($event)"
-		                 (onLoadingDocument)="onLoadingDocument($event)"></document-viewer>
+		<cp-document-treeview class="five wide column treeview-container"
+		                      [documentContext]="documentContext"
+		                      (onError)="handleError($event)"
+		                      (onLoadingDocument)="onLoadingDocument($event)"
+		                      (onResolveUri)="resolveDocument($event)"></cp-document-treeview>
+		<cp-document-viewer class="eleven wide column"
+		                    [document]="inspectingDocument"
+		                    [documentContext]="documentContext"
+		                    (onSavingDocument)="showLoading($event)"
+		                    (onLoadingDocument)="onLoadingDocument($event)"></cp-document-viewer>
 
 	</div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
 
 import { LiteralComponent } from "./literal.component";
 import { Modes } from "./../property/property.component";
@@ -10,13 +10,13 @@ import template from "./literals.component.html!";
 import style from "./literals.component.css!text";
 
 @Component( {
-	selector: "literals",
+	selector: "cp-literals",
 	template: template,
 	styles: [ style ],
 	directives: [ LiteralComponent ],
 } )
 
-export class LiteralsComponent {
+export class LiteralsComponent implements OnInit {
 
 	modes:Modes = Modes;
 	tokens:string[] = [ "@value", "@type", "@language" ];

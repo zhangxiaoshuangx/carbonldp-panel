@@ -15,10 +15,10 @@
 </a>
 <div class="ui basic segment document-content" *ngIf="document">
 	<div class="ui divided items">
-		<property class="property item"
+		<cp-property class="property item"
 		          [documentURI]="rootNode['@id']"
 		          [property]="{copy:{id:'@id', name:'@id', value:rootNode['@id']}}">
-		</property>
+		</cp-property>
 		<div class="item">
 			<div class="content">
 				<div class="description">
@@ -28,39 +28,38 @@
 						<a class="item" data-tab="namedFragments">Named Fragments ({{namedFragments.length}})</a>
 					</div>
 					<div class="ui active tab segment" data-tab="documentResource">
-						<document-resource class="column"
+						<cp-document-resource class="column"
 
-						                   [rootNode]="rootNode"
-						                   [hiddenProperties]="['@id']"
-						                   [bNodes]="bNodes"
-						                   [namedFragments]="namedFragments"
-						                   [documentURI]="rootNode['@id']"
+						                      [rootNode]="rootNode"
+						                      [hiddenProperties]="['@id']"
+						                      [bNodes]="bNodes"
+						                      [namedFragments]="namedFragments"
+						                      [documentURI]="rootNode['@id']"
 
-						                   (onOpenBNode)="openBNode($event)"
-						                   (onOpenNamedFragment)="openNamedFragment($event)"
-						                   (onChanges)="registerRootNodeChanges($event)">
-						</document-resource>
+						                      (onOpenBNode)="openBNode($event)"
+						                      (onOpenNamedFragment)="openNamedFragment($event)"
+						                      (onChanges)="registerRootNodeChanges($event)">
+						</cp-document-resource>
 					</div>
 					<div class="ui tab segment" data-tab="bNodes">
-						<document-bnodes class="column"
+						<cp-blank-nodes class="column"
+						                [documentURI]="document['@id']"
+						                [bNodes]="bNodes"
+						                [namedFragments]="namedFragments"
 
-						                 [documentURI]="document['@id']"
-						                 [bNodes]="bNodes"
-						                 [namedFragments]="namedFragments"
-
-						                 (onOpenBNode)="goToSection($event)"
-						                 (onOpenNamedFragment)="openNamedFragment($event)"
-						                 (onChanges)="registerBNodeChanges($event)"></document-bnodes>
+						                (onOpenBNode)="goToSection($event)"
+						                (onOpenNamedFragment)="openNamedFragment($event)"
+						                (onChanges)="registerBNodeChanges($event)"></cp-blank-nodes>
 					</div>
 					<div class="ui tab segment" data-tab="namedFragments">
-						<document-named-fragments class="column"
-						                          [documentURI]="document['@id']"
-						                          [bNodes]="bNodes"
-						                          [namedFragments]="namedFragments"
+						<cp-named-fragments class="column"
+						                    [documentURI]="document['@id']"
+						                    [bNodes]="bNodes"
+						                    [namedFragments]="namedFragments"
 
-						                          (onOpenBNode)="openBNode($event)"
-						                          (onOpenNamedFragment)="goToSection($event)"
-						                          (onChanges)="registerNamedFragmentsChanges($event)"></document-named-fragments>
+						                    (onOpenBNode)="openBNode($event)"
+						                    (onOpenNamedFragment)="goToSection($event)"
+						                    (onChanges)="registerNamedFragmentsChanges($event)"></cp-named-fragments>
 					</div>
 				</div>
 			</div>

@@ -47,13 +47,13 @@
 </div>
 <div class="ui bottom attached tab segment"
      *ngFor="let bNode of openedBNodes; let i = index;" [attr.data-tab]="'bnode'+bNode['@id']">
-	<bnode class="column"
-	       [documentURI]="documentURI"
-	       [bNode]="bNode"
-	       [bNodes]="bNodes"
-	       [namedFragments]="namedFragments"
-	       (onOpenBNode)="openBNode( $event )"
-	       (onOpenNamedFragment)="openNamedFragment($event)"
-	       (onChanges)="notifyDocumentBNodeHasChanged($event, bNode)">
-	</bnode>
+	<cp-blank-node class="column"
+	               [documentURI]="documentURI"
+	               [bNode]="bNode"
+	               [bNodes]="bNodes"
+	               [namedFragments]="namedFragments"
+	               (onOpenBNode)="openBNode( $event )"
+	               (onOpenNamedFragment)="openNamedFragment($event)"
+	               (onChanges)="notifyDocumentBNodeHasChanged($event, bNode)">
+	</cp-blank-node>
 </div>

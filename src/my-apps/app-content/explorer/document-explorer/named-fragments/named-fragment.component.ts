@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Output, EventEmitter } from "@angular/core";
+import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit } from "@angular/core";
 
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 
@@ -11,13 +11,13 @@ import "semantic-ui/semantic";
 import template from "./named-fragment.component.html!";
 
 @Component( {
-	selector: "named-fragment",
+	selector: "cp-named-fragment",
 	template: template,
 	styles: [ ":host { display:block; }" ],
 	directives: [ PropertyComponent ],
 } )
 
-export class NamedFragmentComponent {
+export class NamedFragmentComponent implements AfterViewInit {
 
 	element:ElementRef;
 	$element:JQuery;
@@ -116,7 +116,7 @@ export class NamedFragmentComponent {
 			}
 		};
 		this.properties.splice( 2, 0, newProperty );
-		if( ! ! this.$element ) setTimeout( ()=>this.$element.find( "property.added-property" ).first().transition( "drop" ) );
+		if( ! ! this.$element ) setTimeout( ()=>this.$element.find( "cp-property.added-property" ).first().transition( "drop" ) );
 	}
 
 	getProperties():void {

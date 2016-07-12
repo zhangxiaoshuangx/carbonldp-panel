@@ -15,7 +15,7 @@ import template from "./literal.component.html!";
 import style from "./literal.component.css!text";
 
 @Component( {
-	selector: "tr.literal",
+	selector: "tr.cp-literal",
 	template: template,
 	styles: [ style ],
 } )

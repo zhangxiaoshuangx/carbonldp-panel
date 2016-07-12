@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Output, EventEmitter } from "@angular/core";
+import { Component, ElementRef, Input, Output, EventEmitter, OnInit } from "@angular/core";
 
 import "semantic-ui/semantic";
 
@@ -8,11 +8,12 @@ import * as URI from "carbonldp/RDF/URI";
 import template from "./template.html!";
 
 @Component( {
-	selector: "property-list",
+	selector: "cp-property-list",
 	template: template,
+	styles: [ ":host { display:block; }" ],
 } )
 
-export default class ListViewerComponent {
+export default class ListViewerComponent implements OnInit {
 
 	element:ElementRef;
 	@Input() list:RDFNode.Class[];
@@ -27,8 +28,6 @@ export default class ListViewerComponent {
 	ngOnInit():void {
 		this.headers = this.getHeaders();
 	}
-
-	ngAfterViewInit():void {}
 
 	hasCommonHeaders():boolean {
 		return this.headers.indexOf( "@id" ) > - 1 ? true : this.headers.indexOf( "@type" ) > - 1 ? true : this.headers.indexOf( "@value" ) > - 1 ? true : false;

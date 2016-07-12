@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Output, SimpleChange, EventEmitter } from "@angular/core";
+import { Component, ElementRef, Input, Output, SimpleChange, EventEmitter, OnChanges } from "@angular/core";
 import { Control, AbstractControl, Validators } from '@angular/common';
 
 import * as RDFNode from "carbonldp/RDF/RDFNode";
@@ -13,12 +13,12 @@ import template from "./pointer.component.html!";
 import style from "./pointer.component.css!text";
 
 @Component( {
-	selector: "tr.pointer",
+	selector: "tr.cp-pointer",
 	template: template,
 	styles: [ style ],
 } )
 
-export class PointerComponent {
+export class PointerComponent implements OnChanges {
 
 	$element:JQuery;
 	element:ElementRef;

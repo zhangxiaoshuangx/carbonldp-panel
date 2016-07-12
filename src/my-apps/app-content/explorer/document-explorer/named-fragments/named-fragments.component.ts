@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Output, EventEmitter, SimpleChange } from "@angular/core";
+import { Component, ElementRef, Input, Output, EventEmitter, SimpleChange, OnChanges, AfterContentInit } from "@angular/core";
 
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 import * as URI from "carbonldp/RDF/URI";
@@ -14,13 +14,13 @@ import template from "./named-fragments.component.html!";
 import style from "./named-fragments.component.css!text";
 
 @Component( {
-	selector: "document-named-fragments",
+	selector: "cp-named-fragments",
 	template: template,
 	styles: [ style ],
 	directives: [ PropertyComponent, NamedFragmentComponent ],
 } )
 
-export class NamedFragmentsComponent {
+export class NamedFragmentsComponent implements AfterContentInit, OnChanges {
 
 	element:ElementRef;
 	$element:JQuery;

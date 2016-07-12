@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
 
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 
@@ -12,13 +12,13 @@ import template from "./pointers.component.html!";
 import style from "./pointers.component.css!text";
 
 @Component( {
-	selector: "pointers",
+	selector: "cp-pointers",
 	template: template,
 	styles: [ style ],
 	directives: [ PointerComponent ],
 } )
 
-export class PointersComponent {
+export class PointersComponent implements OnInit {
 
 	modes:Modes = Modes;
 	tokens:string[] = [ "@id", "@type" ];

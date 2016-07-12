@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input } from "@angular/core";
+import { Component, ElementRef, Input, AfterViewInit } from "@angular/core";
 
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
@@ -22,7 +22,7 @@ import style from "./document-explorer.component.css!text";
 	directives: [ DocumentTreeViewComponent, DocumentViewerComponent ],
 } )
 
-export class DocumentExplorerComponent {
+export class DocumentExplorerComponent implements AfterViewInit {
 
 	element:ElementRef;
 	$element:JQuery;

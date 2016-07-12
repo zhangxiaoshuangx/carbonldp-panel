@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Output, EventEmitter, SimpleChange, ViewChild } from "@angular/core";
+import { Component, ElementRef, Input, Output, EventEmitter, SimpleChange, ViewChild, AfterViewInit, OnChanges } from "@angular/core";
 
 import { Message } from "carbon-panel/errors-area/error-message.component";
 import * as RDFNode from "carbonldp/RDF/RDFNode";
@@ -23,14 +23,14 @@ import template from "./document-viewer.component.html!";
 import style from "./document-viewer.component.css!text";
 
 @Component( {
-	selector: "document-viewer",
+	selector: "cp-document-viewer",
 	host: { "[class.ui]": "true", "[class.basic]": "true", "[class.segment]": "true", },
 	template: template,
 	styles: [ style ],
 	directives: [ DocumentResourceComponent, BlankNodesComponent, NamedFragmentsComponent, PropertyComponent ],
 } )
 
-export class DocumentViewerComponent {
+export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	element:ElementRef;
 	$element:JQuery;
 	sections:string[] = [ "bNodes", "namedFragments", "documentResource" ];

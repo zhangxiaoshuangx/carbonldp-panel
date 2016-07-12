@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Output, EventEmitter } from "@angular/core";
+import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit } from "@angular/core";
 
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 
@@ -11,13 +11,13 @@ import "semantic-ui/semantic";
 import template from "./document-resource.component.html!";
 
 @Component( {
-	selector: "document-resource",
+	selector: "cp-document-resource",
 	template: template,
 	styles: [ ":host { display:block; }" ],
 	directives: [ PropertyComponent ],
 } )
 
-export class DocumentResourceComponent {
+export class DocumentResourceComponent implements AfterViewInit {
 
 	element:ElementRef;
 	$element:JQuery;
@@ -126,7 +126,7 @@ export class DocumentResourceComponent {
 			}
 		};
 		this.properties.splice( 2, 0, newProperty );
-		if( ! ! this.$element ) setTimeout( ()=>this.$element.find( "property.added-property" ).first().transition( "drop" ) );
+		if( ! ! this.$element ) setTimeout( ()=>this.$element.find( "cp-property.added-property" ).first().transition( "drop" ) );
 	}
 
 	getProperties():void {

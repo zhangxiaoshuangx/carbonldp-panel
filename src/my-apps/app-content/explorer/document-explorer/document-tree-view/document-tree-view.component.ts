@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Output, EventEmitter } from "@angular/core";
+import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit, OnInit } from "@angular/core";
 
 import * as Pointer from "carbonldp/Pointer";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
@@ -15,12 +15,12 @@ import template from "./document-tree-view.component.html!";
 import style from "./document-tree-view.component.css!text";
 
 @Component( {
-	selector: "document-treeview",
+	selector: "cp-document-treeview",
 	template: template,
 	styles: [ style ],
 } )
 
-export class DocumentTreeViewComponent {
+export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 	element:ElementRef;
 	$element:JQuery;
 

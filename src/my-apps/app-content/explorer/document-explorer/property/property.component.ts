@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Output, EventEmitter } from "@angular/core";
+import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit, OnInit } from "@angular/core";
 import { Control, AbstractControl, Validators } from '@angular/common';
 
 import * as SDKRDFNode from "carbonldp/RDF/RDFNode";
@@ -19,14 +19,14 @@ import template from "./property.component.html!";
 import style from "./property.component.css!text";
 
 @Component( {
-	selector: "property",
+	selector: "cp-property",
 	template: template,
 	styles: [ style ],
 	directives: [ LiteralsComponent, PointersComponent ],
 	host: { "[class.has-changed]": "property.modified", "[class.deleted-property]": "property.deleted", "[class.added-property]": "property.added" },
 } )
 
-export class PropertyComponent {
+export class PropertyComponent implements AfterViewInit, OnInit {
 
 	element:ElementRef;
 	$element:JQuery;

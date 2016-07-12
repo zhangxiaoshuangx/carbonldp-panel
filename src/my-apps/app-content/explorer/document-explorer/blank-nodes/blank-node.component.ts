@@ -11,7 +11,7 @@ import "semantic-ui/semantic";
 import template from "./blank-node.component.html!";
 
 @Component( {
-	selector: "bnode",
+	selector: "cp-blank-node",
 	template: template,
 	styles: [ ":host { display:block; }" ],
 	directives: [ PropertyComponent ],
@@ -116,7 +116,7 @@ export class BlankNodeComponent implements AfterViewInit {
 			}
 		};
 		this.properties.splice( 2, 0, newProperty );
-		if( ! ! this.$element ) setTimeout( ()=>this.$element.find( "property.added-property" ).first().transition( "drop" ) );
+		if( ! ! this.$element ) setTimeout( ()=>this.$element.find( "cp-property.added-property" ).first().transition( "drop" ) );
 	}
 
 	getProperties():void {

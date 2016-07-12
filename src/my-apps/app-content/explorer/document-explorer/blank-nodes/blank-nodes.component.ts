@@ -13,7 +13,7 @@ import template from "./blank-nodes.component.html!";
 import style from "./blank-nodes.component.css!text";
 
 @Component( {
-	selector: "document-bnodes",
+	selector: "cp-blank-nodes",
 	template: template,
 	styles: [ style ],
 	directives: [ PropertyComponent, BlankNodeComponent ],
