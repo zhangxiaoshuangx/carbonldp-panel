@@ -9,7 +9,9 @@ import * as RDFDocument from "carbonldp/RDF/Document";
 
 import $ from "jquery";
 import "semantic-ui/semantic";
-import "jstree";
+
+import "jstree/dist/jstree.min";
+import "jstree/dist/themes/default/style.min.css!";
 
 import template from "./document-tree-view.component.html!";
 import style from "./document-tree-view.component.css!text";
@@ -20,7 +22,7 @@ import style from "./document-tree-view.component.css!text";
 	styles: [ style ],
 } )
 
-export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
+export class DocumentTreeViewComponent implements AfterViewInit {
 	element:ElementRef;
 	$element:JQuery;
 
@@ -34,14 +36,6 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 
 	constructor( element:ElementRef ) {
 		this.element = element;
-	}
-
-	ngOnInit():void {
-		let head:Element = document.querySelector( "head" );
-		let link:HTMLLinkElement = document.createElement( "link" );
-		link.rel = "stylesheet";
-		link.href = "assets/node_modules/jstree/dist/themes/default/style.min.css";
-		head.appendChild( link );
 	}
 
 	ngAfterViewInit():void {

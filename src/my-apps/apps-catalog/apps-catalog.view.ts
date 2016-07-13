@@ -1,8 +1,6 @@
 import { Component } from "@angular/core";
-import { Router, ROUTER_DIRECTIVES } from "@angular/router-deprecated";
+import { ROUTER_DIRECTIVES } from "@angular/router-deprecated";
 
-import * as App from "./../app-content/app";
-import { MyAppsSidebarService } from "./../my-apps-sidebar.service";
 import { AppsCatalogComponent } from "./apps-catalog.component";
 
 import "semantic-ui/semantic";
