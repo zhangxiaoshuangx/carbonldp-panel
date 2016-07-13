@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, SimpleChange, AfterViewInit, OnChanges } from "@angular/core";
 
+import Carbon from "carbonldp/Carbon";
 import * as App from "carbonldp/App";
 import * as Response from "carbonldp/HTTP/Response";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
@@ -25,6 +26,7 @@ import style from "./backups-list.component.css!text";
 export class BackupsListComponent implements AfterViewInit, OnChanges {
 
 	element:ElementRef;
+	$element:JQuery;
 	$deleteBackupConfirmationModal:JQuery;
 
 	backupsService:BackupsService;
@@ -40,8 +42,7 @@ export class BackupsListComponent implements AfterViewInit, OnChanges {
 	@Input() backupJob:PersistedDocument.Class;
 	@Input() appContext:App.Context;
 
-	constructor( carbon:Carbon, element:ElementRef, backupsService:BackupsService ) {
-		this.carbon = carbon;
+	constructor( element:ElementRef, backupsService:BackupsService ) {
 		this.element = element;
 		this.backupsService = backupsService;
 	}
@@ -162,7 +163,7 @@ export class BackupsListComponent implements AfterViewInit, OnChanges {
 	closeDeleteModal():void {
 		this.$deleteBackupConfirmationModal.modal( "hide" );
 	}
-	
+
 }
 
 export default BackupsListComponent;
