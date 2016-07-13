@@ -1,12 +1,12 @@
-import {Component, ElementRef, Input, Output, Inject, EventEmitter} from "@angular/core";
-import {CORE_DIRECTIVES, FORM_DIRECTIVES, FormBuilder, ControlGroup, AbstractControl, Validators} from "@angular/common";
+import { Component, ElementRef, Input, Output, Inject, EventEmitter } from "@angular/core";
+import { CORE_DIRECTIVES, FORM_DIRECTIVES, FormBuilder, ControlGroup, AbstractControl, Validators } from "@angular/common";
 
-import {AuthService} from "angular2-carbonldp/services";
+import { AuthService } from "angular2-carbonldp/services";
 
 import Credentials from "carbonldp/Auth/Credentials";
 import * as HTTP from "carbonldp/HTTP";
 
-import {EmailValidator} from "carbon-panel/custom-validators";
+import { EmailValidator } from "carbon-panel/custom-validators";
 
 import $ from "jquery";
 import "semantic-ui/semantic";
@@ -16,6 +16,7 @@ import template from "./login.component.html!";
 @Component( {
 	selector: "cp-login",
 	template: template,
+	styles: [ ":host { display:block; } " ],
 	directives: [ CORE_DIRECTIVES, FORM_DIRECTIVES ],
 } )
 export class LoginComponent {
@@ -94,7 +95,7 @@ export class LoginComponent {
 	}
 
 	setErrorMessage( error:HTTP.Errors.Error ):void {
-		switch( true ) {
+		switch ( true ) {
 			case error instanceof HTTP.Errors.ForbiddenError:
 				this.errorMessage = "Denied Access.";
 				break;

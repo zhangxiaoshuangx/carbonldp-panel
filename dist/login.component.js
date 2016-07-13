@@ -141,6 +141,7 @@ System.register(["@angular/core", "@angular/common", "angular2-carbonldp/service
                     core_1.Component({
                         selector: "cp-login",
                         template: login_component_html_1.default,
+                        styles: [":host { display:block; } "],
                         directives: [common_1.CORE_DIRECTIVES, common_1.FORM_DIRECTIVES],
                     }),
                     __param(2, core_1.Inject(services_1.AuthService.Token)), 
