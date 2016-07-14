@@ -1,17 +1,19 @@
-.navigation.menu {
-  border-radius: 0; }
-
-.mobile.only.row .navigation.menu {
+:host .ui.navigation.menu {
+  border-radius: 0;
+  padding: 0;
   margin: 0; }
 
-.mobile.only.row .vertical.menu {
+:host .mobile.only.row .navigation.menu {
+  margin: 0; }
+
+:host .mobile.only.row .vertical.menu {
   border-radius: 0;
   border-top: 1px solid #A9A9A9;
   width: 100%;
   display: block;
   margin-top: 0; }
 
-.mobile.only.row .ui.dropdown.item .menu {
+:host .mobile.only.row .ui.dropdown.item .menu {
   position: static;
   margin-top: 15px; }
 
