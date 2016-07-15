@@ -37,10 +37,11 @@
     "gulp-typescript": "2.13.6",
     "gulp-util": "^3.0.7",
     "gulp-watch": "^4.3.8",
+    "jquery": "^2.2.4",
     "run-sequence": "^1.2.1",
-    "rxjs": "^5.0.0-beta.6",
+    "rxjs": "5.0.0-beta.6",
     "tslint": "^3.11.0",
-    "typescript": "^1.9.0-dev.20160624-1.0",
+    "typescript": "1.9.0-dev.20160627-1.0",
     "typings": "^1.0.5",
     "zone.js": "^0.6.6"
   },
