@@ -31,13 +31,13 @@
 		<div class="tabs">
 			<div *ngIf="response.result == responseType.success" class="ui active tab" data-tab="first">
 				<cp-code-mirror *ngIf="!!outputformat && outputformat != sparqlFormats.table"
-				             [mode]="outputformat"
-				             [readOnly]="'nocursor'"
-				             [(value)]="response.data"></cp-code-mirror>
+				                [mode]="outputformat"
+				                [readOnly]="'nocursor'"
+				                [(value)]="response.data"></cp-code-mirror>
 				<cp-resultset-table *ngIf="outputformat === sparqlFormats.table"
-				                 [(resultset)]="response.resultset"
-				                 [query]="response.query"
-				                 [prefixes]="prefixes"></cp-resultset-table>
+				                    [(resultset)]="response.resultset"
+				                    [query]="response.query"
+				                    [prefixes]="prefixes"></cp-resultset-table>
 			</div>
 			<div *ngIf="response.result == responseType.error" class="ui active tab" data-tab="first">
 				<div class="ui error message transition">
@@ -45,7 +45,7 @@
 						{{response.resultset?.title}}
 					</div>
 					<p>
-						<span *ngIf="response.resultset?.content">{{response.resultset?.content}}<br></span>
+						<span *ngIf="response.resultset?.content" [innerHTML]="response.resultset?.content"><br></span>
 						<span *ngIf="response.resultset?.statusCode">Status: {{response.resultset?.statusCode}} - {{response.resultset?.statusMessage}}<br></span>
 						<span *ngIf="response.resultset?.endpoint">URI: {{response.resultset?.endpoint}}</span>
 					</p>
@@ -54,8 +54,8 @@
 			<pre *ngIf="response.result == responseType.success" class="ui tab secondary segment" data-tab="second">{{response.data}}</pre>
 			<div class="ui tab" data-tab="third">
 				<cp-code-mirror [mode]="codeMirrorMode.SPARQL"
-				             [readOnly]="'nocursor'"
-				             [(value)]="response.query.content"></cp-code-mirror>
+				                [readOnly]="'nocursor'"
+				                [(value)]="response.query.content"></cp-code-mirror>
 			</div>
 		</div>
 	</div>

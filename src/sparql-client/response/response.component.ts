@@ -152,6 +152,7 @@ export class SPARQLFormats {
 	static nquads:string = "text/x-nquads";
 	static rdfa:string = "application/xhtml+xml";
 	static boolean:string = "boolean";
+	static text:string = "text/plain";
 }
 
 export interface SPARQLQuery {

@@ -26,6 +26,15 @@ export class SPARQLClientView {
 		this.errorsAreaService = errorsAreaService;
 	}
 
+	notifyErrorAreaService( error:any ):void {
+		this.errorsAreaService.addError(
+			error.title,
+			error.content,
+			error.statusCode,
+			error.statusMessage,
+			error.endpoint
+		);
+	}
 
 }
 
