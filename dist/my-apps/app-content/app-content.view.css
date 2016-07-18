@@ -1,0 +1,9 @@
+:host {
+  display: block; }
+  :host .timer {
+    font-size: 10em; }
+  :host .no-apps.segment {
+    color: #ffffff;
+    font-size: 1.3em; }
+
+/*# sourceMappingURL=app-content.view.css.map */

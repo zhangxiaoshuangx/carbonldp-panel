@@ -1,0 +1,6 @@
+:host {
+  display: block; }
+  :host .segment[data-tab="all-namedFragments"] table tr, :host .segment[data-tab="all-namedFragments"] table td {
+    cursor: pointer; }
+
+/*# sourceMappingURL=named-fragments.component.css.map */

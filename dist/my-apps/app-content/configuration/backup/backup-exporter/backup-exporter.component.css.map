@@ -1,0 +1,1 @@
+{"version":3,"sources":["backup-exporter.component.css"],"names":[],"mappings":"AAAA;EACE,eAAe,EAAE;EACjB;IACE,kBAAkB,EAAE","file":"my-apps/app-content/configuration/backup/backup-exporter/backup-exporter.component.css","sourcesContent":[":host {\n  display: block; }\n  :host .right.aligned {\n    text-align: right; }\n"],"sourceRoot":"/source/"}

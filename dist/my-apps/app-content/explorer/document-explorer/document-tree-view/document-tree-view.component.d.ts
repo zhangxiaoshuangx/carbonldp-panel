@@ -1,0 +1,31 @@
+import { ElementRef, EventEmitter, AfterViewInit } from "@angular/core";
+import * as Pointer from "carbonldp/Pointer";
+import * as PersistedDocument from "carbonldp/PersistedDocument";
+import * as HTTP from "carbonldp/HTTP";
+import * as SDKContext from "carbonldp/SDKContext";
+import * as RDFDocument from "carbonldp/RDF/Document";
+import "semantic-ui/semantic";
+import "jstree/dist/jstree.min";
+import "jstree/dist/themes/default/style.min.css!";
+export declare class DocumentTreeViewComponent implements AfterViewInit {
+    element: ElementRef;
+    $element: JQuery;
+    documentTree: JQuery;
+    nodeChildren: any[];
+    documentContext: SDKContext.Class;
+    onResolveUri: EventEmitter<RDFDocument.Class>;
+    onError: EventEmitter<HTTP.Errors.Error>;
+    onLoadingDocument: EventEmitter<boolean>;
+    constructor(element: ElementRef);
+    ngAfterViewInit(): void;
+    getDocumentTree(): Promise<PersistedDocument.Class>;
+    buildNode(uri: string): any;
+    renderTree(): void;
+    emptyNode(nodeId: string): void;
+    onBeforeOpenNode(parentId: string, parentNode: any, position: string): void;
+    onClickNode(parentId: string, node: any, position: string): void;
+    addChild(parentId: string, node: any, position: string): void;
+    getNodeChildren(uri: string): Promise<any[]>;
+    getSlug(pointer: Pointer.Class | string): string;
+}
+export default DocumentTreeViewComponent;

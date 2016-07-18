@@ -1,0 +1,41 @@
+import { AfterViewInit, OnInit } from "@angular/core";
+import { FormBuilder, ControlGroup, AbstractControl, Control } from "@angular/common";
+import Carbon from "carbonldp/Carbon";
+import * as CarbonApp from "carbonldp/App";
+import * as HTTP from "carbonldp/HTTP";
+import * as Pointer from "carbonldp/Pointer";
+import { AppContextService } from "./../app-context.service";
+import { Message } from "./../../errors-area/error-message.component";
+import "semantic-ui/semantic";
+export declare class CreateAppComponent implements AfterViewInit, OnInit {
+    carbon: Carbon;
+    appContextService: AppContextService;
+    submitting: boolean;
+    displaySuccessMessage: boolean;
+    errorMessage: Message;
+    _name: string;
+    _slug: string;
+    persistedSlug: string;
+    persistedName: string;
+    createAppForm: ControlGroup;
+    formBuilder: FormBuilder;
+    name: AbstractControl;
+    slug: AbstractControl;
+    description: AbstractControl;
+    constructor(formBuilder: FormBuilder, carbon: Carbon, appContextService: AppContextService);
+    ngOnInit(): void;
+    ngAfterViewInit(): void;
+    slugLostControl(evt: any): void;
+    getSanitizedSlug(slug: string): string;
+    canDisplayErrors(): boolean;
+    onSubmit(data: {
+        name: string;
+        slug: string;
+        description: string;
+    }, $event: any): void;
+    createApp(slug: string, appDocument: CarbonApp.Class): Promise<[Pointer.Class, HTTP.Response.Class]>;
+    getErrorMessage(error: HTTP.Errors.Error): string;
+    slugValidator(slug: Control): any;
+    clearMessages(evt: Event): void;
+}
+export default CreateAppComponent;
