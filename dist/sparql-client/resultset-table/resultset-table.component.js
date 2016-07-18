@@ -52,6 +52,10 @@ System.register(["@angular/core", "./relativize-uri.pipe", "./prefix-uri.pipe", 
                     this.sortedColumn = columnName;
                     var index = this.resultset.head.vars.indexOf(columnName);
                     this.bindings.sort(function (bindingA, bindingB) {
+                        if (!bindingA[index])
+                            return _this.ascending ? 1 : -1;
+                        if (!bindingB[index])
+                            return _this.ascending ? -1 : 1;
                         if (bindingA[index].value > bindingB[index].value)
                             return _this.ascending ? -1 : 1;
                         if (bindingA[index].value < bindingB[index].value)
