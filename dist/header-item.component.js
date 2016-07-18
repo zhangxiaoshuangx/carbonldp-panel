@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common", "@angular/router-deprecated", "carbon-panel/router.service", "carbon-panel/header.service", "jquery", "semantic-ui/semantic", "./header-item.component.html!", "./header-item.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/common", "@angular/router-deprecated", "carbon-panel/router.service", "jquery", "semantic-ui/semantic", "./header-item.component.html!", "./header-item.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, router_deprecated_1, router_service_1, header_service_1, jquery_1, header_item_component_html_1, header_item_component_css_text_1;
+    var core_1, common_1, router_deprecated_1, router_service_1, jquery_1, header_item_component_html_1, header_item_component_css_text_1;
     var HeaderItemComponent;
     return {
         setters:[
@@ -25,9 +25,6 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
             },
             function (router_service_1_1) {
                 router_service_1 = router_service_1_1;
-            },
-            function (header_service_1_1) {
-                header_service_1 = header_service_1_1;
             },
             function (jquery_1_1) {
                 jquery_1 = jquery_1_1;
@@ -58,7 +55,7 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
                 };
                 __decorate([
                     core_1.Input("item"), 
-                    __metadata('design:type', (typeof (_a = typeof header_service_1.HeaderItem !== 'undefined' && header_service_1.HeaderItem) === 'function' && _a) || Object)
+                    __metadata('design:type', Object)
                 ], HeaderItemComponent.prototype, "item", void 0);
                 HeaderItemComponent = __decorate([
                     core_1.Component({
@@ -67,10 +64,9 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
                         styles: [header_item_component_css_text_1.default],
                         directives: [common_1.CORE_DIRECTIVES, router_deprecated_1.ROUTER_DIRECTIVES]
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, (typeof (_b = typeof router_service_1.RouterService !== 'undefined' && router_service_1.RouterService) === 'function' && _b) || Object])
+                    __metadata('design:paramtypes', [core_1.ElementRef, router_service_1.RouterService])
                 ], HeaderItemComponent);
                 return HeaderItemComponent;
-                var _a, _b;
             }());
             exports_1("HeaderItemComponent", HeaderItemComponent);
             exports_1("default",HeaderItemComponent);

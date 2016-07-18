@@ -1,12 +1,12 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { FormBuilder, ControlGroup, AbstractControl, Validators } from "@angular/common";
+import {Component, Input, OnInit} from "@angular/core";
+import {FormBuilder, ControlGroup, AbstractControl, Validators} from "@angular/common";
 
 import Carbon from "carbonldp/Carbon";
 import * as HTTP from "carbonldp/HTTP";
 import * as PersistedApp from "carbonldp/PersistedApp";
 
 import * as App from "../app";
-import { ErrorMessageComponent, Message } from "../../../errors-area/error-message.component";
+import {ErrorMessageComponent, Message} from "../../../errors-area/error-message.component";
 
 import "semantic-ui/semantic";
 
@@ -130,9 +130,9 @@ export class EditAppComponent implements OnInit {
 			this.app.allowsOrigins = allowedDomains.length > 0 ? allowedDomains : this.app.allowsOrigins;
 		}
 
-		this.app.save().then( ( [updatedApp, response]:[PersistedApp.Class, HTTP.Response.Class] ):void => {
-			this.app.refresh().catch( ( error:HTTP.Errors.Error ):void => this.setErrorMessage( error ) );
+		this.app.save().then( ( [updatedApp, response]:[PersistedApp.Class, HTTP.Response.Class] ) => {
 			this.displaySuccessMessage = true;
+			return this.app.refresh();
 		} ).catch( ( error:HTTP.Errors.Error ):void => {
 			this.errorMessage = {
 				title: error.name,
@@ -141,7 +141,7 @@ export class EditAppComponent implements OnInit {
 				statusMessage: (<XMLHttpRequest>error.response.request).statusText,
 				endpoint: (<any>error.response.request).responseURL,
 			};
-		} ).then( ():void => {
+		} ).then( ( [updatedApp, response]:[PersistedApp.Class, HTTP.Response.Class] ):void => {
 			this.submitting = false;
 		} );
 	}

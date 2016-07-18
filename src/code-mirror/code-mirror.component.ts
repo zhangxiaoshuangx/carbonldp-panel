@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, Output, SimpleChange, EventEmitter, AfterContentInit, OnChanges, OnDestroy } from "@angular/core";
 
-import CodeMirror from "codemirror/lib/codemirror";
+import CodeMirror from "codemirror";
 
 import "codemirror/mode/css/css";
 import "codemirror/mode/htmlmixed/htmlmixed";
@@ -31,8 +31,8 @@ export class Class implements AfterContentInit, OnChanges, OnDestroy {
 	@Input() value:string = "";
 	@Output() valueChange:EventEmitter<string> = new EventEmitter<string>();
 
-	@Input() codeMirror:CodeMirror;
-	@Output() codeMirrorChange:EventEmitter<CodeMirror> = new EventEmitter<CodeMirror>();
+	@Input() codeMirror:CodeMirror.Editor;
+	@Output() codeMirrorChange:EventEmitter<CodeMirror.Editor> = new EventEmitter<CodeMirror.Editor>();
 
 	private internallyChanged:boolean = false;
 	private lastUpdates:string[] = [];
@@ -118,7 +118,7 @@ export class Class implements AfterContentInit, OnChanges, OnDestroy {
 
 		let tabs:boolean = null;
 		let extraIndentation:number = null;
-		for ( let line of lines ) {
+		for( let line of lines ) {
 			if( ! line.trim() ) continue;
 			if( tabs === null ) tabs = line.startsWith( "\t" );
 			let indentation:number = this.getIndentation( line, tabs );
@@ -132,14 +132,14 @@ export class Class implements AfterContentInit, OnChanges, OnDestroy {
 
 	private getIndentation( line:string, tabs:boolean = true ):number {
 		let indentationChar:string = tabs ? "\t" : " ";
-		for ( var i:number = 0, length = line.length; i < length; i ++ ) {
+		for( var i:number = 0, length = line.length; i < length; i ++ ) {
 			if( line.charAt( i ) !== indentationChar ) break;
 		}
 		return i;
 	}
 
 	private removeIndentation( lines:string[], indentation:number, tabs:boolean = true ):string[] {
-		for ( let i:number = 0, length = lines.length; i < length; i ++ ) {
+		for( let i:number = 0, length = lines.length; i < length; i ++ ) {
 			let line:string = lines[ i ];
 			if( ! line.trim() ) continue;
 			lines[ i ] = line.substring( indentation );

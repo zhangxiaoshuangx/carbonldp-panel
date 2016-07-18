@@ -107,10 +107,9 @@ System.register(["@angular/core", "@angular/router-deprecated", "carbon-panel/ro
                         styles: [menu_bar_component_css_text_1.default],
                         directives: [router_deprecated_1.ROUTER_DIRECTIVES]
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, router_deprecated_1.Router, (typeof (_a = typeof router_service_1.RouterService !== 'undefined' && router_service_1.RouterService) === 'function' && _a) || Object, (typeof (_b = typeof sidebar_service_1.SidebarService !== 'undefined' && sidebar_service_1.SidebarService) === 'function' && _b) || Object])
+                    __metadata('design:paramtypes', [core_1.ElementRef, router_deprecated_1.Router, router_service_1.RouterService, sidebar_service_1.SidebarService])
                 ], MenuBarComponent);
                 return MenuBarComponent;
-                var _a, _b;
             }());
             exports_1("MenuBarComponent", MenuBarComponent);
             exports_1("default",MenuBarComponent);

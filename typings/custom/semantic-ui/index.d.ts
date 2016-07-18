@@ -294,7 +294,10 @@ interface JQuery {
 	accordion( arguments?:any ):JQuery;
 	checkbox( arguments?:any ):JQuery;
 	dimmer( arguments?:SemanticDimmerArguments ):JQuery;
+
+	dropdown( action:"set selected", selector:string );
 	dropdown( arguments?:SemanticDropdownArguments ):JQuery;
+
 	form( arguments:any ):JQuery;
 
 	modal( action:"attach events" | "", selector:string ):JQuery;
