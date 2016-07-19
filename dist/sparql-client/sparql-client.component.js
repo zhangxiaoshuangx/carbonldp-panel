@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbonldp/Context", "carbonldp/HTTP", "angular2-carbonldp/decorators", "./response/response.component", "carbon-panel/code-mirror/code-mirror.component", "jquery", "semantic-ui/semantic", "./sparql-client.component.html!", "./sparql-client.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbonldp/HTTP", "angular2-carbonldp/decorators", "./response/response.component", "carbon-panel/code-mirror/code-mirror.component", "jquery", "semantic-ui/semantic", "./sparql-client.component.html!", "./sparql-client.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbon
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, Carbon_1, Context_1, HTTP, decorators_1, response_component_1, CodeMirrorComponent, jquery_1, sparql_client_component_html_1, sparql_client_component_css_text_1;
+    var core_1, common_1, Carbon_1, HTTP, decorators_1, response_component_1, CodeMirrorComponent, jquery_1, sparql_client_component_html_1, sparql_client_component_css_text_1;
     var SPARQLClientComponent;
     return {
         setters:[
@@ -22,9 +22,6 @@ System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbon
             },
             function (Carbon_1_1) {
                 Carbon_1 = Carbon_1_1;
-            },
-            function (Context_1_1) {
-                Context_1 = Context_1_1;
             },
             function (HTTP_1) {
                 HTTP = HTTP_1;
@@ -120,6 +117,12 @@ System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbon
                         },
                         load: {
                             name: "LOAD",
+                            formats: [
+                                { value: response_component_1.SPARQLFormats.text, name: "Text" },
+                            ]
+                        },
+                        create: {
+                            name: "CREATE",
                             formats: [
                                 { value: response_component_1.SPARQLFormats.text, name: "Text" },
                             ]
@@ -691,7 +694,7 @@ System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbon
                 };
                 __decorate([
                     core_1.Input(), 
-                    __metadata('design:type', (typeof (_a = typeof Context_1.default !== 'undefined' && Context_1.default) === 'function' && _a) || Object)
+                    __metadata('design:type', Object)
                 ], SPARQLClientComponent.prototype, "context", void 0);
                 __decorate([
                     core_1.Input(), 
@@ -711,10 +714,9 @@ System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbon
                     decorators_1.Authenticated({
                         redirectTo: ["Login"],
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, (typeof (_b = typeof Carbon_1.default !== 'undefined' && Carbon_1.default) === 'function' && _b) || Object])
+                    __metadata('design:paramtypes', [core_1.ElementRef, Carbon_1.default])
                 ], SPARQLClientComponent);
                 return SPARQLClientComponent;
-                var _a, _b;
             }());
             exports_1("SPARQLClientComponent", SPARQLClientComponent);
             exports_1("default",SPARQLClientComponent);

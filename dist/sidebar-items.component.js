@@ -48,10 +48,9 @@ System.register(["@angular/core", "@angular/router-deprecated", "carbon-panel/se
                         styles: [sidebar_items_component_css_text_1.default],
                         directives: [router_deprecated_1.ROUTER_DIRECTIVES, SidebarItemsComponent, collapsible_directive_1.CollapsibleDirective, collapsible_directive_1.CollapsibleTitleDirective, collapsible_directive_1.CollapsibleContentDirective]
                     }), 
-                    __metadata('design:paramtypes', [(typeof (_a = typeof router_service_1.RouterService !== 'undefined' && router_service_1.RouterService) === 'function' && _a) || Object])
+                    __metadata('design:paramtypes', [router_service_1.RouterService])
                 ], SidebarItemsComponent);
                 return SidebarItemsComponent;
-                var _a;
             }());
             exports_1("SidebarItemsComponent", SidebarItemsComponent);
             exports_1("default",SidebarItemsComponent);

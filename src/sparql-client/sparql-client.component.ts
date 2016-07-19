@@ -1,13 +1,13 @@
-import {Component, ElementRef, Input, Output, EventEmitter, OnInit, AfterViewInit} from "@angular/core";
-import {FORM_DIRECTIVES} from "@angular/common";
+import { Component, ElementRef, Input, Output, EventEmitter, OnInit, AfterViewInit } from "@angular/core";
+import { FORM_DIRECTIVES } from "@angular/common";
 
 import Carbon from "carbonldp/Carbon";
 import Context from "carbonldp/Context";
 import * as SPARQL from "carbonldp/SPARQL";
 import * as HTTP from "carbonldp/HTTP";
 
-import {Authenticated} from "angular2-carbonldp/decorators";
-import {ResponseComponent, SPARQLResponseType, SPARQLFormats, SPARQLClientResponse, SPARQLQuery} from "./response/response.component";
+import { Authenticated } from "angular2-carbonldp/decorators";
+import { ResponseComponent, SPARQLResponseType, SPARQLFormats, SPARQLClientResponse, SPARQLQuery } from "./response/response.component";
 import * as CodeMirrorComponent from "carbon-panel/code-mirror/code-mirror.component";
 
 import $ from "jquery";
@@ -100,6 +100,12 @@ export class SPARQLClientComponent implements OnInit, AfterViewInit {
 		},
 		load: {
 			name: "LOAD",
+			formats: [
+				{ value: SPARQLFormats.text, name: "Text" },
+			]
+		},
+		create: {
+			name: "CREATE",
 			formats: [
 				{ value: SPARQLFormats.text, name: "Text" },
 			]
@@ -301,7 +307,7 @@ export class SPARQLClientComponent implements OnInit, AfterViewInit {
 	 * @returns      String. The name of the main SPARQL Query Operation.
 	 */
 	getSPARQLOperation( query:string ):string {
-		switch ( true ) {
+		switch( true ) {
 			case (this.regExpSelect.test( query )):
 				return this.sparqlQueryOperations.select.name;
 			case (this.regExpConstruct.test( query )):
@@ -376,7 +382,7 @@ export class SPARQLClientComponent implements OnInit, AfterViewInit {
 			query = activeResponse.query;
 		}
 		let promise:Promise<SPARQLClientResponse> = null;
-		switch ( type ) {
+		switch( type ) {
 			case this.sparqlTypes.query:
 				promise = this.executeQuery( query );
 				break;
@@ -406,7 +412,7 @@ export class SPARQLClientComponent implements OnInit, AfterViewInit {
 
 	executeQuery( query:SPARQLQuery ):Promise<SPARQLClientResponse> {
 		this.isSending = true;
-		switch ( query.operation ) {
+		switch( query.operation ) {
 			case this.sparqlQueryOperations.select.name:
 				return this.executeSELECT( query );
 			case this.sparqlQueryOperations.describe.name:
@@ -477,7 +483,7 @@ export class SPARQLClientComponent implements OnInit, AfterViewInit {
 		return this.context.documents.executeUPDATE( query.endpoint, query.content ).then(
 			( result:HTTP.Response.Class ):SPARQLClientResponse => {
 				let duration:number = (new Date()).valueOf() - beforeTimestamp;
-				return this.buildResponse( duration, result.request.status + " - " + result.request.statusText, <string> SPARQLResponseType.success, query );
+				return this.buildResponse( duration, (<XMLHttpRequest>result.request).status + " - " + (<XMLHttpRequest>result.request).statusText, <string> SPARQLResponseType.success, query );
 			},
 			( error:HTTP.Errors.Error ):Promise<SPARQLClientResponse> => {
 				return this.handleError( error, query, beforeTimestamp );
@@ -516,7 +522,7 @@ export class SPARQLClientComponent implements OnInit, AfterViewInit {
 
 	addResponse( response:SPARQLClientResponse ):void {
 		let responsesLength:number = this.responses.length, i:number;
-		for ( i = responsesLength; i > 0; i -- ) {
+		for( i = responsesLength; i > 0; i -- ) {
 			this.responses[ i ] = this.responses[ i - 1 ];
 		}
 		this.responses[ 0 ] = response;
@@ -675,7 +681,7 @@ export class SPARQLClientComponent implements OnInit, AfterViewInit {
 	}
 
 	getMessage( error:any ):Message {
-		switch ( typeof error ) {
+		switch( typeof error ) {
 			case "string":
 				return <Message>{
 					title: error,

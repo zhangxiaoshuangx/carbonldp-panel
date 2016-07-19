@@ -34,6 +34,8 @@ let config = {
 	}
 };
 
+gulp.task( "default", [ "build" ] );
+
 gulp.task( "build", [ "clean:dist" ], ( done ) => {
 	runSequence(
 		"clean:dist",

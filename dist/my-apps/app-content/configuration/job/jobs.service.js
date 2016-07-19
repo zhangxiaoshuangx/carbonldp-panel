@@ -120,10 +120,9 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/Utils", "./job"
                 };
                 JobsService = __decorate([
                     core_1.Injectable(), 
-                    __metadata('design:paramtypes', [(typeof (_a = typeof Carbon_1.default !== 'undefined' && Carbon_1.default) === 'function' && _a) || Object])
+                    __metadata('design:paramtypes', [Carbon_1.default])
                 ], JobsService);
                 return JobsService;
-                var _a;
             }());
             exports_1("JobsService", JobsService);
             exports_1("default",JobsService);
