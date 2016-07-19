@@ -1,0 +1,1 @@
+{"version":3,"sources":["errors-area.component.css"],"names":[],"mappings":"AAAA;EACE,eAAe,EAAE;EACjB;IACE,sBAAsB,EAAE","file":"errors-area/errors-area.component.css","sourcesContent":[":host {\n  display: block; }\n  :host > .ui.message, :host .ui.message:first-child {\n    margin: 1em 2em 0 2em; }\n"],"sourceRoot":"/source/"}

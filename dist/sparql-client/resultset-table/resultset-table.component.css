@@ -1,0 +1,10 @@
+:host {
+  display: block; }
+  :host .warning {
+    background-color: #fafad2; }
+  :host .success {
+    background-color: #90ee90; }
+  :host > .table-container {
+    overflow-x: scroll; }
+
+/*# sourceMappingURL=resultset-table.component.css.map */
