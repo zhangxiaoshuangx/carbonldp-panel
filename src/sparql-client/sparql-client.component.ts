@@ -1,13 +1,13 @@
-import { Component, ElementRef, Input, Output, EventEmitter, OnInit, AfterViewInit } from "@angular/core";
-import { FORM_DIRECTIVES } from "@angular/common";
+import {Component, ElementRef, Input, Output, EventEmitter, OnInit, AfterViewInit} from "@angular/core";
+import {FORM_DIRECTIVES} from "@angular/common";
 
 import Carbon from "carbonldp/Carbon";
 import Context from "carbonldp/Context";
 import * as SPARQL from "carbonldp/SPARQL";
 import * as HTTP from "carbonldp/HTTP";
 
-import { Authenticated } from "angular2-carbonldp/decorators";
-import { ResponseComponent, SPARQLResponseType, SPARQLFormats, SPARQLClientResponse, SPARQLQuery } from "./response/response.component";
+import {Authenticated} from "angular2-carbonldp/decorators";
+import {ResponseComponent, SPARQLResponseType, SPARQLFormats, SPARQLClientResponse, SPARQLQuery} from "./response/response.component";
 import * as CodeMirrorComponent from "carbon-panel/code-mirror/code-mirror.component";
 
 import $ from "jquery";
@@ -68,6 +68,42 @@ export class SPARQLClientComponent implements OnInit, AfterViewInit {
 				{ value: SPARQLFormats.boolean, name: "Boolean" },
 			],
 		},
+		update: {
+			name: "UPDATE",
+			formats: [
+				{ value: SPARQLFormats.text, name: "Text" },
+			]
+		},
+		clear: {
+			name: "CLEAR",
+			formats: [
+				{ value: SPARQLFormats.text, name: "Text" },
+			]
+		},
+		insert: {
+			name: "INSERT",
+			formats: [
+				{ value: SPARQLFormats.text, name: "Text" },
+			]
+		},
+		"delete": {
+			name: "DELETE",
+			formats: [
+				{ value: SPARQLFormats.text, name: "Text" },
+			]
+		},
+		drop: {
+			name: "DROP",
+			formats: [
+				{ value: SPARQLFormats.text, name: "Text" },
+			]
+		},
+		load: {
+			name: "LOAD",
+			formats: [
+				{ value: SPARQLFormats.text, name: "Text" },
+			]
+		}
 	};
 
 	isQueryType:boolean = true;
@@ -114,6 +150,12 @@ export class SPARQLClientComponent implements OnInit, AfterViewInit {
 	regExpAsk:RegExp = new RegExp( "((.|\n)+)?ASK((.|\n)+)?", "i" );
 	regExpDescribe:RegExp = new RegExp( "((.|\n)+)?DESCRIBE((.|\n)+)?", "i" );
 	regExpURL:RegExp = new RegExp( "(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})" );
+	regExpInsert:RegExp = new RegExp( "((.|\n)+)?INSERT((.|\n)+)?", "i" );
+	regExpDelete:RegExp = new RegExp( "((.|\n)+)?DELETE((.|\n)+)?", "i" );
+	regExpClear:RegExp = new RegExp( "((.|\n)+)?CLEAR((.|\n)+)?", "i" );
+	regExpCreate:RegExp = new RegExp( "((.|\n)+)?CREATE((.|\n)+)?", "i" );
+	regExpDrop:RegExp = new RegExp( "((.|\n)+)?DROP((.|\n)+)?", "i" );
+	regExpLoad:RegExp = new RegExp( "((.|\n)+)?LOAD((.|\n)+)?", "i" );
 
 	// Inputs and Outputs
 	@Input() context:Context;
@@ -268,6 +310,18 @@ export class SPARQLClientComponent implements OnInit, AfterViewInit {
 				return this.sparqlQueryOperations.ask.name;
 			case (this.regExpDescribe.test( query )):
 				return this.sparqlQueryOperations.describe.name;
+			case (this.regExpInsert.test( query )):
+				return this.sparqlQueryOperations.insert.name;
+			case (this.regExpDelete.test( query )):
+				return this.sparqlQueryOperations.delete.name;
+			case (this.regExpClear.test( query )):
+				return this.sparqlQueryOperations.clear.name;
+			case (this.regExpCreate.test( query )):
+				return this.sparqlQueryOperations.create.name;
+			case (this.regExpDrop.test( query )):
+				return this.sparqlQueryOperations.drop.name;
+			case (this.regExpLoad.test( query )):
+				return this.sparqlQueryOperations.load.name;
 			default:
 				return null;
 		}
@@ -418,10 +472,16 @@ export class SPARQLClientComponent implements OnInit, AfterViewInit {
 	}
 
 	executeUPDATE( query:SPARQLQuery ):Promise<SPARQLClientResponse> {
-		// TODO: Implement UPDATE when SDK is ready
-		return new Promise( ( resolve:() => string, reject:( msg:string ) => string ) => {
-			reject( "Unsupported Operation" );
-		} );
+		this.isSending = true;
+		let beforeTimestamp:number = ( new Date() ).valueOf();
+		return this.context.documents.executeUPDATE( query.endpoint, query.content ).then(
+			( result:HTTP.Response.Class ):SPARQLClientResponse => {
+				let duration:number = (new Date()).valueOf() - beforeTimestamp;
+				return this.buildResponse( duration, result.request.status + " - " + result.request.statusText, <string> SPARQLResponseType.success, query );
+			},
+			( error:HTTP.Errors.Error ):Promise<SPARQLClientResponse> => {
+				return this.handleError( error, query, beforeTimestamp );
+			} );
 	}
 
 	canExecute():boolean {
@@ -687,6 +747,12 @@ export interface SPARQLQueryOperations {
 	describe:SPARQLQueryOperation;
 	construct:SPARQLQueryOperation;
 	ask:SPARQLQueryOperation;
+	insert:SPARQLQueryOperation;
+	"delete":SPARQLQueryOperation;
+	clear:SPARQLQueryOperation;
+	create:SPARQLQueryOperation;
+	drop:SPARQLQueryOperation;
+	load:SPARQLQueryOperation;
 }
 export interface SPARQLTypes {
 	query:string;

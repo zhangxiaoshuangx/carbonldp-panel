@@ -31,6 +31,12 @@ export declare class SPARQLClientComponent implements OnInit, AfterViewInit {
     regExpAsk: RegExp;
     regExpDescribe: RegExp;
     regExpURL: RegExp;
+    regExpInsert: RegExp;
+    regExpDelete: RegExp;
+    regExpClear: RegExp;
+    regExpCreate: RegExp;
+    regExpDrop: RegExp;
+    regExpLoad: RegExp;
     context: Context;
     emitErrors: boolean;
     errorOccurs: EventEmitter<any>;
@@ -40,7 +46,7 @@ export declare class SPARQLClientComponent implements OnInit, AfterViewInit {
     private carbon;
     private _sparql;
     private _endpoint;
-    readonly codeMirrorMode: typeof CodeMirrorComponent.Mode;
+    codeMirrorMode: typeof CodeMirrorComponent.Mode;
     sparql: string;
     endpoint: string;
     constructor(element: ElementRef, carbon: Carbon);
@@ -115,6 +121,12 @@ export interface SPARQLQueryOperations {
     describe: SPARQLQueryOperation;
     construct: SPARQLQueryOperation;
     ask: SPARQLQueryOperation;
+    insert: SPARQLQueryOperation;
+    "delete": SPARQLQueryOperation;
+    clear: SPARQLQueryOperation;
+    create: SPARQLQueryOperation;
+    drop: SPARQLQueryOperation;
+    load: SPARQLQueryOperation;
 }
 export interface SPARQLTypes {
     query: string;

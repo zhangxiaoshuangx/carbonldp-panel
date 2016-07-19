@@ -13,11 +13,11 @@ export declare class ResponseComponent implements AfterViewInit, OnInit {
     onConfigure: EventEmitter<SPARQLClientResponse>;
     onReExecute: EventEmitter<SPARQLClientResponse>;
     sparqlFormats: SPARQLFormats;
-    readonly codeMirrorMode: typeof CodeMirrorComponent.Mode;
+    codeMirrorMode: typeof CodeMirrorComponent.Mode;
     accordion: any;
     accordionOpen: boolean;
     menu: any;
-    readonly responseType: typeof SPARQLResponseType;
+    responseType: typeof SPARQLResponseType;
     constructor(element: ElementRef);
     ngOnInit(): void;
     ngAfterViewInit(): void;
@@ -53,6 +53,7 @@ export declare class SPARQLFormats {
     static nquads: string;
     static rdfa: string;
     static boolean: string;
+    static text: string;
 }
 export interface SPARQLQuery {
     endpoint: string;

@@ -64,9 +64,10 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
                         styles: [header_component_css_text_1.default],
                         directives: [common_1.CORE_DIRECTIVES, router_deprecated_1.ROUTER_DIRECTIVES, header_item_component_1.HeaderItemComponent]
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, header_service_1.HeaderService])
+                    __metadata('design:paramtypes', [core_1.ElementRef, (typeof (_a = typeof header_service_1.HeaderService !== 'undefined' && header_service_1.HeaderService) === 'function' && _a) || Object])
                 ], HeaderComponent);
                 return HeaderComponent;
+                var _a;
             }());
             exports_1("HeaderComponent", HeaderComponent);
             exports_1("default",HeaderComponent);

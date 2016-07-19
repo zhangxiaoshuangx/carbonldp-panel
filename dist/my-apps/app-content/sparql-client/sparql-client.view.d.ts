@@ -7,5 +7,6 @@ export declare class SPARQLClientView {
     appContext: App.Context;
     private errorsAreaService;
     constructor(errorsAreaService: ErrorsAreaService, appContent: AppContentView);
+    notifyErrorAreaService(error: any): void;
 }
 export default SPARQLClientView;

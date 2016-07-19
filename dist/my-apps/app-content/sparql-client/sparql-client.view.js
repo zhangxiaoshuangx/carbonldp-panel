@@ -39,6 +39,9 @@ System.register(["@angular/core", "carbon-panel/my-apps/app-content/app-content.
                     this.appContext = appContent.app.context;
                     this.errorsAreaService = errorsAreaService;
                 }
+                SPARQLClientView.prototype.notifyErrorAreaService = function (error) {
+                    this.errorsAreaService.addError(error.title, error.content, error.statusCode, error.statusMessage, error.endpoint);
+                };
                 SPARQLClientView = __decorate([
                     core_1.Component({
                         selector: "cp-sparql-client-view",
@@ -48,9 +51,10 @@ System.register(["@angular/core", "carbon-panel/my-apps/app-content/app-content.
                     }),
                     __param(1, core_1.Host()),
                     __param(1, core_1.Inject(core_1.forwardRef(function () { return app_content_view_1.AppContentView; }))), 
-                    __metadata('design:paramtypes', [errors_area_service_1.ErrorsAreaService, app_content_view_1.AppContentView])
+                    __metadata('design:paramtypes', [(typeof (_a = typeof errors_area_service_1.ErrorsAreaService !== 'undefined' && errors_area_service_1.ErrorsAreaService) === 'function' && _a) || Object, (typeof (_b = typeof app_content_view_1.AppContentView !== 'undefined' && app_content_view_1.AppContentView) === 'function' && _b) || Object])
                 ], SPARQLClientView);
                 return SPARQLClientView;
+                var _a, _b;
             }());
             exports_1("SPARQLClientView", SPARQLClientView);
             exports_1("default",SPARQLClientView);

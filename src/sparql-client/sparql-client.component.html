@@ -55,17 +55,12 @@
 										</div>
 										<div class="fields row">
 											<div class=" column field">
-												<label>Query: {{codeMirrorMode.SPARQL}}</label>
+												<label>Query:</label>
 												<cp-code-mirror [mode]="codeMirrorMode.SPARQL" [readOnly]="isSending" [(value)]="sparql" [showLineNumbers]="true"></cp-code-mirror>
 											</div>
 										</div>
 										<div class="fields row">
 											<div class="column field">
-												<!--<button class="ui button"-->
-												<!--[ngClass]="{disabled:!currentQuery.content}">-->
-												<!--<i class="checkmark icon"></i>-->
-												<!--Validate-->
-												<!--</button>-->
 												<button class="ui blue button"
 												        [ngClass]="{disabled: !canExecute()}"
 												        (click)="onExecute()">

@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbonldp/HTTP", "angular2-carbonldp/decorators", "./response/response.component", "carbon-panel/code-mirror/code-mirror.component", "jquery", "semantic-ui/semantic", "./sparql-client.component.html!", "./sparql-client.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbonldp/Context", "carbonldp/HTTP", "angular2-carbonldp/decorators", "./response/response.component", "carbon-panel/code-mirror/code-mirror.component", "jquery", "semantic-ui/semantic", "./sparql-client.component.html!", "./sparql-client.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbon
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, Carbon_1, HTTP, decorators_1, response_component_1, CodeMirrorComponent, jquery_1, sparql_client_component_html_1, sparql_client_component_css_text_1;
+    var core_1, common_1, Carbon_1, Context_1, HTTP, decorators_1, response_component_1, CodeMirrorComponent, jquery_1, sparql_client_component_html_1, sparql_client_component_css_text_1;
     var SPARQLClientComponent;
     return {
         setters:[
@@ -22,6 +22,9 @@ System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbon
             },
             function (Carbon_1_1) {
                 Carbon_1 = Carbon_1_1;
+            },
+            function (Context_1_1) {
+                Context_1 = Context_1_1;
             },
             function (HTTP_1) {
                 HTTP = HTTP_1;
@@ -85,6 +88,42 @@ System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbon
                                 { value: response_component_1.SPARQLFormats.boolean, name: "Boolean" },
                             ],
                         },
+                        update: {
+                            name: "UPDATE",
+                            formats: [
+                                { value: response_component_1.SPARQLFormats.text, name: "Text" },
+                            ]
+                        },
+                        clear: {
+                            name: "CLEAR",
+                            formats: [
+                                { value: response_component_1.SPARQLFormats.text, name: "Text" },
+                            ]
+                        },
+                        insert: {
+                            name: "INSERT",
+                            formats: [
+                                { value: response_component_1.SPARQLFormats.text, name: "Text" },
+                            ]
+                        },
+                        "delete": {
+                            name: "DELETE",
+                            formats: [
+                                { value: response_component_1.SPARQLFormats.text, name: "Text" },
+                            ]
+                        },
+                        drop: {
+                            name: "DROP",
+                            formats: [
+                                { value: response_component_1.SPARQLFormats.text, name: "Text" },
+                            ]
+                        },
+                        load: {
+                            name: "LOAD",
+                            formats: [
+                                { value: response_component_1.SPARQLFormats.text, name: "Text" },
+                            ]
+                        }
                     };
                     this.isQueryType = true;
                     this.isSending = false;
@@ -116,6 +155,12 @@ System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbon
                     this.regExpAsk = new RegExp("((.|\n)+)?ASK((.|\n)+)?", "i");
                     this.regExpDescribe = new RegExp("((.|\n)+)?DESCRIBE((.|\n)+)?", "i");
                     this.regExpURL = new RegExp("(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})");
+                    this.regExpInsert = new RegExp("((.|\n)+)?INSERT((.|\n)+)?", "i");
+                    this.regExpDelete = new RegExp("((.|\n)+)?DELETE((.|\n)+)?", "i");
+                    this.regExpClear = new RegExp("((.|\n)+)?CLEAR((.|\n)+)?", "i");
+                    this.regExpCreate = new RegExp("((.|\n)+)?CREATE((.|\n)+)?", "i");
+                    this.regExpDrop = new RegExp("((.|\n)+)?DROP((.|\n)+)?", "i");
+                    this.regExpLoad = new RegExp("((.|\n)+)?LOAD((.|\n)+)?", "i");
                     this.emitErrors = false;
                     this.errorOccurs = new core_1.EventEmitter();
                     // TODO: Make them configurable
@@ -265,6 +310,18 @@ System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbon
                             return this.sparqlQueryOperations.ask.name;
                         case (this.regExpDescribe.test(query)):
                             return this.sparqlQueryOperations.describe.name;
+                        case (this.regExpInsert.test(query)):
+                            return this.sparqlQueryOperations.insert.name;
+                        case (this.regExpDelete.test(query)):
+                            return this.sparqlQueryOperations.delete.name;
+                        case (this.regExpClear.test(query)):
+                            return this.sparqlQueryOperations.clear.name;
+                        case (this.regExpCreate.test(query)):
+                            return this.sparqlQueryOperations.create.name;
+                        case (this.regExpDrop.test(query)):
+                            return this.sparqlQueryOperations.drop.name;
+                        case (this.regExpLoad.test(query)):
+                            return this.sparqlQueryOperations.load.name;
                         default:
                             return null;
                     }
@@ -396,9 +453,14 @@ System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbon
                     });
                 };
                 SPARQLClientComponent.prototype.executeUPDATE = function (query) {
-                    // TODO: Implement UPDATE when SDK is ready
-                    return new Promise(function (resolve, reject) {
-                        reject("Unsupported Operation");
+                    var _this = this;
+                    this.isSending = true;
+                    var beforeTimestamp = (new Date()).valueOf();
+                    return this.context.documents.executeUPDATE(query.endpoint, query.content).then(function (result) {
+                        var duration = (new Date()).valueOf() - beforeTimestamp;
+                        return _this.buildResponse(duration, result.request.status + " - " + result.request.statusText, response_component_1.SPARQLResponseType.success, query);
+                    }, function (error) {
+                        return _this.handleError(error, query, beforeTimestamp);
                     });
                 };
                 SPARQLClientComponent.prototype.canExecute = function () {
@@ -629,7 +691,7 @@ System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbon
                 };
                 __decorate([
                     core_1.Input(), 
-                    __metadata('design:type', Object)
+                    __metadata('design:type', (typeof (_a = typeof Context_1.default !== 'undefined' && Context_1.default) === 'function' && _a) || Object)
                 ], SPARQLClientComponent.prototype, "context", void 0);
                 __decorate([
                     core_1.Input(), 
@@ -649,9 +711,10 @@ System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbon
                     decorators_1.Authenticated({
                         redirectTo: ["Login"],
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, Carbon_1.default])
+                    __metadata('design:paramtypes', [core_1.ElementRef, (typeof (_b = typeof Carbon_1.default !== 'undefined' && Carbon_1.default) === 'function' && _b) || Object])
                 ], SPARQLClientComponent);
                 return SPARQLClientComponent;
+                var _a, _b;
             }());
             exports_1("SPARQLClientComponent", SPARQLClientComponent);
             exports_1("default",SPARQLClientComponent);

@@ -194,6 +194,7 @@ System.register(["@angular/core", "carbon-panel/code-mirror/code-mirror.componen
                 SPARQLFormats.nquads = "text/x-nquads";
                 SPARQLFormats.rdfa = "application/xhtml+xml";
                 SPARQLFormats.boolean = "boolean";
+                SPARQLFormats.text = "text/plain";
                 return SPARQLFormats;
             }());
             exports_1("SPARQLFormats", SPARQLFormats);

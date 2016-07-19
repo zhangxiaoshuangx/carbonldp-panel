@@ -43,6 +43,8 @@ export class ResultsetTableComponent implements OnChanges {
 
 		let index:number = this.resultset.head.vars.indexOf( columnName );
 		this.bindings.sort( ( bindingA, bindingB ) => {
+			if(! bindingA[ index ] )return this.ascending ? 1 : - 1;
+			if(! bindingB[ index ] )return this.ascending ? -1 : 1;
 			if( bindingA[ index ].value > bindingB[ index ].value ) return this.ascending ? - 1 : 1;
 			if( bindingA[ index ].value < bindingB[ index ].value ) return this.ascending ? 1 : - 1;
 			return 0;
