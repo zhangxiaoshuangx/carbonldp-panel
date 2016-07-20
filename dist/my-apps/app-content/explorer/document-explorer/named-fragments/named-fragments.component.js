@@ -57,6 +57,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "./named-fragment.compone
                     if ((changes["namedFragments"].currentValue !== changes["namedFragments"].previousValue)) {
                         this.openedNamedFragments = [];
                         this.goToNamedFragment("all-namedFragments");
+                        this.namedFragmentsChanges.clear();
                     }
                 };
                 NamedFragmentsComponent.prototype.getPropertiesName = function (property) {

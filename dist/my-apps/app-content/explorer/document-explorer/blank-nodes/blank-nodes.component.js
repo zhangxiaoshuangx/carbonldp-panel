@@ -54,6 +54,7 @@ System.register(["@angular/core", "./blank-node.component", "./../property/prope
                     if ((changes["bNodes"].currentValue !== changes["bNodes"].previousValue)) {
                         this.openedBNodes = [];
                         this.goToBNode("all");
+                        this.bNodesChanges.clear();
                     }
                 };
                 BlankNodesComponent.prototype.getPropertiesName = function (property) {

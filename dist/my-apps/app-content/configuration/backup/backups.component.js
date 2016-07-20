@@ -60,7 +60,7 @@ System.register(["@angular/core", "carbonldp/App", "../job/jobs.service", "../jo
                 };
                 __decorate([
                     core_1.Input(), 
-                    __metadata('design:type', App.Context)
+                    __metadata('design:type', Object)
                 ], BackupsComponent.prototype, "appContext", void 0);
                 BackupsComponent = __decorate([
                     core_1.Component({
