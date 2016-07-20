@@ -49,6 +49,7 @@ export class BlankNodesComponent implements AfterViewInit, OnChanges {
 		if( ( changes[ "bNodes" ].currentValue !== changes[ "bNodes" ].previousValue ) ) {
 			this.openedBNodes = [];
 			this.goToBNode( "all" );
+			this.bNodesChanges.clear();
 		}
 	}
 
