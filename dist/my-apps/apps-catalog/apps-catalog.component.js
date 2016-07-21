@@ -210,10 +210,9 @@ System.register(["@angular/core", "@angular/router-deprecated", "rxjs/Rx", "carb
                         styles: [":host { display: block; }"],
                         directives: [router_deprecated_1.ROUTER_DIRECTIVES, apps_tiles_component_1.AppsTilesComponent, apps_list_component_1.AppsListComponent],
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, router_deprecated_1.Router, app_context_service_1.AppContextService, (typeof (_a = typeof Carbon_1.default !== 'undefined' && Carbon_1.default) === 'function' && _a) || Object, my_apps_sidebar_service_1.MyAppsSidebarService])
+                    __metadata('design:paramtypes', [core_1.ElementRef, router_deprecated_1.Router, app_context_service_1.AppContextService, Carbon_1.default, my_apps_sidebar_service_1.MyAppsSidebarService])
                 ], AppsCatalogComponent);
                 return AppsCatalogComponent;
-                var _a;
             }());
             exports_1("AppsCatalogComponent", AppsCatalogComponent);
             exports_1("default",AppsCatalogComponent);

@@ -1,0 +1,6 @@
+<div class="ui top attached tabular menu">
+	<template ngFor let-title [ngForOf]="titles" let-i="index">
+		<a class="item" [class.active]="activeTab === i" (click)="onTitleClick( i );">{{title}}</a>
+	</template>
+</div>
+<ng-content></ng-content>
