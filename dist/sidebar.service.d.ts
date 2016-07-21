@@ -4,10 +4,10 @@ export declare class SidebarService {
     private _toggleEmitter;
     private _toggledEmitter;
     private _isVisible;
-    readonly items: SidebarItem[];
-    readonly toggleEmitter: EventEmitter<any>;
-    readonly toggledEmitter: EventEmitter<any>;
-    readonly isVisible: boolean;
+    items: SidebarItem[];
+    toggleEmitter: EventEmitter<any>;
+    toggledEmitter: EventEmitter<any>;
+    isVisible: boolean;
     constructor();
     addAppEmitter: EventEmitter<any>;
     addItem(item: SidebarLink | SidebarSubmenu | SidebarDivider | SidebarGroup): void;

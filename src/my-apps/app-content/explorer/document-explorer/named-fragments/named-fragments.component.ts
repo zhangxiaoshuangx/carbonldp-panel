@@ -50,6 +50,7 @@ export class NamedFragmentsComponent implements AfterContentInit, OnChanges {
 		if( ( changes[ "namedFragments" ].currentValue !== changes[ "namedFragments" ].previousValue ) ) {
 			this.openedNamedFragments = [];
 			this.goToNamedFragment( "all-namedFragments" );
+			this.namedFragmentsChanges.clear();
 		}
 	}
 
