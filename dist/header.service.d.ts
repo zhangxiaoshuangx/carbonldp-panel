@@ -3,7 +3,7 @@ export declare class HeaderService {
     logo: HeaderLogo;
     private _items;
     constructor();
-    items: HeaderItem[];
+    readonly items: HeaderItem[];
     addItems(items: HeaderItem[]): void;
     addItem(item: HeaderItem): void;
     private sortItems(items);

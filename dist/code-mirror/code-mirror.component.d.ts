@@ -32,16 +32,16 @@ export declare class Class implements AfterContentInit, OnChanges, OnDestroy {
     private setNoCursor(noCursor);
 }
 export declare class Mode {
-    static CSS: string;
-    static JAVASCRIPT: string;
-    static JSONLD: string;
-    static JSONDRDF: string;
-    static N3: string;
-    static RDFXML: string;
-    static CSV: string;
-    static TSV: string;
-    static SPARQL: string;
-    static XML: string;
-    static TURTLE: string;
+    static readonly CSS: string;
+    static readonly JAVASCRIPT: string;
+    static readonly JSONLD: string;
+    static readonly JSONDRDF: string;
+    static readonly N3: string;
+    static readonly RDFXML: string;
+    static readonly CSV: string;
+    static readonly TSV: string;
+    static readonly SPARQL: string;
+    static readonly XML: string;
+    static readonly TURTLE: string;
 }
 export default Class;
