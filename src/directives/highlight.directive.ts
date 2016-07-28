@@ -4,7 +4,7 @@ import Highlight from "highlight.js";
 import "highlight.js/styles/tomorrow-night.css!";
 
 @Directive( {
-	selector: "[cphighlight]",
+	selector: "[cpHighlight]",
 } )
 export class HighlightDirective implements AfterViewInit {
 	constructor( private element:ElementRef ) {}
