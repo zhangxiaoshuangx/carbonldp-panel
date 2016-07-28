@@ -24,7 +24,7 @@ System.register(["./semantic/accordion.component", "./semantic/collapsible.direc
                 collapsible_directive_1.CollapsibleTitleDirective,
                 collapsible_directive_1.CollapsibleContentDirective,
                 tabs_component_1.TabsComponent,
-                tab_component_1.TabComponent
+                tab_component_1.TabComponent,
             ]);
         }
     }
