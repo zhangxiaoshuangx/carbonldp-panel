@@ -30,8 +30,8 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 
 	element:ElementRef;
 	$element:JQuery;
-	literals:LiteralRow[];
-	pointers:PointerRow[];
+	literals:LiteralRow[] = [];
+	pointers:PointerRow[] = [];
 	tempLiterals:LiteralRow[];
 	tempPointers:PointerRow[];
 	tempProperty:Property = <Property>{};
@@ -194,7 +194,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	save():void {
-		this.checkForChangesOnName( this.nameInput.value )
+		this.checkForChangesOnName( this.nameInput.value );
 		this.mode = Modes.READ;
 	}
 

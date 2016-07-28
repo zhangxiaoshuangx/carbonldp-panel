@@ -10,10 +10,10 @@ import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 import { DocumentsResolverService } from "./../documents-resolver.service";
 import { DocumentResourceComponent } from "./../document-resource/document-resource.component";
 import { RootRecords } from "./../document-resource/document-resource.component";
-import { BlankNodesComponent } from "./../blank-nodes/blank-nodes.component";
+import { BlankNodesComponent, BlankNodesRecords } from "./../blank-nodes/blank-nodes.component";
 import { NamedFragmentsComponent }from "./../named-fragments/named-fragments.component";
 import { PropertyComponent } from "./../property/property.component";
-import { BlankNodeRecords } from "./../blank-nodes/blank-node.component";
+import { BlankNodeRecords, BlankNodeRow } from "./../blank-nodes/blank-node.component";
 import { NamedFragmentRecords } from "./../named-fragments/named-fragment.component";
 
 import $ from "jquery";
@@ -35,14 +35,14 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	$element:JQuery;
 	sections:string[] = [ "bNodes", "namedFragments", "documentResource" ];
 	rootNode:RDFNode.Class;
-	bNodes:RDFNode.Class[] = [];
+	bNodes:BlankNodeRow[] = [];
 	namedFragments:RDFNode.Class[] = [];
 	savingErrorMessage:Message;
 
 	rootNodeHasChanged:boolean = false;
 	rootNodeRecords:RootRecords;
 	bNodesHaveChanged:boolean = false;
-	bNodesChanges:Map<string, BlankNodeRecords>;
+	bNodesChanges:BlankNodesRecords;
 	namedFragmentsHaveChanged:boolean = false;
 	namedFragmentsChanges:Map<string, NamedFragmentRecords>;
 
@@ -130,12 +130,32 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	}
 
 	generateFragments():void {
-		this.bNodes = RDFDocument.Util.getBNodeResources( this.document );
+		// this.bNodes = RDFDocument.Util.getBNodeResources( this.document );
+		this.bNodes = RDFDocument.Util.getBNodeResources( this.document ).map(
+			( bNode:RDFNode.Class )=> {
+				return {
+					id: bNode[ "@id" ],
+					bNodeIdentifier: bNode[ "https://carbonldp.com/ns/v1/platform#bNodeIdentifier" ][ 0 ][ "@value" ],
+					copy: bNode
+				}
+			} );
+
+		// this.getBlankNodes();
 		this.namedFragments = RDFDocument.Util.getFragmentResources( this.document );
 	}
 
+	getBlankNodes():void {
+		let bNodes = RDFDocument.Util.getBNodeResources( this.document );
+		bNodes.forEach( ( bNode:RDFNode.Class )=> {
+			this.bNodes.push( {
+				copy: bNode
+			} );
+		} );
+		console.log( this.bNodes );
+	}
+
 	openBNode( id:string ):void {
-		this.documentBNodes.openBNode( id );
+		this.documentBNodes.openBlankNode( id );
 		this.goToSection( "bNodes" );
 	}
 
@@ -159,9 +179,9 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 		this.rootNodeHasChanged = records.changes.size > 0 || records.additions.size > 0 || records.deletions.size > 0;
 	}
 
-	registerBNodeChanges( bNodeChanges:Map<string, BlankNodeRecords> ):void {
+	registerBlankNodesChanges( bNodeChanges:BlankNodesRecords ):void {
 		this.bNodesChanges = bNodeChanges;
-		this.bNodesHaveChanged = bNodeChanges.size > 0;
+		this.bNodesHaveChanged = bNodeChanges.changes.size > 0 || bNodeChanges.additions.size > 0 || bNodeChanges.deletions.size > 0;
 	}
 
 	registerNamedFragmentsChanges( namedFragmentsChanges:Map<string, NamedFragmentRecords> ):void {
@@ -190,6 +210,11 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	}
 
 	modifyBNodesWithChanges():void {
+		// Change this to use the propertyRow.modified variable to update the modified blank node.
+		// this.bNodesChanges.changes.forEach( ( blankNodeRow:BlankNodeRow, blankNodeId:string )=> {
+		// 	tempBNode = this.bNodes.find( (bNode => {return bNode[ "@id" ] === blankNodeId}) );
+		//
+		// } );
 		let tempBNode;
 		this.bNodesChanges.forEach( ( bNodeRecords:BlankNodeRecords, bNodeId:string )=> {
 			tempBNode = this.bNodes.find( (bNode => {return bNode[ "@id" ] === bNodeId}) );

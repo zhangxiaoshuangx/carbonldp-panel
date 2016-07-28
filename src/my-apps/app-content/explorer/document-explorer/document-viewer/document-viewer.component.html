@@ -44,12 +44,12 @@
 					<div class="ui tab segment" data-tab="bNodes">
 						<cp-blank-nodes class="column"
 						                [documentURI]="document['@id']"
-						                [bNodes]="bNodes"
+						                [blankNodes]="bNodes"
 						                [namedFragments]="namedFragments"
 
 						                (onOpenBNode)="goToSection($event)"
 						                (onOpenNamedFragment)="openNamedFragment($event)"
-						                (onChanges)="registerBNodeChanges($event)"></cp-blank-nodes>
+						                (onChanges)="registerBlankNodesChanges($event)"></cp-blank-nodes>
 					</div>
 					<div class="ui tab segment" data-tab="namedFragments">
 						<cp-named-fragments class="column"

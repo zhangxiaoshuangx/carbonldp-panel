@@ -136,11 +136,29 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     return this.documentsResolverService.get(uri, documentContext);
                 };
                 DocumentViewerComponent.prototype.generateFragments = function () {
-                    this.bNodes = RDFDocument.Util.getBNodeResources(this.document);
+                    // this.bNodes = RDFDocument.Util.getBNodeResources( this.document );
+                    this.bNodes = RDFDocument.Util.getBNodeResources(this.document).map(function (bNode) {
+                        return {
+                            id: bNode["@id"],
+                            bNodeIdentifier: bNode["https://carbonldp.com/ns/v1/platform#bNodeIdentifier"][0]["@value"],
+                            copy: bNode
+                        };
+                    });
+                    // this.getBlankNodes();
                     this.namedFragments = RDFDocument.Util.getFragmentResources(this.document);
                 };
+                DocumentViewerComponent.prototype.getBlankNodes = function () {
+                    var _this = this;
+                    var bNodes = RDFDocument.Util.getBNodeResources(this.document);
+                    bNodes.forEach(function (bNode) {
+                        _this.bNodes.push({
+                            copy: bNode
+                        });
+                    });
+                    console.log(this.bNodes);
+                };
                 DocumentViewerComponent.prototype.openBNode = function (id) {
-                    this.documentBNodes.openBNode(id);
+                    this.documentBNodes.openBlankNode(id);
                     this.goToSection("bNodes");
                 };
                 DocumentViewerComponent.prototype.openNamedFragment = function (id) {
@@ -160,9 +178,9 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     this.rootNodeRecords = records;
                     this.rootNodeHasChanged = records.changes.size > 0 || records.additions.size > 0 || records.deletions.size > 0;
                 };
-                DocumentViewerComponent.prototype.registerBNodeChanges = function (bNodeChanges) {
+                DocumentViewerComponent.prototype.registerBlankNodesChanges = function (bNodeChanges) {
                     this.bNodesChanges = bNodeChanges;
-                    this.bNodesHaveChanged = bNodeChanges.size > 0;
+                    this.bNodesHaveChanged = bNodeChanges.changes.size > 0 || bNodeChanges.additions.size > 0 || bNodeChanges.deletions.size > 0;
                 };
                 DocumentViewerComponent.prototype.registerNamedFragmentsChanges = function (namedFragmentsChanges) {
                     this.namedFragmentsChanges = namedFragmentsChanges;
@@ -190,6 +208,11 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 };
                 DocumentViewerComponent.prototype.modifyBNodesWithChanges = function () {
                     var _this = this;
+                    // Change this to use the propertyRow.modified variable to update the modified blank node.
+                    // this.bNodesChanges.changes.forEach( ( blankNodeRow:BlankNodeRow, blankNodeId:string )=> {
+                    // 	tempBNode = this.bNodes.find( (bNode => {return bNode[ "@id" ] === blankNodeId}) );
+                    //
+                    // } );
                     var tempBNode;
                     this.bNodesChanges.forEach(function (bNodeRecords, bNodeId) {
                         tempBNode = _this.bNodes.find((function (bNode) { return bNode["@id"] === bNodeId; }));
@@ -297,7 +320,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 ], DocumentViewerComponent.prototype, "uri", void 0);
                 __decorate([
                     core_1.Input(), 
-                    __metadata('design:type', SDKContext.Class)
+                    __metadata('design:type', Object)
                 ], DocumentViewerComponent.prototype, "documentContext", void 0);
                 __decorate([
                     core_1.Input(), 

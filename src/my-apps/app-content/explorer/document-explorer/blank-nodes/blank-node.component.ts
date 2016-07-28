@@ -1,9 +1,8 @@
-import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit } from "@angular/core";
+import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit, SimpleChange, OnChanges } from "@angular/core";
 
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 
-import { Property, PropertyRow, Modes } from "./../property/property.component";
-import { PropertyComponent } from "./../property/property.component";
+import { PropertyComponent, Property, PropertyRow, Modes } from "./../property/property.component";
 
 import $ from "jquery";
 import "semantic-ui/semantic";
@@ -17,41 +16,41 @@ import template from "./blank-node.component.html!";
 	directives: [ PropertyComponent ],
 } )
 
-export class BlankNodeComponent implements AfterViewInit {
+export class BlankNodeComponent implements AfterViewInit, OnChanges {
 
 	element:ElementRef;
 	$element:JQuery;
 	modes:Modes = Modes;
-	properties:PropertyRow[] = [];
-	existingProperties:string[] = [];
 	records:BlankNodeRecords;
+	copyOrAdded:string = "";
+	tempBlankNode:RDFNode.Class;
+	tempProperties:PropertyRow[];
+	tempPropertiesNames:string[] = [];
 	private _bNodeHasChanged:boolean;
 	set bNodeHasChanged( hasChanged:boolean ) {
 		this._bNodeHasChanged = hasChanged;
-		this.onChanges.emit( this.records );
+		if( hasChanged && ! ! this.blankNode.copy ) {
+			this.blankNode.modified = this.tempBlankNode;
+		} else {
+			delete this.blankNode.modified;
+		}
+		this.updateTempProperties();
+		this.onChanges.emit( this.blankNode );
 	}
 
 	get bNodeHasChanged() {
 		return this._bNodeHasChanged;
 	}
 
-	@Input() bNodes:RDFNode.Class[] = [];
+	@Input() blankNodes:BlankNodeRow[] = [];
 	@Input() namedFragments:RDFNode.Class[] = [];
 	@Input() canEdit:boolean = true;
 	@Input() documentURI:string = "";
-	private _bNode:RDFNode.Class;
-	@Input() set bNode( value:RDFNode.Class ) {
-		this._bNode = value;
-		this.getProperties();
-	}
-
-	get bNode() {
-		return this._bNode;
-	}
+	@Input() blankNode:BlankNodeRow;
 
 	@Output() onOpenBNode:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onOpenNamedFragment:EventEmitter<string> = new EventEmitter<string>();
-	@Output() onChanges:EventEmitter<BlankNodeRecords> = new EventEmitter<BlankNodeRecords>();
+	@Output() onChanges:EventEmitter<BlankNodeRow> = new EventEmitter<BlankNodeRow>();
 
 
 	constructor( element:ElementRef ) {
@@ -60,6 +59,15 @@ export class BlankNodeComponent implements AfterViewInit {
 
 	ngAfterViewInit():void {
 		this.$element = $( this.element.nativeElement );
+	}
+
+	ngOnChanges( changes:{[propName:string]:SimpleChange} ):void {
+		if( ( changes[ "blankNode" ].currentValue !== changes[ "blankNode" ].previousValue ) ) {
+			this.copyOrAdded = typeof this.blankNode.copy !== "undefined" ? "copy" : "added";
+			this.tempBlankNode = Object.assign( {}, this.blankNode[ this.copyOrAdded ] );
+			this.tempPropertiesNames = this.getPropertiesNames();
+			this.tempProperties = this.getProperties( this.tempPropertiesNames );
+		}
 	}
 
 	openBNode( id:string ):void {
@@ -77,7 +85,6 @@ export class BlankNodeComponent implements AfterViewInit {
 		} else {
 			this.records.changes.delete( property.copy.id );
 		}
-		this.updateExistingProperties();
 		this.bNodeHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
 	}
 
@@ -85,11 +92,10 @@ export class BlankNodeComponent implements AfterViewInit {
 		if( typeof this.records === "undefined" ) this.records = new BlankNodeRecords();
 		if( typeof property.added !== "undefined" ) {
 			this.records.additions.delete( property.added.id );
-			this.properties.splice( index, 1 );
+			this.tempProperties.splice( index, 1 );
 		} else if( typeof property.deleted !== "undefined" ) {
 			this.records.deletions.set( property.deleted.id, property );
 		}
-		this.updateExistingProperties();
 		this.bNodeHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
 	}
 
@@ -103,7 +109,6 @@ export class BlankNodeComponent implements AfterViewInit {
 				this.records.additions.set( property.added.name, property );
 			}
 		}
-		this.updateExistingProperties();
 		this.bNodeHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
 	}
 
@@ -115,43 +120,58 @@ export class BlankNodeComponent implements AfterViewInit {
 				value: []
 			}
 		};
-		this.properties.splice( 2, 0, newProperty );
+		this.tempProperties.splice( 1, 0, newProperty );
 		if( ! ! this.$element ) setTimeout( ()=>this.$element.find( "cp-property.added-property" ).first().transition( "drop" ) );
 	}
 
-	getProperties():void {
-		this.properties = [];
-		this.updateExistingProperties();
-		this.existingProperties.forEach( ( propName:string )=> {
-			this.properties.push( <PropertyRow>{
+	getPropertiesNames():string[] {
+		return Object.keys( this.tempBlankNode );
+	}
+
+	getProperties( propertiesNames:string[] ):PropertyRow[] {
+		let tempProperties:PropertyRow[] = [];
+		propertiesNames.forEach( ( propName:string )=> {
+			tempProperties.push( <PropertyRow>{
 				copy: <Property>{
 					id: propName,
 					name: propName,
-					value: this.bNode[ propName ]
+					value: this.tempBlankNode[ propName ]
 				}
 			} );
 		} );
+		return tempProperties;
 	}
 
-	updateExistingProperties():void {
-		this.existingProperties = Object.keys( this.bNode );
+	updateTempProperties():void {
 		if( ! this.records ) return;
-		this.records.additions.forEach( ( value, key )=> {
-			this.existingProperties.push( key );
+		this.records.deletions.forEach( ( property, key )=> {
+			delete this.tempBlankNode[ key ];
 		} );
-		this.records.changes.forEach( ( value, key )=> {
-			if( value.modified.id !== value.modified.name ) {
-				this.existingProperties.splice( this.existingProperties.indexOf( value.modified.id ), 1, value.modified.name );
+		this.records.changes.forEach( ( property, key )=> {
+			if( property.modified.id !== property.modified.name ) {
+				delete this.tempBlankNode[ key ];
+				this.tempBlankNode[ property.modified.name ] = property.modified.value;
+			} else {
+				this.tempBlankNode[ key ] = property.modified.value;
 			}
 		} );
-		this.records.deletions.forEach( ( value, key )=> {
-			this.existingProperties.splice( this.existingProperties.indexOf( value.deleted.id ), 1 );
+		this.records.additions.forEach( ( property, key )=> {
+			this.tempBlankNode[ key ] = property.added.value;
 		} );
+		this.tempPropertiesNames = this.getPropertiesNames();
 	}
+}
+export interface BlankNodeRow {
+	id?:string;
+	bNodeIdentifier?:string;
+	copy?:RDFNode.Class;
+	added?:RDFNode.Class;
+	modified?:RDFNode.Class;
+	deleted?:RDFNode.Class;
 }
 export class BlankNode {
 	id:string;
-	properties:Property[];
+	properties:PropertyRow[];
 }
 export class BlankNodeRecords {
 	changes:Map<string,PropertyRow> = new Map<string, PropertyRow>();

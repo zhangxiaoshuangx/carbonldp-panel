@@ -6,21 +6,25 @@
 	Blank Nodes
 </h2>
 <div class="ui section divider"></div>
-<div class="ui top attached tabular bnodes menu">
+<div class="ui top attached tabular blank-nodes menu">
 	<a class="item active" data-tab="all">All Nodes</a>
 	<a class="item"
-	   *ngFor="let bNode of openedBNodes; let i = index;"
-	   [attr.data-tab]="'bnode'+bNode['@id']">
+	   *ngFor="let blankNode of openedBlankNodes; let i = index;"
+	   [attr.data-tab]="'blankNode_'+escape(blankNode.id)">
 		<p>
-			{{ bNode["@id"] }}
-			<button class="circular ui icon basic mini button" (click)="closeBNode(bNode)">
+			{{ blankNode.id }}
+			<button class="circular ui icon basic mini button" (click)="closeBlankNode(blankNode)">
 				<i class="icon close"></i>
 			</button>
 		</p>
 	</a>
 </div>
 <div class="ui bottom attached tab segment active" data-tab="all">
-	<table class="ui small very compact striped selectable celled table" *ngIf="bNodes.length > 0">
+	<button class="ui basic compact labeled right icon button" (click)="createBlankNode()">
+		<i class="plus icon"></i>
+		Add Blank Node
+	</button>
+	<table class="ui small very compact striped selectable celled table" *ngIf="blankNodes.length > 0">
 		<thead>
 			<tr>
 				<th>@id</th>
@@ -28,32 +32,45 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr *ngFor="let bNode of bNodes; let i = index;"
-			    (click)="openBNode(bNode)">
-				<td>
-					{{ bNode["@id"] }}
-				</td>
-				<td>
-					<span *ngIf="!!bNode['https://carbonldp.com/ns/v1/platform#bNodeIdentifier']">
-						{{ bNode['https://carbonldp.com/ns/v1/platform#bNodeIdentifier'][0]["@value"] }}
-					</span>
-				</td>
-			</tr>
+			<template ngFor let-blankNode="$implicit" [ngForOf]="blankNodes" let-i="index">
+				<tr [ngClass]="{ added:!!blankNode.added, modified:!!blankNode.modified }"
+				    (click)="openBlankNode(blankNode)">
+					<td>
+						{{ blankNode.id }}
+					</td>
+					<td>
+						<span *ngIf="blankNode.bNodeIdentifier">
+							{{ blankNode.bNodeIdentifier}}
+						</span>
+					</td>
+				</tr>
+			</template>
+			<!--<tr *ngFor="let bNode of bNodes; let i = index;"-->
+			<!--(click)="openBNode(bNode)">-->
+			<!--<td>-->
+			<!--{{ bNode["@id"] }}-->
+			<!--</td>-->
+			<!--<td>-->
+			<!--<span *ngIf="!!bNode['https://carbonldp.com/ns/v1/platform#bNodeIdentifier']">-->
+			<!--{{ bNode['https://carbonldp.com/ns/v1/platform#bNodeIdentifier'][0]["@value"] }}-->
+			<!--</span>-->
+			<!--</td>-->
+			<!--</tr>-->
 		</tbody>
 	</table>
-	<div class="ui message" *ngIf="!bNodes || bNodes.length===0">
+	<div class="ui message" *ngIf="!blankNodes || blankNodes.length===0">
 		<p>No blank nodes to show.</p>
 	</div>
 </div>
 <div class="ui bottom attached tab segment"
-     *ngFor="let bNode of openedBNodes; let i = index;" [attr.data-tab]="'bnode'+bNode['@id']">
+     *ngFor="let blankNode of openedBlankNodes; let i = index;" [attr.data-tab]="'blankNode_'+escape(blankNode.id)">
 	<cp-blank-node class="column"
 	               [documentURI]="documentURI"
-	               [bNode]="bNode"
-	               [bNodes]="bNodes"
+	               [blankNode]="blankNode"
+	               [blankNodes]="blankNodes"
 	               [namedFragments]="namedFragments"
 	               (onOpenBNode)="openBNode( $event )"
 	               (onOpenNamedFragment)="openNamedFragment($event)"
-	               (onChanges)="notifyDocumentBNodeHasChanged($event, bNode)">
+	               (onChanges)="changeBlankNode($event, bNode)">
 	</cp-blank-node>
 </div>

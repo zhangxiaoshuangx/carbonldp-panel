@@ -52,6 +52,8 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
             PropertyComponent = (function () {
                 // TODO: Add @lists and @sets support
                 function PropertyComponent(element) {
+                    this.literals = [];
+                    this.pointers = [];
                     this.tempProperty = {};
                     this.value = [];
                     this.addNewLiteral = new core_1.EventEmitter();

@@ -1,39 +1,52 @@
-import { ElementRef, EventEmitter, AfterViewInit } from "@angular/core";
+import { ElementRef, EventEmitter, AfterViewInit, SimpleChange, OnChanges } from "@angular/core";
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 import { Property, PropertyRow, Modes } from "./../property/property.component";
 import "semantic-ui/semantic";
-export declare class BlankNodeComponent implements AfterViewInit {
+export declare class BlankNodeComponent implements AfterViewInit, OnChanges {
     element: ElementRef;
     $element: JQuery;
     modes: Modes;
-    properties: PropertyRow[];
-    existingProperties: string[];
     records: BlankNodeRecords;
+    copyOrAdded: string;
+    tempBlankNode: RDFNode.Class;
+    tempProperties: PropertyRow[];
+    tempPropertiesNames: string[];
     private _bNodeHasChanged;
     bNodeHasChanged: boolean;
-    bNodes: RDFNode.Class[];
+    blankNodes: BlankNodeRow[];
     namedFragments: RDFNode.Class[];
     canEdit: boolean;
     documentURI: string;
-    private _bNode;
-    bNode: RDFNode.Class;
+    blankNode: BlankNodeRow;
     onOpenBNode: EventEmitter<string>;
     onOpenNamedFragment: EventEmitter<string>;
-    onChanges: EventEmitter<BlankNodeRecords>;
+    onChanges: EventEmitter<BlankNodeRow>;
     constructor(element: ElementRef);
     ngAfterViewInit(): void;
+    ngOnChanges(changes: {
+        [propName: string]: SimpleChange;
+    }): void;
     openBNode(id: string): void;
     openNamedFragment(id: string): void;
     changeProperty(property: PropertyRow, index: number): void;
     deleteProperty(property: PropertyRow, index: number): void;
     addProperty(property: PropertyRow, index: number): void;
     createProperty(property: Property, propertyRow: PropertyRow): void;
-    getProperties(): void;
-    updateExistingProperties(): void;
+    getPropertiesNames(): string[];
+    getProperties(propertiesNames: string[]): PropertyRow[];
+    updateTempProperties(): void;
+}
+export interface BlankNodeRow {
+    id?: string;
+    bNodeIdentifier?: string;
+    copy?: RDFNode.Class;
+    added?: RDFNode.Class;
+    modified?: RDFNode.Class;
+    deleted?: RDFNode.Class;
 }
 export declare class BlankNode {
     id: string;
-    properties: Property[];
+    properties: PropertyRow[];
 }
 export declare class BlankNodeRecords {
     changes: Map<string, PropertyRow>;

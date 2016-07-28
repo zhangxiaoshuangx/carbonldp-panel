@@ -56,9 +56,10 @@ System.register(["@angular/core", "carbonldp/Carbon"], function(exports_1, conte
                 };
                 BackupsService = __decorate([
                     core_1.Injectable(), 
-                    __metadata('design:paramtypes', [Carbon_1.default])
+                    __metadata('design:paramtypes', [(typeof (_a = typeof Carbon_1.default !== 'undefined' && Carbon_1.default) === 'function' && _a) || Object])
                 ], BackupsService);
                 return BackupsService;
+                var _a;
             }());
             exports_1("BackupsService", BackupsService);
             exports_1("default",BackupsService);
