@@ -31,7 +31,7 @@ System.register(["@angular/core", "./../property/property.component", "jquery", 
             BlankNodeComponent = (function () {
                 function BlankNodeComponent(element) {
                     this.modes = property_component_1.Modes;
-                    this.copyOrAdded = "";
+                    this.copyOrModifiedOrAdded = "";
                     this.tempPropertiesNames = [];
                     this.blankNodes = [];
                     this.namedFragments = [];
@@ -53,6 +53,7 @@ System.register(["@angular/core", "./../property/property.component", "jquery", 
                         }
                         else {
                             delete this.blankNode.modified;
+                            this.blankNode.added = this.tempBlankNode;
                         }
                         this.updateTempProperties();
                         this.onChanges.emit(this.blankNode);
@@ -65,8 +66,9 @@ System.register(["@angular/core", "./../property/property.component", "jquery", 
                 };
                 BlankNodeComponent.prototype.ngOnChanges = function (changes) {
                     if ((changes["blankNode"].currentValue !== changes["blankNode"].previousValue)) {
-                        this.copyOrAdded = typeof this.blankNode.copy !== "undefined" ? "copy" : "added";
-                        this.tempBlankNode = Object.assign({}, this.blankNode[this.copyOrAdded]);
+                        console.log("Blank Node: %o", this.blankNode);
+                        this.copyOrModifiedOrAdded = !!this.blankNode.copy ? (!!this.blankNode.modified ? "modified" : "copy") : "added";
+                        this.tempBlankNode = Object.assign({}, this.blankNode[this.copyOrModifiedOrAdded]);
                         this.tempPropertiesNames = this.getPropertiesNames();
                         this.tempProperties = this.getProperties(this.tempPropertiesNames);
                     }

@@ -7,7 +7,7 @@ export declare class BlankNodeComponent implements AfterViewInit, OnChanges {
     $element: JQuery;
     modes: Modes;
     records: BlankNodeRecords;
-    copyOrAdded: string;
+    copyOrModifiedOrAdded: string;
     tempBlankNode: RDFNode.Class;
     tempProperties: PropertyRow[];
     tempPropertiesNames: string[];

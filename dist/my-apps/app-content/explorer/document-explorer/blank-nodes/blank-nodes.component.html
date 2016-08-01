@@ -13,10 +13,10 @@
 	   [attr.data-tab]="'blankNode_'+escape(blankNode.id)">
 		<p>
 			{{ blankNode.id }}
-			<button class="circular ui icon basic mini button" (click)="closeBlankNode(blankNode)">
-				<i class="icon close"></i>
-			</button>
 		</p>
+		<button class="circular ui icon basic mini button" (click)="closeBlankNode(blankNode, i)">
+			<i class="icon close"></i>
+		</button>
 	</a>
 </div>
 <div class="ui bottom attached tab segment active" data-tab="all">
@@ -24,11 +24,12 @@
 		<i class="plus icon"></i>
 		Add Blank Node
 	</button>
-	<table class="ui small very compact striped selectable celled table" *ngIf="blankNodes.length > 0">
+	<table class="ui confirm-close small very compact striped selectable celled table" *ngIf="blankNodes.length > 0">
 		<thead>
 			<tr>
 				<th>@id</th>
 				<th>https://carbonldp.com/ns/v1/platform#bNodeIdentifier</th>
+				<th>Actions</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -43,19 +44,17 @@
 							{{ blankNode.bNodeIdentifier}}
 						</span>
 					</td>
+					<td>
+						<div class="ui mini icon inverted edit value buttons">
+							<button #deleteButton
+							        class="ui basic button" title="Delete Literal"
+							        (click)="askToConfirmDeletion($event, blankNode)">
+								<i class="remove red icon"></i>
+							</button>
+						</div>
+					</td>
 				</tr>
 			</template>
-			<!--<tr *ngFor="let bNode of bNodes; let i = index;"-->
-			<!--(click)="openBNode(bNode)">-->
-			<!--<td>-->
-			<!--{{ bNode["@id"] }}-->
-			<!--</td>-->
-			<!--<td>-->
-			<!--<span *ngIf="!!bNode['https://carbonldp.com/ns/v1/platform#bNodeIdentifier']">-->
-			<!--{{ bNode['https://carbonldp.com/ns/v1/platform#bNodeIdentifier'][0]["@value"] }}-->
-			<!--</span>-->
-			<!--</td>-->
-			<!--</tr>-->
 		</tbody>
 	</table>
 	<div class="ui message" *ngIf="!blankNodes || blankNodes.length===0">
@@ -73,4 +72,14 @@
 	               (onOpenNamedFragment)="openNamedFragment($event)"
 	               (onChanges)="changeBlankNode($event, bNode)">
 	</cp-blank-node>
+</div>
+<div class="ui confirm-deletion inverted dimmer">
+	<div class="content">
+		<div class="center">
+			<h2 class="ui header"><i class="trash outline red icon"></i> Are you sure?</h2>
+			<p class="description">Confirm to delete the Blank Node: '{{askingDeletionBlankNode?.id}}'</p>
+			<div class="ui red button" title="Confirm deletion" (click)="confirmDeletion()">Confirm</div>
+			<div class="ui button" title="Cancel deletion" (click)="cancelDeletion()">Cancel</div>
+		</div>
+	</div>
 </div>

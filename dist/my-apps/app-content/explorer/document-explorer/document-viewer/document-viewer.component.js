@@ -208,29 +208,18 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 };
                 DocumentViewerComponent.prototype.modifyBNodesWithChanges = function () {
                     var _this = this;
-                    // Change this to use the propertyRow.modified variable to update the modified blank node.
-                    // this.bNodesChanges.changes.forEach( ( blankNodeRow:BlankNodeRow, blankNodeId:string )=> {
-                    // 	tempBNode = this.bNodes.find( (bNode => {return bNode[ "@id" ] === blankNodeId}) );
-                    //
-                    // } );
-                    var tempBNode;
-                    this.bNodesChanges.forEach(function (bNodeRecords, bNodeId) {
-                        tempBNode = _this.bNodes.find((function (bNode) { return bNode["@id"] === bNodeId; }));
-                        bNodeRecords.deletions.forEach(function (property, key) {
-                            delete tempBNode[key];
-                        });
-                        bNodeRecords.changes.forEach(function (property, key) {
-                            if (property.modified.id !== property.modified.name) {
-                                delete tempBNode[key];
-                                tempBNode[property.modified.name] = property.modified.value;
-                            }
-                            else {
-                                tempBNode[key] = property.modified.value;
-                            }
-                        });
-                        bNodeRecords.additions.forEach(function (property, key) {
-                            tempBNode[key] = property.added.value;
-                        });
+                    var tempIdx;
+                    this.bNodesChanges.deletions.forEach(function (blankNodeRow, bNodeId) {
+                        tempIdx = _this.document["@graph"].findIndex((function (bNode) { return bNode["@id"] === bNodeId; }));
+                        _this.document["@graph"].splice(tempIdx, 1);
+                    });
+                    tempIdx = -1;
+                    this.bNodesChanges.changes.forEach(function (blankNodeRow, bNodeId) {
+                        tempIdx = _this.document["@graph"].findIndex((function (bNode) { return bNode["@id"] === bNodeId; }));
+                        _this.document["@graph"][tempIdx] = blankNodeRow.modified;
+                    });
+                    this.bNodesChanges.additions.forEach(function (blankNodeRow, bNodeId) {
+                        _this.document["@graph"].push(blankNodeRow.added);
                     });
                 };
                 DocumentViewerComponent.prototype.modifyNamedFragmentsWithChanges = function () {

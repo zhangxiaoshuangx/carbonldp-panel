@@ -8,6 +8,7 @@ export declare class BlankNodesComponent implements AfterViewInit, OnChanges {
     nodesTab: JQuery;
     openedBlankNodes: BlankNodeRow[];
     blankNodesRecords: BlankNodesRecords;
+    askingDeletionBlankNode: BlankNodeRow;
     blankNodes: BlankNodeRow[];
     namedFragments: RDFNode.Class[];
     documentURI: string;
@@ -19,15 +20,20 @@ export declare class BlankNodesComponent implements AfterViewInit, OnChanges {
     ngOnChanges(changes: {
         [propName: string]: SimpleChange;
     }): void;
-    notifyBlankNodesHaveChanged(): void;
     openBlankNode(nodeOrId: RDFNode.Class | string): void;
     openNamedFragment(id: string): void;
     goToBlankNode(id: string): void;
-    closeBlankNode(bNode: RDFNode.Class): void;
+    closeBlankNode(blankNode: BlankNodeRow, index?: number): void;
     refreshTabs(): void;
     escape(value: string): string;
-    changeBlankNode(blankNodeRow: BlankNodeRow, index: number): void;
-    updateExistingBlankNodes(): void;
+    changeBlankNode(blankNodeRow: BlankNodeRow, index?: number): void;
+    deleteBlankNode(blankNodeRow: BlankNodeRow, index?: number): void;
+    createBlankNode(): void;
+    generateUUID(): string;
+    initializeDeletionDimmer(): void;
+    askToConfirmDeletion(clickEvent: Event, blankNode: BlankNodeRow): void;
+    confirmDeletion(): void;
+    cancelDeletion(): void;
 }
 export declare class BlankNodesRecords {
     changes: Map<string, BlankNodeRow>;

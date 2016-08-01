@@ -22,7 +22,7 @@ export class BlankNodeComponent implements AfterViewInit, OnChanges {
 	$element:JQuery;
 	modes:Modes = Modes;
 	records:BlankNodeRecords;
-	copyOrAdded:string = "";
+	copyOrModifiedOrAdded:string = "";
 	tempBlankNode:RDFNode.Class;
 	tempProperties:PropertyRow[];
 	tempPropertiesNames:string[] = [];
@@ -33,6 +33,7 @@ export class BlankNodeComponent implements AfterViewInit, OnChanges {
 			this.blankNode.modified = this.tempBlankNode;
 		} else {
 			delete this.blankNode.modified;
+			this.blankNode.added = this.tempBlankNode;
 		}
 		this.updateTempProperties();
 		this.onChanges.emit( this.blankNode );
@@ -63,8 +64,9 @@ export class BlankNodeComponent implements AfterViewInit, OnChanges {
 
 	ngOnChanges( changes:{[propName:string]:SimpleChange} ):void {
 		if( ( changes[ "blankNode" ].currentValue !== changes[ "blankNode" ].previousValue ) ) {
-			this.copyOrAdded = typeof this.blankNode.copy !== "undefined" ? "copy" : "added";
-			this.tempBlankNode = Object.assign( {}, this.blankNode[ this.copyOrAdded ] );
+			console.log( "Blank Node: %o", this.blankNode );
+			this.copyOrModifiedOrAdded = ! ! this.blankNode.copy ? ( ! ! this.blankNode.modified ? "modified" : "copy" ) : "added";
+			this.tempBlankNode = Object.assign( {}, this.blankNode[ this.copyOrModifiedOrAdded ] );
 			this.tempPropertiesNames = this.getPropertiesNames();
 			this.tempProperties = this.getProperties( this.tempPropertiesNames );
 		}

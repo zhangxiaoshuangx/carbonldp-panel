@@ -1,6 +1,16 @@
 :host {
   display: block; }
-  :host .segment[data-tab="all"] table tr, :host .segment[data-tab="all"] table td {
-    cursor: pointer; }
+
+.segment[data-tab="all"] table tr.added {
+  background-color: #D9EEFF; }
+
+.segment[data-tab="all"] table tr.modified {
+  background-color: #FFFBB4; }
+
+.segment[data-tab="all"] table tr, .segment[data-tab="all"] table td {
+  cursor: pointer; }
+
+.confirm-deletion .description {
+  color: #000000; }
 
 /*# sourceMappingURL=blank-nodes.component.css.map */

@@ -1,6 +1,7 @@
 import { Component, ElementRef, Input, Output, EventEmitter, SimpleChange, AfterViewInit, OnChanges } from "@angular/core";
 
 import * as RDFNode from "carbonldp/RDF/RDFNode";
+import * as Utils from "carbonldp/Utils";
 
 import { BlankNodeComponent, BlankNode, BlankNodeRecords, BlankNodeRow } from "./blank-node.component"
 
@@ -25,6 +26,7 @@ export class BlankNodesComponent implements AfterViewInit, OnChanges {
 	nodesTab:JQuery;
 	openedBlankNodes:BlankNodeRow[] = [];
 	blankNodesRecords:BlankNodesRecords = new BlankNodesRecords();
+	askingDeletionBlankNode:BlankNodeRow;
 
 	@Input() blankNodes:BlankNodeRow[] = [];
 	@Input() namedFragments:RDFNode.Class[] = [];
@@ -41,6 +43,7 @@ export class BlankNodesComponent implements AfterViewInit, OnChanges {
 	ngAfterViewInit():void {
 		this.$element = $( this.element.nativeElement );
 		this.nodesTab = this.$element.find( ".tabular.blank-nodes.menu" ).tab();
+		this.initializeDeletionDimmer();
 	}
 
 	ngOnChanges( changes:{[propName:string]:SimpleChange} ):void {
@@ -50,20 +53,6 @@ export class BlankNodesComponent implements AfterViewInit, OnChanges {
 			this.goToBlankNode( "all" );
 			this.blankNodesRecords.clear();
 		}
-	}
-
-	notifyBlankNodesHaveChanged() {
-		// 	if( typeof records === "undefined" || records === null ) {
-		// 		this.bNodesChanges.delete( bNode[ "@id" ] );
-		// 		this.onChanges.emit( this.bNodesChanges );
-		// 		return;
-		// 	}
-		// 	if( records.changes.size > 0 || records.additions.size > 0 || records.deletions.size > 0 ) {
-		// 		this.bNodesChanges.set( bNode[ "@id" ], records );
-		// 	} else {
-		// 		this.bNodesChanges.delete( bNode[ "@id" ] );
-		// 	}
-		this.onChanges.emit( this.blankNodesRecords );
 	}
 
 	openBlankNode( nodeOrId:RDFNode.Class|string ):void {
@@ -90,11 +79,16 @@ export class BlankNodesComponent implements AfterViewInit, OnChanges {
 		this.onOpenBNode.emit( "bNodes" );
 	}
 
-	closeBlankNode( bNode:RDFNode.Class ):void {
-		let idx:number = this.openedBlankNodes.indexOf( bNode );
-		this.openedBlankNodes.splice( idx, 1 );
+	closeBlankNode( blankNode:BlankNodeRow, index?:number ):void {
+		if( blankNode.added ) {
+			this.deleteBlankNode( blankNode, index );
+			delete blankNode.added;
+		} else {
+			delete blankNode.modified;
+			this.changeBlankNode( blankNode );
+		}
+		this.openedBlankNodes.splice( index, 1 );
 		this.goToBlankNode( "all" );
-		// if( this.bNodesChanges.has( bNode[ "@id" ] ) )this.notifyDocumentBNodeHasChanged( null, bNode );
 	}
 
 	refreshTabs():void {
@@ -106,54 +100,71 @@ export class BlankNodesComponent implements AfterViewInit, OnChanges {
 	}
 
 	// Here comes the CRUD of blank nodes
-	changeBlankNode( blankNodeRow:BlankNodeRow, index:number ):void {
+	changeBlankNode( blankNodeRow:BlankNodeRow, index?:number ):void {
 		if( typeof this.blankNodesRecords === "undefined" ) this.blankNodesRecords = new BlankNodesRecords();
 		if( typeof blankNodeRow.modified !== "undefined" ) {
 			this.blankNodesRecords.changes.set( blankNodeRow.modified[ "@id" ], blankNodeRow );
-		} else {
+		} else if( typeof blankNodeRow.added === "undefined" ) {
 			this.blankNodesRecords.changes.delete( blankNodeRow.copy[ "@id" ] );
 		}
-		this.notifyBlankNodesHaveChanged();
+		this.onChanges.emit( this.blankNodesRecords );
 	}
 
-	// deleteBlankNode( blankNodeRow:BlankNodeRow, index:number ):void {
-	// 	if( typeof this.blankNodesRecords === "undefined" ) this.blankNodesRecords = new BlankNodeRecords();
-	// 	if( typeof blankNodeRow.added !== "undefined" ) {
-	// 		this.blankNodesRecords.additions.delete( blankNodeRow.added.id );
-	// 		this.bNodes.splice( index, 1 );
-	// 	} else if( typeof blankNodeRow.deleted !== "undefined" ) {
-	// 		this.blankNodesRecords.deletions.set( blankNodeRow.deleted.id, blankNodeRow );
-	// 	}
-	// }
-	//
-	// addBlankNode( blankNodeRow:BlankNodeRow, index:number ):void {
-	// 	if( typeof this.blankNodesRecords === "undefined" ) this.blankNodesRecords = new BlankNodeRecords();
-	// 	if( typeof blankNodeRow.added !== "undefined" ) {
-	// 		this.blankNodesRecords.additions.set( blankNodeRow.added[ "@id" ], blankNodeRow );
-	// 	}
-	// }
-	//
-	// createBlankNode( blankNode:BlankNodeRow, blankNodeRow:BlankNodeRow ):void {
-	// 	let newBlankNode:BlankNodeRow = <BlankNodeRow>{
-	// 		added: { "@id": "" }
-	// 	};
-	// 	this.blankNodes.splice( 0, 0, newBlankNode );
-	// }
+	deleteBlankNode( blankNodeRow:BlankNodeRow, index?:number ):void {
+		if( typeof this.blankNodesRecords === "undefined" ) this.blankNodesRecords = new BlankNodesRecords();
+		if( typeof blankNodeRow.added !== "undefined" ) {
+			this.blankNodesRecords.additions.delete( blankNodeRow.added[ "@id" ] );
+		} else if( typeof blankNodeRow.modified !== "undefined" ) {
+			this.blankNodesRecords.changes.delete( blankNodeRow.modified[ "@id" ] );
+			this.blankNodesRecords.deletions.set( blankNodeRow.modified[ "@id" ], blankNodeRow );
+		} else {
+			// this.blankNodesRecords.changes.delete( blankNodeRow.modified[ "@id" ] );
+			this.blankNodesRecords.deletions.set( blankNodeRow.copy[ "@id" ], blankNodeRow );
+		}
+		index = this.blankNodes.indexOf( blankNodeRow );
+		this.blankNodes.splice( index, 1 );
+		this.onChanges.emit( this.blankNodesRecords );
+	}
 
+	createBlankNode():void {
+		let id:string = "_:" + this.generateUUID(),
+			bNodeIdentifier:string = this.generateUUID();
+		let newBlankNode:BlankNodeRow = <BlankNodeRow>{
+			id: id,
+			bNodeIdentifier: bNodeIdentifier,
+			added: {
+				"@id": id,
+				"https://carbonldp.com/ns/v1/platform#bNodeIdentifier": [ { "@value": bNodeIdentifier } ],
+			}
+		};
+		this.blankNodes.splice( 0, 0, newBlankNode );
+		this.blankNodesRecords.additions.set( id, newBlankNode );
+		this.onChanges.emit( this.blankNodesRecords );
+		this.openBlankNode( id );
+	}
 
-	updateExistingBlankNodes():void {
-		// if( ! this.records ) return;
-		// this.records.additions.forEach( ( value, key )=> {
-		// 	this.existingProperties.push( key );
-		// } );
-		// this.records.changes.forEach( ( value, key )=> {
-		// 	if( value.modified.id !== value.modified.name ) {
-		// 		this.existingProperties.splice( this.existingProperties.indexOf( value.modified.id ), 1, value.modified.name );
-		// 	}
-		// } );
-		// this.records.deletions.forEach( ( value, key )=> {
-		// 	this.existingProperties.splice( this.existingProperties.indexOf( value.deleted.id ), 1 );
-		// } );
+	generateUUID():string {
+		return Utils.UUID.generate();
+	}
+
+	initializeDeletionDimmer():void {
+		this.$element.find( ".confirm-deletion.dimmer" ).dimmer( { closable: false } );
+	}
+
+	askToConfirmDeletion( clickEvent:Event, blankNode:BlankNodeRow ):void {
+		clickEvent.stopPropagation();
+		this.askingDeletionBlankNode = blankNode;
+		this.$element.find( ".confirm-deletion.dimmer" ).dimmer( "show" );
+	}
+
+	confirmDeletion():void {
+		this.deleteBlankNode( this.askingDeletionBlankNode );
+		this.$element.find( ".confirm-deletion.dimmer" ).dimmer( "hide" );
+	}
+
+	cancelDeletion():void {
+		this.askingDeletionBlankNode = null;
+		this.$element.find( ".confirm-deletion.dimmer" ).dimmer( "hide" );
 	}
 
 }

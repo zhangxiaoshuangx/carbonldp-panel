@@ -210,29 +210,18 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	}
 
 	modifyBNodesWithChanges():void {
-		// Change this to use the propertyRow.modified variable to update the modified blank node.
-		// this.bNodesChanges.changes.forEach( ( blankNodeRow:BlankNodeRow, blankNodeId:string )=> {
-		// 	tempBNode = this.bNodes.find( (bNode => {return bNode[ "@id" ] === blankNodeId}) );
-		//
-		// } );
-		let tempBNode;
-		this.bNodesChanges.forEach( ( bNodeRecords:BlankNodeRecords, bNodeId:string )=> {
-			tempBNode = this.bNodes.find( (bNode => {return bNode[ "@id" ] === bNodeId}) );
-			bNodeRecords.deletions.forEach( ( property, key )=> {
-				delete tempBNode[ key ];
-			} );
-			bNodeRecords.changes.forEach( ( property, key )=> {
-				if( property.modified.id !== property.modified.name ) {
-					delete tempBNode[ key ];
-					tempBNode[ property.modified.name ] = property.modified.value;
-				} else {
-					tempBNode[ key ] = property.modified.value;
-				}
-			} );
-			bNodeRecords.additions.forEach( ( property, key )=> {
-				tempBNode[ key ] = property.added.value;
-			} );
-
+		let tempIdx:number;
+		this.bNodesChanges.deletions.forEach( ( blankNodeRow:BlankNodeRow, bNodeId )=> {
+			tempIdx = this.document[ "@graph" ].findIndex( (bNode => { return bNode[ "@id" ] === bNodeId }) );
+			this.document[ "@graph" ].splice( tempIdx, 1 );
+		} );
+		tempIdx = - 1;
+		this.bNodesChanges.changes.forEach( ( blankNodeRow:BlankNodeRow, bNodeId )=> {
+			tempIdx = this.document[ "@graph" ].findIndex( (bNode => { return bNode[ "@id" ] === bNodeId }) );
+			this.document[ "@graph" ][ tempIdx ] = blankNodeRow.modified;
+		} );
+		this.bNodesChanges.additions.forEach( ( blankNodeRow:BlankNodeRow, bNodeId )=> {
+			this.document[ "@graph" ].push( blankNodeRow.added );
 		} );
 	}
 
