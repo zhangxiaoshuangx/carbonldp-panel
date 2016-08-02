@@ -14,7 +14,15 @@ import template from "./create-app.view.html!";
 } )
 export class CreateAppView {
 
-	constructor() { }
+	private title:Title;
+
+	constructor(title:Title) {
+		this.title = title;
+	}
+
+	routerOnActivate(){
+		this.title.setTitle( "AppDev | Create App" );
+	}
 
 }
 
