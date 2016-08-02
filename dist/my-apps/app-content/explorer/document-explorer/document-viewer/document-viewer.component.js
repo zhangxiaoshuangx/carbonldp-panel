@@ -209,6 +209,8 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 DocumentViewerComponent.prototype.modifyBNodesWithChanges = function () {
                     var _this = this;
                     var tempIdx;
+                    if (!this.bNodesChanges)
+                        return;
                     this.bNodesChanges.deletions.forEach(function (blankNodeRow, bNodeId) {
                         tempIdx = _this.document["@graph"].findIndex((function (bNode) { return bNode["@id"] === bNodeId; }));
                         _this.document["@graph"].splice(tempIdx, 1);
@@ -246,7 +248,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 };
                 DocumentViewerComponent.prototype.clearDocumentChanges = function () {
                     this.rootNodeRecords = new document_resource_component_2.RootRecords();
-                    this.bNodesChanges = new Map();
+                    this.bNodesChanges = new blank_nodes_component_1.BlankNodesRecords();
                     this.namedFragmentsChanges = new Map();
                     this.rootNodeHasChanged = false;
                     this.bNodesHaveChanged = false;

@@ -211,6 +211,7 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 
 	modifyBNodesWithChanges():void {
 		let tempIdx:number;
+		if( ! this.bNodesChanges ) return;
 		this.bNodesChanges.deletions.forEach( ( blankNodeRow:BlankNodeRow, bNodeId )=> {
 			tempIdx = this.document[ "@graph" ].findIndex( (bNode => { return bNode[ "@id" ] === bNodeId }) );
 			this.document[ "@graph" ].splice( tempIdx, 1 );
@@ -249,7 +250,7 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 
 	clearDocumentChanges():void {
 		this.rootNodeRecords = new RootRecords();
-		this.bNodesChanges = new Map<string, BlankNodeRecords>();
+		this.bNodesChanges = new BlankNodesRecords();
 		this.namedFragmentsChanges = new Map<string, NamedFragmentRecords>();
 		this.rootNodeHasChanged = false;
 		this.bNodesHaveChanged = false;

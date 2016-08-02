@@ -123,7 +123,7 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/URI", "./../
                     var _this = this;
                     if (typeof this.id === "undefined")
                         return;
-                    var idx = this.bNodes.concat(this.namedFragments).findIndex(function (nfOrBN) { return nfOrBN["@id"] === _this.id; });
+                    var idx = this.bNodes.concat(this.namedFragments).findIndex(function (nfOrBN) { return nfOrBN["@id"] === _this.id || nfOrBN["id"] === _this.id; });
                     this.isBNode = URI.Util.isBNodeID(this.id);
                     this.isNamedFragment = URI.Util.isFragmentOf(this.id, this.documentURI);
                     this.existsOnPointers = idx !== -1;
@@ -167,6 +167,7 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/URI", "./../
                 };
                 PointerComponent.prototype.initializePointersDropdown = function () {
                     this.pointersDropdown = jquery_1.default(this.element.nativeElement.querySelector(".fragments.search.dropdown"));
+                    console.log(this.pointersDropdown);
                     if (!!this.pointersDropdown) {
                         this.pointersDropdown.dropdown({
                             allowAdditions: true,

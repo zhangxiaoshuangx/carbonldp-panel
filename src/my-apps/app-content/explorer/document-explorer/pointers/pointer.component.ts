@@ -109,7 +109,7 @@ export class PointerComponent implements OnChanges {
 
 	checkForChangesOnPointers():void {
 		if( typeof this.id === "undefined" ) return;
-		let idx:number = this.bNodes.concat( this.namedFragments ).findIndex( ( nfOrBN )=> {return nfOrBN[ "@id" ] === this.id;} );
+		let idx:number = this.bNodes.concat( this.namedFragments ).findIndex( ( nfOrBN )=> {return nfOrBN[ "@id" ] === this.id || nfOrBN[ "id" ] === this.id;} );
 		this.isBNode = URI.Util.isBNodeID( <string>this.id );
 		this.isNamedFragment = URI.Util.isFragmentOf( this.id, this.documentURI );
 		this.existsOnPointers = idx !== - 1;
