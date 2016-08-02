@@ -81,6 +81,7 @@ export class AppContentView {
 	private appContextService:AppContextService;
 
 	private timer:number;
+	private title:Title;
 
 	constructor( router:Router, routeParams:RouteParams, myAppsSidebarService:MyAppsSidebarService, appContextService:AppContextService ) {
 		this.router = router;

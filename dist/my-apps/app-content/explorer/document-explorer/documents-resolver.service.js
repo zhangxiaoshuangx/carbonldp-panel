@@ -98,9 +98,10 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "carbonl
                 };
                 DocumentsResolverService = __decorate([
                     core_1.Injectable(), 
-                    __metadata('design:paramtypes', [Carbon_1.default])
+                    __metadata('design:paramtypes', [(typeof (_a = typeof Carbon_1.default !== 'undefined' && Carbon_1.default) === 'function' && _a) || Object])
                 ], DocumentsResolverService);
                 return DocumentsResolverService;
+                var _a;
             }());
             exports_1("DocumentsResolverService", DocumentsResolverService);
             exports_1("default",DocumentsResolverService);

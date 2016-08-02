@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { Title } from "@angular/platform-browser";
 
 import "semantic-ui/semantic";
 
@@ -13,9 +14,15 @@ import template from "./create-app.view.html!";
 	directives: [ CreateAppComponent ],
 } )
 export class CreateAppView {
+	private title:Title;
 
-	constructor() { }
+	constructor( title:Title ) {
+		this.title = title;
+	}
 
+	routerOnActivate() {
+		this.title.setTitle( "AppDev | Create App" );
+	}
 }
 
 export default CreateAppView;

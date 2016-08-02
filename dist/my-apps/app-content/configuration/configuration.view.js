@@ -1,4 +1,4 @@
-System.register(["@angular/core", "./../../app-content/app-content.view", "./configuration.component", "semantic-ui/semantic", "./configuration.view.html!"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/platform-browser", "./../../app-content/app-content.view", "./configuration.component", "semantic-ui/semantic", "./configuration.view.html!"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -13,12 +13,15 @@ System.register(["@angular/core", "./../../app-content/app-content.view", "./con
     var __param = (this && this.__param) || function (paramIndex, decorator) {
         return function (target, key) { decorator(target, key, paramIndex); }
     };
-    var core_1, app_content_view_1, configuration_component_1, configuration_view_html_1;
+    var core_1, platform_browser_1, app_content_view_1, configuration_component_1, configuration_view_html_1;
     var ConfigurationView;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (platform_browser_1_1) {
+                platform_browser_1 = platform_browser_1_1;
             },
             function (app_content_view_1_1) {
                 app_content_view_1 = app_content_view_1_1;
@@ -32,9 +35,14 @@ System.register(["@angular/core", "./../../app-content/app-content.view", "./con
             }],
         execute: function() {
             ConfigurationView = (function () {
-                function ConfigurationView(appContentView) {
+                function ConfigurationView(title, appContentView) {
                     this.app = appContentView.app;
+                    this.title = title;
                 }
+                ConfigurationView.prototype.routerOnActivate = function () {
+                    var title = "AppDev | " + this.app.name + " | Configuration";
+                    this.title.setTitle(title);
+                };
                 ConfigurationView = __decorate([
                     core_1.Component({
                         selector: "cp-configuration-view",
@@ -42,9 +50,9 @@ System.register(["@angular/core", "./../../app-content/app-content.view", "./con
                         styles: [":host { display: block; }"],
                         directives: [configuration_component_1.ConfigurationComponent],
                     }),
-                    __param(0, core_1.Host()),
-                    __param(0, core_1.Inject(core_1.forwardRef(function () { return app_content_view_1.AppContentView; }))), 
-                    __metadata('design:paramtypes', [app_content_view_1.AppContentView])
+                    __param(1, core_1.Host()),
+                    __param(1, core_1.Inject(core_1.forwardRef(function () { return app_content_view_1.AppContentView; }))), 
+                    __metadata('design:paramtypes', [platform_browser_1.Title, app_content_view_1.AppContentView])
                 ], ConfigurationView);
                 return ConfigurationView;
             }());

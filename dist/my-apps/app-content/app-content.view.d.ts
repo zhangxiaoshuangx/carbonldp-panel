@@ -9,6 +9,7 @@ export declare class AppContentView {
     private myAppsSidebarService;
     private appContextService;
     private timer;
+    private title;
     constructor(router: Router, routeParams: RouteParams, myAppsSidebarService: MyAppsSidebarService, appContextService: AppContextService);
     routerOnActivate(): void;
 }

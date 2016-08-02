@@ -1,4 +1,5 @@
 import { Component, Host, Inject, forwardRef } from "@angular/core";
+import { Title } from "@angular/platform-browser";
 
 import { AppContentView } from "./../app-content.view";
 import * as App from "./../app";
@@ -16,9 +17,16 @@ import template from "./explorer.view.html!";
 } )
 export class ExplorerView {
 	app:App.Class;
+	private title:Title;
 
-	constructor( @Host() @Inject( forwardRef( () => AppContentView ) ) appContent:AppContentView ) {
+	constructor( title:Title, @Host() @Inject( forwardRef( () => AppContentView ) ) appContent:AppContentView ) {
 		this.app = appContent.app;
+		this.title = title;
+	}
+
+	routerOnActivate() {
+		let title:string = "AppDev | " + this.app.name + " | Explorer";
+		this.title.setTitle( title );
 	}
 
 }

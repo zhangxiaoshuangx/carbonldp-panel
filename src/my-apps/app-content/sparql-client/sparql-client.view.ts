@@ -1,4 +1,5 @@
 import { Component, Host, Inject, forwardRef } from "@angular/core";
+import { Title } from "@angular/platform-browser";
 
 import * as App from "carbonldp/App";
 
@@ -18,12 +19,16 @@ import template from "./sparql-client.view.html!";
 } )
 export class SPARQLClientView {
 	$element:JQuery;
+	app:App.Class;
 	appContext:App.Context;
+	private title:Title;
 	private errorsAreaService:ErrorsAreaService;
 
-	constructor( errorsAreaService:ErrorsAreaService, @Host() @Inject( forwardRef( () => AppContentView ) ) appContent:AppContentView ) {
+	constructor( title:Title, errorsAreaService:ErrorsAreaService, @Host() @Inject( forwardRef( () => AppContentView ) ) appContent:AppContentView ) {
+		this.app = appContent.app;
 		this.appContext = appContent.app.context;
 		this.errorsAreaService = errorsAreaService;
+		this.title = title;
 	}
 
 	notifyErrorAreaService( error:any ):void {
@@ -34,6 +39,11 @@ export class SPARQLClientView {
 			error.statusMessage,
 			error.endpoint
 		);
+	}
+
+	routerOnActivate() {
+		let title:string = "AppDev | " + this.app.name + " | SPARQL";
+		this.title.setTitle( title );
 	}
 
 }
