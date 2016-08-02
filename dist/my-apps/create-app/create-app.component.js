@@ -108,6 +108,7 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
                     var description = data.description;
                     var appDocument = CarbonApp.Factory.create(name);
                     appDocument.description = description;
+                    appDocument.allowsOrigins = [Carbon_1.default.Pointer.Factory.create(Carbon_1.default.NS.CS.Class.AllOrigins)];
                     this.createApp(slug, appDocument);
                 };
                 CreateAppComponent.prototype.createApp = function (slug, appDocument) {
@@ -188,9 +189,10 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
                         styles: [":host { display: block; }"],
                         directives: [router_deprecated_1.ROUTER_DIRECTIVES, error_message_component_1.ErrorMessageComponent],
                     }), 
-                    __metadata('design:paramtypes', [common_1.FormBuilder, Carbon_1.default, app_context_service_1.AppContextService])
+                    __metadata('design:paramtypes', [common_1.FormBuilder, (typeof (_a = typeof Carbon_1.default !== 'undefined' && Carbon_1.default) === 'function' && _a) || Object, app_context_service_1.AppContextService])
                 ], CreateAppComponent);
                 return CreateAppComponent;
+                var _a;
             }());
             exports_1("CreateAppComponent", CreateAppComponent);
             exports_1("default",CreateAppComponent);

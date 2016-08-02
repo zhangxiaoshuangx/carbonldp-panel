@@ -163,7 +163,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                 };
                 __decorate([
                     core_1.Input(), 
-                    __metadata('design:type', SDKContext.Class)
+                    __metadata('design:type', Object)
                 ], DocumentTreeViewComponent.prototype, "documentContext", void 0);
                 __decorate([
                     core_1.Output(), 
