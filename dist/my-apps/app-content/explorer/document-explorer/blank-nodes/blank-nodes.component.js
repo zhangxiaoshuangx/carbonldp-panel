@@ -85,14 +85,13 @@ System.register(["@angular/core", "carbonldp/Utils", "./blank-node.component", "
                     this.onOpenBNode.emit("bNodes");
                 };
                 BlankNodesComponent.prototype.closeBlankNode = function (blankNode, index) {
-                    if (blankNode.added) {
-                        this.deleteBlankNode(blankNode, index);
-                        delete blankNode.added;
-                    }
-                    else {
-                        delete blankNode.modified;
-                        this.changeBlankNode(blankNode);
-                    }
+                    // if( blankNode.added ) {
+                    // 	this.deleteBlankNode( blankNode, index );
+                    // 	delete blankNode.added;
+                    // } else {
+                    // 	delete blankNode.modified;
+                    // 	this.changeBlankNode( blankNode );
+                    // }
                     this.openedBlankNodes.splice(index, 1);
                     this.goToBlankNode("all");
                 };

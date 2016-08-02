@@ -167,7 +167,6 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/URI", "./../
                 };
                 PointerComponent.prototype.initializePointersDropdown = function () {
                     this.pointersDropdown = jquery_1.default(this.element.nativeElement.querySelector(".fragments.search.dropdown"));
-                    console.log(this.pointersDropdown);
                     if (!!this.pointersDropdown) {
                         this.pointersDropdown.dropdown({
                             allowAdditions: true,

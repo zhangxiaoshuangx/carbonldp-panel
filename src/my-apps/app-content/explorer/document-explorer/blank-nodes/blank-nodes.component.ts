@@ -80,13 +80,13 @@ export class BlankNodesComponent implements AfterViewInit, OnChanges {
 	}
 
 	closeBlankNode( blankNode:BlankNodeRow, index?:number ):void {
-		if( blankNode.added ) {
-			this.deleteBlankNode( blankNode, index );
-			delete blankNode.added;
-		} else {
-			delete blankNode.modified;
-			this.changeBlankNode( blankNode );
-		}
+		// if( blankNode.added ) {
+		// 	this.deleteBlankNode( blankNode, index );
+		// 	delete blankNode.added;
+		// } else {
+		// 	delete blankNode.modified;
+		// 	this.changeBlankNode( blankNode );
+		// }
 		this.openedBlankNodes.splice( index, 1 );
 		this.goToBlankNode( "all" );
 	}

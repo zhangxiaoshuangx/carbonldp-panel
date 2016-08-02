@@ -48,12 +48,18 @@ System.register(["@angular/core", "./../property/property.component", "jquery", 
                     },
                     set: function (hasChanged) {
                         this._bNodeHasChanged = hasChanged;
-                        if (hasChanged && !!this.blankNode.copy) {
-                            this.blankNode.modified = this.tempBlankNode;
+                        if (hasChanged) {
+                            if (!!this.blankNode.copy) {
+                                this.blankNode.modified = this.tempBlankNode;
+                            }
+                            else {
+                                this.blankNode.added = this.tempBlankNode;
+                            }
+                            this.blankNode.records = this.records;
                         }
                         else {
                             delete this.blankNode.modified;
-                            this.blankNode.added = this.tempBlankNode;
+                            delete this.blankNode.added;
                         }
                         this.updateTempProperties();
                         this.onChanges.emit(this.blankNode);
@@ -68,9 +74,11 @@ System.register(["@angular/core", "./../property/property.component", "jquery", 
                     if ((changes["blankNode"].currentValue !== changes["blankNode"].previousValue)) {
                         console.log("Blank Node: %o", this.blankNode);
                         this.copyOrModifiedOrAdded = !!this.blankNode.copy ? (!!this.blankNode.modified ? "modified" : "copy") : "added";
+                        if (!!this.blankNode.records)
+                            this.records = this.blankNode.records;
                         this.tempBlankNode = Object.assign({}, this.blankNode[this.copyOrModifiedOrAdded]);
-                        this.tempPropertiesNames = this.getPropertiesNames();
-                        this.tempProperties = this.getProperties(this.tempPropertiesNames);
+                        this.tempPropertiesNames = Object.keys(this.tempBlankNode);
+                        this.tempProperties = this.getProperties(this.blankNode);
                     }
                 };
                 BlankNodeComponent.prototype.openBNode = function (id) {
@@ -129,20 +137,51 @@ System.register(["@angular/core", "./../property/property.component", "jquery", 
                     if (!!this.$element)
                         setTimeout(function () { return _this.$element.find("cp-property.added-property").first().transition("drop"); });
                 };
-                BlankNodeComponent.prototype.getPropertiesNames = function () {
-                    return Object.keys(this.tempBlankNode);
+                BlankNodeComponent.prototype.getPropertiesNames = function (object) {
+                    var tempNames = Object.keys(object);
+                    // console.log( "Original without records: %o", tempNames );
+                    // if( ! this.records ) return tempNames;
+                    //
+                    // let idx:number;
+                    // this.records.deletions.forEach( ( property:PropertyRow, key:string )=> {
+                    // 	idx = tempNames.indexOf( key );
+                    // 	if( idx !== - 1 ) tempNames.splice( idx, 1 );
+                    // } );
+                    // this.records.changes.forEach( ( property:PropertyRow, key:string )=> {
+                    // 	idx = tempNames.indexOf( key );
+                    // 	if( idx !== - 1 ) tempNames.splice( idx, 1, property.modified[ "@id" ] );
+                    // } );
+                    // this.records.additions.forEach( ( property:PropertyRow, key:string )=> {
+                    // 	tempNames.splice( 0, 0, key );
+                    // } );
+                    // console.log( "Original with records: %o", tempNames );
+                    return tempNames;
                 };
-                BlankNodeComponent.prototype.getProperties = function (propertiesNames) {
-                    var _this = this;
-                    var tempProperties = [];
+                BlankNodeComponent.prototype.getProperties = function (blankNode) {
+                    var tempProperties = [], copyOrAdded = blankNode.added ? "added" : "copy";
+                    var propertiesNames = Object.keys(blankNode[copyOrAdded]);
                     propertiesNames.forEach(function (propName) {
                         tempProperties.push({
                             copy: {
                                 id: propName,
                                 name: propName,
-                                value: _this.tempBlankNode[propName]
+                                value: blankNode[copyOrAdded][propName]
                             }
                         });
+                    });
+                    if (!this.records)
+                        return tempProperties;
+                    var idx;
+                    this.records.deletions.forEach(function (property, key) {
+                        idx = tempProperties.findIndex(function (propertyRow) { return propertyRow.copy.id === key; });
+                        tempProperties.splice(idx, 1);
+                    });
+                    this.records.changes.forEach(function (property, key) {
+                        idx = tempProperties.findIndex(function (propertyRow) { return propertyRow.copy.id === key; });
+                        tempProperties.splice(idx, 1, property);
+                    });
+                    this.records.additions.forEach(function (property, key) {
+                        tempProperties.splice(0, 0, property);
                     });
                     return tempProperties;
                 };
@@ -165,7 +204,7 @@ System.register(["@angular/core", "./../property/property.component", "jquery", 
                     this.records.additions.forEach(function (property, key) {
                         _this.tempBlankNode[key] = property.added.value;
                     });
-                    this.tempPropertiesNames = this.getPropertiesNames();
+                    this.tempPropertiesNames = Object.keys(this.tempBlankNode);
                 };
                 __decorate([
                     core_1.Input(), 

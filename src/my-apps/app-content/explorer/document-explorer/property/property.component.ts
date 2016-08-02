@@ -55,7 +55,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	@Input() existingProperties:string[] = [];
 	private _property:PropertyRow;
 	@Input() set property( prop:PropertyRow ) {
-		this.copyOrAdded = typeof prop.copy !== "undefined" ? "copy" : "added";
+		this.copyOrAdded = ! ! prop.copy ? (! ! prop.modified ? "modified" : "copy") : "added";
 		this._property = prop;
 		this.id = prop[ this.copyOrAdded ].id;
 		this.tempProperty.id = prop[ this.copyOrAdded ].id;
@@ -86,6 +86,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	get propertyHasChanged():boolean { return this.nameHasChanged || this.literalsHaveChanged || this.pointersHaveChanged; }
 
 	// TODO: Add @lists and @sets support
+	// TODO: Add colors to pointers and literals
 	constructor( element:ElementRef ) {
 		this.element = element;
 	}
@@ -139,7 +140,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	getTypeIcon( type:string ):string {
-		switch ( this.getDisplayName( type ) ) {
+		switch( this.getDisplayName( type ) ) {
 			case "RDFSource":
 				return "file outline";
 			case "Container":

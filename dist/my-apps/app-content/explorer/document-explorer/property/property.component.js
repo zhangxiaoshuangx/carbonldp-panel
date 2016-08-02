@@ -51,6 +51,7 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
         execute: function() {
             PropertyComponent = (function () {
                 // TODO: Add @lists and @sets support
+                // TODO: Add colors to pointers and literals
                 function PropertyComponent(element) {
                     this.literals = [];
                     this.pointers = [];
@@ -81,7 +82,7 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                     get: function () { return this._property; },
                     set: function (prop) {
                         var _this = this;
-                        this.copyOrAdded = typeof prop.copy !== "undefined" ? "copy" : "added";
+                        this.copyOrAdded = !!prop.copy ? (!!prop.modified ? "modified" : "copy") : "added";
                         this._property = prop;
                         this.id = prop[this.copyOrAdded].id;
                         this.tempProperty.id = prop[this.copyOrAdded].id;

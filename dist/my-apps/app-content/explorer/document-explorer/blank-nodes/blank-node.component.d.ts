@@ -8,7 +8,7 @@ export declare class BlankNodeComponent implements AfterViewInit, OnChanges {
     modes: Modes;
     records: BlankNodeRecords;
     copyOrModifiedOrAdded: string;
-    tempBlankNode: RDFNode.Class;
+    tempBlankNode: BlankNodeRow;
     tempProperties: PropertyRow[];
     tempPropertiesNames: string[];
     private _bNodeHasChanged;
@@ -32,8 +32,8 @@ export declare class BlankNodeComponent implements AfterViewInit, OnChanges {
     deleteProperty(property: PropertyRow, index: number): void;
     addProperty(property: PropertyRow, index: number): void;
     createProperty(property: Property, propertyRow: PropertyRow): void;
-    getPropertiesNames(): string[];
-    getProperties(propertiesNames: string[]): PropertyRow[];
+    getPropertiesNames(object: any): string[];
+    getProperties(blankNode: BlankNodeRow): PropertyRow[];
     updateTempProperties(): void;
 }
 export interface BlankNodeRow {
@@ -43,6 +43,7 @@ export interface BlankNodeRow {
     added?: RDFNode.Class;
     modified?: RDFNode.Class;
     deleted?: RDFNode.Class;
+    records?: BlankNodeRecords;
 }
 export declare class BlankNode {
     id: string;
