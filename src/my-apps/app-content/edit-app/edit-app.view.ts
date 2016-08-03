@@ -17,15 +17,15 @@ import template from "./edit-app.view.html!";
 } )
 export class EditAppView {
 	app:App.Class;
-	private title:Title;
+	title:Title;
+
 	constructor( title:Title, @Host() @Inject( forwardRef( () => AppContentView ) ) appContentView:AppContentView ) {
 		this.app = appContentView.app;
 		this.title = title;
 	}
 
-	routerOnActivate(){
-		let title:string = "AppDev | "+this.app.name+" | Edit";
-		this.title.setTitle(title);
+	routerOnActivate() {
+		this.title.setTitle( "AppDev | Edit App" );
 	}
 }
 

@@ -4,7 +4,7 @@ import * as App from "./../app";
 import "semantic-ui/semantic";
 export declare class EditAppView {
     app: App.Class;
-    private title;
+    title: Title;
     constructor(title: Title, appContentView: AppContentView);
     routerOnActivate(): void;
 }

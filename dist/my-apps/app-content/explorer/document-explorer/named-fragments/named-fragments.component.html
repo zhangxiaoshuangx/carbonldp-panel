@@ -43,14 +43,14 @@
      *ngFor="let namedFragment of openedNamedFragments; let i = index;" [attr.data-tab]="'namedfragment_'+getNormalizedUri(namedFragment['@id'])">
 	<div class="ui divided items">
 		<cp-named-fragment class="column"
-		                [documentURI]="documentURI"
-		                [bNodes]="bNodes"
-		                [namedFragment]="namedFragment"
-		                [namedFragments]="namedFragments"
+		                   [documentURI]="documentURI"
+		                   [bNodes]="bNodes"
+		                   [namedFragment]="namedFragment"
+		                   [namedFragments]="namedFragments"
 
-		                (onOpenBNode)="openBNode( $event )"
-		                (onOpenNamedFragment)="openNamedFragment($event)"
-		                (onChanges)="notifyNamedFragmentHasChanged($event, namedFragment)">
+		                   (onOpenBNode)="openBNode( $event )"
+		                   (onOpenNamedFragment)="openNamedFragment($event)"
+		                   (onChanges)="notifyNamedFragmentHasChanged($event, namedFragment)">
 		</cp-named-fragment>
 	</div>
 </div>

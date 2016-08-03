@@ -39,7 +39,7 @@ export class RouterService {
 
 		if( instructionBranch.length > currentInstructionBranch.length ) return false;
 
-		for ( let i:number = 0, length:number = instructionBranch.length; i < length; i ++ ) {
+		for( let i:number = 0, length:number = instructionBranch.length; i < length; i ++ ) {
 			let instructionA:Instruction = instructionBranch[ i ];
 			let instructionB:Instruction = currentInstructionBranch[ i ];
 			if( instructionA.component.routeName !== instructionB.component.routeName ) return false;
@@ -51,7 +51,7 @@ export class RouterService {
 	}
 
 	private getRootRouter( router:Router ):Router {
-		while ( isPresent( router.parent ) ) {
+		while( isPresent( router.parent ) ) {
 			router = router.parent;
 		}
 		return router;
@@ -60,7 +60,7 @@ export class RouterService {
 	private buildInstructionBranch( instruction:Instruction ):Instruction[] {
 		let instructionBranch:Instruction[] = [];
 		let currentInstruction:Instruction = instruction;
-		while ( isPresent( currentInstruction ) ) {
+		while( isPresent( currentInstruction ) ) {
 			instructionBranch.push( currentInstruction );
 			currentInstruction = currentInstruction.child;
 		}

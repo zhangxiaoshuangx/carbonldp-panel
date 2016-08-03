@@ -105,7 +105,7 @@ export class ResponseComponent implements AfterViewInit, OnInit {
 	}
 
 	getCodeMirrorMode( format:string ):string {
-		switch ( format ) {
+		switch( format ) {
 			case SPARQLFormats.csv:
 				return CodeMirrorComponent.Mode.CSV;
 			case SPARQLFormats.xml:

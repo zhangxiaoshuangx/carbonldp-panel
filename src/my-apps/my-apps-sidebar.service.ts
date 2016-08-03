@@ -1,6 +1,6 @@
-import {Injectable, EventEmitter} from "@angular/core";
+import { Injectable, EventEmitter } from "@angular/core";
 
-import {SidebarService, SidebarGroup, SidebarDivider, SidebarSubmenu} from "./../sidebar.service";
+import { SidebarService, SidebarGroup, SidebarDivider, SidebarSubmenu } from "./../sidebar.service";
 
 import * as App from "./app-content/app";
 
@@ -48,25 +48,25 @@ export class MyAppsSidebarService {
 					type: "link",
 					name: "Dashboard",
 					icon: "bar chart icon",
-					route: [ "./MyApps", "App", {slug: app.slug}, "AppDashboard" ],
+					route: [ "./MyApps", "App", { slug: app.slug }, "AppDashboard" ],
 				},
 				{
 					type: "link",
 					name: "Document Explorer",
 					icon: "list layout icon",
-					route: [ "./MyApps", "App", {slug: app.slug}, "Explorer" ],
+					route: [ "./MyApps", "App", { slug: app.slug }, "Explorer" ],
 				},
 				{
 					type: "link",
 					name: "SPARQL Client",
 					icon: "terminal icon",
-					route: [ "./MyApps", "App", {slug: app.slug}, "SPARQLClient" ],
+					route: [ "./MyApps", "App", { slug: app.slug }, "SPARQLClient" ],
 				},
 				{
 					type: "link",
 					name: "Configuration",
 					icon: "settings icon",
-					route: [ "./MyApps", "App", {slug: app.slug}, "Configuration" ],
+					route: [ "./MyApps", "App", { slug: app.slug }, "Configuration" ],
 				},
 			]
 		};

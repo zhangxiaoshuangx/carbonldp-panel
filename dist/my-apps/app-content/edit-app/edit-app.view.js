@@ -40,8 +40,7 @@ System.register(["@angular/core", "@angular/platform-browser", "./../../app-cont
                     this.title = title;
                 }
                 EditAppView.prototype.routerOnActivate = function () {
-                    var title = "AppDev | " + this.app.name + " | Edit";
-                    this.title.setTitle(title);
+                    this.title.setTitle("AppDev | Edit App");
                 };
                 EditAppView = __decorate([
                     core_1.Component({

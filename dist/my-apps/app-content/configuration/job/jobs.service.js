@@ -75,19 +75,17 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/Utils", "./job"
                 };
                 JobsService.prototype.createImportBackup = function (backupURI, appContext) {
                     var _this = this;
-                    return new Promise(function (resolve, reject) {
-                        var uri = appContext.app.id + "jobs/";
-                        var tempJob = {};
-                        tempJob["types"] = [Job.Type.IMPORT_BACKUP];
-                        tempJob[Job.namespace + "backup"] = appContext.documents.getPointer(backupURI);
-                        appContext.documents.createChild(uri, tempJob).then(function (_a) {
-                            var pointer = _a[0], response = _a[1];
-                            pointer.resolve().then(function (_a) {
-                                var importJob = _a[0], response = _a[1];
-                                resolve(importJob);
-                                _this.addJob(importJob);
-                            });
-                        }).catch(function (error) { return reject(error); });
+                    var uri = appContext.app.id + "jobs/";
+                    var tempJob = {};
+                    tempJob["types"] = [Job.Type.IMPORT_BACKUP];
+                    tempJob[Job.namespace + "backup"] = appContext.documents.getPointer(backupURI);
+                    return this.carbon.documents.createChild(uri, tempJob).then(function (_a) {
+                        var pointer = _a[0], response = _a[1];
+                        return pointer.resolve();
+                    }).then(function (_a) {
+                        var importJob = _a[0], response = _a[1];
+                        _this.addJob(importJob);
+                        return importJob;
                     });
                 };
                 JobsService.prototype.runJob = function (job) {

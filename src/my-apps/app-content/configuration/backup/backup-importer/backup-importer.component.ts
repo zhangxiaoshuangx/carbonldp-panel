@@ -136,7 +136,7 @@ export class BackupImporterComponent implements OnInit {
 	}
 
 	onInputLostFocus( event:FocusEvent ):void {
-		switch ( event.srcElement.attributes.getNamedItem( "ngcontrol" ).value ) {
+		switch( event.srcElement.attributes.getNamedItem( "ngcontrol" ).value ) {
 			case "uri":
 				if( this.uri.valid ) {
 					this.$element.find( "[ngControl='backup']" ).prop( "disabled", true );
@@ -187,7 +187,7 @@ export class BackupImporterComponent implements OnInit {
 
 	importFormValidator( importForm:ControlGroup ):any {
 		let validForm:boolean = false;
-		for ( let control in importForm.controls ) {
+		for( let control in importForm.controls ) {
 			if( ! ! importForm.controls[ control ].valid )validForm = true;
 		}
 		if( validForm ) {
