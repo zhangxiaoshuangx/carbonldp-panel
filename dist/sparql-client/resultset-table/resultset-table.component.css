@@ -5,6 +5,9 @@
   :host .success {
     background-color: #90ee90; }
   :host > .table-container {
-    overflow-x: scroll; }
+    overflow-x: scroll;
+    max-height: 600px;
+    border: 1px solid #D3D3D3;
+    border-radius: .4em; }
 
 /*# sourceMappingURL=resultset-table.component.css.map */
