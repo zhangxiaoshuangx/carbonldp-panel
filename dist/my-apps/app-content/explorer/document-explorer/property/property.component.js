@@ -116,8 +116,8 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                     if (this.commonToken.indexOf(uri) > -1)
                         return uri;
                     if (URI.Util.hasFragment(uri))
-                        return this.getFragment(uri);
-                    return URI.Util.getSlug(uri);
+                        return this.unescape(this.getFragment(uri));
+                    return this.unescape(URI.Util.getSlug(uri));
                 };
                 PropertyComponent.prototype.getParentURI = function (uri) {
                     var slug = this.getSlug(uri);
@@ -167,6 +167,7 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                 };
                 PropertyComponent.prototype.onEditName = function () {
                     this.mode = Modes.EDIT;
+                    this.nameInput.updateValue(this.unescape(this.name));
                 };
                 PropertyComponent.prototype.cancelDeletion = function () {
                     this.$element.find(".confirm-deletion.dimmer").dimmer("hide");
@@ -190,8 +191,16 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                     }
                 };
                 PropertyComponent.prototype.save = function () {
-                    this.checkForChangesOnName(this.nameInput.value);
+                    this.checkForChangesOnName(this.sanitizeName(this.nameInput.value));
                     this.mode = Modes.READ;
+                };
+                PropertyComponent.prototype.sanitizeName = function (name) {
+                    var sanitizedName = name;
+                    var slug = this.getSlug(this.nameInput.value);
+                    var parts = this.nameInput.value.split(slug);
+                    if (parts.length > 0)
+                        sanitizedName = parts[0] + this.escape(slug);
+                    return sanitizedName;
                 };
                 PropertyComponent.prototype.fillLiteralsAndPointers = function () {
                     var _this = this;
@@ -276,18 +285,23 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                         this.onSaveNewProperty.emit(this.tempProperty);
                     }
                 };
+                PropertyComponent.prototype.escape = function (uri) {
+                    return window.escape(uri);
+                };
+                PropertyComponent.prototype.unescape = function (uri) {
+                    return window.unescape(uri);
+                };
                 PropertyComponent.prototype.nameValidator = function (control) {
                     if (!!control) {
                         if (typeof control.value === "undefined" || control.value === null || !control.value)
                             return null;
                         if (this.existingProperties.indexOf(control.value) !== -1 && this.id !== control.value)
                             return { "duplicatedPropertyName": true };
-                        if (!/^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(control.value))
+                        var url = new RegExp("(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g");
+                        if (!url.test(control.value))
                             return { "invalidName": true };
                         if (control.value.split("#").length > 2)
                             return { "duplicatedHashtag": true };
-                        if (!URI.Util.hasFragment(control.value))
-                            return { "missingFragment": true };
                     }
                     return null;
                 };
