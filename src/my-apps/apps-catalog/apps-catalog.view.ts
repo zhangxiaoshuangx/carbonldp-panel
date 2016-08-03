@@ -16,13 +16,14 @@ import template from "./apps-catalog.view.html!";
 } )
 export class AppsCatalogView {
 	private title:Title;
-	constructor(title:Title) {
+
+	constructor( title:Title ) {
 		this.title = title;
 	}
 
-	routerOnActivate(){
+	routerOnActivate() {
 		this.title.setTitle( "App Dev | Apps Catalog" );
-		console.log(this.title);
+		console.log( this.title );
 	}
 
 

@@ -11,9 +11,9 @@
 </div>
 <div class="ui basic segment" *ngIf="errorMessages.length > 0">
 	<cp-error-message *ngFor="let errorMessage of errorMessages; let i=index"
-	               [message]="errorMessage"
-	               [closable]="true"
-	               (onClose)="removeMessage(i)">
+	                  [message]="errorMessage"
+	                  [closable]="true"
+	                  (onClose)="removeMessage(i)">
 	</cp-error-message>
 </div>
 <div class="ui basic segment" *ngIf="exportSuccess">

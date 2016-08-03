@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, Output, EventEmitter, AfterViewInit, OnInit} from "@angular/core";
+import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit, OnInit } from "@angular/core";
 
 import * as Pointer from "carbonldp/Pointer";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
@@ -112,7 +112,7 @@ export class DocumentTreeViewComponent implements AfterViewInit {
 	emptyNode( nodeId:string ):void {
 		let $children:JQuery = this.documentTree.jstree( true ).get_children_dom( nodeId );
 		let childElements:Element[] = jQuery.makeArray( $children );
-		while ( childElements.length > 0 ) {
+		while( childElements.length > 0 ) {
 			this.documentTree.jstree( true ).delete_node( childElements[ 0 ] );
 			childElements.splice( 0, 1 );
 		}

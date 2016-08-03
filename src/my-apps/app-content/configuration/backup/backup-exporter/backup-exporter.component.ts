@@ -68,7 +68,7 @@ export class BackupExporterComponent {
 			// setInterval in the browser returns a number but in NodeJS it returns a Time object, that's why this variable needs to be of type "any"
 			let interval:any = setInterval( ()=> {
 				execution.refresh().then( ()=> {
-					switch ( execution[ Job.Execution.STATUS ].id ) {
+					switch( execution[ Job.Execution.STATUS ].id ) {
 						case Job.ExecutionStatus.FINISHED:
 							clearInterval( interval );
 							resolve( execution );

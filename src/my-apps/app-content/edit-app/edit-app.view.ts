@@ -24,7 +24,7 @@ export class EditAppView {
 		this.title = title;
 	}
 
-	routerOnActivate(){
+	routerOnActivate() {
 		this.title.setTitle( "AppDev | Edit App" );
 	}
 }

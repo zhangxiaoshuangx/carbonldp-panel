@@ -130,7 +130,7 @@ System.register(["@angular/core", "@angular/router-deprecated", "rxjs/Rx", "carb
                     this.router.navigate(["App", { slug: app.slug }, "AppDashboard"]);
                 };
                 AppsCatalogComponent.prototype.deleteApp = function (app) {
-                    return app.destroy();
+                    return app.delete();
                 };
                 AppsCatalogComponent.prototype.getErrorMessage = function (error) {
                     var content = "";
