@@ -114,7 +114,7 @@ export class CreateAppComponent implements AfterViewInit, OnInit {
 	}
 
 	createApp( slug:string, appDocument:CarbonApp.Class ):Promise<[ Pointer.Class, HTTP.Response.Class]> {
-		return this.carbon.apps.create( slug, appDocument ).then( ( [appPointer, appCreationResponse]:[ Pointer.Class, HTTP.Response.Class] ) => {
+		return this.carbon.apps.create( appDocument, slug ).then( ( [appPointer, appCreationResponse]:[ Pointer.Class, HTTP.Response.Class] ) => {
 			this.submitting = false;
 			this.persistedSlug = this._slug;
 			this.persistedName = this._name;
