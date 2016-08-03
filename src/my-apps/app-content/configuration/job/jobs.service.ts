@@ -63,21 +63,17 @@ export class JobsService {
 	}
 
 	createImportBackup( backupURI:string, appContext:App.Context ):Promise<PersistedDocument.Class> {
-		return new Promise<PersistedDocument.Class>(
-			( resolve:( result:any ) => void, reject:( error:Error ) => void ) => {
-				let uri:string = appContext.app.id + "jobs/";
-				let tempJob:any = {};
-				tempJob[ "types" ] = [ Job.Type.IMPORT_BACKUP ];
-				tempJob[ Job.namespace + "backup" ] = appContext.documents.getPointer( backupURI );
-				appContext.documents.createChild( uri, tempJob ).then(
-					( [pointer, response]:[Pointer.Class, Response.Class] )=> {
-						pointer.resolve().then( ( [importJob, response]:[PersistedDocument.Class, HTTP.Response.Class] )=> {
-							resolve( importJob );
-							this.addJob( importJob );
-						} );
-					} ).catch( ( error )=> reject( error ) );
-			}
-		);
+		let uri:string = appContext.app.id + "jobs/";
+		let tempJob:any = {};
+		tempJob[ "types" ] = [ Job.Type.IMPORT_BACKUP ];
+		tempJob[ Job.namespace + "backup" ] = appContext.documents.getPointer( backupURI );
+
+		return this.carbon.documents.createChild( uri, tempJob ).then( ( [pointer, response]:[Pointer.Class, Response.Class] ) => {
+			return pointer.resolve();
+		} ).then( ( [importJob, response ]:[PersistedDocument.Class, HTTP.Response.Class] )=> {
+			this.addJob( importJob );
+			return importJob;
+		} );
 	}
 
 	runJob( job:PersistedDocument.Class ):Promise<PersistedDocument.Class> {
