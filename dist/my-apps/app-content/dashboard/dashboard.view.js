@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/platform-browser", "./../../app-content/app-content.view", "semantic-ui/semantic"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/router-deprecated", "@angular/platform-browser", "./../../app-content/app-content.view", "semantic-ui/semantic"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -13,12 +13,15 @@ System.register(["@angular/core", "@angular/platform-browser", "./../../app-cont
     var __param = (this && this.__param) || function (paramIndex, decorator) {
         return function (target, key) { decorator(target, key, paramIndex); }
     };
-    var core_1, platform_browser_1, app_content_view_1;
+    var core_1, router_deprecated_1, platform_browser_1, app_content_view_1;
     var DashboardView;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (router_deprecated_1_1) {
+                router_deprecated_1 = router_deprecated_1_1;
             },
             function (platform_browser_1_1) {
                 platform_browser_1 = platform_browser_1_1;
@@ -30,12 +33,17 @@ System.register(["@angular/core", "@angular/platform-browser", "./../../app-cont
         execute: function() {
             // import template from "./create-app.view.html!";
             DashboardView = (function () {
-                function DashboardView(title, appContent) {
+                function DashboardView(router, routeData, title, appContent) {
                     this.app = appContent.app;
                     this.title = title;
+                    this.routeData = routeData;
+                    this.router = router;
                 }
                 DashboardView.prototype.routerOnActivate = function () {
-                    var title = "AppDev | " + this.app.name + " | Dashboard";
+                    //let title:string = "AppDev | " + this.app.name + " | Dashboard";
+                    //this.title.setTitle( title );
+                    var rootComponent = this.router.root.currentInstruction.component.routeData.data["displayName"];
+                    var title = rootComponent + " | " + this.app.name + " > " + this.routeData.data["displayName"];
                     this.title.setTitle(title);
                 };
                 DashboardView = __decorate([
@@ -44,9 +52,9 @@ System.register(["@angular/core", "@angular/platform-browser", "./../../app-cont
                         template: "<h3>Dashboard View</h3>",
                         styles: [":host { display: block; }"],
                     }),
-                    __param(1, core_1.Host()),
-                    __param(1, core_1.Inject(core_1.forwardRef(function () { return app_content_view_1.AppContentView; }))), 
-                    __metadata('design:paramtypes', [platform_browser_1.Title, app_content_view_1.AppContentView])
+                    __param(3, core_1.Host()),
+                    __param(3, core_1.Inject(core_1.forwardRef(function () { return app_content_view_1.AppContentView; }))), 
+                    __metadata('design:paramtypes', [router_deprecated_1.Router, router_deprecated_1.RouteData, platform_browser_1.Title, app_content_view_1.AppContentView])
                 ], DashboardView);
                 return DashboardView;
             }());

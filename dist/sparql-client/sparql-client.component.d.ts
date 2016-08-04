@@ -46,7 +46,7 @@ export declare class SPARQLClientComponent implements OnInit, AfterViewInit {
     private carbon;
     private _sparql;
     private _endpoint;
-    readonly codeMirrorMode: typeof CodeMirrorComponent.Mode;
+    codeMirrorMode: typeof CodeMirrorComponent.Mode;
     sparql: string;
     endpoint: string;
     constructor(element: ElementRef, carbon: Carbon);

@@ -1,4 +1,5 @@
 import { Title } from "@angular/platform-browser";
+import { Router, RouteData } from "@angular/router-deprecated";
 import * as App from "carbonldp/App";
 import { AppContentView } from "carbon-panel/my-apps/app-content/app-content.view";
 import { ErrorsAreaService } from "carbon-panel/errors-area/errors-area.service";
@@ -9,7 +10,9 @@ export declare class SPARQLClientView {
     appContext: App.Context;
     private title;
     private errorsAreaService;
-    constructor(title: Title, errorsAreaService: ErrorsAreaService, appContent: AppContentView);
+    private router;
+    private routeData;
+    constructor(router: Router, routeData: RouteData, title: Title, errorsAreaService: ErrorsAreaService, appContent: AppContentView);
     notifyErrorAreaService(error: any): void;
     routerOnActivate(): void;
 }
