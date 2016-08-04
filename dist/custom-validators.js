@@ -1,7 +1,7 @@
 System.register([], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var EmailValidator, PasswordValidator;
+    var EmailValidator, PasswordValidator, SameAsValidator;
     return {
         setters:[],
         execute: function() {
@@ -23,6 +23,14 @@ System.register([], function(exports_1, context_1) {
                 else {
                     return { "invalidPassword": true };
                 }
+            });
+            exports_1("SameAsValidator", SameAsValidator = function SameAsValidator(controlToCompare) {
+                return function SameAsValidator(control) {
+                    if (controlToCompare.value !== control.value)
+                        return { "notTheSame": true };
+                    else
+                        return null;
+                };
             });
         }
     }

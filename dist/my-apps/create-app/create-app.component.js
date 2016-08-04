@@ -112,7 +112,7 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
                 };
                 CreateAppComponent.prototype.createApp = function (slug, appDocument) {
                     var _this = this;
-                    return this.carbon.apps.create(slug, appDocument).then(function (_a) {
+                    return this.carbon.apps.create(appDocument, slug).then(function (_a) {
                         var appPointer = _a[0], appCreationResponse = _a[1];
                         _this.submitting = false;
                         _this.persistedSlug = _this._slug;

@@ -19,3 +19,10 @@ export let PasswordValidator:ValidatorFn = function PasswordValidator( control:A
 		return { "invalidPassword": true };
 	}
 };
+
+export let SameAsValidator:( controlToCompare:AbstractControl ) => ValidatorFn = function SameAsValidator( controlToCompare:AbstractControl ):ValidatorFn {
+	return function SameAsValidator( control:AbstractControl ):{ [key:string]:any } {
+		if( controlToCompare.value !== control.value ) return { "notTheSame": true };
+		else return null;
+	}
+};
