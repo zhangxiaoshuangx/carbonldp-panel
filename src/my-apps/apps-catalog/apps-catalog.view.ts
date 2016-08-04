@@ -29,7 +29,6 @@ export class AppsCatalogView {
 		let rootComponent = this.router.root.currentInstruction.component.routeData.data[ "displayName" ];
 		let title:string = rootComponent +" | "+ this.routeData.data["displayName"];
 		this.title.setTitle(title);
-		//let title:string = this.title.getTitle() +" | "+ this.routeData.data["displayName"];
 
 	}
 

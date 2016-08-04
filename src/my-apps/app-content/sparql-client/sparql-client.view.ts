@@ -47,7 +47,6 @@ export class SPARQLClientView {
 	}
 
 	routerOnActivate() {
-		//let title:string = "AppDev | " + this.app.name + " | SPARQL";
 		let rootComponent = this.router.root.currentInstruction.component.routeData.data[ "displayName" ];
 		let title:string = rootComponent +" | "+this.app.name+" > "+ this.routeData.data["displayName"];
 		this.title.setTitle(title);

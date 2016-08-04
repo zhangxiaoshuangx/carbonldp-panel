@@ -30,8 +30,6 @@ export class EditAppView {
 	}
 
 	routerOnActivate() {
-		//this.title.setTitle( "AppDev | Edit App" );
-		//let title:string = this.title.getTitle() +" | "+this.app.name+" > "+ this.routeData.data["displayName"];
 		let rootComponent = this.router.root.currentInstruction.component.routeData.data[ "displayName" ];
 		let title:string = rootComponent + " | " + this.app.name + " > " + this.routeData.data[ "displayName" ];
 		this.title.setTitle( title );
