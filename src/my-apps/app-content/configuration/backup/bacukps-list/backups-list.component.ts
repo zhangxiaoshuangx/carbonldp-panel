@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, SimpleChange, AfterViewInit, OnChanges, OnDestroy } from "@angular/core";
+import { Component, ElementRef, Input, EventEmitter, SimpleChange, AfterViewInit, OnChanges, OnDestroy } from "@angular/core";
 
 import * as App from "carbonldp/App";
 import * as Response from "carbonldp/HTTP/Response";
@@ -41,10 +41,18 @@ export class BackupsListComponent implements AfterViewInit, OnChanges, OnDestroy
 
 	@Input() backupJob:PersistedDocument.Class;
 	@Input() appContext:App.Context;
+	fetchBackupsList:EventEmitter<boolean> = new EventEmitter<boolean>();
 
 	constructor( element:ElementRef, backupsService:BackupsService ) {
 		this.element = element;
 		this.backupsService = backupsService;
+		this.fetchBackupsList.subscribe( ( doFetch )=> {
+			if( ! doFetch ) return;
+			this.getBackups().then( ( backups:PersistedDocument.Class[] )=> {
+				clearInterval( this.fetchBackupsListInterval );
+				this.monitorBackups();
+			} );
+		} );
 	}
 
 	ngAfterViewInit():void {

@@ -45,13 +45,23 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
         execute: function() {
             BackupsListComponent = (function () {
                 function BackupsListComponent(element, backupsService) {
+                    var _this = this;
                     this.loadingBackups = false;
                     this.deletingBackup = false;
                     this.errorMessages = [];
                     this.refreshPeriod = 15000;
                     this.deleteMessages = [];
+                    this.fetchBackupsList = new core_1.EventEmitter();
                     this.element = element;
                     this.backupsService = backupsService;
+                    this.fetchBackupsList.subscribe(function (doFetch) {
+                        if (!doFetch)
+                            return;
+                        _this.getBackups().then(function (backups) {
+                            clearInterval(_this.fetchBackupsListInterval);
+                            _this.monitorBackups();
+                        });
+                    });
                 }
                 BackupsListComponent.prototype.ngAfterViewInit = function () {
                     this.$element = jquery_1.default(this.element.nativeElement);

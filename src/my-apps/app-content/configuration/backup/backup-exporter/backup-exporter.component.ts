@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from "@angular/core";
+import { Component, Input, Output, EventEmitter, OnDestroy } from "@angular/core";
 
 import * as App from "carbonldp/App";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
@@ -30,6 +30,7 @@ export class BackupExporterComponent implements OnDestroy {
 
 	@Input() appContext:App.Context;
 	@Input() backupJob:PersistedDocument.Class;
+	@Output() onExportSuccess:EventEmitter<boolean> = new EventEmitter<boolean>();
 
 	constructor( jobsService:JobsService ) {
 		this.jobsService = jobsService;
@@ -37,6 +38,7 @@ export class BackupExporterComponent implements OnDestroy {
 
 	onGenerateBackup():void {
 		this.executingBackup = true;
+		this.exportSuccess = false;
 
 		this.jobsService.runJob( this.backupJob ).then( ( execution:PersistedDocument.Class )=> {
 			return this.monitorExecution( execution ).catch( ( executionOrError:HTTPError|PersistedDocument.Class ) => {
@@ -72,6 +74,7 @@ export class BackupExporterComponent implements OnDestroy {
 						case Job.ExecutionStatus.FINISHED:
 							clearInterval( this.monitorExecutionInterval );
 							resolve( execution );
+							this.onExportSuccess.emit( true );
 							break;
 						case Job.ExecutionStatus.ERROR:
 							clearInterval( this.monitorExecutionInterval );

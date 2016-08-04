@@ -1,4 +1,4 @@
-import { ElementRef, SimpleChange, AfterViewInit, OnChanges, OnDestroy } from "@angular/core";
+import { ElementRef, EventEmitter, SimpleChange, AfterViewInit, OnChanges, OnDestroy } from "@angular/core";
 import * as App from "carbonldp/App";
 import * as Response from "carbonldp/HTTP/Response";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
@@ -21,6 +21,7 @@ export declare class BackupsListComponent implements AfterViewInit, OnChanges, O
     failedDownloadMessage: Message;
     backupJob: PersistedDocument.Class;
     appContext: App.Context;
+    fetchBackupsList: EventEmitter<boolean>;
     constructor(element: ElementRef, backupsService: BackupsService);
     ngAfterViewInit(): void;
     ngOnChanges(changes: {

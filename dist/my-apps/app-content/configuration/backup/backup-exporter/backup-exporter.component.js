@@ -44,11 +44,13 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
                 function BackupExporterComponent(jobsService) {
                     this.executingBackup = false;
                     this.errorMessages = [];
+                    this.onExportSuccess = new core_1.EventEmitter();
                     this.jobsService = jobsService;
                 }
                 BackupExporterComponent.prototype.onGenerateBackup = function () {
                     var _this = this;
                     this.executingBackup = true;
+                    this.exportSuccess = false;
                     this.jobsService.runJob(this.backupJob).then(function (execution) {
                         return _this.monitorExecution(execution).catch(function (executionOrError) {
                             if (executionOrError.hasOwnProperty("response"))
@@ -84,6 +86,7 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
                                     case Job.ExecutionStatus.FINISHED:
                                         clearInterval(_this.monitorExecutionInterval);
                                         resolve(execution);
+                                        _this.onExportSuccess.emit(true);
                                         break;
                                     case Job.ExecutionStatus.ERROR:
                                         clearInterval(_this.monitorExecutionInterval);
@@ -123,6 +126,10 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
                     core_1.Input(), 
                     __metadata('design:type', Object)
                 ], BackupExporterComponent.prototype, "backupJob", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], BackupExporterComponent.prototype, "onExportSuccess", void 0);
                 BackupExporterComponent = __decorate([
                     core_1.Component({
                         selector: "cp-backup-exporter",

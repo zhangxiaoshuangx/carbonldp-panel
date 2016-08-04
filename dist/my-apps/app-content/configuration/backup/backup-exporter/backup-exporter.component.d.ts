@@ -1,4 +1,4 @@
-import { OnDestroy } from "@angular/core";
+import { EventEmitter, OnDestroy } from "@angular/core";
 import * as App from "carbonldp/App";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
 import { Message } from "carbon-panel/errors-area/error-message.component";
@@ -12,6 +12,7 @@ export declare class BackupExporterComponent implements OnDestroy {
     monitorExecutionInterval: number;
     appContext: App.Context;
     backupJob: PersistedDocument.Class;
+    onExportSuccess: EventEmitter<boolean>;
     constructor(jobsService: JobsService);
     onGenerateBackup(): void;
     monitorExecution(execution: PersistedDocument.Class): Promise<PersistedDocument.Class>;
