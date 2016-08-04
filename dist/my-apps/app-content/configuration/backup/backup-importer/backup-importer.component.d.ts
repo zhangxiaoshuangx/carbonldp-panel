@@ -1,4 +1,4 @@
-import { ElementRef, OnInit } from "@angular/core";
+import { ElementRef, OnInit, OnDestroy } from "@angular/core";
 import { FormBuilder, ControlGroup, AbstractControl } from "@angular/common";
 import * as App from "carbonldp/App";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
@@ -6,11 +6,12 @@ import { BackupsService } from "../backups.service";
 import { JobsService } from "../../job/jobs.service";
 import { Message } from "./../../../../../errors-area/error-message.component";
 import "semantic-ui/semantic";
-export declare class BackupImporterComponent implements OnInit {
+export declare class BackupImporterComponent implements OnInit, OnDestroy {
     element: ElementRef;
     $element: JQuery;
     $importForm: JQuery;
     $backups: JQuery;
+    monitorExecutionInterval: number;
     formBuilder: FormBuilder;
     importForm: ControlGroup;
     uri: AbstractControl;
@@ -33,6 +34,7 @@ export declare class BackupImporterComponent implements OnInit {
     onImportBackup(): void;
     executeImport(importJob: PersistedDocument.Class): Promise<PersistedDocument.Class>;
     monitorExecution(importJobExecution: PersistedDocument.Class): Promise<PersistedDocument.Class>;
+    ngOnDestroy(): void;
     private checkImportJobExecution(importJobExecution);
     onFileChange(event: any): void;
     onInputLostFocus(event: FocusEvent): void;

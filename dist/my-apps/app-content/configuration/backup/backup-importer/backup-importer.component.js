@@ -95,15 +95,19 @@ System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backup
                 BackupImporterComponent.prototype.monitorExecution = function (importJobExecution) {
                     var _this = this;
                     return new Promise(function (resolve, reject) {
-                        var interval = setInterval(function () {
+                        _this.monitorExecutionInterval = setInterval(function () {
                             _this.checkImportJobExecution(importJobExecution).then(function () {
                                 if (_this.executing.done) {
-                                    clearInterval(interval);
+                                    clearInterval(_this.monitorExecutionInterval);
                                     resolve(importJobExecution);
                                 }
                             });
                         }, 3000);
                     });
+                };
+                BackupImporterComponent.prototype.ngOnDestroy = function () {
+                    if (typeof this.monitorExecutionInterval !== "undefined")
+                        clearInterval(this.monitorExecutionInterval);
                 };
                 BackupImporterComponent.prototype.checkImportJobExecution = function (importJobExecution) {
                     var _this = this;

@@ -58,13 +58,6 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
                     this.$deleteBackupConfirmationModal = this.$element.find(".delete.backup.modal");
                     this.initializeModals();
                 };
-                BackupsListComponent.prototype.initializeModals = function () {
-                    this.$deleteBackupConfirmationModal.modal({
-                        closable: false,
-                        blurring: true,
-                        onApprove: function () { return false; }
-                    });
-                };
                 BackupsListComponent.prototype.ngOnChanges = function (changes) {
                     var _this = this;
                     if (changes["backupJob"] && !!changes["backupJob"].currentValue && changes["backupJob"].currentValue !== changes["backupJob"].previousValue) {
@@ -75,9 +68,19 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
                         this.monitorBackups();
                     }
                 };
+                BackupsListComponent.prototype.ngOnDestroy = function () {
+                    clearInterval(this.fetchBackupsListInterval);
+                };
+                BackupsListComponent.prototype.initializeModals = function () {
+                    this.$deleteBackupConfirmationModal.modal({
+                        closable: false,
+                        blurring: true,
+                        onApprove: function () { return false; }
+                    });
+                };
                 BackupsListComponent.prototype.monitorBackups = function () {
                     var _this = this;
-                    setInterval(function () { return _this.getBackups(); }, this.refreshPeriod);
+                    this.fetchBackupsListInterval = setInterval(function () { return _this.getBackups(); }, this.refreshPeriod);
                 };
                 BackupsListComponent.prototype.getBackups = function () {
                     var _this = this;

@@ -60,21 +60,21 @@
 			<div class="column">
 				<div class="ui stackable fluid steps">
 					<div class="step" *ngIf="!!backupFileBlob" [ngClass]="{active:uploading.active, completed:uploading.succeed}">
-						<i class="upload icon" [ngClass]="{'loading spinner':uploading.active, 'red remove':uploading.failed}"></i>
+						<i class="icon" [ngClass]="{'minus grey': !uploading.done && !uploading.active && !uploading.failed, 'loading spinner':uploading.active, 'red remove':uploading.failed}"></i>
 						<div class="content">
 							<div class="title"><span *ngIf="!uploading.active">Upload</span><span *ngIf="uploading.active">Uploading...</span></div>
 							<div class="description">Uploads your backup.</div>
 						</div>
 					</div>
 					<div class="step" [ngClass]="{active:creating.active, completed:creating.succeed}">
-						<i class="asterisk icon" [ngClass]="{'loading spinner':creating.active, 'red remove':creating.failed}"></i>
+						<i class="icon" [ngClass]="{'minus grey': !creating.done && !creating.active && !creating.failed, 'loading spinner':creating.active, 'red remove':creating.failed}"></i>
 						<div class="content">
 							<div class="title"><span *ngIf="!creating.active">Create</span><span *ngIf="creating.active">Creating import...</span></div>
 							<div class="description">Creates a backup import job.</div>
 						</div>
 					</div>
 					<div class="step" [ngClass]="{active:executing.active, completed:executing.succeed}">
-						<i class="icon" [ngClass]="{'checkmark grey': !executing.done && !executing.active && !executing.failed,'loading spinner':executing.active, 'red remove':executing.failed}"></i>
+						<i class="icon" [ngClass]="{'minus grey': !executing.done && !executing.active && !executing.failed, 'loading spinner':executing.active, 'red remove':executing.failed}"></i>
 						<div class="content">
 							<div class="title"><span *ngIf="!executing.active">Execute</span><span *ngIf="executing.active">Executing...</span></div>
 							<div class="description">
