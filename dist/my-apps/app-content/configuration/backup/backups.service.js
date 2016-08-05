@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/Carbon"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/Pointer", "carbonldp/NS"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/Carbon"], function(exports_1, conte
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, Carbon_1;
+    var core_1, Carbon_1, Pointer, NS;
     var BackupsService;
     return {
         setters:[
@@ -19,6 +19,12 @@ System.register(["@angular/core", "carbonldp/Carbon"], function(exports_1, conte
             },
             function (Carbon_1_1) {
                 Carbon_1 = Carbon_1_1;
+            },
+            function (Pointer_1) {
+                Pointer = Pointer_1;
+            },
+            function (NS_1) {
+                NS = NS_1;
             }],
         execute: function() {
             BackupsService = (function () {
@@ -27,8 +33,14 @@ System.register(["@angular/core", "carbonldp/Carbon"], function(exports_1, conte
                     this.extendSchemasForBackups();
                 }
                 BackupsService.prototype.upload = function (file, appContext) {
+                    var _this = this;
                     var uri = appContext.app.id + "backups/";
-                    return this.carbon.documents.upload(uri, file);
+                    return this.carbon.documents.upload(uri, file).then(function (_a) {
+                        var uploadedBackupPointer = _a[0], uploadResponse = _a[1];
+                        return _this.convertToNonRDFSource(uploadedBackupPointer).then(function (_a) {
+                            return [uploadedBackupPointer, uploadResponse];
+                        });
+                    });
                 };
                 BackupsService.prototype.getAll = function (appContext) {
                     var uri = appContext.app.id + "backups/";
@@ -44,6 +56,13 @@ System.register(["@angular/core", "carbonldp/Carbon"], function(exports_1, conte
                 };
                 BackupsService.prototype.delete = function (uri, appContext) {
                     return appContext.documents.delete(uri);
+                };
+                BackupsService.prototype.convertToNonRDFSource = function (backupPointer) {
+                    return backupPointer.resolve().then(function (_a) {
+                        var backupDocument = _a[0], response = _a[1];
+                        backupDocument.defaultInteractionModel = Pointer.Factory.create(NS.LDP.Class.NonRDFSource);
+                        return backupDocument.save();
+                    });
                 };
                 BackupsService.prototype.extendSchemasForBackups = function () {
                     this.carbon.extendObjectSchema({
