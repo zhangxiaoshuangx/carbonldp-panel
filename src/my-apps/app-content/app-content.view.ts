@@ -1,6 +1,5 @@
-import { Component, ElementRef } from "@angular/core";
+import { Component } from "@angular/core";
 import { ROUTER_DIRECTIVES, RouteConfig, Router, RouterOutlet, RouteParams } from "@angular/router-deprecated";
-import{ Title } from "@angular/platform-browser";
 
 import * as CarbonApp from "carbonldp/App";
 

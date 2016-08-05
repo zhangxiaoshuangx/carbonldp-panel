@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/SDKContext", "./documents-resolver.service", "./document-viewer/document-viewer.component", "./document-tree-view/document-tree-view.component", "jquery", "semantic-ui/semantic", "./document-explorer.component.html!", "./document-explorer.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./documents-resolver.service", "./document-viewer/document-viewer.component", "./document-tree-view/document-tree-view.component", "./../../../../errors-area/error-message.component", "jquery", "semantic-ui/semantic", "./document-explorer.component.html!", "./document-explorer.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "./documents-resolver.
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, SDKContext, documents_resolver_service_1, document_viewer_component_1, document_tree_view_component_1, jquery_1, document_explorer_component_html_1, document_explorer_component_css_text_1;
+    var core_1, SDKContext, HTTP, documents_resolver_service_1, document_viewer_component_1, document_tree_view_component_1, error_message_component_1, jquery_1, document_explorer_component_html_1, document_explorer_component_css_text_1;
     var DocumentExplorerComponent;
     return {
         setters:[
@@ -20,6 +20,9 @@ System.register(["@angular/core", "carbonldp/SDKContext", "./documents-resolver.
             function (SDKContext_1) {
                 SDKContext = SDKContext_1;
             },
+            function (HTTP_1) {
+                HTTP = HTTP_1;
+            },
             function (documents_resolver_service_1_1) {
                 documents_resolver_service_1 = documents_resolver_service_1_1;
             },
@@ -28,6 +31,9 @@ System.register(["@angular/core", "carbonldp/SDKContext", "./documents-resolver.
             },
             function (document_tree_view_component_1_1) {
                 document_tree_view_component_1 = document_tree_view_component_1_1;
+            },
+            function (error_message_component_1_1) {
+                error_message_component_1 = error_message_component_1_1;
             },
             function (jquery_1_1) {
                 jquery_1 = jquery_1_1;
@@ -66,14 +72,53 @@ System.register(["@angular/core", "carbonldp/SDKContext", "./documents-resolver.
                     });
                 };
                 DocumentExplorerComponent.prototype.handleError = function (error) {
-                    var message = {
+                    var errorMessage;
+                    if (error.response)
+                        errorMessage = this.getHTTPErrorMessage(error, this.getErrorMessage(error));
+                    else {
+                        errorMessage = {
+                            title: error.name,
+                            content: JSON.stringify(error)
+                        };
+                    }
+                    this.messages.push(errorMessage);
+                };
+                DocumentExplorerComponent.prototype.getHTTPErrorMessage = function (error, content) {
+                    return {
                         title: error.name,
-                        content: error.response.request.statusText,
-                        statusCode: "" + error.response.status,
-                        statusMessage: error.response.request.statusText,
+                        content: content + (!!error.message ? (" Reason: " + error.message) : ""),
                         endpoint: error.response.request.responseURL,
+                        statusCode: "" + error.response.request.status + " - RequestID: " + error.requestID,
+                        statusMessage: error.response.request.statusText
                     };
-                    this.messages.push(message);
+                };
+                DocumentExplorerComponent.prototype.getErrorMessage = function (error) {
+                    var tempMessage = "";
+                    switch (true) {
+                        case error instanceof HTTP.Errors.ForbiddenError:
+                            tempMessage = "Forbidden Action.";
+                            break;
+                        case error instanceof HTTP.Errors.NotFoundError:
+                            tempMessage = "Couldn't found the requested resource.";
+                            break;
+                        case error instanceof HTTP.Errors.UnauthorizedError:
+                            tempMessage = "Unauthorized operation.";
+                            break;
+                        case error instanceof HTTP.Errors.InternalServerErrorError:
+                            tempMessage = "An internal error occurred while trying to fetch the resource. Please try again later. Error: " + error.response.status;
+                            break;
+                        case error instanceof HTTP.Errors.ServiceUnavailableError:
+                            tempMessage = "Service currently unavailable.";
+                            break;
+                        case error instanceof HTTP.Errors.UnknownError:
+                            // TODO: Check if the UnknownError is due to a bad CORS configuration.
+                            tempMessage = "An error occurred while trying to fetch the resource content. This could be caused by a missing allowed domain for your App. Please, make sure this is not the case and try again later.";
+                            break;
+                        default:
+                            tempMessage = "There was a problem processing the request. Error: " + error.response.status;
+                            break;
+                    }
+                    return tempMessage;
                 };
                 __decorate([
                     core_1.Input(), 
@@ -84,7 +129,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "./documents-resolver.
                         selector: "cp-document-explorer",
                         template: document_explorer_component_html_1.default,
                         styles: [document_explorer_component_css_text_1.default],
-                        directives: [document_tree_view_component_1.DocumentTreeViewComponent, document_viewer_component_1.DocumentViewerComponent],
+                        directives: [document_tree_view_component_1.DocumentTreeViewComponent, document_viewer_component_1.DocumentViewerComponent, error_message_component_1.ErrorMessageComponent],
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef, documents_resolver_service_1.DocumentsResolverService])
                 ], DocumentExplorerComponent);

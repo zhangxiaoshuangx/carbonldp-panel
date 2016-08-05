@@ -55,7 +55,7 @@ export class DocumentTreeViewComponent implements AfterViewInit {
 			} );
 			return resolvedRoot;
 		} ).catch( ( error:HTTP.Errors.Error ) => {
-			console.error( "Error:%o", error );
+			console.error( error );
 			this.onError.emit( error );
 		} );
 	}

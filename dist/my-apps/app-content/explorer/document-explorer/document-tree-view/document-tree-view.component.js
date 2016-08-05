@@ -63,7 +63,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                         });
                         return resolvedRoot;
                     }).catch(function (error) {
-                        console.error("Error:%o", error);
+                        console.error(error);
                         _this.onError.emit(error);
                     });
                 };
