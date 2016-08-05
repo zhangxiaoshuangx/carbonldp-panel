@@ -46,6 +46,7 @@ export declare class BackupImporterComponent implements OnInit, OnDestroy {
     canDisplayImportButtonLoading(): boolean;
     uploadBackup(file: Blob): void;
     createBackupImport(backupURI: string): Promise<any>;
+    private getHTTPErrorMessage(error, content);
     finishImport(): void;
     checkForFailedTasks(): boolean;
     removeMessage(index: number): void;

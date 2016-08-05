@@ -5,7 +5,7 @@ import * as App from "carbonldp/App";
 import * as Response from "carbonldp/HTTP/Response";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
 import * as Pointer from "carbonldp/Pointer";
-import { Error as HTTPError } from "carbonldp/HTTP/Errors";
+import * as HTTPError from "carbonldp/HTTP/Errors";
 
 import { BackupsService } from "../backups.service";
 import { JobsService } from "../../job/jobs.service";
@@ -122,14 +122,16 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 				this.errorMessages.push( errorMessage );
 			}
 		} ).catch( ( error:HTTPError )=> {
+			console.error( error );
 			this.executing.fail();
-			let errorMessage:Message = <Message>{
-				title: error.name,
-				content: "Couldn't monitor the import execution.",
-				endpoint: (<any>error.response.request).responseURL,
-				statusCode: "" + (<XMLHttpRequest>error.response.request).status,
-				statusMessage: (<XMLHttpRequest>error.response.request).statusText
-			};
+			let errorMessage:Message;
+			if( error.response ) errorMessage = this.getHTTPErrorMessage( error, "Couldn't monitor the import execution." );
+			else {
+				errorMessage = <Message>{
+					title: error.name,
+					content: JSON.stringify( error )
+				};
+			}
 			this.errorMessages.push( errorMessage );
 		} )
 	}
@@ -213,14 +215,16 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 				this.createBackupImport( pointer.id );
 			}
 		).catch( ( error:HTTPError )=> {
+			console.error( error );
 			this.uploading.fail();
-			let errorMessage:Message = <Message>{
-				title: error.name,
-				content: "Couldn't upload the file.",
-				endpoint: (<any>error.response.request).responseURL,
-				statusCode: "" + (<XMLHttpRequest>error.response.request).status,
-				statusMessage: (<XMLHttpRequest>error.response.request).statusText
-			};
+			let errorMessage:Message;
+			if( error.response ) errorMessage = this.getHTTPErrorMessage( error, "Couldn't upload the file." );
+			else {
+				errorMessage = <Message>{
+					title: error.name,
+					content: JSON.stringify( error )
+				};
+			}
 			this.errorMessages.push( errorMessage );
 		} );
 	}
@@ -232,27 +236,41 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 			this.executing.start();
 			return this.executeImport( importJob ).then( ( importJobExecution:PersistedDocument.Class )=> {this.monitorExecution( importJobExecution );}
 			).catch( ( error:HTTPError )=> {
+				console.error( error );
 				this.executing.fail();
-				let errorMessage:Message = <Message>{
-					title: error.name,
-					content: "Couldn't monitor the import execution.",
-					endpoint: (<any>error.response.request).responseURL,
-					statusCode: "" + (<XMLHttpRequest>error.response.request).status,
-					statusMessage: (<XMLHttpRequest>error.response.request).statusText
-				};
+				let errorMessage:Message;
+				if( error.response ) errorMessage = this.getHTTPErrorMessage( error, "Couldn't monitor the import execution." );
+				else {
+					errorMessage = <Message>{
+						title: error.name,
+						content: JSON.stringify( error )
+					};
+				}
 				this.errorMessages.push( errorMessage );
 			} );
 		} ).catch( ( error:HTTPError )=> {
+			console.error( error );
 			this.creating.fail();
-			let errorMessage:Message = <Message>{
-				title: error.name,
-				content: "The importing job couldn't be created.",
-				endpoint: (<any>error.response.request).responseURL,
-				statusCode: "" + (<XMLHttpRequest>error.response.request).status,
-				statusMessage: (<XMLHttpRequest>error.response.request).statusText
-			};
+			let errorMessage:Message;
+			if( ! ! error.response ) errorMessage = this.getHTTPErrorMessage( error, "The importing job couldn't be created." );
+			else {
+				errorMessage = <Message>{
+					title: error.name,
+					content: JSON.stringify( error )
+				};
+			}
 			this.errorMessages.push( errorMessage );
 		} );
+	}
+
+	private getHTTPErrorMessage( error:HTTPError., content:string ):Message {
+		return {
+			title: error.name,
+			content: content + " Reason: " + error.message,
+			endpoint: (<any>error.response.request).responseURL,
+			statusCode: "" + error.response.request.status + " - RequestID: " + error.requestID,
+			statusMessage: error.response.request.statusText
+		};
 	}
 
 	finishImport():void {

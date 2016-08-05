@@ -126,14 +126,17 @@ System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backup
                             _this.errorMessages.push(errorMessage);
                         }
                     }).catch(function (error) {
+                        console.error(error);
                         _this.executing.fail();
-                        var errorMessage = {
-                            title: error.name,
-                            content: "Couldn't monitor the import execution.",
-                            endpoint: error.response.request.responseURL,
-                            statusCode: "" + error.response.request.status,
-                            statusMessage: error.response.request.statusText
-                        };
+                        var errorMessage;
+                        if (error.response)
+                            errorMessage = _this.getHTTPErrorMessage(error, "Couldn't monitor the import execution.");
+                        else {
+                            errorMessage = {
+                                title: error.name,
+                                content: JSON.stringify(error)
+                            };
+                        }
                         _this.errorMessages.push(errorMessage);
                     });
                 };
@@ -221,14 +224,17 @@ System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backup
                         _this.uploading.success();
                         _this.createBackupImport(pointer.id);
                     }).catch(function (error) {
+                        console.error(error);
                         _this.uploading.fail();
-                        var errorMessage = {
-                            title: error.name,
-                            content: "Couldn't upload the file.",
-                            endpoint: error.response.request.responseURL,
-                            statusCode: "" + error.response.request.status,
-                            statusMessage: error.response.request.statusText
-                        };
+                        var errorMessage;
+                        if (error.response)
+                            errorMessage = _this.getHTTPErrorMessage(error, "Couldn't upload the file.");
+                        else {
+                            errorMessage = {
+                                title: error.name,
+                                content: JSON.stringify(error)
+                            };
+                        }
                         _this.errorMessages.push(errorMessage);
                     });
                 };
@@ -239,27 +245,42 @@ System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backup
                         _this.creating.success();
                         _this.executing.start();
                         return _this.executeImport(importJob).then(function (importJobExecution) { _this.monitorExecution(importJobExecution); }).catch(function (error) {
+                            console.error(error);
                             _this.executing.fail();
-                            var errorMessage = {
-                                title: error.name,
-                                content: "Couldn't monitor the import execution.",
-                                endpoint: error.response.request.responseURL,
-                                statusCode: "" + error.response.request.status,
-                                statusMessage: error.response.request.statusText
-                            };
+                            var errorMessage;
+                            if (error.response)
+                                errorMessage = _this.getHTTPErrorMessage(error, "Couldn't monitor the import execution.");
+                            else {
+                                errorMessage = {
+                                    title: error.name,
+                                    content: JSON.stringify(error)
+                                };
+                            }
                             _this.errorMessages.push(errorMessage);
                         });
                     }).catch(function (error) {
+                        console.error(error);
                         _this.creating.fail();
-                        var errorMessage = {
-                            title: error.name,
-                            content: "The importing job couldn't be created.",
-                            endpoint: error.response.request.responseURL,
-                            statusCode: "" + error.response.request.status,
-                            statusMessage: error.response.request.statusText
-                        };
+                        var errorMessage;
+                        if (!!error.response)
+                            errorMessage = _this.getHTTPErrorMessage(error, "The importing job couldn't be created.");
+                        else {
+                            errorMessage = {
+                                title: error.name,
+                                content: JSON.stringify(error)
+                            };
+                        }
                         _this.errorMessages.push(errorMessage);
                     });
+                };
+                BackupImporterComponent.prototype.getHTTPErrorMessage = function (error, content) {
+                    return {
+                        title: error.name,
+                        content: content + " Reason: " + error.message,
+                        endpoint: error.response.request.responseURL,
+                        statusCode: "" + error.response.request.status + " - RequestID: " + error.requestID,
+                        statusMessage: error.response.request.statusText
+                    };
                 };
                 BackupImporterComponent.prototype.finishImport = function () {
                     this.uploading = new ImportStatus();
