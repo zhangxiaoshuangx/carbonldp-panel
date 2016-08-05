@@ -5,7 +5,7 @@ import * as App from "carbonldp/App";
 import * as Response from "carbonldp/HTTP/Response";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
 import * as Pointer from "carbonldp/Pointer";
-import * as HTTPError from "carbonldp/HTTP/Errors";
+import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
 import { BackupsService } from "../backups.service";
 import { JobsService } from "../../job/jobs.service";
@@ -263,7 +263,7 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 		} );
 	}
 
-	private getHTTPErrorMessage( error:HTTPError., content:string ):Message {
+	private getHTTPErrorMessage( error:HTTPError, content:string ):Message {
 		return {
 			title: error.name,
 			content: content + " Reason: " + error.message,
