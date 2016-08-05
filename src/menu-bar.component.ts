@@ -45,7 +45,7 @@ export class MenuBarComponent {
 			if( ! instruction ) return;
 
 			workingInstruction = instruction;
-			while ( workingInstruction.child ) {
+			while( workingInstruction.child ) {
 				this.addInstruction( workingInstruction );
 				workingInstruction = workingInstruction.child;
 			}

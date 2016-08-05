@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { Title } from "@angular/platform-browser";
 
 import "semantic-ui/semantic";
 
@@ -16,11 +17,11 @@ export class CreateAppView {
 
 	private title:Title;
 
-	constructor(title:Title) {
+	constructor( title:Title ) {
 		this.title = title;
 	}
 
-	routerOnActivate(){
+	routerOnActivate() {
 		this.title.setTitle( "AppDev | Create App" );
 	}
 

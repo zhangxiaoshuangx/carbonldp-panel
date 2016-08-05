@@ -14,7 +14,7 @@ export class Factory {
 			Object.defineProperty( app, "slug", {
 				configurable: true,
 				enumerable: false,
-				get: function () {
+				get: function() {
 					return Util.getSlug( this );
 				}
 			} );

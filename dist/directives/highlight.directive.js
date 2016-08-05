@@ -79,7 +79,7 @@ System.register(["@angular/core", "highlight.js", "highlight.js/styles/tomorrow-
                 };
                 HighlightDirective = __decorate([
                     core_1.Directive({
-                        selector: "[cphighlight]",
+                        selector: "[cpHighlight]",
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
                 ], HighlightDirective);

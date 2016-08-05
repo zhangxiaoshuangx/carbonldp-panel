@@ -1,12 +1,12 @@
-import {Component, Input, OnInit} from "@angular/core";
-import {FormBuilder, ControlGroup, AbstractControl, Validators} from "@angular/common";
+import { Component, Input, OnInit } from "@angular/core";
+import { FormBuilder, ControlGroup, AbstractControl, Validators } from "@angular/common";
 
 import Carbon from "carbonldp/Carbon";
 import * as HTTP from "carbonldp/HTTP";
 import * as PersistedApp from "carbonldp/PersistedApp";
 
 import * as App from "../app";
-import {ErrorMessageComponent, Message} from "../../../errors-area/error-message.component";
+import { ErrorMessageComponent, Message } from "../../../errors-area/error-message.component";
 
 import "semantic-ui/semantic";
 
@@ -148,7 +148,7 @@ export class EditAppComponent implements OnInit {
 
 	getErrorMessage( error:HTTP.Errors.Error ):string {
 		let tempMessage:string = "";
-		switch ( true ) {
+		switch( true ) {
 			case error instanceof HTTP.Errors.BadRequestError:
 				tempMessage = "";
 				break;

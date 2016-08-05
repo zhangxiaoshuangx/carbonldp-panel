@@ -8,7 +8,7 @@ export class PrefixURIPipe implements PipeTransform {
 		if( args.length === 0 ) throw new Error( "The relative pipe requires an argument" );
 		let prefixes:{ [ prefix:string ]:string } = args[ 0 ];
 
-		for ( let prefix in prefixes ) {
+		for( let prefix in prefixes ) {
 			if( ! prefixes.hasOwnProperty( prefix ) ) continue;
 			let prefixURI:string = prefixes[ prefix ];
 
