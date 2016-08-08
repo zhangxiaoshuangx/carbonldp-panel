@@ -37,7 +37,6 @@ System.register(["@angular/core", "@angular/platform-browser", "@angular/router-
                 }
                 AppsCatalogView.prototype.routerOnActivate = function () {
                     this.title.setTitle("App Dev | Apps Catalog");
-                    console.log(this.title);
                 };
                 AppsCatalogView = __decorate([
                     core_1.Component({

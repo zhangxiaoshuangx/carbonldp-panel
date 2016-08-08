@@ -70,6 +70,7 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                     this.onDeleteProperty = new core_1.EventEmitter();
                     this.onDeleteNewProperty = new core_1.EventEmitter();
                     this.onSaveNewProperty = new core_1.EventEmitter();
+                    this.onRefreshDocument = new core_1.EventEmitter();
                     this.nameHasChanged = false;
                     this.literalsHaveChanged = false;
                     this.pointersHaveChanged = false;
@@ -285,6 +286,9 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                         this.onSaveNewProperty.emit(this.tempProperty);
                     }
                 };
+                PropertyComponent.prototype.refreshDocument = function () {
+                    this.onRefreshDocument.emit(this.documentURI);
+                };
                 PropertyComponent.prototype.escape = function (uri) {
                     return window.escape(uri);
                 };
@@ -358,6 +362,10 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], PropertyComponent.prototype, "onSaveNewProperty", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], PropertyComponent.prototype, "onRefreshDocument", void 0);
                 PropertyComponent = __decorate([
                     core_1.Component({
                         selector: "cp-property",

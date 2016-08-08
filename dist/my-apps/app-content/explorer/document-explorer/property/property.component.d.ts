@@ -35,6 +35,7 @@ export declare class PropertyComponent implements AfterViewInit, OnInit {
     onDeleteProperty: EventEmitter<PropertyRow>;
     onDeleteNewProperty: EventEmitter<PropertyRow>;
     onSaveNewProperty: EventEmitter<PropertyRow>;
+    onRefreshDocument: EventEmitter<string>;
     nameHasChanged: boolean;
     literalsHaveChanged: boolean;
     pointersHaveChanged: boolean;
@@ -68,6 +69,7 @@ export declare class PropertyComponent implements AfterViewInit, OnInit {
     checkForChangesOnLiterals(literals: LiteralRow[]): void;
     checkForChangesOnPointers(pointers: PointerRow[]): void;
     changePropertyContent(): void;
+    private refreshDocument();
     private escape(uri);
     private unescape(uri);
     private nameValidator(control);

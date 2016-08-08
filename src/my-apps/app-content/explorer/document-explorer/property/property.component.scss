@@ -1,7 +1,10 @@
 :host {
 	display: block;
 	.content {
-		.header {
+		.meta {
+			.parent-uri {
+				margin-right: 0;
+			}
 			.slug {
 				color: #FF4500;
 			}

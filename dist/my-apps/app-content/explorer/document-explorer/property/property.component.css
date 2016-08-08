@@ -1,6 +1,8 @@
 :host {
   display: block; }
-  :host .content .header .slug {
+  :host .content .meta .parent-uri {
+    margin-right: 0; }
+  :host .content .meta .slug {
     color: #FF4500; }
   :host .content .description .ui.accordion {
     width: 100%; }

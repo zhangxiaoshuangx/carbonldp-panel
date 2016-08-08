@@ -16,6 +16,7 @@ export declare class DocumentExplorerComponent {
     showLoading(savingDocument: boolean): void;
     resolveDocument(uri: string): void;
     handleError(error: HTTP.Errors.Error): void;
+    refreshDocument(documentURI: string): void;
     private getHTTPErrorMessage(error, content);
     private getErrorMessage(error);
 }
