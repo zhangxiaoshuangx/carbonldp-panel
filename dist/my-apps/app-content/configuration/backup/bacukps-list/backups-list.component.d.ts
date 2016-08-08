@@ -35,6 +35,7 @@ export declare class BackupsListComponent implements AfterViewInit, OnChanges, O
     closeFailedDownloadMessage(): void;
     askToDeleteBackup(askingBackupToRemove: PersistedDocument.Class): void;
     deleteBackup(backup: PersistedDocument.Class): Promise<Response.Class>;
+    refreshList(): void;
     removeDeleteErrorMessage(index: number): void;
     closeDeleteModal(): void;
 }
