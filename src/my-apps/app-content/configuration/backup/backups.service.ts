@@ -6,6 +6,7 @@ import * as HTTP from "carbonldp/HTTP";
 import * as SDKContext from "carbonldp/SDKContext";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
 import * as Pointer from "carbonldp/Pointer";
+import * as NS from "carbonldp/NS";
 
 @Injectable()
 export class BackupsService {
@@ -19,7 +20,11 @@ export class BackupsService {
 
 	upload( file:Blob, appContext:SDKContext.Class ):Promise<[ Pointer.Class, HTTP.Response.Class ]> {
 		let uri:string = (<App.Context>appContext).app.id + "backups/";
-		return this.carbon.documents.upload( uri, file );
+		return this.carbon.documents.upload( uri, file ).then( ( [uploadedBackupPointer, uploadResponse]:[ Pointer.Class, HTTP.Response.Class ] )=> {
+			return this.convertToNonRDFSource( uploadedBackupPointer ).then( ( []:[PersistedDocument.Class[], HTTP.Response.Class] )=> {
+				return [ uploadedBackupPointer, uploadResponse ];
+			} );
+		} );
 	}
 
 	getAll( appContext:SDKContext.Class ):Promise<[PersistedDocument.Class[], HTTP.Response.Class]> {
@@ -37,6 +42,13 @@ export class BackupsService {
 
 	delete( uri:string, appContext:SDKContext.Class ):Promise<HTTP.Response.Class> {
 		return appContext.documents.delete( uri );
+	}
+
+	private convertToNonRDFSource( backupPointer:Pointer.Class ):Promise<[PersistedDocument.Class[], HTTP.Response.Class]> {
+		return (<Pointer.Class>backupPointer).resolve().then( ( [backupDocument, response]:[Pointer.Class, HTTP.Response.Class] )=> {
+			(<PersistedDocument.Class>backupDocument).defaultInteractionModel = Pointer.Factory.create( NS.LDP.Class.NonRDFSource );
+			return (<PersistedDocument.Class>backupDocument).save();
+		} );
 	}
 
 	private extendSchemasForBackups():void {

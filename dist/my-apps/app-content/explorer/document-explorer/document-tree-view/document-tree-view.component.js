@@ -58,12 +58,10 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     var _this = this;
                     return this.documentContext.documents.get("").then(function (_a) {
                         var resolvedRoot = _a[0], response = _a[1];
-                        resolvedRoot.contains.forEach(function (pointer) {
-                            _this.nodeChildren.push(_this.buildNode(pointer.id));
-                        });
+                        _this.nodeChildren.push(_this.buildNode(_this.documentContext.getBaseURI()));
                         return resolvedRoot;
                     }).catch(function (error) {
-                        console.error("Error:%o", error);
+                        console.error(error);
                         _this.onError.emit(error);
                     });
                 };
@@ -113,6 +111,13 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                         var parentNode = data.node;
                         var position = "last";
                         _this.onClickNode(parentId, parentNode, position);
+                        _this.documentTree.jstree("open_node", data.node);
+                    });
+                    this.documentTree.on("loaded.jstree", function () {
+                        _this.documentTree.jstree("open_all");
+                        if (_this.nodeChildren && _this.nodeChildren.length > 0) {
+                            _this.onResolveUri.emit(_this.nodeChildren[0].data.pointer.id);
+                        }
                     });
                 };
                 DocumentTreeViewComponent.prototype.emptyNode = function (nodeId) {
@@ -153,7 +158,8 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                             return _this.buildNode(pointer.id);
                         });
                     }).catch(function (error) {
-                        console.log("Error: %o", error);
+                        console.error(error);
+                        return [];
                     });
                 };
                 DocumentTreeViewComponent.prototype.getSlug = function (pointer) {
@@ -163,7 +169,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                 };
                 __decorate([
                     core_1.Input(), 
-                    __metadata('design:type', SDKContext.Class)
+                    __metadata('design:type', Object)
                 ], DocumentTreeViewComponent.prototype, "documentContext", void 0);
                 __decorate([
                     core_1.Output(), 

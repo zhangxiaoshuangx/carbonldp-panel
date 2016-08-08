@@ -45,25 +45,28 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
         execute: function() {
             BackupsListComponent = (function () {
                 function BackupsListComponent(element, backupsService) {
+                    var _this = this;
                     this.loadingBackups = false;
                     this.deletingBackup = false;
                     this.errorMessages = [];
                     this.refreshPeriod = 15000;
                     this.deleteMessages = [];
+                    this.fetchBackupsList = new core_1.EventEmitter();
                     this.element = element;
                     this.backupsService = backupsService;
+                    this.fetchBackupsList.subscribe(function (doFetch) {
+                        if (!doFetch)
+                            return;
+                        _this.getBackups().then(function (backups) {
+                            clearInterval(_this.fetchBackupsListInterval);
+                            _this.monitorBackups();
+                        });
+                    });
                 }
                 BackupsListComponent.prototype.ngAfterViewInit = function () {
                     this.$element = jquery_1.default(this.element.nativeElement);
                     this.$deleteBackupConfirmationModal = this.$element.find(".delete.backup.modal");
                     this.initializeModals();
-                };
-                BackupsListComponent.prototype.initializeModals = function () {
-                    this.$deleteBackupConfirmationModal.modal({
-                        closable: false,
-                        blurring: true,
-                        onApprove: function () { return false; }
-                    });
                 };
                 BackupsListComponent.prototype.ngOnChanges = function (changes) {
                     var _this = this;
@@ -75,9 +78,19 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
                         this.monitorBackups();
                     }
                 };
+                BackupsListComponent.prototype.ngOnDestroy = function () {
+                    clearInterval(this.fetchBackupsListInterval);
+                };
+                BackupsListComponent.prototype.initializeModals = function () {
+                    this.$deleteBackupConfirmationModal.modal({
+                        closable: false,
+                        blurring: true,
+                        onApprove: function () { return false; }
+                    });
+                };
                 BackupsListComponent.prototype.monitorBackups = function () {
                     var _this = this;
-                    setInterval(function () { return _this.getBackups(); }, this.refreshPeriod);
+                    this.fetchBackupsListInterval = setInterval(function () { return _this.getBackups(); }, this.refreshPeriod);
                 };
                 BackupsListComponent.prototype.getBackups = function () {
                     var _this = this;
@@ -171,7 +184,7 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
                 ], BackupsListComponent.prototype, "backupJob", void 0);
                 __decorate([
                     core_1.Input(), 
-                    __metadata('design:type', App.Context)
+                    __metadata('design:type', Object)
                 ], BackupsListComponent.prototype, "appContext", void 0);
                 BackupsListComponent = __decorate([
                     core_1.Component({

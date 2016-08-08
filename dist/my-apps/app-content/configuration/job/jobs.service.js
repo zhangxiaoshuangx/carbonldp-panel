@@ -30,61 +30,63 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/Utils", "./job"
             JobsService = (function () {
                 function JobsService(carbon) {
                     this.carbon = carbon;
-                    this.jobs = new Map();
+                    this.appContextsJobs = new Map();
                 }
                 JobsService.prototype.getJobOfType = function (type, appContext) {
-                    var _this = this;
                     if (!type)
                         return Promise.reject(new Error("Provide a job type."));
                     if (!appContext)
                         return Promise.reject(new Error("Provide an appContext."));
-                    var jobsArray = Utils.A.from(this.jobs.values());
+                    if (!this.appContextsJobs.has(appContext.getBaseURI()))
+                        this.appContextsJobs.set(appContext.getBaseURI(), new Map());
+                    var jobs = this.appContextsJobs.get(appContext.getBaseURI());
+                    var jobsArray = Utils.A.from(jobs.values());
                     var job = jobsArray.find(function (job) { return job.types.indexOf(type) !== -1; });
                     if (!!job)
                         return Promise.resolve(job);
                     return this.getAll(appContext).then(function (jobs) {
-                        var jobsArray = Utils.A.from(_this.jobs.values());
+                        var jobsArray = Utils.A.from(jobs.values());
                         return jobsArray.find(function (job) { return job.types.indexOf(type) !== -1; });
                     });
                 };
                 JobsService.prototype.getAll = function (appContext) {
-                    var _this = this;
                     var uri = appContext.app.id + "jobs/";
+                    var jobs = this.appContextsJobs.get(appContext.getBaseURI());
                     return this.carbon.documents.getChildren(uri).then(function (_a) {
-                        var jobs = _a[0], response = _a[1];
-                        jobs.filter(function (job) { return !_this.jobs.has(job.id); })
-                            .forEach(function (job) { return _this.jobs.set(job.id, job); });
-                        return Utils.A.from(_this.jobs.values());
+                        var existingJobs = _a[0], response = _a[1];
+                        existingJobs.filter(function (job) { return !jobs.has(job.id); })
+                            .forEach(function (job) { return jobs.set(job.id, job); });
+                        return Utils.A.from(jobs.values());
                     });
                 };
                 JobsService.prototype.createExportBackup = function (appContext) {
                     var _this = this;
+                    var jobs = this.appContextsJobs.get(appContext.getBaseURI());
                     return new Promise(function (resolve, reject) {
                         var uri = appContext.app.id + "jobs/";
                         var tempJob = {};
                         tempJob["types"] = [Job.Type.EXPORT_BACKUP];
-                        appContext.documents.createChild(uri, tempJob).then(function (_a) {
+                        _this.carbon.documents.createChild(uri, tempJob).then(function (_a) {
                             var pointer = _a[0], response = _a[1];
                             pointer.resolve().then(function (_a) {
                                 var importJob = _a[0], response = _a[1];
                                 resolve(importJob);
-                                _this.addJob(importJob);
+                                jobs.set(importJob.id, importJob);
                             });
                         }).catch(function (error) { return reject(error); });
                     });
                 };
                 JobsService.prototype.createImportBackup = function (backupURI, appContext) {
-                    var _this = this;
-                    var uri = appContext.app.id + "jobs/";
-                    var tempJob = {};
+                    var uri = appContext.app.id + "jobs/", tempJob = {}, backup = appContext.documents.getPointer(backupURI);
                     tempJob["types"] = [Job.Type.IMPORT_BACKUP];
                     tempJob[Job.namespace + "backup"] = appContext.documents.getPointer(backupURI);
+                    var jobs = this.appContextsJobs.get(appContext.getBaseURI());
                     return this.carbon.documents.createChild(uri, tempJob).then(function (_a) {
                         var pointer = _a[0], response = _a[1];
                         return pointer.resolve();
                     }).then(function (_a) {
                         var importJob = _a[0], response = _a[1];
-                        _this.addJob(importJob);
+                        jobs.set(importJob.id, importJob);
                         return importJob;
                     });
                 };
@@ -113,14 +115,12 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/Utils", "./job"
                         }).catch(function (error) { return Promise.reject(error); });
                     }
                 };
-                JobsService.prototype.addJob = function (job) {
-                    this.jobs.set(job.id, job);
-                };
                 JobsService = __decorate([
                     core_1.Injectable(), 
-                    __metadata('design:paramtypes', [Carbon_1.default])
+                    __metadata('design:paramtypes', [(typeof (_a = typeof Carbon_1.default !== 'undefined' && Carbon_1.default) === 'function' && _a) || Object])
                 ], JobsService);
                 return JobsService;
+                var _a;
             }());
             exports_1("JobsService", JobsService);
             exports_1("default",JobsService);

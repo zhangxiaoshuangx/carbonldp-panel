@@ -249,6 +249,13 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     var body = JSON.stringify(this.document, null, "\t");
                     this.documentsResolverService.update(this.document["@id"], body, this.documentContext).then(function (updatedDocument) {
                         _this.document = updatedDocument[0];
+                        setTimeout(function () {
+                            _this.$element.find(".success.message").transition({
+                                onComplete: function () {
+                                    setTimeout(function () { _this.$element.find(".success.message").transition("fade"); }, 4000);
+                                }
+                            });
+                        }, 1500);
                     }).catch(function (error) {
                         _this.savingErrorMessage = {
                             title: error.name,
@@ -283,6 +290,9 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 DocumentViewerComponent.prototype.clearSavingError = function () {
                     this.savingErrorMessage = null;
                 };
+                DocumentViewerComponent.prototype.closeMessage = function (message) {
+                    jquery_1.default(message).transition("fade");
+                };
                 DocumentViewerComponent.prototype.scrollTo = function (selector) {
                     if (!this.$element)
                         return;
@@ -297,7 +307,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 ], DocumentViewerComponent.prototype, "uri", void 0);
                 __decorate([
                     core_1.Input(), 
-                    __metadata('design:type', SDKContext.Class)
+                    __metadata('design:type', Object)
                 ], DocumentViewerComponent.prototype, "documentContext", void 0);
                 __decorate([
                     core_1.Input(), 

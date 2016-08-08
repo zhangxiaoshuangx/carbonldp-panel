@@ -1,6 +1,8 @@
 :host {
 	display: block;
 	.query-builder {
+		padding-left: 0;
+		padding-right: 0;
 
 		.queries-list {
 			> p {
@@ -33,10 +35,18 @@
 	}
 	.query-results {
 		margin-bottom: 6%;
-	}
-	.ui.list.responses-list {
-		> .item {
-			padding-bottom: 10px;
+		padding-left: 0;
+		padding-right: 0;
+
+		.title .column {
+			padding-left: 0;
+			padding-right: 0;
+		}
+
+		.ui.list.responses-list {
+			> .item {
+				padding-bottom: 10px;
+			}
 		}
 	}
 }

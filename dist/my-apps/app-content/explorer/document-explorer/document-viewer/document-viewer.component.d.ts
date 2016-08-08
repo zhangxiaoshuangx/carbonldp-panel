@@ -25,7 +25,7 @@ export declare class DocumentViewerComponent implements AfterViewInit, OnChanges
     bNodesChanges: Map<string, BlankNodeRecords>;
     namedFragmentsHaveChanged: boolean;
     namedFragmentsChanges: Map<string, NamedFragmentRecords>;
-    readonly documentContentHasChanged: boolean;
+    documentContentHasChanged: boolean;
     documentsResolverService: DocumentsResolverService;
     uri: string;
     documentContext: SDKContext.Class;
@@ -62,6 +62,7 @@ export declare class DocumentViewerComponent implements AfterViewInit, OnChanges
     saveDocument(): void;
     getErrors(error: HTTPError): Promise<any[]>;
     clearSavingError(): void;
+    closeMessage(message: HTMLElement): void;
     private scrollTo(selector);
 }
 export default DocumentViewerComponent;
