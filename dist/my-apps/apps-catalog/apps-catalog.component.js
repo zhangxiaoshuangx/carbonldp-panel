@@ -179,6 +179,9 @@ System.register(["@angular/core", "@angular/router-deprecated", "rxjs/Rx", "carb
                         onApprove: function () { return false; },
                     });
                 };
+                AppsCatalogComponent.prototype.refreshApps = function () {
+                    this.fetchApps();
+                };
                 AppsCatalogComponent.prototype.fetchApps = function () {
                     var _this = this;
                     this.loading = true;
