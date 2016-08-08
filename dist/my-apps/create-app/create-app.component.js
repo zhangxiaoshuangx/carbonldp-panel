@@ -108,6 +108,7 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
                     var description = data.description;
                     var appDocument = CarbonApp.Factory.create(name);
                     appDocument.description = description;
+                    appDocument.allowsOrigins = [Carbon_1.default.Pointer.Factory.create(Carbon_1.default.NS.CS.Class.AllOrigins)];
                     this.createApp(slug, appDocument);
                 };
                 CreateAppComponent.prototype.createApp = function (slug, appDocument) {

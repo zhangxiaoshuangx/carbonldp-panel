@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/router-deprecated", "./my-apps-sidebar.service", "./app-content/app-content.view", "./apps-catalog/apps-catalog.view", "./create-app/create-app.view"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/router-deprecated", "./app-content/app-content.view", "./apps-catalog/apps-catalog.view", "./create-app/create-app.view"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/router-deprecated", "./my-apps-sideb
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_deprecated_1, my_apps_sidebar_service_1, app_content_view_1, apps_catalog_view_1, create_app_view_1;
+    var core_1, router_deprecated_1, app_content_view_1, apps_catalog_view_1, create_app_view_1;
     var MyAppsView;
     return {
         setters:[
@@ -19,9 +19,6 @@ System.register(["@angular/core", "@angular/router-deprecated", "./my-apps-sideb
             },
             function (router_deprecated_1_1) {
                 router_deprecated_1 = router_deprecated_1_1;
-            },
-            function (my_apps_sidebar_service_1_1) {
-                my_apps_sidebar_service_1 = my_apps_sidebar_service_1_1;
             },
             function (app_content_view_1_1) {
                 app_content_view_1 = app_content_view_1_1;
@@ -42,9 +39,7 @@ System.register(["@angular/core", "@angular/router-deprecated", "./my-apps-sideb
                         template: "<router-outlet></router-outlet>",
                         styles: [":host { display: block; }"],
                         directives: [router_deprecated_1.ROUTER_DIRECTIVES, router_deprecated_1.RouterOutlet],
-                        providers: [
-                            core_1.provide(my_apps_sidebar_service_1.MyAppsSidebarService, { useClass: my_apps_sidebar_service_1.MyAppsSidebarService })
-                        ]
+                        providers: []
                     }),
                     router_deprecated_1.RouteConfig([
                         {

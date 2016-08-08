@@ -12,5 +12,7 @@
       border-color: green !important; }
     :host .accordion > .error {
       border-color: red !important; }
+  :host .tabs [data-tab="second"] {
+    max-height: 400px; }
 
 /*# sourceMappingURL=response.component.css.map */

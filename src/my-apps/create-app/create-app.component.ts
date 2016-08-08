@@ -110,6 +110,7 @@ export class CreateAppComponent implements AfterViewInit, OnInit {
 
 		let appDocument:CarbonApp.Class = CarbonApp.Factory.create( name );
 		appDocument.description = description;
+		appDocument.allowsOrigins = [ Carbon.Pointer.Factory.create( Carbon.NS.CS.Class.AllOrigins ) ];
 		this.createApp( slug, appDocument );
 	}
 

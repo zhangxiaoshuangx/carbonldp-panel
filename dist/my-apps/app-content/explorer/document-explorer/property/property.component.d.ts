@@ -60,6 +60,7 @@ export declare class PropertyComponent implements AfterViewInit, OnInit {
     askToConfirmDeletion(): void;
     deleteProperty(): void;
     save(): void;
+    sanitizeName(name: string): string;
     fillLiteralsAndPointers(): void;
     addLiteral(): void;
     addPointer(): void;
@@ -67,6 +68,8 @@ export declare class PropertyComponent implements AfterViewInit, OnInit {
     checkForChangesOnLiterals(literals: LiteralRow[]): void;
     checkForChangesOnPointers(pointers: PointerRow[]): void;
     changePropertyContent(): void;
+    private escape(uri);
+    private unescape(uri);
     private nameValidator(control);
 }
 export interface PropertyRow {

@@ -99,7 +99,8 @@ gulp.task( "compile:templates", () => {
 
 gulp.task( "compile:typescript", () => {
 	let tsProject = ts.createProject( "tsconfig.json", {
-		"declaration": true
+		"declaration": true,
+		typescript: require( "typescript" )
 	} );
 
 	let tsResults = gulp.src( config.source.typescript )

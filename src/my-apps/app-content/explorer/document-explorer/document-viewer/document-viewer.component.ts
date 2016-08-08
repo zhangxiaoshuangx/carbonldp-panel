@@ -251,6 +251,13 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 		this.documentsResolverService.update( this.document[ "@id" ], body, this.documentContext ).then(
 			( updatedDocument:RDFDocument.Class )=> {
 				this.document = updatedDocument[ 0 ];
+				setTimeout( ()=> {
+					this.$element.find( ".success.message" ).transition( {
+						onComplete: ()=> {
+							setTimeout( ()=> {this.$element.find( ".success.message" ).transition( "fade" );}, 4000 );
+						}
+					} );
+				}, 1500 );
 			}
 		).catch( ( error:HTTPError )=> {
 			this.savingErrorMessage = {
@@ -287,6 +294,10 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 
 	clearSavingError():void {
 		this.savingErrorMessage = null;
+	}
+
+	closeMessage( message:HTMLElement ):void {
+		$( message ).transition( "fade" );
 	}
 
 	private scrollTo( selector:string ):void {

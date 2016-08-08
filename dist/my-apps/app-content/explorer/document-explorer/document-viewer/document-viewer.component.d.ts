@@ -62,6 +62,7 @@ export declare class DocumentViewerComponent implements AfterViewInit, OnChanges
     saveDocument(): void;
     getErrors(error: HTTPError): Promise<any[]>;
     clearSavingError(): void;
+    closeMessage(message: HTMLElement): void;
     private scrollTo(selector);
 }
 export default DocumentViewerComponent;

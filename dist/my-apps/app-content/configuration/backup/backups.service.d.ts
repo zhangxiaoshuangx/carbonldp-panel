@@ -10,6 +10,7 @@ export declare class BackupsService {
     getAll(appContext: SDKContext.Class): Promise<[PersistedDocument.Class[], HTTP.Response.Class]>;
     getDownloadURL(documentURI: string): Promise<string>;
     delete(uri: string, appContext: SDKContext.Class): Promise<HTTP.Response.Class>;
+    private convertToNonRDFSource(backupPointer);
     private extendSchemasForBackups();
 }
 export default BackupsService;

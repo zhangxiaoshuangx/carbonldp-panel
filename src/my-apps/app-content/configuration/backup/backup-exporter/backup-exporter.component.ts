@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, Output, EventEmitter, OnDestroy } from "@angular/core";
 
 import * as App from "carbonldp/App";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
@@ -20,15 +20,17 @@ import style from "./backup-exporter.component.css!text";
 	directives: [ ErrorMessageComponent ],
 } )
 
-export class BackupExporterComponent {
+export class BackupExporterComponent implements OnDestroy {
 
 	executingBackup:boolean = false;
-
-	@Input() appContext:App.Context;
-	@Input() backupJob:PersistedDocument.Class;
 	errorMessages:Message[] = [];
 	jobsService:JobsService;
 	exportSuccess:boolean;
+	monitorExecutionInterval:number;
+
+	@Input() appContext:App.Context;
+	@Input() backupJob:PersistedDocument.Class;
+	@Output() onExportSuccess:EventEmitter<boolean> = new EventEmitter<boolean>();
 
 	constructor( jobsService:JobsService ) {
 		this.jobsService = jobsService;
@@ -36,6 +38,7 @@ export class BackupExporterComponent {
 
 	onGenerateBackup():void {
 		this.executingBackup = true;
+		this.exportSuccess = false;
 
 		this.jobsService.runJob( this.backupJob ).then( ( execution:PersistedDocument.Class )=> {
 			return this.monitorExecution( execution ).catch( ( executionOrError:HTTPError|PersistedDocument.Class ) => {
@@ -65,16 +68,16 @@ export class BackupExporterComponent {
 
 	monitorExecution( execution:PersistedDocument.Class ):Promise<PersistedDocument.Class> {
 		return new Promise<PersistedDocument.Class>( ( resolve:( result:any ) => void, reject:( error:HTTPError|PersistedDocument.Class ) => void ) => {
-			// setInterval in the browser returns a number but in NodeJS it returns a Time object, that's why this variable needs to be of type "any"
-			let interval:any = setInterval( ()=> {
+			this.monitorExecutionInterval = setInterval( ()=> {
 				execution.refresh().then( ()=> {
 					switch( execution[ Job.Execution.STATUS ].id ) {
 						case Job.ExecutionStatus.FINISHED:
-							clearInterval( interval );
+							clearInterval( this.monitorExecutionInterval );
 							resolve( execution );
+							this.onExportSuccess.emit( true );
 							break;
 						case Job.ExecutionStatus.ERROR:
-							clearInterval( interval );
+							clearInterval( this.monitorExecutionInterval );
 							reject( execution );
 							break;
 					}
@@ -87,11 +90,15 @@ export class BackupExporterComponent {
 						statusMessage: (<XMLHttpRequest>error.response.request).statusText
 					};
 					this.errorMessages = [ errorMessage ];
-					clearInterval( interval );
+					clearInterval( this.monitorExecutionInterval );
 					this.executingBackup = false;
 				} );
 			}, 3000 );
 		} );
+	}
+
+	ngOnDestroy():void {
+		if( typeof this.monitorExecutionInterval !== "undefined" ) clearInterval( this.monitorExecutionInterval );
 	}
 
 	removeMessage( index:number ):void {
@@ -100,6 +107,10 @@ export class BackupExporterComponent {
 
 	onCloseSuccess():void {
 		this.exportSuccess = false;
+	}
+
+	closeMessage( messageDiv:HTMLElement ):void {
+		$( messageDiv ).transition( { animation: "fade" } );
 	}
 }
 

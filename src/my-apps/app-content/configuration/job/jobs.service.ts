@@ -15,23 +15,27 @@ export class JobsService {
 
 	carbon:Carbon;
 
-	jobs:Map<string, PersistedDocument.Class>;
+	appContextsJobs:Map<string, Map<string, PersistedDocument.Class>>;
 
 	constructor( carbon:Carbon ) {
 		this.carbon = carbon;
-		this.jobs = new Map<string, PersistedDocument.Class>();
+		this.appContextsJobs = new Map < string, Map < string, PersistedDocument.Class >>();
 	}
 
 	getJobOfType( type:string, appContext:App.Context ):Promise<PersistedDocument.Class> {
 		if( ! type ) return <any> Promise.reject( new Error( "Provide a job type." ) );
 		if( ! appContext ) return <any> Promise.reject( new Error( "Provide an appContext." ) );
-		let jobsArray:PersistedDocument.Class[] = Utils.A.from( this.jobs.values() );
+
+		if( ! this.appContextsJobs.has( appContext.getBaseURI() ) )this.appContextsJobs.set( appContext.getBaseURI(), new Map<string, PersistedDocument.Class>() );
+		let jobs:Map < string, PersistedDocument.Class > = this.appContextsJobs.get( appContext.getBaseURI() );
+
+		let jobsArray:PersistedDocument.Class[] = Utils.A.from( jobs.values() );
 		let job:PersistedDocument.Class = jobsArray.find( ( job:PersistedDocument.Class ) => job.types.indexOf( type ) !== - 1 );
 		if( ! ! job ) return Promise.resolve( job );
 
 		return this.getAll( appContext ).then(
 			( jobs:PersistedDocument.Class[] )=> {
-				let jobsArray:PersistedDocument.Class[] = Utils.A.from( this.jobs.values() );
+				let jobsArray:PersistedDocument.Class[] = Utils.A.from( jobs.values() );
 				return jobsArray.find( ( job:PersistedDocument.Class ) => job.types.indexOf( type ) !== - 1 );
 			}
 		);
@@ -39,23 +43,25 @@ export class JobsService {
 
 	getAll( appContext:App.Context ):Promise<PersistedDocument.Class[]> {
 		let uri:string = appContext.app.id + "jobs/";
-		return this.carbon.documents.getChildren( uri ).then( ( [jobs, response]:[PersistedDocument.Class[], HTTP.Response.Class] ) => {
-			jobs.filter( ( job:PersistedDocument.Class ) => ! this.jobs.has( job.id ) )
-				.forEach( ( job:PersistedDocument.Class ) => this.jobs.set( job.id, job ) );
-			return Utils.A.from( this.jobs.values() );
+		let jobs:Map < string, PersistedDocument.Class > = this.appContextsJobs.get( appContext.getBaseURI() );
+		return this.carbon.documents.getChildren( uri ).then( ( [existingJobs, response]:[PersistedDocument.Class[], HTTP.Response.Class] ) => {
+			existingJobs.filter( ( job:PersistedDocument.Class ) => ! jobs.has( job.id ) )
+				.forEach( ( job:PersistedDocument.Class ) => jobs.set( job.id, job ) );
+			return Utils.A.from( jobs.values() );
 		} );
 	}
 
 	createExportBackup( appContext:App.Context ):Promise<PersistedDocument.Class> {
+		let jobs:Map < string, PersistedDocument.Class > = this.appContextsJobs.get( appContext.getBaseURI() );
 		return new Promise<PersistedDocument.Class>(
 			( resolve:( result:any ) => void, reject:( error:Error ) => void ) => {
 				let uri:string = appContext.app.id + "jobs/";
 				let tempJob:any = {};
 				tempJob[ "types" ] = [ Job.Type.EXPORT_BACKUP ];
-				appContext.documents.createChild( uri, tempJob ).then( ( [pointer, response]:[Pointer.Class, Response.Class] )=> {
+				this.carbon.documents.createChild( uri, tempJob ).then( ( [pointer, response]:[Pointer.Class, Response.Class] )=> {
 					pointer.resolve().then( ( [importJob, response]:[PersistedDocument.Class, HTTP.Response.Class] )=> {
 						resolve( importJob );
-						this.addJob( importJob );
+						jobs.set( importJob.id, importJob );
 					} );
 				} ).catch( ( error )=> reject( error ) );
 			}
@@ -63,15 +69,17 @@ export class JobsService {
 	}
 
 	createImportBackup( backupURI:string, appContext:App.Context ):Promise<PersistedDocument.Class> {
-		let uri:string = appContext.app.id + "jobs/";
-		let tempJob:any = {};
+		let uri:string = appContext.app.id + "jobs/",
+			tempJob:any = {},
+			backup = appContext.documents.getPointer( backupURI );
 		tempJob[ "types" ] = [ Job.Type.IMPORT_BACKUP ];
 		tempJob[ Job.namespace + "backup" ] = appContext.documents.getPointer( backupURI );
 
+		let jobs:Map < string, PersistedDocument.Class > = this.appContextsJobs.get( appContext.getBaseURI() );
 		return this.carbon.documents.createChild( uri, tempJob ).then( ( [pointer, response]:[Pointer.Class, Response.Class] ) => {
 			return pointer.resolve();
 		} ).then( ( [importJob, response ]:[PersistedDocument.Class, HTTP.Response.Class] )=> {
-			this.addJob( importJob );
+			jobs.set( importJob.id, importJob );
 			return importJob;
 		} );
 	}
@@ -98,10 +106,6 @@ export class JobsService {
 					return resolvedJobExecution;
 				} ).catch( ( error )=> { return Promise.reject( error ) } );
 		}
-	}
-
-	private addJob( job:PersistedDocument.Class ):void {
-		this.jobs.set( job.id, job );
 	}
 }
 
