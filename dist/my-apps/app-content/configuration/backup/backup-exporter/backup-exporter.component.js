@@ -118,6 +118,9 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
                 BackupExporterComponent.prototype.onCloseSuccess = function () {
                     this.exportSuccess = false;
                 };
+                BackupExporterComponent.prototype.closeMessage = function (messageDiv) {
+                    $(messageDiv).transition({ animation: "fade" });
+                };
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', Object)

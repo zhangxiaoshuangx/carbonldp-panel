@@ -19,5 +19,6 @@ export declare class BackupExporterComponent implements OnDestroy {
     ngOnDestroy(): void;
     removeMessage(index: number): void;
     onCloseSuccess(): void;
+    closeMessage(messageDiv: HTMLElement): void;
 }
 export default BackupExporterComponent;

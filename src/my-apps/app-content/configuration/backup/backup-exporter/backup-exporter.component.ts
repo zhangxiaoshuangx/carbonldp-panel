@@ -108,6 +108,10 @@ export class BackupExporterComponent implements OnDestroy {
 	onCloseSuccess():void {
 		this.exportSuccess = false;
 	}
+
+	closeMessage( messageDiv:HTMLElement ):void {
+		$( messageDiv ).transition( { animation: "fade" } );
+	}
 }
 
 export default BackupExporterComponent;
