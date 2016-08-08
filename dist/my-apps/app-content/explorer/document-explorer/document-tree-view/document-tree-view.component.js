@@ -116,7 +116,6 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     this.documentTree.on("loaded.jstree", function () {
                         _this.documentTree.jstree("open_all");
                         if (_this.nodeChildren && _this.nodeChildren.length > 0) {
-                            console.log(_this.nodeChildren[0].data.pointer.id);
                             _this.onResolveUri.emit(_this.nodeChildren[0].data.pointer.id);
                         }
                     });
@@ -159,7 +158,8 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                             return _this.buildNode(pointer.id);
                         });
                     }).catch(function (error) {
-                        console.log("Error: %o", error);
+                        console.error(error);
+                        return [];
                     });
                 };
                 DocumentTreeViewComponent.prototype.getSlug = function (pointer) {

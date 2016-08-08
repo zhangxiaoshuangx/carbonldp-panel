@@ -109,7 +109,6 @@ export class DocumentTreeViewComponent implements AfterViewInit {
 		this.documentTree.on( "loaded.jstree", ()=> {
 			this.documentTree.jstree( "open_all" );
 			if( this.nodeChildren && this.nodeChildren.length > 0 ) {
-				console.log( this.nodeChildren[ 0 ].data.pointer.id );
 				this.onResolveUri.emit( this.nodeChildren[ 0 ].data.pointer.id );
 			}
 		} );
@@ -155,7 +154,8 @@ export class DocumentTreeViewComponent implements AfterViewInit {
 				return this.buildNode( pointer.id );
 			} );
 		} ).catch( ( error ) => {
-			console.log( "Error: %o", error );
+			console.error( error );
+			return [];
 		} );
 	}
 
