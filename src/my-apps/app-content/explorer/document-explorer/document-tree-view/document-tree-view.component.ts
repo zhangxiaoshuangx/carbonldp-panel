@@ -50,9 +50,7 @@ export class DocumentTreeViewComponent implements AfterViewInit {
 
 	getDocumentTree():Promise<PersistedDocument.Class> {
 		return this.documentContext.documents.get( "" ).then( ( [ resolvedRoot, response ]:[ PersistedDocument.Class, HTTP.Response.Class ] ) => {
-			resolvedRoot.contains.forEach( ( pointer:Pointer.Class ) => {
-				this.nodeChildren.push( this.buildNode( pointer.id ) );
-			} );
+			this.nodeChildren.push( this.buildNode( this.documentContext.getBaseURI() ) );
 			return resolvedRoot;
 		} ).catch( ( error:HTTP.Errors.Error ) => {
 			console.error( error );
@@ -106,6 +104,14 @@ export class DocumentTreeViewComponent implements AfterViewInit {
 			let parentNode:any = data.node;
 			let position:string = "last";
 			this.onClickNode( parentId, parentNode, position );
+			this.documentTree.jstree( "open_node", data.node );
+		} );
+		this.documentTree.on( "loaded.jstree", ()=> {
+			this.documentTree.jstree( "open_all" );
+			if( this.nodeChildren && this.nodeChildren.length > 0 ) {
+				console.log( this.nodeChildren[ 0 ].data.pointer.id );
+				this.onResolveUri.emit( this.nodeChildren[ 0 ].data.pointer.id );
+			}
 		} );
 	}
 

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, AfterViewInit } from "@angular/core";
+import { Component, Input } from "@angular/core";
 
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
@@ -9,7 +9,6 @@ import { DocumentViewerComponent } from "./document-viewer/document-viewer.compo
 import { DocumentTreeViewComponent } from "./document-tree-view/document-tree-view.component";
 import { Message, ErrorMessageComponent } from "./../../../../errors-area/error-message.component";
 
-import $ from "jquery";
 import "semantic-ui/semantic";
 
 import template from "./document-explorer.component.html!";
@@ -22,11 +21,8 @@ import style from "./document-explorer.component.css!text";
 	directives: [ DocumentTreeViewComponent, DocumentViewerComponent, ErrorMessageComponent ],
 } )
 
-export class DocumentExplorerComponent implements AfterViewInit {
-
-	element:ElementRef;
-	$element:JQuery;
-
+export class DocumentExplorerComponent {
+	
 	loadingDocument:boolean = false;
 	savingDocument:boolean = false;
 	inspectingDocument:RDFDocument.Class;
@@ -35,13 +31,8 @@ export class DocumentExplorerComponent implements AfterViewInit {
 
 	@Input() documentContext:SDKContext.Class;
 
-	constructor( element:ElementRef, documentsResolverService:DocumentsResolverService ) {
-		this.element = element;
+	constructor( documentsResolverService:DocumentsResolverService ) {
 		this.documentsResolverService = documentsResolverService;
-	}
-
-	ngAfterViewInit():void {
-		this.$element = $( this.element.nativeElement );
 	}
 
 	onLoadingDocument( loadingDocument:boolean ):void {
