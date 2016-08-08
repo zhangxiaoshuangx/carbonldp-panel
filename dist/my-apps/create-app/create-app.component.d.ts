@@ -12,6 +12,7 @@ export declare class CreateAppComponent implements AfterViewInit, OnInit {
     appContextService: AppContextService;
     submitting: boolean;
     displaySuccessMessage: boolean;
+    displayWarningMessage: boolean;
     errorMessage: Message;
     _name: string;
     _slug: string;
@@ -34,6 +35,7 @@ export declare class CreateAppComponent implements AfterViewInit, OnInit {
         description: string;
     }, $event: any): void;
     createApp(slug: string, appDocument: CarbonApp.Class): Promise<[Pointer.Class, HTTP.Response.Class]>;
+    private getHTTPErrorMessage(error, content);
     getErrorMessage(error: HTTP.Errors.Error): string;
     slugValidator(slug: Control): any;
     clearMessages(evt: Event): void;
