@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/router-deprecated", "@angular/platform-browser", "./apps-catalog.component", "semantic-ui/semantic", "./apps-catalog.view.html!"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/router-deprecated", "./apps-catalog.component", "semantic-ui/semantic", "./apps-catalog.view.html!"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/router-deprecated", "@angular/platfo
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_deprecated_1, platform_browser_1, apps_catalog_component_1, apps_catalog_view_html_1;
+    var core_1, router_deprecated_1, apps_catalog_component_1, apps_catalog_view_html_1;
     var AppsCatalogView;
     return {
         setters:[
@@ -19,9 +19,6 @@ System.register(["@angular/core", "@angular/router-deprecated", "@angular/platfo
             },
             function (router_deprecated_1_1) {
                 router_deprecated_1 = router_deprecated_1_1;
-            },
-            function (platform_browser_1_1) {
-                platform_browser_1 = platform_browser_1_1;
             },
             function (apps_catalog_component_1_1) {
                 apps_catalog_component_1 = apps_catalog_component_1_1;
@@ -32,17 +29,8 @@ System.register(["@angular/core", "@angular/router-deprecated", "@angular/platfo
             }],
         execute: function() {
             AppsCatalogView = (function () {
-                function AppsCatalogView(router, routeData, title) {
-                    this.title = title;
-                    this.routeData = routeData;
-                    this.router = router;
+                function AppsCatalogView() {
                 }
-                AppsCatalogView.prototype.routerOnActivate = function () {
-                    var rootComponent = this.router.root.currentInstruction.component.routeData.data["displayName"];
-                    var title = rootComponent + " | " + this.routeData.data["displayName"];
-                    this.title.setTitle(title);
-                    //let title:string = this.title.getTitle() +" | "+ this.routeData.data["displayName"];
-                };
                 AppsCatalogView = __decorate([
                     core_1.Component({
                         selector: "cp-apps-catalog-view",
@@ -50,7 +38,7 @@ System.register(["@angular/core", "@angular/router-deprecated", "@angular/platfo
                         styles: [":host { display: block; }"],
                         directives: [router_deprecated_1.ROUTER_DIRECTIVES, apps_catalog_component_1.AppsCatalogComponent],
                     }), 
-                    __metadata('design:paramtypes', [router_deprecated_1.Router, router_deprecated_1.RouteData, platform_browser_1.Title])
+                    __metadata('design:paramtypes', [])
                 ], AppsCatalogView);
                 return AppsCatalogView;
             }());
