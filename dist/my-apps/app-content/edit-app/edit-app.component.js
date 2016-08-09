@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbonldp/HTTP", "../app", "../../../errors-area/error-message.component", "semantic-ui/semantic", "./edit-app.component.html!", "./edit-app.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbonldp/HTTP", "carbonldp/RDF/URI", "../../app-context.service", "../app", "../../../errors-area/error-message.component", "semantic-ui/semantic", "./edit-app.component.html!", "./edit-app.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbon
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, Carbon_1, HTTP, App, error_message_component_1, edit_app_component_html_1, edit_app_component_css_text_1;
+    var core_1, common_1, Carbon_1, HTTP, URI, app_context_service_1, App, error_message_component_1, edit_app_component_html_1, edit_app_component_css_text_1;
     var EditAppComponent;
     return {
         setters:[
@@ -25,6 +25,12 @@ System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbon
             },
             function (HTTP_1) {
                 HTTP = HTTP_1;
+            },
+            function (URI_1) {
+                URI = URI_1;
+            },
+            function (app_context_service_1_1) {
+                app_context_service_1 = app_context_service_1_1;
             },
             function (App_1) {
                 App = App_1;
@@ -41,12 +47,13 @@ System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbon
             }],
         execute: function() {
             EditAppComponent = (function () {
-                function EditAppComponent(formBuilder) {
+                function EditAppComponent(formBuilder, appContextService) {
                     this.submitting = false;
                     this.displaySuccessMessage = false;
                     this.allowedDomains = [];
                     this.domainStr = "";
                     this.formBuilder = formBuilder;
+                    this.appContextService = appContextService;
                 }
                 EditAppComponent.prototype.ngOnInit = function () {
                     var allowAllOrigins = false;
@@ -126,10 +133,11 @@ System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbon
                     else {
                         this.app.allowsOrigins = allowedDomains.length > 0 ? allowedDomains : this.app.allowsOrigins;
                     }
-                    this.app.save().then(function (_a) {
+                    this.app.saveAndRefresh().then(function (_a) {
                         var updatedApp = _a[0], response = _a[1];
                         _this.displaySuccessMessage = true;
-                        return _this.app.refresh();
+                        var slug = URI.Util.getSlug(updatedApp.id);
+                        return _this.appContextService.updateContext(slug);
                     }).catch(function (error) {
                         _this.errorMessage = {
                             title: error.name,
@@ -138,8 +146,7 @@ System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbon
                             statusMessage: error.response.request.statusText,
                             endpoint: error.response.request.responseURL,
                         };
-                    }).then(function (_a) {
-                        var updatedApp = _a[0], response = _a[1];
+                    }).then(function () {
                         _this.submitting = false;
                     });
                 };
@@ -194,7 +201,7 @@ System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbon
                         styles: [edit_app_component_css_text_1.default],
                         directives: [error_message_component_1.ErrorMessageComponent],
                     }), 
-                    __metadata('design:paramtypes', [common_1.FormBuilder])
+                    __metadata('design:paramtypes', [common_1.FormBuilder, app_context_service_1.AppContextService])
                 ], EditAppComponent);
                 return EditAppComponent;
             }());

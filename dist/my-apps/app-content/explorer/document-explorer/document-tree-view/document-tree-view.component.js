@@ -50,7 +50,6 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     this.documentTree = this.$element.find(".document.treeview");
                     this.onLoadingDocument.emit(true);
                     this.getDocumentTree().then(function () {
-                        _this.renderTree();
                         _this.onLoadingDocument.emit(false);
                     });
                 };
@@ -58,8 +57,11 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     var _this = this;
                     return this.documentContext.documents.get("").then(function (_a) {
                         var resolvedRoot = _a[0], response = _a[1];
+                        return resolvedRoot.refresh();
+                    }).then(function (_a) {
+                        var updatedRoot = _a[0], updatedResponse = _a[1];
                         _this.nodeChildren.push(_this.buildNode(_this.documentContext.getBaseURI()));
-                        return resolvedRoot;
+                        _this.renderTree();
                     }).catch(function (error) {
                         console.error(error);
                         _this.onError.emit(error);

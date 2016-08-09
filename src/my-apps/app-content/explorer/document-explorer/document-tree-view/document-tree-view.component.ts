@@ -43,15 +43,16 @@ export class DocumentTreeViewComponent implements AfterViewInit {
 		this.documentTree = this.$element.find( ".document.treeview" );
 		this.onLoadingDocument.emit( true );
 		this.getDocumentTree().then( ()=> {
-			this.renderTree();
 			this.onLoadingDocument.emit( false );
 		} );
 	}
 
 	getDocumentTree():Promise<PersistedDocument.Class> {
 		return this.documentContext.documents.get( "" ).then( ( [ resolvedRoot, response ]:[ PersistedDocument.Class, HTTP.Response.Class ] ) => {
+			return resolvedRoot.refresh();
+		} ).then( ( [updatedRoot, updatedResponse]:[PersistedDocument.Class, HTTP.Response.Class] ) => {
 			this.nodeChildren.push( this.buildNode( this.documentContext.getBaseURI() ) );
-			return resolvedRoot;
+			this.renderTree();
 		} ).catch( ( error:HTTP.Errors.Error ) => {
 			console.error( error );
 			this.onError.emit( error );
