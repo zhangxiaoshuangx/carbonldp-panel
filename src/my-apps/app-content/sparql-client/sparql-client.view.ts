@@ -1,6 +1,4 @@
 import { Component, Host, Inject, forwardRef } from "@angular/core";
-import { Title } from "@angular/platform-browser";
-import { Router, RouteData } from "@angular/router-deprecated";
 
 import * as App from "carbonldp/App";
 
@@ -20,20 +18,12 @@ import template from "./sparql-client.view.html!";
 } )
 export class SPARQLClientView {
 	$element:JQuery;
-	app:App.Class;
 	appContext:App.Context;
-	private title:Title;
 	private errorsAreaService:ErrorsAreaService;
-	private router:Router;
-	private routeData:RouteData;
 
-	constructor( router:Router, routeData:RouteData, title:Title, errorsAreaService:ErrorsAreaService, @Host() @Inject( forwardRef( () => AppContentView ) ) appContent:AppContentView ) {
-		this.app = appContent.app;
+	constructor( errorsAreaService:ErrorsAreaService, @Host() @Inject( forwardRef( () => AppContentView ) ) appContent:AppContentView ) {
 		this.appContext = appContent.app.context;
 		this.errorsAreaService = errorsAreaService;
-		this.title = title;
-		this.router = router;
-		this.routeData = routeData;
 	}
 
 	notifyErrorAreaService( error:any ):void {
@@ -44,12 +34,6 @@ export class SPARQLClientView {
 			error.statusMessage,
 			error.endpoint
 		);
-	}
-
-	routerOnActivate() {
-		let rootComponent = this.router.root.currentInstruction.component.routeData.data[ "displayName" ];
-		let title:string = rootComponent +" | "+this.app.name+" > "+ this.routeData.data["displayName"];
-		this.title.setTitle(title);
 	}
 
 }
