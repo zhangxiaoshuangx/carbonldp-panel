@@ -9,6 +9,7 @@ import * as Pointer from "carbonldp/Pointer";
 import * as Auth from "carbonldp/Auth";
 import * as CS from "carbonldp/NS/CS";
 import * as PersistedProtectedDocument from "carbonldp/PersistedProtectedDocument";
+import * as PersistedDocument from "carbonldp/PersistedDocument";
 
 import { AppContextService } from "./../app-context.service";
 import { ErrorMessageComponent, Message } from "./../../errors-area/error-message.component";
@@ -119,7 +120,7 @@ export class CreateAppComponent implements AfterViewInit, OnInit {
 		this.createApp( slug, appDocument );
 	}
 
-	createApp( slug:string, appDocument:CarbonApp.Class ):Promise<[ Pointer.Class, HTTP.Response.Class]> {
+	createApp( slug:string, appDocument:CarbonApp.Class ):Promise<Auth.PersistedACL.Class> {
 		return this.carbon.apps.create( appDocument, slug ).then( ( [appPointer, appCreationResponse]:[ Pointer.Class, HTTP.Response.Class] ) => {
 			this.submitting = false;
 			this.persistedSlug = this._slug;
@@ -128,18 +129,10 @@ export class CreateAppComponent implements AfterViewInit, OnInit {
 		} ).then( ( appContext:CarbonApp.Context ) => {
 			this.persistedSlug = this.appContextService.getSlug( appContext );
 			this.persistedName = appContext.app.name;
-			let persistedAppDocument:PersistedProtectedDocument.Class = <PersistedProtectedDocument.Class>appContext.app;
+			let persistedAppDocument:PersistedProtectedDocument.Class = (<PersistedProtectedDocument.Class>(<PersistedDocument.Class>appContext.app));
 			return persistedAppDocument.getACL();
 		} ).then( ( [acl,response]:[ Auth.PersistedACL.Class, HTTP.Response.Class ] )=> {
-			let subject:string = this.carbon.resolve( "roles/anonymous/" ),
-				subjectClass:string = CS.namespace + "PlatformRole",
-				permissions:string[] = [ CS.namespace + "Read" ];
-			acl.grant( subject, subjectClass, permissions );
-			return acl.saveAndRefresh().then( ()=> {
-				this.displaySuccessMessage = true;
-			} ).catch( ( error:HTTP.Errors.Error ) => {
-				this.displayWarningMessage = true;
-			} );
+			return this.grantAccess( acl );
 		} ).catch( ( error:HTTP.Errors.Error ) => {
 			console.error( error );
 			if( error.response ) this.errorMessage = this.getHTTPErrorMessage( error, this.getErrorMessage( error ) );
@@ -150,6 +143,20 @@ export class CreateAppComponent implements AfterViewInit, OnInit {
 				};
 			}
 			this.submitting = false;
+		} );
+	}
+
+	private grantAccess( acl:Auth.PersistedACL.Class ):Promise<Auth.PersistedACL.Class> {
+		let subject:string = this.carbon.resolve( "roles/anonymous/" ),
+			subjectClass:string = CS.namespace + "PlatformRole",
+			permissions:string[] = [ CS.namespace + "Read" ];
+		acl.grant( subject, subjectClass, permissions );
+		return acl.saveAndRefresh().then( ()=> {
+			this.displaySuccessMessage = true;
+		} ).catch( ( error:HTTP.Errors.Error ) => {
+			this.displayWarningMessage = true;
+		} ).then( ()=> {
+			return acl;
 		} );
 	}
 

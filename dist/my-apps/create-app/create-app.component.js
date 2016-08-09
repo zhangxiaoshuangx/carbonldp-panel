@@ -131,13 +131,7 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
                         return persistedAppDocument.getACL();
                     }).then(function (_a) {
                         var acl = _a[0], response = _a[1];
-                        var subject = _this.carbon.resolve("roles/anonymous/"), subjectClass = CS.namespace + "PlatformRole", permissions = [CS.namespace + "Read"];
-                        acl.grant(subject, subjectClass, permissions);
-                        return acl.saveAndRefresh().then(function () {
-                            _this.displaySuccessMessage = true;
-                        }).catch(function (error) {
-                            _this.displayWarningMessage = true;
-                        });
+                        return _this.grantAccess(acl);
                     }).catch(function (error) {
                         console.error(error);
                         if (error.response)
@@ -149,6 +143,18 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
                             };
                         }
                         _this.submitting = false;
+                    });
+                };
+                CreateAppComponent.prototype.grantAccess = function (acl) {
+                    var _this = this;
+                    var subject = this.carbon.resolve("roles/anonymous/"), subjectClass = CS.namespace + "PlatformRole", permissions = [CS.namespace + "Read"];
+                    acl.grant(subject, subjectClass, permissions);
+                    return acl.saveAndRefresh().then(function () {
+                        _this.displaySuccessMessage = true;
+                    }).catch(function (error) {
+                        _this.displayWarningMessage = true;
+                    }).then(function () {
+                        return acl;
                     });
                 };
                 CreateAppComponent.prototype.getHTTPErrorMessage = function (error, content) {

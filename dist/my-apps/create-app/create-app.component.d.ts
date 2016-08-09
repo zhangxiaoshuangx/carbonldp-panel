@@ -3,7 +3,7 @@ import { FormBuilder, ControlGroup, AbstractControl, Control } from "@angular/co
 import Carbon from "carbonldp/Carbon";
 import * as CarbonApp from "carbonldp/App";
 import * as HTTP from "carbonldp/HTTP";
-import * as Pointer from "carbonldp/Pointer";
+import * as Auth from "carbonldp/Auth";
 import { AppContextService } from "./../app-context.service";
 import { Message } from "./../../errors-area/error-message.component";
 import "semantic-ui/semantic";
@@ -34,7 +34,8 @@ export declare class CreateAppComponent implements AfterViewInit, OnInit {
         slug: string;
         description: string;
     }, $event: any): void;
-    createApp(slug: string, appDocument: CarbonApp.Class): Promise<[Pointer.Class, HTTP.Response.Class]>;
+    createApp(slug: string, appDocument: CarbonApp.Class): Promise<Auth.PersistedACL.Class>;
+    private grantAccess(acl);
     private getHTTPErrorMessage(error, content);
     getErrorMessage(error: HTTP.Errors.Error): string;
     slugValidator(slug: Control): any;
