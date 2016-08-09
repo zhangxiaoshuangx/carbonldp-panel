@@ -76,6 +76,9 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./d
                     }
                     this.messages.push(errorMessage);
                 };
+                DocumentExplorerComponent.prototype.refreshDocument = function (documentURI) {
+                    this.resolveDocument(documentURI);
+                };
                 DocumentExplorerComponent.prototype.getHTTPErrorMessage = function (error, content) {
                     return {
                         title: error.name,
@@ -115,7 +118,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./d
                 };
                 __decorate([
                     core_1.Input(), 
-                    __metadata('design:type', Object)
+                    __metadata('design:type', SDKContext.Class)
                 ], DocumentExplorerComponent.prototype, "documentContext", void 0);
                 DocumentExplorerComponent = __decorate([
                     core_1.Component({

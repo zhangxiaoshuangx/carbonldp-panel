@@ -22,7 +22,7 @@ import style from "./document-explorer.component.css!text";
 } )
 
 export class DocumentExplorerComponent {
-	
+
 	loadingDocument:boolean = false;
 	savingDocument:boolean = false;
 	inspectingDocument:RDFDocument.Class;
@@ -63,6 +63,10 @@ export class DocumentExplorerComponent {
 		this.messages.push( errorMessage );
 	}
 
+	refreshDocument( documentURI:string ):void {
+		this.resolveDocument( documentURI );
+	}
+
 	private getHTTPErrorMessage( error:HTTP.Errors.Error, content:string ):Message {
 		return {
 			title: error.name,
@@ -75,7 +79,7 @@ export class DocumentExplorerComponent {
 
 	private getErrorMessage( error:HTTP.Errors.Error ):string {
 		let tempMessage:string = "";
-		switch( true ) {
+		switch ( true ) {
 			case error instanceof HTTP.Errors.ForbiddenError:
 				tempMessage = "Forbidden Action.";
 				break;

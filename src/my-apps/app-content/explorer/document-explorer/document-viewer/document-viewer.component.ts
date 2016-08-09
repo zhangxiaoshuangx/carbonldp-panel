@@ -64,6 +64,7 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 
 	@Output() onLoadingDocument:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() onSavingDocument:EventEmitter<boolean> = new EventEmitter<boolean>();
+	@Output() onRefreshDocument:EventEmitter<string> = new EventEmitter<string>();
 
 	@ViewChild( BlankNodesComponent ) documentBNodes:BlankNodesComponent;
 	@ViewChild( NamedFragmentsComponent ) documentNamedFragments:NamedFragmentsComponent;
@@ -299,6 +300,21 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	closeMessage( message:HTMLElement ):void {
 		$( message ).transition( "fade" );
 	}
+
+	private beforeRefreshDocument( documentURI:string ):void {
+		if( this.documentContentHasChanged ) this.toggleConfirmRefresh();
+		else this.refreshDocument( documentURI );
+	}
+
+	private refreshDocument( documentURI:string ):void {
+		this.onRefreshDocument.emit( documentURI );
+		this.$element.find( ".unsaved.prompt.message" ).transition( { animation: "fade" } ).transition( "hide" );
+	}
+
+	private toggleConfirmRefresh():void {
+		this.$element.find( ".unsaved.prompt.message" ).transition( { animation: "fade" } );
+	}
+
 
 	private scrollTo( selector:string ):void {
 		if( ! this.$element ) return;

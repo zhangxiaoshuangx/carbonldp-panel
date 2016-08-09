@@ -172,6 +172,15 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
                         return response;
                     });
                 };
+                BackupsListComponent.prototype.refreshList = function () {
+                    var _this = this;
+                    this.loadingBackups = true;
+                    this.getBackups().then(function (backups) {
+                        _this.loadingBackups = false;
+                    }).catch(function () { return _this.loadingBackups = false; });
+                    clearInterval(this.fetchBackupsListInterval);
+                    this.monitorBackups();
+                };
                 BackupsListComponent.prototype.removeDeleteErrorMessage = function (index) {
                     this.deleteMessages.slice(index);
                 };
@@ -184,7 +193,7 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
                 ], BackupsListComponent.prototype, "backupJob", void 0);
                 __decorate([
                     core_1.Input(), 
-                    __metadata('design:type', Object)
+                    __metadata('design:type', App.Context)
                 ], BackupsListComponent.prototype, "appContext", void 0);
                 BackupsListComponent = __decorate([
                     core_1.Component({

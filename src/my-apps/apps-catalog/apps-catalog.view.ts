@@ -23,7 +23,6 @@ export class AppsCatalogView {
 
 	routerOnActivate() {
 		this.title.setTitle( "App Dev | Apps Catalog" );
-		console.log( this.title );
 	}
 
 

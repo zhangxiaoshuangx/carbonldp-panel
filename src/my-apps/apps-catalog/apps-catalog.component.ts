@@ -130,7 +130,7 @@ export class AppsCatalogComponent implements OnInit {
 
 	getErrorMessage( error:HTTP.Errors.Error ):Message {
 		let content:string = "";
-		switch( true ) {
+		switch ( true ) {
 			case error instanceof HTTP.Errors.ForbiddenError:
 				content = "Denied Access.";
 				break;
@@ -177,6 +177,10 @@ export class AppsCatalogComponent implements OnInit {
 			blurring: true,
 			onApprove: ():boolean => { return false; },
 		} );
+	}
+
+	refreshApps():void {
+		this.fetchApps();
 	}
 
 	fetchApps():void {

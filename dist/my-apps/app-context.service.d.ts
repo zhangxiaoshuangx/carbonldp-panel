@@ -7,6 +7,7 @@ export declare class AppContextService {
     get(slug: string): Promise<App.Context>;
     getAll(): Promise<App.Context[]>;
     getSlug(appContext: App.Context): string;
+    updateContext(uri: string): Promise<App.Context>;
     private removeTrailingSlash(slug);
 }
 export default AppContextService;

@@ -63,6 +63,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     this.namedFragmentsHaveChanged = false;
                     this.onLoadingDocument = new core_1.EventEmitter();
                     this.onSavingDocument = new core_1.EventEmitter();
+                    this.onRefreshDocument = new core_1.EventEmitter();
                     this._savingDocument = false;
                     this._loadingDocument = false;
                     this.element = element;
@@ -293,6 +294,19 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 DocumentViewerComponent.prototype.closeMessage = function (message) {
                     jquery_1.default(message).transition("fade");
                 };
+                DocumentViewerComponent.prototype.beforeRefreshDocument = function (documentURI) {
+                    if (this.documentContentHasChanged)
+                        this.toggleConfirmRefresh();
+                    else
+                        this.refreshDocument(documentURI);
+                };
+                DocumentViewerComponent.prototype.refreshDocument = function (documentURI) {
+                    this.onRefreshDocument.emit(documentURI);
+                    this.$element.find(".unsaved.prompt.message").transition({ animation: "fade" }).transition("hide");
+                };
+                DocumentViewerComponent.prototype.toggleConfirmRefresh = function () {
+                    this.$element.find(".unsaved.prompt.message").transition({ animation: "fade" });
+                };
                 DocumentViewerComponent.prototype.scrollTo = function (selector) {
                     if (!this.$element)
                         return;
@@ -307,7 +321,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 ], DocumentViewerComponent.prototype, "uri", void 0);
                 __decorate([
                     core_1.Input(), 
-                    __metadata('design:type', Object)
+                    __metadata('design:type', SDKContext.Class)
                 ], DocumentViewerComponent.prototype, "documentContext", void 0);
                 __decorate([
                     core_1.Input(), 
@@ -322,6 +336,10 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], DocumentViewerComponent.prototype, "onSavingDocument", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], DocumentViewerComponent.prototype, "onRefreshDocument", void 0);
                 __decorate([
                     core_1.ViewChild(blank_nodes_component_1.BlankNodesComponent), 
                     __metadata('design:type', blank_nodes_component_1.BlankNodesComponent)

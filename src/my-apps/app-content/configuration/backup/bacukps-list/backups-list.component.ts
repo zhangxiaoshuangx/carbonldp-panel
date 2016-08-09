@@ -168,6 +168,15 @@ export class BackupsListComponent implements AfterViewInit, OnChanges, OnDestroy
 		} );
 	}
 
+	refreshList():void {
+		this.loadingBackups = true;
+		this.getBackups().then( ( backups:PersistedDocument.Class[] ) => {
+			this.loadingBackups = false;
+		} ).catch( ()=>this.loadingBackups = false );
+		clearInterval( this.fetchBackupsListInterval );
+		this.monitorBackups();
+	}
+
 	removeDeleteErrorMessage( index:number ):void {
 		this.deleteMessages.slice( index );
 	}

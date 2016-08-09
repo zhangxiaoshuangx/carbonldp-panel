@@ -25,7 +25,7 @@ export declare class DocumentViewerComponent implements AfterViewInit, OnChanges
     bNodesChanges: Map<string, BlankNodeRecords>;
     namedFragmentsHaveChanged: boolean;
     namedFragmentsChanges: Map<string, NamedFragmentRecords>;
-    documentContentHasChanged: boolean;
+    readonly documentContentHasChanged: boolean;
     documentsResolverService: DocumentsResolverService;
     uri: string;
     documentContext: SDKContext.Class;
@@ -33,6 +33,7 @@ export declare class DocumentViewerComponent implements AfterViewInit, OnChanges
     document: RDFDocument.Class;
     onLoadingDocument: EventEmitter<boolean>;
     onSavingDocument: EventEmitter<boolean>;
+    onRefreshDocument: EventEmitter<string>;
     documentBNodes: BlankNodesComponent;
     documentNamedFragments: NamedFragmentsComponent;
     private _savingDocument;
@@ -63,6 +64,9 @@ export declare class DocumentViewerComponent implements AfterViewInit, OnChanges
     getErrors(error: HTTPError): Promise<any[]>;
     clearSavingError(): void;
     closeMessage(message: HTMLElement): void;
+    private beforeRefreshDocument(documentURI);
+    private refreshDocument(documentURI);
+    private toggleConfirmRefresh();
     private scrollTo(selector);
 }
 export default DocumentViewerComponent;

@@ -35,16 +35,17 @@ export declare class PropertyComponent implements AfterViewInit, OnInit {
     onDeleteProperty: EventEmitter<PropertyRow>;
     onDeleteNewProperty: EventEmitter<PropertyRow>;
     onSaveNewProperty: EventEmitter<PropertyRow>;
+    onRefreshDocument: EventEmitter<string>;
     nameHasChanged: boolean;
     literalsHaveChanged: boolean;
     pointersHaveChanged: boolean;
-    propertyHasChanged: boolean;
+    readonly propertyHasChanged: boolean;
     constructor(element: ElementRef);
     ngOnInit(): void;
     ngAfterViewInit(): void;
     getDisplayName(uri: string): string;
     getParentURI(uri: string): string;
-    getSlug(uri: string): any;
+    getSlug(uri: string): string;
     getFragment(uri: string): string;
     isArray(property: any): boolean;
     isUrl(uri: string): boolean;
@@ -68,6 +69,7 @@ export declare class PropertyComponent implements AfterViewInit, OnInit {
     checkForChangesOnLiterals(literals: LiteralRow[]): void;
     checkForChangesOnPointers(pointers: PointerRow[]): void;
     changePropertyContent(): void;
+    private refreshDocument();
     private escape(uri);
     private unescape(uri);
     private nameValidator(control);
