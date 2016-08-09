@@ -27,6 +27,6 @@ export declare class NamedFragmentsComponent implements AfterContentInit, OnChan
     closeNamedFragment(namedFragment: RDFNode.Class): void;
     refreshTabs(): void;
     getNormalizedUri(uri: string): string;
-    getSlug(uri: string): any;
+    getSlug(uri: string): string;
 }
 export default NamedFragmentsComponent;
