@@ -59,6 +59,7 @@ System.register(["@angular/core", "@angular/router-deprecated", "./app-content/a
                             data: {
                                 alias: "App",
                                 displayName: "App",
+                                main: true,
                                 params: {
                                     name: "slug",
                                     redirectTo: "AppDashboard",

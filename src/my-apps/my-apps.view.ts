@@ -30,6 +30,7 @@ import { CreateAppView } from "./create-app/create-app.view";
 		data: {
 			alias: "App",
 			displayName: "App",
+			main: true,
 			params: {
 				name: "slug",
 				redirectTo: "AppDashboard",
