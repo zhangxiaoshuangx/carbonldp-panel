@@ -10,23 +10,30 @@
     padding: 0; }
   :host .content .inverted.dimmer .description {
     color: #000000; }
-  :host > .content > .status.indicator {
-    float: right; }
+  :host .status.indicator {
+    float: right;
+    position: absolute;
+    right: 15px;
+    border-radius: 0; }
 
 .ui.items > :host.item .meta input {
   margin-right: 0; }
 
 .ui.items > :host.item.added-property {
   background-color: #F1FAFF;
-  padding-left: 15px;
-  padding-right: 15px; }
+  padding: 0; }
+
+.ui.items > :host.item.added-property .content {
+  padding: 15px; }
 
 .ui.items > :host.item.has-changed {
   background-color: #FFFFE0;
-  padding-left: 15px;
-  padding-right: 15px; }
+  padding: 0; }
+
+.ui.items > :host.item.has-changed .content {
+  padding: 15px; }
 
 .ui.divided.items > :host.item .content {
-  margin-top: 2%; }
+  margin-top: 0; }
 
 /*# sourceMappingURL=property.component.css.map */
