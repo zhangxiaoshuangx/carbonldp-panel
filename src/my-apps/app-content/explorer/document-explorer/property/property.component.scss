@@ -25,8 +25,11 @@
 			}
 		}
 	}
-	> .content > .status.indicator {
+	.status.indicator {
 		float: right;
+		position: absolute;
+		right: 15px;
+		border-radius: 0;
 	}
 }
 
@@ -37,16 +40,22 @@
 
 .ui.items > :host.item.added-property {
 	background-color: #F1FAFF;
-	padding-left: 15px;
-	padding-right: 15px;
+	padding: 0;;
+}
+
+.ui.items > :host.item.added-property .content {
+	padding: 15px;
 }
 
 .ui.items > :host.item.has-changed {
 	background-color: #FFFFE0;
-	padding-left: 15px;
-	padding-right: 15px;
+	padding: 0;
+}
+
+.ui.items > :host.item.has-changed .content {
+	padding: 15px;
 }
 
 .ui.divided.items > :host.item .content {
-	margin-top: 2%;
+	margin-top: 0;
 }
