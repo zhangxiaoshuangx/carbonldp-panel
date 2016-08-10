@@ -13,9 +13,6 @@ import template from "./create-app.view.html!";
 	directives: [ CreateAppComponent ],
 } )
 export class CreateAppView {
-
-	constructor() { }
-
 }
 
 export default CreateAppView;

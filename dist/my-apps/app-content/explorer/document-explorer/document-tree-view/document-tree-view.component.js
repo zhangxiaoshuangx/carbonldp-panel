@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "jquery", "semantic-ui/semantic", "jstree/dist/jstree.min", "jstree/dist/themes/default/style.min.css!", "./document-tree-view.component.html!", "./document-tree-view.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "jquery", "semantic-ui/semantic", "jstree/dist/jstree.min", "./document-tree-view.component.html!", "./document-tree-view.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -28,7 +28,6 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
             },
             function (_1) {},
             function (_2) {},
-            function (_3) {},
             function (document_tree_view_component_html_1_1) {
                 document_tree_view_component_html_1 = document_tree_view_component_html_1_1;
             },
@@ -44,13 +43,22 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     this.onLoadingDocument = new core_1.EventEmitter();
                     this.element = element;
                 }
+                DocumentTreeViewComponent.prototype.ngOnInit = function () {
+                    var alreadyImported = document.querySelectorAll("head [href='assets/node_modules/jstree/dist/themes/default/style.min.css']").length > 0;
+                    if (alreadyImported)
+                        return;
+                    var link = document.createElement("link");
+                    link.rel = "stylesheet";
+                    link.href = "assets/node_modules/jstree/dist/themes/default/style.min.css";
+                    var head = document.querySelector("head");
+                    head.appendChild(link);
+                };
                 DocumentTreeViewComponent.prototype.ngAfterViewInit = function () {
                     var _this = this;
                     this.$element = jquery_1.default(this.element.nativeElement);
                     this.documentTree = this.$element.find(".document.treeview");
                     this.onLoadingDocument.emit(true);
                     this.getDocumentTree().then(function () {
-                        _this.renderTree();
                         _this.onLoadingDocument.emit(false);
                     });
                 };
@@ -58,12 +66,13 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     var _this = this;
                     return this.documentContext.documents.get("").then(function (_a) {
                         var resolvedRoot = _a[0], response = _a[1];
-                        resolvedRoot.contains.forEach(function (pointer) {
-                            _this.nodeChildren.push(_this.buildNode(pointer.id));
-                        });
-                        return resolvedRoot;
+                        return resolvedRoot.refresh();
+                    }).then(function (_a) {
+                        var updatedRoot = _a[0], updatedResponse = _a[1];
+                        _this.nodeChildren.push(_this.buildNode(_this.documentContext.getBaseURI()));
+                        _this.renderTree();
                     }).catch(function (error) {
-                        console.error("Error:%o", error);
+                        console.error(error);
                         _this.onError.emit(error);
                     });
                 };
@@ -114,6 +123,12 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                         var position = "last";
                         _this.onClickNode(parentId, parentNode, position);
                     });
+                    this.documentTree.on("loaded.jstree", function () {
+                        _this.documentTree.jstree("open_all");
+                        if (_this.nodeChildren && _this.nodeChildren.length > 0) {
+                            _this.onResolveUri.emit(_this.nodeChildren[0].data.pointer.id);
+                        }
+                    });
                 };
                 DocumentTreeViewComponent.prototype.emptyNode = function (nodeId) {
                     var $children = this.documentTree.jstree(true).get_children_dom(nodeId);
@@ -138,6 +153,13 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     });
                 };
                 DocumentTreeViewComponent.prototype.onClickNode = function (parentId, node, position) {
+                    var tree = this.documentTree.jstree(true);
+                    if (tree.is_open(node)) {
+                        this.onBeforeOpenNode(parentId, node, position);
+                    }
+                    else {
+                        tree.open_node(node);
+                    }
                     this.onResolveUri.emit(node.data.pointer.id);
                 };
                 DocumentTreeViewComponent.prototype.addChild = function (parentId, node, position) {
@@ -147,13 +169,17 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     var _this = this;
                     return this.documentContext.documents.get(uri).then(function (_a) {
                         var resolvedRoot = _a[0], response = _a[1];
-                        if (!resolvedRoot.contains)
-                            return [];
-                        return resolvedRoot.contains.map(function (pointer) {
-                            return _this.buildNode(pointer.id);
+                        return resolvedRoot.refresh().then(function (_a) {
+                            var refreshedRoot = _a[0], response = _a[1];
+                            if (!resolvedRoot.contains)
+                                return [];
+                            return resolvedRoot.contains.map(function (pointer) {
+                                return _this.buildNode(pointer.id);
+                            });
                         });
                     }).catch(function (error) {
-                        console.log("Error: %o", error);
+                        console.error(error);
+                        return [];
                     });
                 };
                 DocumentTreeViewComponent.prototype.getSlug = function (pointer) {

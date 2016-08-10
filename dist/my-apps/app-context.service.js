@@ -64,6 +64,14 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/RDF/URI", "carb
                     var uri = appContext.app.id;
                     return this.removeTrailingSlash(URI.Util.getSlug(uri));
                 };
+                AppContextService.prototype.updateContext = function (uri) {
+                    var _this = this;
+                    var slug = this.removeTrailingSlash(uri);
+                    return this.carbon.apps.getContext(slug + "/").then(function (appContext) {
+                        _this.appContexts.set(slug, appContext);
+                        return appContext;
+                    });
+                };
                 AppContextService.prototype.removeTrailingSlash = function (slug) {
                     if (slug.endsWith("/")) {
                         return slug.substr(0, slug.length - 1);

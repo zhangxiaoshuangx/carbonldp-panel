@@ -64,6 +64,7 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 
 	@Output() onLoadingDocument:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() onSavingDocument:EventEmitter<boolean> = new EventEmitter<boolean>();
+	@Output() onRefreshDocument:EventEmitter<string> = new EventEmitter<string>();
 
 	@ViewChild( BlankNodesComponent ) documentBNodes:BlankNodesComponent;
 	@ViewChild( NamedFragmentsComponent ) documentNamedFragments:NamedFragmentsComponent;
@@ -266,6 +267,13 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 		this.documentsResolverService.update( this.document[ "@id" ], body, this.documentContext ).then(
 			( updatedDocument:RDFDocument.Class )=> {
 				this.document = updatedDocument[ 0 ];
+				setTimeout( ()=> {
+					this.$element.find( ".success.message" ).transition( {
+						onComplete: ()=> {
+							setTimeout( ()=> {this.$element.find( ".success.message" ).transition( "fade" );}, 4000 );
+						}
+					} );
+				}, 1500 );
 			}
 		).catch( ( error:HTTPError )=> {
 			this.savingErrorMessage = {
@@ -303,6 +311,25 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	clearSavingError():void {
 		this.savingErrorMessage = null;
 	}
+
+	closeMessage( message:HTMLElement ):void {
+		$( message ).transition( "fade" );
+	}
+
+	private beforeRefreshDocument( documentURI:string ):void {
+		if( this.documentContentHasChanged ) this.toggleConfirmRefresh();
+		else this.refreshDocument( documentURI );
+	}
+
+	private refreshDocument( documentURI:string ):void {
+		this.onRefreshDocument.emit( documentURI );
+		this.$element.find( ".unsaved.prompt.message" ).transition( { animation: "fade" } ).transition( "hide" );
+	}
+
+	private toggleConfirmRefresh():void {
+		this.$element.find( ".unsaved.prompt.message" ).transition( { animation: "fade" } );
+	}
+
 
 	private scrollTo( selector:string ):void {
 		if( ! this.$element ) return;

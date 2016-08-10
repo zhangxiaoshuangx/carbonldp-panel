@@ -35,6 +35,13 @@
                   [message]="errorMessage"
                   [closable]="true"
                   (onClose)="clearMessages($event)"></cp-error-message>
+<div class="ui bottom attached warning icon message" *ngIf="!!displayWarningMessage">
+	<i class="warning sign icon"></i>
+	<i class="close icon" (click)="clearMessages($event)"></i>
+	<p>The app "<a [routerLink]="['App', {slug: persistedSlug}]">{{persistedName}}</a>" was created, but no one, except the 'app-admin' role, will be able to access the application.
+		You can change this setting through the <a href="https://carbonldp.com/site/documentation/rest-api/getting-started" target="_blank">REST API</a> by granting access to the 'anonymous' role of
+		the platform.</p>
+</div>
 <div class="ui bottom attached success message" *ngIf="!!displaySuccessMessage">
 	<i class="close icon" (click)="clearMessages($event)"></i>
 	The app "<a [routerLink]="['App', {slug: persistedSlug}]">{{persistedName}}</a>" was created successfully.

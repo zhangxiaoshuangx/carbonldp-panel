@@ -1,9 +1,20 @@
 {
   "name": "carbon-panel",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "Common components, services and utilities shared between different panel projects",
   "contributors": [
-    "MiguelAraCo <miguel.aragon@base22.com>"
+    {
+      "name": "Miguel Aragón",
+      "email": "miguel.aragon@base22.com"
+    },
+    {
+      "name": "Alvaro Contreras",
+      "email": "alvaro.contreras@base22.com"
+    },
+    {
+      "name": "Jimena Gúzman",
+      "email": "jimena.guzman@base22.com"
+    }
   ],
   "license": "UNLICENSED",
   "private": true,
@@ -13,7 +24,7 @@
   },
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
-  "jspm": { },
+  "jspm": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -41,7 +52,7 @@
     "run-sequence": "^1.2.1",
     "rxjs": "5.0.0-beta.6",
     "tslint": "^3.11.0",
-    "typescript": "1.9.0-dev.20160627-1.0",
+    "typescript": "^2.0.0",
     "typings": "^1.0.5",
     "zone.js": "^0.6.6"
   },
@@ -53,6 +64,8 @@
     "@angular/platform-browser": "2.0.0-rc.1",
     "@angular/platform-browser-dynamic": "2.0.0-rc.1",
     "@angular/router-deprecated": "2.0.0-rc.1",
+    "angular2-carbonldp": "^0.2.0",
+    "carbonldp": "^0.36.0",
     "jquery": "^2.2.4"
   }
 }

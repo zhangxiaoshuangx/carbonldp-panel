@@ -38,6 +38,7 @@ export declare class AppsCatalogComponent implements OnInit {
     getErrorMessage(error: HTTP.Errors.Error): Message;
     closeErrorMessage(evt: any): void;
     initializeModal(): void;
+    refreshApps(): void;
     fetchApps(): void;
     private loadApps();
 }

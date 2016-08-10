@@ -1,18 +1,18 @@
-import {Component, ElementRef, Input, OnInit} from "@angular/core";
-import {Router, ROUTER_DIRECTIVES} from "@angular/router-deprecated";
-import {Observable} from "rxjs/Rx";
+import { Component, ElementRef, Input, OnInit } from "@angular/core";
+import { Router, ROUTER_DIRECTIVES } from "@angular/router-deprecated";
+import { Observable } from "rxjs/Rx";
 
 import Carbon from "carbonldp/Carbon";
 import * as CarbonApp from "carbonldp/App";
 import * as HTTP from "carbonldp/HTTP";
 
-import {MyAppsSidebarService} from "./../my-apps-sidebar.service";
-import {AppsTilesComponent} from "./apps-tiles/apps-tiles.component";
-import {AppsListComponent} from "./apps-list/apps-list.component";
+import { MyAppsSidebarService } from "./../my-apps-sidebar.service";
+import { AppsTilesComponent } from "./apps-tiles/apps-tiles.component";
+import { AppsListComponent } from "./apps-list/apps-list.component";
 import * as App from "./../app-content/app";
 
-import {Message} from "./../../errors-area/error-message.component";
-import {AppContextService} from "./../app-context.service";
+import { Message } from "./../../errors-area/error-message.component";
+import { AppContextService } from "./../app-context.service";
 
 import $ from "jquery";
 import "semantic-ui/semantic";
@@ -125,12 +125,12 @@ export class AppsCatalogComponent implements OnInit {
 	}
 
 	deleteApp( app:App.Class ):Promise<HTTP.Response.Class> {
-		return app.destroy();
+		return app.delete();
 	}
 
 	getErrorMessage( error:HTTP.Errors.Error ):Message {
 		let content:string = "";
-		switch ( true ) {
+		switch( true ) {
 			case error instanceof HTTP.Errors.ForbiddenError:
 				content = "Denied Access.";
 				break;
@@ -177,6 +177,10 @@ export class AppsCatalogComponent implements OnInit {
 			blurring: true,
 			onApprove: ():boolean => { return false; },
 		} );
+	}
+
+	refreshApps():void {
+		this.fetchApps();
 	}
 
 	fetchApps():void {

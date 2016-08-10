@@ -281,6 +281,9 @@ export class SPARQLClientComponent implements OnInit, AfterViewInit {
 			if( this.formatsAvailable.indexOf( this.currentQuery.format ) === - 1 ) {
 				this.currentQuery.format = this.sparqlQueryOperations[ operation ].formats[ 0 ].value;
 			}
+			this.currentQuery.type = this.sparqlTypes.query;
+			let queryOperations:string[] = [ "select", "describe", "construct", "ask" ];
+			if( queryOperations.indexOf( operation ) === - 1 ) this.currentQuery.type = this.sparqlTypes.update;
 			this.currentQuery.operation = operation.toUpperCase();
 		} else {
 			this.currentQuery.format = null;

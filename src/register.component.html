@@ -1,0 +1,53 @@
+<form [ngFormModel]="registerForm" class="ui form attached segment large" role="form">
+	<div class="field" [ngClass]="{ error: ( controls.name.touched && ! controls.name.valid ) }">
+		<div class="ui left icon input">
+			<i class="user icon"></i>
+			<input type="text" name="name" placeholder="Name" ngControl="name">
+		</div>
+	</div>
+	<div class="field" [ngClass]="{ error: ( controls.email.touched && ! controls.email.valid ) }">
+		<div class="ui left icon input">
+			<i class="user icon"></i>
+			<input type="text" name="email" placeholder="E-mail address" ngControl="email">
+		</div>
+	</div>
+	<div class="field" [ngClass]="{ error: ( controls.password.touched && ! controls.password.valid ) }">
+		<div class="ui left icon input">
+			<i class="lock icon"></i>
+			<input type="password" name="password" placeholder="Password" ngControl="password">
+		</div>
+	</div>
+	<div class="field" [ngClass]="{ error: ( controls.repeatPassword.touched && ! controls.repeatPassword.valid ) }">
+		<div class="ui left icon input">
+			<i class="lock icon"></i>
+			<input type="password" name="repeatPassword" placeholder="Repeat password" ngControl="repeatPassword">
+		</div>
+	</div>
+	<button type="submit"
+	        [ngClass]="{ loading: sending }"
+	        class="ui fluid large submit button"
+	        [disabled]=" ! registerForm.valid || sending "
+	        (click)="onSubmit( registerForm.value, $event )">
+		Register
+	</button>
+</form>
+<div class="ui bottom attached negative message" *ngIf="
+	( controls.name.touched && ! controls.name.valid ) ||
+	( controls.email.touched && ! controls.email.valid ) ||
+	( controls.password.touched && ! controls.password.valid ) ||
+	( controls.repeatPassword.touched && ! controls.repeatPassword.valid ) ||
+	( !! errorMessage)
+">
+	<ul class="list">
+		<li *ngIf="controls.email.hasError( 'required' )">The email is required.</li>
+		<li *ngIf="! controls.email.hasError( 'required' ) && controls.email.hasError( 'invalidEmailAddress' )">Enter a valid email address</li>
+
+		<li *ngIf="controls.password.hasError( 'required' )">The password is required.</li>
+		<li *ngIf="! controls.password.hasError( 'required' ) && controls.password.hasError( 'invalidPassword' )">The password is invalid</li>
+
+		<li *ngIf="controls.repeatPassword.hasError( 'required' )">Please repeat your password</li>
+		<li *ngIf="! controls.repeatPassword.hasError( 'required' ) && controls.repeatPassword.hasError( 'notTheSame' )">The passwords don't match</li>
+
+		<li *ngIf="!! errorMessage">{{errorMessage}}</li>
+	</ul>
+</div>

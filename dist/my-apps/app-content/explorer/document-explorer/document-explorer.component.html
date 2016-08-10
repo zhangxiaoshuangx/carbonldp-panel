@@ -2,16 +2,9 @@
 
 	<div class="row" *ngIf="messages.length > 0">
 		<div class="sixteen wide column">
-			<div class="ui error message transition" *ngFor="let message of messages">
-				<div class="header">
-					{{message.title}}
-				</div>
-				<p>
-					<span *ngIf="message.content">{{message.content}}<br></span>
-					<span *ngIf="message.statusCode">Status: {{message.statusCode}} - {{message.statusMessage}}<br></span>
-					<span *ngIf="message.endpoint">URI: {{message.endpoint}}</span>
-				</p>
-			</div>
+			<template ngFor let-message="$implicit" [ngForOf]="messages" let-i="index">
+				<cp-error-message [message]="message"></cp-error-message>
+			</template>
 		</div>
 	</div>
 	<div class="stretched row">
@@ -24,7 +17,7 @@
 		                    [document]="inspectingDocument"
 		                    [documentContext]="documentContext"
 		                    (onSavingDocument)="showLoading($event)"
-		                    (onLoadingDocument)="onLoadingDocument($event)"></cp-document-viewer>
-
+		                    (onLoadingDocument)="onLoadingDocument($event)"
+		                    (onRefreshDocument)="refreshDocument($event)"></cp-document-viewer>
 	</div>
 </div>

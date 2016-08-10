@@ -1,6 +1,5 @@
-import { Component, ElementRef, Input, SimpleChange, AfterViewInit, OnChanges } from "@angular/core";
+import { Component, ElementRef, Input, EventEmitter, SimpleChange, AfterViewInit, OnChanges, OnDestroy } from "@angular/core";
 
-import Carbon from "carbonldp/Carbon";
 import * as App from "carbonldp/App";
 import * as Response from "carbonldp/HTTP/Response";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
@@ -23,11 +22,12 @@ import style from "./backups-list.component.css!text";
 	directives: [ ErrorMessageComponent ],
 } )
 
-export class BackupsListComponent implements AfterViewInit, OnChanges {
+export class BackupsListComponent implements AfterViewInit, OnChanges, OnDestroy {
 
 	element:ElementRef;
 	$element:JQuery;
 	$deleteBackupConfirmationModal:JQuery;
+	fetchBackupsListInterval:number;
 
 	backupsService:BackupsService;
 	backups:PersistedDocument.Class[];
@@ -41,24 +41,24 @@ export class BackupsListComponent implements AfterViewInit, OnChanges {
 
 	@Input() backupJob:PersistedDocument.Class;
 	@Input() appContext:App.Context;
+	fetchBackupsList:EventEmitter<boolean> = new EventEmitter<boolean>();
 
 	constructor( element:ElementRef, backupsService:BackupsService ) {
 		this.element = element;
 		this.backupsService = backupsService;
+		this.fetchBackupsList.subscribe( ( doFetch )=> {
+			if( ! doFetch ) return;
+			this.getBackups().then( ( backups:PersistedDocument.Class[] )=> {
+				clearInterval( this.fetchBackupsListInterval );
+				this.monitorBackups();
+			} );
+		} );
 	}
 
 	ngAfterViewInit():void {
 		this.$element = $( this.element.nativeElement );
 		this.$deleteBackupConfirmationModal = this.$element.find( ".delete.backup.modal" );
 		this.initializeModals();
-	}
-
-	initializeModals():void {
-		this.$deleteBackupConfirmationModal.modal( {
-			closable: false,
-			blurring: true,
-			onApprove: ()=>false
-		} );
 	}
 
 	ngOnChanges( changes:{[propName:string]:SimpleChange} ):void {
@@ -71,8 +71,20 @@ export class BackupsListComponent implements AfterViewInit, OnChanges {
 		}
 	}
 
+	ngOnDestroy():void {
+		clearInterval( this.fetchBackupsListInterval );
+	}
+
+	initializeModals():void {
+		this.$deleteBackupConfirmationModal.modal( {
+			closable: false,
+			blurring: true,
+			onApprove: ()=>false
+		} );
+	}
+
 	monitorBackups():void {
-		setInterval( ()=> this.getBackups(), this.refreshPeriod );
+		this.fetchBackupsListInterval = setInterval( ()=> this.getBackups(), this.refreshPeriod );
 	}
 
 	getBackups():Promise<PersistedDocument.Class[]> {
@@ -154,6 +166,15 @@ export class BackupsListComponent implements AfterViewInit, OnChanges {
 			this.deletingBackup = false;
 			return response;
 		} );
+	}
+
+	refreshList():void {
+		this.loadingBackups = true;
+		this.getBackups().then( ( backups:PersistedDocument.Class[] ) => {
+			this.loadingBackups = false;
+		} ).catch( ()=>this.loadingBackups = false );
+		clearInterval( this.fetchBackupsListInterval );
+		this.monitorBackups();
 	}
 
 	removeDeleteErrorMessage( index:number ):void {

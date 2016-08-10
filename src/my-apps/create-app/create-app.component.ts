@@ -6,6 +6,10 @@ import Carbon from "carbonldp/Carbon";
 import * as CarbonApp from "carbonldp/App";
 import * as HTTP from "carbonldp/HTTP";
 import * as Pointer from "carbonldp/Pointer";
+import * as Auth from "carbonldp/Auth";
+import * as CS from "carbonldp/NS/CS";
+import * as PersistedProtectedDocument from "carbonldp/PersistedProtectedDocument";
+import * as PersistedDocument from "carbonldp/PersistedDocument";
 
 import { AppContextService } from "./../app-context.service";
 import { ErrorMessageComponent, Message } from "./../../errors-area/error-message.component";
@@ -27,6 +31,7 @@ export class CreateAppComponent implements AfterViewInit, OnInit {
 
 	submitting:boolean = false;
 	displaySuccessMessage:boolean = false;
+	displayWarningMessage:boolean = false;
 	errorMessage:Message;
 
 	_name:string = "";
@@ -94,6 +99,7 @@ export class CreateAppComponent implements AfterViewInit, OnInit {
 		this.submitting = true;
 		this.errorMessage = null;
 		this.displaySuccessMessage = false;
+		this.displayWarningMessage = false;
 
 		this.name.markAsDirty( true );
 		this.slug.markAsDirty( true );
@@ -110,34 +116,63 @@ export class CreateAppComponent implements AfterViewInit, OnInit {
 
 		let appDocument:CarbonApp.Class = CarbonApp.Factory.create( name );
 		appDocument.description = description;
+		appDocument.allowsOrigins = [ Carbon.Pointer.Factory.create( Carbon.NS.CS.Class.AllOrigins ) ];
 		this.createApp( slug, appDocument );
 	}
 
-	createApp( slug:string, appDocument:CarbonApp.Class ):Promise<[ Pointer.Class, HTTP.Response.Class]> {
-		return this.carbon.apps.create( slug, appDocument ).then( ( [appPointer, appCreationResponse]:[ Pointer.Class, HTTP.Response.Class] ) => {
+	createApp( slug:string, appDocument:CarbonApp.Class ):Promise<Auth.PersistedACL.Class> {
+		return this.carbon.apps.create( appDocument, slug ).then( ( [appPointer, appCreationResponse]:[ Pointer.Class, HTTP.Response.Class] ) => {
 			this.submitting = false;
 			this.persistedSlug = this._slug;
 			this.persistedName = this._name;
 			return this.carbon.apps.getContext( appPointer );
-		} ).then( ( appContext:CarbonApp.Context ):void => {
+		} ).then( ( appContext:CarbonApp.Context ) => {
 			this.persistedSlug = this.appContextService.getSlug( appContext );
 			this.persistedName = appContext.app.name;
-			this.displaySuccessMessage = true;
+			let persistedAppDocument:PersistedProtectedDocument.Class = (<PersistedProtectedDocument.Class>(<PersistedDocument.Class>appContext.app));
+			return persistedAppDocument.getACL();
+		} ).then( ( [acl,response]:[ Auth.PersistedACL.Class, HTTP.Response.Class ] )=> {
+			return this.grantAccess( acl );
 		} ).catch( ( error:HTTP.Errors.Error ) => {
-			this.errorMessage = {
-				title: error.name,
-				content: this.getErrorMessage( error ),
-				statusCode: "" + error.response.status,
-				statusMessage: (<XMLHttpRequest>error.response.request).statusText,
-				endpoint: (<any>error.response.request).responseURL,
-			};
+			console.error( error );
+			if( error.response ) this.errorMessage = this.getHTTPErrorMessage( error, this.getErrorMessage( error ) );
+			else {
+				this.errorMessage = <Message>{
+					title: error.name,
+					content: JSON.stringify( error )
+				};
+			}
 			this.submitting = false;
 		} );
 	}
 
+	private grantAccess( acl:Auth.PersistedACL.Class ):Promise<Auth.PersistedACL.Class> {
+		let subject:string = this.carbon.resolve( "roles/anonymous/" ),
+			subjectClass:string = CS.namespace + "PlatformRole",
+			permissions:string[] = [ CS.namespace + "Read" ];
+		acl.grant( subject, subjectClass, permissions );
+		return acl.saveAndRefresh().then( ()=> {
+			this.displaySuccessMessage = true;
+		} ).catch( ( error:HTTP.Errors.Error ) => {
+			this.displayWarningMessage = true;
+		} ).then( ()=> {
+			return acl;
+		} );
+	}
+
+	private getHTTPErrorMessage( error:HTTP.Errors.Error, content:string ):Message {
+		return {
+			title: error.name,
+			content: content + (! ! error.message ? (" Reason: " + error.message) : ""),
+			endpoint: (<any>error.response.request).responseURL,
+			statusCode: "" + error.response.request.status + " - RequestID: " + error.requestID,
+			statusMessage: error.response.request.statusText
+		};
+	}
+
 	getErrorMessage( error:HTTP.Errors.Error ):string {
 		let friendlyMessage:string = "";
-		switch ( true ) {
+		switch( true ) {
 			case error instanceof HTTP.Errors.BadRequestError:
 				friendlyMessage = "";
 				break;
@@ -183,6 +218,7 @@ export class CreateAppComponent implements AfterViewInit, OnInit {
 
 	clearMessages( evt:Event ):void {
 		this.displaySuccessMessage = false;
+		this.displayWarningMessage = false;
 		this.errorMessage = null;
 	}
 }

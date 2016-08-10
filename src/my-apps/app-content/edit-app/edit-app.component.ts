@@ -1,12 +1,14 @@
-import {Component, Input, OnInit} from "@angular/core";
-import {FormBuilder, ControlGroup, AbstractControl, Validators} from "@angular/common";
+import { Component, Input, OnInit } from "@angular/core";
+import { FormBuilder, ControlGroup, AbstractControl, Validators } from "@angular/common";
 
 import Carbon from "carbonldp/Carbon";
 import * as HTTP from "carbonldp/HTTP";
+import * as URI from "carbonldp/RDF/URI";
 import * as PersistedApp from "carbonldp/PersistedApp";
 
+import { AppContextService } from "../../app-context.service";
 import * as App from "../app";
-import {ErrorMessageComponent, Message} from "../../../errors-area/error-message.component";
+import { ErrorMessageComponent, Message } from "../../../errors-area/error-message.component";
 
 import "semantic-ui/semantic";
 
@@ -21,6 +23,8 @@ import style from "./edit-app.component.css!text";
 } )
 
 export class EditAppComponent implements OnInit {
+
+	appContextService:AppContextService;
 
 	submitting:boolean = false;
 	displaySuccessMessage:boolean = false;
@@ -41,8 +45,9 @@ export class EditAppComponent implements OnInit {
 	@Input() app:App.Class;
 
 
-	constructor( formBuilder:FormBuilder ) {
+	constructor( formBuilder:FormBuilder, appContextService:AppContextService ) {
 		this.formBuilder = formBuilder;
+		this.appContextService = appContextService;
 	}
 
 	ngOnInit():void {
@@ -130,9 +135,10 @@ export class EditAppComponent implements OnInit {
 			this.app.allowsOrigins = allowedDomains.length > 0 ? allowedDomains : this.app.allowsOrigins;
 		}
 
-		this.app.save().then( ( [updatedApp, response]:[PersistedApp.Class, HTTP.Response.Class] ) => {
+		this.app.saveAndRefresh().then( ( [updatedApp, response]:[PersistedApp.Class, [HTTP.Response.Class, HTTP.Response.Class]] ) => {
 			this.displaySuccessMessage = true;
-			return this.app.refresh();
+			let slug:string = URI.Util.getSlug( updatedApp.id );
+			return this.appContextService.updateContext( slug );
 		} ).catch( ( error:HTTP.Errors.Error ):void => {
 			this.errorMessage = {
 				title: error.name,
@@ -141,14 +147,14 @@ export class EditAppComponent implements OnInit {
 				statusMessage: (<XMLHttpRequest>error.response.request).statusText,
 				endpoint: (<any>error.response.request).responseURL,
 			};
-		} ).then( ( [updatedApp, response]:[PersistedApp.Class, HTTP.Response.Class] ):void => {
+		} ).then( ():void => {
 			this.submitting = false;
 		} );
 	}
 
 	getErrorMessage( error:HTTP.Errors.Error ):string {
 		let tempMessage:string = "";
-		switch ( true ) {
+		switch( true ) {
 			case error instanceof HTTP.Errors.BadRequestError:
 				tempMessage = "";
 				break;

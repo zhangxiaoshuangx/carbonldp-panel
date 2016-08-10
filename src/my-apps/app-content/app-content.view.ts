@@ -1,4 +1,4 @@
-import { Component, ElementRef } from "@angular/core";
+import { Component } from "@angular/core";
 import { ROUTER_DIRECTIVES, RouteConfig, Router, RouterOutlet, RouteParams } from "@angular/router-deprecated";
 
 import * as CarbonApp from "carbonldp/App";
@@ -87,10 +87,12 @@ export class AppContentView {
 		this.routeParams = routeParams;
 		this.myAppsSidebarService = myAppsSidebarService;
 		this.appContextService = appContextService;
+
 	}
 
 	routerOnActivate():void {
 		let slug:string = this.routeParams.get( "slug" );
+
 		this.appContextService.get( slug ).then( ( appContext:CarbonApp.Context ):void => {
 			this.app = App.Factory.createFrom( appContext );
 			this.myAppsSidebarService.addApp( this.app );

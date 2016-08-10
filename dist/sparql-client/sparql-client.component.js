@@ -281,6 +281,10 @@ System.register(["@angular/core", "@angular/common", "carbonldp/Carbon", "carbon
                         if (this.formatsAvailable.indexOf(this.currentQuery.format) === -1) {
                             this.currentQuery.format = this.sparqlQueryOperations[operation].formats[0].value;
                         }
+                        this.currentQuery.type = this.sparqlTypes.query;
+                        var queryOperations = ["select", "describe", "construct", "ask"];
+                        if (queryOperations.indexOf(operation) === -1)
+                            this.currentQuery.type = this.sparqlTypes.update;
                         this.currentQuery.operation = operation.toUpperCase();
                     }
                     else {

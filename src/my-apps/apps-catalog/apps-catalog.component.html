@@ -16,7 +16,12 @@
 					<i class="grid layout icon"></i>
 				</button>
 			</div>
-			<a class="ui right labeled icon button" [routerLink]="[ 'Create']">
+			<button class="ui icon basic inverted button" title="Refresh my apps"
+			        (click)="refreshApps()">
+				<i class="refresh icon" [ngClass]="{loading:loading}"></i>
+			</button>
+			<a class="ui right labeled icon button" title="Go to 'Create App' page"
+			   [routerLink]="[ 'Create']">
 				Create app <i class="plus icon"></i>
 			</a>
 		</div>

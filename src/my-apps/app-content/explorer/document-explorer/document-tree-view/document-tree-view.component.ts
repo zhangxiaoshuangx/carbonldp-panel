@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, Output, EventEmitter, AfterViewInit, OnInit} from "@angular/core";
+import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit, OnInit } from "@angular/core";
 
 import * as Pointer from "carbonldp/Pointer";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
@@ -11,7 +11,6 @@ import $ from "jquery";
 import "semantic-ui/semantic";
 
 import "jstree/dist/jstree.min";
-import "jstree/dist/themes/default/style.min.css!";
 
 import template from "./document-tree-view.component.html!";
 import style from "./document-tree-view.component.css!text";
@@ -22,7 +21,7 @@ import style from "./document-tree-view.component.css!text";
 	styles: [ style ],
 } )
 
-export class DocumentTreeViewComponent implements AfterViewInit {
+export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 	element:ElementRef;
 	$element:JQuery;
 
@@ -38,24 +37,33 @@ export class DocumentTreeViewComponent implements AfterViewInit {
 		this.element = element;
 	}
 
+	ngOnInit():void {
+		let alreadyImported:boolean = document.querySelectorAll( "head [href='assets/node_modules/jstree/dist/themes/default/style.min.css']" ).length > 0;
+		if( alreadyImported ) return;
+		let link:HTMLLinkElement = document.createElement( "link" );
+		link.rel = "stylesheet";
+		link.href = "assets/node_modules/jstree/dist/themes/default/style.min.css";
+		let head:Element = document.querySelector( "head" );
+		head.appendChild( link );
+	}
+
 	ngAfterViewInit():void {
 		this.$element = $( this.element.nativeElement );
 		this.documentTree = this.$element.find( ".document.treeview" );
 		this.onLoadingDocument.emit( true );
 		this.getDocumentTree().then( ()=> {
-			this.renderTree();
 			this.onLoadingDocument.emit( false );
 		} );
 	}
 
 	getDocumentTree():Promise<PersistedDocument.Class> {
 		return this.documentContext.documents.get( "" ).then( ( [ resolvedRoot, response ]:[ PersistedDocument.Class, HTTP.Response.Class ] ) => {
-			resolvedRoot.contains.forEach( ( pointer:Pointer.Class ) => {
-				this.nodeChildren.push( this.buildNode( pointer.id ) );
-			} );
-			return resolvedRoot;
+			return resolvedRoot.refresh();
+		} ).then( ( [updatedRoot, updatedResponse]:[PersistedDocument.Class, HTTP.Response.Class] ) => {
+			this.nodeChildren.push( this.buildNode( this.documentContext.getBaseURI() ) );
+			this.renderTree();
 		} ).catch( ( error:HTTP.Errors.Error ) => {
-			console.error( "Error:%o", error );
+			console.error( error );
 			this.onError.emit( error );
 		} );
 	}
@@ -107,12 +115,18 @@ export class DocumentTreeViewComponent implements AfterViewInit {
 			let position:string = "last";
 			this.onClickNode( parentId, parentNode, position );
 		} );
+		this.documentTree.on( "loaded.jstree", ()=> {
+			this.documentTree.jstree( "open_all" );
+			if( this.nodeChildren && this.nodeChildren.length > 0 ) {
+				this.onResolveUri.emit( this.nodeChildren[ 0 ].data.pointer.id );
+			}
+		} );
 	}
 
 	emptyNode( nodeId:string ):void {
 		let $children:JQuery = this.documentTree.jstree( true ).get_children_dom( nodeId );
 		let childElements:Element[] = jQuery.makeArray( $children );
-		while ( childElements.length > 0 ) {
+		while( childElements.length > 0 ) {
 			this.documentTree.jstree( true ).delete_node( childElements[ 0 ] );
 			childElements.splice( 0, 1 );
 		}
@@ -134,6 +148,12 @@ export class DocumentTreeViewComponent implements AfterViewInit {
 	}
 
 	onClickNode( parentId:string, node:any, position:string ):void {
+		let tree:JSTree = this.documentTree.jstree( true );
+		if( tree.is_open( node ) ) {
+			this.onBeforeOpenNode( parentId, node, position );
+		} else {
+			tree.open_node( node );
+		}
 		this.onResolveUri.emit( node.data.pointer.id );
 	}
 
@@ -143,13 +163,15 @@ export class DocumentTreeViewComponent implements AfterViewInit {
 
 	getNodeChildren( uri:string ):Promise<any[]> {
 		return this.documentContext.documents.get( uri ).then( ( [resolvedRoot, response]:[PersistedDocument.Class, HTTP.Response.Class] ) => {
-			if( ! resolvedRoot.contains ) return [];
-
-			return resolvedRoot.contains.map( ( pointer:Pointer.Class ):void => {
-				return this.buildNode( pointer.id );
+			return resolvedRoot.refresh().then( ( [refreshedRoot, response]:[PersistedDocument.Class, HTTP.Response.Class] )=> {
+				if( ! resolvedRoot.contains ) return [];
+				return resolvedRoot.contains.map( ( pointer:Pointer.Class ):void => {
+					return this.buildNode( pointer.id );
+				} );
 			} );
 		} ).catch( ( error ) => {
-			console.log( "Error: %o", error );
+			console.error( error );
+			return [];
 		} );
 	}
 

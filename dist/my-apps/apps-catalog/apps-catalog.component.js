@@ -130,7 +130,7 @@ System.register(["@angular/core", "@angular/router-deprecated", "rxjs/Rx", "carb
                     this.router.navigate(["App", { slug: app.slug }, "AppDashboard"]);
                 };
                 AppsCatalogComponent.prototype.deleteApp = function (app) {
-                    return app.destroy();
+                    return app.delete();
                 };
                 AppsCatalogComponent.prototype.getErrorMessage = function (error) {
                     var content = "";
@@ -178,6 +178,9 @@ System.register(["@angular/core", "@angular/router-deprecated", "rxjs/Rx", "carb
                         blurring: true,
                         onApprove: function () { return false; },
                     });
+                };
+                AppsCatalogComponent.prototype.refreshApps = function () {
+                    this.fetchApps();
                 };
                 AppsCatalogComponent.prototype.fetchApps = function () {
                     var _this = this;

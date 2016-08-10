@@ -9,7 +9,7 @@
 				Schedule a Backup:
 			</h3>
 			<div class="ui divider"></div>
-			<cp-backup-exporter [appContext]="appContext" [backupJob]="backupJob"></cp-backup-exporter>
+			<cp-backup-exporter [appContext]="appContext" [backupJob]="backupJob" (onExportSuccess)="invokeRefreshBackupsList()"></cp-backup-exporter>
 		</div>
 		<div class="sixteen wide mobile eight wide computer column">
 			<h3 class="ui header">

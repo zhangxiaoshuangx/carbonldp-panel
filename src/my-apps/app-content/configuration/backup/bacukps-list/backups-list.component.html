@@ -1,4 +1,8 @@
 <div class="ui segment" [ngClass]="{loading:loadingBackups}">
+	<button class="ui right labeled icon basic mini button" (click)="refreshList()">
+		<i class="refresh icon"></i>
+		Refresh
+	</button>
 	<div class="ui middle aligned divided list" *ngIf="backups?.length > 0 && errorMessages.length === 0 && !failedDownloadMessage">
 		<div class="item" *ngFor="let backup of backups; let i=index">
 			<div class="right floated content">
@@ -32,14 +36,14 @@
 	</div>
 	<div class="ui basic segment" *ngIf="errorMessages.length > 0">
 		<cp-error-message *ngFor="let errorMessage of errorMessages; let i=index"
-		               [message]="errorMessage"
-		               [closable]="false">
+		                  [message]="errorMessage"
+		                  [closable]="false">
 		</cp-error-message>
 	</div>
 	<div class="ui basic segment" *ngIf="!!failedDownloadMessage && errorMessages.length === 0">
 		<cp-error-message [message]="failedDownloadMessage"
-		               (onClose)="closeFailedDownloadMessage($event)"
-		               [closable]="true"></cp-error-message>
+		                  (onClose)="closeFailedDownloadMessage($event)"
+		                  [closable]="true"></cp-error-message>
 	</div>
 </div>
 <div class="ui delete backup modal">
@@ -50,13 +54,14 @@
 		<div class="description">
 			<div class="ui header">Are you sure?</div>
 			<p>You are about to delete the backup
-				"<span class="emphasize">{{askingBackupToRemove?.fileIdentifier}}</span>" created on <span class="emphasize">{{askingBackupToRemove?.created | date:"MMM dd, yyy - HH:mm"}} hrs.</span>.</p>
+				"<span class="emphasize">{{askingBackupToRemove?.fileIdentifier}}</span>" created on <span class="emphasize">{{askingBackupToRemove?.created | date:"MMM dd, yyy - HH:mm"}} hrs.</span>.
+			</p>
 			<p>Are you sure you want to delete it?</p>
 			<div class="errors" *ngIf="deleteMessages.length>0">
 				<cp-error-message *ngFor="let deleteMessage of deleteMessages; let i=index"
-				               [message]="deleteMessage"
-				               [closable]="true"
-				               (onClose)="removeDeleteErrorMessage(i)">
+				                  [message]="deleteMessage"
+				                  [closable]="true"
+				                  (onClose)="removeDeleteErrorMessage(i)">
 				</cp-error-message>
 			</div>
 		</div>

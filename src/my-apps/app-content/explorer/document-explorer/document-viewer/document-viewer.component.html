@@ -13,11 +13,34 @@
    *ngIf="documentContentHasChanged" (click)="saveDocument()">
 	<i class="save icon"></i>Save changes
 </a>
+<div class="ui positive success message hidden" #successMessage>
+	<i class="close icon" (click)="closeMessage(successMessage)"></i>
+	<div class="header">
+		Success!
+	</div>
+	<p>Changes saved successfully</p>
+</div>
+<div class="ui unsaved prompt warning icon message hidden">
+	<i class="warning icon"></i>
+	<div class="content">
+		<div class="header">
+			Unsaved changes
+		</div>
+		<p>You have not saved changes, if you refresh the document, your changes will be lost, are you sure you want to refresh de document?</p>
+		<button class="ui basic mini button" (click)="refreshDocument(rootNode['@id'])">
+			Yes
+		</button>
+		<button class="ui basic mini button" (click)="toggleConfirmRefresh()">
+			No
+		</button>
+	</div>
+</div>
 <div class="ui basic segment document-content" *ngIf="document">
 	<div class="ui divided items">
 		<cp-property class="property item"
-		          [documentURI]="rootNode['@id']"
-		          [property]="{copy:{id:'@id', name:'@id', value:rootNode['@id']}}">
+		             (onRefreshDocument)="beforeRefreshDocument($event)"
+		             [documentURI]="rootNode['@id']"
+		             [property]="{copy:{id:'@id', name:'@id', value:rootNode['@id']}}">
 		</cp-property>
 		<div class="item">
 			<div class="content">

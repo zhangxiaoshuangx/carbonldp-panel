@@ -2,40 +2,40 @@
 	<i class="add icon"></i>
 	Add new property
 </button>
-<!--<div class="ui divider" *ngIf="canEdit"></div>-->
+<div class="ui divider" *ngIf="canEdit"></div>
 <div class="ui divided items">
-	<template ngFor let-propertyRow="$implicit" [ngForOf]="tempProperties" let-i="index">
+	<template ngFor let-propertyrow="$implicit" [ngForOf]="properties" let-i="index">
 		<cp-property class="property added-property item transition hidden"
-		             *ngIf="!!propertyRow.added"
-		             [attr.data-tar]="propertyRow.added.name"
+		             *ngIf="!!propertyrow.added"
+		             [attr.data-tar]="propertyrow.added.name"
 
-		             [property]="propertyRow"
-		             [bNodes]="blankNodes"
+		             [property]="propertyrow"
+		             [bNodes]="bNodes"
 		             [namedFragments]="namedFragments"
 		             [canEdit]="true"
 		             [documentURI]="documentURI"
-		             [existingProperties]="tempPropertiesNames"
+		             [existingProperties]="existingProperties"
 		             [mode]="modes.EDIT"
 
-		             (onSaveNewProperty)="addProperty(propertyRow, i)"
-		             (onDeleteNewProperty)="deleteProperty(propertyRow, i)"
+		             (onSaveNewProperty)="addProperty(propertyrow, i)"
+		             (onDeleteNewProperty)="deleteNewProperty(propertyrow, i)"
 
 		             (onGoToBNode)="openBNode( $event )"
 		             (onGoToNamedFragment)="openNamedFragment($event)">
 		</cp-property>
 		<cp-property class="property item"
-		             *ngIf="!propertyRow.deleted && !propertyRow.added"
-		             [attr.data-tar]="propertyRow.copy.name"
+		             *ngIf="!propertyrow.deleted && !propertyrow.added"
+		             [attr.data-tar]="propertyrow.copy.name"
 
-		             [property]="propertyRow"
-		             [bNodes]="blankNodes"
+		             [property]="propertyrow"
+		             [bNodes]="bNodes"
 		             [namedFragments]="namedFragments"
-		             [canEdit]="propertyRow.copy.name==='https://carbonldp.com/ns/v1/platform#bNodeIdentifier'? false : canEdit"
+		             [canEdit]="propertyrow.copy.name==='https://carbonldp.com/ns/v1/platform#bNodeIdentifier'? false : canEdit"
 		             [documentURI]="documentURI"
-		             [existingProperties]="tempPropertiesNames"
+		             [existingProperties]="existingProperties"
 
-		             (onChangeProperty)="changeProperty(propertyRow, i)"
-		             (onDeleteProperty)="deleteProperty(propertyRow, i)"
+		             (onChangeProperty)="changeProperty(propertyrow, i)"
+		             (onDeleteProperty)="deleteProperty(propertyrow, i)"
 
 		             (onGoToBNode)="openBNode( $event )"
 		             (onGoToNamedFragment)="openNamedFragment($event)">

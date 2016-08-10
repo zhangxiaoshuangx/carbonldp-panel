@@ -78,6 +78,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	@Output() onDeleteProperty:EventEmitter<PropertyRow> = new EventEmitter<PropertyRow>();
 	@Output() onDeleteNewProperty:EventEmitter<PropertyRow> = new EventEmitter<PropertyRow>();
 	@Output() onSaveNewProperty:EventEmitter<PropertyRow> = new EventEmitter<PropertyRow>();
+	@Output() onRefreshDocument:EventEmitter<string> = new EventEmitter<string>();
 
 	nameHasChanged:boolean = false;
 	literalsHaveChanged:boolean = false;
@@ -104,9 +105,8 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 
 	getDisplayName( uri:string ):string {
 		if( this.commonToken.indexOf( uri ) > - 1 )return uri;
-		if( URI.Util.hasFragment( uri ) )return this.getFragment( uri );
-
-		return URI.Util.getSlug( uri );
+		if( URI.Util.hasFragment( uri ) )return this.unescape( this.getFragment( uri ) );
+		return this.unescape( URI.Util.getSlug( uri ) );
 	}
 
 	getParentURI( uri:string ):string {
@@ -140,7 +140,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	getTypeIcon( type:string ):string {
-		switch( this.getDisplayName( type ) ) {
+		switch ( this.getDisplayName( type ) ) {
 			case "RDFSource":
 				return "file outline";
 			case "Container":
@@ -168,6 +168,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 
 	onEditName():void {
 		this.mode = Modes.EDIT;
+		(<Control>this.nameInput).updateValue( this.unescape( this.name ) );
 	}
 
 	cancelDeletion():void {
@@ -195,8 +196,16 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	save():void {
-		this.checkForChangesOnName( this.nameInput.value );
+		this.checkForChangesOnName( this.sanitizeName( this.nameInput.value ) );
 		this.mode = Modes.READ;
+	}
+
+	sanitizeName( name:string ):string {
+		let sanitizedName:string = name;
+		let slug:string = this.getSlug( this.nameInput.value );
+		let parts:string[] = this.nameInput.value.split( slug );
+		if( parts.length > 0 ) sanitizedName = parts[ 0 ] + this.escape( slug );
+		return sanitizedName;
 	}
 
 	fillLiteralsAndPointers():void {
@@ -282,14 +291,25 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		}
 	}
 
+	private refreshDocument():void {
+		this.onRefreshDocument.emit( this.documentURI );
+	}
+
+	private escape( uri:string ):string {
+		return window.escape( uri );
+	}
+
+	private unescape( uri:string ):string {
+		return window.unescape( uri );
+	}
+
 	private nameValidator( control:AbstractControl ):any {
 		if( ! ! control ) {
 			if( typeof control.value === "undefined" || control.value === null || ! control.value ) return null;
 			if( this.existingProperties.indexOf( control.value ) !== - 1 && this.id !== control.value ) return { "duplicatedPropertyName": true };
-			if( ! /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test( control.value ) )
-				return { "invalidName": true };
+			let url = new RegExp( "(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g" );
+			if( ! url.test( control.value ) ) return { "invalidName": true };
 			if( control.value.split( "#" ).length > 2 ) return { "duplicatedHashtag": true };
-			if( ! URI.Util.hasFragment( control.value ) ) return { "missingFragment": true };
 		}
 		return null;
 	}

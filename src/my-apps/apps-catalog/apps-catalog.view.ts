@@ -14,9 +14,6 @@ import template from "./apps-catalog.view.html!";
 	directives: [ ROUTER_DIRECTIVES, AppsCatalogComponent ],
 } )
 export class AppsCatalogView {
-
-	constructor() {}
-
 }
 
 export default AppsCatalogView;

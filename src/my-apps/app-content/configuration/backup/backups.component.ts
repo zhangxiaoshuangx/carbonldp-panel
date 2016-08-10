@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, ViewChild, OnInit } from "@angular/core";
 
 import * as App from "carbonldp/App";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
@@ -26,6 +26,8 @@ export class BackupsComponent implements OnInit {
 
 	backupJob:PersistedDocument.Class;
 	jobsService:JobsService;
+
+	@ViewChild( BackupsListComponent ) backupsListComponent:BackupsListComponent;
 	@Input() appContext:App.Context;
 
 	constructor( jobsService:JobsService ) {
@@ -39,6 +41,10 @@ export class BackupsComponent implements OnInit {
 				this.backupJob = exportBackupJob;
 			} );
 		} );
+	}
+
+	invokeRefreshBackupsList():void {
+		this.backupsListComponent.fetchBackupsList.emit( true );
 	}
 
 }

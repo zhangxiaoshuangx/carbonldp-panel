@@ -58,6 +58,13 @@ System.register(["@angular/core", "carbonldp/App", "../job/jobs.service", "../jo
                             });
                     });
                 };
+                BackupsComponent.prototype.invokeRefreshBackupsList = function () {
+                    this.backupsListComponent.fetchBackupsList.emit(true);
+                };
+                __decorate([
+                    core_1.ViewChild(backups_list_component_1.BackupsListComponent), 
+                    __metadata('design:type', backups_list_component_1.BackupsListComponent)
+                ], BackupsComponent.prototype, "backupsListComponent", void 0);
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', Object)

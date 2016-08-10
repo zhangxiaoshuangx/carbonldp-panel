@@ -1,4 +1,4 @@
-System.register(["@angular/core", "./tab.component", "semantic-ui/semantic", "./tabs.component.html!"], function(exports_1, context_1) {
+System.register(["@angular/core", "./tab.component", "./tabs.component.html!"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -20,19 +20,27 @@ System.register(["@angular/core", "./tab.component", "semantic-ui/semantic", "./
             function (tab_component_1_1) {
                 tab_component_1 = tab_component_1_1;
             },
-            function (_1) {},
             function (tabs_component_html_1_1) {
                 tabs_component_html_1 = tabs_component_html_1_1;
             }],
         execute: function() {
             TabsComponent = (function () {
                 function TabsComponent() {
+                    this.activeTab = 0;
+                    this.activeTabChange = new core_1.EventEmitter();
+                    this.justChanged = false;
                     this.titles = [];
                 }
                 TabsComponent.prototype.ngAfterContentInit = function () {
                     this.reloadTitles();
                     this.activateTab(0);
                     this.tabs.changes.subscribe(this.reloadTitles);
+                };
+                TabsComponent.prototype.ngOnChanges = function (changes) {
+                    if ("activeTab" in changes) {
+                        this.justChanged = true;
+                        this.activateTab(changes["activeTab"].currentValue);
+                    }
                 };
                 TabsComponent.prototype.reloadTitles = function () {
                     this.titles = this.tabs.toArray().filter(function (tab) { return tab.title; }).map(function (tab) { return tab.title; });
@@ -41,9 +49,15 @@ System.register(["@angular/core", "./tab.component", "semantic-ui/semantic", "./
                     var _this = this;
                     if (index === void 0) { index = 0; }
                     this.activeTab = index;
-                    this.tabs.toArray().forEach(function (tab, index) {
-                        tab.active = _this.activeTab === index;
-                    });
+                    if (this.tabs) {
+                        this.tabs.toArray().forEach(function (tab, index) {
+                            tab.active = _this.activeTab === index;
+                        });
+                    }
+                    if (!this.justChanged)
+                        this.activeTabChange.emit(index);
+                    else
+                        this.justChanged = false;
                 };
                 TabsComponent.prototype.onTitleClick = function (titleIndex) {
                     this.activateTab(titleIndex);
@@ -52,6 +66,14 @@ System.register(["@angular/core", "./tab.component", "semantic-ui/semantic", "./
                     core_1.ContentChildren(tab_component_1.TabComponent), 
                     __metadata('design:type', core_1.QueryList)
                 ], TabsComponent.prototype, "tabs", void 0);
+                __decorate([
+                    core_1.Input("activeTab"), 
+                    __metadata('design:type', Number)
+                ], TabsComponent.prototype, "activeTab", void 0);
+                __decorate([
+                    core_1.Output("activeTabChange"), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], TabsComponent.prototype, "activeTabChange", void 0);
                 TabsComponent = __decorate([
                     core_1.Component({
                         selector: "sui-tabs",
