@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/router-deprecated", "./apps-catalog.component", "semantic-ui/semantic", "./apps-catalog.view.html!"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/platform-browser", "@angular/router-deprecated", "./apps-catalog.component", "semantic-ui/semantic", "./apps-catalog.view.html!"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,12 +10,15 @@ System.register(["@angular/core", "@angular/router-deprecated", "./apps-catalog.
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_deprecated_1, apps_catalog_component_1, apps_catalog_view_html_1;
+    var core_1, platform_browser_1, router_deprecated_1, apps_catalog_component_1, apps_catalog_view_html_1;
     var AppsCatalogView;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (platform_browser_1_1) {
+                platform_browser_1 = platform_browser_1_1;
             },
             function (router_deprecated_1_1) {
                 router_deprecated_1 = router_deprecated_1_1;
@@ -29,8 +32,12 @@ System.register(["@angular/core", "@angular/router-deprecated", "./apps-catalog.
             }],
         execute: function() {
             AppsCatalogView = (function () {
-                function AppsCatalogView() {
+                function AppsCatalogView(title) {
+                    this.title = title;
                 }
+                AppsCatalogView.prototype.routerOnActivate = function () {
+                    this.title.setTitle("App Dev | Apps Catalog");
+                };
                 AppsCatalogView = __decorate([
                     core_1.Component({
                         selector: "cp-apps-catalog-view",
@@ -38,7 +45,7 @@ System.register(["@angular/core", "@angular/router-deprecated", "./apps-catalog.
                         styles: [":host { display: block; }"],
                         directives: [router_deprecated_1.ROUTER_DIRECTIVES, apps_catalog_component_1.AppsCatalogComponent],
                     }), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [platform_browser_1.Title])
                 ], AppsCatalogView);
                 return AppsCatalogView;
             }());

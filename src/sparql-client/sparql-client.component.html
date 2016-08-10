@@ -46,7 +46,8 @@
 									</div>
 									<div class="eight wide column field" *ngIf="currentQuery.type == 'Query'">
 										<label>Output Format:</label>
-										<select class="ui dropdown" [(ngModel)]="currentQuery.format" [disabled]="isSending || !currentQuery.operation">
+										<select class="ui dropdown" [(ngModel)]="currentQuery.format"
+										        [disabled]="isSending || !currentQuery.operation || (!!formatsAvailable && formatsAvailable.length === 0)">
 											<option *ngFor="let format of formatsAvailable" [value]="format.value">{{format.name}}</option>
 										</select>
 									</div>

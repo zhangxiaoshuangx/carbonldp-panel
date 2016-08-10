@@ -1,4 +1,4 @@
-# 0.2.0 (2016/08/07)
+# 0.2.0 (2016/08/09)
 
 - Add `sui-tabs`
 - Add `sui-tab`
@@ -12,6 +12,10 @@
 - Fix UI glitch on App Configuration. (overlapped divider)
 - Add Application as the first open node of the explorer TreeView
 - Add message to confirm the backup contains an Agent with an App-Admin
+- Refresh an AppContext after modifying an App
+- Get document children when a document is opened in the Document Explorer (avoiding an unnecessary request)
+- Remove message of missing values in Document Explorer
+- Add READ permission to anonymous agents by default when creating an Application
 
 # 0.1.0 (2016/07/19)
 

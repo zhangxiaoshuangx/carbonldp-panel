@@ -78,6 +78,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	@Output() onDeleteProperty:EventEmitter<PropertyRow> = new EventEmitter<PropertyRow>();
 	@Output() onDeleteNewProperty:EventEmitter<PropertyRow> = new EventEmitter<PropertyRow>();
 	@Output() onSaveNewProperty:EventEmitter<PropertyRow> = new EventEmitter<PropertyRow>();
+	@Output() onRefreshDocument:EventEmitter<string> = new EventEmitter<string>();
 
 	nameHasChanged:boolean = false;
 	literalsHaveChanged:boolean = false;
@@ -138,7 +139,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	getTypeIcon( type:string ):string {
-		switch( this.getDisplayName( type ) ) {
+		switch ( this.getDisplayName( type ) ) {
 			case "RDFSource":
 				return "file outline";
 			case "Container":
@@ -287,6 +288,10 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 			this.property.added = this.tempProperty;
 			this.onSaveNewProperty.emit( this.tempProperty );
 		}
+	}
+
+	private refreshDocument():void {
+		this.onRefreshDocument.emit( this.documentURI );
 	}
 
 	private escape( uri:string ):string {

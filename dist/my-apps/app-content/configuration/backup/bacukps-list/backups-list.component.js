@@ -172,6 +172,15 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
                         return response;
                     });
                 };
+                BackupsListComponent.prototype.refreshList = function () {
+                    var _this = this;
+                    this.loadingBackups = true;
+                    this.getBackups().then(function (backups) {
+                        _this.loadingBackups = false;
+                    }).catch(function () { return _this.loadingBackups = false; });
+                    clearInterval(this.fetchBackupsListInterval);
+                    this.monitorBackups();
+                };
                 BackupsListComponent.prototype.removeDeleteErrorMessage = function (index) {
                     this.deleteMessages.slice(index);
                 };

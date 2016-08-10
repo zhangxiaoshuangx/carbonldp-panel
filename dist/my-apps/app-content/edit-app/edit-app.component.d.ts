@@ -1,10 +1,12 @@
 import { OnInit } from "@angular/core";
 import { FormBuilder, ControlGroup, AbstractControl } from "@angular/common";
 import * as HTTP from "carbonldp/HTTP";
+import { AppContextService } from "../../app-context.service";
 import * as App from "../app";
 import { Message } from "../../../errors-area/error-message.component";
 import "semantic-ui/semantic";
 export declare class EditAppComponent implements OnInit {
+    appContextService: AppContextService;
     submitting: boolean;
     displaySuccessMessage: boolean;
     errorMessage: Message;
@@ -18,7 +20,7 @@ export declare class EditAppComponent implements OnInit {
     allowedDomains: string[];
     domainStr: string;
     app: App.Class;
-    constructor(formBuilder: FormBuilder);
+    constructor(formBuilder: FormBuilder, appContextService: AppContextService);
     ngOnInit(): void;
     domainValidator(corsGroup: ControlGroup): any;
     allowedDomainsValidator(corsGroup: ControlGroup): any;

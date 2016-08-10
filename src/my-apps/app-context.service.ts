@@ -56,6 +56,14 @@ export class AppContextService {
 		return this.removeTrailingSlash( URI.Util.getSlug( uri ) );
 	}
 
+	updateContext( uri:string ):Promise<App.Context> {
+		let slug:string = this.removeTrailingSlash( uri );
+		return this.carbon.apps.getContext( slug + "/" ).then( ( appContext:App.Context ) => {
+			this.appContexts.set( slug, appContext );
+			return appContext;
+		} );
+	}
+
 	private removeTrailingSlash( slug:string ):string {
 		if( slug.endsWith( "/" ) ) {
 			return slug.substr( 0, slug.length - 1 );

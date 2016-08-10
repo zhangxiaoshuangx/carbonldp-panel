@@ -1,14 +1,22 @@
 <div class="content" *ngIf="name === '@id'">
 	<div class="header">
+		<p>{{getSlug(value)}}</p>
+	</div>
+	<div class="meta">
 		<p *ngIf="!isUrl(value)">
 			<i class="file outline icon"></i> {{value}}</p>
 		<p *ngIf="isUrl(value)">
 			<i class="file outline icon"></i>
-			<a class="name" [attr.href]="value"
-			   target="_blank"><span class="parentURI">
-				{{getParentURI(value)}}</span><span class="slug">{{getSlug(value)}}</span>
+			<a class="name" [attr.href]="value" target="_blank">
+				<span class="parent-uri">{{getParentURI(value)}}</span><span class="slug">{{getSlug(value)}}</span>
 			</a>
 		</p>
+	</div>
+	<div *ngIf="value === documentURI">
+		<button class="ui right labeled icon basic mini button" (click)="refreshDocument()">
+			<i class="refresh icon"></i>
+			Refresh
+		</button>
 	</div>
 </div>
 
@@ -36,6 +44,8 @@
 	</div>
 </div>
 
+<p class="ui grey label status indicator" *ngIf="!!property.added">Added</p>
+<p class="ui grey label status indicator" *ngIf="!!property.modified">Changed</p>
 <div class="content" *ngIf="!property.deleted && name !== '@id' && name !== '@type'">
 	<div class="ui confirm-deletion inverted dimmer">
 		<div class="content">
@@ -47,8 +57,6 @@
 			</div>
 		</div>
 	</div>
-	<p class="ui blue label status indicator" *ngIf="!!property.added">Added</p>
-	<p class="ui yellow label status indicator" *ngIf="!!property.modified">Changed</p>
 	<div class="header">
 		<p>{{getDisplayName(name)}}</p>
 	</div>

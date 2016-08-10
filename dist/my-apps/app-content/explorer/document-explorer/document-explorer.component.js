@@ -76,6 +76,9 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./d
                     }
                     this.messages.push(errorMessage);
                 };
+                DocumentExplorerComponent.prototype.refreshDocument = function (documentURI) {
+                    this.resolveDocument(documentURI);
+                };
                 DocumentExplorerComponent.prototype.getHTTPErrorMessage = function (error, content) {
                     return {
                         title: error.name,

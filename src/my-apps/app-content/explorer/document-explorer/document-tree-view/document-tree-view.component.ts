@@ -43,15 +43,16 @@ export class DocumentTreeViewComponent implements AfterViewInit {
 		this.documentTree = this.$element.find( ".document.treeview" );
 		this.onLoadingDocument.emit( true );
 		this.getDocumentTree().then( ()=> {
-			this.renderTree();
 			this.onLoadingDocument.emit( false );
 		} );
 	}
 
 	getDocumentTree():Promise<PersistedDocument.Class> {
 		return this.documentContext.documents.get( "" ).then( ( [ resolvedRoot, response ]:[ PersistedDocument.Class, HTTP.Response.Class ] ) => {
+			return resolvedRoot.refresh();
+		} ).then( ( [updatedRoot, updatedResponse]:[PersistedDocument.Class, HTTP.Response.Class] ) => {
 			this.nodeChildren.push( this.buildNode( this.documentContext.getBaseURI() ) );
-			return resolvedRoot;
+			this.renderTree();
 		} ).catch( ( error:HTTP.Errors.Error ) => {
 			console.error( error );
 			this.onError.emit( error );
@@ -104,7 +105,6 @@ export class DocumentTreeViewComponent implements AfterViewInit {
 			let parentNode:any = data.node;
 			let position:string = "last";
 			this.onClickNode( parentId, parentNode, position );
-			this.documentTree.jstree( "open_node", data.node );
 		} );
 		this.documentTree.on( "loaded.jstree", ()=> {
 			this.documentTree.jstree( "open_all" );
@@ -117,7 +117,7 @@ export class DocumentTreeViewComponent implements AfterViewInit {
 	emptyNode( nodeId:string ):void {
 		let $children:JQuery = this.documentTree.jstree( true ).get_children_dom( nodeId );
 		let childElements:Element[] = jQuery.makeArray( $children );
-		while( childElements.length > 0 ) {
+		while ( childElements.length > 0 ) {
 			this.documentTree.jstree( true ).delete_node( childElements[ 0 ] );
 			childElements.splice( 0, 1 );
 		}
@@ -139,6 +139,12 @@ export class DocumentTreeViewComponent implements AfterViewInit {
 	}
 
 	onClickNode( parentId:string, node:any, position:string ):void {
+		let tree:JSTree = this.documentTree.jstree( true );
+		if( tree.is_open( node ) ) {
+			this.onBeforeOpenNode( parentId, node, position );
+		} else {
+			tree.open_node( node );
+		}
 		this.onResolveUri.emit( node.data.pointer.id );
 	}
 
@@ -148,10 +154,11 @@ export class DocumentTreeViewComponent implements AfterViewInit {
 
 	getNodeChildren( uri:string ):Promise<any[]> {
 		return this.documentContext.documents.get( uri ).then( ( [resolvedRoot, response]:[PersistedDocument.Class, HTTP.Response.Class] ) => {
-			if( ! resolvedRoot.contains ) return [];
-
-			return resolvedRoot.contains.map( ( pointer:Pointer.Class ):void => {
-				return this.buildNode( pointer.id );
+			return resolvedRoot.refresh().then( ( [refreshedRoot, response]:[PersistedDocument.Class, HTTP.Response.Class] )=> {
+				if( ! resolvedRoot.contains ) return [];
+				return resolvedRoot.contains.map( ( pointer:Pointer.Class ):void => {
+					return this.buildNode( pointer.id );
+				} );
 			} );
 		} ).catch( ( error ) => {
 			console.error( error );

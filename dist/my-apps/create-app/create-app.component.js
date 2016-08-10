@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common", "@angular/router-deprecated", "carbonldp/Carbon", "carbonldp/App", "carbonldp/HTTP", "./../app-context.service", "./../../errors-area/error-message.component", "semantic-ui/semantic", "./create-app.component.html!"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/common", "@angular/router-deprecated", "carbonldp/Carbon", "carbonldp/App", "carbonldp/HTTP", "carbonldp/NS/CS", "./../app-context.service", "./../../errors-area/error-message.component", "semantic-ui/semantic", "./create-app.component.html!"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, router_deprecated_1, Carbon_1, CarbonApp, HTTP, app_context_service_1, error_message_component_1, create_app_component_html_1;
+    var core_1, common_1, router_deprecated_1, Carbon_1, CarbonApp, HTTP, CS, app_context_service_1, error_message_component_1, create_app_component_html_1;
     var CreateAppComponent;
     return {
         setters:[
@@ -32,6 +32,9 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
             function (HTTP_1) {
                 HTTP = HTTP_1;
             },
+            function (CS_1) {
+                CS = CS_1;
+            },
             function (app_context_service_1_1) {
                 app_context_service_1 = app_context_service_1_1;
             },
@@ -47,6 +50,7 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
                 function CreateAppComponent(formBuilder, carbon, appContextService) {
                     this.submitting = false;
                     this.displaySuccessMessage = false;
+                    this.displayWarningMessage = false;
                     this._name = "";
                     this._slug = "";
                     this.persistedSlug = "";
@@ -96,6 +100,7 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
                     this.submitting = true;
                     this.errorMessage = null;
                     this.displaySuccessMessage = false;
+                    this.displayWarningMessage = false;
                     this.name.markAsDirty(true);
                     this.slug.markAsDirty(true);
                     this.description.markAsDirty(true);
@@ -122,17 +127,44 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
                     }).then(function (appContext) {
                         _this.persistedSlug = _this.appContextService.getSlug(appContext);
                         _this.persistedName = appContext.app.name;
-                        _this.displaySuccessMessage = true;
+                        var persistedAppDocument = appContext.app;
+                        return persistedAppDocument.getACL();
+                    }).then(function (_a) {
+                        var acl = _a[0], response = _a[1];
+                        return _this.grantAccess(acl);
                     }).catch(function (error) {
-                        _this.errorMessage = {
-                            title: error.name,
-                            content: _this.getErrorMessage(error),
-                            statusCode: "" + error.response.status,
-                            statusMessage: error.response.request.statusText,
-                            endpoint: error.response.request.responseURL,
-                        };
+                        console.error(error);
+                        if (error.response)
+                            _this.errorMessage = _this.getHTTPErrorMessage(error, _this.getErrorMessage(error));
+                        else {
+                            _this.errorMessage = {
+                                title: error.name,
+                                content: JSON.stringify(error)
+                            };
+                        }
                         _this.submitting = false;
                     });
+                };
+                CreateAppComponent.prototype.grantAccess = function (acl) {
+                    var _this = this;
+                    var subject = this.carbon.resolve("roles/anonymous/"), subjectClass = CS.namespace + "PlatformRole", permissions = [CS.namespace + "Read"];
+                    acl.grant(subject, subjectClass, permissions);
+                    return acl.saveAndRefresh().then(function () {
+                        _this.displaySuccessMessage = true;
+                    }).catch(function (error) {
+                        _this.displayWarningMessage = true;
+                    }).then(function () {
+                        return acl;
+                    });
+                };
+                CreateAppComponent.prototype.getHTTPErrorMessage = function (error, content) {
+                    return {
+                        title: error.name,
+                        content: content + (!!error.message ? (" Reason: " + error.message) : ""),
+                        endpoint: error.response.request.responseURL,
+                        statusCode: "" + error.response.request.status + " - RequestID: " + error.requestID,
+                        statusMessage: error.response.request.statusText
+                    };
                 };
                 CreateAppComponent.prototype.getErrorMessage = function (error) {
                     var friendlyMessage = "";
@@ -180,6 +212,7 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
                 };
                 CreateAppComponent.prototype.clearMessages = function (evt) {
                     this.displaySuccessMessage = false;
+                    this.displayWarningMessage = false;
                     this.errorMessage = null;
                 };
                 CreateAppComponent = __decorate([
