@@ -13,9 +13,6 @@ import "semantic-ui/semantic";
 	styles: [ ":host { display: block; }" ],
 } )
 export class DashboardView {
-
-	constructor() { }
-
 }
 
 export default DashboardView;
