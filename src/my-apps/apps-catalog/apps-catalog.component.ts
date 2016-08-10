@@ -130,7 +130,7 @@ export class AppsCatalogComponent implements OnInit {
 
 	getErrorMessage( error:HTTP.Errors.Error ):Message {
 		let content:string = "";
-		switch ( true ) {
+		switch( true ) {
 			case error instanceof HTTP.Errors.ForbiddenError:
 				content = "Denied Access.";
 				break;
