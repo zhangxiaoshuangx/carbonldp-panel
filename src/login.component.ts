@@ -95,7 +95,7 @@ export class LoginComponent {
 	}
 
 	setErrorMessage( error:HTTP.Errors.Error ):void {
-		switch( true ) {
+		switch ( true ) {
 			case error instanceof HTTP.Errors.ForbiddenError:
 				this.errorMessage = "Denied Access.";
 				break;

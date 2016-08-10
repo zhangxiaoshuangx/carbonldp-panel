@@ -87,7 +87,7 @@ export class RegisterComponent implements OnInit {
 	}
 
 	touchControls():void {
-		for( let controlName in this.controls ) {
+		for ( let controlName in this.controls ) {
 			if( ! this.controls.hasOwnProperty( controlName ) ) continue;
 
 			let control:AbstractControl = this.controls[ controlName ];
@@ -103,7 +103,7 @@ export class RegisterComponent implements OnInit {
 	}
 
 	setErrorMessage( error:HTTP.Errors.Error ):void {
-		switch( true ) {
+		switch ( true ) {
 			case error instanceof HTTP.Errors.ConflictError:
 				this.errorMessage = "That email is already in use";
 				break;

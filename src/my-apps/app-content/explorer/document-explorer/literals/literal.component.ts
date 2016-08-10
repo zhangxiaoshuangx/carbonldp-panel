@@ -996,10 +996,10 @@ export class LiteralComponent {
 
 	private valueValidator( control:AbstractControl ):any {
 		let valid:boolean;
-		switch( this.type ) {
+		switch ( this.type ) {
 			// Boolean
 			case NS.XSD.DataType.boolean:
-				switch( control.value ) {
+				switch ( control.value ) {
 					case "true":
 					case "yes":
 					case "y":

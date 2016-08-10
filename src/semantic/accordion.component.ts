@@ -23,7 +23,7 @@ export class AccordionComponent implements AfterContentInit {
 
 	subscribeBlocks():void {
 		let blockArray:CollapsibleDirective[] = this.blocks.toArray();
-		for( let i:number = 0, length = blockArray.length; i < length; i ++ ) {
+		for ( let i:number = 0, length = blockArray.length; i < length; i ++ ) {
 			let block:CollapsibleDirective = blockArray[ i ];
 			block.activeChange.subscribe( this.onBlockActive.bind( this, block ) );
 		}
