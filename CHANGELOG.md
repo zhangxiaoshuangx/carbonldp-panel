@@ -1,3 +1,6 @@
+# 0.2.1 (2016/08/10)
+- Fix JSTree missing icons
+
 # 0.2.0 (2016/08/09)
 
 - Add `sui-tabs`

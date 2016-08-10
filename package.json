@@ -1,9 +1,20 @@
 {
   "name": "carbon-panel",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Common components, services and utilities shared between different panel projects",
   "contributors": [
-    "MiguelAraCo <miguel.aragon@base22.com>"
+    {
+      "name": "Miguel Aragón",
+      "email": "miguel.aragon@base22.com"
+    },
+    {
+      "name": "Alvaro Contreras",
+      "email": "alvaro.contreras@base22.com"
+    },
+    {
+      "name": "Jimena Gúzman",
+      "email": "jimena.guzman@base22.com"
+    }
   ],
   "license": "UNLICENSED",
   "private": true,
