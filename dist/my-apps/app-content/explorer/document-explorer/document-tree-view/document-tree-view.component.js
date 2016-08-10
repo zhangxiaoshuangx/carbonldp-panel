@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "jquery", "semantic-ui/semantic", "jstree/dist/jstree.min", "jstree/dist/themes/default/style.min.css!", "./document-tree-view.component.html!", "./document-tree-view.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "jquery", "semantic-ui/semantic", "jstree/dist/jstree.min", "./document-tree-view.component.html!", "./document-tree-view.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -28,7 +28,6 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
             },
             function (_1) {},
             function (_2) {},
-            function (_3) {},
             function (document_tree_view_component_html_1_1) {
                 document_tree_view_component_html_1 = document_tree_view_component_html_1_1;
             },
@@ -44,6 +43,16 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     this.onLoadingDocument = new core_1.EventEmitter();
                     this.element = element;
                 }
+                DocumentTreeViewComponent.prototype.ngOnInit = function () {
+                    var alreadyImported = document.querySelectorAll("head [href='assets/node_modules/jstree/dist/themes/default/style.min.css']").length > 0;
+                    if (alreadyImported)
+                        return;
+                    var link = document.createElement("link");
+                    link.rel = "stylesheet";
+                    link.href = "assets/node_modules/jstree/dist/themes/default/style.min.css";
+                    var head = document.querySelector("head");
+                    head.appendChild(link);
+                };
                 DocumentTreeViewComponent.prototype.ngAfterViewInit = function () {
                     var _this = this;
                     this.$element = jquery_1.default(this.element.nativeElement);

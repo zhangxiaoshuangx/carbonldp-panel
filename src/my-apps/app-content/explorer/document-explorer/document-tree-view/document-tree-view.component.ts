@@ -11,7 +11,6 @@ import $ from "jquery";
 import "semantic-ui/semantic";
 
 import "jstree/dist/jstree.min";
-import "jstree/dist/themes/default/style.min.css!";
 
 import template from "./document-tree-view.component.html!";
 import style from "./document-tree-view.component.css!text";
@@ -22,7 +21,7 @@ import style from "./document-tree-view.component.css!text";
 	styles: [ style ],
 } )
 
-export class DocumentTreeViewComponent implements AfterViewInit {
+export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 	element:ElementRef;
 	$element:JQuery;
 
@@ -36,6 +35,16 @@ export class DocumentTreeViewComponent implements AfterViewInit {
 
 	constructor( element:ElementRef ) {
 		this.element = element;
+	}
+
+	ngOnInit():void {
+		let alreadyImported:boolean = document.querySelectorAll( "head [href='assets/node_modules/jstree/dist/themes/default/style.min.css']" ).length > 0;
+		if( alreadyImported ) return;
+		let link:HTMLLinkElement = document.createElement( "link" );
+		link.rel = "stylesheet";
+		link.href = "assets/node_modules/jstree/dist/themes/default/style.min.css";
+		let head:Element = document.querySelector( "head" );
+		head.appendChild( link );
 	}
 
 	ngAfterViewInit():void {
