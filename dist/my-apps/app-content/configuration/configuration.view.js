@@ -33,6 +33,7 @@ System.register(["@angular/core", "./../../app-content/app-content.view", "./con
         execute: function() {
             ConfigurationView = (function () {
                 function ConfigurationView(appContentView) {
+                    this.app = appContentView.app;
                 }
                 ConfigurationView = __decorate([
                     core_1.Component({

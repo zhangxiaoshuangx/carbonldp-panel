@@ -172,7 +172,7 @@ export class CreateAppComponent implements AfterViewInit, OnInit {
 
 	getErrorMessage( error:HTTP.Errors.Error ):string {
 		let friendlyMessage:string = "";
-		switch ( true ) {
+		switch( true ) {
 			case error instanceof HTTP.Errors.BadRequestError:
 				friendlyMessage = "";
 				break;

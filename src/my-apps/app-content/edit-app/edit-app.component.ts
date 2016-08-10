@@ -154,7 +154,7 @@ export class EditAppComponent implements OnInit {
 
 	getErrorMessage( error:HTTP.Errors.Error ):string {
 		let tempMessage:string = "";
-		switch ( true ) {
+		switch( true ) {
 			case error instanceof HTTP.Errors.BadRequestError:
 				tempMessage = "";
 				break;

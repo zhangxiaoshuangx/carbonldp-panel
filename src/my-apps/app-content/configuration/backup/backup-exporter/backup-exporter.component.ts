@@ -70,7 +70,7 @@ export class BackupExporterComponent implements OnDestroy {
 		return new Promise<PersistedDocument.Class>( ( resolve:( result:any ) => void, reject:( error:HTTPError|PersistedDocument.Class ) => void ) => {
 			this.monitorExecutionInterval = setInterval( ()=> {
 				execution.refresh().then( ()=> {
-					switch ( execution[ Job.Execution.STATUS ].id ) {
+					switch( execution[ Job.Execution.STATUS ].id ) {
 						case Job.ExecutionStatus.FINISHED:
 							clearInterval( this.monitorExecutionInterval );
 							resolve( execution );
