@@ -79,6 +79,7 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
                     });
                 };
                 CreateAppComponent.prototype.slugLostControl = function (evt) {
+                    console.log("slugLostControl", evt.target.value);
                     if (!evt.target.value.match(/^[a-z0-9]+(?:-[a-z0-9]*)*(?:\/*)$/)) {
                         this.slug.updateValue(this.getSanitizedSlug(evt.target.value));
                         this._slug = this.slug.value;
@@ -86,7 +87,7 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
                 };
                 CreateAppComponent.prototype.getSanitizedSlug = function (slug) {
                     if (slug) {
-                        slug = slug.toLowerCase().replace(/[^\w ]+/g, "").replace(/ +/g, "-");
+                        slug = slug.toLowerCase().replace(/ - | -|- /g, "-").replace(/[^-\w ]+/g, "").replace(/ +/g, "-");
                         if (slug.charAt(slug.length - 1) !== "/")
                             slug += "/";
                     }
