@@ -75,6 +75,7 @@ export class CreateAppComponent implements AfterViewInit, OnInit {
 	}
 
 	slugLostControl( evt:any ):void {
+		console.log("slugLostControl", evt.target.value);
 		if( ! evt.target.value.match( /^[a-z0-9]+(?:-[a-z0-9]*)*(?:\/*)$/ ) ) {
 			(<Control> this.slug).updateValue( this.getSanitizedSlug( evt.target.value ) );
 			this._slug = this.slug.value;
@@ -83,7 +84,7 @@ export class CreateAppComponent implements AfterViewInit, OnInit {
 
 	getSanitizedSlug( slug:string ):string {
 		if( slug ) {
-			slug = slug.toLowerCase().replace( /[^\w ]+/g, "" ).replace( / +/g, "-" );
+			slug = slug.toLowerCase().replace( / - | -|- /g, "-" ).replace( /[^-\w ]+/g, "" ).replace( / +/g, "-" );
 			if( slug.charAt( slug.length - 1 ) !== "/" ) slug += "/";
 		}
 		return slug;
