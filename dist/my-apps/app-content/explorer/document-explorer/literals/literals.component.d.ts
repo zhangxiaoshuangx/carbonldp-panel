@@ -17,9 +17,7 @@ export declare class LiteralsComponent implements OnInit {
     existsToken(token: string): boolean;
     editModeChanged(value: boolean): void;
     saveLiteral(modifiedLiteral: Literal, originalLiteral: Literal, index: number): void;
-    saveNewLiteral(newLiteral: Literal, originalLiteral: Literal, index: number): void;
     addNewLiteral(): void;
-    deleteNewLiteral(deletingLiteral: LiteralRow, index: number): void;
     deleteLiteral(deletingLiteral: LiteralRow, index: number): void;
     canDisplayLiterals(): boolean;
     getAddedLiterals(): LiteralRow[];

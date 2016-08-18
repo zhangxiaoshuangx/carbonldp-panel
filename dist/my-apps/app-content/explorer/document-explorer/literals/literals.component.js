@@ -61,23 +61,20 @@ System.register(["@angular/core", "./literal.component", "./../property/property
                     this.isEditingLiteral = value;
                 };
                 LiteralsComponent.prototype.saveLiteral = function (modifiedLiteral, originalLiteral, index) {
-                    this.isLanguagePresent = this.existsToken("@language");
-                    this.onLiteralsChanges.emit(this.literals);
-                };
-                LiteralsComponent.prototype.saveNewLiteral = function (newLiteral, originalLiteral, index) {
+                    if (typeof this.literals[index].added !== "undefined")
+                        delete this.literals[index].isBeingCreated;
                     this.isLanguagePresent = this.existsToken("@language");
                     this.onLiteralsChanges.emit(this.literals);
                 };
                 LiteralsComponent.prototype.addNewLiteral = function () {
                     var newLiteralRow = {};
                     newLiteralRow.added = {};
-                    this.literals.push(newLiteralRow);
-                };
-                LiteralsComponent.prototype.deleteNewLiteral = function (deletingLiteral, index) {
-                    this.literals.splice(index, 1);
-                    this.onLiteralsChanges.emit(this.literals);
+                    newLiteralRow.isBeingCreated = true;
+                    this.literals.splice(0, 0, newLiteralRow);
                 };
                 LiteralsComponent.prototype.deleteLiteral = function (deletingLiteral, index) {
+                    if (typeof deletingLiteral.added !== "undefined")
+                        this.literals.splice(index, 1);
                     this.onLiteralsChanges.emit(this.literals);
                 };
                 LiteralsComponent.prototype.canDisplayLiterals = function () {

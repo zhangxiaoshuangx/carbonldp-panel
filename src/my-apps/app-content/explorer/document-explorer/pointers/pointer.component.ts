@@ -50,8 +50,11 @@ export class PointerComponent implements OnChanges {
 
 	@Input() set pointer( value:PointerRow ) {
 		this._pointer = value;
+		if( this.pointer.isBeingCreated ) this.mode = Modes.EDIT;
 
-		if( typeof this.pointer.copy !== "undefined" ) {
+		if( typeof this.pointer.modified !== "undefined" ) {
+			this.id = ! ! this.tempPointer[ "@id" ] ? this.tempPointer[ "@id" ] : this.pointer.modified[ "@id" ];
+		} else if( typeof this.pointer.copy !== "undefined" ) {
 			this.id = ! ! this.tempPointer[ "@id" ] ? this.tempPointer[ "@id" ] : this.pointer.copy[ "@id" ];
 		} else if( typeof this.pointer.added !== "undefined" ) {
 			this.id = ! ! this.tempPointer[ "@id" ] ? this.tempPointer[ "@id" ] : this.pointer.added[ "@id" ];
@@ -65,7 +68,6 @@ export class PointerComponent implements OnChanges {
 
 	@Output() onEditMode:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() onSave:EventEmitter<any> = new EventEmitter<any>();
-	@Output() onDeleteNewPointer:EventEmitter<PointerRow> = new EventEmitter<PointerRow>();
 	@Output() onDeletePointer:EventEmitter<PointerRow> = new EventEmitter<PointerRow>();
 	@Output() onGoToBNode:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onGoToNamedFragment:EventEmitter<string> = new EventEmitter<string>();
@@ -92,12 +94,10 @@ export class PointerComponent implements OnChanges {
 	}
 
 	deletePointer():void {
-		if( typeof this.pointer.added !== "undefined" ) {
-			this.onDeleteNewPointer.emit( this.pointer );
-		} else {
+		if( typeof this.pointer.added === "undefined" ) {
 			this.pointer.deleted = this.pointer.copy;
-			this.onDeletePointer.emit( this.pointer );
 		}
+		this.onDeletePointer.emit( this.pointer );
 	}
 
 	ngOnChanges( changes:{[propName:string]:SimpleChange} ):void {
@@ -126,7 +126,7 @@ export class PointerComponent implements OnChanges {
 
 
 		if( typeof this.pointer.added !== "undefined" && typeof this.id === "undefined" ) {
-			this.onDeleteNewPointer.emit( this.pointer );
+			this.onDeletePointer.emit( this.pointer );
 		}
 	}
 
@@ -140,6 +140,8 @@ export class PointerComponent implements OnChanges {
 		if( (! ! this.pointer.copy) && (this.tempPointer[ "@id" ] === this.pointer.copy[ "@id" ] ) ) {
 			delete this.tempPointer[ "@id" ];
 			delete this.pointer.modified;
+		} else {
+			this.pointer.modified = this.tempPointer;
 		}
 
 		this.onSave.emit( this.tempPointer );
@@ -195,6 +197,8 @@ export interface PointerRow {
 	modified?:Pointer;
 	added?:Pointer;
 	deleted?:Pointer;
+
+	isBeingCreated?:boolean;
 }
 export interface Pointer {
 	"@id":string;

@@ -46,29 +46,17 @@ export class PointersComponent implements OnInit {
 	addNewPointer():void {
 		let newPointerRow:PointerRow = <PointerRow>{};
 		newPointerRow.added = <Pointer>{};
-		this.pointers.push( newPointerRow );
+		newPointerRow.isBeingCreated = true;
+		this.pointers.splice( 0, 0, newPointerRow );
 	}
 
 	savePointer( modifiedPointer:Pointer, originalPointer:Pointer, index:number ) {
-		if( modifiedPointer.hasOwnProperty( "@id" ) ) {
-			this.pointers[ index ].modified = modifiedPointer;
-		}
-		this.onPointersChanges.emit( this.pointers );
-	}
-
-	saveNewPointer( newPointer:Pointer, originalPointer:Pointer, index:number ) {
-		if( newPointer.hasOwnProperty( "@id" ) ) {
-			this.pointers[ index ].added = newPointer;
-		}
+		if( typeof this.pointers[ index ].added !== "undefined" ) delete this.pointers[ index ].isBeingCreated;
 		this.onPointersChanges.emit( this.pointers );
 	}
 
 	deletePointer( deletingPointer:PointerRow, index:number ):void {
-		this.onPointersChanges.emit( this.pointers );
-	}
-
-	deleteNewPointer( deletingPointer:PointerRow, index:number ):void {
-		this.pointers.splice( index, 1 );
+		if( typeof deletingPointer.added !== "undefined" ) this.pointers.splice( index, 1 );
 		this.onPointersChanges.emit( this.pointers );
 	}
 

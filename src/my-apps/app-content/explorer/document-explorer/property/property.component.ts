@@ -214,7 +214,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		this.tempLiterals = [];
 		this.pointers = [];
 		this.tempPointers = [];
-		if( ! ! this.property.modifiedLiterals ) {
+		if( typeof this.property.modifiedLiterals !== "undefined" ) {
 			this.literals = this.property.modifiedLiterals;
 			this.tempLiterals = this.property.modifiedLiterals;
 		} else {
@@ -223,6 +223,13 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 					this.literals.push( <LiteralRow>{ copy: literalOrRDFNode } );
 					this.tempLiterals.push( <LiteralRow>{ copy: literalOrRDFNode } );
 				}
+			} );
+		}
+		if( typeof this.property.modifiedPointers !== "undefined" ) {
+			this.pointers = this.property.modifiedPointers;
+			this.tempPointers = this.property.modifiedPointers;
+		} else {
+			this.property[ this.copyOrAdded ].value.forEach( ( literalOrRDFNode )=> {
 				if( SDKRDFNode.Factory.is( literalOrRDFNode ) ) {
 					this.pointers.push( <PointerRow>{ copy: literalOrRDFNode } );
 					this.tempPointers.push( <PointerRow>{ copy: literalOrRDFNode } );
@@ -282,6 +289,9 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 			if( this.literalsHaveChanged ) { this.property.modifiedLiterals = this.tempLiterals; }
 			else { delete this.property.modifiedLiterals; }
 
+			if( this.pointersHaveChanged ) { this.property.modifiedPointers = this.tempPointers; }
+			else { delete this.property.modifiedPointers; }
+
 		} else {
 			this.tempProperty.value = this.value;
 		}
@@ -340,6 +350,7 @@ export interface PropertyRow {
 	isBeingDeleted?:boolean;
 
 	modifiedLiterals?:LiteralRow[];
+	modifiedPointers?:PointerRow[];
 }
 export interface Property {
 	id:string;
