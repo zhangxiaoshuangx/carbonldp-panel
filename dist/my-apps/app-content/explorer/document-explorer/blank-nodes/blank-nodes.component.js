@@ -53,7 +53,6 @@ System.register(["@angular/core", "carbonldp/Utils", "./blank-node.component", "
                 };
                 BlankNodesComponent.prototype.ngOnChanges = function (changes) {
                     if ((changes["blankNodes"].currentValue !== changes["blankNodes"].previousValue)) {
-                        console.log(this.blankNodes);
                         this.openedBlankNodes = [];
                         this.goToBlankNode("all");
                         this.blankNodesRecords.clear();
@@ -106,10 +105,10 @@ System.register(["@angular/core", "carbonldp/Utils", "./blank-node.component", "
                     if (typeof this.blankNodesRecords === "undefined")
                         this.blankNodesRecords = new BlankNodesRecords();
                     if (typeof blankNodeRow.modified !== "undefined") {
-                        this.blankNodesRecords.changes.set(blankNodeRow.modified["@id"], blankNodeRow);
+                        this.blankNodesRecords.changes.set(blankNodeRow.id, blankNodeRow);
                     }
                     else if (typeof blankNodeRow.added === "undefined") {
-                        this.blankNodesRecords.changes.delete(blankNodeRow.copy["@id"]);
+                        this.blankNodesRecords.changes.delete(blankNodeRow.id);
                     }
                     this.onChanges.emit(this.blankNodesRecords);
                 };
@@ -117,15 +116,15 @@ System.register(["@angular/core", "carbonldp/Utils", "./blank-node.component", "
                     if (typeof this.blankNodesRecords === "undefined")
                         this.blankNodesRecords = new BlankNodesRecords();
                     if (typeof blankNodeRow.added !== "undefined") {
-                        this.blankNodesRecords.additions.delete(blankNodeRow.added["@id"]);
+                        this.blankNodesRecords.additions.delete(blankNodeRow.id);
                     }
                     else if (typeof blankNodeRow.modified !== "undefined") {
-                        this.blankNodesRecords.changes.delete(blankNodeRow.modified["@id"]);
-                        this.blankNodesRecords.deletions.set(blankNodeRow.modified["@id"], blankNodeRow);
+                        this.blankNodesRecords.changes.delete(blankNodeRow.id);
+                        this.blankNodesRecords.deletions.set(blankNodeRow.id, blankNodeRow);
                     }
                     else {
-                        // this.blankNodesRecords.changes.delete( blankNodeRow.modified[ "@id" ] );
-                        this.blankNodesRecords.deletions.set(blankNodeRow.copy["@id"], blankNodeRow);
+                        // this.blankNodesRecords.changes.delete( blankNodeRow.id );
+                        this.blankNodesRecords.deletions.set(blankNodeRow.id, blankNodeRow);
                     }
                     index = this.blankNodes.indexOf(blankNodeRow);
                     this.blankNodes.splice(index, 1);
@@ -136,10 +135,11 @@ System.register(["@angular/core", "carbonldp/Utils", "./blank-node.component", "
                     var newBlankNode = {
                         id: id,
                         bNodeIdentifier: bNodeIdentifier,
-                        added: {
+                        rootNode: {
                             "@id": id,
-                            "https://carbonldp.com/ns/v1/platform#bNodeIdentifier": [{ "@value": bNodeIdentifier }],
-                        }
+                            "https://carbonldp.com/ns/v1/platform#bNodeIdentifier": [{ "@value": bNodeIdentifier }]
+                        },
+                        added: true
                     };
                     this.blankNodes.splice(0, 0, newBlankNode);
                     this.blankNodesRecords.additions.set(id, newBlankNode);

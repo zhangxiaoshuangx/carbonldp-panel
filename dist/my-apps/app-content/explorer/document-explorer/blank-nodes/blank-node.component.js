@@ -11,7 +11,7 @@ System.register(["@angular/core", "./../property/property.component", "jquery", 
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, property_component_1, jquery_1, blank_node_component_html_1;
-    var BlankNodeComponent, BlankNode, BlankNodeRecords;
+    var BlankNodeComponent, BlankNodeRecords;
     return {
         setters:[
             function (core_1_1) {
@@ -31,8 +31,10 @@ System.register(["@angular/core", "./../property/property.component", "jquery", 
             BlankNodeComponent = (function () {
                 function BlankNodeComponent(element) {
                     this.modes = property_component_1.Modes;
-                    this.copyOrModifiedOrAdded = "";
+                    this.nonEditableProperties = ["@id", "https://carbonldp.com/ns/v1/platform#bNodeIdentifier"];
+                    this.copyOrAdded = "";
                     this.tempPropertiesNames = [];
+                    this.existingPropertiesNames = [];
                     this.blankNodes = [];
                     this.namedFragments = [];
                     this.canEdit = true;
@@ -48,38 +50,35 @@ System.register(["@angular/core", "./../property/property.component", "jquery", 
                     },
                     set: function (hasChanged) {
                         this._bNodeHasChanged = hasChanged;
-                        if (hasChanged) {
-                            if (!!this.blankNode.copy) {
-                                this.blankNode.modified = this.tempBlankNode;
-                            }
-                            else {
-                                this.blankNode.added = this.tempBlankNode;
-                            }
-                            this.blankNode.records = this.records;
+                        if (!hasChanged) {
+                            delete this.blankNode.records;
+                            if (!this.blankNode.added)
+                                delete this.blankNode.modified;
                         }
                         else {
-                            delete this.blankNode.modified;
-                            delete this.blankNode.added;
+                            this.blankNode.records = this.records;
+                            if (!this.blankNode.added)
+                                this.blankNode.modified = hasChanged;
                         }
-                        this.updateTempProperties();
                         this.onChanges.emit(this.blankNode);
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(BlankNodeComponent.prototype, "blankNode", {
+                    get: function () { return this._blankNode; },
+                    set: function (blankNode) {
+                        this._blankNode = blankNode;
+                        this.rootNode = blankNode.rootNode;
+                        if (!!blankNode.records)
+                            this.records = blankNode.records;
+                        this.getProperties();
                     },
                     enumerable: true,
                     configurable: true
                 });
                 BlankNodeComponent.prototype.ngAfterViewInit = function () {
                     this.$element = jquery_1.default(this.element.nativeElement);
-                };
-                BlankNodeComponent.prototype.ngOnChanges = function (changes) {
-                    if ((changes["blankNode"].currentValue !== changes["blankNode"].previousValue)) {
-                        console.log("Blank Node: %o", this.blankNode);
-                        this.copyOrModifiedOrAdded = !!this.blankNode.copy ? (!!this.blankNode.modified ? "modified" : "copy") : "added";
-                        if (!!this.blankNode.records)
-                            this.records = this.blankNode.records;
-                        this.tempBlankNode = Object.assign({}, this.blankNode[this.copyOrModifiedOrAdded]);
-                        this.tempPropertiesNames = Object.keys(this.tempBlankNode);
-                        this.tempProperties = this.getProperties(this.blankNode);
-                    }
                 };
                 BlankNodeComponent.prototype.openBNode = function (id) {
                     this.onOpenBNode.emit(id);
@@ -93,22 +92,27 @@ System.register(["@angular/core", "./../property/property.component", "jquery", 
                     if (typeof property.modified !== "undefined") {
                         this.records.changes.set(property.modified.id, property);
                     }
-                    else {
+                    else if (typeof property.added === "undefined") {
                         this.records.changes.delete(property.copy.id);
                     }
-                    this.bNodeHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
+                    if (typeof property.added !== "undefined") {
+                        this.records.additions.delete(property.added.id);
+                        property.added.id = property.added.name;
+                        this.records.additions.set(property.added.id, property);
+                    }
+                    this.updateExistingProperties();
                 };
                 BlankNodeComponent.prototype.deleteProperty = function (property, index) {
                     if (typeof this.records === "undefined")
                         this.records = new BlankNodeRecords();
                     if (typeof property.added !== "undefined") {
                         this.records.additions.delete(property.added.id);
-                        this.tempProperties.splice(index, 1);
+                        this.properties.splice(index, 1);
                     }
                     else if (typeof property.deleted !== "undefined") {
                         this.records.deletions.set(property.deleted.id, property);
                     }
-                    this.bNodeHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
+                    this.updateExistingProperties();
                 };
                 BlankNodeComponent.prototype.addProperty = function (property, index) {
                     if (typeof this.records === "undefined")
@@ -119,92 +123,78 @@ System.register(["@angular/core", "./../property/property.component", "jquery", 
                         }
                         else {
                             this.records.additions.delete(property.added.id);
+                            property.added.id = property.added.name;
                             this.records.additions.set(property.added.name, property);
                         }
                     }
-                    this.bNodeHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
+                    this.updateExistingProperties();
                 };
                 BlankNodeComponent.prototype.createProperty = function (property, propertyRow) {
                     var _this = this;
                     var newProperty = {
                         added: {
                             id: "",
-                            name: "New Property",
+                            name: "http://www.example.com#New Property",
                             value: []
-                        }
+                        },
+                        isBeingCreated: true,
+                        isBeingModified: false,
+                        isBeingDeleted: false
                     };
-                    this.tempProperties.splice(1, 0, newProperty);
-                    if (!!this.$element)
-                        setTimeout(function () { return _this.$element.find("cp-property.added-property").first().transition("drop"); });
+                    this.properties.splice(2, 0, newProperty);
+                    // Animates created property
+                    setTimeout(function () {
+                        var createdPropertyComponent = _this.$element.find("cp-property.added-property").first();
+                        createdPropertyComponent.addClass("transition hidden");
+                        createdPropertyComponent.transition({ animation: "drop" });
+                    });
                 };
-                BlankNodeComponent.prototype.getPropertiesNames = function (object) {
-                    var tempNames = Object.keys(object);
-                    // console.log( "Original without records: %o", tempNames );
-                    // if( ! this.records ) return tempNames;
-                    //
-                    // let idx:number;
-                    // this.records.deletions.forEach( ( property:PropertyRow, key:string )=> {
-                    // 	idx = tempNames.indexOf( key );
-                    // 	if( idx !== - 1 ) tempNames.splice( idx, 1 );
-                    // } );
-                    // this.records.changes.forEach( ( property:PropertyRow, key:string )=> {
-                    // 	idx = tempNames.indexOf( key );
-                    // 	if( idx !== - 1 ) tempNames.splice( idx, 1, property.modified[ "@id" ] );
-                    // } );
-                    // this.records.additions.forEach( ( property:PropertyRow, key:string )=> {
-                    // 	tempNames.splice( 0, 0, key );
-                    // } );
-                    // console.log( "Original with records: %o", tempNames );
-                    return tempNames;
+                BlankNodeComponent.prototype.canEditProperty = function (property) {
+                    var copyOrAdded = !!property.added ? "added" : "copy";
+                    return (this.nonEditableProperties.indexOf(property[copyOrAdded].name) === -1) && this.canEdit;
                 };
-                BlankNodeComponent.prototype.getProperties = function (blankNode) {
-                    var tempProperties = [], copyOrAdded = blankNode.added ? "added" : "copy";
-                    var propertiesNames = Object.keys(blankNode[copyOrAdded]);
-                    propertiesNames.forEach(function (propName) {
-                        tempProperties.push({
+                BlankNodeComponent.prototype.getProperties = function () {
+                    this.updateExistingProperties();
+                };
+                BlankNodeComponent.prototype.updateExistingProperties = function () {
+                    var _this = this;
+                    this.properties = [];
+                    this.existingPropertiesNames = Object.keys(this.rootNode);
+                    this.existingPropertiesNames.forEach(function (propName) {
+                        _this.properties.push({
                             copy: {
                                 id: propName,
                                 name: propName,
-                                value: blankNode[copyOrAdded][propName]
+                                value: _this.rootNode[propName]
                             }
                         });
                     });
                     if (!this.records)
-                        return tempProperties;
-                    var idx;
-                    this.records.deletions.forEach(function (property, key) {
-                        idx = tempProperties.findIndex(function (propertyRow) { return propertyRow.copy.id === key; });
-                        tempProperties.splice(idx, 1);
-                    });
-                    this.records.changes.forEach(function (property, key) {
-                        idx = tempProperties.findIndex(function (propertyRow) { return propertyRow.copy.id === key; });
-                        tempProperties.splice(idx, 1, property);
-                    });
-                    this.records.additions.forEach(function (property, key) {
-                        tempProperties.splice(0, 0, property);
-                    });
-                    return tempProperties;
-                };
-                BlankNodeComponent.prototype.updateTempProperties = function () {
-                    var _this = this;
-                    if (!this.records)
                         return;
-                    this.records.deletions.forEach(function (property, key) {
-                        delete _this.tempBlankNode[key];
+                    this.records.additions.forEach(function (value, key) {
+                        _this.existingPropertiesNames.push(key);
+                        _this.properties.splice(2, 0, value);
                     });
-                    this.records.changes.forEach(function (property, key) {
-                        if (property.modified.id !== property.modified.name) {
-                            delete _this.tempBlankNode[key];
-                            _this.tempBlankNode[property.modified.name] = property.modified.value;
+                    var idx;
+                    this.records.changes.forEach(function (value, key) {
+                        if (value.modified.id !== value.modified.name) {
+                            idx = _this.existingPropertiesNames.indexOf(value.modified.id);
+                            if (idx !== -1)
+                                _this.existingPropertiesNames.splice(idx, 1, value.modified.name);
                         }
-                        else {
-                            _this.tempBlankNode[key] = property.modified.value;
-                        }
+                        idx = _this.properties.findIndex(function (property) { return property.copy.id === key; });
+                        if (idx !== -1)
+                            _this.properties.splice(idx, 1, value);
                     });
-                    this.records.additions.forEach(function (property, key) {
-                        _this.tempBlankNode[key] = property.added.value;
+                    this.records.deletions.forEach(function (value, key) {
+                        idx = _this.existingPropertiesNames.indexOf(key);
+                        if (idx !== -1)
+                            _this.existingPropertiesNames.splice(idx, 1);
+                        idx = _this.properties.findIndex(function (property) { return property.copy.id === key; });
+                        if (idx !== -1)
+                            _this.properties.splice(idx, 1);
                     });
-                    this.tempPropertiesNames = Object.keys(this.tempBlankNode);
+                    this.bNodeHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
                 };
                 __decorate([
                     core_1.Input(), 
@@ -224,8 +214,9 @@ System.register(["@angular/core", "./../property/property.component", "jquery", 
                 ], BlankNodeComponent.prototype, "documentURI", void 0);
                 __decorate([
                     core_1.Input(), 
-                    __metadata('design:type', Object)
-                ], BlankNodeComponent.prototype, "blankNode", void 0);
+                    __metadata('design:type', Object), 
+                    __metadata('design:paramtypes', [Object])
+                ], BlankNodeComponent.prototype, "blankNode", null);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
@@ -250,12 +241,6 @@ System.register(["@angular/core", "./../property/property.component", "jquery", 
                 return BlankNodeComponent;
             }());
             exports_1("BlankNodeComponent", BlankNodeComponent);
-            BlankNode = (function () {
-                function BlankNode() {
-                }
-                return BlankNode;
-            }());
-            exports_1("BlankNode", BlankNode);
             BlankNodeRecords = (function () {
                 function BlankNodeRecords() {
                     this.changes = new Map();

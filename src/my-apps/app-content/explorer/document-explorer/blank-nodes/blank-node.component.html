@@ -2,40 +2,24 @@
 	<i class="add icon"></i>
 	Add new property
 </button>
-<!--<div class="ui divider" *ngIf="canEdit"></div>-->
 <div class="ui divided items">
-	<template ngFor let-propertyRow="$implicit" [ngForOf]="tempProperties" let-i="index">
-		<cp-property class="property added-property item transition hidden"
-		             *ngIf="!!propertyRow.added"
-		             [attr.data-tar]="propertyRow.added.name"
-
-		             [property]="propertyRow"
-		             [bNodes]="blankNodes"
-		             [namedFragments]="namedFragments"
-		             [canEdit]="true"
-		             [documentURI]="documentURI"
-		             [existingProperties]="tempPropertiesNames"
-		             [mode]="modes.EDIT"
-
-		             (onSaveNewProperty)="addProperty(propertyRow, i)"
-		             (onDeleteNewProperty)="deleteProperty(propertyRow, i)"
-
-		             (onGoToBNode)="openBNode( $event )"
-		             (onGoToNamedFragment)="openNamedFragment($event)">
-		</cp-property>
+	<template ngFor let-propertyRow="$implicit" [ngForOf]="properties" let-i="index">
 		<cp-property class="property item"
-		             *ngIf="!propertyRow.deleted && !propertyRow.added"
-		             [attr.data-tar]="propertyRow.copy.name"
+		             [attr.data-tar]="propertyRow.copy? propertyRow.copy.name : propertyRow.added.name"
 
 		             [property]="propertyRow"
 		             [bNodes]="blankNodes"
 		             [namedFragments]="namedFragments"
-		             [canEdit]="propertyRow.copy.name==='https://carbonldp.com/ns/v1/platform#bNodeIdentifier'? false : canEdit"
+		             [canEdit]="canEditProperty(propertyRow)"
 		             [documentURI]="documentURI"
-		             [existingProperties]="tempPropertiesNames"
+		             [existingProperties]="existingPropertiesNames"
+		             [mode]="(!!propertyRow.isBeingCreated || !!propertyRow.isBeingModified || !!propertyRow.isBeingDeleted)? modes.EDIT : modes.READ"
 
 		             (onChangeProperty)="changeProperty(propertyRow, i)"
 		             (onDeleteProperty)="deleteProperty(propertyRow, i)"
+		             (onSaveNewProperty)="addProperty(propertyRow, i)"
+		             (onChangeNewProperty)="changeProperty(propertyRow, i)"
+		             (onDeleteNewProperty)="deleteProperty(propertyRow, i)"
 
 		             (onGoToBNode)="openBNode( $event )"
 		             (onGoToNamedFragment)="openNamedFragment($event)">

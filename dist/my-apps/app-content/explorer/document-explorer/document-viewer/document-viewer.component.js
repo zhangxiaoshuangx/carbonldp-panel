@@ -142,7 +142,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                         return {
                             id: bNode["@id"],
                             bNodeIdentifier: bNode["https://carbonldp.com/ns/v1/platform#bNodeIdentifier"][0]["@value"],
-                            copy: bNode
+                            rootNode: bNode
                         };
                     });
                     // this.getBlankNodes();
@@ -335,7 +335,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 ], DocumentViewerComponent.prototype, "uri", void 0);
                 __decorate([
                     core_1.Input(), 
-                    __metadata('design:type', Object)
+                    __metadata('design:type', SDKContext.Class)
                 ], DocumentViewerComponent.prototype, "documentContext", void 0);
                 __decorate([
                     core_1.Input(), 

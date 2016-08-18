@@ -73,6 +73,7 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                     this.onDeleteProperty = new core_1.EventEmitter();
                     this.onDeleteNewProperty = new core_1.EventEmitter();
                     this.onSaveNewProperty = new core_1.EventEmitter();
+                    this.onChangeNewProperty = new core_1.EventEmitter();
                     this.onRefreshDocument = new core_1.EventEmitter();
                     this.nameHasChanged = false;
                     this.literalsHaveChanged = false;
@@ -273,6 +274,10 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                     else {
                         this.tempProperty.value = this.value;
                     }
+                    // Set states of property to inactive
+                    this.property.isBeingCreated = false;
+                    this.property.isBeingModified = false;
+                    this.property.isBeingDeleted = false;
                     if (!!this.property.copy) {
                         if (this.propertyHasChanged)
                             this.property.modified = this.tempProperty;
@@ -283,10 +288,12 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                     else if (!!this.property.added) {
                         if ((this.tempProperty.name !== this.property.added.name)) {
                             this.id = this.name;
-                            this.tempProperty.id = this.id;
                         }
                         this.property.added = this.tempProperty;
-                        this.onSaveNewProperty.emit(this.tempProperty);
+                        if (this.existingProperties.indexOf(this.tempProperty.id) === -1)
+                            this.onSaveNewProperty.emit(this.tempProperty);
+                        else
+                            this.onChangeNewProperty.emit(this.tempProperty);
                     }
                 };
                 PropertyComponent.prototype.refreshDocument = function () {
@@ -365,6 +372,10 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], PropertyComponent.prototype, "onSaveNewProperty", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], PropertyComponent.prototype, "onChangeNewProperty", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)

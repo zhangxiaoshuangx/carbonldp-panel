@@ -78,6 +78,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	@Output() onDeleteProperty:EventEmitter<PropertyRow> = new EventEmitter<PropertyRow>();
 	@Output() onDeleteNewProperty:EventEmitter<PropertyRow> = new EventEmitter<PropertyRow>();
 	@Output() onSaveNewProperty:EventEmitter<PropertyRow> = new EventEmitter<PropertyRow>();
+	@Output() onChangeNewProperty:EventEmitter<PropertyRow> = new EventEmitter<PropertyRow>();
 	@Output() onRefreshDocument:EventEmitter<string> = new EventEmitter<string>();
 
 	nameHasChanged:boolean = false;
@@ -140,7 +141,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	getTypeIcon( type:string ):string {
-		switch ( this.getDisplayName( type ) ) {
+		switch( this.getDisplayName( type ) ) {
 			case "RDFSource":
 				return "file outline";
 			case "Container":
@@ -276,6 +277,10 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 			this.tempProperty.value = this.value;
 		}
 
+		// Set states of property to inactive
+		this.property.isBeingCreated = false;
+		this.property.isBeingModified = false;
+		this.property.isBeingDeleted = false;
 
 		if( ! ! this.property.copy ) {
 			if( this.propertyHasChanged ) this.property.modified = this.tempProperty;
@@ -284,10 +289,13 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		} else if( ! ! this.property.added ) {
 			if( (this.tempProperty.name !== this.property.added.name ) ) {
 				this.id = this.name;
-				this.tempProperty.id = this.id;
+				// this.tempProperty.id = this.id;
 			}
 			this.property.added = this.tempProperty;
-			this.onSaveNewProperty.emit( this.tempProperty );
+			if( this.existingProperties.indexOf( this.tempProperty.id ) === - 1 )
+				this.onSaveNewProperty.emit( this.tempProperty );
+			else
+				this.onChangeNewProperty.emit( this.tempProperty );
 		}
 	}
 
@@ -320,6 +328,9 @@ export interface PropertyRow {
 	added?:any;
 	modified?:any;
 	deleted?:any;
+	isBeingCreated?:boolean;
+	isBeingModified?:boolean;
+	isBeingDeleted?:boolean;
 }
 export interface Property {
 	id:string;

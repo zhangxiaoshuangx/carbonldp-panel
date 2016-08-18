@@ -118,7 +118,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./d
                 };
                 __decorate([
                     core_1.Input(), 
-                    __metadata('design:type', Object)
+                    __metadata('design:type', SDKContext.Class)
                 ], DocumentExplorerComponent.prototype, "documentContext", void 0);
                 DocumentExplorerComponent = __decorate([
                     core_1.Component({

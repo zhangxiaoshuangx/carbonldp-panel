@@ -123,7 +123,7 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
                 };
                 __decorate([
                     core_1.Input(), 
-                    __metadata('design:type', Object)
+                    __metadata('design:type', App.Context)
                 ], BackupExporterComponent.prototype, "appContext", void 0);
                 __decorate([
                     core_1.Input(), 

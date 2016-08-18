@@ -298,7 +298,7 @@ System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backup
                 };
                 __decorate([
                     core_1.Input(), 
-                    __metadata('design:type', Object)
+                    __metadata('design:type', App.Context)
                 ], BackupImporterComponent.prototype, "appContext", void 0);
                 BackupImporterComponent = __decorate([
                     core_1.Component({

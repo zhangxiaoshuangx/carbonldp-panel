@@ -137,7 +137,7 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 				return {
 					id: bNode[ "@id" ],
 					bNodeIdentifier: bNode[ "https://carbonldp.com/ns/v1/platform#bNodeIdentifier" ][ 0 ][ "@value" ],
-					copy: bNode
+					rootNode: bNode
 				}
 			} );
 

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit, SimpleChange, OnChanges } from "@angular/core";
+import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit } from "@angular/core";
 
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 
@@ -16,31 +16,32 @@ import template from "./blank-node.component.html!";
 	directives: [ PropertyComponent ],
 } )
 
-export class BlankNodeComponent implements AfterViewInit, OnChanges {
+export class BlankNodeComponent implements AfterViewInit {
 
 	element:ElementRef;
 	$element:JQuery;
 	modes:Modes = Modes;
 	records:BlankNodeRecords;
-	copyOrModifiedOrAdded:string = "";
-	tempBlankNode:BlankNodeRow;
-	tempProperties:PropertyRow[];
+	nonEditableProperties:string[] = [ "@id", "https://carbonldp.com/ns/v1/platform#bNodeIdentifier" ];
+	copyOrAdded:string = "";
 	tempPropertiesNames:string[] = [];
+
+	rootNode:RDFNode.Class;
+	properties:PropertyRow[];
+	existingPropertiesNames:string[] = [];
+	id:string;
+	bNodeIdentifier:string;
+
 	private _bNodeHasChanged:boolean;
 	set bNodeHasChanged( hasChanged:boolean ) {
 		this._bNodeHasChanged = hasChanged;
-		if( hasChanged ) {
-			if( ! ! this.blankNode.copy ) {
-				this.blankNode.modified = this.tempBlankNode;
-			} else {
-				this.blankNode.added = this.tempBlankNode;
-			}
-			this.blankNode.records = this.records;
+		if( ! hasChanged ) {
+			delete this.blankNode.records;
+			if( ! this.blankNode.added ) delete this.blankNode.modified;
 		} else {
-			delete this.blankNode.modified;
-			delete this.blankNode.added;
+			this.blankNode.records = this.records;
+			if( ! this.blankNode.added ) this.blankNode.modified = hasChanged;
 		}
-		this.updateTempProperties();
 		this.onChanges.emit( this.blankNode );
 	}
 
@@ -52,7 +53,17 @@ export class BlankNodeComponent implements AfterViewInit, OnChanges {
 	@Input() namedFragments:RDFNode.Class[] = [];
 	@Input() canEdit:boolean = true;
 	@Input() documentURI:string = "";
-	@Input() blankNode:BlankNodeRow;
+	// @Input() blankNode:BlankNodeRow;
+
+	private _blankNode:BlankNodeRow;
+	@Input() set blankNode( blankNode:BlankNodeRow ) {
+		this._blankNode = blankNode;
+		this.rootNode = blankNode.rootNode;
+		if( ! ! blankNode.records ) this.records = blankNode.records;
+		this.getProperties();
+	}
+
+	get blankNode():BlankNodeRow { return this._blankNode; }
 
 	@Output() onOpenBNode:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onOpenNamedFragment:EventEmitter<string> = new EventEmitter<string>();
@@ -67,17 +78,6 @@ export class BlankNodeComponent implements AfterViewInit, OnChanges {
 		this.$element = $( this.element.nativeElement );
 	}
 
-	ngOnChanges( changes:{[propName:string]:SimpleChange} ):void {
-		if( ( changes[ "blankNode" ].currentValue !== changes[ "blankNode" ].previousValue ) ) {
-			console.log( "Blank Node: %o", this.blankNode );
-			this.copyOrModifiedOrAdded = ! ! this.blankNode.copy ? ( ! ! this.blankNode.modified ? "modified" : "copy" ) : "added";
-			if( ! ! this.blankNode.records ) this.records = this.blankNode.records;
-			this.tempBlankNode = Object.assign( {}, this.blankNode[ this.copyOrModifiedOrAdded ] );
-			this.tempPropertiesNames = Object.keys( this.tempBlankNode );
-			this.tempProperties = this.getProperties( this.blankNode );
-		}
-	}
-
 	openBNode( id:string ):void {
 		this.onOpenBNode.emit( id );
 	}
@@ -90,21 +90,26 @@ export class BlankNodeComponent implements AfterViewInit, OnChanges {
 		if( typeof this.records === "undefined" ) this.records = new BlankNodeRecords();
 		if( typeof property.modified !== "undefined" ) {
 			this.records.changes.set( property.modified.id, property );
-		} else {
+		} else if( typeof property.added === "undefined" ) {
 			this.records.changes.delete( property.copy.id );
 		}
-		this.bNodeHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
+		if( typeof property.added !== "undefined" ) {
+			this.records.additions.delete( property.added.id );
+			property.added.id = property.added.name;
+			this.records.additions.set( property.added.id, property );
+		}
+		this.updateExistingProperties();
 	}
 
 	deleteProperty( property:PropertyRow, index:number ):void {
 		if( typeof this.records === "undefined" ) this.records = new BlankNodeRecords();
 		if( typeof property.added !== "undefined" ) {
 			this.records.additions.delete( property.added.id );
-			this.tempProperties.splice( index, 1 );
+			this.properties.splice( index, 1 );
 		} else if( typeof property.deleted !== "undefined" ) {
 			this.records.deletions.set( property.deleted.id, property );
 		}
-		this.bNodeHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
+		this.updateExistingProperties();
 	}
 
 	addProperty( property:PropertyRow, index:number ):void {
@@ -114,107 +119,88 @@ export class BlankNodeComponent implements AfterViewInit, OnChanges {
 				this.records.additions.set( property.added.id, property );
 			} else {
 				this.records.additions.delete( property.added.id );
+				property.added.id = property.added.name;
 				this.records.additions.set( property.added.name, property );
 			}
 		}
-		this.bNodeHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
+		this.updateExistingProperties();
 	}
 
 	createProperty( property:Property, propertyRow:PropertyRow ):void {
 		let newProperty:PropertyRow = <PropertyRow>{
 			added: <Property>{
 				id: "",
-				name: "New Property",
+				name: "http://www.example.com#New Property",
 				value: []
-			}
+			},
+			isBeingCreated: true,
+			isBeingModified: false,
+			isBeingDeleted: false
 		};
-		this.tempProperties.splice( 1, 0, newProperty );
-		if( ! ! this.$element ) setTimeout( ()=>this.$element.find( "cp-property.added-property" ).first().transition( "drop" ) );
+		this.properties.splice( 2, 0, newProperty );
+		// Animates created property
+		setTimeout( ()=> {
+			let createdPropertyComponent:JQuery = this.$element.find( "cp-property.added-property" ).first();
+			createdPropertyComponent.addClass( "transition hidden" );
+			createdPropertyComponent.transition( { animation: "drop" } );
+		} );
 	}
 
-	getPropertiesNames( object:any ):string[] {
-		let tempNames:string[] = Object.keys( object );
-		// console.log( "Original without records: %o", tempNames );
-		// if( ! this.records ) return tempNames;
-		//
-		// let idx:number;
-		// this.records.deletions.forEach( ( property:PropertyRow, key:string )=> {
-		// 	idx = tempNames.indexOf( key );
-		// 	if( idx !== - 1 ) tempNames.splice( idx, 1 );
-		// } );
-		// this.records.changes.forEach( ( property:PropertyRow, key:string )=> {
-		// 	idx = tempNames.indexOf( key );
-		// 	if( idx !== - 1 ) tempNames.splice( idx, 1, property.modified[ "@id" ] );
-		// } );
-		// this.records.additions.forEach( ( property:PropertyRow, key:string )=> {
-		// 	tempNames.splice( 0, 0, key );
-		// } );
-		// console.log( "Original with records: %o", tempNames );
-		return tempNames;
+	canEditProperty( property:PropertyRow ):boolean {
+		let copyOrAdded:string = ! ! property.added ? "added" : "copy";
+		return ( this.nonEditableProperties.indexOf( property[ copyOrAdded ].name ) === - 1 ) && this.canEdit;
 	}
 
-	getProperties( blankNode:BlankNodeRow ):PropertyRow[] {
-		let tempProperties:PropertyRow[] = [],
-			copyOrAdded:string = blankNode.added ? "added" : "copy";
-		let propertiesNames:string[] = Object.keys( blankNode[ copyOrAdded ] );
-		propertiesNames.forEach( ( propName:string )=> {
-			tempProperties.push( <PropertyRow>{
-				copy: <Property>{
+	getProperties():void {
+		this.updateExistingProperties();
+	}
+
+	updateExistingProperties():void {
+		this.properties = [];
+		this.existingPropertiesNames = Object.keys( this.rootNode );
+		this.existingPropertiesNames.forEach( ( propName:string )=> {
+			this.properties.push( {
+				copy: {
 					id: propName,
 					name: propName,
-					value: blankNode[ copyOrAdded ][ propName ]
+					value: this.rootNode[ propName ]
 				}
 			} );
 		} );
-
-
-		if( ! this.records ) return tempProperties;
-		let idx:number;
-		this.records.deletions.forEach( ( property, key )=> {
-			idx = tempProperties.findIndex( ( propertyRow:PropertyRow )=> { return propertyRow.copy.id === key;} );
-			tempProperties.splice( idx, 1 );
-		} );
-		this.records.changes.forEach( ( property, key )=> {
-			idx = tempProperties.findIndex( ( propertyRow:PropertyRow )=> { return propertyRow.copy.id === key;} );
-			tempProperties.splice( idx, 1, property );
-		} );
-		this.records.additions.forEach( ( property, key )=> {
-			tempProperties.splice( 0, 0, property );
-		} );
-		return tempProperties;
-	}
-
-	updateTempProperties():void {
 		if( ! this.records ) return;
-		this.records.deletions.forEach( ( property, key )=> {
-			delete this.tempBlankNode[ key ];
+		this.records.additions.forEach( ( value, key )=> {
+			this.existingPropertiesNames.push( key );
+			this.properties.splice( 2, 0, value );
 		} );
-		this.records.changes.forEach( ( property, key )=> {
-			if( property.modified.id !== property.modified.name ) {
-				delete this.tempBlankNode[ key ];
-				this.tempBlankNode[ property.modified.name ] = property.modified.value;
-			} else {
-				this.tempBlankNode[ key ] = property.modified.value;
+		let idx:number;
+		this.records.changes.forEach( ( value, key )=> {
+			if( value.modified.id !== value.modified.name ) {
+				idx = this.existingPropertiesNames.indexOf( value.modified.id );
+				if( idx !== - 1 ) this.existingPropertiesNames.splice( idx, 1, value.modified.name );
 			}
+			idx = this.properties.findIndex( ( property:PropertyRow )=> { return property.copy.id === key} );
+			if( idx !== - 1 ) this.properties.splice( idx, 1, value );
 		} );
-		this.records.additions.forEach( ( property, key )=> {
-			this.tempBlankNode[ key ] = property.added.value;
+		this.records.deletions.forEach( ( value, key )=> {
+			idx = this.existingPropertiesNames.indexOf( key );
+			if( idx !== - 1 ) this.existingPropertiesNames.splice( idx, 1 );
+
+			idx = this.properties.findIndex( ( property:PropertyRow )=> { return property.copy.id === key} );
+			if( idx !== - 1 ) this.properties.splice( idx, 1 );
 		} );
-		this.tempPropertiesNames = Object.keys( this.tempBlankNode );
+		this.bNodeHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
 	}
 }
 export interface BlankNodeRow {
 	id?:string;
 	bNodeIdentifier?:string;
-	copy?:RDFNode.Class;
-	added?:RDFNode.Class;
-	modified?:RDFNode.Class;
-	deleted?:RDFNode.Class;
+
+	added?:boolean;
+	modified?:boolean;
+	deleted?:boolean;
+
+	rootNode?:RDFNode.Class;
 	records?:BlankNodeRecords;
-}
-export class BlankNode {
-	id:string;
-	properties:PropertyRow[];
 }
 export class BlankNodeRecords {
 	changes:Map<string,PropertyRow> = new Map<string, PropertyRow>();

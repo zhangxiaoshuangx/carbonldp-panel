@@ -25,7 +25,7 @@ export declare class DocumentViewerComponent implements AfterViewInit, OnChanges
     bNodesChanges: BlankNodesRecords;
     namedFragmentsHaveChanged: boolean;
     namedFragmentsChanges: Map<string, NamedFragmentRecords>;
-    documentContentHasChanged: boolean;
+    readonly documentContentHasChanged: boolean;
     documentsResolverService: DocumentsResolverService;
     uri: string;
     documentContext: SDKContext.Class;
