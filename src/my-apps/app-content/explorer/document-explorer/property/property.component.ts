@@ -214,16 +214,21 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		this.tempLiterals = [];
 		this.pointers = [];
 		this.tempPointers = [];
-		this.property[ this.copyOrAdded ].value.forEach( ( literalOrRDFNode )=> {
-			if( SDKLiteral.Factory.is( literalOrRDFNode ) ) {
-				this.literals.push( <LiteralRow>{ copy: literalOrRDFNode } );
-				this.tempLiterals.push( <LiteralRow>{ copy: literalOrRDFNode } );
-			}
-			if( SDKRDFNode.Factory.is( literalOrRDFNode ) ) {
-				this.pointers.push( <PointerRow>{ copy: literalOrRDFNode } );
-				this.tempPointers.push( <PointerRow>{ copy: literalOrRDFNode } );
-			}
-		} );
+		if( ! ! this.property.modifiedLiterals ) {
+			this.literals = this.property.modifiedLiterals;
+			this.tempLiterals = this.property.modifiedLiterals;
+		} else {
+			this.property[ this.copyOrAdded ].value.forEach( ( literalOrRDFNode )=> {
+				if( SDKLiteral.Factory.is( literalOrRDFNode ) ) {
+					this.literals.push( <LiteralRow>{ copy: literalOrRDFNode } );
+					this.tempLiterals.push( <LiteralRow>{ copy: literalOrRDFNode } );
+				}
+				if( SDKRDFNode.Factory.is( literalOrRDFNode ) ) {
+					this.pointers.push( <PointerRow>{ copy: literalOrRDFNode } );
+					this.tempPointers.push( <PointerRow>{ copy: literalOrRDFNode } );
+				}
+			} );
+		}
 	}
 
 	addLiteral():void {
@@ -273,14 +278,15 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 			} );
 			this.literalsHaveChanged = ! ! this.tempLiterals.find( ( literalRow )=> {return ! ! literalRow.modified || ! ! literalRow.added || ! ! literalRow.deleted } );
 			this.pointersHaveChanged = ! ! this.tempPointers.find( ( pointerRow )=> {return ! ! pointerRow.modified || ! ! pointerRow.added || ! ! pointerRow.deleted } );
+
+			if( this.literalsHaveChanged ) { this.property.modifiedLiterals = this.tempLiterals; }
+			else { delete this.property.modifiedLiterals; }
+
 		} else {
 			this.tempProperty.value = this.value;
 		}
 
-		// Set states of property to inactive
 		this.property.isBeingCreated = false;
-		this.property.isBeingModified = false;
-		this.property.isBeingDeleted = false;
 
 		if( ! ! this.property.copy ) {
 			if( this.propertyHasChanged ) this.property.modified = this.tempProperty;
@@ -328,9 +334,12 @@ export interface PropertyRow {
 	added?:any;
 	modified?:any;
 	deleted?:any;
+
 	isBeingCreated?:boolean;
 	isBeingModified?:boolean;
 	isBeingDeleted?:boolean;
+
+	modifiedLiterals?:LiteralRow[];
 }
 export interface Property {
 	id:string;

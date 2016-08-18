@@ -83,6 +83,7 @@ export interface PropertyRow {
     isBeingCreated?: boolean;
     isBeingModified?: boolean;
     isBeingDeleted?: boolean;
+    modifiedLiterals?: LiteralRow[];
 }
 export interface Property {
     id: string;

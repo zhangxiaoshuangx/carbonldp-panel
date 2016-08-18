@@ -213,16 +213,22 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                     this.tempLiterals = [];
                     this.pointers = [];
                     this.tempPointers = [];
-                    this.property[this.copyOrAdded].value.forEach(function (literalOrRDFNode) {
-                        if (SDKLiteral.Factory.is(literalOrRDFNode)) {
-                            _this.literals.push({ copy: literalOrRDFNode });
-                            _this.tempLiterals.push({ copy: literalOrRDFNode });
-                        }
-                        if (SDKRDFNode.Factory.is(literalOrRDFNode)) {
-                            _this.pointers.push({ copy: literalOrRDFNode });
-                            _this.tempPointers.push({ copy: literalOrRDFNode });
-                        }
-                    });
+                    if (!!this.property.modifiedLiterals) {
+                        this.literals = this.property.modifiedLiterals;
+                        this.tempLiterals = this.property.modifiedLiterals;
+                    }
+                    else {
+                        this.property[this.copyOrAdded].value.forEach(function (literalOrRDFNode) {
+                            if (SDKLiteral.Factory.is(literalOrRDFNode)) {
+                                _this.literals.push({ copy: literalOrRDFNode });
+                                _this.tempLiterals.push({ copy: literalOrRDFNode });
+                            }
+                            if (SDKRDFNode.Factory.is(literalOrRDFNode)) {
+                                _this.pointers.push({ copy: literalOrRDFNode });
+                                _this.tempPointers.push({ copy: literalOrRDFNode });
+                            }
+                        });
+                    }
                 };
                 PropertyComponent.prototype.addLiteral = function () {
                     // Notify LiteralsComponent to add literal
@@ -270,14 +276,17 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                         });
                         this.literalsHaveChanged = !!this.tempLiterals.find(function (literalRow) { return !!literalRow.modified || !!literalRow.added || !!literalRow.deleted; });
                         this.pointersHaveChanged = !!this.tempPointers.find(function (pointerRow) { return !!pointerRow.modified || !!pointerRow.added || !!pointerRow.deleted; });
+                        if (this.literalsHaveChanged) {
+                            this.property.modifiedLiterals = this.tempLiterals;
+                        }
+                        else {
+                            delete this.property.modifiedLiterals;
+                        }
                     }
                     else {
                         this.tempProperty.value = this.value;
                     }
-                    // Set states of property to inactive
                     this.property.isBeingCreated = false;
-                    this.property.isBeingModified = false;
-                    this.property.isBeingDeleted = false;
                     if (!!this.property.copy) {
                         if (this.propertyHasChanged)
                             this.property.modified = this.tempProperty;

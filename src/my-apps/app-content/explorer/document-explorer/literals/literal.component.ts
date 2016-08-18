@@ -826,8 +826,14 @@ export class LiteralComponent {
 
 	@Input() set literal( value:LiteralRow ) {
 		this._literal = value;
+		if( this.literal.isBeingCreated ) this.mode = Modes.EDIT;
 
-		if( typeof this.literal.copy !== "undefined" ) {
+		if( typeof this.literal.modified !== "undefined" ) {
+			this.value = ! ! this.tempLiteral[ "@value" ] ? this.tempLiteral[ "@value" ] : this.literal.modified[ "@value" ];
+			this.type = ! ! this.tempLiteral[ "@type" ] ? this.tempLiteral[ "@type" ] : this.literal.modified[ "@type" ];
+			this.language = ! ! this.tempLiteral[ "@language" ] ? this.tempLiteral[ "@language" ] : this.literal.modified[ "@language" ];
+
+		} else if( typeof this.literal.copy !== "undefined" ) {
 			this.value = ! ! this.tempLiteral[ "@value" ] ? this.tempLiteral[ "@value" ] : this.literal.copy[ "@value" ];
 			this.type = ! ! this.tempLiteral[ "@type" ] ? this.tempLiteral[ "@type" ] : this.literal.copy[ "@type" ];
 			this.language = ! ! this.tempLiteral[ "@language" ] ? this.tempLiteral[ "@language" ] : this.literal.copy[ "@language" ];
@@ -844,7 +850,6 @@ export class LiteralComponent {
 	@Input() canDisplayLanguage:boolean = false;
 	@Output() onEditMode:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() onSave:EventEmitter<any> = new EventEmitter<any>();
-	@Output() onDeleteNewLiteral:EventEmitter<LiteralRow> = new EventEmitter<LiteralRow>();
 	@Output() onDeleteLiteral:EventEmitter<LiteralRow> = new EventEmitter<LiteralRow>();
 
 	valueInput:AbstractControl = new Control( this.value, Validators.compose( [ Validators.required, this.valueValidator.bind( this ) ] ) );
@@ -861,12 +866,10 @@ export class LiteralComponent {
 	}
 
 	deleteLiteral():void {
-		if( typeof this.literal.added !== "undefined" ) {
-			this.onDeleteNewLiteral.emit( this.literal );
-		} else {
+		if( typeof this.literal.added === "undefined" ) {
 			this.literal.deleted = this.literal.copy;
-			this.onDeleteLiteral.emit( this.literal );
 		}
+		this.onDeleteLiteral.emit( this.literal );
 	}
 
 	cancelEdit():void {
@@ -889,7 +892,7 @@ export class LiteralComponent {
 		} else this.language = this.tempLiteral[ "@language" ];
 
 		if( typeof this.literal.added !== "undefined" && typeof this.value === "undefined" ) {
-			this.onDeleteNewLiteral.emit( this.literal );
+			this.onDeleteLiteral.emit( this.literal );
 		}
 	}
 
@@ -1062,6 +1065,8 @@ export interface LiteralRow {
 	modified?:Literal;
 	added?:Literal;
 	deleted?:Literal;
+
+	isBeingCreated?:boolean;
 }
 export interface Literal {
 	"@value":string|number|boolean;

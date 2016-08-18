@@ -50,11 +50,7 @@ export class LiteralsComponent implements OnInit {
 	}
 
 	saveLiteral( modifiedLiteral:Literal, originalLiteral:Literal, index:number ) {
-		this.isLanguagePresent = this.existsToken( "@language" );
-		this.onLiteralsChanges.emit( this.literals );
-	}
-
-	saveNewLiteral( newLiteral:Literal, originalLiteral:Literal, index:number ) {
+		if( typeof this.literals[ index ].added !== "undefined" ) delete this.literals[ index ].isBeingCreated;
 		this.isLanguagePresent = this.existsToken( "@language" );
 		this.onLiteralsChanges.emit( this.literals );
 	}
@@ -62,15 +58,12 @@ export class LiteralsComponent implements OnInit {
 	addNewLiteral():void {
 		let newLiteralRow:LiteralRow = <LiteralRow>{};
 		newLiteralRow.added = <Literal>{};
-		this.literals.push( newLiteralRow );
-	}
-
-	deleteNewLiteral( deletingLiteral:LiteralRow, index:number ):void {
-		this.literals.splice( index, 1 );
-		this.onLiteralsChanges.emit( this.literals );
+		newLiteralRow.isBeingCreated = true;
+		this.literals.splice( 0, 0, newLiteralRow );
 	}
 
 	deleteLiteral( deletingLiteral:LiteralRow, index:number ):void {
+		if( typeof deletingLiteral.added !== "undefined" ) this.literals.splice( index, 1 );
 		this.onLiteralsChanges.emit( this.literals );
 	}
 
