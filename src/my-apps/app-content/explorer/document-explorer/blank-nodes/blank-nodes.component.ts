@@ -79,15 +79,13 @@ export class BlankNodesComponent implements AfterViewInit, OnChanges {
 	}
 
 	closeBlankNode( blankNode:BlankNodeRow, index?:number ):void {
-		// if( blankNode.added ) {
-		// 	this.deleteBlankNode( blankNode, index );
-		// 	delete blankNode.added;
-		// } else {
-		// 	delete blankNode.modified;
-		// 	this.changeBlankNode( blankNode );
-		// }
 		this.openedBlankNodes.splice( index, 1 );
 		this.goToBlankNode( "all" );
+	}
+
+	getShortId( id:string ):string {
+		if( ! id )return;
+		return id.substr( 0, id.indexOf( "-" ) ) + "...";
 	}
 
 	refreshTabs():void {
@@ -98,7 +96,6 @@ export class BlankNodesComponent implements AfterViewInit, OnChanges {
 		return value === "all" ? value : value.substr( value.indexOf( "_:" ) + 2 );
 	}
 
-	// Here comes the CRUD of blank nodes
 	changeBlankNode( blankNodeRow:BlankNodeRow, index?:number ):void {
 		if( typeof this.blankNodesRecords === "undefined" ) this.blankNodesRecords = new BlankNodesRecords();
 		if( typeof blankNodeRow.modified !== "undefined" ) {

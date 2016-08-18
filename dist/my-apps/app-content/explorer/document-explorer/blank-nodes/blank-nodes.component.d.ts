@@ -24,6 +24,7 @@ export declare class BlankNodesComponent implements AfterViewInit, OnChanges {
     openNamedFragment(id: string): void;
     goToBlankNode(id: string): void;
     closeBlankNode(blankNode: BlankNodeRow, index?: number): void;
+    getShortId(id: string): string;
     refreshTabs(): void;
     escape(value: string): string;
     changeBlankNode(blankNodeRow: BlankNodeRow, index?: number): void;

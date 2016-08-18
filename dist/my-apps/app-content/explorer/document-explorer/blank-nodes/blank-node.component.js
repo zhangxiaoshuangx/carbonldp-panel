@@ -39,7 +39,7 @@ System.register(["@angular/core", "./../property/property.component", "jquery", 
                     this.namedFragments = [];
                     this.canEdit = true;
                     this.documentURI = "";
-                    this.onOpenBNode = new core_1.EventEmitter();
+                    this.onOpenBlankNode = new core_1.EventEmitter();
                     this.onOpenNamedFragment = new core_1.EventEmitter();
                     this.onChanges = new core_1.EventEmitter();
                     this.element = element;
@@ -81,7 +81,7 @@ System.register(["@angular/core", "./../property/property.component", "jquery", 
                     this.$element = jquery_1.default(this.element.nativeElement);
                 };
                 BlankNodeComponent.prototype.openBNode = function (id) {
-                    this.onOpenBNode.emit(id);
+                    this.onOpenBlankNode.emit(id);
                 };
                 BlankNodeComponent.prototype.openNamedFragment = function (id) {
                     this.onOpenNamedFragment.emit(id);
@@ -220,7 +220,7 @@ System.register(["@angular/core", "./../property/property.component", "jquery", 
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
-                ], BlankNodeComponent.prototype, "onOpenBNode", void 0);
+                ], BlankNodeComponent.prototype, "onOpenBlankNode", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)

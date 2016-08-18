@@ -65,7 +65,7 @@ export class BlankNodeComponent implements AfterViewInit {
 
 	get blankNode():BlankNodeRow { return this._blankNode; }
 
-	@Output() onOpenBNode:EventEmitter<string> = new EventEmitter<string>();
+	@Output() onOpenBlankNode:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onOpenNamedFragment:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onChanges:EventEmitter<BlankNodeRow> = new EventEmitter<BlankNodeRow>();
 
@@ -79,7 +79,7 @@ export class BlankNodeComponent implements AfterViewInit {
 	}
 
 	openBNode( id:string ):void {
-		this.onOpenBNode.emit( id );
+		this.onOpenBlankNode.emit( id );
 	}
 
 	openNamedFragment( id:string ):void {

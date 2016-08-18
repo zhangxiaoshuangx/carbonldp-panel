@@ -23,7 +23,7 @@ export declare class BlankNodeComponent implements AfterViewInit {
     documentURI: string;
     private _blankNode;
     blankNode: BlankNodeRow;
-    onOpenBNode: EventEmitter<string>;
+    onOpenBlankNode: EventEmitter<string>;
     onOpenNamedFragment: EventEmitter<string>;
     onChanges: EventEmitter<BlankNodeRow>;
     constructor(element: ElementRef);

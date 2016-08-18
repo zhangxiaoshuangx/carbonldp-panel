@@ -13,4 +13,8 @@
 .confirm-deletion .description {
   color: #000000; }
 
+.tabular.blank-nodes.menu .circular.icon.mini.button {
+  padding: 6px;
+  margin-left: 10px; }
+
 /*# sourceMappingURL=blank-nodes.component.css.map */

@@ -12,7 +12,7 @@
 	   *ngFor="let blankNode of openedBlankNodes; let i = index;"
 	   [attr.data-tab]="'blankNode_'+escape(blankNode.id)">
 		<p>
-			{{ blankNode.id }}
+			{{ getShortId(blankNode.id) }}
 		</p>
 		<button class="circular ui icon basic mini button" (click)="closeBlankNode(blankNode, i)">
 			<i class="icon close"></i>
@@ -44,10 +44,16 @@
 							{{ blankNode.bNodeIdentifier}}
 						</span>
 					</td>
-					<td>
+					<td class="center aligned">
 						<div class="ui mini icon inverted edit value buttons">
+							<button #editButton
+							        class="ui basic edit button" title="Edit Blank Node"
+							        [ngClass]="{hidden:editButton.classList.contains('active')}"
+							        (click)="openBlankNode(blankNode)">
+								<i class="pencil icon"></i>
+							</button>
 							<button #deleteButton
-							        class="ui basic button" title="Delete Literal"
+							        class="ui basic button" title="Delete Blank Node"
 							        (click)="askToConfirmDeletion($event, blankNode)">
 								<i class="remove red icon"></i>
 							</button>
@@ -68,7 +74,7 @@
 	               [blankNode]="blankNode"
 	               [blankNodes]="blankNodes"
 	               [namedFragments]="namedFragments"
-	               (onOpenBNode)="openBNode( $event )"
+	               (onOpenBlankNode)="openBlankNode( $event )"
 	               (onOpenNamedFragment)="openNamedFragment($event)"
 	               (onChanges)="changeBlankNode($event, bNode)">
 	</cp-blank-node>

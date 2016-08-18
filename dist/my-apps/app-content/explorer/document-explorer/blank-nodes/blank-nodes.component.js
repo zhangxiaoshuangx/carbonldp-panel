@@ -84,15 +84,13 @@ System.register(["@angular/core", "carbonldp/Utils", "./blank-node.component", "
                     this.onOpenBNode.emit("bNodes");
                 };
                 BlankNodesComponent.prototype.closeBlankNode = function (blankNode, index) {
-                    // if( blankNode.added ) {
-                    // 	this.deleteBlankNode( blankNode, index );
-                    // 	delete blankNode.added;
-                    // } else {
-                    // 	delete blankNode.modified;
-                    // 	this.changeBlankNode( blankNode );
-                    // }
                     this.openedBlankNodes.splice(index, 1);
                     this.goToBlankNode("all");
+                };
+                BlankNodesComponent.prototype.getShortId = function (id) {
+                    if (!id)
+                        return;
+                    return id.substr(0, id.indexOf("-")) + "...";
                 };
                 BlankNodesComponent.prototype.refreshTabs = function () {
                     this.nodesTab.find(">.item").tab();
@@ -100,7 +98,6 @@ System.register(["@angular/core", "carbonldp/Utils", "./blank-node.component", "
                 BlankNodesComponent.prototype.escape = function (value) {
                     return value === "all" ? value : value.substr(value.indexOf("_:") + 2);
                 };
-                // Here comes the CRUD of blank nodes
                 BlankNodesComponent.prototype.changeBlankNode = function (blankNodeRow, index) {
                     if (typeof this.blankNodesRecords === "undefined")
                         this.blankNodesRecords = new BlankNodesRecords();
