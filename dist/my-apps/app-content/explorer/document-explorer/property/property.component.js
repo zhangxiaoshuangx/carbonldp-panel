@@ -213,7 +213,7 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                     this.tempLiterals = [];
                     this.pointers = [];
                     this.tempPointers = [];
-                    if (!!this.property.modifiedLiterals) {
+                    if (typeof this.property.modifiedLiterals !== "undefined") {
                         this.literals = this.property.modifiedLiterals;
                         this.tempLiterals = this.property.modifiedLiterals;
                     }
@@ -223,6 +223,14 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                                 _this.literals.push({ copy: literalOrRDFNode });
                                 _this.tempLiterals.push({ copy: literalOrRDFNode });
                             }
+                        });
+                    }
+                    if (typeof this.property.modifiedPointers !== "undefined") {
+                        this.pointers = this.property.modifiedPointers;
+                        this.tempPointers = this.property.modifiedPointers;
+                    }
+                    else {
+                        this.property[this.copyOrAdded].value.forEach(function (literalOrRDFNode) {
                             if (SDKRDFNode.Factory.is(literalOrRDFNode)) {
                                 _this.pointers.push({ copy: literalOrRDFNode });
                                 _this.tempPointers.push({ copy: literalOrRDFNode });
@@ -281,6 +289,12 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                         }
                         else {
                             delete this.property.modifiedLiterals;
+                        }
+                        if (this.pointersHaveChanged) {
+                            this.property.modifiedPointers = this.tempPointers;
+                        }
+                        else {
+                            delete this.property.modifiedPointers;
                         }
                     }
                     else {

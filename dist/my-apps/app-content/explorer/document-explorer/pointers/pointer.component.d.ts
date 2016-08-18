@@ -22,7 +22,6 @@ export declare class PointerComponent implements OnChanges {
     canEdit: boolean;
     onEditMode: EventEmitter<boolean>;
     onSave: EventEmitter<any>;
-    onDeleteNewPointer: EventEmitter<PointerRow>;
     onDeletePointer: EventEmitter<PointerRow>;
     onGoToBNode: EventEmitter<string>;
     onGoToNamedFragment: EventEmitter<string>;
@@ -50,6 +49,7 @@ export interface PointerRow {
     modified?: Pointer;
     added?: Pointer;
     deleted?: Pointer;
+    isBeingCreated?: boolean;
 }
 export interface Pointer {
     "@id": string;

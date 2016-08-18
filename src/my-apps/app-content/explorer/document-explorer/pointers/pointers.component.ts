@@ -24,6 +24,8 @@ export class PointersComponent implements OnInit {
 	tokens:string[] = [ "@id", "@type" ];
 	tempPointers:Pointer[] = [];
 	isEditingPointer:boolean = false;
+	canDisplayPointers:boolean = false;
+
 	@Input() documentURI:string = "";
 	@Input() pointers:PointerRow[] = [];
 	@Input() onAddNewPointer:EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -41,6 +43,7 @@ export class PointersComponent implements OnInit {
 		this.onAddNewPointer.subscribe( ()=> {
 			this.addNewPointer();
 		} );
+		this.updateCanDisplayPointers();
 	}
 
 	addNewPointer():void {
@@ -48,20 +51,23 @@ export class PointersComponent implements OnInit {
 		newPointerRow.added = <Pointer>{};
 		newPointerRow.isBeingCreated = true;
 		this.pointers.splice( 0, 0, newPointerRow );
+		this.updateCanDisplayPointers();
 	}
 
 	savePointer( modifiedPointer:Pointer, originalPointer:Pointer, index:number ) {
 		if( typeof this.pointers[ index ].added !== "undefined" ) delete this.pointers[ index ].isBeingCreated;
 		this.onPointersChanges.emit( this.pointers );
+		this.updateCanDisplayPointers();
 	}
 
 	deletePointer( deletingPointer:PointerRow, index:number ):void {
 		if( typeof deletingPointer.added !== "undefined" ) this.pointers.splice( index, 1 );
 		this.onPointersChanges.emit( this.pointers );
+		this.updateCanDisplayPointers();
 	}
 
-	canDisplayPointers():boolean {
-		return this.getUntouchedPointers().length > 0 || this.getAddedPointers().length > 0 || this.getModifiedPointers().length > 0;
+	updateCanDisplayPointers():void {
+		this.canDisplayPointers = this.getUntouchedPointers().length > 0 || this.getAddedPointers().length > 0 || this.getModifiedPointers().length > 0;
 	}
 
 	getAddedPointers():PointerRow[] {
@@ -69,7 +75,7 @@ export class PointersComponent implements OnInit {
 	}
 
 	getModifiedPointers():PointerRow[] {
-		return this.pointers.filter( ( pointer:PointerRow ) => typeof pointer.modified !== "undefined" );
+		return this.pointers.filter( ( pointer:PointerRow ) => typeof pointer.modified !== "undefined" && typeof pointer.deleted === "undefined" );
 	}
 
 	getDeletedPointers():PointerRow[] {

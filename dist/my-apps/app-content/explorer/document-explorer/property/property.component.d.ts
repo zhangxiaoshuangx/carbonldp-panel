@@ -84,6 +84,7 @@ export interface PropertyRow {
     isBeingModified?: boolean;
     isBeingDeleted?: boolean;
     modifiedLiterals?: LiteralRow[];
+    modifiedPointers?: PointerRow[];
 }
 export interface Property {
     id: string;

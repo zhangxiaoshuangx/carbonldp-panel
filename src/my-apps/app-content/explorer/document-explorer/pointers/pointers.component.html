@@ -1,4 +1,4 @@
-<table class="ui very compact striped small celled table" *ngIf="canDisplayPointers()">
+<table class="ui very compact striped small celled table" *ngIf="canDisplayPointers">
 	<thead>
 		<tr class="center aligned">
 			<th class="fifteen wide">@id</th>
@@ -7,7 +7,7 @@
 	</thead>
 	<tbody>
 		<template ngFor let-pointer="$implicit" [ngForOf]="pointers" let-i="index">
-			<tr class="cp-pointer top aligned" [ngClass]="{'modified-pointer':!!pointer.modified, 'added-pointer':!!pointer.added}"
+			<tr class="cp-pointer top aligned" [ngClass]="{'modified-pointer':!!pointer.modified, 'added-pointer':!!pointer.added}" *ngIf="!pointer.deleted"
 			    [pointer]="pointer"
 			    [documentURI]="documentURI"
 			    [bNodes]="bNodes"
