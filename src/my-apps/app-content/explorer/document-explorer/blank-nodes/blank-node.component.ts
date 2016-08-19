@@ -35,12 +35,12 @@ export class BlankNodeComponent implements AfterViewInit {
 	private _bNodeHasChanged:boolean;
 	set bNodeHasChanged( hasChanged:boolean ) {
 		this._bNodeHasChanged = hasChanged;
-		if( ! hasChanged ) {
-			delete this.blankNode.records;
-			if( ! this.blankNode.added ) delete this.blankNode.modified;
-		} else {
+		delete this.blankNode.modified;
+		delete this.blankNode.records;
+		if( hasChanged ) {
 			this.blankNode.records = this.records;
-			if( ! this.blankNode.added ) this.blankNode.modified = hasChanged;
+			if( typeof this.blankNode.added !== "undefined" ) this.blankNode.added = this.getRawVersion();
+			else this.blankNode.modified = this.getRawVersion();
 		}
 		this.onChanges.emit( this.blankNode );
 	}
@@ -57,7 +57,7 @@ export class BlankNodeComponent implements AfterViewInit {
 	private _blankNode:BlankNodeRow;
 	@Input() set blankNode( blankNode:BlankNodeRow ) {
 		this._blankNode = blankNode;
-		this.rootNode = blankNode.rootNode;
+		this.rootNode = blankNode.copy;
 		if( ! ! blankNode.records ) this.records = blankNode.records;
 		this.getProperties();
 	}
@@ -191,6 +191,25 @@ export class BlankNodeComponent implements AfterViewInit {
 		this.bNodeHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
 	}
 
+	getRawVersion():RDFNode.Class {
+		let rawNode:RDFNode.Class = Object.assign( {}, this.blankNode.added ? this.blankNode.added : this.blankNode.copy );
+		this.records.deletions.forEach( ( property, key )=> {
+			delete rawNode[ key ];
+		} );
+		this.records.changes.forEach( ( property, key )=> {
+			if( property.modified.id !== property.modified.name ) {
+				delete rawNode[ key ];
+				rawNode[ property.modified.name ] = property.modified.value;
+			} else {
+				rawNode[ key ] = property.modified.value;
+			}
+		} );
+		this.records.additions.forEach( ( property, key )=> {
+			rawNode[ key ] = property.added.value;
+		} );
+		return rawNode;
+	}
+
 	sortFirstProperties( propertiesNames:string[], firstPropertiesToShow:string[] ):void {
 		let tempIdx:number = - 1;
 		firstPropertiesToShow.forEach( ( propToShow:string, index:number )=> {
@@ -207,11 +226,11 @@ export interface BlankNodeRow {
 	id?:string;
 	bNodeIdentifier?:string;
 
-	added?:boolean;
-	modified?:boolean;
-	deleted?:boolean;
+	copy?:RDFNode.Class;
+	added?:RDFNode.Class;
+	modified?:RDFNode.Class;
+	deleted?:RDFNode.Class;
 
-	rootNode?:RDFNode.Class;
 	records?:BlankNodeRecords;
 }
 export class BlankNodeRecords {

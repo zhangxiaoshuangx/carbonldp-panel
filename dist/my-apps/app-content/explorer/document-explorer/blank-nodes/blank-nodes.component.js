@@ -132,12 +132,12 @@ System.register(["@angular/core", "carbonldp/Utils", "./blank-node.component", "
                     var newBlankNode = {
                         id: id,
                         bNodeIdentifier: bNodeIdentifier,
-                        rootNode: {
+                        copy: {
                             "@id": id,
                             "https://carbonldp.com/ns/v1/platform#bNodeIdentifier": [{ "@value": bNodeIdentifier }]
-                        },
-                        added: true
+                        }
                     };
+                    newBlankNode.added = newBlankNode.copy;
                     this.blankNodes.splice(0, 0, newBlankNode);
                     this.blankNodesRecords.additions.set(id, newBlankNode);
                     this.onChanges.emit(this.blankNodesRecords);

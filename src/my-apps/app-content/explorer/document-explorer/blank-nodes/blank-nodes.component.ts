@@ -3,7 +3,7 @@ import { Component, ElementRef, Input, Output, EventEmitter, SimpleChange, After
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 import * as Utils from "carbonldp/Utils";
 
-import { BlankNodeComponent, BlankNode, BlankNodeRecords, BlankNodeRow } from "./blank-node.component"
+import { BlankNodeComponent, BlankNodeRow } from "./blank-node.component"
 
 import $ from "jquery";
 import "semantic-ui/semantic";
@@ -128,12 +128,12 @@ export class BlankNodesComponent implements AfterViewInit, OnChanges {
 		let newBlankNode:BlankNodeRow = <BlankNodeRow>{
 			id: id,
 			bNodeIdentifier: bNodeIdentifier,
-			rootNode: {
+			copy: {
 				"@id": id,
 				"https://carbonldp.com/ns/v1/platform#bNodeIdentifier": [ { "@value": bNodeIdentifier } ]
-			},
-			added: true
+			}
 		};
+		newBlankNode.added = newBlankNode.copy;
 		this.blankNodes.splice( 0, 0, newBlankNode );
 		this.blankNodesRecords.additions.set( id, newBlankNode );
 		this.onChanges.emit( this.blankNodesRecords );

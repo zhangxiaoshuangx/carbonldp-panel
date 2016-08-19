@@ -137,7 +137,7 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 				return {
 					id: bNode[ "@id" ],
 					bNodeIdentifier: bNode[ "https://carbonldp.com/ns/v1/platform#bNodeIdentifier" ][ 0 ][ "@value" ],
-					rootNode: bNode
+					copy: bNode
 				}
 			} );
 		this.namedFragments = RDFDocument.Util.getFragmentResources( this.document );

@@ -37,15 +37,16 @@ export declare class BlankNodeComponent implements AfterViewInit {
     canEditProperty(property: PropertyRow): boolean;
     getProperties(): void;
     updateExistingProperties(): void;
+    getRawVersion(): RDFNode.Class;
     sortFirstProperties(propertiesNames: string[], firstPropertiesToShow: string[]): void;
 }
 export interface BlankNodeRow {
     id?: string;
     bNodeIdentifier?: string;
-    added?: boolean;
-    modified?: boolean;
-    deleted?: boolean;
-    rootNode?: RDFNode.Class;
+    copy?: RDFNode.Class;
+    added?: RDFNode.Class;
+    modified?: RDFNode.Class;
+    deleted?: RDFNode.Class;
     records?: BlankNodeRecords;
 }
 export declare class BlankNodeRecords {

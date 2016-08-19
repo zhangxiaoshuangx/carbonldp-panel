@@ -142,7 +142,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                         return {
                             id: bNode["@id"],
                             bNodeIdentifier: bNode["https://carbonldp.com/ns/v1/platform#bNodeIdentifier"][0]["@value"],
-                            rootNode: bNode
+                            copy: bNode
                         };
                     });
                     this.namedFragments = RDFDocument.Util.getFragmentResources(this.document);
@@ -249,7 +249,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     this.savingDocument = true;
                     this.modifyRootNodeWithChanges();
                     this.modifyBNodesWithChanges();
-                    this.modifyNamedFragmentsWithChanges();
+                    // this.modifyNamedFragmentsWithChanges();
                     var body = JSON.stringify(this.document, null, "\t");
                     this.documentsResolverService.update(this.document["@id"], body, this.documentContext).then(function (updatedDocument) {
                         _this.document = updatedDocument[0];
