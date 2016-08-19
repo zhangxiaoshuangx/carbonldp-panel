@@ -140,19 +140,7 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 					rootNode: bNode
 				}
 			} );
-
-		// this.getBlankNodes();
 		this.namedFragments = RDFDocument.Util.getFragmentResources( this.document );
-	}
-
-	getBlankNodes():void {
-		let bNodes = RDFDocument.Util.getBNodeResources( this.document );
-		bNodes.forEach( ( bNode:RDFNode.Class )=> {
-			this.bNodes.push( {
-				copy: bNode
-			} );
-		} );
-		console.log( this.bNodes );
 	}
 
 	openBNode( id:string ):void {

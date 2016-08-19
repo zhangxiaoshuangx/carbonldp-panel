@@ -158,6 +158,7 @@ export class BlankNodeComponent implements AfterViewInit {
 	updateExistingProperties():void {
 		this.properties = [];
 		this.existingPropertiesNames = Object.keys( this.rootNode );
+		this.sortFirstProperties( this.existingPropertiesNames, this.nonEditableProperties );
 		this.existingPropertiesNames.forEach( ( propName:string )=> {
 			this.properties.push( {
 				copy: {
@@ -178,17 +179,29 @@ export class BlankNodeComponent implements AfterViewInit {
 				idx = this.existingPropertiesNames.indexOf( value.modified.id );
 				if( idx !== - 1 ) this.existingPropertiesNames.splice( idx, 1, value.modified.name );
 			}
-			idx = this.properties.findIndex( ( property:PropertyRow )=> { return property.copy.id === key} );
+			idx = this.properties.findIndex( ( property:PropertyRow )=> { return ! ! property.copy && property.copy.id === key} );
 			if( idx !== - 1 ) this.properties.splice( idx, 1, value );
 		} );
 		this.records.deletions.forEach( ( value, key )=> {
 			idx = this.existingPropertiesNames.indexOf( key );
 			if( idx !== - 1 ) this.existingPropertiesNames.splice( idx, 1 );
 
-			idx = this.properties.findIndex( ( property:PropertyRow )=> { return property.copy.id === key} );
+			idx = this.properties.findIndex( ( property:PropertyRow )=> { return ! ! property.copy && property.copy.id === key} );
 			if( idx !== - 1 ) this.properties.splice( idx, 1 );
 		} );
 		this.bNodeHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
+	}
+
+	sortFirstProperties( propertiesNames:string[], firstPropertiesToShow:string[] ):void {
+		let tempIdx:number = - 1;
+		firstPropertiesToShow.forEach( ( propToShow:string, index:number )=> {
+			tempIdx = propertiesNames.findIndex( ( propName:string )=> { return propName === propToShow} );
+			if( tempIdx !== - 1 ) {
+				let name:string = propertiesNames[ tempIdx ];
+				propertiesNames.splice( tempIdx, 1 );
+				propertiesNames.splice( index, 0, name );
+			}
+		} );
 	}
 }
 export interface BlankNodeRow {

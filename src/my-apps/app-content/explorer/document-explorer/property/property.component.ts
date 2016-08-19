@@ -330,7 +330,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	private nameValidator( control:AbstractControl ):any {
 		if( ! ! control ) {
 			if( typeof control.value === "undefined" || control.value === null || ! control.value ) return null;
-			if( this.existingProperties.indexOf( control.value ) !== - 1 && this.id !== control.value ) return { "duplicatedPropertyName": true };
+			if( this.existingProperties.indexOf( control.value ) !== - 1 && (this.property.added ? this.id !== control.value : this.name !== control.value) ) return { "duplicatedPropertyName": true };
 			let url = new RegExp( "(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g" );
 			if( ! url.test( control.value ) ) return { "invalidName": true };
 			if( control.value.split( "#" ).length > 2 ) return { "duplicatedHashtag": true };

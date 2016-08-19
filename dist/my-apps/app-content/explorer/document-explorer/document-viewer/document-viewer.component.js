@@ -145,18 +145,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                             rootNode: bNode
                         };
                     });
-                    // this.getBlankNodes();
                     this.namedFragments = RDFDocument.Util.getFragmentResources(this.document);
-                };
-                DocumentViewerComponent.prototype.getBlankNodes = function () {
-                    var _this = this;
-                    var bNodes = RDFDocument.Util.getBNodeResources(this.document);
-                    bNodes.forEach(function (bNode) {
-                        _this.bNodes.push({
-                            copy: bNode
-                        });
-                    });
-                    console.log(this.bNodes);
                 };
                 DocumentViewerComponent.prototype.openBNode = function (id) {
                     this.documentBNodes.openBlankNode(id);

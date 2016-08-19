@@ -49,7 +49,6 @@ export declare class DocumentViewerComponent implements AfterViewInit, OnChanges
     setRoot(): void;
     getDocument(uri: string, documentContext: SDKContext.Class): Promise<RDFDocument.Class>;
     generateFragments(): void;
-    getBlankNodes(): void;
     openBNode(id: string): void;
     openNamedFragment(id: string): void;
     initializeTabs(): void;
