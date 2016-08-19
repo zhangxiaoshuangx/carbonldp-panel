@@ -332,7 +332,7 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                     if (!!control) {
                         if (typeof control.value === "undefined" || control.value === null || !control.value)
                             return null;
-                        if (this.existingProperties.indexOf(control.value) !== -1 && this.id !== control.value)
+                        if (this.existingProperties.indexOf(control.value) !== -1 && (this.property.added ? this.id !== control.value : this.name !== control.value))
                             return { "duplicatedPropertyName": true };
                         var url = new RegExp("(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g");
                         if (!url.test(control.value))

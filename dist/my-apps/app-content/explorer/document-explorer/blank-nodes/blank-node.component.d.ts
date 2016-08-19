@@ -28,7 +28,7 @@ export declare class BlankNodeComponent implements AfterViewInit {
     onChanges: EventEmitter<BlankNodeRow>;
     constructor(element: ElementRef);
     ngAfterViewInit(): void;
-    openBNode(id: string): void;
+    openBlankNode(id: string): void;
     openNamedFragment(id: string): void;
     changeProperty(property: PropertyRow, index: number): void;
     deleteProperty(property: PropertyRow, index: number): void;
@@ -37,6 +37,7 @@ export declare class BlankNodeComponent implements AfterViewInit {
     canEditProperty(property: PropertyRow): boolean;
     getProperties(): void;
     updateExistingProperties(): void;
+    sortFirstProperties(propertiesNames: string[], firstPropertiesToShow: string[]): void;
 }
 export interface BlankNodeRow {
     id?: string;

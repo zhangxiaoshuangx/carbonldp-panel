@@ -53,7 +53,6 @@ export class BlankNodeComponent implements AfterViewInit {
 	@Input() namedFragments:RDFNode.Class[] = [];
 	@Input() canEdit:boolean = true;
 	@Input() documentURI:string = "";
-	// @Input() blankNode:BlankNodeRow;
 
 	private _blankNode:BlankNodeRow;
 	@Input() set blankNode( blankNode:BlankNodeRow ) {
@@ -78,7 +77,7 @@ export class BlankNodeComponent implements AfterViewInit {
 		this.$element = $( this.element.nativeElement );
 	}
 
-	openBNode( id:string ):void {
+	openBlankNode( id:string ):void {
 		this.onOpenBlankNode.emit( id );
 	}
 

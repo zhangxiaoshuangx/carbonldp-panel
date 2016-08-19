@@ -80,7 +80,7 @@ System.register(["@angular/core", "./../property/property.component", "jquery", 
                 BlankNodeComponent.prototype.ngAfterViewInit = function () {
                     this.$element = jquery_1.default(this.element.nativeElement);
                 };
-                BlankNodeComponent.prototype.openBNode = function (id) {
+                BlankNodeComponent.prototype.openBlankNode = function (id) {
                     this.onOpenBlankNode.emit(id);
                 };
                 BlankNodeComponent.prototype.openNamedFragment = function (id) {
@@ -160,6 +160,7 @@ System.register(["@angular/core", "./../property/property.component", "jquery", 
                     var _this = this;
                     this.properties = [];
                     this.existingPropertiesNames = Object.keys(this.rootNode);
+                    this.sortFirstProperties(this.existingPropertiesNames, this.nonEditableProperties);
                     this.existingPropertiesNames.forEach(function (propName) {
                         _this.properties.push({
                             copy: {
@@ -182,7 +183,7 @@ System.register(["@angular/core", "./../property/property.component", "jquery", 
                             if (idx !== -1)
                                 _this.existingPropertiesNames.splice(idx, 1, value.modified.name);
                         }
-                        idx = _this.properties.findIndex(function (property) { return property.copy.id === key; });
+                        idx = _this.properties.findIndex(function (property) { return !!property.copy && property.copy.id === key; });
                         if (idx !== -1)
                             _this.properties.splice(idx, 1, value);
                     });
@@ -190,11 +191,22 @@ System.register(["@angular/core", "./../property/property.component", "jquery", 
                         idx = _this.existingPropertiesNames.indexOf(key);
                         if (idx !== -1)
                             _this.existingPropertiesNames.splice(idx, 1);
-                        idx = _this.properties.findIndex(function (property) { return property.copy.id === key; });
+                        idx = _this.properties.findIndex(function (property) { return !!property.copy && property.copy.id === key; });
                         if (idx !== -1)
                             _this.properties.splice(idx, 1);
                     });
                     this.bNodeHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
+                };
+                BlankNodeComponent.prototype.sortFirstProperties = function (propertiesNames, firstPropertiesToShow) {
+                    var tempIdx = -1;
+                    firstPropertiesToShow.forEach(function (propToShow, index) {
+                        tempIdx = propertiesNames.findIndex(function (propName) { return propName === propToShow; });
+                        if (tempIdx !== -1) {
+                            var name_1 = propertiesNames[tempIdx];
+                            propertiesNames.splice(tempIdx, 1);
+                            propertiesNames.splice(index, 0, name_1);
+                        }
+                    });
                 };
                 __decorate([
                     core_1.Input(), 

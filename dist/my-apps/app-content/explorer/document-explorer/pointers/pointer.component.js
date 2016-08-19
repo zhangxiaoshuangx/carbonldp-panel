@@ -151,6 +151,9 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/URI", "./../
                         delete this.tempPointer["@id"];
                         delete this.pointer.modified;
                     }
+                    else if (!!this.pointer.added) {
+                        this.pointer.added = this.tempPointer;
+                    }
                     else {
                         this.pointer.modified = this.tempPointer;
                     }

@@ -36,10 +36,10 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
                 function DocumentResourceComponent(element) {
                     this.modes = property_component_2.Modes;
                     this.properties = [];
-                    this.existingProperties = [];
+                    this.existingPropertiesNames = [];
                     this.displayOnly = [];
                     this.hiddenProperties = [];
-                    this.bNodes = [];
+                    this.blankNodes = [];
                     this.namedFragments = [];
                     this.canEdit = true;
                     this.documentURI = "";
@@ -95,11 +95,15 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
                     if (typeof property.modified !== "undefined") {
                         this.records.changes.set(property.modified.id, property);
                     }
-                    else {
+                    else if (typeof property.added === "undefined") {
                         this.records.changes.delete(property.copy.id);
                     }
+                    if (typeof property.added !== "undefined") {
+                        this.records.additions.delete(property.added.id);
+                        property.added.id = property.added.name;
+                        this.records.additions.set(property.added.id, property);
+                    }
                     this.updateExistingProperties();
-                    this.rootHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
                 };
                 DocumentResourceComponent.prototype.deleteProperty = function (property, index) {
                     if (typeof this.records === "undefined")
@@ -112,7 +116,6 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
                         this.records.deletions.set(property.deleted.id, property);
                     }
                     this.updateExistingProperties();
-                    this.rootHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
                 };
                 DocumentResourceComponent.prototype.addProperty = function (property, index) {
                     if (typeof this.records === "undefined")
@@ -123,30 +126,40 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
                         }
                         else {
                             this.records.additions.delete(property.added.id);
+                            property.added.id = property.added.name;
                             this.records.additions.set(property.added.name, property);
                         }
                     }
                     this.updateExistingProperties();
-                    this.rootHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
                 };
                 DocumentResourceComponent.prototype.createProperty = function (property, propertyRow) {
                     var _this = this;
                     var newProperty = {
                         added: {
                             id: "",
-                            name: "New Property",
+                            name: "http://www.example.com#New Property",
                             value: []
-                        }
+                        },
+                        isBeingCreated: true,
+                        isBeingModified: false,
+                        isBeingDeleted: false
                     };
                     this.properties.splice(2, 0, newProperty);
-                    if (!!this.$element)
-                        setTimeout(function () { return _this.$element.find("cp-property.added-property").first().transition("drop"); });
+                    // Animates created property
+                    setTimeout(function () {
+                        var createdPropertyComponent = _this.$element.find("cp-property.added-property").first();
+                        createdPropertyComponent.addClass("transition hidden");
+                        createdPropertyComponent.transition({ animation: "drop" });
+                    });
                 };
                 DocumentResourceComponent.prototype.getProperties = function () {
+                    this.updateExistingProperties();
+                };
+                DocumentResourceComponent.prototype.updateExistingProperties = function () {
                     var _this = this;
                     this.properties = [];
-                    this.updateExistingProperties();
-                    this.existingProperties.forEach(function (propName) {
+                    this.existingPropertiesNames = Object.keys(this.rootNode);
+                    this.existingPropertiesNames.forEach(function (propName) {
                         _this.properties.push({
                             copy: {
                                 id: propName,
@@ -155,23 +168,32 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
                             }
                         });
                     });
-                };
-                DocumentResourceComponent.prototype.updateExistingProperties = function () {
-                    var _this = this;
-                    this.existingProperties = Object.keys(this.rootNode);
                     if (!this.records)
                         return;
                     this.records.additions.forEach(function (value, key) {
-                        _this.existingProperties.push(key);
+                        _this.existingPropertiesNames.push(key);
+                        _this.properties.splice(2, 0, value);
                     });
+                    var idx;
                     this.records.changes.forEach(function (value, key) {
                         if (value.modified.id !== value.modified.name) {
-                            _this.existingProperties.splice(_this.existingProperties.indexOf(value.modified.id), 1, value.modified.name);
+                            idx = _this.existingPropertiesNames.indexOf(value.modified.id);
+                            if (idx !== -1)
+                                _this.existingPropertiesNames.splice(idx, 1, value.modified.name);
                         }
+                        idx = _this.properties.findIndex(function (property) { return !!property.copy && property.copy.id === key; });
+                        if (idx !== -1)
+                            _this.properties.splice(idx, 1, value);
                     });
                     this.records.deletions.forEach(function (value, key) {
-                        _this.existingProperties.splice(_this.existingProperties.indexOf(value.deleted.id), 1);
+                        idx = _this.existingPropertiesNames.indexOf(key);
+                        if (idx !== -1)
+                            _this.existingPropertiesNames.splice(idx, 1);
+                        idx = _this.properties.findIndex(function (property) { return !!property.copy && property.copy.id === key; });
+                        if (idx !== -1)
+                            _this.properties.splice(idx, 1);
                     });
+                    this.rootHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
                 };
                 __decorate([
                     core_1.Input(), 
@@ -184,7 +206,7 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', Array)
-                ], DocumentResourceComponent.prototype, "bNodes", void 0);
+                ], DocumentResourceComponent.prototype, "blankNodes", void 0);
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', Array)

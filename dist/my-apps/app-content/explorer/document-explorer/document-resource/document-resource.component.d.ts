@@ -7,13 +7,13 @@ export declare class DocumentResourceComponent implements AfterViewInit {
     $element: JQuery;
     modes: Modes;
     properties: PropertyRow[];
-    existingProperties: string[];
+    existingPropertiesNames: string[];
     records: RootRecords;
     private _rootHasChanged;
     rootHasChanged: boolean;
     displayOnly: string[];
     hiddenProperties: string[];
-    bNodes: RDFNode.Class[];
+    blankNodes: RDFNode.Class[];
     namedFragments: RDFNode.Class[];
     canEdit: boolean;
     documentURI: string;

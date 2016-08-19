@@ -140,6 +140,8 @@ export class PointerComponent implements OnChanges {
 		if( (! ! this.pointer.copy) && (this.tempPointer[ "@id" ] === this.pointer.copy[ "@id" ] ) ) {
 			delete this.tempPointer[ "@id" ];
 			delete this.pointer.modified;
+		} else if( ! ! this.pointer.added ) {
+			this.pointer.added = this.tempPointer;
 		} else {
 			this.pointer.modified = this.tempPointer;
 		}

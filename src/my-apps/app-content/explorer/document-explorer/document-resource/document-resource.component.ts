@@ -23,7 +23,7 @@ export class DocumentResourceComponent implements AfterViewInit {
 	$element:JQuery;
 	modes:Modes = Modes;
 	properties:PropertyRow[] = [];
-	existingProperties:string[] = [];
+	existingPropertiesNames:string[] = [];
 	records:RootRecords;
 	private _rootHasChanged:boolean;
 	set rootHasChanged( hasChanged:boolean ) {
@@ -37,7 +37,7 @@ export class DocumentResourceComponent implements AfterViewInit {
 
 	@Input() displayOnly:string[] = [];
 	@Input() hiddenProperties:string[] = [];
-	@Input() bNodes:RDFNode.Class[] = [];
+	@Input() blankNodes:RDFNode.Class[] = [];
 	@Input() namedFragments:RDFNode.Class[] = [];
 	@Input() canEdit:boolean = true;
 	@Input() documentURI:string = "";
@@ -84,11 +84,15 @@ export class DocumentResourceComponent implements AfterViewInit {
 		if( typeof this.records === "undefined" ) this.records = new RootRecords();
 		if( typeof property.modified !== "undefined" ) {
 			this.records.changes.set( property.modified.id, property );
-		} else {
+		} else if( typeof property.added === "undefined" ) {
 			this.records.changes.delete( property.copy.id );
 		}
+		if( typeof property.added !== "undefined" ) {
+			this.records.additions.delete( property.added.id );
+			property.added.id = property.added.name;
+			this.records.additions.set( property.added.id, property );
+		}
 		this.updateExistingProperties();
-		this.rootHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
 	}
 
 	deleteProperty( property:PropertyRow, index:number ):void {
@@ -100,7 +104,6 @@ export class DocumentResourceComponent implements AfterViewInit {
 			this.records.deletions.set( property.deleted.id, property );
 		}
 		this.updateExistingProperties();
-		this.rootHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
 	}
 
 	addProperty( property:PropertyRow, index:number ):void {
@@ -110,29 +113,41 @@ export class DocumentResourceComponent implements AfterViewInit {
 				this.records.additions.set( property.added.id, property );
 			} else {
 				this.records.additions.delete( property.added.id );
+				property.added.id = property.added.name;
 				this.records.additions.set( property.added.name, property );
 			}
 		}
 		this.updateExistingProperties();
-		this.rootHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
 	}
 
 	createProperty( property:Property, propertyRow:PropertyRow ):void {
 		let newProperty:PropertyRow = <PropertyRow>{
 			added: <Property>{
 				id: "",
-				name: "New Property",
+				name: "http://www.example.com#New Property",
 				value: []
-			}
+			},
+			isBeingCreated: true,
+			isBeingModified: false,
+			isBeingDeleted: false
 		};
 		this.properties.splice( 2, 0, newProperty );
-		if( ! ! this.$element ) setTimeout( ()=>this.$element.find( "cp-property.added-property" ).first().transition( "drop" ) );
+		// Animates created property
+		setTimeout( ()=> {
+			let createdPropertyComponent:JQuery = this.$element.find( "cp-property.added-property" ).first();
+			createdPropertyComponent.addClass( "transition hidden" );
+			createdPropertyComponent.transition( { animation: "drop" } );
+		} );
 	}
 
 	getProperties():void {
-		this.properties = [];
 		this.updateExistingProperties();
-		this.existingProperties.forEach( ( propName:string )=> {
+	}
+
+	updateExistingProperties():void {
+		this.properties = [];
+		this.existingPropertiesNames = Object.keys( this.rootNode );
+		this.existingPropertiesNames.forEach( ( propName:string )=> {
 			this.properties.push( {
 				copy: {
 					id: propName,
@@ -141,22 +156,28 @@ export class DocumentResourceComponent implements AfterViewInit {
 				}
 			} );
 		} );
-	}
-
-	updateExistingProperties():void {
-		this.existingProperties = Object.keys( this.rootNode );
 		if( ! this.records ) return;
 		this.records.additions.forEach( ( value, key )=> {
-			this.existingProperties.push( key );
+			this.existingPropertiesNames.push( key );
+			this.properties.splice( 2, 0, value );
 		} );
+		let idx:number;
 		this.records.changes.forEach( ( value, key )=> {
 			if( value.modified.id !== value.modified.name ) {
-				this.existingProperties.splice( this.existingProperties.indexOf( value.modified.id ), 1, value.modified.name );
+				idx = this.existingPropertiesNames.indexOf( value.modified.id );
+				if( idx !== - 1 ) this.existingPropertiesNames.splice( idx, 1, value.modified.name );
 			}
+			idx = this.properties.findIndex( ( property:PropertyRow )=> { return ! ! property.copy && property.copy.id === key} );
+			if( idx !== - 1 ) this.properties.splice( idx, 1, value );
 		} );
 		this.records.deletions.forEach( ( value, key )=> {
-			this.existingProperties.splice( this.existingProperties.indexOf( value.deleted.id ), 1 );
+			idx = this.existingPropertiesNames.indexOf( key );
+			if( idx !== - 1 ) this.existingPropertiesNames.splice( idx, 1 );
+
+			idx = this.properties.findIndex( ( property:PropertyRow )=> { return ! ! property.copy && property.copy.id === key} );
+			if( idx !== - 1 ) this.properties.splice( idx, 1 );
 		} );
+		this.rootHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
 	}
 }
 
