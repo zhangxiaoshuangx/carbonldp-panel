@@ -41,10 +41,10 @@
 					<span *ngIf="namedFragments.length===0">No </span>Named Fragments
 				</option>
 				<optgroup label="Named Fragments">
-					<option class="item" *ngFor="let fragment of namedFragments; let i=index" value="{{fragment['@id']}}">
+					<option class="item" *ngFor="let fragment of namedFragments; let i=index" value="{{fragment.id}}">
 						<span>
-							<span class="title">{{getFriendlyName(fragment["@id"])}}</span>
-							<span class="description">{{fragment["@id"]}}</span>
+							<span class="title">{{getFriendlyName(fragment.id)}}</span>
+							<span class="description">{{fragment.id}}</span>
 						</span>
 					</option>
 				</optgroup>

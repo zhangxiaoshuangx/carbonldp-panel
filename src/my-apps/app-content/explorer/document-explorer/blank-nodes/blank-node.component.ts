@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit } fro
 
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 
+
 import { PropertyComponent, Property, PropertyRow, Modes } from "./../property/property.component";
 
 import $ from "jquery";
@@ -29,8 +30,6 @@ export class BlankNodeComponent implements AfterViewInit {
 	rootNode:RDFNode.Class;
 	properties:PropertyRow[];
 	existingPropertiesNames:string[] = [];
-	id:string;
-	bNodeIdentifier:string;
 
 	private _bNodeHasChanged:boolean;
 	set bNodeHasChanged( hasChanged:boolean ) {
@@ -126,7 +125,7 @@ export class BlankNodeComponent implements AfterViewInit {
 	}
 
 	createProperty( property:Property, propertyRow:PropertyRow ):void {
-		let newProperty:PropertyRow = <PropertyRow>{
+		let newProperty:PropertyRow = {
 			added: <Property>{
 				id: "",
 				name: "http://www.example.com#New Property",
