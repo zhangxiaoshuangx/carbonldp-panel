@@ -130,7 +130,6 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	}
 
 	generateFragments():void {
-		// this.bNodes = RDFDocument.Util.getBNodeResources( this.document );
 		this.bNodes = RDFDocument.Util.getBNodeResources( this.document ).map(
 			( bNode:RDFNode.Class )=> {
 				return {
@@ -139,7 +138,6 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 					copy: bNode
 				}
 			} );
-		// this.namedFragments = RDFDocument.Util.getFragmentResources( this.document );
 		this.namedFragments = RDFDocument.Util.getFragmentResources( this.document ).map(
 			( namedFragment:RDFNode.Class )=> {
 				return {
@@ -237,25 +235,6 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 		this.namedFragmentsChanges.additions.forEach( ( namedFragmentRow:NamedFragmentRow, namedFragmentId )=> {
 			this.document[ "@graph" ].push( namedFragmentRow.added );
 		} );
-		// let tempNamedFragment;
-		// this.namedFragmentsChanges.forEach( ( namedFragmentRecords:NamedFragmentRecords, namedFragmentId:string )=> {
-		// 	tempNamedFragment = this.namedFragments.find( (namedFragment => {return namedFragment[ "@id" ] === namedFragmentId}) );
-		// 	namedFragmentRecords.deletions.forEach( ( property, key )=> {
-		// 		delete tempNamedFragment[ key ];
-		// 	} );
-		// 	namedFragmentRecords.changes.forEach( ( property, key )=> {
-		// 		if( property.modified.id !== property.modified.name ) {
-		// 			delete tempNamedFragment[ key ];
-		// 			tempNamedFragment[ property.modified.name ] = property.modified.value;
-		// 		} else {
-		// 			tempNamedFragment[ key ] = property.modified.value;
-		// 		}
-		// 	} );
-		// 	namedFragmentRecords.additions.forEach( ( property, key )=> {
-		// 		tempNamedFragment[ key ] = property.added.value;
-		// 	} );
-		//
-		// } );
 	}
 
 	clearDocumentChanges():void {

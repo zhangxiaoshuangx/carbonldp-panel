@@ -13,7 +13,7 @@ export declare class BlankNodesComponent implements AfterViewInit, OnChanges {
     namedFragments: RDFNode.Class[];
     documentURI: string;
     onChanges: EventEmitter<BlankNodesRecords>;
-    onOpenBNode: EventEmitter<string>;
+    onOpenBlankNode: EventEmitter<string>;
     onOpenNamedFragment: EventEmitter<string>;
     constructor(element: ElementRef);
     ngAfterViewInit(): void;

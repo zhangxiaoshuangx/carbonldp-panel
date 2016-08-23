@@ -19,12 +19,12 @@ export declare class DocumentResourceComponent implements AfterViewInit {
     documentURI: string;
     private _rootNode;
     rootNode: RDFNode.Class;
-    onOpenBNode: EventEmitter<string>;
+    onOpenBlankNode: EventEmitter<string>;
     onOpenNamedFragment: EventEmitter<string>;
     onChanges: EventEmitter<RootRecords>;
     constructor(element: ElementRef);
     ngAfterViewInit(): void;
-    openBNode(id: string): void;
+    openBlankNode(id: string): void;
     openNamedFragment(id: string): void;
     canDisplay(propertyName: any): boolean;
     changeProperty(property: PropertyRow, index: number): void;

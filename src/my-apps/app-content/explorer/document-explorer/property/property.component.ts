@@ -349,7 +349,6 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		} else if( ! ! this.property.added ) {
 			if( (this.tempProperty.name !== this.property.added.name ) ) {
 				this.id = this.name;
-				// this.tempProperty.id = this.id;
 			}
 			this.property.added = this.tempProperty;
 			if( this.existingProperties.indexOf( this.tempProperty.id ) === - 1 )

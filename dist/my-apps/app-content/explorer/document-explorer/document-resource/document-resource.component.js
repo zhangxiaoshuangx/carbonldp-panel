@@ -43,7 +43,7 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
                     this.namedFragments = [];
                     this.canEdit = true;
                     this.documentURI = "";
-                    this.onOpenBNode = new core_1.EventEmitter();
+                    this.onOpenBlankNode = new core_1.EventEmitter();
                     this.onOpenNamedFragment = new core_1.EventEmitter();
                     this.onChanges = new core_1.EventEmitter();
                     this.element = element;
@@ -74,8 +74,8 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
                 DocumentResourceComponent.prototype.ngAfterViewInit = function () {
                     this.$element = jquery_1.default(this.element.nativeElement);
                 };
-                DocumentResourceComponent.prototype.openBNode = function (id) {
-                    this.onOpenBNode.emit(id);
+                DocumentResourceComponent.prototype.openBlankNode = function (id) {
+                    this.onOpenBlankNode.emit(id);
                 };
                 DocumentResourceComponent.prototype.openNamedFragment = function (id) {
                     this.onOpenNamedFragment.emit(id);
@@ -227,7 +227,7 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
-                ], DocumentResourceComponent.prototype, "onOpenBNode", void 0);
+                ], DocumentResourceComponent.prototype, "onOpenBlankNode", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)

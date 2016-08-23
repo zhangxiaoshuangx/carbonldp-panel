@@ -42,7 +42,7 @@ System.register(["@angular/core", "carbonldp/Utils", "./blank-node.component", "
                     this.namedFragments = [];
                     this.documentURI = "";
                     this.onChanges = new core_1.EventEmitter();
-                    this.onOpenBNode = new core_1.EventEmitter();
+                    this.onOpenBlankNode = new core_1.EventEmitter();
                     this.onOpenNamedFragment = new core_1.EventEmitter();
                     this.element = element;
                 }
@@ -81,7 +81,7 @@ System.register(["@angular/core", "carbonldp/Utils", "./blank-node.component", "
                     if (!this.nodesTab)
                         return;
                     this.nodesTab.find("> [data-tab='" + id + "']").click();
-                    this.onOpenBNode.emit("bNodes");
+                    this.onOpenBlankNode.emit("bNodes");
                 };
                 BlankNodesComponent.prototype.closeBlankNode = function (blankNode, index) {
                     this.openedBlankNodes.splice(index, 1);
@@ -120,7 +120,6 @@ System.register(["@angular/core", "carbonldp/Utils", "./blank-node.component", "
                         this.blankNodesRecords.deletions.set(blankNodeRow.id, blankNodeRow);
                     }
                     else {
-                        // this.blankNodesRecords.changes.delete( blankNodeRow.id );
                         this.blankNodesRecords.deletions.set(blankNodeRow.id, blankNodeRow);
                     }
                     index = this.blankNodes.indexOf(blankNodeRow);
@@ -181,7 +180,7 @@ System.register(["@angular/core", "carbonldp/Utils", "./blank-node.component", "
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
-                ], BlankNodesComponent.prototype, "onOpenBNode", void 0);
+                ], BlankNodesComponent.prototype, "onOpenBlankNode", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)

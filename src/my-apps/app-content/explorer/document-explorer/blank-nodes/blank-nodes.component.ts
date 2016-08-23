@@ -114,7 +114,6 @@ export class BlankNodesComponent implements AfterViewInit, OnChanges {
 			this.blankNodesRecords.changes.delete( blankNodeRow.id );
 			this.blankNodesRecords.deletions.set( blankNodeRow.id, blankNodeRow );
 		} else {
-			// this.blankNodesRecords.changes.delete( blankNodeRow.id );
 			this.blankNodesRecords.deletions.set( blankNodeRow.id, blankNodeRow );
 		}
 		index = this.blankNodes.indexOf( blankNodeRow );
