@@ -113,6 +113,8 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "./named-fragment.compone
                     this.onChanges.emit(this.namedFragmentsRecords);
                 };
                 NamedFragmentsComponent.prototype.deleteNamedFragment = function (namedFragmentRow, index) {
+                    index = this.openedNamedFragments.indexOf(namedFragmentRow);
+                    this.openedNamedFragments.splice(index, 1);
                     if (typeof this.namedFragmentsRecords === "undefined")
                         this.namedFragmentsRecords = new NamedFragmentsRecords();
                     if (typeof namedFragmentRow.added !== "undefined") {

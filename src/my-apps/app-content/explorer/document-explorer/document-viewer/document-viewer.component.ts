@@ -32,6 +32,8 @@ import style from "./document-viewer.component.css!text";
 export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	element:ElementRef;
 	$element:JQuery;
+	$successMessage:JQuery;
+
 	sections:string[] = [ "bNodes", "namedFragments", "documentResource" ];
 	rootNode:RDFNode.Class;
 	bNodes:BlankNodeRow[] = [];
@@ -93,6 +95,7 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 
 	ngAfterViewInit():void {
 		this.$element = $( this.element.nativeElement );
+		this.$successMessage = this.$element.find( ".success.message" );
 	}
 
 	ngOnChanges( changes:{[propName:string]:SimpleChange} ):void {
@@ -256,9 +259,11 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 			( updatedDocument:RDFDocument.Class )=> {
 				this.document = updatedDocument[ 0 ];
 				setTimeout( ()=> {
-					this.$element.find( ".success.message" ).transition( {
+					this.$successMessage.transition( {
 						onComplete: ()=> {
-							setTimeout( ()=> {this.$element.find( ".success.message" ).transition( "fade" );}, 4000 );
+							setTimeout( ()=> {
+								if( ! this.$successMessage.hasClass( "hidden" ) ) this.$successMessage.transition( "fade" );
+							}, 4000 );
 						}
 					} );
 				}, 1500 );
