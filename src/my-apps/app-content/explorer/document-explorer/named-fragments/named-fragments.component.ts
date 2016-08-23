@@ -112,6 +112,8 @@ export class NamedFragmentsComponent implements AfterViewInit, OnChanges {
 	}
 
 	deleteNamedFragment( namedFragmentRow:NamedFragmentRow, index?:number ):void {
+		index = this.openedNamedFragments.indexOf( namedFragmentRow );
+		this.openedNamedFragments.splice( index, 1 );
 		if( typeof this.namedFragmentsRecords === "undefined" ) this.namedFragmentsRecords = new NamedFragmentsRecords();
 		if( typeof namedFragmentRow.added !== "undefined" ) {
 			this.namedFragmentsRecords.additions.delete( namedFragmentRow.id );

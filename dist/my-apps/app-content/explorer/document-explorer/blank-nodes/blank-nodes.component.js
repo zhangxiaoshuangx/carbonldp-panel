@@ -110,6 +110,8 @@ System.register(["@angular/core", "carbonldp/Utils", "./blank-node.component", "
                     this.onChanges.emit(this.blankNodesRecords);
                 };
                 BlankNodesComponent.prototype.deleteBlankNode = function (blankNodeRow, index) {
+                    index = this.openedBlankNodes.indexOf(blankNodeRow);
+                    this.openedBlankNodes.splice(index, 1);
                     if (typeof this.blankNodesRecords === "undefined")
                         this.blankNodesRecords = new BlankNodesRecords();
                     if (typeof blankNodeRow.added !== "undefined") {

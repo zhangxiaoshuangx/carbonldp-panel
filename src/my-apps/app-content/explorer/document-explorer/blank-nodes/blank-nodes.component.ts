@@ -107,6 +107,8 @@ export class BlankNodesComponent implements AfterViewInit, OnChanges {
 	}
 
 	deleteBlankNode( blankNodeRow:BlankNodeRow, index?:number ):void {
+		index = this.openedBlankNodes.indexOf( blankNodeRow );
+		this.openedBlankNodes.splice( index, 1 );
 		if( typeof this.blankNodesRecords === "undefined" ) this.blankNodesRecords = new BlankNodesRecords();
 		if( typeof blankNodeRow.added !== "undefined" ) {
 			this.blankNodesRecords.additions.delete( blankNodeRow.id );
