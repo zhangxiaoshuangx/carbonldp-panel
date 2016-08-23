@@ -136,7 +136,6 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     return this.documentsResolverService.get(uri, documentContext);
                 };
                 DocumentViewerComponent.prototype.generateFragments = function () {
-                    // this.bNodes = RDFDocument.Util.getBNodeResources( this.document );
                     this.bNodes = RDFDocument.Util.getBNodeResources(this.document).map(function (bNode) {
                         return {
                             id: bNode["@id"],
@@ -144,7 +143,6 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                             copy: bNode
                         };
                     });
-                    // this.namedFragments = RDFDocument.Util.getFragmentResources( this.document );
                     this.namedFragments = RDFDocument.Util.getFragmentResources(this.document).map(function (namedFragment) {
                         return {
                             id: namedFragment["@id"],
@@ -237,25 +235,6 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     this.namedFragmentsChanges.additions.forEach(function (namedFragmentRow, namedFragmentId) {
                         _this.document["@graph"].push(namedFragmentRow.added);
                     });
-                    // let tempNamedFragment;
-                    // this.namedFragmentsChanges.forEach( ( namedFragmentRecords:NamedFragmentRecords, namedFragmentId:string )=> {
-                    // 	tempNamedFragment = this.namedFragments.find( (namedFragment => {return namedFragment[ "@id" ] === namedFragmentId}) );
-                    // 	namedFragmentRecords.deletions.forEach( ( property, key )=> {
-                    // 		delete tempNamedFragment[ key ];
-                    // 	} );
-                    // 	namedFragmentRecords.changes.forEach( ( property, key )=> {
-                    // 		if( property.modified.id !== property.modified.name ) {
-                    // 			delete tempNamedFragment[ key ];
-                    // 			tempNamedFragment[ property.modified.name ] = property.modified.value;
-                    // 		} else {
-                    // 			tempNamedFragment[ key ] = property.modified.value;
-                    // 		}
-                    // 	} );
-                    // 	namedFragmentRecords.additions.forEach( ( property, key )=> {
-                    // 		tempNamedFragment[ key ] = property.added.value;
-                    // 	} );
-                    //
-                    // } );
                 };
                 DocumentViewerComponent.prototype.clearDocumentChanges = function () {
                     this.rootNodeRecords = new document_resource_component_1.RootRecords();

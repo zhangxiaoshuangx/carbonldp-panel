@@ -17,4 +17,18 @@
   padding: 6px;
   margin-left: 10px; }
 
+.ui.tabular.menu .item {
+  border: 1px solid #d3d3d3;
+  border-top-left-radius: .5em;
+  border-top-right-radius: .5em;
+  border-bottom: none; }
+
+.ui.tabular.menu .item.added,
+.ui.tabular.menu .item.added.active {
+  background-color: #D9EEFF; }
+
+.ui.tabular.menu .item.modified,
+.ui.tabular.menu .item.modified.active {
+  background-color: #FFFBB4; }
+
 /*# sourceMappingURL=blank-nodes.component.css.map */

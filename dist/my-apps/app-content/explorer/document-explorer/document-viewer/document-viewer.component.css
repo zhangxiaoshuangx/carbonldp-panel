@@ -16,6 +16,11 @@
     z-index: 1;
     right: 0; }
 
+.ui.secondary.menu.document.tabs .item {
+  border: 1px solid #d3d3d3; }
+  .ui.secondary.menu.document.tabs .item .marker .icon {
+    margin-right: 0; }
+
 .ui.basic.segment.document-content {
   margin-top: 0; }
 

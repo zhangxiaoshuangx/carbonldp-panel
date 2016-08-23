@@ -130,10 +130,11 @@ System.register(["@angular/core", "./../property/property.component", "jquery", 
                 };
                 BlankNodeComponent.prototype.createProperty = function (property, propertyRow) {
                     var _this = this;
+                    var numberOfProperty = !!this.records ? (this.records.additions.size + 1) : 1;
                     var newProperty = {
                         added: {
                             id: "",
-                            name: "http://www.example.com#New Property",
+                            name: "http://www.example.com#New Property " + numberOfProperty,
                             value: []
                         },
                         isBeingCreated: true,

@@ -134,10 +134,11 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
                 };
                 DocumentResourceComponent.prototype.createProperty = function (property, propertyRow) {
                     var _this = this;
+                    var numberOfProperty = !!this.records ? (this.records.additions.size + 1) : 1;
                     var newProperty = {
                         added: {
                             id: "",
-                            name: "http://www.example.com#New Property",
+                            name: "http://www.example.com#New Property " + numberOfProperty,
                             value: []
                         },
                         isBeingCreated: true,

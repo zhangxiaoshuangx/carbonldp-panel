@@ -125,10 +125,11 @@ export class NamedFragmentComponent implements AfterViewInit {
 	}
 
 	createProperty( property:Property, propertyRow:PropertyRow ):void {
+		let numberOfProperty:number = !!this.records? (this.records.additions.size + 1) : 1;
 		let newProperty:PropertyRow = {
 			added: <Property>{
 				id: "",
-				name: "http://www.example.com#New Property",
+				name: "http://www.example.com#New Property " + numberOfProperty,
 				value: []
 			},
 			isBeingCreated: true,
