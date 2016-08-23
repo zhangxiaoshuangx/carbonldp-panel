@@ -8,6 +8,7 @@
 		<cp-property class="property item"
 		             [attr.data-tar]="propertyRow.copy? propertyRow.copy.name : propertyRow.added.name"
 
+		             [isPartOfNamedFragment]="true"
 		             [canEdit]="true"
 		             [property]="propertyRow"
 		             [bNodes]="blankNodes"
@@ -22,7 +23,7 @@
 		             (onChangeNewProperty)="changeProperty(propertyRow, i)"
 		             (onDeleteNewProperty)="deleteProperty(propertyRow, i)"
 
-		             (onGoToBNode)="openBlankNode( $event )"
+		             (onGoToBlankNode)="openBlankNode( $event )"
 		             (onGoToNamedFragment)="openNamedFragment( $event )">
 		</cp-property>
 	</template>

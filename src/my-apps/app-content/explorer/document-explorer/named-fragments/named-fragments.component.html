@@ -10,9 +10,9 @@
 	<a class="item active" data-tab="all-namedFragments">All Named Fragments</a>
 	<a class="item"
 	   *ngFor="let namedFragment of openedNamedFragments; let i = index;"
-	   [attr.data-tab]="'namedfragment_'+getNormalizedUri(namedFragment.id)">
+	   [attr.data-tab]="'named-fragment_'+getNormalizedUri(namedFragment?.name)">
 		<p>
-			{{getSlug(namedFragment.id)}}
+			{{getSlug(namedFragment?.name)}}
 		</p>
 		<button class="circular ui icon basic mini button" (click)="closeNamedFragment(namedFragment)">
 			<i class="icon close"></i>
@@ -36,7 +36,7 @@
 				<tr [ngClass]="{ added:!!namedFragment.added, modified:!!namedFragment.modified }"
 				    (click)="openNamedFragment(namedFragment)">
 					<td>
-						{{ namedFragment.id }}
+						{{ namedFragment.name }}
 					</td>
 					<td class="center aligned">
 						<div class="ui mini icon inverted edit value buttons">
@@ -62,7 +62,7 @@
 	</div>
 </div>
 <div class="ui bottom attached tab segment"
-     *ngFor="let namedFragment of openedNamedFragments; let i = index;" [attr.data-tab]="'namedfragment_'+getNormalizedUri(namedFragment.id)">
+     *ngFor="let namedFragment of openedNamedFragments; let i = index;" [attr.data-tab]="'named-fragment_'+getNormalizedUri(namedFragment.name)">
 	<div class="ui divided items">
 		<cp-named-fragment class="column"
 		                   [documentURI]="documentURI"
@@ -70,7 +70,7 @@
 		                   [namedFragment]="namedFragment"
 		                   [namedFragments]="namedFragments"
 
-		                   (onOpenBNode)="openBNode( $event )"
+		                   (onOpenBlankNode)="openBlankNode( $event )"
 		                   (onOpenNamedFragment)="openNamedFragment($event)"
 		                   (onChanges)="changeNamedFragment(namedFragment, i)">
 		</cp-named-fragment>
@@ -80,7 +80,7 @@
 	<div class="content">
 		<div class="center">
 			<h2 class="ui header"><i class="trash outline red icon"></i> Are you sure?</h2>
-			<p class="description">Confirm to delete the Blank Node: '{{askingDeletionBlankNode?.id}}'</p>
+			<p class="description">Confirm to delete the named fragment: '{{askingDeletionNamedFragment?.name}}'</p>
 			<div class="ui red button" title="Confirm deletion" (click)="confirmDeletion()">Confirm</div>
 			<div class="ui button" title="Cancel deletion" (click)="cancelDeletion()">Cancel</div>
 		</div>

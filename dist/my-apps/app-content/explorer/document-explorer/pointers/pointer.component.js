@@ -124,7 +124,7 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/URI", "./../
                     var _this = this;
                     if (typeof this.id === "undefined")
                         return;
-                    var idx = this.bNodes.concat(this.namedFragments).findIndex(function (nfOrBN) { return nfOrBN["@id"] === _this.id || nfOrBN["id"] === _this.id; });
+                    var idx = this.bNodes.concat(this.namedFragments).findIndex(function (nfOrBN) { return nfOrBN["name"] === _this.id || nfOrBN["id"] === _this.id; });
                     this.isBNode = URI.Util.isBNodeID(this.id);
                     this.isNamedFragment = URI.Util.isFragmentOf(this.id, this.documentURI);
                     this.existsOnPointers = idx !== -1;
@@ -194,10 +194,16 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/URI", "./../
                     return URI.Util.getSlug(uri);
                 };
                 PointerComponent.prototype.goToBNode = function (id) {
-                    this.onGoToBNode.emit(id);
+                    var idx = this.bNodes.findIndex(function (blankNode) { return blankNode.id === id; });
+                    this.existsOnPointers = idx !== -1;
+                    if (this.existsOnPointers)
+                        this.onGoToBNode.emit(id);
                 };
                 PointerComponent.prototype.goToNamedFragment = function (id) {
-                    this.onGoToNamedFragment.emit(id);
+                    var idx = this.namedFragments.findIndex(function (namedFragment) { return namedFragment.name === id; });
+                    this.existsOnPointers = idx !== -1;
+                    if (this.existsOnPointers)
+                        this.onGoToNamedFragment.emit(id);
                 };
                 __decorate([
                     core_1.Input(), 

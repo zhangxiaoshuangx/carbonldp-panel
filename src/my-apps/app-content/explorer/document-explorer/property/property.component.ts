@@ -11,6 +11,7 @@ import { LiteralsComponent } from "./../literals/literals.component";
 import { LiteralRow } from "./../literals/literal.component";
 import { PointersComponent } from "./../pointers/pointers.component";
 import { PointerRow } from "./../pointers/pointer.component";
+import { NamedFragmentRow } from "./../named-fragments/named-fragment.component";
 
 import $ from "jquery";
 import "semantic-ui/semantic";
@@ -36,21 +37,24 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	tempPointers:PointerRow[];
 	tempProperty:Property = <Property>{};
 	copyOrAdded:string;
+	existingFragments:string[] = [];
 
 	id:string;
 	name:string;
-	value:any[] = [];
+	value:any[]|string = [];
 
 	addNewLiteral:EventEmitter<boolean> = new EventEmitter<boolean>();
 	addNewPointer:EventEmitter<boolean> = new EventEmitter<boolean>();
 	commonToken:string[] = [ "@id", "@type", "@value" ];
 	modes:Modes = Modes;
 	nameInput:AbstractControl = new Control( this.name, Validators.compose( [ Validators.required, this.nameValidator.bind( this ) ] ) );
+	idInput:AbstractControl = new Control( this.value, Validators.compose( [ Validators.required, this.idValidator.bind( this ) ] ) );
 
 	@Input() mode:string = Modes.READ;
-	@Input() documentURI:string;
+	@Input() documentURI:string = "";
 	@Input() bNodes:RDFNode.Class[] = [];
-	@Input() namedFragments:RDFNode.Class[] = [];
+	@Input() namedFragments:NamedFragmentRow[] = [];
+	@Input() isPartOfNamedFragment:boolean = false;
 	@Input() canEdit:boolean = true;
 	@Input() existingProperties:string[] = [];
 	private _property:PropertyRow;
@@ -64,15 +68,16 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		(<Control>this.nameInput).updateValue( this.name );
 		if( Utils.isArray( prop[ this.copyOrAdded ].value ) ) {
 			this.value = [];
-			prop[ this.copyOrAdded ].value.forEach( ( literalOrRDFNode )=> { this.value.push( Object.assign( literalOrRDFNode ) ) } )
+			prop[ this.copyOrAdded ].value.forEach( ( literalOrRDFNode )=> { (<[]>this.value).push( Object.assign( literalOrRDFNode ) ) } )
 		} else {
 			this.value = prop[ this.copyOrAdded ].value;
+			(<Control>this.idInput).updateValue( this.value );
 		}
 	}
 
 	get property():PropertyRow { return this._property; }
 
-	@Output() onGoToBNode:EventEmitter<string> = new EventEmitter<string>();
+	@Output() onGoToBlankNode:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onGoToNamedFragment:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onChangeProperty:EventEmitter<Property> = new EventEmitter<Property>();
 	@Output() onDeleteProperty:EventEmitter<PropertyRow> = new EventEmitter<PropertyRow>();
@@ -82,13 +87,13 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	@Output() onRefreshDocument:EventEmitter<string> = new EventEmitter<string>();
 
 	nameHasChanged:boolean = false;
+	valueHasChanged:boolean = false;
 	literalsHaveChanged:boolean = false;
 	pointersHaveChanged:boolean = false;
 
-	get propertyHasChanged():boolean { return this.nameHasChanged || this.literalsHaveChanged || this.pointersHaveChanged; }
+	get propertyHasChanged():boolean { return this.nameHasChanged || this.valueHasChanged || this.literalsHaveChanged || this.pointersHaveChanged; }
 
 	// TODO: Add @lists and @sets support
-	// TODO: Add colors to pointers and literals
 	constructor( element:ElementRef ) {
 		this.element = element;
 	}
@@ -133,7 +138,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	goToBNode( id:string ):void {
-		this.onGoToBNode.emit( id );
+		this.onGoToBlankNode.emit( id );
 	}
 
 	goToNamedFragment( id:string ):void {
@@ -172,6 +177,13 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		(<Control>this.nameInput).updateValue( this.unescape( this.name ) );
 	}
 
+	onEditId():void {
+		this.mode = Modes.EDIT;
+		this.existingFragments = [];
+		this.namedFragments.forEach( ( nameFragment:NamedFragmentRow ) => { this.existingFragments.push( nameFragment.name ); } );
+		( <Control>this.idInput ).updateValue( this.unescape( this.value ) );
+	}
+
 	cancelDeletion():void {
 		this.$element.find( ".confirm-deletion.dimmer" ).dimmer( "hide" );
 	}
@@ -180,6 +192,13 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		if( this.nameInput.valid ) {
 			this.mode = Modes.READ;
 			(<Control>this.nameInput).updateValue( this.name );
+		}
+	}
+
+	cancelIdEdition():void {
+		if( this.idInput.valid ) {
+			this.mode = Modes.READ;
+			(<Control>this.idInput).updateValue( this.value );
 		}
 	}
 
@@ -197,16 +216,21 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	save():void {
-		this.checkForChangesOnName( this.sanitizeName( this.nameInput.value ) );
+		this.checkForChangesOnName( this.sanitize( this.nameInput.value ) );
 		this.mode = Modes.READ;
 	}
 
-	sanitizeName( name:string ):string {
-		let sanitizedName:string = name;
-		let slug:string = this.getSlug( this.nameInput.value );
-		let parts:string[] = this.nameInput.value.split( slug );
-		if( parts.length > 0 ) sanitizedName = parts[ 0 ] + this.escape( slug );
-		return sanitizedName;
+	saveId():void {
+		this.checkForChangesOnId( this.sanitize( this.idInput.value ) );
+		this.mode = Modes.READ;
+	}
+
+	sanitize( value:string ):string {
+		let sanitized:string = value;
+		let slug:string = this.getSlug( value );
+		let parts:string[] = value.split( slug );
+		if( parts.length > 0 ) sanitized = parts[ 0 ] + this.escape( slug );
+		return sanitized;
 	}
 
 	fillLiteralsAndPointers():void {
@@ -256,6 +280,14 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		}
 	}
 
+	checkForChangesOnId( newId:string ):void {
+		this.value = newId;
+		if( typeof this.value !== "undefined" && (this.value !== this.property[ this.copyOrAdded ].value || this.value !== this.tempProperty.value ) ) {
+			this.tempProperty.value = this.value;
+			this.changePropertyContent();
+		}
+	}
+
 	checkForChangesOnLiterals( literals:LiteralRow[] ):void {
 		this.tempLiterals = literals;
 		this.changePropertyContent();
@@ -269,6 +301,11 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	changePropertyContent():void {
 		this.tempProperty.id = this.id;
 		this.tempProperty.name = this.name;
+		this.tempProperty.value = this.value;
+
+		this.nameHasChanged = false;
+		this.valueHasChanged = false;
+
 		// Change name
 		if( (! ! this.property.copy) ) {
 			if( (this.tempProperty.name !== this.property.copy.name ) ) {
@@ -293,7 +330,14 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 			else { delete this.property.modifiedPointers; }
 
 		} else {
-			this.tempProperty.value = this.value;
+
+			// Change value because it is a single string
+			if( (! ! this.property.copy) ) {
+				if( (this.tempProperty.value !== this.property.copy.value ) ) {
+					this.property.modified = this.tempProperty;
+					this.valueHasChanged = true;
+				} else { this.valueHasChanged = false; }
+			}
 		}
 
 		this.property.isBeingCreated = false;
@@ -320,11 +364,11 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	private escape( uri:string ):string {
-		return window.escape( uri );
+		return encodeURI( uri );
 	}
 
 	private unescape( uri:string ):string {
-		return window.unescape( uri );
+		return decodeURI( uri );
 	}
 
 	private nameValidator( control:AbstractControl ):any {
@@ -333,6 +377,18 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 			if( this.existingProperties.indexOf( control.value ) !== - 1 && (this.property.added ? this.id !== control.value : this.name !== control.value) ) return { "duplicatedPropertyName": true };
 			let url = new RegExp( "(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g" );
 			if( ! url.test( control.value ) ) return { "invalidName": true };
+			if( control.value.split( "#" ).length > 2 ) return { "duplicatedHashtag": true };
+		}
+		return null;
+	}
+
+	private idValidator( control:AbstractControl ):any {
+		if( ! ! control ) {
+			if( typeof control.value === "undefined" || control.value === null || ! control.value ) return null;
+			if( typeof control.value === "string" && ! control.value.startsWith( this.documentURI ) ) return { "invalidParent": true };
+			if( this.existingFragments.indexOf( control.value ) !== - 1 && (this.property.added ? this.id !== control.value : this.value !== control.value) ) return { "duplicatedNamedFragmentName": true };
+			let url = new RegExp( "(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g" );
+			if( ! url.test( control.value ) ) return { "invalidValue": true };
 			if( control.value.split( "#" ).length > 2 ) return { "duplicatedHashtag": true };
 		}
 		return null;
@@ -355,7 +411,7 @@ export interface PropertyRow {
 export interface Property {
 	id:string;
 	name:string;
-	value:any[];
+	value:any;
 }
 
 export class Modes {

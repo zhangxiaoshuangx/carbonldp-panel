@@ -148,11 +148,12 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     this.namedFragments = RDFDocument.Util.getFragmentResources(this.document).map(function (namedFragment) {
                         return {
                             id: namedFragment["@id"],
+                            name: namedFragment["@id"],
                             copy: namedFragment
                         };
                     });
                 };
-                DocumentViewerComponent.prototype.openBNode = function (id) {
+                DocumentViewerComponent.prototype.openBlankNode = function (id) {
                     this.documentBNodes.openBlankNode(id);
                     this.goToSection("bNodes");
                 };

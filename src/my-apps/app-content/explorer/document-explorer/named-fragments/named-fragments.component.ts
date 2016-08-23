@@ -1,6 +1,5 @@
 import { Component, ElementRef, Input, Output, EventEmitter, SimpleChange, OnChanges, AfterViewInit } from "@angular/core";
 
-import * as RDFNode from "carbonldp/RDF/RDFNode";
 import * as URI from "carbonldp/RDF/URI";
 
 import { NamedFragmentComponent, NamedFragmentRow } from "./named-fragment.component";
@@ -43,7 +42,7 @@ export class NamedFragmentsComponent implements AfterViewInit, OnChanges {
 
 	ngAfterViewInit():void {
 		this.$element = $( this.element.nativeElement );
-		this.nodesTab = this.$element.find( ".tabular.named-fragments.menu" ).tab();
+		this.nodesTab = this.$element.find( ".tabular.named-fragments.menu" );
 		this.initializeDeletionDimmer();
 	}
 
@@ -58,14 +57,14 @@ export class NamedFragmentsComponent implements AfterViewInit, OnChanges {
 	openNamedFragment( nodeOrId:NamedFragmentRow|string ):void {
 		let node:NamedFragmentRow;
 		if( typeof nodeOrId === "string" ) {
-			node = this.namedFragments.find( ( node )=> { return node.id === nodeOrId} );
+			node = this.namedFragments.find( ( node )=> { return node.name === nodeOrId} );
 		} else {
 			node = nodeOrId;
 		}
 		if( this.openedNamedFragments.indexOf( node ) === - 1 )this.openedNamedFragments.push( node );
 		setTimeout( () => {
 			this.refreshTabs();
-			this.goToNamedFragment( "namedfragment_" + this.getNormalizedUri( node.id ) );
+			this.goToNamedFragment( "named-fragment_" + this.getNormalizedUri( node.name ) );
 		}, 50 );
 	}
 
@@ -86,7 +85,11 @@ export class NamedFragmentsComponent implements AfterViewInit, OnChanges {
 	}
 
 	refreshTabs():void {
-		this.nodesTab.find( ">.item" ).tab();
+		let items:JQuery = this.nodesTab.find( ">.item" );
+		items.removeData();
+		// The destroy is because JQuery uses a cache version of all data attributes. So we need to clear the data attributes to get the new tabs ids.
+		items.tab( "destroy" );
+		items.tab();
 	}
 
 	getNormalizedUri( uri:string ):string {
@@ -104,6 +107,7 @@ export class NamedFragmentsComponent implements AfterViewInit, OnChanges {
 		} else if( typeof namedFragmentRow.added === "undefined" ) {
 			this.namedFragmentsRecords.changes.delete( namedFragmentRow.id );
 		}
+		this.refreshTabs();
 		this.onChanges.emit( this.namedFragmentsRecords );
 	}
 
@@ -115,19 +119,21 @@ export class NamedFragmentsComponent implements AfterViewInit, OnChanges {
 			this.namedFragmentsRecords.changes.delete( namedFragmentRow.id );
 			this.namedFragmentsRecords.deletions.set( namedFragmentRow.id, namedFragmentRow );
 		} else {
-			// this.namedFragmentsRecords.changes.delete( namedFragmentRow.id );
 			this.namedFragmentsRecords.deletions.set( namedFragmentRow.id, namedFragmentRow );
 		}
 		index = this.namedFragments.indexOf( namedFragmentRow );
 		this.namedFragments.splice( index, 1 );
+		this.refreshTabs();
 		this.onChanges.emit( this.namedFragmentsRecords );
 	}
 
 	createNamedFragment():void {
-		let newlyFragments:NamedFragmentRow[] = this.namedFragments.filter( ( namedFragment:NamedFragmentRow ) => { return namedFragment.id === "http://www.example.com/ns#My-Fragment-Name" } );
-		let id:string = "http://www.example.com/ns#My-Fragment-Name-" + (newlyFragments.length + 1);
+		let newName:string = this.documentURI + "#New-Fragment-Name-";
+		let newFragments:NamedFragmentRow[] = this.namedFragments.filter( ( namedFragment:NamedFragmentRow ) => { return namedFragment.name.startsWith( newName ) } );
+		let id:string = newName + (newFragments.length + 1);
 		let newNamedFragment:NamedFragmentRow = <NamedFragmentRow>{
 			id: id,
+			name: id,
 			copy: {
 				"@id": id
 			}
@@ -135,6 +141,7 @@ export class NamedFragmentsComponent implements AfterViewInit, OnChanges {
 		newNamedFragment.added = newNamedFragment.copy;
 		this.namedFragments.splice( 0, 0, newNamedFragment );
 		this.namedFragmentsRecords.additions.set( id, newNamedFragment );
+		this.refreshTabs();
 		this.onChanges.emit( this.namedFragmentsRecords );
 		this.openNamedFragment( id );
 	}

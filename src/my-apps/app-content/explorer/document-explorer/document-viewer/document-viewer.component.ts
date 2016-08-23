@@ -144,12 +144,13 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 			( namedFragment:RDFNode.Class )=> {
 				return {
 					id: namedFragment[ "@id" ],
+					name: namedFragment[ "@id" ],
 					copy: namedFragment
 				}
 			} );
 	}
 
-	openBNode( id:string ):void {
+	openBlankNode( id:string ):void {
 		this.documentBNodes.openBlankNode( id );
 		this.goToSection( "bNodes" );
 	}

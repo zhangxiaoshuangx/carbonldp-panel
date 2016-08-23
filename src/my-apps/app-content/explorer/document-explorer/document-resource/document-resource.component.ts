@@ -52,7 +52,7 @@ export class DocumentResourceComponent implements AfterViewInit {
 		return this._rootNode;
 	}
 
-	@Output() onOpenBNode:EventEmitter<string> = new EventEmitter<string>();
+	@Output() onOpenBlankNode:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onOpenNamedFragment:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onChanges:EventEmitter<RootRecords> = new EventEmitter<RootRecords>();
 
@@ -65,8 +65,8 @@ export class DocumentResourceComponent implements AfterViewInit {
 		this.$element = $( this.element.nativeElement );
 	}
 
-	openBNode( id:string ):void {
-		this.onOpenBNode.emit( id );
+	openBlankNode( id:string ):void {
+		this.onOpenBlankNode.emit( id );
 	}
 
 	openNamedFragment( id:string ):void {

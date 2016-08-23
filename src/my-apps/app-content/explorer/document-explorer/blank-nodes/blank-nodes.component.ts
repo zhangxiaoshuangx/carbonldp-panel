@@ -33,7 +33,7 @@ export class BlankNodesComponent implements AfterViewInit, OnChanges {
 	@Input() documentURI:string = "";
 
 	@Output() onChanges:EventEmitter<BlankNodesRecords> = new EventEmitter<BlankNodesRecords>();
-	@Output() onOpenBNode:EventEmitter<string> = new EventEmitter<string>();
+	@Output() onOpenBlankNode:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onOpenNamedFragment:EventEmitter<string> = new EventEmitter<string>();
 
 	constructor( element:ElementRef ) {
@@ -75,7 +75,7 @@ export class BlankNodesComponent implements AfterViewInit, OnChanges {
 	goToBlankNode( id:string ) {
 		if( ! this.nodesTab ) return;
 		this.nodesTab.find( "> [data-tab='" + id + "']" ).click();
-		this.onOpenBNode.emit( "bNodes" );
+		this.onOpenBlankNode.emit( "bNodes" );
 	}
 
 	closeBlankNode( blankNode:BlankNodeRow, index?:number ):void {

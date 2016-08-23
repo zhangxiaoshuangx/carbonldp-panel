@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/RDF/URI", "./named-fragment.component", "./../property/property.component", "jquery", "semantic-ui/semantic", "./named-fragments.component.html!", "./named-fragments.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/RDF/URI", "./named-fragment.component", "jquery", "semantic-ui/semantic", "./named-fragments.component.html!", "./named-fragments.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,8 +10,8 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "./named-fragment.compone
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, URI, named_fragment_component_1, property_component_1, jquery_1, named_fragments_component_html_1, named_fragments_component_css_text_1;
-    var NamedFragmentsComponent;
+    var core_1, URI, named_fragment_component_1, jquery_1, named_fragments_component_html_1, named_fragments_component_css_text_1;
+    var NamedFragmentsComponent, NamedFragmentsRecords;
     return {
         setters:[
             function (core_1_1) {
@@ -22,9 +22,6 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "./named-fragment.compone
             },
             function (named_fragment_component_1_1) {
                 named_fragment_component_1 = named_fragment_component_1_1;
-            },
-            function (property_component_1_1) {
-                property_component_1 = property_component_1_1;
             },
             function (jquery_1_1) {
                 jquery_1 = jquery_1_1;
@@ -40,48 +37,32 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "./named-fragment.compone
             NamedFragmentsComponent = (function () {
                 function NamedFragmentsComponent(element) {
                     this.openedNamedFragments = [];
-                    this.namedFragmentsChanges = new Map();
-                    this.bNodes = [];
+                    this.namedFragmentsRecords = new NamedFragmentsRecords();
+                    this.blankNodes = [];
                     this.namedFragments = [];
                     this.documentURI = "";
                     this.onChanges = new core_1.EventEmitter();
-                    this.onOpenBNode = new core_1.EventEmitter();
+                    this.onOpenBlankNode = new core_1.EventEmitter();
                     this.onOpenNamedFragment = new core_1.EventEmitter();
                     this.element = element;
                 }
-                NamedFragmentsComponent.prototype.ngAfterContentInit = function () {
+                NamedFragmentsComponent.prototype.ngAfterViewInit = function () {
                     this.$element = jquery_1.default(this.element.nativeElement);
-                    this.nodesTab = this.$element.find(".tabular.namedfragments.menu").tab();
+                    this.nodesTab = this.$element.find(".tabular.named-fragments.menu");
+                    this.initializeDeletionDimmer();
                 };
                 NamedFragmentsComponent.prototype.ngOnChanges = function (changes) {
                     if ((changes["namedFragments"].currentValue !== changes["namedFragments"].previousValue)) {
                         this.openedNamedFragments = [];
                         this.goToNamedFragment("all-namedFragments");
-                        this.namedFragmentsChanges.clear();
+                        this.namedFragmentsRecords.clear();
                     }
-                };
-                NamedFragmentsComponent.prototype.getPropertiesName = function (property) {
-                    return Object.keys(property);
-                };
-                NamedFragmentsComponent.prototype.notifyNamedFragmentHasChanged = function (records, namedFragment) {
-                    if (typeof records === "undefined" || records === null) {
-                        this.namedFragmentsChanges.delete(namedFragment["@id"]);
-                        this.onChanges.emit(this.namedFragmentsChanges);
-                        return;
-                    }
-                    if (records.changes.size > 0 || records.additions.size > 0 || records.deletions.size > 0) {
-                        this.namedFragmentsChanges.set(namedFragment["@id"], records);
-                    }
-                    else {
-                        this.namedFragmentsChanges.delete(namedFragment["@id"]);
-                    }
-                    this.onChanges.emit(this.namedFragmentsChanges);
                 };
                 NamedFragmentsComponent.prototype.openNamedFragment = function (nodeOrId) {
                     var _this = this;
                     var node;
                     if (typeof nodeOrId === "string") {
-                        node = this.namedFragments.find(function (node) { return node["@id"] === nodeOrId; });
+                        node = this.namedFragments.find(function (node) { return node.name === nodeOrId; });
                     }
                     else {
                         node = nodeOrId;
@@ -90,11 +71,11 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "./named-fragment.compone
                         this.openedNamedFragments.push(node);
                     setTimeout(function () {
                         _this.refreshTabs();
-                        _this.goToNamedFragment("namedfragment_" + _this.getNormalizedUri(node["@id"]));
+                        _this.goToNamedFragment("named-fragment_" + _this.getNormalizedUri(node.name));
                     }, 50);
                 };
-                NamedFragmentsComponent.prototype.openBNode = function (id) {
-                    this.onOpenBNode.emit(id);
+                NamedFragmentsComponent.prototype.openBlankNode = function (id) {
+                    this.onOpenBlankNode.emit(id);
                 };
                 NamedFragmentsComponent.prototype.goToNamedFragment = function (id) {
                     if (!this.nodesTab)
@@ -102,15 +83,16 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "./named-fragment.compone
                     this.nodesTab.find("> [data-tab='" + id + "']").click();
                     this.onOpenNamedFragment.emit("namedFragments");
                 };
-                NamedFragmentsComponent.prototype.closeNamedFragment = function (namedFragment) {
-                    var idx = this.openedNamedFragments.indexOf(namedFragment);
-                    this.openedNamedFragments.splice(idx, 1);
+                NamedFragmentsComponent.prototype.closeNamedFragment = function (namedFragment, index) {
+                    this.openedNamedFragments.splice(index, 1);
                     this.goToNamedFragment("all-namedFragments");
-                    if (this.namedFragmentsChanges.has(namedFragment["@id"]))
-                        this.notifyNamedFragmentHasChanged(null, namedFragment);
                 };
                 NamedFragmentsComponent.prototype.refreshTabs = function () {
-                    this.nodesTab.find(">.item").tab();
+                    var items = this.nodesTab.find(">.item");
+                    items.removeData();
+                    // The destroy is because JQuery uses a cache version of all data attributes. So we need to clear the data attributes to get the new tabs ids.
+                    items.tab("destroy");
+                    items.tab();
                 };
                 NamedFragmentsComponent.prototype.getNormalizedUri = function (uri) {
                     return uri.replace(/[^\w\s]/gi, "");
@@ -118,10 +100,74 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "./named-fragment.compone
                 NamedFragmentsComponent.prototype.getSlug = function (uri) {
                     return URI.Util.getSlug(uri);
                 };
+                NamedFragmentsComponent.prototype.changeNamedFragment = function (namedFragmentRow, index) {
+                    if (typeof this.namedFragmentsRecords === "undefined")
+                        this.namedFragmentsRecords = new NamedFragmentsRecords();
+                    if (typeof namedFragmentRow.modified !== "undefined") {
+                        this.namedFragmentsRecords.changes.set(namedFragmentRow.id, namedFragmentRow);
+                    }
+                    else if (typeof namedFragmentRow.added === "undefined") {
+                        this.namedFragmentsRecords.changes.delete(namedFragmentRow.id);
+                    }
+                    this.refreshTabs();
+                    this.onChanges.emit(this.namedFragmentsRecords);
+                };
+                NamedFragmentsComponent.prototype.deleteNamedFragment = function (namedFragmentRow, index) {
+                    if (typeof this.namedFragmentsRecords === "undefined")
+                        this.namedFragmentsRecords = new NamedFragmentsRecords();
+                    if (typeof namedFragmentRow.added !== "undefined") {
+                        this.namedFragmentsRecords.additions.delete(namedFragmentRow.id);
+                    }
+                    else if (typeof namedFragmentRow.modified !== "undefined") {
+                        this.namedFragmentsRecords.changes.delete(namedFragmentRow.id);
+                        this.namedFragmentsRecords.deletions.set(namedFragmentRow.id, namedFragmentRow);
+                    }
+                    else {
+                        this.namedFragmentsRecords.deletions.set(namedFragmentRow.id, namedFragmentRow);
+                    }
+                    index = this.namedFragments.indexOf(namedFragmentRow);
+                    this.namedFragments.splice(index, 1);
+                    this.refreshTabs();
+                    this.onChanges.emit(this.namedFragmentsRecords);
+                };
+                NamedFragmentsComponent.prototype.createNamedFragment = function () {
+                    var newName = this.documentURI + "#New-Fragment-Name-";
+                    var newFragments = this.namedFragments.filter(function (namedFragment) { return namedFragment.name.startsWith(newName); });
+                    var id = newName + (newFragments.length + 1);
+                    var newNamedFragment = {
+                        id: id,
+                        name: id,
+                        copy: {
+                            "@id": id
+                        }
+                    };
+                    newNamedFragment.added = newNamedFragment.copy;
+                    this.namedFragments.splice(0, 0, newNamedFragment);
+                    this.namedFragmentsRecords.additions.set(id, newNamedFragment);
+                    this.refreshTabs();
+                    this.onChanges.emit(this.namedFragmentsRecords);
+                    this.openNamedFragment(id);
+                };
+                NamedFragmentsComponent.prototype.initializeDeletionDimmer = function () {
+                    this.$element.find(".confirm-deletion.dimmer").dimmer({ closable: false });
+                };
+                NamedFragmentsComponent.prototype.askToConfirmDeletion = function (clickEvent, blankNode) {
+                    clickEvent.stopPropagation();
+                    this.askingDeletionNamedFragment = blankNode;
+                    this.$element.find(".confirm-deletion.dimmer").dimmer("show");
+                };
+                NamedFragmentsComponent.prototype.confirmDeletion = function () {
+                    this.deleteNamedFragment(this.askingDeletionNamedFragment);
+                    this.$element.find(".confirm-deletion.dimmer").dimmer("hide");
+                };
+                NamedFragmentsComponent.prototype.cancelDeletion = function () {
+                    this.askingDeletionNamedFragment = null;
+                    this.$element.find(".confirm-deletion.dimmer").dimmer("hide");
+                };
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', Array)
-                ], NamedFragmentsComponent.prototype, "bNodes", void 0);
+                ], NamedFragmentsComponent.prototype, "blankNodes", void 0);
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', Array)
@@ -137,7 +183,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "./named-fragment.compone
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
-                ], NamedFragmentsComponent.prototype, "onOpenBNode", void 0);
+                ], NamedFragmentsComponent.prototype, "onOpenBlankNode", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
@@ -147,13 +193,27 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "./named-fragment.compone
                         selector: "cp-named-fragments",
                         template: named_fragments_component_html_1.default,
                         styles: [named_fragments_component_css_text_1.default],
-                        directives: [property_component_1.PropertyComponent, named_fragment_component_1.NamedFragmentComponent],
+                        directives: [named_fragment_component_1.NamedFragmentComponent],
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
                 ], NamedFragmentsComponent);
                 return NamedFragmentsComponent;
             }());
             exports_1("NamedFragmentsComponent", NamedFragmentsComponent);
+            NamedFragmentsRecords = (function () {
+                function NamedFragmentsRecords() {
+                    this.changes = new Map();
+                    this.deletions = new Map();
+                    this.additions = new Map();
+                }
+                NamedFragmentsRecords.prototype.clear = function () {
+                    this.changes.clear();
+                    this.deletions.clear();
+                    this.additions.clear();
+                };
+                return NamedFragmentsRecords;
+            }());
+            exports_1("NamedFragmentsRecords", NamedFragmentsRecords);
             exports_1("default",NamedFragmentsComponent);
         }
     }

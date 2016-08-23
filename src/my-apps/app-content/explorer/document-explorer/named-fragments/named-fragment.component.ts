@@ -35,6 +35,7 @@ export class NamedFragmentComponent implements AfterViewInit {
 		this._namedFragmentHasChanged = hasChanged;
 		delete this.namedFragment.modified;
 		delete this.namedFragment.records;
+		this.namedFragment.name = this.namedFragment.id;
 		if( hasChanged ) {
 			this.namedFragment.records = this.records;
 			if( typeof this.namedFragment.added !== "undefined" ) this.namedFragment.added = this.getRawVersion();
@@ -189,6 +190,7 @@ export class NamedFragmentComponent implements AfterViewInit {
 			delete rawNode[ key ];
 		} );
 		this.records.changes.forEach( ( property, key )=> {
+			if( property.modified.id === "@id" ) this.namedFragment.name = property.modified.value;
 			if( property.modified.id !== property.modified.name ) {
 				delete rawNode[ key ];
 				rawNode[ property.modified.name ] = property.modified.value;
@@ -197,6 +199,7 @@ export class NamedFragmentComponent implements AfterViewInit {
 			}
 		} );
 		this.records.additions.forEach( ( property, key )=> {
+			if( property.added.id === "@id" ) this.namedFragment.name = property.modified.value;
 			rawNode[ key ] = property.added.value;
 		} );
 		return rawNode;
@@ -204,6 +207,7 @@ export class NamedFragmentComponent implements AfterViewInit {
 }
 export interface NamedFragmentRow {
 	id?:string;
+	name?:string;
 
 	copy?:RDFNode.Class;
 	added?:RDFNode.Class;

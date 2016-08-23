@@ -1,10 +1,11 @@
 import { Component, ElementRef, Input, Output, SimpleChange, EventEmitter, OnChanges } from "@angular/core";
 import { Control, AbstractControl, Validators } from '@angular/common';
 
-import * as RDFNode from "carbonldp/RDF/RDFNode";
 import * as URI from "carbonldp/RDF/URI";
 
-import { Modes } from "./../property/property.component"
+import { Modes } from "./../property/property.component";
+import { BlankNodeRow } from "./../blank-nodes/blank-node.component";
+import { NamedFragmentRow } from "./../named-fragments/named-fragment.component";
 
 import $ from "jquery";
 import "semantic-ui/semantic";
@@ -62,8 +63,8 @@ export class PointerComponent implements OnChanges {
 	}
 
 	@Input() documentURI:string = "";
-	@Input() bNodes:RDFNode.Class[] = [];
-	@Input() namedFragments:RDFNode.Class[] = [];
+	@Input() bNodes:BlankNodeRow[] = [];
+	@Input() namedFragments:NamedFragmentRow[] = [];
 	@Input() canEdit:boolean = true;
 
 	@Output() onEditMode:EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -109,7 +110,7 @@ export class PointerComponent implements OnChanges {
 
 	checkForChangesOnPointers():void {
 		if( typeof this.id === "undefined" ) return;
-		let idx:number = this.bNodes.concat( this.namedFragments ).findIndex( ( nfOrBN )=> {return nfOrBN[ "@id" ] === this.id || nfOrBN[ "id" ] === this.id;} );
+		let idx:number = this.bNodes.concat( this.namedFragments ).findIndex( ( nfOrBN )=> {return nfOrBN[ "name" ] === this.id || nfOrBN[ "id" ] === this.id;} );
 		this.isBNode = URI.Util.isBNodeID( <string>this.id );
 		this.isNamedFragment = URI.Util.isFragmentOf( this.id, this.documentURI );
 		this.existsOnPointers = idx !== - 1;
@@ -186,11 +187,15 @@ export class PointerComponent implements OnChanges {
 	}
 
 	goToBNode( id:string ):void {
-		this.onGoToBNode.emit( id );
+		let idx:number = this.bNodes.findIndex( ( blankNode:BlankNodeRow )=> { return blankNode.id === id; } );
+		this.existsOnPointers = idx !== - 1;
+		if( this.existsOnPointers ) this.onGoToBNode.emit( id );
 	}
 
 	goToNamedFragment( id:string ):void {
-		this.onGoToNamedFragment.emit( id );
+		let idx:number = this.namedFragments.findIndex( ( namedFragment:NamedFragmentRow )=> { return namedFragment.name === id; } );
+		this.existsOnPointers = idx !== - 1;
+		if( this.existsOnPointers ) this.onGoToNamedFragment.emit( id );
 	}
 
 }

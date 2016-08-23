@@ -59,7 +59,7 @@
 						                      [namedFragments]="namedFragments"
 						                      [documentURI]="rootNode['@id']"
 
-						                      (onOpenBNode)="openBNode($event)"
+						                      (onOpenBlankNode)="openBlankNode($event)"
 						                      (onOpenNamedFragment)="openNamedFragment($event)"
 						                      (onChanges)="registerRootNodeChanges($event)">
 						</cp-document-resource>
@@ -70,17 +70,17 @@
 						                [blankNodes]="bNodes"
 						                [namedFragments]="namedFragments"
 
-						                (onOpenBNode)="goToSection($event)"
+						                (onOpenBlankNode)="goToSection($event)"
 						                (onOpenNamedFragment)="openNamedFragment($event)"
 						                (onChanges)="registerBlankNodesChanges($event)"></cp-blank-nodes>
 					</div>
 					<div class="ui tab segment" data-tab="namedFragments">
 						<cp-named-fragments class="column"
 						                    [documentURI]="document['@id']"
-						                    [bNodes]="bNodes"
+						                    [blankNodes]="bNodes"
 						                    [namedFragments]="namedFragments"
 
-						                    (onOpenBNode)="openBNode($event)"
+						                    (onOpenBlankNode)="openBlankNode($event)"
 						                    (onOpenNamedFragment)="goToSection($event)"
 						                    (onChanges)="registerNamedFragmentsChanges($event)"></cp-named-fragments>
 					</div>

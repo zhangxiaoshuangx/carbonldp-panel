@@ -13,8 +13,6 @@ export declare class BlankNodeComponent implements AfterViewInit {
     rootNode: RDFNode.Class;
     properties: PropertyRow[];
     existingPropertiesNames: string[];
-    id: string;
-    bNodeIdentifier: string;
     private _bNodeHasChanged;
     bNodeHasChanged: boolean;
     blankNodes: BlankNodeRow[];
