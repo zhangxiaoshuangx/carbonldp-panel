@@ -68,7 +68,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		(<Control>this.nameInput).updateValue( this.name );
 		if( Utils.isArray( prop[ this.copyOrAdded ].value ) ) {
 			this.value = [];
-			prop[ this.copyOrAdded ].value.forEach( ( literalOrRDFNode )=> { (<[]>this.value).push( Object.assign( literalOrRDFNode ) ) } )
+			prop[ this.copyOrAdded ].value.forEach( ( literalOrRDFNode )=> { (<Array<any>>this.value).push( Object.assign( literalOrRDFNode ) ) } )
 		} else {
 			this.value = prop[ this.copyOrAdded ].value;
 			(<Control>this.idInput).updateValue( this.value );
@@ -181,7 +181,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		this.mode = Modes.EDIT;
 		this.existingFragments = [];
 		this.namedFragments.forEach( ( nameFragment:NamedFragmentRow ) => { this.existingFragments.push( nameFragment.name ); } );
-		( <Control>this.idInput ).updateValue( this.unescape( this.value ) );
+		( <Control>this.idInput ).updateValue( this.unescape( <string>this.value ) );
 	}
 
 	cancelDeletion():void {

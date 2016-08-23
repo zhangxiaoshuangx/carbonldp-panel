@@ -104,6 +104,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 });
                 DocumentViewerComponent.prototype.ngAfterViewInit = function () {
                     this.$element = jquery_1.default(this.element.nativeElement);
+                    this.$successMessage = this.$element.find(".success.message");
                 };
                 DocumentViewerComponent.prototype.ngOnChanges = function (changes) {
                     var _this = this;
@@ -254,9 +255,12 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     this.documentsResolverService.update(this.document["@id"], body, this.documentContext).then(function (updatedDocument) {
                         _this.document = updatedDocument[0];
                         setTimeout(function () {
-                            _this.$element.find(".success.message").transition({
+                            _this.$successMessage.transition({
                                 onComplete: function () {
-                                    setTimeout(function () { _this.$element.find(".success.message").transition("fade"); }, 4000);
+                                    setTimeout(function () {
+                                        if (!_this.$successMessage.hasClass("hidden"))
+                                            _this.$successMessage.transition("fade");
+                                    }, 4000);
                                 }
                             });
                         }, 1500);
