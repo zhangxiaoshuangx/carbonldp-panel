@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common", "@angular/router-deprecated", "carbonldp/Carbon", "carbonldp/App", "carbonldp/HTTP", "carbonldp/NS/CS", "./../app-context.service", "./../../errors-area/error-message.component", "semantic-ui/semantic", "./create-app.component.html!"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbonldp/Carbon", "carbonldp/App", "carbonldp/HTTP", "carbonldp/NS/CS", "./../app-context.service", "semantic-ui/semantic", "./create-app.component.html!"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,18 +10,15 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, router_deprecated_1, Carbon_1, CarbonApp, HTTP, CS, app_context_service_1, error_message_component_1, create_app_component_html_1;
+    var core_1, forms_deprecated_1, Carbon_1, CarbonApp, HTTP, CS, app_context_service_1, create_app_component_html_1;
     var CreateAppComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (common_1_1) {
-                common_1 = common_1_1;
-            },
-            function (router_deprecated_1_1) {
-                router_deprecated_1 = router_deprecated_1_1;
+            function (forms_deprecated_1_1) {
+                forms_deprecated_1 = forms_deprecated_1_1;
             },
             function (Carbon_1_1) {
                 Carbon_1 = Carbon_1_1;
@@ -37,9 +34,6 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
             },
             function (app_context_service_1_1) {
                 app_context_service_1 = app_context_service_1_1;
-            },
-            function (error_message_component_1_1) {
-                error_message_component_1 = error_message_component_1_1;
             },
             function (_1) {},
             function (create_app_component_html_1_1) {
@@ -61,9 +55,9 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
                 }
                 CreateAppComponent.prototype.ngOnInit = function () {
                     this.createAppForm = this.formBuilder.group({
-                        name: ["", common_1.Validators.compose([common_1.Validators.required])],
-                        slug: ["", common_1.Validators.compose([this.slugValidator])],
-                        description: ["", common_1.Validators.compose([common_1.Validators.required])],
+                        name: ["", forms_deprecated_1.Validators.compose([forms_deprecated_1.Validators.required])],
+                        slug: ["", forms_deprecated_1.Validators.compose([this.slugValidator])],
+                        description: ["", forms_deprecated_1.Validators.compose([forms_deprecated_1.Validators.required])],
                     });
                     this.name = this.createAppForm.controls["name"];
                     this.slug = this.createAppForm.controls["slug"];
@@ -221,9 +215,8 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
                         selector: "cp-create-app",
                         template: create_app_component_html_1.default,
                         styles: [":host { display: block; }"],
-                        directives: [router_deprecated_1.ROUTER_DIRECTIVES, error_message_component_1.ErrorMessageComponent],
                     }), 
-                    __metadata('design:paramtypes', [common_1.FormBuilder, Carbon_1.default, app_context_service_1.AppContextService])
+                    __metadata('design:paramtypes', [forms_deprecated_1.FormBuilder, Carbon_1.default, app_context_service_1.AppContextService])
                 ], CreateAppComponent);
                 return CreateAppComponent;
             }());

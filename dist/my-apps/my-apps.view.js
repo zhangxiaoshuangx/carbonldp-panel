@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/router-deprecated", "./app-content/app-content.view", "./apps-catalog/apps-catalog.view", "./create-app/create-app.view"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/router-deprecated"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/router-deprecated", "./app-content/a
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_deprecated_1, app_content_view_1, apps_catalog_view_1, create_app_view_1;
+    var core_1, router_deprecated_1;
     var MyAppsView;
     return {
         setters:[
@@ -19,15 +19,6 @@ System.register(["@angular/core", "@angular/router-deprecated", "./app-content/a
             },
             function (router_deprecated_1_1) {
                 router_deprecated_1 = router_deprecated_1_1;
-            },
-            function (app_content_view_1_1) {
-                app_content_view_1 = app_content_view_1_1;
-            },
-            function (apps_catalog_view_1_1) {
-                apps_catalog_view_1 = apps_catalog_view_1_1;
-            },
-            function (create_app_view_1_1) {
-                create_app_view_1 = create_app_view_1_1;
             }],
         execute: function() {
             MyAppsView = (function () {
@@ -40,42 +31,7 @@ System.register(["@angular/core", "@angular/router-deprecated", "./app-content/a
                         styles: [":host { display: block; }"],
                         directives: [router_deprecated_1.ROUTER_DIRECTIVES, router_deprecated_1.RouterOutlet],
                         providers: []
-                    }),
-                    router_deprecated_1.RouteConfig([
-                        {
-                            path: "/",
-                            as: "List",
-                            component: apps_catalog_view_1.AppsCatalogView,
-                            useAsDefault: true,
-                            data: {
-                                alias: "List",
-                                displayName: "My Apps",
-                            },
-                        },
-                        {
-                            path: "/:slug/...",
-                            as: "App",
-                            component: app_content_view_1.AppContentView,
-                            data: {
-                                alias: "App",
-                                displayName: "App",
-                                main: true,
-                                params: {
-                                    name: "slug",
-                                    redirectTo: "AppDashboard",
-                                },
-                            },
-                        },
-                        {
-                            path: "/create",
-                            as: "Create",
-                            component: create_app_view_1.CreateAppView,
-                            data: {
-                                alias: "Create",
-                                displayName: "Create App",
-                            },
-                        },
-                    ]), 
+                    }), 
                     __metadata('design:paramtypes', [])
                 ], MyAppsView);
                 return MyAppsView;

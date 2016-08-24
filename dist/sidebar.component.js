@@ -89,9 +89,10 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
                             class: "ui inverted vertical menu accordion"
                         }
                     }), 
-                    __metadata('design:paramtypes', [router_deprecated_1.Router, core_1.ElementRef, common_1.Location, sidebar_service_1.SidebarService])
+                    __metadata('design:paramtypes', [(typeof (_a = typeof router_deprecated_1.Router !== 'undefined' && router_deprecated_1.Router) === 'function' && _a) || Object, core_1.ElementRef, common_1.Location, sidebar_service_1.SidebarService])
                 ], SidebarComponent);
                 return SidebarComponent;
+                var _a;
             }());
             exports_1("SidebarComponent", SidebarComponent);
             exports_1("default",SidebarComponent);

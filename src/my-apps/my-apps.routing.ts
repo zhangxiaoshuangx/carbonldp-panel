@@ -4,17 +4,17 @@ import { Routes, RouterModule } from "@angular/router";
 import { AuthenticatedGuard, NotAuthenticatedGuard } from "angular2-carbonldp/guards";
 import { ActiveContextResolver } from "angular2-carbonldp/resolvers";
 
-import { AppContentView } from "./app-content/app-content.view";
+//import { AppContentView } from "./app-content/app-content.view";
 import { AppsCatalogView } from "./apps-catalog/apps-catalog.view";
 import { CreateAppView } from "./create-app/create-app.view";
 
-import { DashboardView } from "./app-content/dashboard/dashboard.view";
-import { SPARQLClientView } from "./app-content/sparql-client/sparql-client.view";
-import { EditAppView } from "./app-content/edit-app/edit-app.view";
-import { ExplorerView } from "./app-content/explorer/explorer.view";
-import { ConfigurationView } from "./app-content/configuration/configuration.view";
+//import { DashboardView } from "./app-content/dashboard/dashboard.view";
+//import { SPARQLClientView } from "./app-content/sparql-client/sparql-client.view";
+//import { EditAppView } from "./app-content/edit-app/edit-app.view";
+//import { ExplorerView } from "./app-content/explorer/explorer.view";
+//import { ConfigurationView } from "./app-content/configuration/configuration.view";
 
-const appRoutes:Routes = [
+const MyAppsRoutes:Routes = [
 	{
 		path: "",
 		// as: "List",
@@ -24,7 +24,7 @@ const appRoutes:Routes = [
 			displayName: "My Apps",
 		},
 	},
-	{
+	/*{
 		path: ":slug",
 		// as: "App",
 		component: AppContentView,
@@ -84,7 +84,7 @@ const appRoutes:Routes = [
 				},
 			},
 		],
-	},
+	},*/
 	{
 		path: "create",
 		component: CreateAppView,
@@ -97,9 +97,9 @@ const appRoutes:Routes = [
 
 
 export const appRoutingProviders:any[] = [
-	ActiveContextResolver,
-	AuthenticatedGuard,
-	NotAuthenticatedGuard,
+	//ActiveContextResolver,
+	//AuthenticatedGuard,
+	//NotAuthenticatedGuard,
 ];
 
-export const routing:ModuleWithProviders = RouterModule.forRoot( appRoutes );
+export const routing:ModuleWithProviders = RouterModule.forChild( MyAppsRoutes );

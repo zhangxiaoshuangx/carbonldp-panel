@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 
 import * as App from "../../app-content/app";
-import { AppActionButtonsComponent } from "./../app-action-buttons/app-action-buttons.component";
+//import { AppActionButtonsComponent } from "./../app-action-buttons/app-action-buttons.component";
 
 import "semantic-ui/semantic";
 
@@ -12,7 +12,7 @@ import style from "./apps-list.component.css!text";
 	selector: "cp-apps-list",
 	template: template,
 	styles: [ style ],
-	directives: [ AppActionButtonsComponent, ],
+	//directives: [ AppActionButtonsComponent, ],
 } )
 export class AppsListComponent {
 	@Input() apps:App.Class[];
