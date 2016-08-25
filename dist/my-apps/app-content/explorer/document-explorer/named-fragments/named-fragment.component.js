@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/property.component", "jquery", "semantic-ui/semantic", "./named-fragment.component.html!"], function(exports_1, context_1) {
+System.register(["@angular/core", "./../property/property.component", "jquery", "semantic-ui/semantic", "./named-fragment.component.html!"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,19 +10,15 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, RDFNode, property_component_1, property_component_2, jquery_1, named_fragment_component_html_1;
-    var NamedFragmentComponent, NamedFragment, NamedFragmentRecords;
+    var core_1, property_component_1, jquery_1, named_fragment_component_html_1;
+    var NamedFragmentComponent, NamedFragmentRecords;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (RDFNode_1) {
-                RDFNode = RDFNode_1;
-            },
             function (property_component_1_1) {
                 property_component_1 = property_component_1_1;
-                property_component_2 = property_component_1_1;
             },
             function (jquery_1_1) {
                 jquery_1 = jquery_1_1;
@@ -35,34 +31,46 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
             NamedFragmentComponent = (function () {
                 function NamedFragmentComponent(element) {
                     this.modes = property_component_1.Modes;
-                    this.properties = [];
-                    this.existingProperties = [];
-                    this.bNodes = [];
+                    this.copyOrAdded = "";
+                    this.tempPropertiesNames = [];
+                    this.existingPropertiesNames = [];
+                    this.blankNodes = [];
                     this.namedFragments = [];
                     this.canEdit = true;
                     this.documentURI = "";
-                    this.onOpenBNode = new core_1.EventEmitter();
+                    this.onOpenBlankNode = new core_1.EventEmitter();
                     this.onOpenNamedFragment = new core_1.EventEmitter();
                     this.onChanges = new core_1.EventEmitter();
                     this.element = element;
                 }
-                Object.defineProperty(NamedFragmentComponent.prototype, "namedFragmentChanged", {
+                Object.defineProperty(NamedFragmentComponent.prototype, "namedFragmentHasChanged", {
                     get: function () {
-                        return this.namedFragmentChanged;
+                        return this.namedFragmentHasChanged;
                     },
                     set: function (hasChanged) {
-                        this._namedFragmentChanged = hasChanged;
+                        this._namedFragmentHasChanged = hasChanged;
+                        delete this.namedFragment.modified;
+                        delete this.namedFragment.records;
+                        this.namedFragment.name = this.namedFragment.id;
+                        if (hasChanged) {
+                            this.namedFragment.records = this.records;
+                            if (typeof this.namedFragment.added !== "undefined")
+                                this.namedFragment.added = this.getRawVersion();
+                            else
+                                this.namedFragment.modified = this.getRawVersion();
+                        }
                         this.onChanges.emit(this.records);
                     },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(NamedFragmentComponent.prototype, "namedFragment", {
-                    get: function () {
-                        return this._namedFragment;
-                    },
-                    set: function (value) {
-                        this._namedFragment = value;
+                    get: function () { return this._namedFragment; },
+                    set: function (namedFragment) {
+                        this._namedFragment = namedFragment;
+                        this.rootNode = namedFragment.copy;
+                        if (!!namedFragment.records)
+                            this.records = namedFragment.records;
                         this.getProperties();
                     },
                     enumerable: true,
@@ -71,8 +79,8 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
                 NamedFragmentComponent.prototype.ngAfterViewInit = function () {
                     this.$element = jquery_1.default(this.element.nativeElement);
                 };
-                NamedFragmentComponent.prototype.openBNode = function (id) {
-                    this.onOpenBNode.emit(id);
+                NamedFragmentComponent.prototype.openBlankNode = function (id) {
+                    this.onOpenBlankNode.emit(id);
                 };
                 NamedFragmentComponent.prototype.openNamedFragment = function (id) {
                     this.onOpenNamedFragment.emit(id);
@@ -83,11 +91,15 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
                     if (typeof property.modified !== "undefined") {
                         this.records.changes.set(property.modified.id, property);
                     }
-                    else {
+                    else if (typeof property.added === "undefined") {
                         this.records.changes.delete(property.copy.id);
                     }
+                    if (typeof property.added !== "undefined") {
+                        this.records.additions.delete(property.added.id);
+                        property.added.id = property.added.name;
+                        this.records.additions.set(property.added.id, property);
+                    }
                     this.updateExistingProperties();
-                    this.namedFragmentChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
                 };
                 NamedFragmentComponent.prototype.deleteProperty = function (property, index) {
                     if (typeof this.records === "undefined")
@@ -100,7 +112,6 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
                         this.records.deletions.set(property.deleted.id, property);
                     }
                     this.updateExistingProperties();
-                    this.namedFragmentChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
                 };
                 NamedFragmentComponent.prototype.addProperty = function (property, index) {
                     if (typeof this.records === "undefined")
@@ -111,60 +122,104 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
                         }
                         else {
                             this.records.additions.delete(property.added.id);
+                            property.added.id = property.added.name;
                             this.records.additions.set(property.added.name, property);
                         }
                     }
                     this.updateExistingProperties();
-                    this.namedFragmentChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
                 };
                 NamedFragmentComponent.prototype.createProperty = function (property, propertyRow) {
                     var _this = this;
+                    var numberOfProperty = !!this.records ? (this.records.additions.size + 1) : 1;
                     var newProperty = {
                         added: {
                             id: "",
-                            name: "New Property",
+                            name: "http://www.example.com#New Property " + numberOfProperty,
                             value: []
-                        }
+                        },
+                        isBeingCreated: true,
+                        isBeingModified: false,
+                        isBeingDeleted: false
                     };
-                    this.properties.splice(2, 0, newProperty);
-                    if (!!this.$element)
-                        setTimeout(function () { return _this.$element.find("cp-property.added-property").first().transition("drop"); });
+                    this.properties.splice(1, 0, newProperty);
+                    // Animates created property
+                    setTimeout(function () {
+                        var createdPropertyComponent = _this.$element.find("cp-property.added-property").first();
+                        createdPropertyComponent.addClass("transition hidden");
+                        createdPropertyComponent.transition({ animation: "drop" });
+                    });
                 };
                 NamedFragmentComponent.prototype.getProperties = function () {
+                    this.updateExistingProperties();
+                };
+                NamedFragmentComponent.prototype.updateExistingProperties = function () {
                     var _this = this;
                     this.properties = [];
-                    this.updateExistingProperties();
-                    this.existingProperties.forEach(function (propName) {
+                    this.existingPropertiesNames = Object.keys(this.rootNode);
+                    this.existingPropertiesNames.forEach(function (propName) {
                         _this.properties.push({
                             copy: {
                                 id: propName,
                                 name: propName,
-                                value: _this.namedFragment[propName]
+                                value: _this.rootNode[propName]
                             }
                         });
                     });
-                };
-                NamedFragmentComponent.prototype.updateExistingProperties = function () {
-                    var _this = this;
-                    this.existingProperties = Object.keys(this.namedFragment);
                     if (!this.records)
                         return;
                     this.records.additions.forEach(function (value, key) {
-                        _this.existingProperties.push(key);
+                        _this.existingPropertiesNames.push(key);
+                        _this.properties.splice(1, 0, value);
                     });
+                    var idx;
                     this.records.changes.forEach(function (value, key) {
                         if (value.modified.id !== value.modified.name) {
-                            _this.existingProperties.splice(_this.existingProperties.indexOf(value.modified.id), 1, value.modified.name);
+                            idx = _this.existingPropertiesNames.indexOf(value.modified.id);
+                            if (idx !== -1)
+                                _this.existingPropertiesNames.splice(idx, 1, value.modified.name);
                         }
+                        idx = _this.properties.findIndex(function (property) { return !!property.copy && property.copy.id === key; });
+                        if (idx !== -1)
+                            _this.properties.splice(idx, 1, value);
                     });
                     this.records.deletions.forEach(function (value, key) {
-                        _this.existingProperties.splice(_this.existingProperties.indexOf(value.deleted.id), 1);
+                        idx = _this.existingPropertiesNames.indexOf(key);
+                        if (idx !== -1)
+                            _this.existingPropertiesNames.splice(idx, 1);
+                        idx = _this.properties.findIndex(function (property) { return !!property.copy && property.copy.id === key; });
+                        if (idx !== -1)
+                            _this.properties.splice(idx, 1);
                     });
+                    this.namedFragmentHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
+                };
+                NamedFragmentComponent.prototype.getRawVersion = function () {
+                    var _this = this;
+                    var rawNode = Object.assign({}, this.namedFragment.added ? this.namedFragment.added : this.namedFragment.copy);
+                    this.records.deletions.forEach(function (property, key) {
+                        delete rawNode[key];
+                    });
+                    this.records.changes.forEach(function (property, key) {
+                        if (property.modified.id === "@id")
+                            _this.namedFragment.name = property.modified.value;
+                        if (property.modified.id !== property.modified.name) {
+                            delete rawNode[key];
+                            rawNode[property.modified.name] = property.modified.value;
+                        }
+                        else {
+                            rawNode[key] = property.modified.value;
+                        }
+                    });
+                    this.records.additions.forEach(function (property, key) {
+                        if (property.added.id === "@id")
+                            _this.namedFragment.name = property.modified.value;
+                        rawNode[key] = property.added.value;
+                    });
+                    return rawNode;
                 };
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', Array)
-                ], NamedFragmentComponent.prototype, "bNodes", void 0);
+                ], NamedFragmentComponent.prototype, "blankNodes", void 0);
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', Array)
@@ -185,7 +240,7 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
-                ], NamedFragmentComponent.prototype, "onOpenBNode", void 0);
+                ], NamedFragmentComponent.prototype, "onOpenBlankNode", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
@@ -199,19 +254,13 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
                         selector: "cp-named-fragment",
                         template: named_fragment_component_html_1.default,
                         styles: [":host { display:block; }"],
-                        directives: [property_component_2.PropertyComponent],
+                        directives: [property_component_1.PropertyComponent],
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
                 ], NamedFragmentComponent);
                 return NamedFragmentComponent;
             }());
             exports_1("NamedFragmentComponent", NamedFragmentComponent);
-            NamedFragment = (function () {
-                function NamedFragment() {
-                }
-                return NamedFragment;
-            }());
-            exports_1("NamedFragment", NamedFragment);
             NamedFragmentRecords = (function () {
                 function NamedFragmentRecords() {
                     this.changes = new Map();

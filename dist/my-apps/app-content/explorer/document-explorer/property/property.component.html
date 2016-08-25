@@ -1,22 +1,52 @@
 <div class="content" *ngIf="name === '@id'">
 	<div class="header">
-		<p>{{getSlug(value)}}</p>
+		<p>{{unescape(getSlug(value))}}</p>
 	</div>
 	<div class="meta">
-		<p *ngIf="!isUrl(value)">
-			<i class="file outline icon"></i> {{value}}</p>
-		<p *ngIf="isUrl(value)">
-			<i class="file outline icon"></i>
-			<a class="name" [attr.href]="value" target="_blank">
-				<span class="parent-uri">{{getParentURI(value)}}</span><span class="slug">{{getSlug(value)}}</span>
-			</a>
-		</p>
+		<div [hidden]="mode === modes.EDIT">
+			<p *ngIf="!isUrl(value)">
+				<i class="file outline icon"></i> {{value}}</p>
+			<p *ngIf="isUrl(value)">
+				<i class="file outline icon"></i>
+				<a class="name" [attr.href]="value" target="_blank">
+					<span class="parent-uri">{{getParentURI(value)}}</span><span class="slug">{{getSlug(value)}}</span>
+				</a>
+			</p>
+		</div>
+		<div [hidden]="mode === modes.READ">
+			<div class="ui error form">
+				<div class="ui fluid action input">
+					<input type="text" [ngFormControl]="idInput" (keyup.escape)="cancelIdEdition()" (keyup.enter)="idInput.valid? saveId() : null">
+					<button class="ui button"
+					        [disabled]="!idInput.valid"
+					        (click)="saveId(idInput.value)">Save
+					</button>
+				</div>
+				<div class="ui error message wide" *ngIf="!idInput.valid">
+					<p *ngIf="idInput.hasError('required')">Enter an id.</p>
+					<p *ngIf="idInput.hasError('invalidParent')">Enter a valid name for a Named Fragment. A name must contains the parent URI ({{documentURI}}<- Your fragment name ->).</p>
+					<p *ngIf="idInput.hasError('invalidValue')">Enter a valid URL. Only alphanumeric values (a-z, A-Z, 0..9)</p>
+					<p *ngIf="idInput.hasError('duplicatedHashtag')">Use only one hashtag (#) symbol.</p>
+					<p *ngIf="idInput.hasError('duplicatedNamedFragmentName')">A Fragment with that name already exists.</p>
+				</div>
+			</div>
+		</div>
 	</div>
 	<div *ngIf="value === documentURI">
 		<button class="ui right labeled icon basic mini button" (click)="refreshDocument()">
 			<i class="refresh icon"></i>
 			Refresh
 		</button>
+	</div>
+	<div class="description" *ngIf="canEdit && isPartOfNamedFragment">
+		<div class="ui icon bottom left pointing dropdown basic mini button options" title="Options">
+			<i class="ellipsis horizontal icon"></i>
+			<div class="menu">
+				<div class="item" title="Edit Fragment's name" (click)="onEditId()">
+					<i class="edit icon"></i> Edit
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -105,10 +135,10 @@
 				</div>
 			</div>
 		</div>
-		<div class="ui mini warning message" [hidden]="literalsContainer.canDisplayLiterals() || pointersContainer.canDisplayPointers()">
+		<div class="ui mini warning message" [hidden]="literalsContainer.canDisplayLiterals || pointersContainer.canDisplayPointers">
 			<p>The property needs at least one literal or one pointer in order to be saved, otherwise the property won't be added to the document. Add a literal or pointer.</p>
 		</div>
-		<div [hidden]="!literalsContainer.canDisplayLiterals() && !pointersContainer.canDisplayPointers()">
+		<div [hidden]="!literalsContainer.canDisplayLiterals && !pointersContainer.canDisplayPointers">
 			<cp-literals #literalsContainer
 			             [canEdit]="canEdit"
 			             [(literals)]="literals"

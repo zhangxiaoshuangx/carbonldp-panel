@@ -52,26 +52,34 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
             PropertyComponent = (function () {
                 // TODO: Add @lists and @sets support
                 function PropertyComponent(element) {
+                    this.literals = [];
+                    this.pointers = [];
                     this.tempProperty = {};
+                    this.existingFragments = [];
                     this.value = [];
                     this.addNewLiteral = new core_1.EventEmitter();
                     this.addNewPointer = new core_1.EventEmitter();
                     this.commonToken = ["@id", "@type", "@value"];
                     this.modes = Modes;
                     this.nameInput = new common_1.Control(this.name, common_1.Validators.compose([common_1.Validators.required, this.nameValidator.bind(this)]));
+                    this.idInput = new common_1.Control(this.value, common_1.Validators.compose([common_1.Validators.required, this.idValidator.bind(this)]));
                     this.mode = Modes.READ;
+                    this.documentURI = "";
                     this.bNodes = [];
                     this.namedFragments = [];
+                    this.isPartOfNamedFragment = false;
                     this.canEdit = true;
                     this.existingProperties = [];
-                    this.onGoToBNode = new core_1.EventEmitter();
+                    this.onGoToBlankNode = new core_1.EventEmitter();
                     this.onGoToNamedFragment = new core_1.EventEmitter();
                     this.onChangeProperty = new core_1.EventEmitter();
                     this.onDeleteProperty = new core_1.EventEmitter();
                     this.onDeleteNewProperty = new core_1.EventEmitter();
                     this.onSaveNewProperty = new core_1.EventEmitter();
+                    this.onChangeNewProperty = new core_1.EventEmitter();
                     this.onRefreshDocument = new core_1.EventEmitter();
                     this.nameHasChanged = false;
+                    this.valueHasChanged = false;
                     this.literalsHaveChanged = false;
                     this.pointersHaveChanged = false;
                     this.element = element;
@@ -80,7 +88,7 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                     get: function () { return this._property; },
                     set: function (prop) {
                         var _this = this;
-                        this.copyOrAdded = typeof prop.copy !== "undefined" ? "copy" : "added";
+                        this.copyOrAdded = !!prop.copy ? (!!prop.modified ? "modified" : "copy") : "added";
                         this._property = prop;
                         this.id = prop[this.copyOrAdded].id;
                         this.tempProperty.id = prop[this.copyOrAdded].id;
@@ -93,13 +101,14 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                         }
                         else {
                             this.value = prop[this.copyOrAdded].value;
+                            this.idInput.updateValue(this.value);
                         }
                     },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(PropertyComponent.prototype, "propertyHasChanged", {
-                    get: function () { return this.nameHasChanged || this.literalsHaveChanged || this.pointersHaveChanged; },
+                    get: function () { return this.nameHasChanged || this.valueHasChanged || this.literalsHaveChanged || this.pointersHaveChanged; },
                     enumerable: true,
                     configurable: true
                 });
@@ -138,7 +147,7 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                     return r.test(uri);
                 };
                 PropertyComponent.prototype.goToBNode = function (id) {
-                    this.onGoToBNode.emit(id);
+                    this.onGoToBlankNode.emit(id);
                 };
                 PropertyComponent.prototype.goToNamedFragment = function (id) {
                     this.onGoToNamedFragment.emit(id);
@@ -170,6 +179,13 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                     this.mode = Modes.EDIT;
                     this.nameInput.updateValue(this.unescape(this.name));
                 };
+                PropertyComponent.prototype.onEditId = function () {
+                    var _this = this;
+                    this.mode = Modes.EDIT;
+                    this.existingFragments = [];
+                    this.namedFragments.forEach(function (nameFragment) { _this.existingFragments.push(nameFragment.name); });
+                    this.idInput.updateValue(this.unescape(this.value));
+                };
                 PropertyComponent.prototype.cancelDeletion = function () {
                     this.$element.find(".confirm-deletion.dimmer").dimmer("hide");
                 };
@@ -177,6 +193,12 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                     if (this.nameInput.valid) {
                         this.mode = Modes.READ;
                         this.nameInput.updateValue(this.name);
+                    }
+                };
+                PropertyComponent.prototype.cancelIdEdition = function () {
+                    if (this.idInput.valid) {
+                        this.mode = Modes.READ;
+                        this.idInput.updateValue(this.value);
                     }
                 };
                 PropertyComponent.prototype.askToConfirmDeletion = function () {
@@ -192,16 +214,20 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                     }
                 };
                 PropertyComponent.prototype.save = function () {
-                    this.checkForChangesOnName(this.sanitizeName(this.nameInput.value));
+                    this.checkForChangesOnName(this.sanitize(this.nameInput.value));
                     this.mode = Modes.READ;
                 };
-                PropertyComponent.prototype.sanitizeName = function (name) {
-                    var sanitizedName = name;
-                    var slug = this.getSlug(this.nameInput.value);
-                    var parts = this.nameInput.value.split(slug);
+                PropertyComponent.prototype.saveId = function () {
+                    this.checkForChangesOnId(this.sanitize(this.idInput.value));
+                    this.mode = Modes.READ;
+                };
+                PropertyComponent.prototype.sanitize = function (value) {
+                    var sanitized = value;
+                    var slug = this.getSlug(value);
+                    var parts = value.split(slug);
                     if (parts.length > 0)
-                        sanitizedName = parts[0] + this.escape(slug);
-                    return sanitizedName;
+                        sanitized = parts[0] + this.escape(slug);
+                    return sanitized;
                 };
                 PropertyComponent.prototype.fillLiteralsAndPointers = function () {
                     var _this = this;
@@ -209,16 +235,30 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                     this.tempLiterals = [];
                     this.pointers = [];
                     this.tempPointers = [];
-                    this.property[this.copyOrAdded].value.forEach(function (literalOrRDFNode) {
-                        if (SDKLiteral.Factory.is(literalOrRDFNode)) {
-                            _this.literals.push({ copy: literalOrRDFNode });
-                            _this.tempLiterals.push({ copy: literalOrRDFNode });
-                        }
-                        if (SDKRDFNode.Factory.is(literalOrRDFNode)) {
-                            _this.pointers.push({ copy: literalOrRDFNode });
-                            _this.tempPointers.push({ copy: literalOrRDFNode });
-                        }
-                    });
+                    if (typeof this.property.modifiedLiterals !== "undefined") {
+                        this.literals = this.property.modifiedLiterals;
+                        this.tempLiterals = this.property.modifiedLiterals;
+                    }
+                    else {
+                        this.property[this.copyOrAdded].value.forEach(function (literalOrRDFNode) {
+                            if (SDKLiteral.Factory.is(literalOrRDFNode)) {
+                                _this.literals.push({ copy: literalOrRDFNode });
+                                _this.tempLiterals.push({ copy: literalOrRDFNode });
+                            }
+                        });
+                    }
+                    if (typeof this.property.modifiedPointers !== "undefined") {
+                        this.pointers = this.property.modifiedPointers;
+                        this.tempPointers = this.property.modifiedPointers;
+                    }
+                    else {
+                        this.property[this.copyOrAdded].value.forEach(function (literalOrRDFNode) {
+                            if (SDKRDFNode.Factory.is(literalOrRDFNode)) {
+                                _this.pointers.push({ copy: literalOrRDFNode });
+                                _this.tempPointers.push({ copy: literalOrRDFNode });
+                            }
+                        });
+                    }
                 };
                 PropertyComponent.prototype.addLiteral = function () {
                     // Notify LiteralsComponent to add literal
@@ -235,6 +275,13 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                         this.changePropertyContent();
                     }
                 };
+                PropertyComponent.prototype.checkForChangesOnId = function (newId) {
+                    this.value = newId;
+                    if (typeof this.value !== "undefined" && (this.value !== this.property[this.copyOrAdded].value || this.value !== this.tempProperty.value)) {
+                        this.tempProperty.value = this.value;
+                        this.changePropertyContent();
+                    }
+                };
                 PropertyComponent.prototype.checkForChangesOnLiterals = function (literals) {
                     this.tempLiterals = literals;
                     this.changePropertyContent();
@@ -247,6 +294,9 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                     var _this = this;
                     this.tempProperty.id = this.id;
                     this.tempProperty.name = this.name;
+                    this.tempProperty.value = this.value;
+                    this.nameHasChanged = false;
+                    this.valueHasChanged = false;
                     // Change name
                     if ((!!this.property.copy)) {
                         if ((this.tempProperty.name !== this.property.copy.name)) {
@@ -266,10 +316,32 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                         });
                         this.literalsHaveChanged = !!this.tempLiterals.find(function (literalRow) { return !!literalRow.modified || !!literalRow.added || !!literalRow.deleted; });
                         this.pointersHaveChanged = !!this.tempPointers.find(function (pointerRow) { return !!pointerRow.modified || !!pointerRow.added || !!pointerRow.deleted; });
+                        if (this.literalsHaveChanged) {
+                            this.property.modifiedLiterals = this.tempLiterals;
+                        }
+                        else {
+                            delete this.property.modifiedLiterals;
+                        }
+                        if (this.pointersHaveChanged) {
+                            this.property.modifiedPointers = this.tempPointers;
+                        }
+                        else {
+                            delete this.property.modifiedPointers;
+                        }
                     }
                     else {
-                        this.tempProperty.value = this.value;
+                        // Change value because it is a single string
+                        if ((!!this.property.copy)) {
+                            if ((this.tempProperty.value !== this.property.copy.value)) {
+                                this.property.modified = this.tempProperty;
+                                this.valueHasChanged = true;
+                            }
+                            else {
+                                this.valueHasChanged = false;
+                            }
+                        }
                     }
+                    this.property.isBeingCreated = false;
                     if (!!this.property.copy) {
                         if (this.propertyHasChanged)
                             this.property.modified = this.tempProperty;
@@ -280,30 +352,48 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                     else if (!!this.property.added) {
                         if ((this.tempProperty.name !== this.property.added.name)) {
                             this.id = this.name;
-                            this.tempProperty.id = this.id;
                         }
                         this.property.added = this.tempProperty;
-                        this.onSaveNewProperty.emit(this.tempProperty);
+                        if (this.existingProperties.indexOf(this.tempProperty.id) === -1)
+                            this.onSaveNewProperty.emit(this.tempProperty);
+                        else
+                            this.onChangeNewProperty.emit(this.tempProperty);
                     }
                 };
                 PropertyComponent.prototype.refreshDocument = function () {
                     this.onRefreshDocument.emit(this.documentURI);
                 };
                 PropertyComponent.prototype.escape = function (uri) {
-                    return window.escape(uri);
+                    return encodeURI(uri);
                 };
                 PropertyComponent.prototype.unescape = function (uri) {
-                    return window.unescape(uri);
+                    return decodeURI(uri);
                 };
                 PropertyComponent.prototype.nameValidator = function (control) {
                     if (!!control) {
                         if (typeof control.value === "undefined" || control.value === null || !control.value)
                             return null;
-                        if (this.existingProperties.indexOf(control.value) !== -1 && this.id !== control.value)
+                        if (this.existingProperties.indexOf(control.value) !== -1 && (this.property.added ? this.id !== control.value : this.name !== control.value))
                             return { "duplicatedPropertyName": true };
                         var url = new RegExp("(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g");
                         if (!url.test(control.value))
                             return { "invalidName": true };
+                        if (control.value.split("#").length > 2)
+                            return { "duplicatedHashtag": true };
+                    }
+                    return null;
+                };
+                PropertyComponent.prototype.idValidator = function (control) {
+                    if (!!control) {
+                        if (typeof control.value === "undefined" || control.value === null || !control.value)
+                            return null;
+                        if (typeof control.value === "string" && !control.value.startsWith(this.documentURI))
+                            return { "invalidParent": true };
+                        if (this.existingFragments.indexOf(control.value) !== -1 && (this.property.added ? this.id !== control.value : this.value !== control.value))
+                            return { "duplicatedNamedFragmentName": true };
+                        var url = new RegExp("(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g");
+                        if (!url.test(control.value))
+                            return { "invalidValue": true };
                         if (control.value.split("#").length > 2)
                             return { "duplicatedHashtag": true };
                     }
@@ -328,6 +418,10 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', Boolean)
+                ], PropertyComponent.prototype, "isPartOfNamedFragment", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Boolean)
                 ], PropertyComponent.prototype, "canEdit", void 0);
                 __decorate([
                     core_1.Input(), 
@@ -341,7 +435,7 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
-                ], PropertyComponent.prototype, "onGoToBNode", void 0);
+                ], PropertyComponent.prototype, "onGoToBlankNode", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
@@ -362,6 +456,10 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], PropertyComponent.prototype, "onSaveNewProperty", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], PropertyComponent.prototype, "onChangeNewProperty", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)

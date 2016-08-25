@@ -22,29 +22,29 @@
 	<div class="edit-mode" [hidden]="mode===modes.READ">
 		<div class="ui error form">
 			<input type="text" [ngFormControl]="idInput" [hidden]="true">
-			<select class="ui fluid search dropdown fragments">
+			<select class="ui fluid search dropdown fragments" [hidden]="true">
 				<option value="">
 					Search or enter a fragment/bNode
 				</option>
 				<option class="item" value="bNodes-category" disabled="disabled">
-					bNodes
+					<span *ngIf="bNodes.length===0">No </span>Blank Nodes
 				</option>
 				<optgroup label="bNodes">
-					<option class="item" *ngFor="let bNode of bNodes; let i=index" value="{{bNode['@id']}}">
+					<option class="item" *ngFor="let bNode of bNodes; let i=index" value="{{bNode.id}}">
 						<span>
 							<span class="title">bNode {{i}}</span>
-							<span class="description">{{bNode["@id"]}}</span>
+							<span class="description">{{bNode.id}}</span>
 						</span>
 					</option>
 				</optgroup>
 				<option class="item" value="named-fragments-category" disabled="disabled">
-					Named Fragments
+					<span *ngIf="namedFragments.length===0">No </span>Named Fragments
 				</option>
 				<optgroup label="Named Fragments">
-					<option class="item" *ngFor="let fragment of namedFragments; let i=index" value="{{fragment['@id']}}">
+					<option class="item" *ngFor="let fragment of namedFragments; let i=index" value="{{fragment.name}}">
 						<span>
-							<span class="title">{{getFriendlyName(fragment["@id"])}}</span>
-							<span class="description">{{fragment["@id"]}}</span>
+							<span class="title">{{getFriendlyName(fragment.name)}}</span>
+							<span class="description">{{fragment.name}}</span>
 						</span>
 					</option>
 				</optgroup>

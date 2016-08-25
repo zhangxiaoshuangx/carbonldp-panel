@@ -38,6 +38,7 @@ System.register(["@angular/core", "./literal.component", "./../property/property
                     this.tempLiterals = [];
                     this.isLanguagePresent = false;
                     this.isEditingLiteral = false;
+                    this.canDisplayLiterals = false;
                     this.literals = [];
                     this.onAddNewLiteral = new core_1.EventEmitter();
                     this.canEdit = true;
@@ -49,6 +50,7 @@ System.register(["@angular/core", "./literal.component", "./../property/property
                     this.onAddNewLiteral.subscribe(function () {
                         _this.addNewLiteral();
                     });
+                    this.updateCanDisplayLiterals();
                 };
                 LiteralsComponent.prototype.existsToken = function (token) {
                     return !!this.literals.find(function (literal) {
@@ -61,33 +63,33 @@ System.register(["@angular/core", "./literal.component", "./../property/property
                     this.isEditingLiteral = value;
                 };
                 LiteralsComponent.prototype.saveLiteral = function (modifiedLiteral, originalLiteral, index) {
+                    if (typeof this.literals[index].added !== "undefined")
+                        delete this.literals[index].isBeingCreated;
                     this.isLanguagePresent = this.existsToken("@language");
                     this.onLiteralsChanges.emit(this.literals);
-                };
-                LiteralsComponent.prototype.saveNewLiteral = function (newLiteral, originalLiteral, index) {
-                    this.isLanguagePresent = this.existsToken("@language");
-                    this.onLiteralsChanges.emit(this.literals);
+                    this.updateCanDisplayLiterals();
                 };
                 LiteralsComponent.prototype.addNewLiteral = function () {
                     var newLiteralRow = {};
                     newLiteralRow.added = {};
-                    this.literals.push(newLiteralRow);
-                };
-                LiteralsComponent.prototype.deleteNewLiteral = function (deletingLiteral, index) {
-                    this.literals.splice(index, 1);
-                    this.onLiteralsChanges.emit(this.literals);
+                    newLiteralRow.isBeingCreated = true;
+                    this.literals.splice(0, 0, newLiteralRow);
+                    this.updateCanDisplayLiterals();
                 };
                 LiteralsComponent.prototype.deleteLiteral = function (deletingLiteral, index) {
+                    if (typeof deletingLiteral.added !== "undefined")
+                        this.literals.splice(index, 1);
                     this.onLiteralsChanges.emit(this.literals);
+                    this.updateCanDisplayLiterals();
                 };
-                LiteralsComponent.prototype.canDisplayLiterals = function () {
-                    return this.getUntouchedLiterals().length > 0 || this.getAddedLiterals().length > 0 || this.getModifiedLiterals().length > 0;
+                LiteralsComponent.prototype.updateCanDisplayLiterals = function () {
+                    this.canDisplayLiterals = this.getUntouchedLiterals().length > 0 || this.getAddedLiterals().length > 0 || this.getModifiedLiterals().length > 0;
                 };
                 LiteralsComponent.prototype.getAddedLiterals = function () {
                     return this.literals.filter(function (literal) { return typeof literal.added !== "undefined"; });
                 };
                 LiteralsComponent.prototype.getModifiedLiterals = function () {
-                    return this.literals.filter(function (literal) { return typeof literal.modified !== "undefined"; });
+                    return this.literals.filter(function (literal) { return typeof literal.modified !== "undefined" && typeof literal.deleted === "undefined"; });
                 };
                 LiteralsComponent.prototype.getDeletedLiterals = function () {
                     return this.literals.filter(function (literal) { return typeof literal.deleted !== "undefined"; });

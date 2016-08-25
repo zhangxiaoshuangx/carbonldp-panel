@@ -3,6 +3,7 @@ import { AbstractControl } from '@angular/common';
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 import { LiteralRow } from "./../literals/literal.component";
 import { PointerRow } from "./../pointers/pointer.component";
+import { NamedFragmentRow } from "./../named-fragments/named-fragment.component";
 import "semantic-ui/semantic";
 export declare class PropertyComponent implements AfterViewInit, OnInit {
     element: ElementRef;
@@ -13,30 +14,35 @@ export declare class PropertyComponent implements AfterViewInit, OnInit {
     tempPointers: PointerRow[];
     tempProperty: Property;
     copyOrAdded: string;
+    existingFragments: string[];
     id: string;
     name: string;
-    value: any[];
+    value: any[] | string;
     addNewLiteral: EventEmitter<boolean>;
     addNewPointer: EventEmitter<boolean>;
     commonToken: string[];
     modes: Modes;
     nameInput: AbstractControl;
+    idInput: AbstractControl;
     mode: string;
     documentURI: string;
     bNodes: RDFNode.Class[];
-    namedFragments: RDFNode.Class[];
+    namedFragments: NamedFragmentRow[];
+    isPartOfNamedFragment: boolean;
     canEdit: boolean;
     existingProperties: string[];
     private _property;
     property: PropertyRow;
-    onGoToBNode: EventEmitter<string>;
+    onGoToBlankNode: EventEmitter<string>;
     onGoToNamedFragment: EventEmitter<string>;
     onChangeProperty: EventEmitter<Property>;
     onDeleteProperty: EventEmitter<PropertyRow>;
     onDeleteNewProperty: EventEmitter<PropertyRow>;
     onSaveNewProperty: EventEmitter<PropertyRow>;
+    onChangeNewProperty: EventEmitter<PropertyRow>;
     onRefreshDocument: EventEmitter<string>;
     nameHasChanged: boolean;
+    valueHasChanged: boolean;
     literalsHaveChanged: boolean;
     pointersHaveChanged: boolean;
     readonly propertyHasChanged: boolean;
@@ -56,16 +62,20 @@ export declare class PropertyComponent implements AfterViewInit, OnInit {
     initializePropertyButtons(): void;
     initializeDeletionDimmer(): void;
     onEditName(): void;
+    onEditId(): void;
     cancelDeletion(): void;
     cancelEdition(): void;
+    cancelIdEdition(): void;
     askToConfirmDeletion(): void;
     deleteProperty(): void;
     save(): void;
-    sanitizeName(name: string): string;
+    saveId(): void;
+    sanitize(value: string): string;
     fillLiteralsAndPointers(): void;
     addLiteral(): void;
     addPointer(): void;
     checkForChangesOnName(newName: string): void;
+    checkForChangesOnId(newId: string): void;
     checkForChangesOnLiterals(literals: LiteralRow[]): void;
     checkForChangesOnPointers(pointers: PointerRow[]): void;
     changePropertyContent(): void;
@@ -73,17 +83,23 @@ export declare class PropertyComponent implements AfterViewInit, OnInit {
     private escape(uri);
     private unescape(uri);
     private nameValidator(control);
+    private idValidator(control);
 }
 export interface PropertyRow {
     copy?: any;
     added?: any;
     modified?: any;
     deleted?: any;
+    isBeingCreated?: boolean;
+    isBeingModified?: boolean;
+    isBeingDeleted?: boolean;
+    modifiedLiterals?: LiteralRow[];
+    modifiedPointers?: PointerRow[];
 }
 export interface Property {
     id: string;
     name: string;
-    value: any[];
+    value: any;
 }
 export declare class Modes {
     static EDIT: string;

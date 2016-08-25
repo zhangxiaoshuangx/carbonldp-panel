@@ -1,10 +1,11 @@
 import { Component, ElementRef, Input, Output, SimpleChange, EventEmitter, OnChanges } from "@angular/core";
 import { Control, AbstractControl, Validators } from '@angular/common';
 
-import * as RDFNode from "carbonldp/RDF/RDFNode";
 import * as URI from "carbonldp/RDF/URI";
 
-import { Modes } from "./../property/property.component"
+import { Modes } from "./../property/property.component";
+import { BlankNodeRow } from "./../blank-nodes/blank-node.component";
+import { NamedFragmentRow } from "./../named-fragments/named-fragment.component";
 
 import $ from "jquery";
 import "semantic-ui/semantic";
@@ -50,8 +51,11 @@ export class PointerComponent implements OnChanges {
 
 	@Input() set pointer( value:PointerRow ) {
 		this._pointer = value;
+		if( this.pointer.isBeingCreated ) this.mode = Modes.EDIT;
 
-		if( typeof this.pointer.copy !== "undefined" ) {
+		if( typeof this.pointer.modified !== "undefined" ) {
+			this.id = ! ! this.tempPointer[ "@id" ] ? this.tempPointer[ "@id" ] : this.pointer.modified[ "@id" ];
+		} else if( typeof this.pointer.copy !== "undefined" ) {
 			this.id = ! ! this.tempPointer[ "@id" ] ? this.tempPointer[ "@id" ] : this.pointer.copy[ "@id" ];
 		} else if( typeof this.pointer.added !== "undefined" ) {
 			this.id = ! ! this.tempPointer[ "@id" ] ? this.tempPointer[ "@id" ] : this.pointer.added[ "@id" ];
@@ -59,13 +63,12 @@ export class PointerComponent implements OnChanges {
 	}
 
 	@Input() documentURI:string = "";
-	@Input() bNodes:RDFNode.Class[] = [];
-	@Input() namedFragments:RDFNode.Class[] = [];
+	@Input() bNodes:BlankNodeRow[] = [];
+	@Input() namedFragments:NamedFragmentRow[] = [];
 	@Input() canEdit:boolean = true;
 
 	@Output() onEditMode:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() onSave:EventEmitter<any> = new EventEmitter<any>();
-	@Output() onDeleteNewPointer:EventEmitter<PointerRow> = new EventEmitter<PointerRow>();
 	@Output() onDeletePointer:EventEmitter<PointerRow> = new EventEmitter<PointerRow>();
 	@Output() onGoToBNode:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onGoToNamedFragment:EventEmitter<string> = new EventEmitter<string>();
@@ -92,12 +95,10 @@ export class PointerComponent implements OnChanges {
 	}
 
 	deletePointer():void {
-		if( typeof this.pointer.added !== "undefined" ) {
-			this.onDeleteNewPointer.emit( this.pointer );
-		} else {
+		if( typeof this.pointer.added === "undefined" ) {
 			this.pointer.deleted = this.pointer.copy;
-			this.onDeletePointer.emit( this.pointer );
 		}
+		this.onDeletePointer.emit( this.pointer );
 	}
 
 	ngOnChanges( changes:{[propName:string]:SimpleChange} ):void {
@@ -109,7 +110,7 @@ export class PointerComponent implements OnChanges {
 
 	checkForChangesOnPointers():void {
 		if( typeof this.id === "undefined" ) return;
-		let idx:number = this.bNodes.concat( this.namedFragments ).findIndex( ( nfOrBN )=> {return nfOrBN[ "@id" ] === this.id;} );
+		let idx:number = this.bNodes.concat( this.namedFragments ).findIndex( ( nfOrBN )=> {return nfOrBN[ "name" ] === this.id || nfOrBN[ "id" ] === this.id;} );
 		this.isBNode = URI.Util.isBNodeID( <string>this.id );
 		this.isNamedFragment = URI.Util.isFragmentOf( this.id, this.documentURI );
 		this.existsOnPointers = idx !== - 1;
@@ -126,7 +127,7 @@ export class PointerComponent implements OnChanges {
 
 
 		if( typeof this.pointer.added !== "undefined" && typeof this.id === "undefined" ) {
-			this.onDeleteNewPointer.emit( this.pointer );
+			this.onDeletePointer.emit( this.pointer );
 		}
 	}
 
@@ -140,6 +141,10 @@ export class PointerComponent implements OnChanges {
 		if( (! ! this.pointer.copy) && (this.tempPointer[ "@id" ] === this.pointer.copy[ "@id" ] ) ) {
 			delete this.tempPointer[ "@id" ];
 			delete this.pointer.modified;
+		} else if( ! ! this.pointer.added ) {
+			this.pointer.added = this.tempPointer;
+		} else {
+			this.pointer.modified = this.tempPointer;
 		}
 
 		this.onSave.emit( this.tempPointer );
@@ -182,11 +187,15 @@ export class PointerComponent implements OnChanges {
 	}
 
 	goToBNode( id:string ):void {
-		this.onGoToBNode.emit( id );
+		let idx:number = this.bNodes.findIndex( ( blankNode:BlankNodeRow )=> { return blankNode.id === id; } );
+		this.existsOnPointers = idx !== - 1;
+		if( this.existsOnPointers ) this.onGoToBNode.emit( id );
 	}
 
 	goToNamedFragment( id:string ):void {
-		this.onGoToNamedFragment.emit( id );
+		let idx:number = this.namedFragments.findIndex( ( namedFragment:NamedFragmentRow )=> { return namedFragment.name === id; } );
+		this.existsOnPointers = idx !== - 1;
+		if( this.existsOnPointers ) this.onGoToNamedFragment.emit( id );
 	}
 
 }
@@ -195,6 +204,8 @@ export interface PointerRow {
 	modified?:Pointer;
 	added?:Pointer;
 	deleted?:Pointer;
+
+	isBeingCreated?:boolean;
 }
 export interface Pointer {
 	"@id":string;

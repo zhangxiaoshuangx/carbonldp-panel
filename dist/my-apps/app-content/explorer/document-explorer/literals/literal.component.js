@@ -807,7 +807,6 @@ System.register(["@angular/core", '@angular/common', "carbonldp/NS", "carbonldp/
                     this.canDisplayLanguage = false;
                     this.onEditMode = new core_1.EventEmitter();
                     this.onSave = new core_1.EventEmitter();
-                    this.onDeleteNewLiteral = new core_1.EventEmitter();
                     this.onDeleteLiteral = new core_1.EventEmitter();
                     this.valueInput = new common_1.Control(this.value, common_1.Validators.compose([common_1.Validators.required, this.valueValidator.bind(this)]));
                     this.typeInput = new common_1.Control(this.type, common_1.Validators.compose([common_1.Validators.required]));
@@ -873,7 +872,14 @@ System.register(["@angular/core", '@angular/common', "carbonldp/NS", "carbonldp/
                     get: function () { return this._literal; },
                     set: function (value) {
                         this._literal = value;
-                        if (typeof this.literal.copy !== "undefined") {
+                        if (this.literal.isBeingCreated)
+                            this.mode = property_component_1.Modes.EDIT;
+                        if (typeof this.literal.modified !== "undefined") {
+                            this.value = !!this.tempLiteral["@value"] ? this.tempLiteral["@value"] : this.literal.modified["@value"];
+                            this.type = !!this.tempLiteral["@type"] ? this.tempLiteral["@type"] : this.literal.modified["@type"];
+                            this.language = !!this.tempLiteral["@language"] ? this.tempLiteral["@language"] : this.literal.modified["@language"];
+                        }
+                        else if (typeof this.literal.copy !== "undefined") {
                             this.value = !!this.tempLiteral["@value"] ? this.tempLiteral["@value"] : this.literal.copy["@value"];
                             this.type = !!this.tempLiteral["@type"] ? this.tempLiteral["@type"] : this.literal.copy["@type"];
                             this.language = !!this.tempLiteral["@language"] ? this.tempLiteral["@language"] : this.literal.copy["@language"];
@@ -891,13 +897,10 @@ System.register(["@angular/core", '@angular/common', "carbonldp/NS", "carbonldp/
                     this.mode = property_component_1.Modes.EDIT;
                 };
                 LiteralComponent.prototype.deleteLiteral = function () {
-                    if (typeof this.literal.added !== "undefined") {
-                        this.onDeleteNewLiteral.emit(this.literal);
-                    }
-                    else {
+                    if (typeof this.literal.added === "undefined") {
                         this.literal.deleted = this.literal.copy;
-                        this.onDeleteLiteral.emit(this.literal);
                     }
+                    this.onDeleteLiteral.emit(this.literal);
                 };
                 LiteralComponent.prototype.cancelEdit = function () {
                     this.mode = property_component_1.Modes.READ;
@@ -921,7 +924,7 @@ System.register(["@angular/core", '@angular/common', "carbonldp/NS", "carbonldp/
                     else
                         this.language = this.tempLiteral["@language"];
                     if (typeof this.literal.added !== "undefined" && typeof this.value === "undefined") {
-                        this.onDeleteNewLiteral.emit(this.literal);
+                        this.onDeleteLiteral.emit(this.literal);
                     }
                 };
                 LiteralComponent.prototype.save = function () {
@@ -1104,10 +1107,6 @@ System.register(["@angular/core", '@angular/common', "carbonldp/NS", "carbonldp/
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], LiteralComponent.prototype, "onSave", void 0);
-                __decorate([
-                    core_1.Output(), 
-                    __metadata('design:type', core_1.EventEmitter)
-                ], LiteralComponent.prototype, "onDeleteNewLiteral", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
