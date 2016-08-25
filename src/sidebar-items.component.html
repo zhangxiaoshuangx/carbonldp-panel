@@ -1,12 +1,13 @@
 <template ngFor let-item [ngForOf]="items">
 	<template [ngIf]="item.type === 'link'">
-		<a class="item"
+		<a>MissingRouterService</a>
+		<!--<a class="item"
 		   [ngClass]="{ active: routerService.isActive( item.route ) }"
 		   [routerLink]="item.route"
 		>
 			<i *ngIf="item.icon" [class]="item.icon"></i>
 			{{ item.name }}
-		</a>
+		</a>-->
 	</template>
 	<template [ngIf]="item.type === 'divider'">
 		<div class="ui horizontal inverted divider">
@@ -18,9 +19,12 @@
 		<cp-sidebar-items [items]="item.children"></cp-sidebar-items>
 	</template>
 	<template [ngIf]="item.type === 'submenu'">
-		<a class="item submenu"
+		<!--<a class="item submenu"
 		   suiCollapsible
 		   [(suiActive)]="item.open"
+		   [ngClass]="{ active: item.isActive ? item.isActive() : false }"
+		>-->
+		<a class="item submenu"
 		   [ngClass]="{ active: item.isActive ? item.isActive() : false }"
 		>
 			<button *ngIf="item.onClose" class="ui right floated circular icon mini inverted button" (click)="item.onClose.emit( item )">

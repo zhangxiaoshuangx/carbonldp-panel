@@ -1,6 +1,8 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-import { CommonModule, DeprecatedFormsModule }       from '@angular/common';
+import { CommonModule, DeprecatedFormsModule } from '@angular/common';
+
+import { PanelModule } from "./../panel.module";
 
 import { CARBON_PROVIDERS } from "angular2-carbonldp/boot";
 import { CARBON_SERVICES_PROVIDERS } from "angular2-carbonldp/services";
@@ -26,14 +28,16 @@ import { AppActionButtonsComponent } from "./apps-catalog/app-action-buttons/app
 import { ErrorMessageComponent} from "./../errors-area/error-message.component";
 
 import { MyAppsSidebarService } from "./my-apps-sidebar.service";
-import { SidebarService } from "./../sidebar.service";
+//import { SidebarService } from "./../sidebar.service";
+
 
 @NgModule( {
 	imports: [
 		BrowserModule,
 		CommonModule,
 		DeprecatedFormsModule,
-		routing
+		routing,
+		PanelModule
 	],
 	declarations: [
 		//AppContentView,
@@ -56,7 +60,7 @@ import { SidebarService } from "./../sidebar.service";
 
 		AppContextService,
 		MyAppsSidebarService,
-		SidebarService,
+		//SidebarService,
 
 		CARBON_PROVIDERS,
 		CARBON_SERVICES_PROVIDERS

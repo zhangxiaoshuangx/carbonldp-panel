@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/router-deprecated", "./../my-apps-sidebar.service", "./../app-context.service", "./app", "./app-content.view.html!", "./app-content.view.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "./../my-apps-sidebar.service", "./../app-context.service", "./app", "./app-content.view.html!", "./app-content.view.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,15 +10,15 @@ System.register(["@angular/core", "@angular/router-deprecated", "./../my-apps-si
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_deprecated_1, my_apps_sidebar_service_1, app_context_service_1, App, app_content_view_html_1, app_content_view_css_text_1;
+    var core_1, router_1, my_apps_sidebar_service_1, app_context_service_1, App, app_content_view_html_1, app_content_view_css_text_1;
     var AppContentView;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (router_deprecated_1_1) {
-                router_deprecated_1 = router_deprecated_1_1;
+            function (router_1_1) {
+                router_1 = router_1_1;
             },
             function (my_apps_sidebar_service_1_1) {
                 my_apps_sidebar_service_1 = my_apps_sidebar_service_1_1;
@@ -37,15 +37,17 @@ System.register(["@angular/core", "@angular/router-deprecated", "./../my-apps-si
             }],
         execute: function() {
             AppContentView = (function () {
-                function AppContentView(router, routeParams, myAppsSidebarService, appContextService) {
+                //constructor( router:Router, routeParams:RouteParams, myAppsSidebarService:MyAppsSidebarService, appContextService:AppContextService ) {
+                function AppContentView(router, myAppsSidebarService, appContextService) {
                     this.router = router;
-                    this.routeParams = routeParams;
+                    //this.routeParams = routeParams;
                     this.myAppsSidebarService = myAppsSidebarService;
                     this.appContextService = appContextService;
                 }
                 AppContentView.prototype.routerOnActivate = function () {
                     var _this = this;
-                    var slug = this.routeParams.get("slug");
+                    //let slug:string = this.routeParams.get( "slug" );
+                    var slug = "test-slug";
                     this.appContextService.get(slug).then(function (appContext) {
                         _this.app = App.Factory.createFrom(appContext);
                         _this.myAppsSidebarService.addApp(_this.app);
@@ -66,13 +68,10 @@ System.register(["@angular/core", "@angular/router-deprecated", "./../my-apps-si
                         selector: "cp-app-content",
                         template: app_content_view_html_1.default,
                         styles: [app_content_view_css_text_1.default],
-                        directives: [router_deprecated_1.ROUTER_DIRECTIVES, router_deprecated_1.RouterOutlet],
-                        providers: [app_context_service_1.AppContextService,],
                     }), 
-                    __metadata('design:paramtypes', [(typeof (_a = typeof router_deprecated_1.Router !== 'undefined' && router_deprecated_1.Router) === 'function' && _a) || Object, (typeof (_b = typeof router_deprecated_1.RouteParams !== 'undefined' && router_deprecated_1.RouteParams) === 'function' && _b) || Object, my_apps_sidebar_service_1.MyAppsSidebarService, app_context_service_1.AppContextService])
+                    __metadata('design:paramtypes', [router_1.Router, my_apps_sidebar_service_1.MyAppsSidebarService, app_context_service_1.AppContextService])
                 ], AppContentView);
                 return AppContentView;
-                var _a, _b;
             }());
             exports_1("AppContentView", AppContentView);
             exports_1("default",AppContentView);

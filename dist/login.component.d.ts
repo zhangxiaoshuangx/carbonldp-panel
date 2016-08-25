@@ -1,5 +1,5 @@
 import { ElementRef, EventEmitter } from "@angular/core";
-import { FormBuilder, ControlGroup, AbstractControl } from "@angular/common";
+import { FormBuilder, ControlGroup, AbstractControl } from "@angular/common/src/forms-deprecated";
 import { AuthService } from "angular2-carbonldp/services";
 import Credentials from "carbonldp/Auth/Credentials";
 import * as HTTP from "carbonldp/HTTP";

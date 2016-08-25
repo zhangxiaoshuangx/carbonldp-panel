@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, Output, Inject, EventEmitter } from "@angular/core";
-import { CORE_DIRECTIVES, FORM_DIRECTIVES, FormBuilder, ControlGroup, AbstractControl, Validators } from "@angular/common";
+import { FormBuilder, ControlGroup, AbstractControl, Validators } from "@angular/common/src/forms-deprecated";
+//import { CORE_DIRECTIVES, FORM_DIRECTIVES, FormBuilder, ControlGroup, AbstractControl, Validators } from "@angular/common";
 
 import { AuthService } from "angular2-carbonldp/services";
 
@@ -17,7 +18,7 @@ import template from "./login.component.html!";
 	selector: "cp-login",
 	template: template,
 	styles: [ ":host { display:block; } " ],
-	directives: [ CORE_DIRECTIVES, FORM_DIRECTIVES ],
+	//directives: [ CORE_DIRECTIVES, FORM_DIRECTIVES ],
 } )
 export class LoginComponent {
 	@Input( "container" ) container:string|JQuery;

@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, OnInit } from "@angular/core";
 //import { FormBuilder, ControlGroup, AbstractControl, Control, Validators } from "@angular/common";
-import { FormBuilder, ControlGroup, AbstractControl , Control, Validators } from "@angular/common/src/forms-deprecated";
+import { FormBuilder, ControlGroup, AbstractControl, Control, Validators } from "@angular/common/src/forms-deprecated";
 //import { ROUTER_DIRECTIVES } from "@angular/router-deprecated";
 
 import Carbon from "carbonldp/Carbon";

@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common", "angular2-carbonldp/services", "carbonldp/HTTP", "carbon-panel/custom-validators", "jquery", "semantic-ui/semantic", "./login.component.html!"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/common/src/forms-deprecated", "angular2-carbonldp/services", "carbonldp/HTTP", "carbon-panel/custom-validators", "jquery", "semantic-ui/semantic", "./login.component.html!"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -13,15 +13,15 @@ System.register(["@angular/core", "@angular/common", "angular2-carbonldp/service
     var __param = (this && this.__param) || function (paramIndex, decorator) {
         return function (target, key) { decorator(target, key, paramIndex); }
     };
-    var core_1, common_1, services_1, HTTP, custom_validators_1, jquery_1, login_component_html_1;
+    var core_1, forms_deprecated_1, services_1, HTTP, custom_validators_1, jquery_1, login_component_html_1;
     var LoginComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (common_1_1) {
-                common_1 = common_1_1;
+            function (forms_deprecated_1_1) {
+                forms_deprecated_1 = forms_deprecated_1_1;
             },
             function (services_1_1) {
                 services_1 = services_1_1;
@@ -55,9 +55,9 @@ System.register(["@angular/core", "@angular/common", "angular2-carbonldp/service
                     this.$loginForm = this.$element.find("form.loginForm");
                     this.$loginForm.find(".ui.checkbox").checkbox();
                     this.loginForm = this.formBuilder.group({
-                        email: ["", common_1.Validators.compose([common_1.Validators.required, custom_validators_1.EmailValidator])],
-                        password: ["", common_1.Validators.compose([common_1.Validators.required])],
-                        rememberMe: ["", common_1.Validators.compose([])],
+                        email: ["", forms_deprecated_1.Validators.compose([forms_deprecated_1.Validators.required, custom_validators_1.EmailValidator])],
+                        password: ["", forms_deprecated_1.Validators.compose([forms_deprecated_1.Validators.required])],
+                        rememberMe: ["", forms_deprecated_1.Validators.compose([])],
                     });
                     this.email = this.loginForm.controls["email"];
                     this.password = this.loginForm.controls["password"];
@@ -142,10 +142,9 @@ System.register(["@angular/core", "@angular/common", "angular2-carbonldp/service
                         selector: "cp-login",
                         template: login_component_html_1.default,
                         styles: [":host { display:block; } "],
-                        directives: [common_1.CORE_DIRECTIVES, common_1.FORM_DIRECTIVES],
                     }),
                     __param(2, core_1.Inject(services_1.AuthService.Token)), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, common_1.FormBuilder, Object])
+                    __metadata('design:paramtypes', [core_1.ElementRef, forms_deprecated_1.FormBuilder, Object])
                 ], LoginComponent);
                 return LoginComponent;
             }());

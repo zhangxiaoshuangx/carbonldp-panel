@@ -1,5 +1,5 @@
 import { ElementRef, EventEmitter, OnInit } from "@angular/core";
-import { FormBuilder } from "@angular/common";
+import { FormBuilder } from "@angular/common/src/forms-deprecated";
 import * as HTTP from "carbonldp/HTTP";
 import { AuthService } from "angular2-carbonldp/services";
 import "semantic-ui/semantic";
