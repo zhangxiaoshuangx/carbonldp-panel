@@ -25,10 +25,9 @@ import { AppsTilesComponent } from "./apps-catalog/apps-tiles/apps-tiles.compone
 import { AppTileComponent } from "./apps-catalog/apps-tiles/app-tile.component";
 import { AppsListComponent } from "./apps-catalog/apps-list/apps-list.component";
 import { AppActionButtonsComponent } from "./apps-catalog/app-action-buttons/app-action-buttons.component";
-import { ErrorMessageComponent} from "./../errors-area/error-message.component";
 
 import { MyAppsSidebarService } from "./my-apps-sidebar.service";
-//import { SidebarService } from "./../sidebar.service";
+
 
 
 @NgModule( {
@@ -53,14 +52,12 @@ import { MyAppsSidebarService } from "./my-apps-sidebar.service";
 		AppTileComponent,
 		AppsListComponent,
 		AppActionButtonsComponent,
-		ErrorMessageComponent
 	],
 	providers: [
 		appRoutingProviders,
 
 		AppContextService,
 		MyAppsSidebarService,
-		//SidebarService,
 
 		CARBON_PROVIDERS,
 		CARBON_SERVICES_PROVIDERS

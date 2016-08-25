@@ -1,12 +1,13 @@
 import { Component, ElementRef } from "@angular/core";
 import { Location } from "@angular/common";
-import { ROUTER_DIRECTIVES, Router } from "@angular/router-deprecated";
+//import { ROUTER_DIRECTIVES, Router } from "@angular/router-deprecated";
+import { Router } from "@angular/router";
 
 import $ from "jquery";
 import "semantic-ui/semantic";
 
 import { SidebarService } from "carbon-panel/sidebar.service"
-import { SidebarItemsComponent } from "carbon-panel/sidebar-items.component";
+//import { SidebarItemsComponent } from "carbon-panel/sidebar-items.component";
 
 import template from "./sidebar.component.html!";
 import style from "./sidebar.component.css!text";
@@ -15,7 +16,7 @@ import style from "./sidebar.component.css!text";
 	selector: "cp-sidebar",
 	template: template,
 	styles: [ style ],
-	directives: [ ROUTER_DIRECTIVES, SidebarItemsComponent ],
+	//directives: [ ROUTER_DIRECTIVES, SidebarItemsComponent ],
 	host: {
 		class: "ui inverted vertical menu accordion"
 	}

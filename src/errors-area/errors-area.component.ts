@@ -1,7 +1,8 @@
 import { Component, AfterViewInit } from "@angular/core";
 
 import { ErrorsAreaService } from "./errors-area.service";
-import { Message, ErrorMessageComponent } from "./error-message.component";
+//import { Message, ErrorMessageComponent } from "./error-message.component";
+import { Message } from "./error-message.component";
 
 import "semantic-ui/semantic";
 
@@ -12,7 +13,7 @@ import style from "./errors-area.component.css!text";
 	selector: "cp-errors-area",
 	template: template,
 	styles: [ style ],
-	directives: [ ErrorMessageComponent ],
+	//directives: [ ErrorMessageComponent ],
 } )
 export class ErrorsAreaComponent implements AfterViewInit {
 	messages:Message[] = [];
