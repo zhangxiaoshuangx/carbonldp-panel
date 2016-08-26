@@ -1,18 +1,10 @@
 import { ModuleWithProviders } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
-import { AuthenticatedGuard, NotAuthenticatedGuard } from "angular2-carbonldp/guards";
-import { ActiveContextResolver } from "angular2-carbonldp/resolvers";
-
 //import { AppContentView } from "./app-content/app-content.view";
 import { AppsCatalogView } from "./apps-catalog/apps-catalog.view";
 import { CreateAppView } from "./create-app/create-app.view";
 
-//import { DashboardView } from "./app-content/dashboard/dashboard.view";
-//import { SPARQLClientView } from "./app-content/sparql-client/sparql-client.view";
-//import { EditAppView } from "./app-content/edit-app/edit-app.view";
-//import { ExplorerView } from "./app-content/explorer/explorer.view";
-//import { ConfigurationView } from "./app-content/configuration/configuration.view";
 
 const MyAppsRoutes:Routes = [
 	{
@@ -37,53 +29,7 @@ const MyAppsRoutes:Routes = [
 				redirectTo: "AppDashboard",
 			},
 		},
-		children: [
-			{
-				path: "",
-				// as: "AppDashboard",
-				component: DashboardView,
-				data: {
-					alias: "AppDashboard",
-					displayName: "App Dashboard",
-				},
-			},
-			{
-				path: "sparql-client",
-				// as: "SPARQLClient",
-				component: SPARQLClientView,
-				data: {
-					alias: "SPARQLClient",
-					displayName: "SPARQL Client",
-				},
-			},
-			{
-				path: "edit",
-				// as: "Edit",
-				component: EditAppView,
-				data: {
-					alias: "Edit",
-					displayName: "Edit",
-				},
-			},
-			{
-				path: "explore",
-				// as: "Explorer",
-				component: ExplorerView,
-				data: {
-					alias: "Explorer",
-					displayName: "Explorer",
-				},
-			},
-			{
-				path: "configure",
-				// as: "Configuration",
-				component: ConfigurationView,
-				data: {
-					alias: "Configuration",
-					displayName: "Configuration",
-				},
-			},
-		],
+		loadChildren: "carbon-panel/my-apps/apps-content/apps-content.module#AppsContentModule",
 	},*/
 	{
 		path: "create",
@@ -95,11 +41,5 @@ const MyAppsRoutes:Routes = [
 	},
 ];
 
-
-export const appRoutingProviders:any[] = [
-	//ActiveContextResolver,
-	//AuthenticatedGuard,
-	//NotAuthenticatedGuard,
-];
 
 export const routing:ModuleWithProviders = RouterModule.forChild( MyAppsRoutes );

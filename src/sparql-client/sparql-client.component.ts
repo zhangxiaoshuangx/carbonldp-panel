@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, Output, EventEmitter, OnInit, AfterViewInit } from "@angular/core";
-import { FORM_DIRECTIVES } from "@angular/common";
+//import { FORM_DIRECTIVES } from "@angular/common";
 
 import Carbon from "carbonldp/Carbon";
 import Context from "carbonldp/Context";
@@ -21,7 +21,7 @@ import style from "./sparql-client.component.css!text";
 	selector: "cp-sparql-client",
 	template: template,
 	styles: [ style ],
-	directives: [ FORM_DIRECTIVES, CodeMirrorComponent.Class, ResponseComponent, ResponseComponent, ],
+	//directives: [ FORM_DIRECTIVES, CodeMirrorComponent.Class, ResponseComponent, ResponseComponent, ],
 } )
 @Authenticated( {
 	redirectTo: [ "Login" ],

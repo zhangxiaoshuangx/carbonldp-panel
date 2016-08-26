@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 
 import "semantic-ui/semantic";
 
-import { CreateAppComponent } from "./create-app.component";
+//import { CreateAppComponent } from "./create-app.component";
 
 import template from "./create-app.view.html!";
 
@@ -10,7 +10,7 @@ import template from "./create-app.view.html!";
 	selector: "cp-create-app-view",
 	template: template,
 	styles: [ ":host { display: block; }" ],
-	directives: [ CreateAppComponent ],
+	//directives: [ CreateAppComponent ],
 } )
 export class CreateAppView {
 }

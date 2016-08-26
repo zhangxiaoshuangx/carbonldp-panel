@@ -1,4 +1,4 @@
-System.register(["@angular/core", "./relativize-uri.pipe", "./prefix-uri.pipe", "semantic-ui/semantic", "./resultset-table.component.html!", "./resultset-table.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "semantic-ui/semantic", "./resultset-table.component.html!", "./resultset-table.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,18 +10,12 @@ System.register(["@angular/core", "./relativize-uri.pipe", "./prefix-uri.pipe", 
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, relativize_uri_pipe_1, prefix_uri_pipe_1, resultset_table_component_html_1, resultset_table_component_css_text_1;
+    var core_1, resultset_table_component_html_1, resultset_table_component_css_text_1;
     var ResultsetTableComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (relativize_uri_pipe_1_1) {
-                relativize_uri_pipe_1 = relativize_uri_pipe_1_1;
-            },
-            function (prefix_uri_pipe_1_1) {
-                prefix_uri_pipe_1 = prefix_uri_pipe_1_1;
             },
             function (_1) {},
             function (resultset_table_component_html_1_1) {
@@ -94,7 +88,6 @@ System.register(["@angular/core", "./relativize-uri.pipe", "./prefix-uri.pipe", 
                         selector: "cp-resultset-table",
                         template: resultset_table_component_html_1.default,
                         styles: [resultset_table_component_css_text_1.default],
-                        pipes: [relativize_uri_pipe_1.RelativizeURIPipe, prefix_uri_pipe_1.PrefixURIPipe],
                     }), 
                     __metadata('design:paramtypes', [])
                 ], ResultsetTableComponent);

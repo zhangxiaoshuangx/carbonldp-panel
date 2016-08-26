@@ -19,11 +19,11 @@
 		<cp-sidebar-items [items]="item.children"></cp-sidebar-items>
 	</template>
 	<template [ngIf]="item.type === 'submenu'">
-		<!--<a class="item submenu"
+		<a class="item submenu"
 		   suiCollapsible
 		   [(suiActive)]="item.open"
 		   [ngClass]="{ active: item.isActive ? item.isActive() : false }"
-		>-->
+		>
 		<a class="item submenu"
 		   [ngClass]="{ active: item.isActive ? item.isActive() : false }"
 		>
@@ -37,6 +37,6 @@
 			<div class="content">
 				<cp-sidebar-items [items]="item.children"></cp-sidebar-items>
 			</div>
-		</a>
+		</a></a>
 	</template>
 </template>

@@ -58,25 +58,26 @@ System.register(["@angular/core", "./../sidebar.service"], function(exports_1, c
                                 type: "link",
                                 name: "Dashboard",
                                 icon: "bar chart icon",
-                                route: ["./MyApps", "App", { slug: app.slug }, "AppDashboard"],
+                                route: ["./my-apps", { slug: app.slug }, "AppDashboard"],
                             },
                             {
                                 type: "link",
                                 name: "Document Explorer",
                                 icon: "list layout icon",
-                                route: ["./MyApps", "App", { slug: app.slug }, "Explorer"],
+                                route: ["./my-apps", { slug: app.slug }, "Explorer"],
                             },
                             {
                                 type: "link",
                                 name: "SPARQL Client",
                                 icon: "terminal icon",
-                                route: ["./MyApps", "App", { slug: app.slug }, "SPARQLClient"],
+                                route: ["./my-apps", { slug: app.slug }, "SPARQLClient"],
                             },
                             {
                                 type: "link",
                                 name: "Configuration",
                                 icon: "settings icon",
-                                route: ["./MyApps", "App", { slug: app.slug }, "Configuration"],
+                                //route: [ "./my-apps", "App", { slug: app.slug }, "Configuration" ],
+                                route: ["./my-apps", { slug: app.slug }, "Configuration"],
                             },
                         ]
                     };

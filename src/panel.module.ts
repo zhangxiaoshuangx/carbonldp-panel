@@ -12,39 +12,45 @@ import { SidebarItemsComponent } from "./sidebar-items.component";
 import { SidebarService } from "./sidebar.service";
 
 import { MenuBarComponent } from "./menu-bar.component";
-import { ErrorMessageComponent } from "./errors-area/error-message.component";
-import { ErrorsAreaComponent } from "./errors-area/errors-area.component";
-import { ErrorsAreaService } from "./errors-area/errors-area.service";
 
-//import { RouterService } from "carbon-panel/router.service";
+import { ErrorsAreaModule } from "./errors-area/errors-area.module";
+import { SemanticModule } from "./semantic/semantic.module";
+import { RouterService } from "./router.service";
 
 @NgModule( {
-	imports: [ CommonModule, RouterModule, DeprecatedFormsModule ],
-	declarations: [ HeaderComponent,
+	imports: [
+		CommonModule,
+		RouterModule,
+		DeprecatedFormsModule,
+		ErrorsAreaModule.forRoot(),
+		SemanticModule
+	],
+	declarations: [
+		HeaderComponent,
 		HeaderItemComponent,
 		LoginComponent,
 		RegisterComponent,
 		SidebarComponent,
 		SidebarItemsComponent,
-		ErrorMessageComponent,
-		ErrorsAreaComponent,
-		MenuBarComponent ],
-	exports: [ HeaderComponent,
+		MenuBarComponent,
+	],
+	exports: [
+		ErrorsAreaModule,
+		HeaderComponent,
 		LoginComponent,
 		RegisterComponent,
 		SidebarComponent,
 		MenuBarComponent,
-		ErrorsAreaComponent,
-		ErrorMessageComponent,],
-	providers: [ HeaderService, SidebarService, ErrorsAreaService ],
+	],
+	//providers: [ HeaderService, SidebarService ],
 } )
 
 export class PanelModule {
 
-	/*static forRoot(): ModuleWithProviders {
+	static forRoot(): ModuleWithProviders {
 		return {
 			ngModule: PanelModule,
-			providers: [ HeaderService, SidebarService ]
+			providers: [ HeaderService, SidebarService, RouterService ]
 		};
-	}*/
+	}
 }

@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbon-panel/code-mirror/code-mirror.component", "../resultset-table/resultset-table.component", "jquery", "semantic-ui/semantic", "./response.component.html!", "./response.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbon-panel/code-mirror/code-mirror.component", "jquery", "semantic-ui/semantic", "./response.component.html!", "./response.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbon-panel/code-mirror/code-mirror.componen
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, CodeMirrorComponent, resultset_table_component_1, jquery_1, response_component_html_1, response_component_css_text_1;
+    var core_1, CodeMirrorComponent, jquery_1, response_component_html_1, response_component_css_text_1;
     var ResponseComponent, SPARQLResponseType, SPARQLFormats, SPARQLClientResponse;
     return {
         setters:[
@@ -19,9 +19,6 @@ System.register(["@angular/core", "carbon-panel/code-mirror/code-mirror.componen
             },
             function (CodeMirrorComponent_1) {
                 CodeMirrorComponent = CodeMirrorComponent_1;
-            },
-            function (resultset_table_component_1_1) {
-                resultset_table_component_1 = resultset_table_component_1_1;
             },
             function (jquery_1_1) {
                 jquery_1 = jquery_1_1;
@@ -158,7 +155,7 @@ System.register(["@angular/core", "carbon-panel/code-mirror/code-mirror.componen
                     core_1.Component({
                         selector: "cp-sparql-response",
                         styles: [response_component_css_text_1.default],
-                        directives: [CodeMirrorComponent.Class, resultset_table_component_1.ResultsetTableComponent],
+                        //directives: [ CodeMirrorComponent.Class, ResultsetTableComponent ],
                         template: response_component_html_1.default,
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])

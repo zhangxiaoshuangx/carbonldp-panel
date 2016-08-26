@@ -1,7 +1,7 @@
 import { Component, Input, Output, ElementRef, EventEmitter, AfterViewInit, OnInit } from "@angular/core";
 
 import * as CodeMirrorComponent from "carbon-panel/code-mirror/code-mirror.component";
-import { ResultsetTableComponent } from "../resultset-table/resultset-table.component";
+//import { ResultsetTableComponent } from "../resultset-table/resultset-table.component";
 
 import $ from "jquery";
 import "semantic-ui/semantic";
@@ -12,7 +12,7 @@ import style from "./response.component.css!text";
 @Component( {
 	selector: "cp-sparql-response",
 	styles: [ style ],
-	directives: [ CodeMirrorComponent.Class, ResultsetTableComponent ],
+	//directives: [ CodeMirrorComponent.Class, ResultsetTableComponent ],
 	template: template,
 } )
 export class ResponseComponent implements AfterViewInit, OnInit {

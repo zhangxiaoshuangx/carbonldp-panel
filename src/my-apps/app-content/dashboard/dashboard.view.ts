@@ -1,8 +1,8 @@
 import { Component } from "@angular/core";
 
-import { AppContentView } from "./../../app-content/app-content.view";
+//import { AppContentView } from "./../../app-content/app-content.view";
 
-import * as App from "./../app";
+//import * as App from "./../app";
 import "semantic-ui/semantic";
 
 // import template from "./create-app.view.html!";
