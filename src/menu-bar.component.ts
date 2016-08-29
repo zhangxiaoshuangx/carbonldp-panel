@@ -2,7 +2,7 @@ import { Component, ElementRef } from "@angular/core";
 //import { ROUTER_DIRECTIVES, Router, Instruction } from "@angular/router-deprecated";
 import { Router } from "@angular/router";
 
-//import { RouterService } from "carbon-panel/router.service";
+import { RouterService } from "carbon-panel/router.service";
 import { SidebarService } from "carbon-panel/sidebar.service";
 
 import $ from "jquery";
@@ -23,14 +23,13 @@ export class MenuBarComponent {
 
 	private element:ElementRef;
 	private router:Router;
-	//private routerService:RouterService;
+	private routerService:RouterService;
 	private sidebarService:SidebarService;
 
-//	constructor( element:ElementRef, router:Router, routerService:RouterService, sidebarService:SidebarService ) {
-	constructor( element:ElementRef, router:Router, sidebarService:SidebarService ) {
+	constructor( element:ElementRef, router:Router, routerService:RouterService, sidebarService:SidebarService ) {
 		this.element = element;
 		this.router = router;
-		//this.routerService = routerService;
+		this.routerService = routerService;
 		this.sidebarService = sidebarService;
 
 		this.router.events.subscribe( ( NavigationEnd )=> {

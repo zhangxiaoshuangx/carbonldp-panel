@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/router", "carbon-panel/sidebar.service", "semantic-ui/semantic", "./menu-bar.component.html!", "./menu-bar.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "carbon-panel/router.service", "carbon-panel/sidebar.service", "semantic-ui/semantic", "./menu-bar.component.html!", "./menu-bar.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/router", "carbon-panel/sidebar.servi
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, sidebar_service_1, menu_bar_component_html_1, menu_bar_component_css_text_1;
+    var core_1, router_1, router_service_1, sidebar_service_1, menu_bar_component_html_1, menu_bar_component_css_text_1;
     var MenuBarComponent;
     return {
         setters:[
@@ -19,6 +19,9 @@ System.register(["@angular/core", "@angular/router", "carbon-panel/sidebar.servi
             },
             function (router_1_1) {
                 router_1 = router_1_1;
+            },
+            function (router_service_1_1) {
+                router_service_1 = router_service_1_1;
             },
             function (sidebar_service_1_1) {
                 sidebar_service_1 = sidebar_service_1_1;
@@ -32,12 +35,11 @@ System.register(["@angular/core", "@angular/router", "carbon-panel/sidebar.servi
             }],
         execute: function() {
             MenuBarComponent = (function () {
-                //	constructor( element:ElementRef, router:Router, routerService:RouterService, sidebarService:SidebarService ) {
-                function MenuBarComponent(element, router, sidebarService) {
+                function MenuBarComponent(element, router, routerService, sidebarService) {
                     this.breadCrumbs = [];
                     this.element = element;
                     this.router = router;
-                    //this.routerService = routerService;
+                    this.routerService = routerService;
                     this.sidebarService = sidebarService;
                     this.router.events.subscribe(function (NavigationEnd) {
                         console.log(NavigationEnd);
@@ -105,7 +107,7 @@ System.register(["@angular/core", "@angular/router", "carbon-panel/sidebar.servi
                         template: menu_bar_component_html_1.default,
                         styles: [menu_bar_component_css_text_1.default],
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, router_1.Router, sidebar_service_1.SidebarService])
+                    __metadata('design:paramtypes', [core_1.ElementRef, router_1.Router, router_service_1.RouterService, sidebar_service_1.SidebarService])
                 ], MenuBarComponent);
                 return MenuBarComponent;
             }());

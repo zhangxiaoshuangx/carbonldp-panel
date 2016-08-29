@@ -1,13 +1,12 @@
 <template ngFor let-item [ngForOf]="items">
 	<template [ngIf]="item.type === 'link'">
-		<a>MissingRouterService</a>
-		<!--<a class="item"
+		<a class="item"
 		   [ngClass]="{ active: routerService.isActive( item.route ) }"
 		   [routerLink]="item.route"
 		>
 			<i *ngIf="item.icon" [class]="item.icon"></i>
 			{{ item.name }}
-		</a>-->
+		</a>
 	</template>
 	<template [ngIf]="item.type === 'divider'">
 		<div class="ui horizontal inverted divider">

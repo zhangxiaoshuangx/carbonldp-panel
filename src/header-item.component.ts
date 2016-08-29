@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, AfterViewInit } from "@angular/core";
 //import { CORE_DIRECTIVES } from "@angular/common";
 //import { ROUTER_DIRECTIVES, Router, Instruction } from "@angular/router-deprecated";
 
-//import { RouterService } from "carbon-panel/router.service";
+import { RouterService } from "carbon-panel/router.service";
 import { HeaderItem } from "carbon-panel/header.service";
 
 import $ from "jquery";
@@ -22,12 +22,11 @@ export class HeaderItemComponent implements AfterViewInit {
 
 	private element:ElementRef;
 	private $element:JQuery;
-	//private routerService:RouterService;
+	private routerService:RouterService;
 
-	constructor( element:ElementRef ) {
-	//constructor( element:ElementRef, routerService:RouterService ) {
+	constructor( element:ElementRef, routerService:RouterService ) {
 		this.element = element;
-		//this.routerService = routerService;
+		this.routerService = routerService;
 	}
 
 	ngAfterViewInit():void {

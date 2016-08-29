@@ -123,6 +123,7 @@ export class AppsCatalogComponent implements OnInit {
 
 	openApp( app:App.Class ):void {
 		this.myAppsSidebarService.addApp( app );
+		//TODO: fix routes
 		this.router.navigate( [ "App", { slug: app.slug }, "AppDashboard" ] );
 	}
 

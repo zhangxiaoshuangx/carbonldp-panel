@@ -46,8 +46,9 @@ System.register(["@angular/core", "@angular/router", "./../my-apps-sidebar.servi
                 }
                 AppContentView.prototype.routerOnActivate = function () {
                     var _this = this;
-                    //let slug:string = this.routeParams.get( "slug" );
-                    var slug = "test-slug";
+                    // let slug:string = this.routeParams.get( "slug" );
+                    //TODO: fix routeparams
+                    var slug = "great-expectations";
                     this.appContextService.get(slug).then(function (appContext) {
                         _this.app = App.Factory.createFrom(appContext);
                         _this.myAppsSidebarService.addApp(_this.app);

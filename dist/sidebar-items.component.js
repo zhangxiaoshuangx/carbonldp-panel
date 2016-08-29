@@ -1,4 +1,4 @@
-System.register(["@angular/core", "./sidebar-items.component.html!", "./sidebar-items.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbon-panel/router.service", "./sidebar-items.component.html!", "./sidebar-items.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,12 +10,15 @@ System.register(["@angular/core", "./sidebar-items.component.html!", "./sidebar-
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, sidebar_items_component_html_1, sidebar_items_component_css_text_1;
+    var core_1, router_service_1, sidebar_items_component_html_1, sidebar_items_component_css_text_1;
     var SidebarItemsComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (router_service_1_1) {
+                router_service_1 = router_service_1_1;
             },
             function (sidebar_items_component_html_1_1) {
                 sidebar_items_component_html_1 = sidebar_items_component_html_1_1;
@@ -25,10 +28,8 @@ System.register(["@angular/core", "./sidebar-items.component.html!", "./sidebar-
             }],
         execute: function() {
             SidebarItemsComponent = (function () {
-                //private routerService:RouterService;
-                //constructor( routerService:RouterService ) {
-                function SidebarItemsComponent() {
-                    //this.routerService = routerService;
+                function SidebarItemsComponent(routerService) {
+                    this.routerService = routerService;
                 }
                 __decorate([
                     core_1.Input("items"), 
@@ -40,7 +41,7 @@ System.register(["@angular/core", "./sidebar-items.component.html!", "./sidebar-
                         template: sidebar_items_component_html_1.default,
                         styles: [sidebar_items_component_css_text_1.default],
                     }), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [router_service_1.RouterService])
                 ], SidebarItemsComponent);
                 return SidebarItemsComponent;
             }());

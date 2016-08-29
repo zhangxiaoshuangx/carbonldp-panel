@@ -1,7 +1,7 @@
 import { ModuleWithProviders } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
-//import { AppContentView } from "./app-content/app-content.view";
+import { AppContentView } from "./app-content/app-content.view";
 import { AppsCatalogView } from "./apps-catalog/apps-catalog.view";
 import { CreateAppView } from "./create-app/create-app.view";
 
@@ -16,7 +16,7 @@ const MyAppsRoutes:Routes = [
 			displayName: "My Apps",
 		},
 	},
-	/*{
+	{
 		path: ":slug",
 		// as: "App",
 		component: AppContentView,
@@ -30,7 +30,7 @@ const MyAppsRoutes:Routes = [
 			},
 		},
 		loadChildren: "carbon-panel/my-apps/apps-content/apps-content.module#AppsContentModule",
-	},*/
+	},
 	{
 		path: "create",
 		component: CreateAppView,

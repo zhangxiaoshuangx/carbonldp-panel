@@ -39,8 +39,9 @@ export class AppContentView {
 	}
 
 	routerOnActivate():void {
-		//let slug:string = this.routeParams.get( "slug" );
-		let slug:string = "test-slug";
+		// let slug:string = this.routeParams.get( "slug" );
+		//TODO: fix routeparams
+		let slug:string = "great-expectations";
 		this.appContextService.get( slug ).then( ( appContext:CarbonApp.Context ):void => {
 			this.app = App.Factory.createFrom( appContext );
 			this.myAppsSidebarService.addApp( this.app );
