@@ -3,9 +3,9 @@ import { Component, ElementRef, Input, Output, EventEmitter, SimpleChange, OnCha
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 import * as URI from "carbonldp/RDF/URI";
 
-import { NamedFragmentComponent } from "./named-fragment.component"
+//import { NamedFragmentComponent } from "./named-fragment.component"
 import { NamedFragmentRecords } from "./named-fragment.component"
-import { PropertyComponent } from "./../property/property.component";
+//import { PropertyComponent } from "./../property/property.component";
 
 import $ from "jquery";
 import "semantic-ui/semantic";
@@ -17,7 +17,7 @@ import style from "./named-fragments.component.css!text";
 	selector: "cp-named-fragments",
 	template: template,
 	styles: [ style ],
-	directives: [ PropertyComponent, NamedFragmentComponent ],
+	//directives: [ PropertyComponent, NamedFragmentComponent ],
 } )
 
 export class NamedFragmentsComponent implements AfterContentInit, OnChanges {

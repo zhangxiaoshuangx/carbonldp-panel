@@ -1,14 +1,14 @@
 import { ModuleWithProviders } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
-// import { DashboardView } from "./dashboard/dashboard.view";
-// import { SPARQLClientView } from "./sparql-client/sparql-client.view";
-// import { EditAppView } from "./edit-app/edit-app.view";
-// import { ExplorerView } from "./explorer/explorer.view";
+import { DashboardView } from "./dashboard/dashboard.view";
+import { SPARQLClientView } from "./sparql-client/sparql-client.view";
+import { EditAppView } from "./edit-app/edit-app.view";
+import { ExplorerView } from "./explorer/explorer.view";
 //import { ConfigurationView } from "./configuration/configuration.view";
 
 const AppContentRoutes:Routes = [
-		/*	{
+			{
 				path: "",
 				// as: "AppDashboard",
 				component: DashboardView,
@@ -43,7 +43,7 @@ const AppContentRoutes:Routes = [
 					alias: "Explorer",
 					displayName: "Explorer",
 				},
-			},
+			},/*
 			{
 				path: "configure",
 				// as: "Configuration",

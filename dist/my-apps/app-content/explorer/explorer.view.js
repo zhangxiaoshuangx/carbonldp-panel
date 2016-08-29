@@ -1,4 +1,4 @@
-System.register(["@angular/core", "./../app-content.view", "./document-explorer/document-explorer.component", "semantic-ui/semantic", "./explorer.view.html!"], function(exports_1, context_1) {
+System.register(["@angular/core", "./../app-content.view", "semantic-ui/semantic", "./explorer.view.html!"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -13,7 +13,7 @@ System.register(["@angular/core", "./../app-content.view", "./document-explorer/
     var __param = (this && this.__param) || function (paramIndex, decorator) {
         return function (target, key) { decorator(target, key, paramIndex); }
     };
-    var core_1, app_content_view_1, document_explorer_component_1, explorer_view_html_1;
+    var core_1, app_content_view_1, explorer_view_html_1;
     var ExplorerView;
     return {
         setters:[
@@ -22,9 +22,6 @@ System.register(["@angular/core", "./../app-content.view", "./document-explorer/
             },
             function (app_content_view_1_1) {
                 app_content_view_1 = app_content_view_1_1;
-            },
-            function (document_explorer_component_1_1) {
-                document_explorer_component_1 = document_explorer_component_1_1;
             },
             function (_1) {},
             function (explorer_view_html_1_1) {
@@ -40,7 +37,6 @@ System.register(["@angular/core", "./../app-content.view", "./document-explorer/
                         selector: "cp-explorer-view",
                         template: explorer_view_html_1.default,
                         styles: [":host { display: block; }"],
-                        directives: [document_explorer_component_1.DocumentExplorerComponent],
                     }),
                     __param(0, core_1.Host()),
                     __param(0, core_1.Inject(core_1.forwardRef(function () { return app_content_view_1.AppContentView; }))), 

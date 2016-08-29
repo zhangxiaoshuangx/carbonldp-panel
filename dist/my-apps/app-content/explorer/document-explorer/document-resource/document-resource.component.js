@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, RDFNode, property_component_1, property_component_2, jquery_1, document_resource_component_html_1;
+    var core_1, RDFNode, property_component_1, jquery_1, document_resource_component_html_1;
     var DocumentResourceComponent, RootRecords;
     return {
         setters:[
@@ -22,7 +22,6 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
             },
             function (property_component_1_1) {
                 property_component_1 = property_component_1_1;
-                property_component_2 = property_component_1_1;
             },
             function (jquery_1_1) {
                 jquery_1 = jquery_1_1;
@@ -34,7 +33,7 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
         execute: function() {
             DocumentResourceComponent = (function () {
                 function DocumentResourceComponent(element) {
-                    this.modes = property_component_2.Modes;
+                    this.modes = property_component_1.Modes;
                     this.properties = [];
                     this.existingProperties = [];
                     this.displayOnly = [];
@@ -219,7 +218,6 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
                         selector: "cp-document-resource",
                         template: document_resource_component_html_1.default,
                         styles: [":host { display:block; }"],
-                        directives: [property_component_1.PropertyComponent],
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
                 ], DocumentResourceComponent);

@@ -3,7 +3,7 @@ import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit } fro
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 
 import { Property, PropertyRow, Modes } from "./../property/property.component";
-import { PropertyComponent } from "./../property/property.component";
+//import { PropertyComponent } from "./../property/property.component";
 
 import $ from "jquery";
 import "semantic-ui/semantic";
@@ -14,7 +14,7 @@ import template from "./named-fragment.component.html!";
 	selector: "cp-named-fragment",
 	template: template,
 	styles: [ ":host { display:block; }" ],
-	directives: [ PropertyComponent ],
+	//directives: [ PropertyComponent ],
 } )
 
 export class NamedFragmentComponent implements AfterViewInit {

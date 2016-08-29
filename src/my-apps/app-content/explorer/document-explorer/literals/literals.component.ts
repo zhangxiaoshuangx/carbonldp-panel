@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
 
-import { LiteralComponent } from "./literal.component";
+//import { LiteralComponent } from "./literal.component";
 import { Modes } from "./../property/property.component";
 import { Literal, LiteralRow } from "./literal.component";
 
@@ -13,7 +13,7 @@ import style from "./literals.component.css!text";
 	selector: "cp-literals",
 	template: template,
 	styles: [ style ],
-	directives: [ LiteralComponent ],
+	//directives: [ LiteralComponent ],
 } )
 
 export class LiteralsComponent implements OnInit {

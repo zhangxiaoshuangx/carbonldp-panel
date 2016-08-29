@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit } fro
 
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 
-import { PropertyComponent } from "./../property/property.component";
+//import { PropertyComponent } from "./../property/property.component";
 import { Property, PropertyRow, Modes } from "./../property/property.component";
 
 import $ from "jquery";
@@ -14,7 +14,7 @@ import template from "./document-resource.component.html!";
 	selector: "cp-document-resource",
 	template: template,
 	styles: [ ":host { display:block; }" ],
-	directives: [ PropertyComponent ],
+	//directives: [ PropertyComponent ],
 } )
 
 export class DocumentResourceComponent implements AfterViewInit {

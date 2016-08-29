@@ -1,5 +1,5 @@
 import { ElementRef, EventEmitter, AfterViewInit, OnInit } from "@angular/core";
-import { AbstractControl } from '@angular/common';
+import { AbstractControl } from "@angular/common/src/forms-deprecated";
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 import { LiteralRow } from "./../literals/literal.component";
 import { PointerRow } from "./../pointers/pointer.component";

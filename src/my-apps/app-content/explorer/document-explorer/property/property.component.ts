@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit, OnInit } from "@angular/core";
-import { Control, AbstractControl, Validators } from '@angular/common';
+//import { Control, AbstractControl, Validators } from '@angular/common';
+import { AbstractControl, Control, Validators } from "@angular/common/src/forms-deprecated";
 
 import * as SDKRDFNode from "carbonldp/RDF/RDFNode";
 import * as SDKLiteral from "carbonldp/RDF/Literal";
@@ -7,9 +8,9 @@ import * as URI from "carbonldp/RDF/URI";
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 import * as Utils from "carbonldp/Utils";
 
-import { LiteralsComponent } from "./../literals/literals.component";
+//import { LiteralsComponent } from "./../literals/literals.component";
 import { LiteralRow } from "./../literals/literal.component";
-import { PointersComponent } from "./../pointers/pointers.component";
+//import { PointersComponent } from "./../pointers/pointers.component";
 import { PointerRow } from "./../pointers/pointer.component";
 
 import $ from "jquery";
@@ -22,7 +23,7 @@ import style from "./property.component.css!text";
 	selector: "cp-property",
 	template: template,
 	styles: [ style ],
-	directives: [ LiteralsComponent, PointersComponent ],
+	//directives: [ LiteralsComponent, PointersComponent ],
 	host: { "[class.has-changed]": "property.modified", "[class.deleted-property]": "property.deleted", "[class.added-property]": "property.added" },
 } )
 

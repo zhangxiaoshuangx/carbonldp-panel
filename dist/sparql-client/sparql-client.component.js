@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "angular2-carbonldp/decorators", "./response/response.component", "carbon-panel/code-mirror/code-mirror.component", "jquery", "semantic-ui/semantic", "./sparql-client.component.html!", "./sparql-client.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "./response/response.component", "carbon-panel/code-mirror/code-mirror.component", "jquery", "semantic-ui/semantic", "./sparql-client.component.html!", "./sparql-client.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "angular
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, Carbon_1, HTTP, decorators_1, response_component_1, CodeMirrorComponent, jquery_1, sparql_client_component_html_1, sparql_client_component_css_text_1;
+    var core_1, Carbon_1, HTTP, response_component_1, CodeMirrorComponent, jquery_1, sparql_client_component_html_1, sparql_client_component_css_text_1;
     var SPARQLClientComponent;
     return {
         setters:[
@@ -22,9 +22,6 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "angular
             },
             function (HTTP_1) {
                 HTTP = HTTP_1;
-            },
-            function (decorators_1_1) {
-                decorators_1 = decorators_1_1;
             },
             function (response_component_1_1) {
                 response_component_1 = response_component_1_1;
@@ -710,9 +707,6 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "angular
                         selector: "cp-sparql-client",
                         template: sparql_client_component_html_1.default,
                         styles: [sparql_client_component_css_text_1.default],
-                    }),
-                    decorators_1.Authenticated({
-                        redirectTo: ["Login"],
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef, Carbon_1.default])
                 ], SPARQLClientComponent);

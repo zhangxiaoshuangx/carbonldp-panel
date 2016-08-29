@@ -1,7 +1,6 @@
 import { ModuleWithProviders } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
-import { AppContentView } from "./app-content/app-content.view";
 import { AppsCatalogView } from "./apps-catalog/apps-catalog.view";
 import { CreateAppView } from "./create-app/create-app.view";
 
@@ -17,9 +16,16 @@ const MyAppsRoutes:Routes = [
 		},
 	},
 	{
+		path: "create",
+		component: CreateAppView,
+		data: {
+			alias: "Create",
+			displayName: "Create App",
+		},
+	},
+	{
 		path: ":slug",
 		// as: "App",
-		component: AppContentView,
 		data: {
 			alias: "App",
 			displayName: "App",
@@ -29,15 +35,7 @@ const MyAppsRoutes:Routes = [
 				redirectTo: "AppDashboard",
 			},
 		},
-		loadChildren: "carbon-panel/my-apps/apps-content/apps-content.module#AppsContentModule",
-	},
-	{
-		path: "create",
-		component: CreateAppView,
-		data: {
-			alias: "Create",
-			displayName: "Create App",
-		},
+		loadChildren: "carbon-panel/my-apps/app-content/app-content.module#AppContentModule",
 	},
 ];
 

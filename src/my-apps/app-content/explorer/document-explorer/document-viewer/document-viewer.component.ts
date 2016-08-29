@@ -8,11 +8,11 @@ import { JSONLDParser as JSONLDParser } from "carbonldp/HTTP";
 import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
 import { DocumentsResolverService } from "./../documents-resolver.service";
-import { DocumentResourceComponent } from "./../document-resource/document-resource.component";
+//import { DocumentResourceComponent } from "./../document-resource/document-resource.component";
 import { RootRecords } from "./../document-resource/document-resource.component";
-import { BlankNodesComponent } from "./../blank-nodes/blank-nodes.component";
-import { NamedFragmentsComponent }from "./../named-fragments/named-fragments.component";
-import { PropertyComponent } from "./../property/property.component";
+//import { BlankNodesComponent } from "./../blank-nodes/blank-nodes.component";
+//import { NamedFragmentsComponent }from "./../named-fragments/named-fragments.component";
+//import { PropertyComponent } from "./../property/property.component";
 import { BlankNodeRecords } from "./../blank-nodes/blank-node.component";
 import { NamedFragmentRecords } from "./../named-fragments/named-fragment.component";
 
@@ -27,7 +27,7 @@ import style from "./document-viewer.component.css!text";
 	host: { "[class.ui]": "true", "[class.basic]": "true", "[class.segment]": "true", },
 	template: template,
 	styles: [ style ],
-	directives: [ DocumentResourceComponent, BlankNodesComponent, NamedFragmentsComponent, PropertyComponent ],
+	//directives: [ DocumentResourceComponent, BlankNodesComponent, NamedFragmentsComponent, PropertyComponent ],
 } )
 
 export class DocumentViewerComponent implements AfterViewInit, OnChanges {

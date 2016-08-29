@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, RDFNode, property_component_1, property_component_2, jquery_1, blank_node_component_html_1;
+    var core_1, RDFNode, property_component_1, jquery_1, blank_node_component_html_1;
     var BlankNodeComponent, BlankNode, BlankNodeRecords;
     return {
         setters:[
@@ -22,7 +22,6 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
             },
             function (property_component_1_1) {
                 property_component_1 = property_component_1_1;
-                property_component_2 = property_component_1_1;
             },
             function (jquery_1_1) {
                 jquery_1 = jquery_1_1;
@@ -199,7 +198,6 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
                         selector: "cp-blank-node",
                         template: blank_node_component_html_1.default,
                         styles: [":host { display:block; }"],
-                        directives: [property_component_2.PropertyComponent],
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
                 ], BlankNodeComponent);

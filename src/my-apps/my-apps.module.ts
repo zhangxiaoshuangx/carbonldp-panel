@@ -8,8 +8,16 @@ import { CARBON_SERVICES_PROVIDERS } from "angular2-carbonldp/services";
 import { routing } from "./my-apps.routing";
 
 import { MyAppsView } from "./my-apps.view";
-import { CreateAppModule } from "./create-app/create-app.module";
-import { AppsCatalogModule } from "./apps-catalog/apps-catalog.module";
+import { CreateAppView } from "./create-app/create-app.view";
+import { CreateAppComponent } from "./create-app/create-app.component";
+import { AppsCatalogView } from "./apps-catalog/apps-catalog.view";
+import { AppsCatalogComponent } from "./apps-catalog/apps-catalog.component";
+import { AppsTilesComponent } from "./apps-catalog/apps-tiles/apps-tiles.component";
+import { AppTileComponent } from "./apps-catalog/apps-tiles/app-tile.component";
+import { AppsListComponent } from "./apps-catalog/apps-list/apps-list.component";
+import { AppActionButtonsComponent } from "./apps-catalog/app-action-buttons/app-action-buttons.component";
+
+//import { AppContentModule } from "./app-content/app-content.module";
 import { PanelModule } from "./../panel.module";
 
 import { AppContextService } from "./app-context.service";
@@ -28,11 +36,17 @@ import { MyAppsSidebarService } from "./my-apps-sidebar.service";
 		DeprecatedFormsModule,
 		routing,
 		PanelModule,
-		CreateAppModule,
-		AppsCatalogModule,
 	],
 	declarations: [
-		MyAppsView
+		MyAppsView,
+		CreateAppView,
+		AppsCatalogView,
+		AppsCatalogComponent,
+		AppsTilesComponent,
+		AppTileComponent,
+		AppsListComponent,
+		AppActionButtonsComponent,
+		CreateAppComponent,
 	],
 	providers: [
 		AppContextService,

@@ -1,4 +1,4 @@
-System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "carbonldp/RDF/Literal", "carbonldp/RDF/URI", "carbonldp/Utils", "./../literals/literals.component", "./../pointers/pointers.component", "jquery", "semantic-ui/semantic", "./property.component.html!", "./property.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Literal", "carbonldp/RDF/URI", "carbonldp/Utils", "jquery", "semantic-ui/semantic", "./property.component.html!", "./property.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,15 +10,15 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, SDKRDFNode, SDKLiteral, URI, Utils, literals_component_1, pointers_component_1, jquery_1, property_component_html_1, property_component_css_text_1;
+    var core_1, forms_deprecated_1, SDKRDFNode, SDKLiteral, URI, Utils, jquery_1, property_component_html_1, property_component_css_text_1;
     var PropertyComponent, Modes;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (common_1_1) {
-                common_1 = common_1_1;
+            function (forms_deprecated_1_1) {
+                forms_deprecated_1 = forms_deprecated_1_1;
             },
             function (SDKRDFNode_1) {
                 SDKRDFNode = SDKRDFNode_1;
@@ -31,12 +31,6 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
             },
             function (Utils_1) {
                 Utils = Utils_1;
-            },
-            function (literals_component_1_1) {
-                literals_component_1 = literals_component_1_1;
-            },
-            function (pointers_component_1_1) {
-                pointers_component_1 = pointers_component_1_1;
             },
             function (jquery_1_1) {
                 jquery_1 = jquery_1_1;
@@ -58,7 +52,7 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                     this.addNewPointer = new core_1.EventEmitter();
                     this.commonToken = ["@id", "@type", "@value"];
                     this.modes = Modes;
-                    this.nameInput = new common_1.Control(this.name, common_1.Validators.compose([common_1.Validators.required, this.nameValidator.bind(this)]));
+                    this.nameInput = new forms_deprecated_1.Control(this.name, forms_deprecated_1.Validators.compose([forms_deprecated_1.Validators.required, this.nameValidator.bind(this)]));
                     this.mode = Modes.READ;
                     this.bNodes = [];
                     this.namedFragments = [];
@@ -371,7 +365,7 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/RDFNode", "c
                         selector: "cp-property",
                         template: property_component_html_1.default,
                         styles: [property_component_css_text_1.default],
-                        directives: [literals_component_1.LiteralsComponent, pointers_component_1.PointersComponent],
+                        //directives: [ LiteralsComponent, PointersComponent ],
                         host: { "[class.has-changed]": "property.modified", "[class.deleted-property]": "property.deleted", "[class.added-property]": "property.added" },
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])

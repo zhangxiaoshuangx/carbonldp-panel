@@ -1,4 +1,4 @@
-System.register(["@angular/core", "./blank-node.component", "./../property/property.component", "jquery", "semantic-ui/semantic", "./blank-nodes.component.html!", "./blank-nodes.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "jquery", "semantic-ui/semantic", "./blank-nodes.component.html!", "./blank-nodes.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,18 +10,12 @@ System.register(["@angular/core", "./blank-node.component", "./../property/prope
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, blank_node_component_1, property_component_1, jquery_1, blank_nodes_component_html_1, blank_nodes_component_css_text_1;
+    var core_1, jquery_1, blank_nodes_component_html_1, blank_nodes_component_css_text_1;
     var BlankNodesComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (blank_node_component_1_1) {
-                blank_node_component_1 = blank_node_component_1_1;
-            },
-            function (property_component_1_1) {
-                property_component_1 = property_component_1_1;
             },
             function (jquery_1_1) {
                 jquery_1 = jquery_1_1;
@@ -138,7 +132,6 @@ System.register(["@angular/core", "./blank-node.component", "./../property/prope
                         selector: "cp-blank-nodes",
                         template: blank_nodes_component_html_1.default,
                         styles: [blank_nodes_component_css_text_1.default],
-                        directives: [property_component_1.PropertyComponent, blank_node_component_1.BlankNodeComponent],
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
                 ], BlankNodesComponent);

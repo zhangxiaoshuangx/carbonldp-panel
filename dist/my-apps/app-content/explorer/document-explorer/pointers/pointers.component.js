@@ -1,4 +1,4 @@
-System.register(["@angular/core", "./pointer.component", "./../property/property.component", "semantic-ui/semantic", "./pointers.component.html!", "./pointers.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "./../property/property.component", "semantic-ui/semantic", "./pointers.component.html!", "./pointers.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,15 +10,12 @@ System.register(["@angular/core", "./pointer.component", "./../property/property
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, pointer_component_1, property_component_1, pointers_component_html_1, pointers_component_css_text_1;
+    var core_1, property_component_1, pointers_component_html_1, pointers_component_css_text_1;
     var PointersComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (pointer_component_1_1) {
-                pointer_component_1 = pointer_component_1_1;
             },
             function (property_component_1_1) {
                 property_component_1 = property_component_1_1;
@@ -139,7 +136,6 @@ System.register(["@angular/core", "./pointer.component", "./../property/property
                         selector: "cp-pointers",
                         template: pointers_component_html_1.default,
                         styles: [pointers_component_css_text_1.default],
-                        directives: [pointer_component_1.PointerComponent],
                     }), 
                     __metadata('design:paramtypes', [])
                 ], PointersComponent);

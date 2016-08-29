@@ -5,9 +5,10 @@ import * as RDFDocument from "carbonldp/RDF/Document";
 import * as HTTP from "carbonldp/HTTP";
 
 import { DocumentsResolverService } from "./documents-resolver.service"
-import { DocumentViewerComponent } from "./document-viewer/document-viewer.component";
-import { DocumentTreeViewComponent } from "./document-tree-view/document-tree-view.component";
-import { Message, ErrorMessageComponent } from "./../../../../errors-area/error-message.component";
+//import { DocumentViewerComponent } from "./document-viewer/document-viewer.component";
+//import { DocumentTreeViewComponent } from "./document-tree-view/document-tree-view.component";
+//import { Message, ErrorMessageComponent } from "./../../../../errors-area/error-message.component";
+import { Message } from "./../../../../errors-area/error-message.component";
 
 import "semantic-ui/semantic";
 
@@ -18,7 +19,7 @@ import style from "./document-explorer.component.css!text";
 	selector: "cp-document-explorer",
 	template: template,
 	styles: [ style ],
-	directives: [ DocumentTreeViewComponent, DocumentViewerComponent, ErrorMessageComponent ],
+	//directives: [ DocumentTreeViewComponent, DocumentViewerComponent, ErrorMessageComponent ],
 } )
 
 export class DocumentExplorerComponent {

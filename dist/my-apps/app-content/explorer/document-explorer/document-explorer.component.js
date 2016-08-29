@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./documents-resolver.service", "./document-viewer/document-viewer.component", "./document-tree-view/document-tree-view.component", "./../../../../errors-area/error-message.component", "semantic-ui/semantic", "./document-explorer.component.html!", "./document-explorer.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./documents-resolver.service", "semantic-ui/semantic", "./document-explorer.component.html!", "./document-explorer.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./d
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, SDKContext, HTTP, documents_resolver_service_1, document_viewer_component_1, document_tree_view_component_1, error_message_component_1, document_explorer_component_html_1, document_explorer_component_css_text_1;
+    var core_1, SDKContext, HTTP, documents_resolver_service_1, document_explorer_component_html_1, document_explorer_component_css_text_1;
     var DocumentExplorerComponent;
     return {
         setters:[
@@ -25,15 +25,6 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./d
             },
             function (documents_resolver_service_1_1) {
                 documents_resolver_service_1 = documents_resolver_service_1_1;
-            },
-            function (document_viewer_component_1_1) {
-                document_viewer_component_1 = document_viewer_component_1_1;
-            },
-            function (document_tree_view_component_1_1) {
-                document_tree_view_component_1 = document_tree_view_component_1_1;
-            },
-            function (error_message_component_1_1) {
-                error_message_component_1 = error_message_component_1_1;
             },
             function (_1) {},
             function (document_explorer_component_html_1_1) {
@@ -125,7 +116,6 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./d
                         selector: "cp-document-explorer",
                         template: document_explorer_component_html_1.default,
                         styles: [document_explorer_component_css_text_1.default],
-                        directives: [document_tree_view_component_1.DocumentTreeViewComponent, document_viewer_component_1.DocumentViewerComponent, error_message_component_1.ErrorMessageComponent],
                     }), 
                     __metadata('design:paramtypes', [documents_resolver_service_1.DocumentsResolverService])
                 ], DocumentExplorerComponent);

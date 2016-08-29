@@ -6,8 +6,10 @@ import Context from "carbonldp/Context";
 import * as SPARQL from "carbonldp/SPARQL";
 import * as HTTP from "carbonldp/HTTP";
 
-import { Authenticated } from "angular2-carbonldp/decorators";
-import { ResponseComponent, SPARQLResponseType, SPARQLFormats, SPARQLClientResponse, SPARQLQuery } from "./response/response.component";
+//TODO: check decorators
+//import { Authenticated } from "angular2-carbonldp/decorators";
+//import { ResponseComponent,
+import { SPARQLResponseType, SPARQLFormats, SPARQLClientResponse, SPARQLQuery } from "./response/response.component";
 import * as CodeMirrorComponent from "carbon-panel/code-mirror/code-mirror.component";
 
 import $ from "jquery";
@@ -23,9 +25,9 @@ import style from "./sparql-client.component.css!text";
 	styles: [ style ],
 	//directives: [ FORM_DIRECTIVES, CodeMirrorComponent.Class, ResponseComponent, ResponseComponent, ],
 } )
-@Authenticated( {
-	redirectTo: [ "Login" ],
-} )
+//@Authenticated( {
+// 	redirectTo: [ "Login" ],
+// } )
 export class SPARQLClientComponent implements OnInit, AfterViewInit {
 
 	sparqlTypes:SPARQLTypes = <SPARQLTypes>{

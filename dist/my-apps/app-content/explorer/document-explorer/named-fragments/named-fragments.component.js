@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/RDF/URI", "./named-fragment.component", "./../property/property.component", "jquery", "semantic-ui/semantic", "./named-fragments.component.html!", "./named-fragments.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/RDF/URI", "jquery", "semantic-ui/semantic", "./named-fragments.component.html!", "./named-fragments.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "./named-fragment.compone
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, URI, named_fragment_component_1, property_component_1, jquery_1, named_fragments_component_html_1, named_fragments_component_css_text_1;
+    var core_1, URI, jquery_1, named_fragments_component_html_1, named_fragments_component_css_text_1;
     var NamedFragmentsComponent;
     return {
         setters:[
@@ -19,12 +19,6 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "./named-fragment.compone
             },
             function (URI_1) {
                 URI = URI_1;
-            },
-            function (named_fragment_component_1_1) {
-                named_fragment_component_1 = named_fragment_component_1_1;
-            },
-            function (property_component_1_1) {
-                property_component_1 = property_component_1_1;
             },
             function (jquery_1_1) {
                 jquery_1 = jquery_1_1;
@@ -147,7 +141,6 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "./named-fragment.compone
                         selector: "cp-named-fragments",
                         template: named_fragments_component_html_1.default,
                         styles: [named_fragments_component_css_text_1.default],
-                        directives: [property_component_1.PropertyComponent, named_fragment_component_1.NamedFragmentComponent],
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
                 ], NamedFragmentsComponent);

@@ -10,10 +10,11 @@ import { RegisterComponent } from "./register.component";
 import { SidebarComponent } from "./sidebar.component";
 import { SidebarItemsComponent } from "./sidebar-items.component";
 import { SidebarService } from "./sidebar.service";
-
+import { ErrorMessageComponent } from "./errors-area/error-message.component";
+import { ErrorsAreaComponent } from "./errors-area/errors-area.component";
+import { ErrorsAreaService } from "./errors-area/errors-area.service";
 import { MenuBarComponent } from "./menu-bar.component";
 
-import { ErrorsAreaModule } from "./errors-area/errors-area.module";
 import { SemanticModule } from "./semantic/semantic.module";
 import { RouterService } from "./router.service";
 
@@ -22,10 +23,11 @@ import { RouterService } from "./router.service";
 		CommonModule,
 		RouterModule,
 		DeprecatedFormsModule,
-		ErrorsAreaModule.forRoot(),
 		SemanticModule
 	],
 	declarations: [
+		ErrorMessageComponent,
+		ErrorsAreaComponent,
 		HeaderComponent,
 		HeaderItemComponent,
 		LoginComponent,
@@ -35,14 +37,17 @@ import { RouterService } from "./router.service";
 		MenuBarComponent,
 	],
 	exports: [
-		ErrorsAreaModule,
 		HeaderComponent,
 		LoginComponent,
 		RegisterComponent,
 		SidebarComponent,
 		MenuBarComponent,
+		ErrorMessageComponent,
+		ErrorsAreaComponent,
 	],
-	//providers: [ HeaderService, SidebarService ],
+	providers: [
+		ErrorsAreaService,
+	]
 } )
 
 export class PanelModule {

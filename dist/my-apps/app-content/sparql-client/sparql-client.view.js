@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbon-panel/my-apps/app-content/app-content.view", "carbon-panel/errors-area/errors-area.service", "carbon-panel/sparql-client/sparql-client.component", "semantic-ui/semantic", "./sparql-client.view.html!"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbon-panel/my-apps/app-content/app-content.view", "carbon-panel/errors-area/errors-area.service", "semantic-ui/semantic", "./sparql-client.view.html!"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -13,7 +13,7 @@ System.register(["@angular/core", "carbon-panel/my-apps/app-content/app-content.
     var __param = (this && this.__param) || function (paramIndex, decorator) {
         return function (target, key) { decorator(target, key, paramIndex); }
     };
-    var core_1, app_content_view_1, errors_area_service_1, sparql_client_component_1, sparql_client_view_html_1;
+    var core_1, app_content_view_1, errors_area_service_1, sparql_client_view_html_1;
     var SPARQLClientView;
     return {
         setters:[
@@ -25,9 +25,6 @@ System.register(["@angular/core", "carbon-panel/my-apps/app-content/app-content.
             },
             function (errors_area_service_1_1) {
                 errors_area_service_1 = errors_area_service_1_1;
-            },
-            function (sparql_client_component_1_1) {
-                sparql_client_component_1 = sparql_client_component_1_1;
             },
             function (_1) {},
             function (sparql_client_view_html_1_1) {
@@ -47,7 +44,6 @@ System.register(["@angular/core", "carbon-panel/my-apps/app-content/app-content.
                         selector: "cp-sparql-client-view",
                         template: sparql_client_view_html_1.default,
                         styles: [":host { display: block; }"],
-                        directives: [sparql_client_component_1.SPARQLClientComponent],
                     }),
                     __param(1, core_1.Host()),
                     __param(1, core_1.Inject(core_1.forwardRef(function () { return app_content_view_1.AppContentView; }))), 
