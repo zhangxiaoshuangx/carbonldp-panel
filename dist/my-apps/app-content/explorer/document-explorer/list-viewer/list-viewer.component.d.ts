@@ -1,7 +1,7 @@
 import { ElementRef, EventEmitter, OnInit } from "@angular/core";
 import "semantic-ui/semantic";
 import * as RDFNode from "carbonldp/RDF/RDFNode";
-export default class ListViewerComponent implements OnInit {
+export declare class ListViewerComponent implements OnInit {
     element: ElementRef;
     list: RDFNode.Class[];
     onGoToBNode: EventEmitter<string>;
@@ -14,3 +14,4 @@ export default class ListViewerComponent implements OnInit {
     goToBNode(id: string): void;
     isBNode(uri: string): boolean;
 }
+export default ListViewerComponent;

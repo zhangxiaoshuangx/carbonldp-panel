@@ -73,7 +73,8 @@ System.register(["@angular/core", "semantic-ui/semantic", "carbonldp/RDF/URI", "
                 ], ListViewerComponent);
                 return ListViewerComponent;
             }());
-            exports_1("default", ListViewerComponent);
+            exports_1("ListViewerComponent", ListViewerComponent);
+            exports_1("default",ListViewerComponent);
         }
     }
 });

@@ -13,7 +13,7 @@ import template from "./template.html!";
 	styles: [ ":host { display:block; }" ],
 } )
 
-export default class ListViewerComponent implements OnInit {
+export class ListViewerComponent implements OnInit {
 
 	element:ElementRef;
 	@Input() list:RDFNode.Class[];
@@ -58,3 +58,5 @@ export default class ListViewerComponent implements OnInit {
 	}
 
 }
+
+export default ListViewerComponent;

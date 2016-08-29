@@ -1,7 +1,7 @@
 import { Component, Inject, Host, forwardRef } from "@angular/core";
 
 import { AppContentView } from "./../../app-content/app-content.view";
-import { ConfigurationComponent } from "./configuration.component";
+//import { ConfigurationComponent } from "./configuration.component";
 import * as App from "./../app";
 
 import "semantic-ui/semantic";
@@ -12,7 +12,7 @@ import template from "./configuration.view.html!";
 	selector: "cp-configuration-view",
 	template: template,
 	styles: [ ":host { display: block; }" ],
-	directives: [ ConfigurationComponent ],
+	//directives: [ ConfigurationComponent ],
 } )
 export class ConfigurationView {
 	app:App.Class;

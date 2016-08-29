@@ -7,7 +7,8 @@ import { StatusCode as HTTPStatusCode } from "carbonldp/HTTP";
 import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
 import { BackupsService } from "../backups.service";
-import { Message, ErrorMessageComponent } from "./../../../../../errors-area/error-message.component";
+//import { Message, ErrorMessageComponent } from "./../../../../../errors-area/error-message.component";
+import { Message } from "./../../../../../errors-area/error-message.component";
 
 import $ from "jquery";
 import "semantic-ui/semantic";
@@ -19,7 +20,7 @@ import style from "./backups-list.component.css!text";
 	selector: "cp-backups-list",
 	template: template,
 	styles: [ style ],
-	directives: [ ErrorMessageComponent ],
+	//directives: [ ErrorMessageComponent ],
 } )
 
 export class BackupsListComponent implements AfterViewInit, OnChanges, OnDestroy {

@@ -4,7 +4,8 @@ import * as App from "carbonldp/App";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
 import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
-import { Message, ErrorMessageComponent } from "carbon-panel/errors-area/error-message.component";
+//import { Message, ErrorMessageComponent } from "carbon-panel/errors-area/error-message.component";
+import { Message } from "carbon-panel/errors-area/error-message.component";
 import { JobsService } from "../../job/jobs.service";
 import * as Job from "../../job/job";
 
@@ -17,7 +18,7 @@ import style from "./backup-exporter.component.css!text";
 	selector: "cp-backup-exporter",
 	template: template,
 	styles: [ style ],
-	directives: [ ErrorMessageComponent ],
+	//directives: [ ErrorMessageComponent ],
 } )
 
 export class BackupExporterComponent implements OnDestroy {

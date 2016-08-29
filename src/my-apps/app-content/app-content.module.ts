@@ -6,9 +6,11 @@ import { CommonModule, DeprecatedFormsModule } from '@angular/common';
 import { routing } from "./app-content.routing";
 
 import { AppContentView } from "./app-content.view";
-import { EditAppView } from "./edit-app/edit-app.view";
-import { EditAppComponent } from "./edit-app/edit-app.component";
 import { DashboardView } from "./dashboard/dashboard.view";
+
+import { EditAppComponent } from "./edit-app/edit-app.component";
+import { EditAppView } from "./edit-app/edit-app.view";
+
 import { SPARQLClientView } from "./sparql-client/sparql-client.view";
 
 import { LiteralComponent } from "./explorer/document-explorer/literals/literal.component";
@@ -26,11 +28,17 @@ import { DocumentViewerComponent } from "./explorer/document-explorer/document-v
 import { DocumentTreeViewComponent } from "./explorer/document-explorer/document-tree-view/document-tree-view.component";
 import { DocumentExplorerComponent } from "./explorer/document-explorer/document-explorer.component";
 import { ExplorerView } from "./explorer/explorer.view";
+
+import { BackupExporterComponent } from "./configuration/backup/backup-exporter/backup-exporter.component";
+import { BackupImporterComponent } from "./configuration/backup/backup-importer/backup-importer.component";
+import { BackupsListComponent } from "./configuration/backup/backups-list/backups-list.component";
+import { BackupsComponent } from "./configuration/backup/backups.component";
+import { ConfigurationComponent } from "./configuration/configuration.component";
+import { ConfigurationView } from "./configuration/configuration.view";
+
 import { DocumentsResolverService } from "./explorer/document-explorer/documents-resolver.service";
-
-
-// / import { ConfigurationView } from "./app-content/configuration/configuration.view";
-
+import { JobsService } from "./configuration/job/jobs.service";
+import { BackupsService } from "./configuration/backup/backups.service";
 
 import { PanelModule } from "./../../panel.module";
 import { SPARQLClientModule } from "./../../sparql-client/sparql-client.module";
@@ -65,11 +73,18 @@ import { SPARQLClientModule } from "./../../sparql-client/sparql-client.module";
 		DocumentTreeViewComponent,
 		DocumentExplorerComponent,
 		ExplorerView,
-		//ConfigurationView
+		BackupExporterComponent,
+		BackupImporterComponent,
+		BackupsListComponent,
+		BackupsComponent,
+		ConfigurationComponent,
+		ConfigurationView,
 	],
 	providers: [
 		AppContentView, //TODO: remove when host injection is resolved.
 		DocumentsResolverService,
+		JobsService,
+		BackupsService,
 	],
 } )
 export class AppContentModule {
