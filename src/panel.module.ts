@@ -26,14 +26,14 @@ import { RouterService } from "./router.service";
 		SemanticModule
 	],
 	declarations: [
-		ErrorMessageComponent,
-		ErrorsAreaComponent,
 		HeaderComponent,
 		HeaderItemComponent,
 		LoginComponent,
 		RegisterComponent,
 		SidebarComponent,
 		SidebarItemsComponent,
+		ErrorMessageComponent,
+		ErrorsAreaComponent,
 		MenuBarComponent,
 	],
 	exports: [
@@ -52,7 +52,7 @@ import { RouterService } from "./router.service";
 
 export class PanelModule {
 
-	static forRoot(): ModuleWithProviders {
+	static forRoot():ModuleWithProviders {
 		return {
 			ngModule: PanelModule,
 			providers: [ HeaderService, SidebarService, RouterService ]

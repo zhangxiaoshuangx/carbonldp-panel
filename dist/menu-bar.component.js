@@ -35,68 +35,41 @@ System.register(["@angular/core", "@angular/router", "carbon-panel/router.servic
             }],
         execute: function() {
             MenuBarComponent = (function () {
-                function MenuBarComponent(element, router, routerService, sidebarService) {
+                function MenuBarComponent(router, routerService, sidebarService, route) {
                     this.breadCrumbs = [];
-                    this.element = element;
+                    this.route = route;
                     this.router = router;
                     this.routerService = routerService;
                     this.sidebarService = sidebarService;
-                    this.router.events.subscribe(function (NavigationEnd) {
-                        console.log(NavigationEnd);
-                        //this.updateBreadcrumbs( url );
-                    });
                 }
-                /*updateBreadcrumbs( url:string ):void {
-                    this.instructions = [];
-                    this.breadCrumbs = [];
-            
-                    let workingInstruction:Instruction;
-                    this.router.recognize( url ).then( ( instruction )=> {
-                        if( ! instruction ) return;
-            
-                        workingInstruction = instruction;
-                        while( workingInstruction.child ) {
-                            this.addInstruction( workingInstruction );
-                            workingInstruction = workingInstruction.child;
-                        }
-                        if( ! workingInstruction.child && ! ! workingInstruction.urlPath ) {
-                            this.addInstruction( workingInstruction );
-                        }
-                    } );
-                }*/
-                MenuBarComponent.prototype.getRouteAlias = function () {
-                    console.log("getRouteAlias");
-                    /*let alias:any[] = [], params:{name:string} = { name: "" };
-                    this.instructions.forEach( ( instruction )=> {
-                        if( ! instruction ) return;
-            
-                        alias.push( instruction.component.routeData.data[ "alias" ] );
-                        params = instruction.component.routeData.data[ "params" ];
-                        if( params ) alias.push( { [params.name]: instruction.urlPath } );
-                    } );
-                    return alias;*/
-                };
-                //addInstruction( workingInstruction:Instruction ):void {
-                MenuBarComponent.prototype.addInstruction = function (workingInstruction) {
-                    console.log("addInstruction");
-                    /*this.instructions.push( workingInstruction );
-                    this.breadCrumbs.push( {
-                        url: workingInstruction.urlPath,
-                        displayName: workingInstruction.component.routeData.data[ "displayName" ],
-                        alias: this.getRouteAlias(),
-                        friendlyAlias: this.getFriendlyAlias()
-                    } );*/
-                };
-                MenuBarComponent.prototype.getFriendlyAlias = function () {
-                    console.log("getFriendlyAlias");
-                    /*let friendlyURL:string = "";
-                    this.instructions.forEach( ( instruction )=> {
-                        if( ! instruction ) return;
-            
-                        friendlyURL += instruction.component.routeData.data[ "alias" ];
-                        friendlyURL += instruction.child ? "/" : "";
-                    } );
-                    return friendlyURL;*/
+                MenuBarComponent.prototype.ngOnInit = function () {
+                    var _this = this;
+                    this.router.events.subscribe(function (event) {
+                        if (!(event instanceof router_1.NavigationEnd))
+                            return;
+                        _this.breadCrumbs = [];
+                        var currentRoute = _this.route.root;
+                        var _loop_1 = function() {
+                            var url = "", childrenRoutes = currentRoute.children;
+                            currentRoute = null;
+                            childrenRoutes.forEach(function (route) {
+                                if (route.outlet === "primary") {
+                                    var routeSnapshot = route.snapshot;
+                                    url += "/" + routeSnapshot.data["alias"];
+                                    if (!!routeSnapshot.data["displayName"]) {
+                                        _this.breadCrumbs.push({
+                                            alias: url,
+                                            displayName: routeSnapshot.data["displayName"],
+                                        });
+                                    }
+                                    currentRoute = route;
+                                }
+                            });
+                        };
+                        do {
+                            _loop_1();
+                        } while (currentRoute);
+                    });
                 };
                 MenuBarComponent.prototype.toggleSidebar = function () {
                     this.sidebarService.toggle();
@@ -107,7 +80,7 @@ System.register(["@angular/core", "@angular/router", "carbon-panel/router.servic
                         template: menu_bar_component_html_1.default,
                         styles: [menu_bar_component_css_text_1.default],
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, router_1.Router, router_service_1.RouterService, sidebar_service_1.SidebarService])
+                    __metadata('design:paramtypes', [router_1.Router, router_service_1.RouterService, sidebar_service_1.SidebarService, router_1.ActivatedRoute])
                 ], MenuBarComponent);
                 return MenuBarComponent;
             }());

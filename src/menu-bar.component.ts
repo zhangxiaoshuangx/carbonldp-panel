@@ -1,11 +1,9 @@
-import { Component, ElementRef } from "@angular/core";
-//import { ROUTER_DIRECTIVES, Router, Instruction } from "@angular/router-deprecated";
-import { Router } from "@angular/router";
+import { Component } from "@angular/core";
+import { Router, NavigationEnd, ActivatedRoute, ActivatedRouteSnapshot } from "@angular/router";
 
 import { RouterService } from "carbon-panel/router.service";
 import { SidebarService } from "carbon-panel/sidebar.service";
 
-import $ from "jquery";
 import "semantic-ui/semantic";
 
 import template from "./menu-bar.component.html!";
@@ -15,83 +13,46 @@ import style from "./menu-bar.component.css!text";
 	selector: "cp-menu-bar",
 	template: template,
 	styles: [ style ],
-	//directives: [ ROUTER_DIRECTIVES ]
 } )
 export class MenuBarComponent {
 	breadCrumbs:Array<any> = [];
-	//instructions:Instruction[] = [];
 
-	private element:ElementRef;
 	private router:Router;
 	private routerService:RouterService;
 	private sidebarService:SidebarService;
+	private route:ActivatedRoute;
 
-	constructor( element:ElementRef, router:Router, routerService:RouterService, sidebarService:SidebarService ) {
-		this.element = element;
+	constructor( router:Router, routerService:RouterService, sidebarService:SidebarService, route:ActivatedRoute ) {
+		this.route = route;
 		this.router = router;
 		this.routerService = routerService;
 		this.sidebarService = sidebarService;
-
-		this.router.events.subscribe( ( NavigationEnd )=> {
-			console.log( NavigationEnd );
-			//this.updateBreadcrumbs( url );
-		} );
 	}
 
-	/*updateBreadcrumbs( url:string ):void {
-		this.instructions = [];
-		this.breadCrumbs = [];
-
-		let workingInstruction:Instruction;
-		this.router.recognize( url ).then( ( instruction )=> {
-			if( ! instruction ) return;
-
-			workingInstruction = instruction;
-			while( workingInstruction.child ) {
-				this.addInstruction( workingInstruction );
-				workingInstruction = workingInstruction.child;
-			}
-			if( ! workingInstruction.child && ! ! workingInstruction.urlPath ) {
-				this.addInstruction( workingInstruction );
-			}
-		} );
-	}*/
-
-	getRouteAlias():any {
-		console.log("getRouteAlias");
-		/*let alias:any[] = [], params:{name:string} = { name: "" };
-		this.instructions.forEach( ( instruction )=> {
-			if( ! instruction ) return;
-
-			alias.push( instruction.component.routeData.data[ "alias" ] );
-			params = instruction.component.routeData.data[ "params" ];
-			if( params ) alias.push( { [params.name]: instruction.urlPath } );
-		} );
-		return alias;*/
-	}
-
-	//addInstruction( workingInstruction:Instruction ):void {
-	addInstruction( workingInstruction:any ):void {
-		console.log("addInstruction");
-		/*this.instructions.push( workingInstruction );
-		this.breadCrumbs.push( {
-			url: workingInstruction.urlPath,
-			displayName: workingInstruction.component.routeData.data[ "displayName" ],
-			alias: this.getRouteAlias(),
-			friendlyAlias: this.getFriendlyAlias()
-		} );*/
-	}
-
-	getFriendlyAlias():any {
-		console.log("getFriendlyAlias");
-		/*let friendlyURL:string = "";
-		this.instructions.forEach( ( instruction )=> {
-			if( ! instruction ) return;
-
-			friendlyURL += instruction.component.routeData.data[ "alias" ];
-			friendlyURL += instruction.child ? "/" : "";
-		} );
-		return friendlyURL;*/
+	ngOnInit():void {
+		this.router.events.subscribe( ( event ) => {
+			if( ! (event instanceof NavigationEnd ) ) return;
+			this.breadCrumbs = [];
+			let currentRoute = this.route.root;
+			do {
+				let url:string = "",
+					childrenRoutes = currentRoute.children;
+				currentRoute = null;
+				childrenRoutes.forEach( ( route:ActivatedRoute ) => {
+					if( route.outlet === "primary" ) {
+						let routeSnapshot:ActivatedRouteSnapshot = route.snapshot;
+						url += "/" + routeSnapshot.data[ "alias" ];
+						if( ! ! routeSnapshot.data[ "displayName" ] ) {
+							this.breadCrumbs.push( {
+								alias: url,
+								displayName: routeSnapshot.data[ "displayName" ],
+							} );
+						}
+						currentRoute = route;
+					}
+				} )
+			} while( currentRoute );
+		} )
 	}
 
 	toggleSidebar():void {

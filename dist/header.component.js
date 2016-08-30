@@ -42,11 +42,11 @@ System.register(["@angular/core", "carbon-panel/header.service", "jquery", "sema
                 };
                 HeaderComponent.prototype.createCollapsableMenus = function () {
                     var verticalMenu = this.$element.find(".ui.vertical.menu");
-                    /*this.$element.find( ".item.open" ).on( "click", function( e ) {
+                    this.$element.find(".item.open").on("click", function (e) {
                         e.preventDefault();
                         verticalMenu.toggle();
-                    } );
-                    verticalMenu.toggle();*/
+                    });
+                    verticalMenu.toggle();
                 };
                 HeaderComponent = __decorate([
                     core_1.Component({
