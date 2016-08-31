@@ -20,28 +20,19 @@ const AppContentRoutes:Routes = [
 		},
 		children: [
 			{
-				/*path: "",
-				// as: "AppDashboard",
-				component: AppContentView,
-				data: {
-					alias: "App",
-					displayName: "App",
-					main: true,
-					params: {
-						name: "slug",
-						redirectTo: "AppDashboard",
-					},
-				},
-				resolve: {
-					app: AppContentView
-				},
-				children: [
-					{*/
 				path: "",
 				component: DashboardView,
 				data: {
 					alias: "",
 					displayName: "App Dashboard",
+				},
+			},
+			{
+				path: "edit",
+				component: EditAppView,
+				data: {
+					alias: "Edit",
+					displayName: "Edit",
 				},
 			},
 			// {
@@ -50,14 +41,6 @@ const AppContentRoutes:Routes = [
 			// 	data: {
 			// 		alias: "SPARQLClient",
 			// 		displayName: "SPARQL Client",
-			// 	},
-			// },
-			// {
-			// 	path: "edit",
-			// 	component: EditAppView,
-			// 	data: {
-			// 		alias: "Edit",
-			// 		displayName: "Edit",
 			// 	},
 			// },
 			// {

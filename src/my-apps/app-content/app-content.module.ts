@@ -4,6 +4,7 @@ import { CommonModule, DeprecatedFormsModule } from '@angular/common';
 
 import { routing } from "./app-content.routing";
 import { AppContentResolver } from "./app-content.resolver";
+import { AppContentService } from "./app-content.service";
 
 
 import { AppContentView } from "./app-content.view";
@@ -83,7 +84,7 @@ import { SPARQLClientModule } from "./../../sparql-client/sparql-client.module";
 	],
 	exports: [],
 	providers: [
-		// AppContentView, //TODO: remove when host injection is resolved.
+		AppContentService,
 		AppContentResolver,
 		DocumentsResolverService,
 		JobsService,
