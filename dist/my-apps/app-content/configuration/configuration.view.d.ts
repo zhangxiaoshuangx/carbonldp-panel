@@ -1,8 +1,8 @@
-import { AppContentView } from "./../../app-content/app-content.view";
+import { AppContentService } from "./../../app-content/app-content.service";
 import * as App from "./../app";
 import "semantic-ui/semantic";
 export declare class ConfigurationView {
     app: App.Class;
-    constructor(appContentView: AppContentView);
+    constructor(appContentService: AppContentService);
 }
 export default ConfigurationView;
