@@ -17,10 +17,10 @@
 		<cp-sidebar-items [items]="item.children"></cp-sidebar-items>
 	</template>
 	<template [ngIf]="item.type === 'submenu'">
-		<a class="item submenu"
-		   suiCollapsible
-		   [(suiActive)]="item.open"
-		   [ngClass]="{ active: item.isActive ? item.isActive() : false }">
+		<!--<a class="item submenu"-->
+		   <!--suiCollapsible-->
+		   <!--[(suiActive)]="item.open"-->
+		   <!--[ngClass]="{ active: item.isActive ? item.isActive() : false }">-->
 			<button *ngIf="item.onClose" class="ui right floated circular icon mini inverted button" (click)="item.onClose.emit( item )">
 				<i class="icon remove"></i>
 			</button>
@@ -31,6 +31,6 @@
 			<div class="content">
 				<cp-sidebar-items [items]="item.children"></cp-sidebar-items>
 			</div>
-		</a>
+		<!--</a>-->
 	</template>
 </template>

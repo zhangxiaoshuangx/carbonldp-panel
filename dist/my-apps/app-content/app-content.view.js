@@ -37,31 +37,32 @@ System.register(["@angular/core", "@angular/router", "./../my-apps-sidebar.servi
             }],
         execute: function() {
             AppContentView = (function () {
-                //constructor( router:Router, routeParams:RouteParams, myAppsSidebarService:MyAppsSidebarService, appContextService:AppContextService ) {
-                function AppContentView(router, myAppsSidebarService, appContextService) {
+                function AppContentView(router, route, myAppsSidebarService, appContextService) {
                     this.router = router;
                     //this.routeParams = routeParams;
+                    this.activatedRoute = route;
                     this.myAppsSidebarService = myAppsSidebarService;
                     this.appContextService = appContextService;
                 }
-                AppContentView.prototype.routerOnActivate = function () {
+                AppContentView.prototype.resolve = function (route) {
                     var _this = this;
-                    // let slug:string = this.routeParams.get( "slug" );
-                    //TODO: fix routeparams
-                    var slug = "great-expectations";
-                    this.appContextService.get(slug).then(function (appContext) {
+                    var slug = route.params["slug"];
+                    return this.appContextService.get(slug).then(function (appContext) {
                         _this.app = App.Factory.createFrom(appContext);
                         _this.myAppsSidebarService.addApp(_this.app);
                         _this.myAppsSidebarService.openApp(_this.app);
+                        return true;
                     }).catch(function (error) {
                         _this.timer = 5;
                         var countDown = setInterval(function () {
                             _this.timer--;
                             if (_this.timer === 0) {
-                                _this.router.navigate(["List"]);
+                                _this.router.navigate(["/my-apps/"]);
                                 clearInterval(countDown);
+                                return false;
                             }
                         }, 1000);
+                        return false;
                     });
                 };
                 AppContentView = __decorate([
@@ -70,7 +71,7 @@ System.register(["@angular/core", "@angular/router", "./../my-apps-sidebar.servi
                         template: app_content_view_html_1.default,
                         styles: [app_content_view_css_text_1.default],
                     }), 
-                    __metadata('design:paramtypes', [router_1.Router, my_apps_sidebar_service_1.MyAppsSidebarService, app_context_service_1.AppContextService])
+                    __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, my_apps_sidebar_service_1.MyAppsSidebarService, app_context_service_1.AppContextService])
                 ], AppContentView);
                 return AppContentView;
             }());

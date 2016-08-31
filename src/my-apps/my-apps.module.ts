@@ -16,18 +16,13 @@ import { AppsTilesComponent } from "./apps-catalog/apps-tiles/apps-tiles.compone
 import { AppTileComponent } from "./apps-catalog/apps-tiles/app-tile.component";
 import { AppsListComponent } from "./apps-catalog/apps-list/apps-list.component";
 import { AppActionButtonsComponent } from "./apps-catalog/app-action-buttons/app-action-buttons.component";
+import { AppContentView } from "./app-content/app-content.view";
 
-//import { AppContentModule } from "./app-content/app-content.module";
 import { PanelModule } from "./../panel.module";
 
 import { AppContextService } from "./app-context.service";
 import { MyAppsSidebarService } from "./my-apps-sidebar.service";
-//
-// import { DashboardView } from "./app-content/dashboard/dashboard.view";
-// import { SPARQLClientView } from "./app-content/sparql-client/sparql-client.view";
-// import { EditAppView } from "./app-content/edit-app/edit-app.view";
-// import { ExplorerView } from "./app-content/explorer/explorer.view";
-// import { ConfigurationView } from "./app-content/configuration/configuration.view";
+
 
 @NgModule( {
 	imports: [
@@ -47,8 +42,10 @@ import { MyAppsSidebarService } from "./my-apps-sidebar.service";
 		AppsListComponent,
 		AppActionButtonsComponent,
 		CreateAppComponent,
+		AppContentView,
 	],
 	providers: [
+		AppContentView, //TODO: remove when host injection is resolved.
 		AppContextService,
 		MyAppsSidebarService,
 
