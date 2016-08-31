@@ -2,7 +2,6 @@ import { ModuleWithProviders } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
 import { AppContentResolver } from "./app-content.resolver";
-import { AppNotFoundView } from "./app-not-found.view";
 
 import { AppContentView } from "./app-content.view";
 import { DashboardView } from "./dashboard/dashboard.view";
@@ -31,18 +30,18 @@ const AppContentRoutes:Routes = [
 				path: "edit",
 				component: EditAppView,
 				data: {
-					alias: "Edit",
+					alias: "edit",
 					displayName: "Edit",
 				},
 			},
-			// {
-			// 	path: "sparql-client",
-			// 	component: SPARQLClientView,
-			// 	data: {
-			// 		alias: "SPARQLClient",
-			// 		displayName: "SPARQL Client",
-			// 	},
-			// },
+			{
+				path: "sparql-client",
+				component: SPARQLClientView,
+				data: {
+					alias: "sparql-client",
+					displayName: "SPARQL Client",
+				},
+			},
 			// {
 			// 	path: "explore",
 			// 	component: ExplorerView,
