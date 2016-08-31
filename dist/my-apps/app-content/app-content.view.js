@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/router", "./../my-apps-sidebar.service", "./../app-context.service", "./app", "./app-content.view.html!", "./app-content.view.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "./../my-apps-sidebar.service", "./app-content.view.html!", "./app-content.view.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/router", "./../my-apps-sidebar.servi
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, my_apps_sidebar_service_1, app_context_service_1, App, app_content_view_html_1, app_content_view_css_text_1;
+    var core_1, router_1, my_apps_sidebar_service_1, app_content_view_html_1, app_content_view_css_text_1;
     var AppContentView;
     return {
         setters:[
@@ -23,12 +23,6 @@ System.register(["@angular/core", "@angular/router", "./../my-apps-sidebar.servi
             function (my_apps_sidebar_service_1_1) {
                 my_apps_sidebar_service_1 = my_apps_sidebar_service_1_1;
             },
-            function (app_context_service_1_1) {
-                app_context_service_1 = app_context_service_1_1;
-            },
-            function (App_1) {
-                App = App_1;
-            },
             function (app_content_view_html_1_1) {
                 app_content_view_html_1 = app_content_view_html_1_1;
             },
@@ -37,32 +31,17 @@ System.register(["@angular/core", "@angular/router", "./../my-apps-sidebar.servi
             }],
         execute: function() {
             AppContentView = (function () {
-                function AppContentView(router, route, myAppsSidebarService, appContextService) {
+                function AppContentView(router, route, myAppsSidebarService) {
                     this.router = router;
-                    //this.routeParams = routeParams;
                     this.activatedRoute = route;
                     this.myAppsSidebarService = myAppsSidebarService;
-                    this.appContextService = appContextService;
                 }
-                AppContentView.prototype.resolve = function (route) {
+                AppContentView.prototype.ngOnInit = function () {
                     var _this = this;
-                    var slug = route.params["slug"];
-                    return this.appContextService.get(slug).then(function (appContext) {
-                        _this.app = App.Factory.createFrom(appContext);
+                    this.activatedRoute.data.forEach(function (data) {
+                        _this.app = data.app;
                         _this.myAppsSidebarService.addApp(_this.app);
                         _this.myAppsSidebarService.openApp(_this.app);
-                        return true;
-                    }).catch(function (error) {
-                        _this.timer = 5;
-                        var countDown = setInterval(function () {
-                            _this.timer--;
-                            if (_this.timer === 0) {
-                                _this.router.navigate(["/my-apps/"]);
-                                clearInterval(countDown);
-                                return false;
-                            }
-                        }, 1000);
-                        return false;
                     });
                 };
                 AppContentView = __decorate([
@@ -71,7 +50,7 @@ System.register(["@angular/core", "@angular/router", "./../my-apps-sidebar.servi
                         template: app_content_view_html_1.default,
                         styles: [app_content_view_css_text_1.default],
                     }), 
-                    __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, my_apps_sidebar_service_1.MyAppsSidebarService, app_context_service_1.AppContextService])
+                    __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, my_apps_sidebar_service_1.MyAppsSidebarService])
                 ], AppContentView);
                 return AppContentView;
             }());

@@ -3,8 +3,10 @@ import { BrowserModule } from "@angular/platform-browser";
 import { CommonModule, DeprecatedFormsModule } from '@angular/common';
 
 import { routing } from "./app-content.routing";
+import { AppContentResolver } from "./app-content.resolver";
 
-//import { AppContentView } from "./app-content.view";
+
+import { AppContentView } from "./app-content.view";
 import { DashboardView } from "./dashboard/dashboard.view";
 
 import { EditAppComponent } from "./edit-app/edit-app.component";
@@ -52,7 +54,7 @@ import { SPARQLClientModule } from "./../../sparql-client/sparql-client.module";
 		SPARQLClientModule,
 	],
 	declarations: [
-		//AppContentView,
+		AppContentView,
 		DashboardView,
 		SPARQLClientView,
 		EditAppView,
@@ -79,11 +81,10 @@ import { SPARQLClientModule } from "./../../sparql-client/sparql-client.module";
 		ConfigurationComponent,
 		ConfigurationView,
 	],
-	exports:[
-
-	],
+	exports: [],
 	providers: [
-		//AppContentView, //TODO: remove when host injection is resolved.
+		// AppContentView, //TODO: remove when host injection is resolved.
+		AppContentResolver,
 		DocumentsResolverService,
 		JobsService,
 		BackupsService,
