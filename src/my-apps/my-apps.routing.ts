@@ -5,6 +5,7 @@ import { MyAppsView } from "./my-apps.view";
 import { AppsCatalogView } from "./apps-catalog/apps-catalog.view";
 import { CreateAppView } from "./create-app/create-app.view";
 
+import { AppContentView } from "./app-content/app-content.view";
 
 const MyAppsRoutes:Routes = [
 	{
@@ -29,6 +30,10 @@ const MyAppsRoutes:Routes = [
 			},
 			{
 				path: ":slug",
+				component: AppContentView,
+				resolve: {
+					app: AppContentView,
+				},
 				data: {
 					alias: "App",
 					displayName: "App",
