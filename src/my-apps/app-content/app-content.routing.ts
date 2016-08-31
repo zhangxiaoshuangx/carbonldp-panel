@@ -42,14 +42,14 @@ const AppContentRoutes:Routes = [
 					displayName: "SPARQL Client",
 				},
 			},
-			// {
-			// 	path: "explore",
-			// 	component: ExplorerView,
-			// 	data: {
-			// 		alias: "Explorer",
-			// 		displayName: "Explorer",
-			// 	},
-			// },
+			{
+				path: "explore",
+				component: ExplorerView,
+				data: {
+					alias: "explore",
+					displayName: "Explorer",
+				},
+			},
 			// {
 			// 	path: "configure",
 			// 	// as: "Configuration",
