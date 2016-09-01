@@ -2,6 +2,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule, DeprecatedFormsModule } from '@angular/common';
 import { RouterModule } from "@angular/router";
 
+// Components
 import { HeaderComponent } from "./header.component";
 import { HeaderItemComponent } from "./header-item.component";
 import { HeaderService } from "./header.service";
@@ -15,7 +16,10 @@ import { ErrorsAreaComponent } from "./errors-area/errors-area.component";
 import { ErrorsAreaService } from "./errors-area/errors-area.service";
 import { MenuBarComponent } from "./menu-bar.component";
 
+// Modules
 import { SemanticModule } from "./semantic/semantic.module";
+
+// Services
 import { RouterService } from "./router.service";
 import { MyAppsSidebarService } from "./my-apps/my-apps-sidebar.service";
 
@@ -47,7 +51,7 @@ import { MyAppsSidebarService } from "./my-apps/my-apps-sidebar.service";
 		ErrorsAreaComponent,
 	],
 	providers: [
-		ErrorsAreaService,
+		// ErrorsAreaService,
 	]
 } )
 
@@ -56,7 +60,7 @@ export class PanelModule {
 	static forRoot():ModuleWithProviders {
 		return {
 			ngModule: PanelModule,
-			providers: [ HeaderService, SidebarService, RouterService, MyAppsSidebarService ]
+			providers: [ HeaderService, SidebarService, RouterService, MyAppsSidebarService, ErrorsAreaService ]
 		};
 	}
 }
