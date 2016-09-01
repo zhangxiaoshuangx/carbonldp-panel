@@ -2,59 +2,69 @@ import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit } fro
 
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 
-//import { PropertyComponent } from "./../property/property.component";
+import { BlankNodeRow } from "./../blank-nodes/blank-node.component";
 import { Property, PropertyRow, Modes } from "./../property/property.component";
 
 import $ from "jquery";
 import "semantic-ui/semantic";
 
-import template from "./document-resource.component.html!";
+import template from "./named-fragment.component.html!";
 
 @Component( {
-	selector: "cp-document-resource",
+	selector: "cp-named-fragment",
 	template: template,
 	styles: [ ":host { display:block; }" ],
-	//directives: [ PropertyComponent ],
 } )
 
-export class DocumentResourceComponent implements AfterViewInit {
+export class NamedFragmentComponent implements AfterViewInit {
 
 	element:ElementRef;
 	$element:JQuery;
 	modes:Modes = Modes;
-	properties:PropertyRow[] = [];
+	records:NamedFragmentRecords;
+	copyOrAdded:string = "";
+	tempPropertiesNames:string[] = [];
+
+	rootNode:RDFNode.Class;
+	properties:PropertyRow[];
 	existingPropertiesNames:string[] = [];
-	records:RootRecords;
-	private _rootHasChanged:boolean;
-	set rootHasChanged( hasChanged:boolean ) {
-		this._rootHasChanged = hasChanged;
+
+	private _namedFragmentHasChanged:boolean;
+	set namedFragmentHasChanged( hasChanged:boolean ) {
+		this._namedFragmentHasChanged = hasChanged;
+		delete this.namedFragment.modified;
+		delete this.namedFragment.records;
+		this.namedFragment.name = this.namedFragment.id;
+		if( hasChanged ) {
+			this.namedFragment.records = this.records;
+			if( typeof this.namedFragment.added !== "undefined" ) this.namedFragment.added = this.getRawVersion();
+			else this.namedFragment.modified = this.getRawVersion();
+		}
 		this.onChanges.emit( this.records );
 	}
 
-	get rootHasChanged() {
-		return this._rootHasChanged;
+	get namedFragmentHasChanged() {
+		return this.namedFragmentHasChanged;
 	}
 
-	@Input() displayOnly:string[] = [];
-	@Input() hiddenProperties:string[] = [];
-	@Input() blankNodes:RDFNode.Class[] = [];
-	@Input() namedFragments:RDFNode.Class[] = [];
+	@Input() blankNodes:BlankNodeRow[] = [];
+	@Input() namedFragments:NamedFragmentRow[] = [];
 	@Input() canEdit:boolean = true;
 	@Input() documentURI:string = "";
-	private _rootNode:RDFNode.Class;
-	@Input() set rootNode( value:RDFNode.Class ) {
-		this._rootNode = value;
-		this.records = new RootRecords();
+
+	private _namedFragment:NamedFragmentRow;
+	@Input() set namedFragment( namedFragment:NamedFragmentRow ) {
+		this._namedFragment = namedFragment;
+		this.rootNode = namedFragment.copy;
+		if( ! ! namedFragment.records ) this.records = namedFragment.records;
 		this.getProperties();
 	}
 
-	get rootNode() {
-		return this._rootNode;
-	}
+	get namedFragment():NamedFragmentRow { return this._namedFragment; }
 
 	@Output() onOpenBlankNode:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onOpenNamedFragment:EventEmitter<string> = new EventEmitter<string>();
-	@Output() onChanges:EventEmitter<RootRecords> = new EventEmitter<RootRecords>();
+	@Output() onChanges:EventEmitter<NamedFragmentRow> = new EventEmitter<NamedFragmentRow>();
 
 
 	constructor( element:ElementRef ) {
@@ -73,15 +83,8 @@ export class DocumentResourceComponent implements AfterViewInit {
 		this.onOpenNamedFragment.emit( id );
 	}
 
-	canDisplay( propertyName:any ):boolean {
-		if( typeof propertyName === "undefined" ) return false;
-		if( this.displayOnly.length === 0 && this.hiddenProperties.length === 0 ) return true;
-		if( this.displayOnly.length > 0 ) return this.displayOnly.indexOf( propertyName ) !== - 1 ? true : false;
-		return this.hiddenProperties.indexOf( propertyName ) !== - 1 ? false : true;
-	}
-
 	changeProperty( property:PropertyRow, index:number ):void {
-		if( typeof this.records === "undefined" ) this.records = new RootRecords();
+		if( typeof this.records === "undefined" ) this.records = new NamedFragmentRecords();
 		if( typeof property.modified !== "undefined" ) {
 			this.records.changes.set( property.modified.id, property );
 		} else if( typeof property.added === "undefined" ) {
@@ -96,7 +99,7 @@ export class DocumentResourceComponent implements AfterViewInit {
 	}
 
 	deleteProperty( property:PropertyRow, index:number ):void {
-		if( typeof this.records === "undefined" ) this.records = new RootRecords();
+		if( typeof this.records === "undefined" ) this.records = new NamedFragmentRecords();
 		if( typeof property.added !== "undefined" ) {
 			this.records.additions.delete( property.added.id );
 			this.properties.splice( index, 1 );
@@ -107,7 +110,7 @@ export class DocumentResourceComponent implements AfterViewInit {
 	}
 
 	addProperty( property:PropertyRow, index:number ):void {
-		if( typeof this.records === "undefined" ) this.records = new RootRecords();
+		if( typeof this.records === "undefined" ) this.records = new NamedFragmentRecords();
 		if( typeof property.added !== "undefined" ) {
 			if( property.added.id === property.added.name ) {
 				this.records.additions.set( property.added.id, property );
@@ -122,7 +125,7 @@ export class DocumentResourceComponent implements AfterViewInit {
 
 	createProperty( property:Property, propertyRow:PropertyRow ):void {
 		let numberOfProperty:number = ! ! this.records ? (this.records.additions.size + 1) : 1;
-		let newProperty:PropertyRow = <PropertyRow>{
+		let newProperty:PropertyRow = {
 			added: <Property>{
 				id: "",
 				name: "http://www.example.com#New Property " + numberOfProperty,
@@ -132,7 +135,7 @@ export class DocumentResourceComponent implements AfterViewInit {
 			isBeingModified: false,
 			isBeingDeleted: false
 		};
-		this.properties.splice( 2, 0, newProperty );
+		this.properties.splice( 1, 0, newProperty );
 		// Animates created property
 		setTimeout( ()=> {
 			let createdPropertyComponent:JQuery = this.$element.find( "cp-property.added-property" ).first();
@@ -160,7 +163,7 @@ export class DocumentResourceComponent implements AfterViewInit {
 		if( ! this.records ) return;
 		this.records.additions.forEach( ( value, key )=> {
 			this.existingPropertiesNames.push( key );
-			this.properties.splice( 2, 0, value );
+			this.properties.splice( 1, 0, value );
 		} );
 		let idx:number;
 		this.records.changes.forEach( ( value, key )=> {
@@ -178,14 +181,45 @@ export class DocumentResourceComponent implements AfterViewInit {
 			idx = this.properties.findIndex( ( property:PropertyRow )=> { return ! ! property.copy && property.copy.id === key} );
 			if( idx !== - 1 ) this.properties.splice( idx, 1 );
 		} );
-		this.rootHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
+		this.namedFragmentHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
+	}
+
+	getRawVersion():RDFNode.Class {
+		let rawNode:RDFNode.Class = Object.assign( {}, this.namedFragment.added ? this.namedFragment.added : this.namedFragment.copy );
+		this.records.deletions.forEach( ( property, key )=> {
+			delete rawNode[ key ];
+		} );
+		this.records.changes.forEach( ( property, key )=> {
+			if( property.modified.id === "@id" ) this.namedFragment.name = property.modified.value;
+			if( property.modified.id !== property.modified.name ) {
+				delete rawNode[ key ];
+				rawNode[ property.modified.name ] = property.modified.value;
+			} else {
+				rawNode[ key ] = property.modified.value;
+			}
+		} );
+		this.records.additions.forEach( ( property, key )=> {
+			if( property.added.id === "@id" ) this.namedFragment.name = property.modified.value;
+			rawNode[ key ] = property.added.value;
+		} );
+		return rawNode;
 	}
 }
+export interface NamedFragmentRow {
+	id?:string;
+	name?:string;
 
-export class RootRecords {
+	copy?:RDFNode.Class;
+	added?:RDFNode.Class;
+	modified?:RDFNode.Class;
+	deleted?:RDFNode.Class;
+
+	records?:NamedFragmentRecords;
+}
+export class NamedFragmentRecords {
 	changes:Map<string,PropertyRow> = new Map<string, PropertyRow>();
 	deletions:Map<string,PropertyRow> = new Map<string, PropertyRow>();
 	additions:Map<string,PropertyRow> = new Map<string, PropertyRow>();
 }
 
-export default DocumentResourceComponent;
+export default NamedFragmentComponent;

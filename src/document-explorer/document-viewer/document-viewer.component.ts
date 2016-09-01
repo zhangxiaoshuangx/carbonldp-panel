@@ -4,21 +4,14 @@ import { Message } from "carbon-panel/errors-area/error-message.component";
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
-import { JSONLDParser as JSONLDParser } from "carbonldp/HTTP";
+// import { JSONLDParser as JSONLDParser } from "carbonldp/HTTP";
+import * as JSONLDParser from "carbonldp/JSONLD/Parser";
 import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
 import { DocumentsResolverService } from "./../documents-resolver.service";
-//import { DocumentResourceComponent } from "./../document-resource/document-resource.component";
 import { RootRecords } from "./../document-resource/document-resource.component";
-//import { BlankNodesComponent } from "./../blank-nodes/blank-nodes.component";
-//import { NamedFragmentsComponent }from "./../named-fragments/named-fragments.component";
-//import { PropertyComponent } from "./../property/property.component";
-import { BlankNodeRecords } from "./../blank-nodes/blank-node.component";
-import { NamedFragmentRecords } from "./../named-fragments/named-fragment.component";
-import { RootRecords, DocumentResourceComponent } from "./../document-resource/document-resource.component";
 import { BlankNodesComponent, BlankNodesRecords } from "./../blank-nodes/blank-nodes.component";
 import { NamedFragmentsComponent, NamedFragmentsRecords }from "./../named-fragments/named-fragments.component";
-import { PropertyComponent } from "./../property/property.component";
 import { BlankNodeRow } from "./../blank-nodes/blank-node.component";
 import { NamedFragmentRow } from "./../named-fragments/named-fragment.component";
 
@@ -33,7 +26,6 @@ import style from "./document-viewer.component.css!text";
 	host: { "[class.ui]": "true", "[class.basic]": "true", "[class.segment]": "true", },
 	template: template,
 	styles: [ style ],
-	//directives: [ DocumentResourceComponent, BlankNodesComponent, NamedFragmentsComponent, PropertyComponent ],
 } )
 
 export class DocumentViewerComponent implements AfterViewInit, OnChanges {

@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, Output, EventEmitter, SimpleChange, OnCha
 
 import * as URI from "carbonldp/RDF/URI";
 
-import { NamedFragmentComponent, NamedFragmentRow } from "./named-fragment.component";
+import { NamedFragmentRow } from "./named-fragment.component";
 import { BlankNodeRow } from "./../blank-nodes/blank-node.component";
 
 import $ from "jquery";
@@ -15,7 +15,6 @@ import style from "./named-fragments.component.css!text";
 	selector: "cp-named-fragments",
 	template: template,
 	styles: [ style ],
-	directives: [ NamedFragmentComponent ],
 } )
 
 export class NamedFragmentsComponent implements AfterViewInit, OnChanges {

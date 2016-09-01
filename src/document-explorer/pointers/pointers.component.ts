@@ -2,7 +2,6 @@ import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
 
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 
-//import { PointerComponent } from "./pointer.component";
 import { Modes } from "./../property/property.component";
 import { Pointer, PointerRow } from "./pointer.component";
 
@@ -15,7 +14,6 @@ import style from "./pointers.component.css!text";
 	selector: "cp-pointers",
 	template: template,
 	styles: [ style ],
-	//directives: [ PointerComponent ],
 } )
 
 export class PointersComponent implements OnInit {

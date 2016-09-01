@@ -3,8 +3,7 @@ import { Component, ElementRef, Input, Output, EventEmitter, SimpleChange, After
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 import * as Utils from "carbonldp/Utils";
 
-import { BlankNodeComponent, BlankNodeRow } from "./blank-node.component"
-//import { PropertyComponent } from "./../property/property.component";
+import { BlankNodeRow } from "./blank-node.component"
 
 import $ from "jquery";
 import "semantic-ui/semantic";
@@ -16,7 +15,6 @@ import style from "./blank-nodes.component.css!text";
 	selector: "cp-blank-nodes",
 	template: template,
 	styles: [ style ],
-	//directives: [ PropertyComponent, BlankNodeComponent ],
 } )
 
 export class BlankNodesComponent implements AfterViewInit, OnChanges {

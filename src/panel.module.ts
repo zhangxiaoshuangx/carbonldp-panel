@@ -50,9 +50,7 @@ import { MyAppsSidebarService } from "./my-apps/my-apps-sidebar.service";
 		ErrorMessageComponent,
 		ErrorsAreaComponent,
 	],
-	providers: [
-		// ErrorsAreaService,
-	]
+	providers: []
 } )
 
 export class PanelModule {
