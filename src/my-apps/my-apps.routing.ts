@@ -12,14 +12,14 @@ const MyAppsRoutes:Routes = [
 	{
 		path: "",
 		component: MyAppsView,
+		data: {
+			alias: "my-apps",
+			displayName: "My Apps",
+		},
 		children: [
 			{
 				path: "",
 				component: AppsCatalogView,
-				data: {
-					alias: "my-apps",
-					displayName: "My Apps",
-				},
 			},
 			{
 				path: "create",

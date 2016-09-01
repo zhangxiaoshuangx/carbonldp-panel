@@ -33,16 +33,16 @@ export class MenuBarComponent {
 		this.router.events.subscribe( ( event ) => {
 			if( ! (event instanceof NavigationEnd ) ) return;
 			this.breadCrumbs = [];
-			let currentRoute = this.route.root;
+			let url:string = "",
+				currentRoute = this.route.root;
 			do {
-				let url:string = "",
-					childrenRoutes = currentRoute.children;
+				let childrenRoutes = currentRoute.children;
 				currentRoute = null;
 				childrenRoutes.forEach( ( route:ActivatedRoute ) => {
 					if( route.outlet === "primary" ) {
 						let routeSnapshot:ActivatedRouteSnapshot = route.snapshot;
 						if( typeof routeSnapshot === "undefined" ) return;
-						url += "/" + routeSnapshot.data[ "alias" ];
+						url += this.getURL( routeSnapshot );
 						if( ! ! routeSnapshot.data[ "displayName" ] ) {
 							this.breadCrumbs.push( {
 								alias: url,
@@ -54,6 +54,15 @@ export class MenuBarComponent {
 				} )
 			} while( currentRoute );
 		} )
+	}
+
+	private getURL( routeSnapshot:ActivatedRouteSnapshot ):string {
+		let url:string = "";
+		if( routeSnapshot.data[ "param" ] )
+			url += "/" + routeSnapshot.params[ routeSnapshot.data[ "param" ] ];
+		else if( routeSnapshot.data[ "alias" ] )
+			url += "/" + routeSnapshot.data[ "alias" ];
+		return url;
 	}
 
 	toggleSidebar():void {

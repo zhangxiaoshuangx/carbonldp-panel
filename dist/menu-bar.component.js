@@ -48,16 +48,16 @@ System.register(["@angular/core", "@angular/router", "carbon-panel/router.servic
                         if (!(event instanceof router_1.NavigationEnd))
                             return;
                         _this.breadCrumbs = [];
-                        var currentRoute = _this.route.root;
-                        var _loop_1 = function() {
-                            var url = "", childrenRoutes = currentRoute.children;
+                        var url = "", currentRoute = _this.route.root;
+                        do {
+                            var childrenRoutes = currentRoute.children;
                             currentRoute = null;
                             childrenRoutes.forEach(function (route) {
                                 if (route.outlet === "primary") {
                                     var routeSnapshot = route.snapshot;
                                     if (typeof routeSnapshot === "undefined")
                                         return;
-                                    url += "/" + routeSnapshot.data["alias"];
+                                    url += _this.getURL(routeSnapshot);
                                     if (!!routeSnapshot.data["displayName"]) {
                                         _this.breadCrumbs.push({
                                             alias: url,
@@ -67,11 +67,16 @@ System.register(["@angular/core", "@angular/router", "carbon-panel/router.servic
                                     currentRoute = route;
                                 }
                             });
-                        };
-                        do {
-                            _loop_1();
                         } while (currentRoute);
                     });
+                };
+                MenuBarComponent.prototype.getURL = function (routeSnapshot) {
+                    var url = "";
+                    if (routeSnapshot.data["param"])
+                        url += "/" + routeSnapshot.params[routeSnapshot.data["param"]];
+                    else if (routeSnapshot.data["alias"])
+                        url += "/" + routeSnapshot.data["alias"];
+                    return url;
                 };
                 MenuBarComponent.prototype.toggleSidebar = function () {
                     this.sidebarService.toggle();
