@@ -20,7 +20,6 @@ import { AppActionButtonsComponent } from "./apps-catalog/app-action-buttons/app
 import { PanelModule } from "./../panel.module";
 
 import { AppContextService } from "./app-context.service";
-import { MyAppsSidebarService } from "./my-apps-sidebar.service";
 
 
 @NgModule( {
@@ -43,8 +42,7 @@ import { MyAppsSidebarService } from "./my-apps-sidebar.service";
 		CreateAppComponent,
 	],
 	providers: [
-		AppContextService,
-		MyAppsSidebarService,
+		AppContextService, // TODO: check if this service causes a conflict with being reinitializated because of its provider
 
 		CARBON_PROVIDERS,
 		CARBON_SERVICES_PROVIDERS
