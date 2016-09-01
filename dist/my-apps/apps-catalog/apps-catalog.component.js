@@ -121,8 +121,7 @@ System.register(["@angular/core", "@angular/router", "rxjs/Rx", "carbonldp/Carbo
                 };
                 AppsCatalogComponent.prototype.openApp = function (app) {
                     this.myAppsSidebarService.addApp(app);
-                    //TODO: fix routes
-                    this.router.navigate(["App", { slug: app.slug }, "AppDashboard"]);
+                    this.router.navigate(["/my-apps", app.slug]);
                 };
                 AppsCatalogComponent.prototype.deleteApp = function (app) {
                     return app.delete();

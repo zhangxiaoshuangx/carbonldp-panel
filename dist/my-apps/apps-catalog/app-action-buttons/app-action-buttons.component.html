@@ -1,11 +1,11 @@
 <div class="ui small basic icon buttons">
-	<a class="ui icon button tooltip" (click)="avoidRowClick($event)" [routerLink]="[ 'App', {slug: app.slug}, 'AppDashboard']">
+	<a class="ui icon button tooltip" (click)="avoidRowClick($event)" [routerLink]="[ app.slug ]">
 		<i class="dashboard icon"></i>
 	</a>
-	<a class="ui icon button tooltip" (click)="avoidRowClick($event)" [routerLink]="[ 'App', {slug: app.slug}, 'SPARQLClient']">
+	<a class="ui icon button tooltip" (click)="avoidRowClick($event)" [routerLink]="[ app.slug, 'sparql-client']">
 		<i class="terminal icon"></i>
 	</a>
-	<a class="ui icon button tooltip" (click)="avoidRowClick($event)" [routerLink]="[ 'App', {slug: app.slug}, 'Edit']">
+	<a class="ui icon button tooltip" (click)="avoidRowClick($event)" [routerLink]="[ app.slug, 'edit']">
 		<i class="write icon"></i>
 	</a>
 	<button class="ui icon button tooltip" (click)="onDeleteApp($event)">

@@ -30,7 +30,6 @@ export class MyAppsSidebarService {
 
 	addApp( app:App.Class ):void {
 		if( this.openApps.has( app ) ) return;
-
 		if( this.openApps.size === 0 ) this.addOpenAppsDivider();
 
 		let removeAppEmitter:EventEmitter<SidebarGroup> = new EventEmitter<SidebarGroup>();

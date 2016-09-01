@@ -15,6 +15,7 @@ import { ErrorsAreaComponent } from "./errors-area/errors-area.component";
 import { ErrorsAreaService } from "./errors-area/errors-area.service";
 import { MenuBarComponent } from "./menu-bar.component";
 
+// import { MyAppsSidebarService } from "./my-apps/my-apps-sidebar.service";
 import { SemanticModule } from "./semantic/semantic.module";
 import { RouterService } from "./router.service";
 

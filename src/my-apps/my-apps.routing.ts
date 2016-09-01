@@ -35,7 +35,7 @@ const MyAppsRoutes:Routes = [
 					app: AppContentView,
 				},
 				data: {
-					alias: "App",
+					alias: "slug",
 					displayName: "App",
 					main: true,
 					params: {
