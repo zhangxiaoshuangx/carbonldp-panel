@@ -15,6 +15,12 @@ import { RootRecords } from "./../document-resource/document-resource.component"
 //import { PropertyComponent } from "./../property/property.component";
 import { BlankNodeRecords } from "./../blank-nodes/blank-node.component";
 import { NamedFragmentRecords } from "./../named-fragments/named-fragment.component";
+import { RootRecords, DocumentResourceComponent } from "./../document-resource/document-resource.component";
+import { BlankNodesComponent, BlankNodesRecords } from "./../blank-nodes/blank-nodes.component";
+import { NamedFragmentsComponent, NamedFragmentsRecords }from "./../named-fragments/named-fragments.component";
+import { PropertyComponent } from "./../property/property.component";
+import { BlankNodeRow } from "./../blank-nodes/blank-node.component";
+import { NamedFragmentRow } from "./../named-fragments/named-fragment.component";
 
 import $ from "jquery";
 import "semantic-ui/semantic";
@@ -33,18 +39,20 @@ import style from "./document-viewer.component.css!text";
 export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	element:ElementRef;
 	$element:JQuery;
+	$successMessage:JQuery;
+
 	sections:string[] = [ "bNodes", "namedFragments", "documentResource" ];
 	rootNode:RDFNode.Class;
-	bNodes:RDFNode.Class[] = [];
-	namedFragments:RDFNode.Class[] = [];
+	bNodes:BlankNodeRow[] = [];
+	namedFragments:NamedFragmentRow[] = [];
 	savingErrorMessage:Message;
 
 	rootNodeHasChanged:boolean = false;
 	rootNodeRecords:RootRecords;
 	bNodesHaveChanged:boolean = false;
-	bNodesChanges:Map<string, BlankNodeRecords>;
+	bNodesChanges:BlankNodesRecords;
 	namedFragmentsHaveChanged:boolean = false;
-	namedFragmentsChanges:Map<string, NamedFragmentRecords>;
+	namedFragmentsChanges:NamedFragmentsRecords;
 
 	get documentContentHasChanged() {
 		return this.rootNodeHasChanged || this.bNodesHaveChanged || this.namedFragmentsHaveChanged;
@@ -94,6 +102,7 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 
 	ngAfterViewInit():void {
 		this.$element = $( this.element.nativeElement );
+		this.$successMessage = this.$element.find( ".success.message" );
 	}
 
 	ngOnChanges( changes:{[propName:string]:SimpleChange} ):void {
@@ -131,12 +140,26 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	}
 
 	generateFragments():void {
-		this.bNodes = RDFDocument.Util.getBNodeResources( this.document );
-		this.namedFragments = RDFDocument.Util.getFragmentResources( this.document );
+		this.bNodes = RDFDocument.Util.getBNodeResources( this.document ).map(
+			( bNode:RDFNode.Class )=> {
+				return {
+					id: bNode[ "@id" ],
+					bNodeIdentifier: bNode[ "https://carbonldp.com/ns/v1/platform#bNodeIdentifier" ][ 0 ][ "@value" ],
+					copy: bNode
+				}
+			} );
+		this.namedFragments = RDFDocument.Util.getFragmentResources( this.document ).map(
+			( namedFragment:RDFNode.Class )=> {
+				return {
+					id: namedFragment[ "@id" ],
+					name: namedFragment[ "@id" ],
+					copy: namedFragment
+				}
+			} );
 	}
 
-	openBNode( id:string ):void {
-		this.documentBNodes.openBNode( id );
+	openBlankNode( id:string ):void {
+		this.documentBNodes.openBlankNode( id );
 		this.goToSection( "bNodes" );
 	}
 
@@ -160,14 +183,14 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 		this.rootNodeHasChanged = records.changes.size > 0 || records.additions.size > 0 || records.deletions.size > 0;
 	}
 
-	registerBNodeChanges( bNodeChanges:Map<string, BlankNodeRecords> ):void {
+	registerBlankNodesChanges( bNodeChanges:BlankNodesRecords ):void {
 		this.bNodesChanges = bNodeChanges;
-		this.bNodesHaveChanged = bNodeChanges.size > 0;
+		this.bNodesHaveChanged = bNodeChanges.changes.size > 0 || bNodeChanges.additions.size > 0 || bNodeChanges.deletions.size > 0;
 	}
 
-	registerNamedFragmentsChanges( namedFragmentsChanges:Map<string, NamedFragmentRecords> ):void {
+	registerNamedFragmentsChanges( namedFragmentsChanges:NamedFragmentsRecords ):void {
 		this.namedFragmentsChanges = namedFragmentsChanges;
-		this.namedFragmentsHaveChanged = namedFragmentsChanges.size > 0;
+		this.namedFragmentsHaveChanged = namedFragmentsChanges.changes.size > 0 || namedFragmentsChanges.additions.size > 0 || namedFragmentsChanges.deletions.size > 0;
 	}
 
 	modifyRootNodeWithChanges():void {
@@ -191,53 +214,43 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	}
 
 	modifyBNodesWithChanges():void {
-		let tempBNode;
-		this.bNodesChanges.forEach( ( bNodeRecords:BlankNodeRecords, bNodeId:string )=> {
-			tempBNode = this.bNodes.find( (bNode => {return bNode[ "@id" ] === bNodeId}) );
-			bNodeRecords.deletions.forEach( ( property, key )=> {
-				delete tempBNode[ key ];
-			} );
-			bNodeRecords.changes.forEach( ( property, key )=> {
-				if( property.modified.id !== property.modified.name ) {
-					delete tempBNode[ key ];
-					tempBNode[ property.modified.name ] = property.modified.value;
-				} else {
-					tempBNode[ key ] = property.modified.value;
-				}
-			} );
-			bNodeRecords.additions.forEach( ( property, key )=> {
-				tempBNode[ key ] = property.added.value;
-			} );
-
+		let tempIdx:number;
+		if( ! this.bNodesChanges ) return;
+		this.bNodesChanges.deletions.forEach( ( blankNodeRow:BlankNodeRow, bNodeId )=> {
+			tempIdx = this.document[ "@graph" ].findIndex( (bNode => { return bNode[ "@id" ] === bNodeId }) );
+			this.document[ "@graph" ].splice( tempIdx, 1 );
+		} );
+		tempIdx = - 1;
+		this.bNodesChanges.changes.forEach( ( blankNodeRow:BlankNodeRow, bNodeId )=> {
+			tempIdx = this.document[ "@graph" ].findIndex( (bNode => { return bNode[ "@id" ] === bNodeId }) );
+			this.document[ "@graph" ][ tempIdx ] = blankNodeRow.modified;
+		} );
+		this.bNodesChanges.additions.forEach( ( blankNodeRow:BlankNodeRow, bNodeId )=> {
+			this.document[ "@graph" ].push( blankNodeRow.added );
 		} );
 	}
 
 	modifyNamedFragmentsWithChanges():void {
-		let tempNamedFragment;
-		this.namedFragmentsChanges.forEach( ( namedFragmentRecords:NamedFragmentRecords, namedFragmentId:string )=> {
-			tempNamedFragment = this.namedFragments.find( (namedFragment => {return namedFragment[ "@id" ] === namedFragmentId}) );
-			namedFragmentRecords.deletions.forEach( ( property, key )=> {
-				delete tempNamedFragment[ key ];
-			} );
-			namedFragmentRecords.changes.forEach( ( property, key )=> {
-				if( property.modified.id !== property.modified.name ) {
-					delete tempNamedFragment[ key ];
-					tempNamedFragment[ property.modified.name ] = property.modified.value;
-				} else {
-					tempNamedFragment[ key ] = property.modified.value;
-				}
-			} );
-			namedFragmentRecords.additions.forEach( ( property, key )=> {
-				tempNamedFragment[ key ] = property.added.value;
-			} );
-
+		let tempIdx:number;
+		if( ! this.namedFragmentsChanges ) return;
+		this.namedFragmentsChanges.deletions.forEach( ( namedFragmentRow:NamedFragmentRow, namedFragmentId )=> {
+			tempIdx = this.document[ "@graph" ].findIndex( (namedFragment => { return namedFragment[ "@id" ] === namedFragmentId }) );
+			this.document[ "@graph" ].splice( tempIdx, 1 );
+		} );
+		tempIdx = - 1;
+		this.namedFragmentsChanges.changes.forEach( ( namedFragmentRow:NamedFragmentRow, namedFragmentId )=> {
+			tempIdx = this.document[ "@graph" ].findIndex( (namedFragment => { return namedFragment[ "@id" ] === namedFragmentId }) );
+			this.document[ "@graph" ][ tempIdx ] = namedFragmentRow.modified;
+		} );
+		this.namedFragmentsChanges.additions.forEach( ( namedFragmentRow:NamedFragmentRow, namedFragmentId )=> {
+			this.document[ "@graph" ].push( namedFragmentRow.added );
 		} );
 	}
 
 	clearDocumentChanges():void {
 		this.rootNodeRecords = new RootRecords();
-		this.bNodesChanges = new Map<string, BlankNodeRecords>();
-		this.namedFragmentsChanges = new Map<string, NamedFragmentRecords>();
+		this.bNodesChanges = new BlankNodesRecords();
+		this.namedFragmentsChanges = new BlankNodesRecords();
 		this.rootNodeHasChanged = false;
 		this.bNodesHaveChanged = false;
 		this.namedFragmentsHaveChanged = false;
@@ -253,9 +266,11 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 			( updatedDocument:RDFDocument.Class )=> {
 				this.document = updatedDocument[ 0 ];
 				setTimeout( ()=> {
-					this.$element.find( ".success.message" ).transition( {
+					this.$successMessage.transition( {
 						onComplete: ()=> {
-							setTimeout( ()=> {this.$element.find( ".success.message" ).transition( "fade" );}, 4000 );
+							setTimeout( ()=> {
+								if( ! this.$successMessage.hasClass( "hidden" ) ) this.$successMessage.transition( "fade" );
+							}, 4000 );
 						}
 					} );
 				}, 1500 );
@@ -277,8 +292,8 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 		} ).then( ()=> {
 			this.savingDocument = false;
 			this.rootNodeHasChanged = this.rootNodeRecords.changes.size > 0 || this.rootNodeRecords.additions.size > 0 || this.rootNodeRecords.deletions.size > 0;
-			this.bNodesHaveChanged = this.bNodesChanges.size > 0;
-			this.namedFragmentsHaveChanged = this.namedFragmentsChanges.size > 0;
+			this.bNodesHaveChanged = this.bNodesChanges.changes.size > 0 || this.bNodesChanges.additions.size > 0 || this.bNodesChanges.deletions.size > 0;
+			this.namedFragmentsHaveChanged = this.namedFragmentsChanges.changes.size > 0 || this.namedFragmentsChanges.additions.size > 0 || this.namedFragmentsChanges.deletions.size > 0;
 		} );
 	}
 

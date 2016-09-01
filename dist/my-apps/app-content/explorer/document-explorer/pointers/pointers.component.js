@@ -34,6 +34,7 @@ System.register(["@angular/core", "./../property/property.component", "semantic-
                     this.tokens = ["@id", "@type"];
                     this.tempPointers = [];
                     this.isEditingPointer = false;
+                    this.canDisplayPointers = false;
                     this.documentURI = "";
                     this.pointers = [];
                     this.onAddNewPointer = new core_1.EventEmitter();
@@ -49,39 +50,35 @@ System.register(["@angular/core", "./../property/property.component", "semantic-
                     this.onAddNewPointer.subscribe(function () {
                         _this.addNewPointer();
                     });
+                    this.updateCanDisplayPointers();
                 };
                 PointersComponent.prototype.addNewPointer = function () {
                     var newPointerRow = {};
                     newPointerRow.added = {};
-                    this.pointers.push(newPointerRow);
+                    newPointerRow.isBeingCreated = true;
+                    this.pointers.splice(0, 0, newPointerRow);
+                    this.updateCanDisplayPointers();
                 };
                 PointersComponent.prototype.savePointer = function (modifiedPointer, originalPointer, index) {
-                    if (modifiedPointer.hasOwnProperty("@id")) {
-                        this.pointers[index].modified = modifiedPointer;
-                    }
+                    if (typeof this.pointers[index].added !== "undefined")
+                        delete this.pointers[index].isBeingCreated;
                     this.onPointersChanges.emit(this.pointers);
-                };
-                PointersComponent.prototype.saveNewPointer = function (newPointer, originalPointer, index) {
-                    if (newPointer.hasOwnProperty("@id")) {
-                        this.pointers[index].added = newPointer;
-                    }
-                    this.onPointersChanges.emit(this.pointers);
+                    this.updateCanDisplayPointers();
                 };
                 PointersComponent.prototype.deletePointer = function (deletingPointer, index) {
+                    if (typeof deletingPointer.added !== "undefined")
+                        this.pointers.splice(index, 1);
                     this.onPointersChanges.emit(this.pointers);
+                    this.updateCanDisplayPointers();
                 };
-                PointersComponent.prototype.deleteNewPointer = function (deletingPointer, index) {
-                    this.pointers.splice(index, 1);
-                    this.onPointersChanges.emit(this.pointers);
-                };
-                PointersComponent.prototype.canDisplayPointers = function () {
-                    return this.getUntouchedPointers().length > 0 || this.getAddedPointers().length > 0 || this.getModifiedPointers().length > 0;
+                PointersComponent.prototype.updateCanDisplayPointers = function () {
+                    this.canDisplayPointers = this.getUntouchedPointers().length > 0 || this.getAddedPointers().length > 0 || this.getModifiedPointers().length > 0;
                 };
                 PointersComponent.prototype.getAddedPointers = function () {
                     return this.pointers.filter(function (pointer) { return typeof pointer.added !== "undefined"; });
                 };
                 PointersComponent.prototype.getModifiedPointers = function () {
-                    return this.pointers.filter(function (pointer) { return typeof pointer.modified !== "undefined"; });
+                    return this.pointers.filter(function (pointer) { return typeof pointer.modified !== "undefined" && typeof pointer.deleted === "undefined"; });
                 };
                 PointersComponent.prototype.getDeletedPointers = function () {
                     return this.pointers.filter(function (pointer) { return typeof pointer.deleted !== "undefined"; });

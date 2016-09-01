@@ -23,6 +23,8 @@ export class LiteralsComponent implements OnInit {
 	tempLiterals:Literal[] = [];
 	isLanguagePresent:boolean = false;
 	isEditingLiteral:boolean = false;
+	canDisplayLiterals:boolean = false;
+
 	@Input() literals:LiteralRow[] = [];
 	@Input() onAddNewLiteral:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Input() canEdit:boolean = true;
@@ -35,6 +37,7 @@ export class LiteralsComponent implements OnInit {
 		this.onAddNewLiteral.subscribe( ()=> {
 			this.addNewLiteral();
 		} );
+		this.updateCanDisplayLiterals();
 	}
 
 	existsToken( token:string ):boolean {
@@ -50,32 +53,28 @@ export class LiteralsComponent implements OnInit {
 	}
 
 	saveLiteral( modifiedLiteral:Literal, originalLiteral:Literal, index:number ) {
+		if( typeof this.literals[ index ].added !== "undefined" ) delete this.literals[ index ].isBeingCreated;
 		this.isLanguagePresent = this.existsToken( "@language" );
 		this.onLiteralsChanges.emit( this.literals );
-	}
-
-	saveNewLiteral( newLiteral:Literal, originalLiteral:Literal, index:number ) {
-		this.isLanguagePresent = this.existsToken( "@language" );
-		this.onLiteralsChanges.emit( this.literals );
+		this.updateCanDisplayLiterals();
 	}
 
 	addNewLiteral():void {
 		let newLiteralRow:LiteralRow = <LiteralRow>{};
 		newLiteralRow.added = <Literal>{};
-		this.literals.push( newLiteralRow );
-	}
-
-	deleteNewLiteral( deletingLiteral:LiteralRow, index:number ):void {
-		this.literals.splice( index, 1 );
-		this.onLiteralsChanges.emit( this.literals );
+		newLiteralRow.isBeingCreated = true;
+		this.literals.splice( 0, 0, newLiteralRow );
+		this.updateCanDisplayLiterals();
 	}
 
 	deleteLiteral( deletingLiteral:LiteralRow, index:number ):void {
+		if( typeof deletingLiteral.added !== "undefined" ) this.literals.splice( index, 1 );
 		this.onLiteralsChanges.emit( this.literals );
+		this.updateCanDisplayLiterals();
 	}
 
-	canDisplayLiterals():boolean {
-		return this.getUntouchedLiterals().length > 0 || this.getAddedLiterals().length > 0 || this.getModifiedLiterals().length > 0;
+	updateCanDisplayLiterals():void {
+		this.canDisplayLiterals = this.getUntouchedLiterals().length > 0 || this.getAddedLiterals().length > 0 || this.getModifiedLiterals().length > 0;
 	}
 
 	getAddedLiterals():LiteralRow[] {
@@ -83,7 +82,7 @@ export class LiteralsComponent implements OnInit {
 	}
 
 	getModifiedLiterals():LiteralRow[] {
-		return this.literals.filter( ( literal:LiteralRow ) => typeof literal.modified !== "undefined" );
+		return this.literals.filter( ( literal:LiteralRow ) => typeof literal.modified !== "undefined" && typeof literal.deleted === "undefined" );
 	}
 
 	getDeletedLiterals():LiteralRow[] {

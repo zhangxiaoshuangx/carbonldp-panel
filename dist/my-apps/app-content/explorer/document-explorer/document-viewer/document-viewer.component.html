@@ -46,20 +46,39 @@
 			<div class="content">
 				<div class="description">
 					<div class="ui secondary menu document tabs">
-						<a class="item active" data-tab="documentResource">Document</a>
-						<a class="item" data-tab="bNodes">Blank Nodes ({{bNodes.length}})</a>
-						<a class="item" data-tab="namedFragments">Named Fragments ({{namedFragments.length}})</a>
+						<a class="item active" data-tab="documentResource">
+							<div class="floating ui teal circular label marker"
+							     *ngIf="rootNodeHasChanged"
+							     title="Document's properties have changed.&#10;Modified: {{rootNodeRecords.changes.size}}&#10;Added: {{rootNodeRecords.additions.size}}&#10;Deleted: {{rootNodeRecords.deletions.size}}">
+								<i class="asterisk icon"></i>
+							</div>
+							Document</a>
+						<a class="item" data-tab="bNodes">
+							<div class="floating ui teal circular label marker"
+							     *ngIf="bNodesHaveChanged"
+							     title="Blank nodes have changed.&#10;Modified: {{bNodesChanges.changes.size}}&#10;Added: {{bNodesChanges.additions.size}}&#10;Deleted: {{bNodesChanges.deletions.size}}">
+								<i class="asterisk icon"></i>
+							</div>
+							Blank Nodes ({{bNodes.length}})
+						</a>
+						<a class="item" data-tab="namedFragments">
+							<div class="floating ui teal circular label marker"
+							     *ngIf="namedFragmentsHaveChanged"
+							     title="Named Fragments have changed.&#10;Modified: {{namedFragmentsChanges.changes.size}}&#10;Added: {{namedFragmentsChanges.additions.size}}&#10;Deleted: {{namedFragmentsChanges.deletions.size}}">
+								<i class="asterisk icon"></i>
+							</div>
+							Named Fragments ({{namedFragments.length}})</a>
 					</div>
 					<div class="ui active tab segment" data-tab="documentResource">
 						<cp-document-resource class="column"
 
 						                      [rootNode]="rootNode"
 						                      [hiddenProperties]="['@id']"
-						                      [bNodes]="bNodes"
+						                      [blankNodes]="bNodes"
 						                      [namedFragments]="namedFragments"
 						                      [documentURI]="rootNode['@id']"
 
-						                      (onOpenBNode)="openBNode($event)"
+						                      (onOpenBlankNode)="openBlankNode($event)"
 						                      (onOpenNamedFragment)="openNamedFragment($event)"
 						                      (onChanges)="registerRootNodeChanges($event)">
 						</cp-document-resource>
@@ -67,20 +86,20 @@
 					<div class="ui tab segment" data-tab="bNodes">
 						<cp-blank-nodes class="column"
 						                [documentURI]="document['@id']"
-						                [bNodes]="bNodes"
+						                [blankNodes]="bNodes"
 						                [namedFragments]="namedFragments"
 
-						                (onOpenBNode)="goToSection($event)"
+						                (onOpenBlankNode)="goToSection($event)"
 						                (onOpenNamedFragment)="openNamedFragment($event)"
-						                (onChanges)="registerBNodeChanges($event)"></cp-blank-nodes>
+						                (onChanges)="registerBlankNodesChanges($event)"></cp-blank-nodes>
 					</div>
 					<div class="ui tab segment" data-tab="namedFragments">
 						<cp-named-fragments class="column"
 						                    [documentURI]="document['@id']"
-						                    [bNodes]="bNodes"
+						                    [blankNodes]="bNodes"
 						                    [namedFragments]="namedFragments"
 
-						                    (onOpenBNode)="openBNode($event)"
+						                    (onOpenBlankNode)="openBlankNode($event)"
 						                    (onOpenNamedFragment)="goToSection($event)"
 						                    (onChanges)="registerNamedFragmentsChanges($event)"></cp-named-fragments>
 					</div>

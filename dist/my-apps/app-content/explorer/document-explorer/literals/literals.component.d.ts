@@ -8,6 +8,7 @@ export declare class LiteralsComponent implements OnInit {
     tempLiterals: Literal[];
     isLanguagePresent: boolean;
     isEditingLiteral: boolean;
+    canDisplayLiterals: boolean;
     literals: LiteralRow[];
     onAddNewLiteral: EventEmitter<boolean>;
     canEdit: boolean;
@@ -17,11 +18,9 @@ export declare class LiteralsComponent implements OnInit {
     existsToken(token: string): boolean;
     editModeChanged(value: boolean): void;
     saveLiteral(modifiedLiteral: Literal, originalLiteral: Literal, index: number): void;
-    saveNewLiteral(newLiteral: Literal, originalLiteral: Literal, index: number): void;
     addNewLiteral(): void;
-    deleteNewLiteral(deletingLiteral: LiteralRow, index: number): void;
     deleteLiteral(deletingLiteral: LiteralRow, index: number): void;
-    canDisplayLiterals(): boolean;
+    updateCanDisplayLiterals(): void;
     getAddedLiterals(): LiteralRow[];
     getModifiedLiterals(): LiteralRow[];
     getDeletedLiterals(): LiteralRow[];

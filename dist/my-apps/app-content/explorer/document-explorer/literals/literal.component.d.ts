@@ -28,7 +28,6 @@ export declare class LiteralComponent {
     canDisplayLanguage: boolean;
     onEditMode: EventEmitter<boolean>;
     onSave: EventEmitter<any>;
-    onDeleteNewLiteral: EventEmitter<LiteralRow>;
     onDeleteLiteral: EventEmitter<LiteralRow>;
     valueInput: AbstractControl;
     typeInput: AbstractControl;
@@ -51,6 +50,7 @@ export interface LiteralRow {
     modified?: Literal;
     added?: Literal;
     deleted?: Literal;
+    isBeingCreated?: boolean;
 }
 export interface Literal {
     "@value": string | number | boolean;
