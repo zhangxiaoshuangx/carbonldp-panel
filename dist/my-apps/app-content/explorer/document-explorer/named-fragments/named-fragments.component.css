@@ -1,6 +1,34 @@
 :host {
   display: block; }
-  :host .segment[data-tab="all-namedFragments"] table tr, :host .segment[data-tab="all-namedFragments"] table td {
-    cursor: pointer; }
+
+.segment[data-tab="all-namedFragments"] table tr.added {
+  background-color: #D9EEFF; }
+
+.segment[data-tab="all-namedFragments"] table tr.modified {
+  background-color: #FFFBB4; }
+
+.segment[data-tab="all-namedFragments"] table tr, .segment[data-tab="all-namedFragments"] table td {
+  cursor: pointer; }
+
+.confirm-deletion .description {
+  color: #000000; }
+
+.tabular.named-fragments.menu .circular.icon.mini.button {
+  padding: 6px;
+  margin-left: 10px; }
+
+.ui.tabular.menu .item {
+  border: 1px solid #d3d3d3;
+  border-top-left-radius: .5em;
+  border-top-right-radius: .5em;
+  border-bottom: none; }
+
+.ui.tabular.menu .item.added,
+.ui.tabular.menu .item.added.active {
+  background-color: #D9EEFF; }
+
+.ui.tabular.menu .item.modified,
+.ui.tabular.menu .item.modified.active {
+  background-color: #FFFBB4; }
 
 /*# sourceMappingURL=named-fragments.component.css.map */

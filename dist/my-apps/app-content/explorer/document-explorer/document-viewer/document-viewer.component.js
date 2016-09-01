@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Document", "carbonldp/HTTP", "./../documents-resolver.service", "./../document-resource/document-resource.component", "./../blank-nodes/blank-nodes.component", "./../named-fragments/named-fragments.component", "./../property/property.component", "jquery", "semantic-ui/semantic", "./document-viewer.component.html!", "./document-viewer.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Document", "carbonldp/HTTP", "./../documents-resolver.service", "./../document-resource/document-resource.component", "./../blank-nodes/blank-nodes.component", "./../named-fragments/named-fragments.component", "jquery", "semantic-ui/semantic", "./document-viewer.component.html!", "./document-viewer.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, SDKContext, RDFDocument, HTTP_1, documents_resolver_service_1, document_resource_component_1, document_resource_component_2, blank_nodes_component_1, named_fragments_component_1, property_component_1, jquery_1, document_viewer_component_html_1, document_viewer_component_css_text_1;
+    var core_1, SDKContext, RDFDocument, HTTP_1, documents_resolver_service_1, document_resource_component_1, blank_nodes_component_1, named_fragments_component_1, jquery_1, document_viewer_component_html_1, document_viewer_component_css_text_1;
     var DocumentViewerComponent;
     return {
         setters:[
@@ -31,16 +31,12 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
             },
             function (document_resource_component_1_1) {
                 document_resource_component_1 = document_resource_component_1_1;
-                document_resource_component_2 = document_resource_component_1_1;
             },
             function (blank_nodes_component_1_1) {
                 blank_nodes_component_1 = blank_nodes_component_1_1;
             },
             function (named_fragments_component_1_1) {
                 named_fragments_component_1 = named_fragments_component_1_1;
-            },
-            function (property_component_1_1) {
-                property_component_1 = property_component_1_1;
             },
             function (jquery_1_1) {
                 jquery_1 = jquery_1_1;
@@ -105,6 +101,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 });
                 DocumentViewerComponent.prototype.ngAfterViewInit = function () {
                     this.$element = jquery_1.default(this.element.nativeElement);
+                    this.$successMessage = this.$element.find(".success.message");
                 };
                 DocumentViewerComponent.prototype.ngOnChanges = function (changes) {
                     var _this = this;
@@ -137,11 +134,23 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     return this.documentsResolverService.get(uri, documentContext);
                 };
                 DocumentViewerComponent.prototype.generateFragments = function () {
-                    this.bNodes = RDFDocument.Util.getBNodeResources(this.document);
-                    this.namedFragments = RDFDocument.Util.getFragmentResources(this.document);
+                    this.bNodes = RDFDocument.Util.getBNodeResources(this.document).map(function (bNode) {
+                        return {
+                            id: bNode["@id"],
+                            bNodeIdentifier: bNode["https://carbonldp.com/ns/v1/platform#bNodeIdentifier"][0]["@value"],
+                            copy: bNode
+                        };
+                    });
+                    this.namedFragments = RDFDocument.Util.getFragmentResources(this.document).map(function (namedFragment) {
+                        return {
+                            id: namedFragment["@id"],
+                            name: namedFragment["@id"],
+                            copy: namedFragment
+                        };
+                    });
                 };
-                DocumentViewerComponent.prototype.openBNode = function (id) {
-                    this.documentBNodes.openBNode(id);
+                DocumentViewerComponent.prototype.openBlankNode = function (id) {
+                    this.documentBNodes.openBlankNode(id);
                     this.goToSection("bNodes");
                 };
                 DocumentViewerComponent.prototype.openNamedFragment = function (id) {
@@ -161,13 +170,13 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     this.rootNodeRecords = records;
                     this.rootNodeHasChanged = records.changes.size > 0 || records.additions.size > 0 || records.deletions.size > 0;
                 };
-                DocumentViewerComponent.prototype.registerBNodeChanges = function (bNodeChanges) {
+                DocumentViewerComponent.prototype.registerBlankNodesChanges = function (bNodeChanges) {
                     this.bNodesChanges = bNodeChanges;
-                    this.bNodesHaveChanged = bNodeChanges.size > 0;
+                    this.bNodesHaveChanged = bNodeChanges.changes.size > 0 || bNodeChanges.additions.size > 0 || bNodeChanges.deletions.size > 0;
                 };
                 DocumentViewerComponent.prototype.registerNamedFragmentsChanges = function (namedFragmentsChanges) {
                     this.namedFragmentsChanges = namedFragmentsChanges;
-                    this.namedFragmentsHaveChanged = namedFragmentsChanges.size > 0;
+                    this.namedFragmentsHaveChanged = namedFragmentsChanges.changes.size > 0 || namedFragmentsChanges.additions.size > 0 || namedFragmentsChanges.deletions.size > 0;
                 };
                 DocumentViewerComponent.prototype.modifyRootNodeWithChanges = function () {
                     var _this = this;
@@ -191,52 +200,44 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 };
                 DocumentViewerComponent.prototype.modifyBNodesWithChanges = function () {
                     var _this = this;
-                    var tempBNode;
-                    this.bNodesChanges.forEach(function (bNodeRecords, bNodeId) {
-                        tempBNode = _this.bNodes.find((function (bNode) { return bNode["@id"] === bNodeId; }));
-                        bNodeRecords.deletions.forEach(function (property, key) {
-                            delete tempBNode[key];
-                        });
-                        bNodeRecords.changes.forEach(function (property, key) {
-                            if (property.modified.id !== property.modified.name) {
-                                delete tempBNode[key];
-                                tempBNode[property.modified.name] = property.modified.value;
-                            }
-                            else {
-                                tempBNode[key] = property.modified.value;
-                            }
-                        });
-                        bNodeRecords.additions.forEach(function (property, key) {
-                            tempBNode[key] = property.added.value;
-                        });
+                    var tempIdx;
+                    if (!this.bNodesChanges)
+                        return;
+                    this.bNodesChanges.deletions.forEach(function (blankNodeRow, bNodeId) {
+                        tempIdx = _this.document["@graph"].findIndex((function (bNode) { return bNode["@id"] === bNodeId; }));
+                        _this.document["@graph"].splice(tempIdx, 1);
+                    });
+                    tempIdx = -1;
+                    this.bNodesChanges.changes.forEach(function (blankNodeRow, bNodeId) {
+                        tempIdx = _this.document["@graph"].findIndex((function (bNode) { return bNode["@id"] === bNodeId; }));
+                        _this.document["@graph"][tempIdx] = blankNodeRow.modified;
+                    });
+                    this.bNodesChanges.additions.forEach(function (blankNodeRow, bNodeId) {
+                        _this.document["@graph"].push(blankNodeRow.added);
                     });
                 };
                 DocumentViewerComponent.prototype.modifyNamedFragmentsWithChanges = function () {
                     var _this = this;
-                    var tempNamedFragment;
-                    this.namedFragmentsChanges.forEach(function (namedFragmentRecords, namedFragmentId) {
-                        tempNamedFragment = _this.namedFragments.find((function (namedFragment) { return namedFragment["@id"] === namedFragmentId; }));
-                        namedFragmentRecords.deletions.forEach(function (property, key) {
-                            delete tempNamedFragment[key];
-                        });
-                        namedFragmentRecords.changes.forEach(function (property, key) {
-                            if (property.modified.id !== property.modified.name) {
-                                delete tempNamedFragment[key];
-                                tempNamedFragment[property.modified.name] = property.modified.value;
-                            }
-                            else {
-                                tempNamedFragment[key] = property.modified.value;
-                            }
-                        });
-                        namedFragmentRecords.additions.forEach(function (property, key) {
-                            tempNamedFragment[key] = property.added.value;
-                        });
+                    var tempIdx;
+                    if (!this.namedFragmentsChanges)
+                        return;
+                    this.namedFragmentsChanges.deletions.forEach(function (namedFragmentRow, namedFragmentId) {
+                        tempIdx = _this.document["@graph"].findIndex((function (namedFragment) { return namedFragment["@id"] === namedFragmentId; }));
+                        _this.document["@graph"].splice(tempIdx, 1);
+                    });
+                    tempIdx = -1;
+                    this.namedFragmentsChanges.changes.forEach(function (namedFragmentRow, namedFragmentId) {
+                        tempIdx = _this.document["@graph"].findIndex((function (namedFragment) { return namedFragment["@id"] === namedFragmentId; }));
+                        _this.document["@graph"][tempIdx] = namedFragmentRow.modified;
+                    });
+                    this.namedFragmentsChanges.additions.forEach(function (namedFragmentRow, namedFragmentId) {
+                        _this.document["@graph"].push(namedFragmentRow.added);
                     });
                 };
                 DocumentViewerComponent.prototype.clearDocumentChanges = function () {
-                    this.rootNodeRecords = new document_resource_component_2.RootRecords();
-                    this.bNodesChanges = new Map();
-                    this.namedFragmentsChanges = new Map();
+                    this.rootNodeRecords = new document_resource_component_1.RootRecords();
+                    this.bNodesChanges = new blank_nodes_component_1.BlankNodesRecords();
+                    this.namedFragmentsChanges = new blank_nodes_component_1.BlankNodesRecords();
                     this.rootNodeHasChanged = false;
                     this.bNodesHaveChanged = false;
                     this.namedFragmentsHaveChanged = false;
@@ -251,9 +252,12 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     this.documentsResolverService.update(this.document["@id"], body, this.documentContext).then(function (updatedDocument) {
                         _this.document = updatedDocument[0];
                         setTimeout(function () {
-                            _this.$element.find(".success.message").transition({
+                            _this.$successMessage.transition({
                                 onComplete: function () {
-                                    setTimeout(function () { _this.$element.find(".success.message").transition("fade"); }, 4000);
+                                    setTimeout(function () {
+                                        if (!_this.$successMessage.hasClass("hidden"))
+                                            _this.$successMessage.transition("fade");
+                                    }, 4000);
                                 }
                             });
                         }, 1500);
@@ -274,8 +278,8 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     }).then(function () {
                         _this.savingDocument = false;
                         _this.rootNodeHasChanged = _this.rootNodeRecords.changes.size > 0 || _this.rootNodeRecords.additions.size > 0 || _this.rootNodeRecords.deletions.size > 0;
-                        _this.bNodesHaveChanged = _this.bNodesChanges.size > 0;
-                        _this.namedFragmentsHaveChanged = _this.namedFragmentsChanges.size > 0;
+                        _this.bNodesHaveChanged = _this.bNodesChanges.changes.size > 0 || _this.bNodesChanges.additions.size > 0 || _this.bNodesChanges.deletions.size > 0;
+                        _this.namedFragmentsHaveChanged = _this.namedFragmentsChanges.changes.size > 0 || _this.namedFragmentsChanges.additions.size > 0 || _this.namedFragmentsChanges.deletions.size > 0;
                     });
                 };
                 DocumentViewerComponent.prototype.getErrors = function (error) {
@@ -354,7 +358,6 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                         host: { "[class.ui]": "true", "[class.basic]": "true", "[class.segment]": "true", },
                         template: document_viewer_component_html_1.default,
                         styles: [document_viewer_component_css_text_1.default],
-                        directives: [document_resource_component_1.DocumentResourceComponent, blank_nodes_component_1.BlankNodesComponent, named_fragments_component_1.NamedFragmentsComponent, property_component_1.PropertyComponent],
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef, documents_resolver_service_1.DocumentsResolverService])
                 ], DocumentViewerComponent);

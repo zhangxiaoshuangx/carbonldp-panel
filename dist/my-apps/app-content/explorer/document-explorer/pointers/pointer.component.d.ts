@@ -1,7 +1,8 @@
 import { ElementRef, SimpleChange, EventEmitter, OnChanges } from "@angular/core";
 import { AbstractControl } from '@angular/common';
-import * as RDFNode from "carbonldp/RDF/RDFNode";
 import { Modes } from "./../property/property.component";
+import { BlankNodeRow } from "./../blank-nodes/blank-node.component";
+import { NamedFragmentRow } from "./../named-fragments/named-fragment.component";
 import "semantic-ui/semantic";
 export declare class PointerComponent implements OnChanges {
     $element: JQuery;
@@ -17,12 +18,11 @@ export declare class PointerComponent implements OnChanges {
     private _pointer;
     pointer: PointerRow;
     documentURI: string;
-    bNodes: RDFNode.Class[];
-    namedFragments: RDFNode.Class[];
+    bNodes: BlankNodeRow[];
+    namedFragments: NamedFragmentRow[];
     canEdit: boolean;
     onEditMode: EventEmitter<boolean>;
     onSave: EventEmitter<any>;
-    onDeleteNewPointer: EventEmitter<PointerRow>;
     onDeletePointer: EventEmitter<PointerRow>;
     onGoToBNode: EventEmitter<string>;
     onGoToNamedFragment: EventEmitter<string>;
@@ -50,6 +50,7 @@ export interface PointerRow {
     modified?: Pointer;
     added?: Pointer;
     deleted?: Pointer;
+    isBeingCreated?: boolean;
 }
 export interface Pointer {
     "@id": string;

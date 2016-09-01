@@ -8,6 +8,7 @@ export declare class PointersComponent implements OnInit {
     tokens: string[];
     tempPointers: Pointer[];
     isEditingPointer: boolean;
+    canDisplayPointers: boolean;
     documentURI: string;
     pointers: PointerRow[];
     onAddNewPointer: EventEmitter<boolean>;
@@ -21,10 +22,8 @@ export declare class PointersComponent implements OnInit {
     ngOnInit(): void;
     addNewPointer(): void;
     savePointer(modifiedPointer: Pointer, originalPointer: Pointer, index: number): void;
-    saveNewPointer(newPointer: Pointer, originalPointer: Pointer, index: number): void;
     deletePointer(deletingPointer: PointerRow, index: number): void;
-    deleteNewPointer(deletingPointer: PointerRow, index: number): void;
-    canDisplayPointers(): boolean;
+    updateCanDisplayPointers(): void;
     getAddedPointers(): PointerRow[];
     getModifiedPointers(): PointerRow[];
     getDeletedPointers(): PointerRow[];

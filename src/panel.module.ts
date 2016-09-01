@@ -50,6 +50,7 @@ import { ErrorsAreaService } from "./errors-area/errors-area.service";
 		ErrorMessageComponent,
 		ErrorsAreaComponent,
 	],
+	providers: []
 } )
 
 export class PanelModule {

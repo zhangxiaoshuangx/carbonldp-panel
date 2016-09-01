@@ -53,7 +53,6 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/URI", "./../
                     this.canEdit = true;
                     this.onEditMode = new core_1.EventEmitter();
                     this.onSave = new core_1.EventEmitter();
-                    this.onDeleteNewPointer = new core_1.EventEmitter();
                     this.onDeletePointer = new core_1.EventEmitter();
                     this.onGoToBNode = new core_1.EventEmitter();
                     this.onGoToNamedFragment = new core_1.EventEmitter();
@@ -80,7 +79,12 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/URI", "./../
                     get: function () { return this._pointer; },
                     set: function (value) {
                         this._pointer = value;
-                        if (typeof this.pointer.copy !== "undefined") {
+                        if (this.pointer.isBeingCreated)
+                            this.mode = property_component_1.Modes.EDIT;
+                        if (typeof this.pointer.modified !== "undefined") {
+                            this.id = !!this.tempPointer["@id"] ? this.tempPointer["@id"] : this.pointer.modified["@id"];
+                        }
+                        else if (typeof this.pointer.copy !== "undefined") {
                             this.id = !!this.tempPointer["@id"] ? this.tempPointer["@id"] : this.pointer.copy["@id"];
                         }
                         else if (typeof this.pointer.added !== "undefined") {
@@ -105,13 +109,10 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/URI", "./../
                     this.mode = property_component_1.Modes.EDIT;
                 };
                 PointerComponent.prototype.deletePointer = function () {
-                    if (typeof this.pointer.added !== "undefined") {
-                        this.onDeleteNewPointer.emit(this.pointer);
-                    }
-                    else {
+                    if (typeof this.pointer.added === "undefined") {
                         this.pointer.deleted = this.pointer.copy;
-                        this.onDeletePointer.emit(this.pointer);
                     }
+                    this.onDeletePointer.emit(this.pointer);
                 };
                 PointerComponent.prototype.ngOnChanges = function (changes) {
                     if ((changes["bNodes"].currentValue !== changes["bNodes"].previousValue) ||
@@ -123,7 +124,7 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/URI", "./../
                     var _this = this;
                     if (typeof this.id === "undefined")
                         return;
-                    var idx = this.bNodes.concat(this.namedFragments).findIndex(function (nfOrBN) { return nfOrBN["@id"] === _this.id; });
+                    var idx = this.bNodes.concat(this.namedFragments).findIndex(function (nfOrBN) { return nfOrBN["name"] === _this.id || nfOrBN["id"] === _this.id; });
                     this.isBNode = URI.Util.isBNodeID(this.id);
                     this.isNamedFragment = URI.Util.isFragmentOf(this.id, this.documentURI);
                     this.existsOnPointers = idx !== -1;
@@ -138,7 +139,7 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/URI", "./../
                     else
                         this.id = this.tempPointer["@id"];
                     if (typeof this.pointer.added !== "undefined" && typeof this.id === "undefined") {
-                        this.onDeleteNewPointer.emit(this.pointer);
+                        this.onDeletePointer.emit(this.pointer);
                     }
                 };
                 PointerComponent.prototype.save = function () {
@@ -149,6 +150,12 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/URI", "./../
                     if ((!!this.pointer.copy) && (this.tempPointer["@id"] === this.pointer.copy["@id"])) {
                         delete this.tempPointer["@id"];
                         delete this.pointer.modified;
+                    }
+                    else if (!!this.pointer.added) {
+                        this.pointer.added = this.tempPointer;
+                    }
+                    else {
+                        this.pointer.modified = this.tempPointer;
                     }
                     this.onSave.emit(this.tempPointer);
                     this.mode = property_component_1.Modes.READ;
@@ -187,10 +194,16 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/URI", "./../
                     return URI.Util.getSlug(uri);
                 };
                 PointerComponent.prototype.goToBNode = function (id) {
-                    this.onGoToBNode.emit(id);
+                    var idx = this.bNodes.findIndex(function (blankNode) { return blankNode.id === id; });
+                    this.existsOnPointers = idx !== -1;
+                    if (this.existsOnPointers)
+                        this.onGoToBNode.emit(id);
                 };
                 PointerComponent.prototype.goToNamedFragment = function (id) {
-                    this.onGoToNamedFragment.emit(id);
+                    var idx = this.namedFragments.findIndex(function (namedFragment) { return namedFragment.name === id; });
+                    this.existsOnPointers = idx !== -1;
+                    if (this.existsOnPointers)
+                        this.onGoToNamedFragment.emit(id);
                 };
                 __decorate([
                     core_1.Input(), 
@@ -225,10 +238,6 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/URI", "./../
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], PointerComponent.prototype, "onSave", void 0);
-                __decorate([
-                    core_1.Output(), 
-                    __metadata('design:type', core_1.EventEmitter)
-                ], PointerComponent.prototype, "onDeleteNewPointer", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
