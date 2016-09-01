@@ -18,6 +18,7 @@ import { MenuBarComponent } from "./menu-bar.component";
 // import { MyAppsSidebarService } from "./my-apps/my-apps-sidebar.service";
 import { SemanticModule } from "./semantic/semantic.module";
 import { RouterService } from "./router.service";
+import { MyAppsSidebarService } from "./my-apps/my-apps-sidebar.service";
 
 @NgModule( {
 	imports: [
@@ -56,7 +57,7 @@ export class PanelModule {
 	static forRoot():ModuleWithProviders {
 		return {
 			ngModule: PanelModule,
-			providers: [ HeaderService, SidebarService, RouterService ]
+			providers: [ HeaderService, SidebarService, RouterService, MyAppsSidebarService ]
 		};
 	}
 }

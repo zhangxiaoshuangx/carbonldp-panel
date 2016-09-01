@@ -1,15 +1,14 @@
-import { Router, ActivatedRoute, Resolve, ActivatedRouteSnapshot } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { MyAppsSidebarService } from "./../my-apps-sidebar.service";
-import { AppContextService } from "./../app-context.service";
+import { AppContentService } from "./app-content.service";
 import * as App from "./app";
-export declare class AppContentView implements Resolve<App.Class> {
+export declare class AppContentView {
     app: App.Class;
     private router;
     private activatedRoute;
+    private appContentService;
     private myAppsSidebarService;
-    private appContextService;
-    private timer;
-    constructor(router: Router, route: ActivatedRoute, myAppsSidebarService: MyAppsSidebarService, appContextService: AppContextService);
-    resolve(route: ActivatedRouteSnapshot): any;
+    constructor(router: Router, route: ActivatedRoute, myAppsSidebarService: MyAppsSidebarService, appContentService: AppContentService);
+    ngOnInit(): void;
 }
 export default AppContentView;

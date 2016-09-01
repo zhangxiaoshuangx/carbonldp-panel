@@ -7,6 +7,7 @@ export declare class HeaderService {
     addItems(items: HeaderItem[]): void;
     addItem(item: HeaderItem): void;
     private sortItems(items);
+    clear(): void;
 }
 export interface HeaderItem {
     name: string;

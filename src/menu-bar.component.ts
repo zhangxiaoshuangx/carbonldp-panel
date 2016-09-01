@@ -41,6 +41,7 @@ export class MenuBarComponent {
 				childrenRoutes.forEach( ( route:ActivatedRoute ) => {
 					if( route.outlet === "primary" ) {
 						let routeSnapshot:ActivatedRouteSnapshot = route.snapshot;
+						if( typeof routeSnapshot === "undefined" ) return;
 						url += "/" + routeSnapshot.data[ "alias" ];
 						if( ! ! routeSnapshot.data[ "displayName" ] ) {
 							this.breadCrumbs.push( {

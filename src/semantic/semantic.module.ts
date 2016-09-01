@@ -4,9 +4,7 @@ import { CommonModule } from '@angular/common';
 import { TabComponent } from "./tab.component";
 import { TabsComponent } from "./tabs.component";
 import { AccordionComponent } from "./accordion.component";
-import { CollapsibleDirective } from "./collapsible.directive";
-import { CollapsibleTitleDirective } from "./collapsible.directive";
-import { CollapsibleContentDirective } from "./collapsible.directive";
+import { CollapsibleDirective, CollapsibleTitleDirective, CollapsibleContentDirective } from "./collapsible.directive";
 
 
 @NgModule( {

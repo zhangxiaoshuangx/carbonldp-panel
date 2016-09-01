@@ -15,6 +15,7 @@ export declare class SidebarService {
     removeItem(item: SidebarLink | SidebarSubmenu | SidebarDivider | SidebarGroup): void;
     toggle(): void;
     private sortItems(items);
+    clear(): void;
 }
 export interface SidebarItem {
     type: "link" | "submenu" | "divider" | "group";

@@ -55,6 +55,8 @@ System.register(["@angular/core", "@angular/router", "carbon-panel/router.servic
                             childrenRoutes.forEach(function (route) {
                                 if (route.outlet === "primary") {
                                     var routeSnapshot = route.snapshot;
+                                    if (typeof routeSnapshot === "undefined")
+                                        return;
                                     url += "/" + routeSnapshot.data["alias"];
                                     if (!!routeSnapshot.data["displayName"]) {
                                         _this.breadCrumbs.push({
