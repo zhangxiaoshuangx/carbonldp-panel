@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Document", "carbonldp/HTTP", "./../documents-resolver.service", "./../document-resource/document-resource.component", "./../blank-nodes/blank-nodes.component", "./../named-fragments/named-fragments.component", "./../property/property.component", "jquery", "semantic-ui/semantic", "./document-viewer.component.html!", "./document-viewer.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Document", "carbonldp/HTTP", "./../documents-resolver.service", "./../document-resource/document-resource.component", "./../blank-nodes/blank-nodes.component", "./../named-fragments/named-fragments.component", "jquery", "semantic-ui/semantic", "./document-viewer.component.html!", "./document-viewer.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, SDKContext, RDFDocument, HTTP_1, documents_resolver_service_1, document_resource_component_1, blank_nodes_component_1, named_fragments_component_1, property_component_1, jquery_1, document_viewer_component_html_1, document_viewer_component_css_text_1;
+    var core_1, SDKContext, RDFDocument, HTTP_1, documents_resolver_service_1, document_resource_component_1, blank_nodes_component_1, named_fragments_component_1, jquery_1, document_viewer_component_html_1, document_viewer_component_css_text_1;
     var DocumentViewerComponent;
     return {
         setters:[
@@ -37,9 +37,6 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
             },
             function (named_fragments_component_1_1) {
                 named_fragments_component_1 = named_fragments_component_1_1;
-            },
-            function (property_component_1_1) {
-                property_component_1 = property_component_1_1;
             },
             function (jquery_1_1) {
                 jquery_1 = jquery_1_1;
@@ -361,7 +358,6 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                         host: { "[class.ui]": "true", "[class.basic]": "true", "[class.segment]": "true", },
                         template: document_viewer_component_html_1.default,
                         styles: [document_viewer_component_css_text_1.default],
-                        directives: [document_resource_component_1.DocumentResourceComponent, blank_nodes_component_1.BlankNodesComponent, named_fragments_component_1.NamedFragmentsComponent, property_component_1.PropertyComponent],
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef, documents_resolver_service_1.DocumentsResolverService])
                 ], DocumentViewerComponent);

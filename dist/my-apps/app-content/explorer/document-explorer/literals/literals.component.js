@@ -41,6 +41,14 @@ System.register(["@angular/core", "./../property/property.component", "semantic-
                     this.canEdit = true;
                     this.onLiteralsChanges = new core_1.EventEmitter();
                 }
+                Object.defineProperty(LiteralsComponent.prototype, "canDisplayLanguage", {
+                    get: function () {
+                        return this.isLanguagePresent || this.isEditingLiteral;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                ;
                 LiteralsComponent.prototype.ngOnInit = function () {
                     var _this = this;
                     this.isLanguagePresent = this.existsToken("@language");
@@ -57,7 +65,10 @@ System.register(["@angular/core", "./../property/property.component", "semantic-
                     });
                 };
                 LiteralsComponent.prototype.editModeChanged = function (value) {
-                    this.isEditingLiteral = value;
+                    var _this = this;
+                    setTimeout(function () {
+                        _this.isEditingLiteral = value;
+                    }, 1);
                 };
                 LiteralsComponent.prototype.saveLiteral = function (modifiedLiteral, originalLiteral, index) {
                     if (typeof this.literals[index].added !== "undefined")
@@ -93,9 +104,6 @@ System.register(["@angular/core", "./../property/property.component", "semantic-
                 };
                 LiteralsComponent.prototype.getUntouchedLiterals = function () {
                     return this.literals.filter(function (literal) { return typeof literal.modified === "undefined" && typeof literal.deleted === "undefined"; });
-                };
-                LiteralsComponent.prototype.canDisplayLanguage = function () {
-                    return this.isLanguagePresent || this.isEditingLiteral;
                 };
                 __decorate([
                     core_1.Input(), 

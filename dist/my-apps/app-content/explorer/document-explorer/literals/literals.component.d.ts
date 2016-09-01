@@ -9,6 +9,7 @@ export declare class LiteralsComponent implements OnInit {
     isLanguagePresent: boolean;
     isEditingLiteral: boolean;
     canDisplayLiterals: boolean;
+    readonly canDisplayLanguage: boolean;
     literals: LiteralRow[];
     onAddNewLiteral: EventEmitter<boolean>;
     canEdit: boolean;
@@ -25,6 +26,5 @@ export declare class LiteralsComponent implements OnInit {
     getModifiedLiterals(): LiteralRow[];
     getDeletedLiterals(): LiteralRow[];
     getUntouchedLiterals(): LiteralRow[];
-    canDisplayLanguage(): boolean;
 }
 export default LiteralsComponent;

@@ -25,6 +25,11 @@ export class LiteralsComponent implements OnInit {
 	isEditingLiteral:boolean = false;
 	canDisplayLiterals:boolean = false;
 
+	get canDisplayLanguage():boolean {
+		return this.isLanguagePresent || this.isEditingLiteral;
+	};
+
+
 	@Input() literals:LiteralRow[] = [];
 	@Input() onAddNewLiteral:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Input() canEdit:boolean = true;
@@ -49,7 +54,9 @@ export class LiteralsComponent implements OnInit {
 	}
 
 	editModeChanged( value:boolean ):void {
-		this.isEditingLiteral = value;
+		setTimeout( ()=> {
+			this.isEditingLiteral = value;
+		}, 1 );
 	}
 
 	saveLiteral( modifiedLiteral:Literal, originalLiteral:Literal, index:number ) {
@@ -91,10 +98,6 @@ export class LiteralsComponent implements OnInit {
 
 	getUntouchedLiterals():LiteralRow[] {
 		return this.literals.filter( ( literal:LiteralRow ) => typeof literal.modified === "undefined" && typeof literal.deleted === "undefined" );
-	}
-
-	canDisplayLanguage():boolean {
-		return this.isLanguagePresent || this.isEditingLiteral;
 	}
 }
 
