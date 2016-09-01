@@ -10,6 +10,7 @@ export declare class MenuBarComponent {
     private route;
     constructor(router: Router, routerService: RouterService, sidebarService: SidebarService, route: ActivatedRoute);
     ngOnInit(): void;
+    private getURL(routeSnapshot);
     toggleSidebar(): void;
 }
 export default MenuBarComponent;

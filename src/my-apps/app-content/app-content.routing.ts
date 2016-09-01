@@ -17,14 +17,18 @@ const AppContentRoutes:Routes = [
 		resolve: {
 			app: AppContentResolver,
 		},
+		data: {
+			param: "slug",
+			displayName: "App",
+		},
 		children: [
 			{
 				path: "",
 				component: DashboardView,
-				data: {
-					alias: "",
-					displayName: "App Dashboard",
-				},
+				// data: {
+				// 	alias: "",
+				// 	displayName: "App Dashboard",
+				// },
 			},
 			{
 				path: "edit",
