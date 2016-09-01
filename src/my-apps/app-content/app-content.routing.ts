@@ -18,6 +18,7 @@ const AppContentRoutes:Routes = [
 			app: AppContentResolver,
 		},
 		data: {
+			main: true,
 			param: "slug",
 			displayName: "App",
 		},
@@ -25,10 +26,6 @@ const AppContentRoutes:Routes = [
 			{
 				path: "",
 				component: DashboardView,
-				// data: {
-				// 	alias: "",
-				// 	displayName: "App Dashboard",
-				// },
 			},
 			{
 				path: "edit",

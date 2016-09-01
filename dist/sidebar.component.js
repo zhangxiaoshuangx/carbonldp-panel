@@ -81,7 +81,6 @@ System.register(["@angular/core", "@angular/common", "@angular/router", "jquery"
                         selector: "cp-sidebar",
                         template: sidebar_component_html_1.default,
                         styles: [sidebar_component_css_text_1.default],
-                        //directives: [ ROUTER_DIRECTIVES, SidebarItemsComponent ],
                         host: {
                             class: "ui inverted vertical menu accordion"
                         }

@@ -2,9 +2,9 @@ import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { CommonModule, DeprecatedFormsModule } from '@angular/common';
 
+//Providers
 import { CARBON_PROVIDERS } from "angular2-carbonldp/boot";
 import { CARBON_SERVICES_PROVIDERS } from "angular2-carbonldp/services";
-
 import { routing } from "./my-apps.routing";
 
 // Components
@@ -47,7 +47,7 @@ import { AppContextService } from "./app-context.service";
 		AppNotFoundView,
 	],
 	providers: [
-		AppContextService, // TODO: check if this service causes a conflict with being reinitializated because of its provider
+		AppContextService, // TODO: check if this service causes a conflict with being reinitialized because of its provider
 
 		CARBON_PROVIDERS,
 		CARBON_SERVICES_PROVIDERS

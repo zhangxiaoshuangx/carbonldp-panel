@@ -1,7 +1,5 @@
 import { Component, AfterViewInit, OnInit } from "@angular/core";
-//import { FormBuilder, ControlGroup, AbstractControl, Control, Validators } from "@angular/common";
 import { FormBuilder, ControlGroup, AbstractControl, Control, Validators } from "@angular/common/src/forms-deprecated";
-//import { ROUTER_DIRECTIVES } from "@angular/router-deprecated";
 
 import Carbon from "carbonldp/Carbon";
 import * as CarbonApp from "carbonldp/App";
@@ -13,7 +11,6 @@ import * as PersistedProtectedDocument from "carbonldp/PersistedProtectedDocumen
 import * as PersistedDocument from "carbonldp/PersistedDocument";
 
 import { AppContextService } from "./../app-context.service";
-//import { ErrorMessageComponent, Message } from "./../../errors-area/error-message.component";
 import { Message } from "./../../errors-area/error-message.component";
 
 
@@ -25,8 +22,6 @@ import template from "./create-app.component.html!";
 	selector: "cp-create-app",
 	template: template,
 	styles: [ ":host { display: block; }" ],
-	//directives: [ ROUTER_DIRECTIVES, ErrorMessageComponent ],
-	//directives: [ ErrorMessageComponent ],
 } )
 export class CreateAppComponent implements AfterViewInit, OnInit {
 	carbon:Carbon;

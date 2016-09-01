@@ -1,8 +1,6 @@
-import { Component, ElementRef, Input } from "@angular/core";
+import { Component, Input } from "@angular/core";
 
 import * as App from "carbonldp/App";
-
-//import { BackupsComponent } from "./backup/backups.component"
 
 import "semantic-ui/semantic";
 
@@ -13,7 +11,6 @@ import style from "./configuration.component.css!text";
 	selector: "cp-configuration",
 	template: template,
 	styles: [ style ],
-	//directives: [ BackupsComponent ],
 } )
 
 export class ConfigurationComponent {

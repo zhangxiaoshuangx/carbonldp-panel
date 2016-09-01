@@ -1,5 +1,5 @@
 import { Component, ElementRef, Output, Inject, EventEmitter, OnInit } from "@angular/core";
-//import { FORM_DIRECTIVES, FormBuilder, ControlGroup, AbstractControl, Validators } from "@angular/common";
+
 import { FormBuilder, ControlGroup, AbstractControl, Validators } from "@angular/common/src/forms-deprecated";
 import * as HTTP from "carbonldp/HTTP";
 
@@ -16,7 +16,6 @@ import template from "./register.component.html!"
 	selector: "cp-register",
 	template: template,
 	styles: [],
-	//directives: [ FORM_DIRECTIVES ],
 } )
 export class RegisterComponent implements OnInit {
 	@Output( "onRegister" ) onRegister:EventEmitter<any> = new EventEmitter<any>();

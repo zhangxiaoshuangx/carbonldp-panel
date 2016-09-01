@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+//Components
 import { TabComponent } from "./tab.component";
 import { TabsComponent } from "./tabs.component";
 import { AccordionComponent } from "./accordion.component";

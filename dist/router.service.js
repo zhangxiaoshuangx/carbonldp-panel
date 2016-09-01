@@ -21,9 +21,6 @@ System.register(["@angular/router", "@angular/core"], function(exports_1, contex
                 core_1 = core_1_1;
             }],
         execute: function() {
-            // import { Router, Instruction } from "@angular/router-deprecated";
-            // import { StringMapWrapper } from "@angular/router-deprecated/src/facade/collection";
-            // import { isPresent, isBlank } from "@angular/router-deprecated/src/facade/lang";
             /**
              * Service that wraps router related functionality. This service must not be automatically injected,
              * because we need a different instance each time we inject it into a component (not a singleton).

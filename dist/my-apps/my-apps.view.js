@@ -18,7 +18,6 @@ System.register(["@angular/core"], function(exports_1, context_1) {
                 core_1 = core_1_1;
             }],
         execute: function() {
-            //import { ROUTER_DIRECTIVES, RouterOutlet } from "@angular/router-deprecated";
             MyAppsView = (function () {
                 function MyAppsView() {
                 }
@@ -27,8 +26,6 @@ System.register(["@angular/core"], function(exports_1, context_1) {
                         selector: "cp-my-apps",
                         template: "<router-outlet></router-outlet>",
                         styles: [":host { display: block; }"],
-                        //directives: [ ROUTER_DIRECTIVES, RouterOutlet ],
-                        providers: []
                     }), 
                     __metadata('design:paramtypes', [])
                 ], MyAppsView);

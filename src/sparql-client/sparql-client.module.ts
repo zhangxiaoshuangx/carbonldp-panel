@@ -26,10 +26,10 @@ import { ResultsetTableComponent } from "./resultset-table/resultset-table.compo
 		CodeMirrorComponent.Class,
 		RelativizeURIPipe,
 		PrefixURIPipe,
-		PrefixURIPipe
+		PrefixURIPipe,
 	],
 	exports: [
-		SPARQLClientComponent
+		SPARQLClientComponent,
 	],
 } )
 

@@ -10,7 +10,6 @@ import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 import { BackupsService } from "../backups.service";
 import { JobsService } from "../../job/jobs.service";
 import * as Job from "../../job/job";
-//import { Message, ErrorMessageComponent } from "./../../../../../errors-area/error-message.component";
 import { Message } from "./../../../../../errors-area/error-message.component";
 
 import $ from "jquery";
@@ -23,7 +22,6 @@ import style from "./backup-importer.component.css!text";
 	selector: "cp-backup-importer",
 	template: template,
 	styles: [ style ],
-	//directives: [ ErrorMessageComponent ],
 } )
 
 export class BackupImporterComponent implements OnInit, OnDestroy {

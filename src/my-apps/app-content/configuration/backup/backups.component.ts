@@ -6,8 +6,6 @@ import * as PersistedDocument from "carbonldp/PersistedDocument";
 import { JobsService } from "../job/jobs.service";
 import * as Job from "../job/job";
 
-//import { BackupImporterComponent } from "./backup-importer/backup-importer.component"
-//import { BackupExporterComponent } from "./backup-exporter/backup-exporter.component"
 import { BackupsListComponent } from "./backups-list/backups-list.component"
 
 import "semantic-ui/semantic";
@@ -19,7 +17,6 @@ import style from "./backups.component.css!text";
 	selector: "cp-backup",
 	template: template,
 	styles: [ style ],
-	//directives: [ BackupExporterComponent, BackupImporterComponent, BackupsListComponent ],
 } )
 
 export class BackupsComponent implements OnInit {

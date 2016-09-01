@@ -1,4 +1,4 @@
-import { Component, Host, Inject, forwardRef } from "@angular/core";
+import { Component } from "@angular/core";
 
 import * as App from "carbonldp/App";
 

@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from "@angular/core";
-//import { FormBuilder, ControlGroup, AbstractControl, Validators } from "@angular/common";
 import { FormBuilder, ControlGroup, AbstractControl, Validators } from "@angular/common/src/forms-deprecated";
 
 import Carbon from "carbonldp/Carbon";
@@ -9,7 +8,7 @@ import * as PersistedApp from "carbonldp/PersistedApp";
 
 import { AppContextService } from "../../app-context.service";
 import * as App from "../app";
-//import { ErrorMessageComponent, Message } from "../../../errors-area/error-message.component";
+
 import { Message } from "../../../errors-area/error-message.component";
 
 import "semantic-ui/semantic";
@@ -21,7 +20,6 @@ import style from "./edit-app.component.css!text";
 	selector: "cp-edit-app",
 	template: template,
 	styles: [ style ],
-	//directives: [ ErrorMessageComponent ],
 } )
 
 export class EditAppComponent implements OnInit {
