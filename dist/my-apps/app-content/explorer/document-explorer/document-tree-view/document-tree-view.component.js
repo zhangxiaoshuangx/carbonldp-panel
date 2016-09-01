@@ -173,7 +173,9 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                             var refreshedRoot = _a[0], response = _a[1];
                             if (!resolvedRoot.contains)
                                 return [];
-                            return resolvedRoot.contains.map(function (pointer) {
+                            return resolvedRoot.contains.filter(function (pointer) {
+                                return pointer.id.indexOf("/agents/me/") === -1;
+                            }).map(function (pointer) {
                                 return _this.buildNode(pointer.id);
                             });
                         });

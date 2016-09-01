@@ -165,7 +165,9 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 		return this.documentContext.documents.get( uri ).then( ( [resolvedRoot, response]:[PersistedDocument.Class, HTTP.Response.Class] ) => {
 			return resolvedRoot.refresh().then( ( [refreshedRoot, response]:[PersistedDocument.Class, HTTP.Response.Class] )=> {
 				if( ! resolvedRoot.contains ) return [];
-				return resolvedRoot.contains.map( ( pointer:Pointer.Class ):void => {
+				return resolvedRoot.contains.filter( ( pointer:Pointer.Class ):boolean => {
+					return pointer.id.indexOf( "/agents/me/" ) === - 1;
+				} ).map( ( pointer:Pointer.Class ):void => {
 					return this.buildNode( pointer.id );
 				} );
 			} );
