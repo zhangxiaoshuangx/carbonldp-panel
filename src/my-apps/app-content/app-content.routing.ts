@@ -33,7 +33,6 @@ const AppContentRoutes:Routes = [
 				data: {
 					alias: "edit",
 					displayName: "Edit",
-					title: "Edit",
 				},
 			},
 			{
@@ -42,7 +41,6 @@ const AppContentRoutes:Routes = [
 				data: {
 					alias: "sparql-client",
 					displayName: "SPARQL Client",
-					title: "SPARQL Client",
 				},
 			},
 			{
@@ -51,7 +49,6 @@ const AppContentRoutes:Routes = [
 				data: {
 					alias: "explore",
 					displayName: "Explorer",
-					title: "Explorer",
 				},
 			},
 			{
@@ -60,7 +57,6 @@ const AppContentRoutes:Routes = [
 				data: {
 					alias: "configure",
 					displayName: "Configuration",
-					title: "Configuration",
 				},
 			},
 		]
