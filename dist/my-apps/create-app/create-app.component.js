@@ -73,7 +73,6 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                     });
                 };
                 CreateAppComponent.prototype.slugLostControl = function (evt) {
-                    console.log("slugLostControl", evt.target.value);
                     if (!evt.target.value.match(/^[a-z0-9]+(?:-[a-z0-9]*)*(?:\/*)$/)) {
                         this.slug.updateValue(this.getSanitizedSlug(evt.target.value));
                         this._slug = this.slug.value;

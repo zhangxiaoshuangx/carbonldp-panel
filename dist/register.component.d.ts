@@ -19,7 +19,9 @@ export declare class RegisterComponent implements OnInit {
         name: string;
         email: string;
         password: string;
+        profileId: string;
     }, $event: any): void;
+    getSanitizedSlug(slug: string): string;
     touchControls(): void;
     shakeForm(): void;
     setErrorMessage(error: HTTP.Errors.Error): void;

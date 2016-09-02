@@ -7,7 +7,7 @@
 	</div>
 	<div class="field" [ngClass]="{ error: ( controls.email.touched && ! controls.email.valid ) }">
 		<div class="ui left icon input">
-			<i class="user icon"></i>
+			<i class="mail icon"></i>
 			<input type="text" name="email" placeholder="E-mail address" ngControl="email">
 		</div>
 	</div>
@@ -23,6 +23,12 @@
 			<input type="password" name="repeatPassword" placeholder="Repeat password" ngControl="repeatPassword">
 		</div>
 	</div>
+	<div class="field" [ngClass]="{ error: ( controls.profileId.touched && ! controls.profileId.valid ) }" title="A short way to identify your agent profile Id.&#10;http://your.domain.com/platform/agents/your-agent-id-here">
+		<div class="ui left icon input">
+			<i class="user icon"></i>
+			<input type="text" name="profileId" placeholder="Profile Id ('my-agent-name')" ngControl="profileId">
+		</div>
+	</div>
 	<button type="submit"
 	        [ngClass]="{ loading: sending }"
 	        class="ui fluid large submit button"
@@ -36,6 +42,7 @@
 	( controls.email.touched && ! controls.email.valid ) ||
 	( controls.password.touched && ! controls.password.valid ) ||
 	( controls.repeatPassword.touched && ! controls.repeatPassword.valid ) ||
+	( controls.profileId.touched && ! controls.profileId.valid ) ||
 	( !! errorMessage)
 ">
 	<ul class="list">
@@ -45,8 +52,11 @@
 		<li *ngIf="controls.password.hasError( 'required' )">The password is required.</li>
 		<li *ngIf="! controls.password.hasError( 'required' ) && controls.password.hasError( 'invalidPassword' )">The password is invalid</li>
 
-		<li *ngIf="controls.repeatPassword.hasError( 'required' )">Please repeat your password</li>
+		<li *ngIf="controls.repeatPassword.hasError( 'required' )">Please repeat your password.</li>
 		<li *ngIf="! controls.repeatPassword.hasError( 'required' ) && controls.repeatPassword.hasError( 'notTheSame' )">The passwords don't match</li>
+
+		<li *ngIf="controls.profileId.hasError( 'required' )">Please enter your profile id.</li>
+		<li *ngIf="! controls.profileId.hasError( 'required' ) && controls.profileId.hasError( 'invalidProfileId' )">The profile id is invalid, only alphanumerics and dashes.</li>
 
 		<li *ngIf="!! errorMessage">{{errorMessage}}</li>
 	</ul>
