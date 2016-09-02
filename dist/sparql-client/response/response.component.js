@@ -155,7 +155,6 @@ System.register(["@angular/core", "carbon-panel/code-mirror/code-mirror.componen
                     core_1.Component({
                         selector: "cp-sparql-response",
                         styles: [response_component_css_text_1.default],
-                        //directives: [ CodeMirrorComponent.Class, ResultsetTableComponent ],
                         template: response_component_html_1.default,
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])

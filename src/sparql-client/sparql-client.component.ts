@@ -1,14 +1,10 @@
 import { Component, ElementRef, Input, Output, EventEmitter, OnInit, AfterViewInit } from "@angular/core";
-//import { FORM_DIRECTIVES } from "@angular/common";
 
 import Carbon from "carbonldp/Carbon";
 import Context from "carbonldp/Context";
 import * as SPARQL from "carbonldp/SPARQL";
 import * as HTTP from "carbonldp/HTTP";
 
-//TODO: check decorators
-//import { Authenticated } from "angular2-carbonldp/decorators";
-//import { ResponseComponent,
 import { SPARQLResponseType, SPARQLFormats, SPARQLClientResponse, SPARQLQuery } from "./response/response.component";
 import * as CodeMirrorComponent from "carbon-panel/code-mirror/code-mirror.component";
 
@@ -23,11 +19,7 @@ import style from "./sparql-client.component.css!text";
 	selector: "cp-sparql-client",
 	template: template,
 	styles: [ style ],
-	//directives: [ FORM_DIRECTIVES, CodeMirrorComponent.Class, ResponseComponent, ResponseComponent, ],
 } )
-//@Authenticated( {
-// 	redirectTo: [ "Login" ],
-// } )
 export class SPARQLClientComponent implements OnInit, AfterViewInit {
 
 	sparqlTypes:SPARQLTypes = <SPARQLTypes>{
