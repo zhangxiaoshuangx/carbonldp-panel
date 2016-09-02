@@ -189,7 +189,7 @@ System.register(["@angular/core", "codemirror", "codemirror/mode/css/css", "code
                 ], Class.prototype, "valueChange", void 0);
                 __decorate([
                     core_1.Input(), 
-                    __metadata('design:type', Object)
+                    __metadata('design:type', (typeof (_a = typeof codemirror_1.default !== 'undefined' && codemirror_1.default.Editor) === 'function' && _a) || Object)
                 ], Class.prototype, "codeMirror", void 0);
                 __decorate([
                     core_1.Output(), 
@@ -204,6 +204,7 @@ System.register(["@angular/core", "codemirror", "codemirror/mode/css/css", "code
                     __metadata('design:paramtypes', [core_1.ElementRef])
                 ], Class);
                 return Class;
+                var _a;
             }());
             exports_1("Class", Class);
             Mode = (function () {

@@ -11,9 +11,9 @@ const MyAppsRoutes:Routes = [
 		path: "",
 		component: MyAppsView,
 		data: {
-			main: true,
 			alias: "my-apps",
 			displayName: "My Apps",
+			title: "My Apps",
 		},
 		children: [
 			{
