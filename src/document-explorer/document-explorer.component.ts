@@ -69,8 +69,8 @@ export class DocumentExplorerComponent {
 			title: error.name,
 			content: content + (! ! error.message ? (" Reason: " + error.message) : ""),
 			endpoint: (<any>error.response.request).responseURL,
-			statusCode: "" + error.response.request.status + " - RequestID: " + error.requestID,
-			statusMessage: error.response.request.statusText
+			statusCode: "" + (<XMLHttpRequest>error.response.request).status + " - RequestID: " + error.requestID,
+			statusMessage: (<XMLHttpRequest>error.response.request).statusText
 		};
 	}
 

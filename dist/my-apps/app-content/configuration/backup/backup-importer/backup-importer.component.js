@@ -92,6 +92,7 @@ System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backup
                 BackupImporterComponent.prototype.monitorExecution = function (importJobExecution) {
                     var _this = this;
                     return new Promise(function (resolve, reject) {
+                        // Node typings are overriding setInterval, that's why we need to cast it to any before assigning it to a number variable
                         _this.monitorExecutionInterval = setInterval(function () {
                             _this.checkImportJobExecution(importJobExecution).then(function () {
                                 if (_this.executing.done) {

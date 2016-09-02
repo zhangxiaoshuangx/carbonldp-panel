@@ -1,6 +1,6 @@
 {
-  "name": "carbon-panel",
-  "version": "0.2.1",
+  "name": "carbonldp-panel",
+  "version": "0.3.0-rc.1",
   "description": "Common components, services and utilities shared between different panel projects",
   "contributors": [
     {
@@ -16,8 +16,7 @@
       "email": "jimena.guzman@base22.com"
     }
   ],
-  "license": "UNLICENSED",
-  "private": true,
+  "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
     "url": "https://github.com/CarbonLDP/carbon-panel.git"
@@ -69,5 +68,6 @@
     "angular2-carbonldp": "^0.2.0",
     "carbonldp": "^0.36.0",
     "jquery": "^2.2.4"
-  }
+  },
+  "private": true
 }

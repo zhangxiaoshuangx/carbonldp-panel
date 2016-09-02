@@ -67,7 +67,8 @@ export class BackupExporterComponent implements OnDestroy {
 
 	monitorExecution( execution:PersistedDocument.Class ):Promise<PersistedDocument.Class> {
 		return new Promise<PersistedDocument.Class>( ( resolve:( result:any ) => void, reject:( error:HTTPError|PersistedDocument.Class ) => void ) => {
-			this.monitorExecutionInterval = setInterval( ()=> {
+			// Node typings are overriding setInterval, that's why we need to cast it to any before assigning it to a number variable
+			this.monitorExecutionInterval = <any>setInterval( ()=> {
 				execution.refresh().then( ()=> {
 					switch( execution[ Job.Execution.STATUS ].id ) {
 						case Job.ExecutionStatus.FINISHED:

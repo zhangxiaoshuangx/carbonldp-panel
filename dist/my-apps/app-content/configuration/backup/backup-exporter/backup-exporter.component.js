@@ -77,6 +77,7 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
                 BackupExporterComponent.prototype.monitorExecution = function (execution) {
                     var _this = this;
                     return new Promise(function (resolve, reject) {
+                        // Node typings are overriding setInterval, that's why we need to cast it to any before assigning it to a number variable
                         _this.monitorExecutionInterval = setInterval(function () {
                             execution.refresh().then(function () {
                                 switch (execution[Job.Execution.STATUS].id) {

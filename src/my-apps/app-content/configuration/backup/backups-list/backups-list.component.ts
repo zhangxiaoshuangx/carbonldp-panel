@@ -83,7 +83,8 @@ export class BackupsListComponent implements AfterViewInit, OnChanges, OnDestroy
 	}
 
 	monitorBackups():void {
-		this.fetchBackupsListInterval = setInterval( ()=> this.getBackups(), this.refreshPeriod );
+		// Node typings are overriding setInterval, that's why we need to cast it to any before assigning it to a number variable
+		this.fetchBackupsListInterval = <any>setInterval( ()=> this.getBackups(), this.refreshPeriod );
 	}
 
 	getBackups():Promise<PersistedDocument.Class[]> {

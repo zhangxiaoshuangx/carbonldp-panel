@@ -6,6 +6,8 @@ import { AppsCatalogView } from "./apps-catalog/apps-catalog.view";
 import { CreateAppView } from "./create-app/create-app.view";
 import { AppNotFoundView } from "./app-not-found.view";
 
+import { AppContentModule } from "./app-content/app-content.module";
+
 const MyAppsRoutes:Routes = [
 	{
 		path: "",
@@ -40,7 +42,7 @@ const MyAppsRoutes:Routes = [
 			},
 			{
 				path: ":slug",
-				loadChildren: "carbon-panel/my-apps/app-content/app-content.module#AppContentModule",
+				loadChildren: () => AppContentModule,
 			}
 		]
 	},

@@ -5,7 +5,7 @@ import "semantic-ui/semantic";
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 import * as URI from "carbonldp/RDF/URI";
 
-import template from "./template.html!";
+import template from "./list-viewer.component.html!";
 
 @Component( {
 	selector: "cp-property-list",

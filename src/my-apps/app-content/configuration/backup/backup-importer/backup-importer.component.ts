@@ -92,7 +92,8 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 
 	monitorExecution( importJobExecution:PersistedDocument.Class ):Promise<PersistedDocument.Class> {
 		return new Promise<PersistedDocument.Class>( ( resolve:( result:any ) => void, reject:( error:HTTPError|PersistedDocument.Class ) => void ) => {
-			this.monitorExecutionInterval = setInterval( ()=> {
+			// Node typings are overriding setInterval, that's why we need to cast it to any before assigning it to a number variable
+			this.monitorExecutionInterval = <any>setInterval( ()=> {
 				this.checkImportJobExecution( importJobExecution ).then( ()=> {
 					if( this.executing.done ) {
 						clearInterval( this.monitorExecutionInterval );
@@ -266,9 +267,9 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 		return {
 			title: error.name,
 			content: content + " Reason: " + error.message,
-			endpoint: (<any>error.response.request).responseURL,
-			statusCode: "" + error.response.request.status + " - RequestID: " + error.requestID,
-			statusMessage: error.response.request.statusText
+			endpoint: (<XMLHttpRequest>error.response.request).responseURL,
+			statusCode: "" + (<XMLHttpRequest>error.response.request).status + " - RequestID: " + error.requestID,
+			statusMessage: (<XMLHttpRequest>error.response.request).statusText
 		};
 	}
 

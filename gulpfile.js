@@ -46,12 +46,12 @@ gulp.task( "build", [ "clean:dist" ], ( done ) => {
 
 gulp.task( "build:prepare-npm-package", ( done ) => {
 	runSequence(
-		[ "build:prepare-npm-package:copy:docs", "build:prepare-npm-package:copy:package-json" ],
+		[ "build:prepare-npm-package|copy:docs", "build:prepare-npm-package|copy:package-json" ],
 		done
 	);
 } );
 
-gulp.task( "build:prepare-npm-package:copy:docs", () => {
+gulp.task( "build:prepare-npm-package|copy:docs", () => {
 	return gulp.src( [
 		"README.md",
 		"CHANGELOG.md",
@@ -59,7 +59,7 @@ gulp.task( "build:prepare-npm-package:copy:docs", () => {
 	] ).pipe( gulp.dest( config.dist.tsOutput ) );
 } );
 
-gulp.task( "build:prepare-npm-package:copy:package-json", () => {
+gulp.task( "build:prepare-npm-package|copy:package-json", () => {
 	return gulp.src( "package.json" )
 		.pipe( jeditor( ( json ) => {
 			delete json.private;
