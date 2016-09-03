@@ -74,7 +74,6 @@ export class CreateAppComponent implements AfterViewInit, OnInit {
 	}
 
 	slugLostControl( evt:any ):void {
-		console.log("slugLostControl", evt.target.value);
 		if( ! evt.target.value.match( /^[a-z0-9]+(?:-[a-z0-9]*)*(?:\/*)$/ ) ) {
 			(<Control> this.slug).updateValue( this.getSanitizedSlug( evt.target.value ) );
 			this._slug = this.slug.value;
@@ -165,8 +164,8 @@ export class CreateAppComponent implements AfterViewInit, OnInit {
 			title: error.name,
 			content: content + (! ! error.message ? (" Reason: " + error.message) : ""),
 			endpoint: (<any>error.response.request).responseURL,
-			statusCode: "" + (<XMLHttpRequest>error.response.request).status + " - RequestID: " + error.requestID,
-			statusMessage: (<XMLHttpRequest>error.response.request).statusText
+			statusCode: "" + error.response.request.status + " - RequestID: " + error.requestID,
+			statusMessage: error.response.request.statusText
 		};
 	}
 
