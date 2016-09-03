@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 
-import { RouterService } from "carbon-panel/router.service";
-import { SidebarItem } from "carbon-panel/sidebar.service";
+import { RouterService } from "carbonldp-panel/router.service";
+import { SidebarItem } from "carbonldp-panel/sidebar.service";
 
 import template from "./sidebar-items.component.html!";
 import style from "./sidebar-items.component.css!text";

@@ -1,4 +1,4 @@
-System.register(["@angular/core", "./../../app-content/app-content.service", "carbon-panel/errors-area/errors-area.service", "./sparql-client.view.html!"], function(exports_1, context_1) {
+System.register(["@angular/core", "./../../app-content/app-content.service", "carbonldp-panel/errors-area/errors-area.service", "./sparql-client.view.html!"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {

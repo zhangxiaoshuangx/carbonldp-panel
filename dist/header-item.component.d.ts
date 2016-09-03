@@ -1,6 +1,6 @@
 import { ElementRef, AfterViewInit } from "@angular/core";
-import { RouterService } from "carbon-panel/router.service";
-import { HeaderItem } from "carbon-panel/header.service";
+import { RouterService } from "carbonldp-panel/router.service";
+import { HeaderItem } from "carbonldp-panel/header.service";
 import "semantic-ui/semantic";
 export declare class HeaderItemComponent implements AfterViewInit {
     item: HeaderItem;

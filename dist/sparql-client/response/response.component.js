@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbon-panel/code-mirror/code-mirror.component", "jquery", "semantic-ui/semantic", "./response.component.html!", "./response.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp-panel/code-mirror/code-mirror.component", "jquery", "semantic-ui/semantic", "./response.component.html!", "./response.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {

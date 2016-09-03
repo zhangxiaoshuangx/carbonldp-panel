@@ -1,5 +1,5 @@
 import { ElementRef, EventEmitter, AfterViewInit, OnInit } from "@angular/core";
-import * as CodeMirrorComponent from "carbon-panel/code-mirror/code-mirror.component";
+import * as CodeMirrorComponent from "carbonldp-panel/code-mirror/code-mirror.component";
 import "semantic-ui/semantic";
 export declare class ResponseComponent implements AfterViewInit, OnInit {
     element: ElementRef;

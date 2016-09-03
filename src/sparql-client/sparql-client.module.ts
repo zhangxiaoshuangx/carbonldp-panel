@@ -4,7 +4,7 @@ import { RouterModule } from "@angular/router";
 
 import { ResponseComponent } from "./response/response.component";
 import { SPARQLClientComponent } from "./sparql-client.component";
-import * as CodeMirrorComponent from "carbon-panel/code-mirror/code-mirror.component";
+import * as CodeMirrorComponent from "carbonldp-panel/code-mirror/code-mirror.component";
 
 import { RelativizeURIPipe } from "./resultset-table/relativize-uri.pipe";
 import { PrefixURIPipe } from "./resultset-table/prefix-uri.pipe";

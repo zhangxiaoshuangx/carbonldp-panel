@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common/src/forms-deprecated", "angular2-carbonldp/services", "carbonldp/HTTP", "carbon-panel/custom-validators", "jquery", "semantic-ui/semantic", "./login.component.html!"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/common/src/forms-deprecated", "angular2-carbonldp/services", "carbonldp/HTTP", "carbonldp-panel/custom-validators", "jquery", "semantic-ui/semantic", "./login.component.html!"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {

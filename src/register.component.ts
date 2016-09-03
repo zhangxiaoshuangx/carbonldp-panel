@@ -5,7 +5,7 @@ import * as HTTP from "carbonldp/HTTP";
 
 import { AuthService } from "angular2-carbonldp/services";
 
-import { EmailValidator, SameAsValidator } from "carbon-panel/custom-validators";
+import { EmailValidator, SameAsValidator } from "carbonldp-panel/custom-validators";
 
 import $ from "jquery";
 import "semantic-ui/semantic";

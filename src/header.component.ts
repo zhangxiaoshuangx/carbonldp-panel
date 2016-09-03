@@ -1,6 +1,6 @@
 import { Component, ElementRef, AfterContentInit } from "@angular/core";
 
-import { HeaderService } from "carbon-panel/header.service";
+import { HeaderService } from "carbonldp-panel/header.service";
 
 import $ from "jquery";
 import "semantic-ui/semantic";

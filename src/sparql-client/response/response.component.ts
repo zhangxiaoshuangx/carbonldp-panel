@@ -1,6 +1,6 @@
 import { Component, Input, Output, ElementRef, EventEmitter, AfterViewInit, OnInit } from "@angular/core";
 
-import * as CodeMirrorComponent from "carbon-panel/code-mirror/code-mirror.component";
+import * as CodeMirrorComponent from "carbonldp-panel/code-mirror/code-mirror.component";
 
 import $ from "jquery";
 import "semantic-ui/semantic";

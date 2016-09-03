@@ -4,7 +4,7 @@ import Context from "carbonldp/Context";
 import * as SPARQL from "carbonldp/SPARQL";
 import * as HTTP from "carbonldp/HTTP";
 import { SPARQLClientResponse, SPARQLQuery } from "./response/response.component";
-import * as CodeMirrorComponent from "carbon-panel/code-mirror/code-mirror.component";
+import * as CodeMirrorComponent from "carbonldp-panel/code-mirror/code-mirror.component";
 import "semantic-ui/semantic";
 export declare class SPARQLClientComponent implements OnInit, AfterViewInit {
     sparqlTypes: SPARQLTypes;

@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common", "@angular/router", "jquery", "semantic-ui/semantic", "carbon-panel/sidebar.service", "./sidebar.component.html!", "./sidebar.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/common", "@angular/router", "jquery", "semantic-ui/semantic", "carbonldp-panel/sidebar.service", "./sidebar.component.html!", "./sidebar.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {

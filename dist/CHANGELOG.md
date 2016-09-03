@@ -1,3 +1,7 @@
+# 0.3.1 (2016/09/02)
+
+- Rename imports to "carbonldp-panel...
+
 # 0.3.0 (2016/09/02)
 
 - Migrate code to @angular RC5.

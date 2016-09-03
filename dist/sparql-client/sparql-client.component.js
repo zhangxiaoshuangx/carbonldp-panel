@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "./response/response.component", "carbon-panel/code-mirror/code-mirror.component", "jquery", "semantic-ui/semantic", "./sparql-client.component.html!", "./sparql-client.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "./response/response.component", "carbonldp-panel/code-mirror/code-mirror.component", "jquery", "semantic-ui/semantic", "./sparql-client.component.html!", "./sparql-client.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {

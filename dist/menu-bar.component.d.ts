@@ -1,6 +1,6 @@
 import { Router, ActivatedRoute } from "@angular/router";
-import { RouterService } from "carbon-panel/router.service";
-import { SidebarService } from "carbon-panel/sidebar.service";
+import { RouterService } from "carbonldp-panel/router.service";
+import { SidebarService } from "carbonldp-panel/sidebar.service";
 import "semantic-ui/semantic";
 export declare class MenuBarComponent {
     breadCrumbs: Array<any>;

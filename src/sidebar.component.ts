@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 import $ from "jquery";
 import "semantic-ui/semantic";
 
-import { SidebarService } from "carbon-panel/sidebar.service"
+import { SidebarService } from "carbonldp-panel/sidebar.service"
 
 import template from "./sidebar.component.html!";
 import style from "./sidebar.component.css!text";
