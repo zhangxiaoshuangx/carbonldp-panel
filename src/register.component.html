@@ -23,10 +23,10 @@
 			<input type="password" name="repeatPassword" placeholder="Repeat password" ngControl="repeatPassword">
 		</div>
 	</div>
-	<div class="field" [ngClass]="{ error: ( controls.profileId.touched && ! controls.profileId.valid ) }" title="A short way to identify your agent profile Id.&#10;http://your.domain.com/platform/agents/your-agent-id-here">
+	<div class="field" [ngClass]="{ error: ( controls.profileId.touched && ! controls.profileId.valid ) }" title="A short way to identify your profile">
 		<div class="ui left icon input">
 			<i class="user icon"></i>
-			<input type="text" name="profileId" placeholder="Profile Id ('my-agent-name')" ngControl="profileId">
+			<input type="text" name="profileId" placeholder="Profile ID, E.g. my-agent-name (Optional)" ngControl="profileId">
 		</div>
 	</div>
 	<button type="submit"

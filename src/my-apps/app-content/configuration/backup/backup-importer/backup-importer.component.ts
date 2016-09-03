@@ -267,7 +267,7 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 		return {
 			title: error.name,
 			content: content + " Reason: " + error.message,
-			endpoint: (<XMLHttpRequest>error.response.request).responseURL,
+			endpoint: (<any>error.response.request).responseURL,
 			statusCode: "" + (<XMLHttpRequest>error.response.request).status + " - RequestID: " + error.requestID,
 			statusMessage: (<XMLHttpRequest>error.response.request).statusText
 		};

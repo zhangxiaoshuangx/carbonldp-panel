@@ -57,7 +57,7 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                         name: ["", forms_deprecated_1.Validators.compose([forms_deprecated_1.Validators.required])],
                         email: ["", forms_deprecated_1.Validators.compose([forms_deprecated_1.Validators.required, custom_validators_1.EmailValidator])],
                         password: ["", forms_deprecated_1.Validators.compose([forms_deprecated_1.Validators.required])],
-                        profileId: ["", forms_deprecated_1.Validators.compose([forms_deprecated_1.Validators.required])],
+                        profileId: ["", forms_deprecated_1.Validators.compose([])],
                     });
                     this.controls.name = this.registerForm.controls["name"];
                     this.controls.email = this.registerForm.controls["email"];
@@ -87,6 +87,8 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                     var username = data.email;
                     var password = data.password;
                     var profileId = data.profileId;
+                    if (!profileId)
+                        profileId = void 0;
                     this.authService.register(name, username, password, profileId).then(function () {
                         _this.sending = false;
                         _this.onRegister.emit(null);

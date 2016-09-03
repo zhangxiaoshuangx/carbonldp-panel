@@ -49,7 +49,7 @@ export class RegisterComponent implements OnInit {
 			name: [ "", Validators.compose( [ Validators.required ] ) ],
 			email: [ "", Validators.compose( [ Validators.required, EmailValidator ] ) ],
 			password: [ "", Validators.compose( [ Validators.required ] ) ],
-			profileId: [ "", Validators.compose( [ Validators.required ] ) ],
+			profileId: [ "", Validators.compose( [] ) ],
 		} );
 
 		this.controls.name = this.registerForm.controls[ "name" ];
@@ -86,6 +86,8 @@ export class RegisterComponent implements OnInit {
 		let username:string = data.email;
 		let password:string = data.password;
 		let profileId:string = data.profileId;
+
+		if( ! profileId ) profileId = void 0;
 
 		this.authService.register( name, username, password, profileId ).then( () => {
 			this.sending = false;
