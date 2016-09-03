@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common", "@angular/router-deprecated", "carbon-panel/router.service", "jquery", "semantic-ui/semantic", "./header-item.component.html!", "./header-item.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbon-panel/router.service", "jquery", "semantic-ui/semantic", "./header-item.component.html!", "./header-item.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,18 +10,12 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, router_deprecated_1, router_service_1, jquery_1, header_item_component_html_1, header_item_component_css_text_1;
+    var core_1, router_service_1, jquery_1, header_item_component_html_1, header_item_component_css_text_1;
     var HeaderItemComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (common_1_1) {
-                common_1 = common_1_1;
-            },
-            function (router_deprecated_1_1) {
-                router_deprecated_1 = router_deprecated_1_1;
             },
             function (router_service_1_1) {
                 router_service_1 = router_service_1_1;
@@ -62,7 +56,6 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
                         selector: "cp-header-item",
                         template: header_item_component_html_1.default,
                         styles: [header_item_component_css_text_1.default],
-                        directives: [common_1.CORE_DIRECTIVES, router_deprecated_1.ROUTER_DIRECTIVES]
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef, router_service_1.RouterService])
                 ], HeaderItemComponent);

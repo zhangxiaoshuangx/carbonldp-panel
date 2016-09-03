@@ -1,6 +1,6 @@
 import { Component, ElementRef, Output, Inject, EventEmitter, OnInit } from "@angular/core";
-import { FORM_DIRECTIVES, FormBuilder, ControlGroup, AbstractControl, Validators } from "@angular/common";
 
+import { FormBuilder, ControlGroup, AbstractControl, Validators, Control } from "@angular/common/src/forms-deprecated";
 import * as HTTP from "carbonldp/HTTP";
 
 import { AuthService } from "angular2-carbonldp/services";
@@ -16,7 +16,6 @@ import template from "./register.component.html!"
 	selector: "cp-register",
 	template: template,
 	styles: [],
-	directives: [ FORM_DIRECTIVES ],
 } )
 export class RegisterComponent implements OnInit {
 	@Output( "onRegister" ) onRegister:EventEmitter<any> = new EventEmitter<any>();
@@ -33,6 +32,7 @@ export class RegisterComponent implements OnInit {
 		email?:AbstractControl,
 		password?:AbstractControl,
 		repeatPassword?:AbstractControl,
+		profileId?:AbstractControl,
 	} = {};
 	private errorMessage:string = "";
 
@@ -49,17 +49,26 @@ export class RegisterComponent implements OnInit {
 			name: [ "", Validators.compose( [ Validators.required ] ) ],
 			email: [ "", Validators.compose( [ Validators.required, EmailValidator ] ) ],
 			password: [ "", Validators.compose( [ Validators.required ] ) ],
+			profileId: [ "", Validators.compose( [] ) ],
 		} );
 
 		this.controls.name = this.registerForm.controls[ "name" ];
 		this.controls.email = this.registerForm.controls[ "email" ];
 		this.controls.password = this.registerForm.controls[ "password" ];
+		this.controls.profileId = this.registerForm.controls[ "profileId" ];
 
 		this.controls.repeatPassword = this.formBuilder.control( "", Validators.compose( [ Validators.required, SameAsValidator( this.controls.password ) ] ) );
 		this.registerForm.addControl( "repeatPassword", this.controls.repeatPassword );
+
+
+		let valueCopy:string = "";
+		this.controls.profileId.valueChanges.subscribe( ( value:string )=> {
+			valueCopy = this.getSanitizedSlug( value );
+			if( value !== valueCopy )(<Control>this.controls.profileId).updateValue( valueCopy );
+		} );
 	}
 
-	onSubmit( data:{ name:string, email:string, password:string }, $event:any ):void {
+	onSubmit( data:{ name:string, email:string, password:string, profileId:string }, $event:any ):void {
 		$event.preventDefault();
 
 		this.sending = true;
@@ -76,14 +85,21 @@ export class RegisterComponent implements OnInit {
 		let name:string = data.name;
 		let username:string = data.email;
 		let password:string = data.password;
+		let profileId:string = data.profileId;
 
-		this.authService.register( name, username, password ).then( () => {
+		if( ! profileId ) profileId = void 0;
+
+		this.authService.register( name, username, password, profileId ).then( () => {
 			this.sending = false;
 			this.onRegister.emit( null );
 		} ).catch( ( error:any ) => {
 			this.sending = false;
 			this.setErrorMessage( error );
 		} );
+	}
+
+	getSanitizedSlug( slug:string ):string {
+		return slug.toLowerCase().replace( / - | -|- /g, "-" ).replace( /[^-\w ]+/g, "" ).replace( / +/g, "-" );
 	}
 
 	touchControls():void {
@@ -103,7 +119,8 @@ export class RegisterComponent implements OnInit {
 	}
 
 	setErrorMessage( error:HTTP.Errors.Error ):void {
-		switch( true ) {
+		if( typeof error.message !== "undefined" ) this.errorMessage = error.message;
+		else switch( true ) {
 			case error instanceof HTTP.Errors.ConflictError:
 				this.errorMessage = "That email is already in use";
 				break;

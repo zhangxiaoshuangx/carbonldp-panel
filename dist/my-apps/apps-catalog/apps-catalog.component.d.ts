@@ -1,5 +1,5 @@
 import { ElementRef, OnInit } from "@angular/core";
-import { Router } from "@angular/router-deprecated";
+import { Router } from "@angular/router";
 import Carbon from "carbonldp/Carbon";
 import * as HTTP from "carbonldp/HTTP";
 import { MyAppsSidebarService } from "./../my-apps-sidebar.service";

@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/router-deprecated", "./apps-catalog.component", "semantic-ui/semantic", "./apps-catalog.view.html!"], function(exports_1, context_1) {
+System.register(["@angular/core", "semantic-ui/semantic", "./apps-catalog.view.html!"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,18 +10,12 @@ System.register(["@angular/core", "@angular/router-deprecated", "./apps-catalog.
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_deprecated_1, apps_catalog_component_1, apps_catalog_view_html_1;
+    var core_1, apps_catalog_view_html_1;
     var AppsCatalogView;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (router_deprecated_1_1) {
-                router_deprecated_1 = router_deprecated_1_1;
-            },
-            function (apps_catalog_component_1_1) {
-                apps_catalog_component_1 = apps_catalog_component_1_1;
             },
             function (_1) {},
             function (apps_catalog_view_html_1_1) {
@@ -36,7 +30,6 @@ System.register(["@angular/core", "@angular/router-deprecated", "./apps-catalog.
                         selector: "cp-apps-catalog-view",
                         template: apps_catalog_view_html_1.default,
                         styles: [":host { display: block; }"],
-                        directives: [router_deprecated_1.ROUTER_DIRECTIVES, apps_catalog_component_1.AppsCatalogComponent],
                     }), 
                     __metadata('design:paramtypes', [])
                 ], AppsCatalogView);

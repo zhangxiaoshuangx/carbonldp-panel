@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
-import { ROUTER_DIRECTIVES } from "@angular/router-deprecated";
 
 import * as App from "../../app-content/app";
 
@@ -11,7 +10,6 @@ import template from "./app-action-buttons.component.html!";
 	selector: "cp-app-action-buttons",
 	template: template,
 	styles: [ ":host { display:block; }" ],
-	directives: [ ROUTER_DIRECTIVES ],
 } )
 export class AppActionButtonsComponent {
 	@Input() app:App.Class;

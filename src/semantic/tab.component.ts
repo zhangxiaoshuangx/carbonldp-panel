@@ -6,7 +6,6 @@ import "semantic-ui/semantic";
 	selector: "sui-tab",
 	template: `<ng-content></ng-content>`,
 	styles: [ ":host { display:block; } " ],
-	directives: [],
 	host: {
 		class: "ui bottom attached tab segment"
 	}

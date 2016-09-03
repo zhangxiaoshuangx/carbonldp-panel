@@ -1,5 +1,4 @@
-import { Location } from "@angular/common";
-import { Router } from "@angular/router-deprecated";
+import { Router } from "@angular/router";
 /**
  * Service that wraps router related functionality. This service must not be automatically injected,
  * because we need a different instance each time we inject it into a component (not a singleton).
@@ -15,11 +14,7 @@ import { Router } from "@angular/router-deprecated";
  */
 export declare class RouterService {
     private router;
-    private location;
-    constructor(router: Router, location: Location);
-    isActive(route: any[]): boolean;
-    private getRootRouter(router);
-    private buildInstructionBranch(instruction);
-    private compareInstructionParameters(instructionA, instructionB);
+    constructor(router: Router);
+    isActive(routes: string[], exact?: boolean): boolean;
 }
 export default RouterService;

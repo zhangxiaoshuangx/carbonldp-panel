@@ -1,7 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { ROUTER_DIRECTIVES } from "@angular/router-deprecated";
 
-import { CollapsibleDirective, CollapsibleTitleDirective, CollapsibleContentDirective } from "carbon-panel/semantic/collapsible.directive";
 import { RouterService } from "carbon-panel/router.service";
 import { SidebarItem } from "carbon-panel/sidebar.service";
 
@@ -12,7 +10,6 @@ import style from "./sidebar-items.component.css!text";
 	selector: "cp-sidebar-items",
 	template: template,
 	styles: [ style ],
-	directives: [ ROUTER_DIRECTIVES, SidebarItemsComponent, CollapsibleDirective, CollapsibleTitleDirective, CollapsibleContentDirective ]
 } )
 export class SidebarItemsComponent {
 	@Input( "items" ) items:SidebarItem[];

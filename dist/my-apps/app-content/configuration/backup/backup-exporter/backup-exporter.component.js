@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument", "carbon-panel/errors-area/error-message.component", "../../job/jobs.service", "../../job/job", "semantic-ui/semantic", "./backup-exporter.component.html!", "./backup-exporter.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument", "../../job/jobs.service", "../../job/job", "semantic-ui/semantic", "./backup-exporter.component.html!", "./backup-exporter.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, App, PersistedDocument, error_message_component_1, jobs_service_1, Job, backup_exporter_component_html_1, backup_exporter_component_css_text_1;
+    var core_1, App, PersistedDocument, jobs_service_1, Job, backup_exporter_component_html_1, backup_exporter_component_css_text_1;
     var BackupExporterComponent;
     return {
         setters:[
@@ -22,9 +22,6 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
             },
             function (PersistedDocument_1) {
                 PersistedDocument = PersistedDocument_1;
-            },
-            function (error_message_component_1_1) {
-                error_message_component_1 = error_message_component_1_1;
             },
             function (jobs_service_1_1) {
                 jobs_service_1 = jobs_service_1_1;
@@ -80,6 +77,7 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
                 BackupExporterComponent.prototype.monitorExecution = function (execution) {
                     var _this = this;
                     return new Promise(function (resolve, reject) {
+                        // Node typings are overriding setInterval, that's why we need to cast it to any before assigning it to a number variable
                         _this.monitorExecutionInterval = setInterval(function () {
                             execution.refresh().then(function () {
                                 switch (execution[Job.Execution.STATUS].id) {
@@ -138,7 +136,6 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
                         selector: "cp-backup-exporter",
                         template: backup_exporter_component_html_1.default,
                         styles: [backup_exporter_component_css_text_1.default],
-                        directives: [error_message_component_1.ErrorMessageComponent],
                     }), 
                     __metadata('design:paramtypes', [jobs_service_1.JobsService])
                 ], BackupExporterComponent);

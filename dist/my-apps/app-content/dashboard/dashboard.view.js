@@ -19,7 +19,6 @@ System.register(["@angular/core", "semantic-ui/semantic"], function(exports_1, c
             },
             function (_1) {}],
         execute: function() {
-            // import template from "./create-app.view.html!";
             DashboardView = (function () {
                 function DashboardView() {
                 }

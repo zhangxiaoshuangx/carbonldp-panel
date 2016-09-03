@@ -2,8 +2,7 @@
 	<template [ngIf]="item.type === 'link'">
 		<a class="item"
 		   [ngClass]="{ active: routerService.isActive( item.route ) }"
-		   [routerLink]="item.route"
-		>
+		   [routerLink]="item.route">
 			<i *ngIf="item.icon" [class]="item.icon"></i>
 			{{ item.name }}
 		</a>
@@ -21,8 +20,7 @@
 		<a class="item submenu"
 		   suiCollapsible
 		   [(suiActive)]="item.open"
-		   [ngClass]="{ active: item.isActive ? item.isActive() : false }"
-		>
+		   [ngClass]="{ active: item.isActive ? item.isActive() : false }">
 			<button *ngIf="item.onClose" class="ui right floated circular icon mini inverted button" (click)="item.onClose.emit( item )">
 				<i class="icon remove"></i>
 			</button>

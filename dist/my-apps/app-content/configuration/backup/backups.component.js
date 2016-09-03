@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/App", "../job/jobs.service", "../job/job", "./backup-importer/backup-importer.component", "./backup-exporter/backup-exporter.component", "./bacukps-list/backups-list.component", "semantic-ui/semantic", "./backups.component.html!", "./backups.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/App", "../job/jobs.service", "../job/job", "./backups-list/backups-list.component", "semantic-ui/semantic", "./backups.component.html!", "./backups.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/App", "../job/jobs.service", "../jo
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, App, jobs_service_1, Job, backup_importer_component_1, backup_exporter_component_1, backups_list_component_1, backups_component_html_1, backups_component_css_text_1;
+    var core_1, App, jobs_service_1, Job, backups_list_component_1, backups_component_html_1, backups_component_css_text_1;
     var BackupsComponent;
     return {
         setters:[
@@ -25,12 +25,6 @@ System.register(["@angular/core", "carbonldp/App", "../job/jobs.service", "../jo
             },
             function (Job_1) {
                 Job = Job_1;
-            },
-            function (backup_importer_component_1_1) {
-                backup_importer_component_1 = backup_importer_component_1_1;
-            },
-            function (backup_exporter_component_1_1) {
-                backup_exporter_component_1 = backup_exporter_component_1_1;
             },
             function (backups_list_component_1_1) {
                 backups_list_component_1 = backups_list_component_1_1;
@@ -74,7 +68,6 @@ System.register(["@angular/core", "carbonldp/App", "../job/jobs.service", "../jo
                         selector: "cp-backup",
                         template: backups_component_html_1.default,
                         styles: [backups_component_css_text_1.default],
-                        directives: [backup_exporter_component_1.BackupExporterComponent, backup_importer_component_1.BackupImporterComponent, backups_list_component_1.BackupsListComponent],
                     }), 
                     __metadata('design:paramtypes', [jobs_service_1.JobsService])
                 ], BackupsComponent);

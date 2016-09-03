@@ -1,12 +1,11 @@
 import * as App from "carbonldp/App";
-import { AppContentView } from "carbon-panel/my-apps/app-content/app-content.view";
+import { AppContentService } from "./../../app-content/app-content.service";
 import { ErrorsAreaService } from "carbon-panel/errors-area/errors-area.service";
-import "semantic-ui/semantic";
 export declare class SPARQLClientView {
     $element: JQuery;
     appContext: App.Context;
     private errorsAreaService;
-    constructor(errorsAreaService: ErrorsAreaService, appContent: AppContentView);
+    constructor(errorsAreaService: ErrorsAreaService, appContentService: AppContentService);
     notifyErrorAreaService(error: any): void;
 }
 export default SPARQLClientView;

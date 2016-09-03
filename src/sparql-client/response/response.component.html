@@ -7,16 +7,16 @@
 		</div>
 		<div class="right menu">
 			<div class="ui small basic icon buttons" style="border:none;">
-				<button (click)="toggleAccordion()" class="ui button">
+				<button (click)="toggleAccordion()" class="ui button" title="Collapse Response">
 					<i class="caret icon" [ngClass]="{ down: accordionOpen, right: ! accordionOpen }"></i>
 				</button>
-				<button (click)="onConfigureResponse($event)" class="ui button btn-settings">
-					<i class="configure icon"></i>
+				<button (click)="onConfigureResponse($event)" class="ui button btn-edit" title="Edit Query">
+					<i class="write icon"></i>
 				</button>
-				<button (click)="onReExecuteResponse($event)" class="ui button btn-refresh">
+				<button (click)="onReExecuteResponse($event)" class="ui button btn-refresh" title="Re-Execute Query">
 					<i class="refresh icon"></i>
 				</button>
-				<button (click)="onRemoveResponse($event)" class="ui button btn-close">
+				<button (click)="onRemoveResponse($event)" class="ui button btn-close" title="Remove Response">
 					<i class="remove icon"></i>
 				</button>
 			</div>

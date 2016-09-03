@@ -1,3 +1,23 @@
+# 0.3.0 (2016/09/02)
+
+- Migrate code to @angular RC5.
+    - Modularized Panel into PanelModule.
+    - Modularized MyApps into MyAppsModule.
+    - Modularized AppContent into AppContentModule.
+    - Modularized SPARQLComponent into SPARQLModule.
+    - Modularized Semantic components into SemanticModule.
+    - Modularized DocumentExplorerComponent into SemanticModule.
+- Update **router-deprecated** to the new **@angular router**.
+- Add **AppNotFoundView** to MyApps to display it whenever the AppContent resolver couldn't find the requested app.
+- Add tooltip to SPARQL response buttons.
+- Add tooltip to app action buttons of  my apps view.
+- Fix bug of DocumentExplorer caused by an update to the working document even if the update was not successful.
+- Add LICENSE file
+
+# 0.2.1 (2016/08/10)
+
+- Fix JSTree missing icons
+
 # 0.2.0 (2016/08/09)
 
 - Add `sui-tabs`

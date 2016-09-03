@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit } from "@angular/core";
-import { Router, ROUTER_DIRECTIVES } from "@angular/router-deprecated";
+import { Router } from "@angular/router";
 import { Observable } from "rxjs/Rx";
 
 import Carbon from "carbonldp/Carbon";
@@ -7,8 +7,7 @@ import * as CarbonApp from "carbonldp/App";
 import * as HTTP from "carbonldp/HTTP";
 
 import { MyAppsSidebarService } from "./../my-apps-sidebar.service";
-import { AppsTilesComponent } from "./apps-tiles/apps-tiles.component";
-import { AppsListComponent } from "./apps-list/apps-list.component";
+
 import * as App from "./../app-content/app";
 
 import { Message } from "./../../errors-area/error-message.component";
@@ -23,7 +22,6 @@ import template from "./apps-catalog.component.html!";
 	selector: "cp-apps-catalog",
 	template: template,
 	styles: [ ":host { display: block; }" ],
-	directives: [ ROUTER_DIRECTIVES, AppsTilesComponent, AppsListComponent ],
 } )
 export class AppsCatalogComponent implements OnInit {
 	@Input() apps:App.Class[] = [];
@@ -121,7 +119,8 @@ export class AppsCatalogComponent implements OnInit {
 
 	openApp( app:App.Class ):void {
 		this.myAppsSidebarService.addApp( app );
-		this.router.navigate( [ "App", { slug: app.slug }, "AppDashboard" ] );
+		this.myAppsSidebarService.openApp( app );
+		this.router.navigate( [ "/my-apps", app.slug ] );
 	}
 
 	deleteApp( app:App.Class ):Promise<HTTP.Response.Class> {

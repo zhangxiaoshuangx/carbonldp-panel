@@ -1,5 +1,5 @@
 import { AfterViewInit, OnInit } from "@angular/core";
-import { FormBuilder, ControlGroup, AbstractControl, Control } from "@angular/common";
+import { FormBuilder, ControlGroup, AbstractControl, Control } from "@angular/common/src/forms-deprecated";
 import Carbon from "carbonldp/Carbon";
 import * as CarbonApp from "carbonldp/App";
 import * as HTTP from "carbonldp/HTTP";

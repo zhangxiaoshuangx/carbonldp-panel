@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common", "carbonldp/HTTP", "angular2-carbonldp/services", "carbon-panel/custom-validators", "jquery", "semantic-ui/semantic", "./register.component.html!"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbonldp/HTTP", "angular2-carbonldp/services", "carbon-panel/custom-validators", "jquery", "semantic-ui/semantic", "./register.component.html!"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -13,15 +13,15 @@ System.register(["@angular/core", "@angular/common", "carbonldp/HTTP", "angular2
     var __param = (this && this.__param) || function (paramIndex, decorator) {
         return function (target, key) { decorator(target, key, paramIndex); }
     };
-    var core_1, common_1, HTTP, services_1, custom_validators_1, jquery_1, register_component_html_1;
+    var core_1, forms_deprecated_1, HTTP, services_1, custom_validators_1, jquery_1, register_component_html_1;
     var RegisterComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (common_1_1) {
-                common_1 = common_1_1;
+            function (forms_deprecated_1_1) {
+                forms_deprecated_1 = forms_deprecated_1_1;
             },
             function (HTTP_1) {
                 HTTP = HTTP_1;
@@ -51,17 +51,26 @@ System.register(["@angular/core", "@angular/common", "carbonldp/HTTP", "angular2
                     this.authService = authService;
                 }
                 RegisterComponent.prototype.ngOnInit = function () {
+                    var _this = this;
                     this.$element = jquery_1.default(this.element.nativeElement);
                     this.registerForm = this.formBuilder.group({
-                        name: ["", common_1.Validators.compose([common_1.Validators.required])],
-                        email: ["", common_1.Validators.compose([common_1.Validators.required, custom_validators_1.EmailValidator])],
-                        password: ["", common_1.Validators.compose([common_1.Validators.required])],
+                        name: ["", forms_deprecated_1.Validators.compose([forms_deprecated_1.Validators.required])],
+                        email: ["", forms_deprecated_1.Validators.compose([forms_deprecated_1.Validators.required, custom_validators_1.EmailValidator])],
+                        password: ["", forms_deprecated_1.Validators.compose([forms_deprecated_1.Validators.required])],
+                        profileId: ["", forms_deprecated_1.Validators.compose([])],
                     });
                     this.controls.name = this.registerForm.controls["name"];
                     this.controls.email = this.registerForm.controls["email"];
                     this.controls.password = this.registerForm.controls["password"];
-                    this.controls.repeatPassword = this.formBuilder.control("", common_1.Validators.compose([common_1.Validators.required, custom_validators_1.SameAsValidator(this.controls.password)]));
+                    this.controls.profileId = this.registerForm.controls["profileId"];
+                    this.controls.repeatPassword = this.formBuilder.control("", forms_deprecated_1.Validators.compose([forms_deprecated_1.Validators.required, custom_validators_1.SameAsValidator(this.controls.password)]));
                     this.registerForm.addControl("repeatPassword", this.controls.repeatPassword);
+                    var valueCopy = "";
+                    this.controls.profileId.valueChanges.subscribe(function (value) {
+                        valueCopy = _this.getSanitizedSlug(value);
+                        if (value !== valueCopy)
+                            _this.controls.profileId.updateValue(valueCopy);
+                    });
                 };
                 RegisterComponent.prototype.onSubmit = function (data, $event) {
                     var _this = this;
@@ -77,13 +86,19 @@ System.register(["@angular/core", "@angular/common", "carbonldp/HTTP", "angular2
                     var name = data.name;
                     var username = data.email;
                     var password = data.password;
-                    this.authService.register(name, username, password).then(function () {
+                    var profileId = data.profileId;
+                    if (!profileId)
+                        profileId = void 0;
+                    this.authService.register(name, username, password, profileId).then(function () {
                         _this.sending = false;
                         _this.onRegister.emit(null);
                     }).catch(function (error) {
                         _this.sending = false;
                         _this.setErrorMessage(error);
                     });
+                };
+                RegisterComponent.prototype.getSanitizedSlug = function (slug) {
+                    return slug.toLowerCase().replace(/ - | -|- /g, "-").replace(/[^-\w ]+/g, "").replace(/ +/g, "-");
                 };
                 RegisterComponent.prototype.touchControls = function () {
                     for (var controlName in this.controls) {
@@ -100,41 +115,44 @@ System.register(["@angular/core", "@angular/common", "carbonldp/HTTP", "angular2
                     });
                 };
                 RegisterComponent.prototype.setErrorMessage = function (error) {
-                    switch (true) {
-                        case error instanceof HTTP.Errors.ConflictError:
-                            this.errorMessage = "That email is already in use";
-                            break;
-                        case error instanceof HTTP.Errors.ForbiddenError:
-                            this.errorMessage = "Denied Access";
-                            break;
-                        case error instanceof HTTP.Errors.UnauthorizedError:
-                            this.errorMessage = "Wrong credentials";
-                            break;
-                        case error instanceof HTTP.Errors.BadGatewayError:
-                            this.errorMessage = "An error occurred while trying to login. Please try again later. Error: " + error.response.status;
-                            break;
-                        case error instanceof HTTP.Errors.GatewayTimeoutError:
-                            this.errorMessage = "An error occurred while trying to login. Please try again later. Error: " + error.response.status;
-                            break;
-                        case error instanceof HTTP.Errors.InternalServerErrorError:
-                            this.errorMessage = "An error occurred while trying to login. Please try again later. Error: " + error.response.status;
-                            break;
-                        case error instanceof HTTP.Errors.UnknownError:
-                            this.errorMessage = "An error occurred while trying to login. Please try again later. Error: " + error.response.status;
-                            break;
-                        case error instanceof HTTP.Errors.ServiceUnavailableError:
-                            this.errorMessage = "Service currently unavailable";
-                            break;
-                        default:
-                            if ("response" in error) {
-                                this.errorMessage = "There was a problem processing the request. Error: " + error.response.status;
-                            }
-                            else {
-                                this.errorMessage = "There was a problem processing the request";
-                                console.error(error);
-                            }
-                            break;
-                    }
+                    if (typeof error.message !== "undefined")
+                        this.errorMessage = error.message;
+                    else
+                        switch (true) {
+                            case error instanceof HTTP.Errors.ConflictError:
+                                this.errorMessage = "That email is already in use";
+                                break;
+                            case error instanceof HTTP.Errors.ForbiddenError:
+                                this.errorMessage = "Denied Access";
+                                break;
+                            case error instanceof HTTP.Errors.UnauthorizedError:
+                                this.errorMessage = "Wrong credentials";
+                                break;
+                            case error instanceof HTTP.Errors.BadGatewayError:
+                                this.errorMessage = "An error occurred while trying to login. Please try again later. Error: " + error.response.status;
+                                break;
+                            case error instanceof HTTP.Errors.GatewayTimeoutError:
+                                this.errorMessage = "An error occurred while trying to login. Please try again later. Error: " + error.response.status;
+                                break;
+                            case error instanceof HTTP.Errors.InternalServerErrorError:
+                                this.errorMessage = "An error occurred while trying to login. Please try again later. Error: " + error.response.status;
+                                break;
+                            case error instanceof HTTP.Errors.UnknownError:
+                                this.errorMessage = "An error occurred while trying to login. Please try again later. Error: " + error.response.status;
+                                break;
+                            case error instanceof HTTP.Errors.ServiceUnavailableError:
+                                this.errorMessage = "Service currently unavailable";
+                                break;
+                            default:
+                                if ("response" in error) {
+                                    this.errorMessage = "There was a problem processing the request. Error: " + error.response.status;
+                                }
+                                else {
+                                    this.errorMessage = "There was a problem processing the request";
+                                    console.error(error);
+                                }
+                                break;
+                        }
                 };
                 __decorate([
                     core_1.Output("onRegister"), 
@@ -145,10 +163,9 @@ System.register(["@angular/core", "@angular/common", "carbonldp/HTTP", "angular2
                         selector: "cp-register",
                         template: register_component_html_1.default,
                         styles: [],
-                        directives: [common_1.FORM_DIRECTIVES],
                     }),
                     __param(2, core_1.Inject(services_1.AuthService.Token)), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, common_1.FormBuilder, Object])
+                    __metadata('design:paramtypes', [core_1.ElementRef, forms_deprecated_1.FormBuilder, Object])
                 ], RegisterComponent);
                 return RegisterComponent;
             }());

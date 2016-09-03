@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common", "@angular/router-deprecated", "jquery", "semantic-ui/semantic", "carbon-panel/sidebar.service", "carbon-panel/sidebar-items.component", "./sidebar.component.html!", "./sidebar.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/common", "@angular/router", "jquery", "semantic-ui/semantic", "carbon-panel/sidebar.service", "./sidebar.component.html!", "./sidebar.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, router_deprecated_1, jquery_1, sidebar_service_1, sidebar_items_component_1, sidebar_component_html_1, sidebar_component_css_text_1;
+    var core_1, common_1, router_1, jquery_1, sidebar_service_1, sidebar_component_html_1, sidebar_component_css_text_1;
     var SidebarComponent;
     return {
         setters:[
@@ -20,8 +20,8 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
             function (common_1_1) {
                 common_1 = common_1_1;
             },
-            function (router_deprecated_1_1) {
-                router_deprecated_1 = router_deprecated_1_1;
+            function (router_1_1) {
+                router_1 = router_1_1;
             },
             function (jquery_1_1) {
                 jquery_1 = jquery_1_1;
@@ -29,9 +29,6 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
             function (_1) {},
             function (sidebar_service_1_1) {
                 sidebar_service_1 = sidebar_service_1_1;
-            },
-            function (sidebar_items_component_1_1) {
-                sidebar_items_component_1 = sidebar_items_component_1_1;
             },
             function (sidebar_component_html_1_1) {
                 sidebar_component_html_1 = sidebar_component_html_1_1;
@@ -84,12 +81,11 @@ System.register(["@angular/core", "@angular/common", "@angular/router-deprecated
                         selector: "cp-sidebar",
                         template: sidebar_component_html_1.default,
                         styles: [sidebar_component_css_text_1.default],
-                        directives: [router_deprecated_1.ROUTER_DIRECTIVES, sidebar_items_component_1.SidebarItemsComponent],
                         host: {
                             class: "ui inverted vertical menu accordion"
                         }
                     }), 
-                    __metadata('design:paramtypes', [router_deprecated_1.Router, core_1.ElementRef, common_1.Location, sidebar_service_1.SidebarService])
+                    __metadata('design:paramtypes', [router_1.Router, core_1.ElementRef, common_1.Location, sidebar_service_1.SidebarService])
                 ], SidebarComponent);
                 return SidebarComponent;
             }());

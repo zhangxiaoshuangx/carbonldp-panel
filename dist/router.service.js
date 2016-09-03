@@ -1,15 +1,24 @@
-System.register(["@angular/router-deprecated/src/facade/collection", "@angular/router-deprecated/src/facade/lang"], function(exports_1, context_1) {
+System.register(["@angular/router", "@angular/core"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var collection_1, lang_1;
+    var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+        var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+        if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+        else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+        return c > 3 && r && Object.defineProperty(target, key, r), r;
+    };
+    var __metadata = (this && this.__metadata) || function (k, v) {
+        if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+    };
+    var router_1, core_1;
     var RouterService;
     return {
         setters:[
-            function (collection_1_1) {
-                collection_1 = collection_1_1;
+            function (router_1_1) {
+                router_1 = router_1_1;
             },
-            function (lang_1_1) {
-                lang_1 = lang_1_1;
+            function (core_1_1) {
+                core_1 = core_1_1;
             }],
         execute: function() {
             /**
@@ -26,61 +35,29 @@ System.register(["@angular/router-deprecated/src/facade/collection", "@angular/r
              * </pre></code>
              */
             RouterService = (function () {
-                function RouterService(router, location) {
+                // private location:Location;
+                function RouterService(router) {
                     this.router = router;
-                    this.location = location;
                 }
-                RouterService.prototype.isActive = function (route) {
-                    if (route.length === 0)
-                        return false;
-                    var routeIsRelative = route[0].startsWith("./");
-                    var instruction = this.router.generate(route);
-                    var router = this.router;
-                    var currentInstruction = routeIsRelative ? router.currentInstruction : this.getRootRouter(router).currentInstruction;
-                    if (lang_1.isBlank(currentInstruction))
-                        return false;
-                    var currentInstructionBranch = this.buildInstructionBranch(currentInstruction);
-                    var instructionBranch = this.buildInstructionBranch(instruction);
-                    if (instructionBranch.length > currentInstructionBranch.length)
-                        return false;
-                    for (var i = 0, length_1 = instructionBranch.length; i < length_1; i++) {
-                        var instructionA = instructionBranch[i];
-                        var instructionB = currentInstructionBranch[i];
-                        if (instructionA.component.routeName !== instructionB.component.routeName)
-                            return false;
-                        if (!this.compareInstructionParameters(instructionA, instructionB))
-                            return false;
+                RouterService.prototype.isActive = function (routes, exact) {
+                    if (exact === void 0) { exact = true; }
+                    var fullRoute = "";
+                    if (typeof routes === "string") {
+                        fullRoute = routes;
                     }
-                    return true;
-                };
-                RouterService.prototype.getRootRouter = function (router) {
-                    while (lang_1.isPresent(router.parent)) {
-                        router = router.parent;
+                    else {
+                        routes.forEach(function (value, idx) {
+                            fullRoute += value;
+                            if (idx !== routes.length - 1)
+                                fullRoute += "/";
+                        });
                     }
-                    return router;
+                    return this.router.isActive(fullRoute, exact);
                 };
-                RouterService.prototype.buildInstructionBranch = function (instruction) {
-                    var instructionBranch = [];
-                    var currentInstruction = instruction;
-                    while (lang_1.isPresent(currentInstruction)) {
-                        instructionBranch.push(currentInstruction);
-                        currentInstruction = currentInstruction.child;
-                    }
-                    instructionBranch.reverse();
-                    return instructionBranch;
-                };
-                RouterService.prototype.compareInstructionParameters = function (instructionA, instructionB) {
-                    if (!lang_1.isPresent(instructionA.component.params) && !lang_1.isPresent(instructionB.component.params))
-                        return true;
-                    if (!lang_1.isPresent(instructionA.component.params) || !lang_1.isPresent(instructionB.component.params))
-                        return true;
-                    var parametersAreEqual = true;
-                    collection_1.StringMapWrapper.forEach(instructionA.component.params, function (value, key) {
-                        if (instructionB.component.params[key] !== value)
-                            parametersAreEqual = false;
-                    });
-                    return parametersAreEqual;
-                };
+                RouterService = __decorate([
+                    core_1.Injectable(), 
+                    __metadata('design:paramtypes', [router_1.Router])
+                ], RouterService);
                 return RouterService;
             }());
             exports_1("RouterService", RouterService);

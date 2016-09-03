@@ -1,15 +1,14 @@
-import { Router, RouteParams } from "@angular/router-deprecated";
+import { Router, ActivatedRoute } from "@angular/router";
 import { MyAppsSidebarService } from "./../my-apps-sidebar.service";
-import { AppContextService } from "./../app-context.service";
+import { AppContentService } from "./app-content.service";
 import * as App from "./app";
 export declare class AppContentView {
     app: App.Class;
     private router;
-    private routeParams;
+    private activatedRoute;
+    private appContentService;
     private myAppsSidebarService;
-    private appContextService;
-    private timer;
-    constructor(router: Router, routeParams: RouteParams, myAppsSidebarService: MyAppsSidebarService, appContextService: AppContextService);
-    routerOnActivate(): void;
+    constructor(router: Router, route: ActivatedRoute, myAppsSidebarService: MyAppsSidebarService, appContentService: AppContentService);
+    ngOnInit(): void;
 }
 export default AppContentView;

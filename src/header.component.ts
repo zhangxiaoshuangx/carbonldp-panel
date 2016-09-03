@@ -1,9 +1,6 @@
 import { Component, ElementRef, AfterContentInit } from "@angular/core";
-import { CORE_DIRECTIVES } from "@angular/common";
-import { ROUTER_DIRECTIVES } from "@angular/router-deprecated";
 
 import { HeaderService } from "carbon-panel/header.service";
-import { HeaderItemComponent } from "carbon-panel/header-item.component";
 
 import $ from "jquery";
 import "semantic-ui/semantic";
@@ -15,7 +12,6 @@ import style from "./header.component.css!text";
 	selector: "cp-header",
 	template: template,
 	styles: [ style ],
-	directives: [ CORE_DIRECTIVES, ROUTER_DIRECTIVES, HeaderItemComponent ]
 } )
 export class HeaderComponent implements AfterContentInit {
 	private element:ElementRef;

@@ -1,6 +1,4 @@
 import { Component, ElementRef, Input, AfterViewInit } from "@angular/core";
-import { CORE_DIRECTIVES } from "@angular/common";
-import { ROUTER_DIRECTIVES, Router, Instruction } from "@angular/router-deprecated";
 
 import { RouterService } from "carbon-panel/router.service";
 import { HeaderItem } from "carbon-panel/header.service";
@@ -15,7 +13,6 @@ import style from "./header-item.component.css!text";
 	selector: "cp-header-item",
 	template: template,
 	styles: [ style ],
-	directives: [ CORE_DIRECTIVES, ROUTER_DIRECTIVES ]
 } )
 export class HeaderItemComponent implements AfterViewInit {
 	@Input( "item" ) item:HeaderItem;

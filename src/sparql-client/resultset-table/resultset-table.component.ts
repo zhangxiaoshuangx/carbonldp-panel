@@ -1,8 +1,5 @@
 import { Component, Input, Output, SimpleChange, EventEmitter, OnChanges } from "@angular/core";
 
-import { RelativizeURIPipe } from "./relativize-uri.pipe";
-import { PrefixURIPipe } from "./prefix-uri.pipe";
-
 import "semantic-ui/semantic";
 
 import template from "./resultset-table.component.html!";
@@ -12,7 +9,7 @@ import style from "./resultset-table.component.css!text";
 	selector: "cp-resultset-table",
 	template: template,
 	styles: [ style ],
-	pipes: [ RelativizeURIPipe, PrefixURIPipe ],
+	//pipes: [ RelativizeURIPipe, PrefixURIPipe ],
 } )
 
 export class ResultsetTableComponent implements OnChanges {

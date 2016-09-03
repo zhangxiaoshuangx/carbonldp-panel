@@ -54,6 +54,9 @@ System.register(["@angular/core"], function(exports_1, context_1) {
                     items.filter(function (item) { return !!item.children; }).map(function (item) { return item.children; }).forEach(function (children) { return _this.sortItems(children); });
                     return items;
                 };
+                HeaderService.prototype.clear = function () {
+                    this.items.splice(0, this.items.length);
+                };
                 HeaderService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [])

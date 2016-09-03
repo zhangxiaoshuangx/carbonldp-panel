@@ -4,7 +4,7 @@ import * as App from "carbonldp/App";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
 import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
-import { Message, ErrorMessageComponent } from "carbon-panel/errors-area/error-message.component";
+import { Message } from "carbon-panel/errors-area/error-message.component";
 import { JobsService } from "../../job/jobs.service";
 import * as Job from "../../job/job";
 
@@ -17,7 +17,6 @@ import style from "./backup-exporter.component.css!text";
 	selector: "cp-backup-exporter",
 	template: template,
 	styles: [ style ],
-	directives: [ ErrorMessageComponent ],
 } )
 
 export class BackupExporterComponent implements OnDestroy {
@@ -68,7 +67,8 @@ export class BackupExporterComponent implements OnDestroy {
 
 	monitorExecution( execution:PersistedDocument.Class ):Promise<PersistedDocument.Class> {
 		return new Promise<PersistedDocument.Class>( ( resolve:( result:any ) => void, reject:( error:HTTPError|PersistedDocument.Class ) => void ) => {
-			this.monitorExecutionInterval = setInterval( ()=> {
+			// Node typings are overriding setInterval, that's why we need to cast it to any before assigning it to a number variable
+			this.monitorExecutionInterval = <any>setInterval( ()=> {
 				execution.refresh().then( ()=> {
 					switch( execution[ Job.Execution.STATUS ].id ) {
 						case Job.ExecutionStatus.FINISHED:

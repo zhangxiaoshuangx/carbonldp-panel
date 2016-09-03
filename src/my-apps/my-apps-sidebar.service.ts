@@ -30,7 +30,6 @@ export class MyAppsSidebarService {
 
 	addApp( app:App.Class ):void {
 		if( this.openApps.has( app ) ) return;
-
 		if( this.openApps.size === 0 ) this.addOpenAppsDivider();
 
 		let removeAppEmitter:EventEmitter<SidebarGroup> = new EventEmitter<SidebarGroup>();
@@ -48,25 +47,25 @@ export class MyAppsSidebarService {
 					type: "link",
 					name: "Dashboard",
 					icon: "bar chart icon",
-					route: [ "./MyApps", "App", { slug: app.slug }, "AppDashboard" ],
+					route: [ "/my-apps", app.slug ],
 				},
 				{
 					type: "link",
 					name: "Document Explorer",
 					icon: "list layout icon",
-					route: [ "./MyApps", "App", { slug: app.slug }, "Explorer" ],
+					route: [ "/my-apps", app.slug, "explore" ],
 				},
 				{
 					type: "link",
 					name: "SPARQL Client",
 					icon: "terminal icon",
-					route: [ "./MyApps", "App", { slug: app.slug }, "SPARQLClient" ],
+					route: [ "/my-apps", app.slug, "sparql-client" ],
 				},
 				{
 					type: "link",
 					name: "Configuration",
 					icon: "settings icon",
-					route: [ "./MyApps", "App", { slug: app.slug }, "Configuration" ],
+					route: [ "/my-apps", app.slug, "configure" ],
 				},
 			]
 		};

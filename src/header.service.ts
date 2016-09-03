@@ -38,6 +38,10 @@ export class HeaderService {
 
 		return items;
 	}
+
+	clear():void {
+		this.items.splice( 0, this.items.length );
+	}
 }
 
 export interface HeaderItem {

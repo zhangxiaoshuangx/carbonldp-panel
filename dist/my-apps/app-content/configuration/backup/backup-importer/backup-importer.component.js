@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backups.service", "../../job/jobs.service", "../../job/job", "./../../../../../errors-area/error-message.component", "jquery", "semantic-ui/semantic", "./backup-importer.component.html!", "./backup-importer.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backups.service", "../../job/jobs.service", "../../job/job", "jquery", "semantic-ui/semantic", "./backup-importer.component.html!", "./backup-importer.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backup
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, App, backups_service_1, jobs_service_1, Job, error_message_component_1, jquery_1, backup_importer_component_html_1, backup_importer_component_css_text_1;
+    var core_1, common_1, App, backups_service_1, jobs_service_1, Job, jquery_1, backup_importer_component_html_1, backup_importer_component_css_text_1;
     var BackupImporterComponent, ImportStatus;
     return {
         setters:[
@@ -31,9 +31,6 @@ System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backup
             },
             function (Job_1) {
                 Job = Job_1;
-            },
-            function (error_message_component_1_1) {
-                error_message_component_1 = error_message_component_1_1;
             },
             function (jquery_1_1) {
                 jquery_1 = jquery_1_1;
@@ -95,6 +92,7 @@ System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backup
                 BackupImporterComponent.prototype.monitorExecution = function (importJobExecution) {
                     var _this = this;
                     return new Promise(function (resolve, reject) {
+                        // Node typings are overriding setInterval, that's why we need to cast it to any before assigning it to a number variable
                         _this.monitorExecutionInterval = setInterval(function () {
                             _this.checkImportJobExecution(importJobExecution).then(function () {
                                 if (_this.executing.done) {
@@ -305,7 +303,6 @@ System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backup
                         selector: "cp-backup-importer",
                         template: backup_importer_component_html_1.default,
                         styles: [backup_importer_component_css_text_1.default],
-                        directives: [error_message_component_1.ErrorMessageComponent],
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef, common_1.FormBuilder, backups_service_1.BackupsService, jobs_service_1.JobsService])
                 ], BackupImporterComponent);

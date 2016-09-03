@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/router-deprecated", "rxjs/Rx", "carbonldp/Carbon", "carbonldp/HTTP", "./../my-apps-sidebar.service", "./apps-tiles/apps-tiles.component", "./apps-list/apps-list.component", "./../app-content/app", "./../app-context.service", "jquery", "semantic-ui/semantic", "./apps-catalog.component.html!"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "rxjs/Rx", "carbonldp/Carbon", "carbonldp/HTTP", "./../my-apps-sidebar.service", "./../app-content/app", "./../app-context.service", "jquery", "semantic-ui/semantic", "./apps-catalog.component.html!"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,15 +10,15 @@ System.register(["@angular/core", "@angular/router-deprecated", "rxjs/Rx", "carb
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_deprecated_1, Rx_1, Carbon_1, HTTP, my_apps_sidebar_service_1, apps_tiles_component_1, apps_list_component_1, App, app_context_service_1, jquery_1, apps_catalog_component_html_1;
+    var core_1, router_1, Rx_1, Carbon_1, HTTP, my_apps_sidebar_service_1, App, app_context_service_1, jquery_1, apps_catalog_component_html_1;
     var AppsCatalogComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (router_deprecated_1_1) {
-                router_deprecated_1 = router_deprecated_1_1;
+            function (router_1_1) {
+                router_1 = router_1_1;
             },
             function (Rx_1_1) {
                 Rx_1 = Rx_1_1;
@@ -31,12 +31,6 @@ System.register(["@angular/core", "@angular/router-deprecated", "rxjs/Rx", "carb
             },
             function (my_apps_sidebar_service_1_1) {
                 my_apps_sidebar_service_1 = my_apps_sidebar_service_1_1;
-            },
-            function (apps_tiles_component_1_1) {
-                apps_tiles_component_1 = apps_tiles_component_1_1;
-            },
-            function (apps_list_component_1_1) {
-                apps_list_component_1 = apps_list_component_1_1;
             },
             function (App_1) {
                 App = App_1;
@@ -127,7 +121,8 @@ System.register(["@angular/core", "@angular/router-deprecated", "rxjs/Rx", "carb
                 };
                 AppsCatalogComponent.prototype.openApp = function (app) {
                     this.myAppsSidebarService.addApp(app);
-                    this.router.navigate(["App", { slug: app.slug }, "AppDashboard"]);
+                    this.myAppsSidebarService.openApp(app);
+                    this.router.navigate(["/my-apps", app.slug]);
                 };
                 AppsCatalogComponent.prototype.deleteApp = function (app) {
                     return app.delete();
@@ -211,9 +206,8 @@ System.register(["@angular/core", "@angular/router-deprecated", "rxjs/Rx", "carb
                         selector: "cp-apps-catalog",
                         template: apps_catalog_component_html_1.default,
                         styles: [":host { display: block; }"],
-                        directives: [router_deprecated_1.ROUTER_DIRECTIVES, apps_tiles_component_1.AppsTilesComponent, apps_list_component_1.AppsListComponent],
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, router_deprecated_1.Router, app_context_service_1.AppContextService, Carbon_1.default, my_apps_sidebar_service_1.MyAppsSidebarService])
+                    __metadata('design:paramtypes', [core_1.ElementRef, router_1.Router, app_context_service_1.AppContextService, Carbon_1.default, my_apps_sidebar_service_1.MyAppsSidebarService])
                 ], AppsCatalogComponent);
                 return AppsCatalogComponent;
             }());

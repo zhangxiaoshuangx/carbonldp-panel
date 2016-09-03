@@ -79,7 +79,6 @@ System.register(["@angular/core", "./tab.component", "./tabs.component.html!"], 
                         selector: "sui-tabs",
                         template: tabs_component_html_1.default,
                         styles: [":host { display:block; } "],
-                        directives: [tab_component_1.TabComponent],
                     }), 
                     __metadata('design:paramtypes', [])
                 ], TabsComponent);

@@ -1,4 +1,4 @@
-System.register(["@angular/core", "./errors-area.service", "./error-message.component", "semantic-ui/semantic", "./errors-area.component.html!", "./errors-area.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "./errors-area.service", "semantic-ui/semantic", "./errors-area.component.html!", "./errors-area.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "./errors-area.service", "./error-message.comp
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, errors_area_service_1, error_message_component_1, errors_area_component_html_1, errors_area_component_css_text_1;
+    var core_1, errors_area_service_1, errors_area_component_html_1, errors_area_component_css_text_1;
     var ErrorsAreaComponent;
     return {
         setters:[
@@ -19,9 +19,6 @@ System.register(["@angular/core", "./errors-area.service", "./error-message.comp
             },
             function (errors_area_service_1_1) {
                 errors_area_service_1 = errors_area_service_1_1;
-            },
-            function (error_message_component_1_1) {
-                error_message_component_1 = error_message_component_1_1;
             },
             function (_1) {},
             function (errors_area_component_html_1_1) {
@@ -50,7 +47,6 @@ System.register(["@angular/core", "./errors-area.service", "./error-message.comp
                         selector: "cp-errors-area",
                         template: errors_area_component_html_1.default,
                         styles: [errors_area_component_css_text_1.default],
-                        directives: [error_message_component_1.ErrorMessageComponent],
                     }), 
                     __metadata('design:paramtypes', [errors_area_service_1.ErrorsAreaService])
                 ], ErrorsAreaComponent);

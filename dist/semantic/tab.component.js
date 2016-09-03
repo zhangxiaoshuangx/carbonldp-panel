@@ -37,7 +37,6 @@ System.register(["@angular/core", "semantic-ui/semantic"], function(exports_1, c
                         selector: "sui-tab",
                         template: "<ng-content></ng-content>",
                         styles: [":host { display:block; } "],
-                        directives: [],
                         host: {
                             class: "ui bottom attached tab segment"
                         }

@@ -1,4 +1,4 @@
-System.register(["@angular/core", "../app-action-buttons/app-action-buttons.component", "./app-tile.component", "semantic-ui/semantic", "./apps-tiles.component.html!"], function(exports_1, context_1) {
+System.register(["@angular/core", "semantic-ui/semantic", "./apps-tiles.component.html!"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,18 +10,12 @@ System.register(["@angular/core", "../app-action-buttons/app-action-buttons.comp
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, app_action_buttons_component_1, app_tile_component_1, apps_tiles_component_html_1;
+    var core_1, apps_tiles_component_html_1;
     var AppsTilesComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (app_action_buttons_component_1_1) {
-                app_action_buttons_component_1 = app_action_buttons_component_1_1;
-            },
-            function (app_tile_component_1_1) {
-                app_tile_component_1 = app_tile_component_1_1;
             },
             function (_1) {},
             function (apps_tiles_component_html_1_1) {
@@ -48,7 +42,6 @@ System.register(["@angular/core", "../app-action-buttons/app-action-buttons.comp
                         selector: "cp-apps-tiles",
                         template: apps_tiles_component_html_1.default,
                         styles: [":host { display: block; }"],
-                        directives: [app_action_buttons_component_1.AppActionButtonsComponent, app_tile_component_1.AppTileComponent],
                     }), 
                     __metadata('design:paramtypes', [])
                 ], AppsTilesComponent);

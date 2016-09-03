@@ -1,6 +1,6 @@
 import { ElementRef } from "@angular/core";
 import { Location } from "@angular/common";
-import { Router } from "@angular/router-deprecated";
+import { Router } from "@angular/router";
 import "semantic-ui/semantic";
 import { SidebarService } from "carbon-panel/sidebar.service";
 export declare class SidebarComponent {

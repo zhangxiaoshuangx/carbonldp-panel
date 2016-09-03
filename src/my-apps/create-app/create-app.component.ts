@@ -1,6 +1,5 @@
 import { Component, AfterViewInit, OnInit } from "@angular/core";
-import { FormBuilder, ControlGroup, AbstractControl, Control, Validators } from "@angular/common";
-import { ROUTER_DIRECTIVES } from "@angular/router-deprecated";
+import { FormBuilder, ControlGroup, AbstractControl, Control, Validators } from "@angular/common/src/forms-deprecated";
 
 import Carbon from "carbonldp/Carbon";
 import * as CarbonApp from "carbonldp/App";
@@ -12,7 +11,8 @@ import * as PersistedProtectedDocument from "carbonldp/PersistedProtectedDocumen
 import * as PersistedDocument from "carbonldp/PersistedDocument";
 
 import { AppContextService } from "./../app-context.service";
-import { ErrorMessageComponent, Message } from "./../../errors-area/error-message.component";
+import { Message } from "./../../errors-area/error-message.component";
+
 
 import "semantic-ui/semantic";
 
@@ -22,7 +22,6 @@ import template from "./create-app.component.html!";
 	selector: "cp-create-app",
 	template: template,
 	styles: [ ":host { display: block; }" ],
-	directives: [ ROUTER_DIRECTIVES, ErrorMessageComponent ],
 } )
 export class CreateAppComponent implements AfterViewInit, OnInit {
 	carbon:Carbon;
@@ -75,7 +74,6 @@ export class CreateAppComponent implements AfterViewInit, OnInit {
 	}
 
 	slugLostControl( evt:any ):void {
-		console.log("slugLostControl", evt.target.value);
 		if( ! evt.target.value.match( /^[a-z0-9]+(?:-[a-z0-9]*)*(?:\/*)$/ ) ) {
 			(<Control> this.slug).updateValue( this.getSanitizedSlug( evt.target.value ) );
 			this._slug = this.slug.value;
@@ -166,8 +164,8 @@ export class CreateAppComponent implements AfterViewInit, OnInit {
 			title: error.name,
 			content: content + (! ! error.message ? (" Reason: " + error.message) : ""),
 			endpoint: (<any>error.response.request).responseURL,
-			statusCode: "" + error.response.request.status + " - RequestID: " + error.requestID,
-			statusMessage: error.response.request.statusText
+			statusCode: "" + (<XMLHttpRequest>error.response.request).status + " - RequestID: " + error.requestID,
+			statusMessage: (<XMLHttpRequest>error.response.request).statusText
 		};
 	}
 
