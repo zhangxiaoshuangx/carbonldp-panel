@@ -1,5 +1,5 @@
 import { ElementRef, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import Carbon from "carbonldp/Carbon";
 import * as HTTP from "carbonldp/HTTP";
 import { MyAppsSidebarService } from "./../my-apps-sidebar.service";
@@ -22,10 +22,11 @@ export declare class AppsCatalogComponent implements OnInit {
     private element;
     private $element;
     private router;
+    private route;
     private carbon;
     private appContextService;
     private myAppsSidebarService;
-    constructor(element: ElementRef, router: Router, appContextService: AppContextService, carbon: Carbon, myAppsSidebarService: MyAppsSidebarService);
+    constructor(element: ElementRef, router: Router, route: ActivatedRoute, appContextService: AppContextService, carbon: Carbon, myAppsSidebarService: MyAppsSidebarService);
     ngOnInit(): void;
     activateGridView(): void;
     activateListView(): void;

@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { Observable } from "rxjs/Rx";
 
 import Carbon from "carbonldp/Carbon";
@@ -41,14 +41,16 @@ export class AppsCatalogComponent implements OnInit {
 	private element:ElementRef;
 	private $element:JQuery;
 	private router:Router;
+	private route:ActivatedRoute;
 	private carbon:Carbon;
 	private appContextService:AppContextService;
 	private myAppsSidebarService:MyAppsSidebarService;
 
-	constructor( element:ElementRef, router:Router, appContextService:AppContextService, carbon:Carbon, myAppsSidebarService:MyAppsSidebarService ) {
+	constructor( element:ElementRef, router:Router, route:ActivatedRoute, appContextService:AppContextService, carbon:Carbon, myAppsSidebarService:MyAppsSidebarService ) {
 		this.element = element;
 		this.appContextService = appContextService;
 		this.router = router;
+		this.route = route;
 		this.carbon = carbon;
 		this.myAppsSidebarService = myAppsSidebarService;
 	}
@@ -120,7 +122,7 @@ export class AppsCatalogComponent implements OnInit {
 	openApp( app:App.Class ):void {
 		this.myAppsSidebarService.addApp( app );
 		this.myAppsSidebarService.openApp( app );
-		this.router.navigate( [ "/my-apps", app.slug ] );
+		this.router.navigate( [ app.slug ], { relativeTo: this.route } );
 	}
 
 	deleteApp( app:App.Class ):Promise<HTTP.Response.Class> {

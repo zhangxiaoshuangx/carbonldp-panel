@@ -47,7 +47,7 @@ System.register(["@angular/core", "@angular/router", "rxjs/Rx", "carbonldp/Carbo
             }],
         execute: function() {
             AppsCatalogComponent = (function () {
-                function AppsCatalogComponent(element, router, appContextService, carbon, myAppsSidebarService) {
+                function AppsCatalogComponent(element, router, route, appContextService, carbon, myAppsSidebarService) {
                     this.apps = [];
                     this.results = [];
                     this.loading = false;
@@ -58,6 +58,7 @@ System.register(["@angular/core", "@angular/router", "rxjs/Rx", "carbonldp/Carbo
                     this.element = element;
                     this.appContextService = appContextService;
                     this.router = router;
+                    this.route = route;
                     this.carbon = carbon;
                     this.myAppsSidebarService = myAppsSidebarService;
                 }
@@ -122,7 +123,7 @@ System.register(["@angular/core", "@angular/router", "rxjs/Rx", "carbonldp/Carbo
                 AppsCatalogComponent.prototype.openApp = function (app) {
                     this.myAppsSidebarService.addApp(app);
                     this.myAppsSidebarService.openApp(app);
-                    this.router.navigate(["/my-apps", app.slug]);
+                    this.router.navigate([app.slug], { relativeTo: this.route });
                 };
                 AppsCatalogComponent.prototype.deleteApp = function (app) {
                     return app.delete();
@@ -207,7 +208,7 @@ System.register(["@angular/core", "@angular/router", "rxjs/Rx", "carbonldp/Carbo
                         template: apps_catalog_component_html_1.default,
                         styles: [":host { display: block; }"],
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, router_1.Router, app_context_service_1.AppContextService, Carbon_1.default, my_apps_sidebar_service_1.MyAppsSidebarService])
+                    __metadata('design:paramtypes', [core_1.ElementRef, router_1.Router, router_1.ActivatedRoute, app_context_service_1.AppContextService, Carbon_1.default, my_apps_sidebar_service_1.MyAppsSidebarService])
                 ], AppsCatalogComponent);
                 return AppsCatalogComponent;
             }());

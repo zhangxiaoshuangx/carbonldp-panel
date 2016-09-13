@@ -30,7 +30,6 @@ export class SidebarComponent {
 		this.router = router;
 		this.location = location;
 		this.sidebarService = sidebarService;
-
 		this.sidebarService.toggleEmitter.subscribe( ( event:any ) => {
 			this.toggle();
 		} );
