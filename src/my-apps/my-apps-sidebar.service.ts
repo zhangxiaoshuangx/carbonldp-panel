@@ -7,6 +7,8 @@ import * as App from "./app-content/app";
 @Injectable()
 export class MyAppsSidebarService {
 
+	// TODO: Find a more native approach to make this work with different routing levels 'website.com/app-dev/my-apps/slug/...' and 'workbench.com/my-apps/slug/...'
+	private base:string = "";
 	private sidebarService:SidebarService;
 	private openAppsGroup:SidebarGroup;
 	private openApps:Map<App.Class, SidebarSubmenu> = new Map<App.Class, SidebarSubmenu>();
@@ -19,7 +21,13 @@ export class MyAppsSidebarService {
 
 	constructor( sidebarService:SidebarService ) {
 		this.sidebarService = sidebarService;
+		this.base = this.sidebarService.base;
+		this.init();
+	}
 
+	init():void {
+		if( typeof this.openAppsGroup !== "undefined" && this.sidebarService.items.findIndex( ( item ) => item === this.openAppsGroup ) !== - 1 ) return;
+		this.openApps.clear();
 		this.openAppsGroup = {
 			type: "group",
 			children: [],
@@ -47,25 +55,25 @@ export class MyAppsSidebarService {
 					type: "link",
 					name: "Dashboard",
 					icon: "bar chart icon",
-					route: [ "my-apps", app.slug ],
+					route: [ this.base, "my-apps", app.slug ],
 				},
 				{
 					type: "link",
 					name: "Document Explorer",
 					icon: "list layout icon",
-					route: [ "my-apps", app.slug, "explore" ],
+					route: [ this.base, "my-apps", app.slug, "explore" ],
 				},
 				{
 					type: "link",
 					name: "SPARQL Client",
 					icon: "terminal icon",
-					route: [ "my-apps", app.slug, "sparql-client" ],
+					route: [ this.base, "my-apps", app.slug, "sparql-client" ],
 				},
 				{
 					type: "link",
 					name: "Configuration",
 					icon: "settings icon",
-					route: [ "my-apps", app.slug, "configure" ],
+					route: [ this.base, "my-apps", app.slug, "configure" ],
 				},
 			]
 		};

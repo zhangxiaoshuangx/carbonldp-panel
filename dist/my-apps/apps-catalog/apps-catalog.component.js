@@ -79,6 +79,7 @@ System.register(["@angular/core", "@angular/router", "rxjs/Rx", "carbonldp/Carbo
                     });
                     this.fetchApps();
                     this.initializeModal();
+                    this.myAppsSidebarService.init();
                 };
                 AppsCatalogComponent.prototype.activateGridView = function () {
                     this.tileView = true;
