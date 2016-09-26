@@ -23,6 +23,8 @@ System.register(["@angular/core", "./../sidebar.service"], function(exports_1, c
         execute: function() {
             MyAppsSidebarService = (function () {
                 function MyAppsSidebarService(sidebarService) {
+                    // TODO: Find a more native approach to make this work with different routing levels 'website.com/app-dev/my-apps/slug/...' and 'workbench.com/my-apps/slug/...'
+                    this.base = "";
                     this.openApps = new Map();
                     this.openAppsDivider = {
                         type: "divider",
@@ -31,13 +33,21 @@ System.register(["@angular/core", "./../sidebar.service"], function(exports_1, c
                         index: 0,
                     };
                     this.sidebarService = sidebarService;
+                    this.base = this.sidebarService.base;
+                    this.init();
+                }
+                MyAppsSidebarService.prototype.init = function () {
+                    var _this = this;
+                    if (typeof this.openAppsGroup !== "undefined" && this.sidebarService.items.findIndex(function (item) { return item === _this.openAppsGroup; }) !== -1)
+                        return;
+                    this.openApps.clear();
                     this.openAppsGroup = {
                         type: "group",
                         children: [],
                         index: 100,
                     };
                     this.sidebarService.addItem(this.openAppsGroup);
-                }
+                };
                 MyAppsSidebarService.prototype.addApp = function (app) {
                     var _this = this;
                     if (this.openApps.has(app))
@@ -58,25 +68,25 @@ System.register(["@angular/core", "./../sidebar.service"], function(exports_1, c
                                 type: "link",
                                 name: "Dashboard",
                                 icon: "bar chart icon",
-                                route: ["/my-apps", app.slug],
+                                route: [this.base, "my-apps", app.slug],
                             },
                             {
                                 type: "link",
                                 name: "Document Explorer",
                                 icon: "list layout icon",
-                                route: ["/my-apps", app.slug, "explore"],
+                                route: [this.base, "my-apps", app.slug, "explore"],
                             },
                             {
                                 type: "link",
                                 name: "SPARQL Client",
                                 icon: "terminal icon",
-                                route: ["/my-apps", app.slug, "sparql-client"],
+                                route: [this.base, "my-apps", app.slug, "sparql-client"],
                             },
                             {
                                 type: "link",
                                 name: "Configuration",
                                 icon: "settings icon",
-                                route: ["/my-apps", app.slug, "configure"],
+                                route: [this.base, "my-apps", app.slug, "configure"],
                             },
                         ]
                     };
