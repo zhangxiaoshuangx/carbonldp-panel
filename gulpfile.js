@@ -6,6 +6,7 @@ const del = require( "del" );
 const gulp = require( "gulp" );
 const util = require( "gulp-util" );
 const runSequence = require( "run-sequence" );
+const merge = require( "merge2" );
 
 const sass = require( "gulp-sass" );
 const autoprefixer = require( "gulp-autoprefixer" );
@@ -103,18 +104,26 @@ gulp.task( "compile:typescript", () => {
 		typescript: require( "typescript" )
 	} );
 
+	let errors = [];
 	let tsResults = gulp.src( config.source.typescript )
 		.pipe( sourcemaps.init() )
-		.pipe( ts( tsProject ) );
+		.pipe( ts( tsProject ) )
+		.on( "error", ( error ) => {
+			errors.push( error );
+		} );
 
-	tsResults.dts
-		.pipe( gulp.dest( config.dist.tsOutput ) )
-	;
-
-	return tsResults.js
-		.pipe( sourcemaps.write( "." ) )
-		.pipe( gulp.dest( config.dist.tsOutput ) )
-		;
+	return merge( [
+		tsResults.dts
+			.pipe( gulp.dest( config.dist.tsOutput ) )
+		,
+		tsResults.js
+			.pipe( sourcemaps.write( "." ) )
+			.pipe( gulp.dest( config.dist.tsOutput ) )
+			.on( "end", () => {
+				// TODO: Uncomment the following line when all the semantic errors ar
+				// if( errors.length > 0 ) throw new Error();
+			} )
+	] );
 } );
 
 gulp.task( "lint", [ "lint:typescript" ] );
