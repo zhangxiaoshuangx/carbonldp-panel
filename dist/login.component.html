@@ -1,25 +1,33 @@
-<form [ngFormModel]="loginForm" class="ui form attached segment large loginForm" role="form" (submit)="onSubmit(loginForm.value, $event)">
-	<div class="field" [ngClass]="{ error: (email.touched && !email.valid) }">
+<form #loginForm="ngForm" class="ui form attached segment large" role="form" (submit)="onSubmit(loginForm.value, $event)">
+	<div class="field">
 		<div class="ui left icon input">
 			<i class="user icon"></i>
 			<input type="text"
-			       name="email"
 			       placeholder="E-mail address"
-			       ngControl="email">
+			       name="email"
+			       [(ngModel)]="login.email"
+			       required email
+			       #email="ngModel">
 		</div>
 	</div>
-	<div class="field" [ngClass]="{ error: (password.touched && !password.valid) }">
+	<div class="field">
 		<div class="ui left icon input">
 			<i class="lock icon"></i>
 			<input type="password"
 			       name="password"
 			       placeholder="password"
-			       ngControl="password">
+			       [(ngModel)]="login.password"
+			       required
+			       #password="ngModel">
 		</div>
 	</div>
 	<div class="field">
 		<div class="ui checkbox" [ngClass]="{ checked: remember }">
-			<input type="checkbox" ngControl="rememberMe" [(ngModel)]="remember" checked="">
+			<input type="checkbox"
+			       name="rememberMe"
+			       [(ngModel)]="login.rememberMe"
+			       checked=""
+			       #rememberMe="ngModel">
 			<label>Remember me</label>
 		</div>
 	</div>
@@ -31,14 +39,14 @@
 		Login
 	</button>
 </form>
-<div class="ui bottom attached negative message" *ngIf="(email.touched && !email.valid) || (password.touched && !password.valid) || (!!errorMessage)">
-	<ul class="list">
-		<li *ngIf="email.hasError('required')">email is required.</li>
-		<li *ngIf="!email.hasError('required') && email.hasError('invalidEmailAddress')">Enter a valid email address.</li>
+<!--<div class="ui bottom attached negative message" *ngIf="(email.touched && !email.valid) || (password.touched && !password.valid) || (!!errorMessage)">-->
+<div class="ui bottom attached negative message" *ngIf="!loginForm.valid && loginForm.touched">
+	<ul *ngIf="!email.valid" class="list">
+		<li *ngIf="email.errors.required">email is required.</li>
+		<li *ngIf="email.errors.invalidEmailAddress">Enter a valid email address.</li>
 		<li *ngIf="!!errorMessage">{{errorMessage}}</li>
 	</ul>
-	<ul class="list" *ngIf="password.touched && !password.valid">
-		<li *ngIf="password.hasError('required')">password is required.</li>
-		<li *ngIf="!password.hasError('required') && password.hasError('invalidPassword')">password is invalid.</li>
+	<ul class="list" *ngIf="!password.valid">
+		<li *ngIf="password.errors.required">password is required.</li>
 	</ul>
 </div>

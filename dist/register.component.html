@@ -1,32 +1,54 @@
-<form [ngFormModel]="registerForm" class="ui form attached segment large" role="form">
+<form #registerForm="ngForm" class="ui form attached segment large" role="form">
 	<div class="field" [ngClass]="{ error: ( controls.name.touched && ! controls.name.valid ) }">
 		<div class="ui left icon input">
 			<i class="user icon"></i>
-			<input type="text" name="name" placeholder="Name" ngControl="name">
+			<input type="text" name="name" placeholder="Name" [(ngModel)]="register.name" required #name="ngModel">
 		</div>
 	</div>
 	<div class="field" [ngClass]="{ error: ( controls.email.touched && ! controls.email.valid ) }">
 		<div class="ui left icon input">
 			<i class="mail icon"></i>
-			<input type="text" name="email" placeholder="E-mail address" ngControl="email">
+			<!--<input type="text" name="email" placeholder="E-mail address" ngControl="email">-->
+			<input class="field email"
+			       type="text"
+			       placeholder="E-mail address"
+			       name="email"
+			       [(ngModel)]="register.email"
+			       required email
+			       #email="ngModel">
 		</div>
 	</div>
 	<div class="field" [ngClass]="{ error: ( controls.password.touched && ! controls.password.valid ) }">
 		<div class="ui left icon input">
 			<i class="lock icon"></i>
-			<input type="password" name="password" placeholder="Password" ngControl="password">
+			<!--<input type="password" name="password" placeholder="Password" ngControl="password">-->
+			<input class="field email"
+			       type="text"
+			       placeholder="E-mail address"
+			       name="password"
+			       [(ngModel)]="register.password"
+			       required password
+			       #password="ngModel">
 		</div>
 	</div>
 	<div class="field" [ngClass]="{ error: ( controls.repeatPassword.touched && ! controls.repeatPassword.valid ) }">
 		<div class="ui left icon input">
 			<i class="lock icon"></i>
-			<input type="password" name="repeatPassword" placeholder="Repeat password" ngControl="repeatPassword">
+			<!--<input type="password" name="repeatPassword" placeholder="Repeat password" ngControl="repeatPassword">-->
+			<input class="field email"
+			       type="text"
+			       placeholder="E-mail address"
+			       name="repeatPassword"
+			       [(ngModel)]="register.repeatPassword"
+			       required
+			       #repeatPassword="ngModel">
 		</div>
 	</div>
 	<div class="field" [ngClass]="{ error: ( controls.profileId.touched && ! controls.profileId.valid ) }" title="A short way to identify your profile">
 		<div class="ui left icon input">
 			<i class="user icon"></i>
-			<input type="text" name="profileId" placeholder="Profile ID, E.g. my-agent-name (Optional)" ngControl="profileId">
+			<input type="text" name="profileId" placeholder="Profile ID, E.g. my-agent-name (Optional)"
+			[(ngModel)]="register.profileId" #profileId="ngModel">
 		</div>
 	</div>
 	<button type="submit"
@@ -37,27 +59,28 @@
 		Register
 	</button>
 </form>
-<div class="ui bottom attached negative message" *ngIf="
-	( controls.name.touched && ! controls.name.valid ) ||
-	( controls.email.touched && ! controls.email.valid ) ||
-	( controls.password.touched && ! controls.password.valid ) ||
-	( controls.repeatPassword.touched && ! controls.repeatPassword.valid ) ||
-	( controls.profileId.touched && ! controls.profileId.valid ) ||
-	( !! errorMessage)
-">
+<div class="ui bottom attached negative message"><!-- *ngIf="-->
+	<!--( controls.name.touched && ! controls.name.valid ) ||-->
+	<!--( controls.email.touched && ! controls.email.valid ) ||-->
+	<!--( controls.password.touched && ! controls.password.valid ) ||-->
+	<!--( controls.repeatPassword.touched && ! controls.repeatPassword.valid ) ||-->
+	<!--( controls.profileId.touched && ! controls.profileId.valid ) ||-->
+	<!--( !! errorMessage)-->
+<!--">-->
+
 	<ul class="list">
-		<li *ngIf="controls.email.hasError( 'required' )">The email is required.</li>
-		<li *ngIf="! controls.email.hasError( 'required' ) && controls.email.hasError( 'invalidEmailAddress' )">Enter a valid email address</li>
+		<li *ngIf="email.errors.required">The email is required.</li>
+		<li *ngIf="!email.errors.required && email.errors.invalidEmailAddress">Enter a valid email address</li>
 
-		<li *ngIf="controls.password.hasError( 'required' )">The password is required.</li>
-		<li *ngIf="! controls.password.hasError( 'required' ) && controls.password.hasError( 'invalidPassword' )">The password is invalid</li>
+		<!--<li *ngIf="controls.password.hasError( 'required' )">The password is required.</li>-->
+		<!--<li *ngIf="! controls.password.hasError( 'required' ) && controls.password.hasError( 'invalidPassword' )">The password is invalid</li>-->
 
-		<li *ngIf="controls.repeatPassword.hasError( 'required' )">Please repeat your password.</li>
-		<li *ngIf="! controls.repeatPassword.hasError( 'required' ) && controls.repeatPassword.hasError( 'notTheSame' )">The passwords don't match</li>
+		<!--<li *ngIf="controls.repeatPassword.hasError( 'required' )">Please repeat your password.</li>-->
+		<!--<li *ngIf="! controls.repeatPassword.hasError( 'required' ) && controls.repeatPassword.hasError( 'notTheSame' )">The passwords don't match</li>-->
 
-		<li *ngIf="controls.profileId.hasError( 'required' )">Please enter your profile id.</li>
-		<li *ngIf="! controls.profileId.hasError( 'required' ) && controls.profileId.hasError( 'invalidProfileId' )">The profile id is invalid, only alphanumerics and dashes.</li>
+		<!--<li *ngIf="controls.profileId.hasError( 'required' )">Please enter your profile id.</li>-->
+		<!--<li *ngIf="! controls.profileId.hasError( 'required' ) && controls.profileId.hasError( 'invalidProfileId' )">The profile id is invalid, only alphanumerics and dashes.</li>-->
 
-		<li *ngIf="!! errorMessage">{{errorMessage}}</li>
+		<!--<li *ngIf="!! errorMessage">{{errorMessage}}</li>-->
 	</ul>
 </div>

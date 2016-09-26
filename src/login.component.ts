@@ -32,17 +32,24 @@ export class LoginComponent {
 
 	loginForm:ControlGroup;
 
-	email:AbstractControl; // To make available the state of the input in the template
-	password:AbstractControl; // To make available the state of the input in the template
-	rememberMe:AbstractControl;
-	remember:boolean = true;
+	login:{email:string,password:string, rememberMe: boolean}=
+	{
+		email: "",
+		password: "",
+		rememberMe: false
+	}
+	// email:AbstractControl; // To make available the state of the input in the template
+	// password:AbstractControl; // To make available the state of the input in the template
+	// rememberMe:AbstractControl;
+	// remember:boolean = true;
 
-	private formBuilder:FormBuilder; // Validators
+	// private formBuilder:FormBuilder; // Validators
 	private authService:AuthService.Class;
 
-	constructor( element:ElementRef, formBuilder:FormBuilder, @Inject( AuthService.Token ) authService:AuthService.Class ) {
+	// constructor( element:ElementRef, formBuilder:FormBuilder, @Inject( AuthService.Token ) authService:AuthService.Class ) {
+	constructor( element:ElementRef, @Inject( AuthService.Token ) authService:AuthService.Class ) {
 		this.element = element;
-		this.formBuilder = formBuilder;
+		// this.formBuilder = formBuilder;
 		this.authService = authService;
 	}
 
@@ -50,27 +57,20 @@ export class LoginComponent {
 		this.$element = $( this.element.nativeElement );
 		this.$loginForm = this.$element.find( "form.loginForm" );
 		this.$loginForm.find( ".ui.checkbox" ).checkbox();
-		this.loginForm = this.formBuilder.group( {
-			email: [ "", Validators.compose( [ Validators.required, EmailValidator ] ) ],
-			password: [ "", Validators.compose( [ Validators.required ] ) ],
-			rememberMe: [ "", Validators.compose( [] ) ],
-		} );
-		this.email = this.loginForm.controls[ "email" ];
-		this.password = this.loginForm.controls[ "password" ];
-		this.rememberMe = this.loginForm.controls[ "rememberMe" ];
+		// this.loginForm = this.formBuilder.group( {
+		// 	email: [ "", Validators.compose( [ Validators.required, EmailValidator ] ) ],
+		// 	password: [ "", Validators.compose( [ Validators.required ] ) ],
+		// 	rememberMe: [ "", Validators.compose( [] ) ],
+		// } );
+		// this.email = this.loginForm.controls[ "email" ];
+		// this.password = this.loginForm.controls[ "password" ];
+		// this.rememberMe = this.loginForm.controls[ "rememberMe" ];
 	}
 
 	onSubmit( data:{ email:string, password:string, rememberMe:boolean }, $event:any ):void {
 		$event.preventDefault();
 		this.sending = true;
 		this.errorMessage = "";
-		this.email.markAsTouched();
-		this.password.markAsTouched();
-		if( ! this.loginForm.valid ) {
-			this.shakeForm();
-			this.sending = false;
-			return;
-		}
 
 		let username:string = data.email;
 		let password:string = data.password;

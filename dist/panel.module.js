@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/common', "@angular/router", "./header.component", "./header-item.component", "./login.component", "./register.component", "./sidebar.component", "./sidebar-items.component", "./errors-area/error-message.component", "./errors-area/errors-area.component", "./menu-bar.component", "./semantic/semantic.module", "./router.service", "./header.service", "./sidebar.service", "./my-apps/my-apps-sidebar.service", "./errors-area/errors-area.service"], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/common', "@angular/forms", "@angular/router", "./header.component", "./header-item.component", "./login.component", "./register.component", "./sidebar.component", "./sidebar-items.component", "./errors-area/error-message.component", "./errors-area/errors-area.component", "./menu-bar.component", "./semantic/semantic.module", "./directives.module", "./router.service", "./header.service", "./sidebar.service", "./my-apps/my-apps-sidebar.service", "./errors-area/errors-area.service"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/common', "@angular/router", "./heade
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, router_1, header_component_1, header_item_component_1, login_component_1, register_component_1, sidebar_component_1, sidebar_items_component_1, error_message_component_1, errors_area_component_1, menu_bar_component_1, semantic_module_1, router_service_1, header_service_1, sidebar_service_1, my_apps_sidebar_service_1, errors_area_service_1;
+    var core_1, common_1, forms_1, router_1, header_component_1, header_item_component_1, login_component_1, register_component_1, sidebar_component_1, sidebar_items_component_1, error_message_component_1, errors_area_component_1, menu_bar_component_1, semantic_module_1, directives_module_1, router_service_1, header_service_1, sidebar_service_1, my_apps_sidebar_service_1, errors_area_service_1;
     var PanelModule;
     return {
         setters:[
@@ -19,6 +19,9 @@ System.register(['@angular/core', '@angular/common', "@angular/router", "./heade
             },
             function (common_1_1) {
                 common_1 = common_1_1;
+            },
+            function (forms_1_1) {
+                forms_1 = forms_1_1;
             },
             function (router_1_1) {
                 router_1 = router_1_1;
@@ -53,6 +56,9 @@ System.register(['@angular/core', '@angular/common', "@angular/router", "./heade
             function (semantic_module_1_1) {
                 semantic_module_1 = semantic_module_1_1;
             },
+            function (directives_module_1_1) {
+                directives_module_1 = directives_module_1_1;
+            },
             function (router_service_1_1) {
                 router_service_1 = router_service_1_1;
             },
@@ -83,8 +89,9 @@ System.register(['@angular/core', '@angular/common', "@angular/router", "./heade
                         imports: [
                             common_1.CommonModule,
                             router_1.RouterModule,
-                            common_1.DeprecatedFormsModule,
-                            semantic_module_1.SemanticModule
+                            semantic_module_1.SemanticModule,
+                            directives_module_1.DirectivesModule,
+                            forms_1.FormsModule
                         ],
                         declarations: [
                             header_component_1.HeaderComponent,

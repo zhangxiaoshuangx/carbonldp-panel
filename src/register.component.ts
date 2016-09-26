@@ -1,11 +1,11 @@
 import { Component, ElementRef, Output, Inject, EventEmitter, OnInit } from "@angular/core";
 
-import { FormBuilder, ControlGroup, AbstractControl, Validators, Control } from "@angular/common/src/forms-deprecated";
+// import { FormBuilder, ControlGroup, AbstractControl, Validators, Control } from "@angular/common/src/forms-deprecated";
 import * as HTTP from "carbonldp/HTTP";
 
 import { AuthService } from "angular2-carbonldp/services";
 
-import { EmailValidator, SameAsValidator } from "carbonldp-panel/custom-validators";
+// import { EmailValidator, SameAsValidator } from "carbonldp-panel/custom-validators";
 
 import $ from "jquery";
 import "semantic-ui/semantic";
@@ -22,50 +22,59 @@ export class RegisterComponent implements OnInit {
 
 	private element:ElementRef;
 	private $element:JQuery;
-	private formBuilder:FormBuilder;
+	// private formBuilder:FormBuilder;
 	private authService:AuthService.Class;
 
 	private sending:boolean = false;
-	private registerForm:ControlGroup;
-	private controls:{
-		name?:AbstractControl,
-		email?:AbstractControl,
-		password?:AbstractControl,
-		repeatPassword?:AbstractControl,
-		profileId?:AbstractControl,
-	} = {};
+	// private registerForm:ControlGroup;
+	// private controls:{
+	// 	name?:AbstractControl,
+	// 	email?:AbstractControl,
+	// 	password?:AbstractControl,
+	// 	repeatPassword?:AbstractControl,
+	// 	profileId?:AbstractControl,
+	// } = {};
+	register:{ name:string, email:string, password:string, repeatPassword:string, profileId:string} = {
+		name: "",
+		email: "",
+		password: "",
+		repeatPassword: "",
+		profileId: ""
+	}
+
 	private errorMessage:string = "";
 
-	constructor( element:ElementRef, formBuilder:FormBuilder, @Inject( AuthService.Token ) authService:AuthService.Class ) {
+	// constructor( element:ElementRef, formBuilder:FormBuilder, @Inject( AuthService.Token ) authService:AuthService.Class ) {
+	constructor( element:ElementRef, @Inject( AuthService.Token ) authService:AuthService.Class ) {
 		this.element = element;
-		this.formBuilder = formBuilder;
+		// this.formBuilder = formBuilder;
 		this.authService = authService;
 	}
 
 	ngOnInit():void {
 		this.$element = $( this.element.nativeElement );
 
-		this.registerForm = this.formBuilder.group( {
-			name: [ "", Validators.compose( [ Validators.required ] ) ],
-			email: [ "", Validators.compose( [ Validators.required, EmailValidator ] ) ],
-			password: [ "", Validators.compose( [ Validators.required ] ) ],
-			profileId: [ "", Validators.compose( [] ) ],
-		} );
-
-		this.controls.name = this.registerForm.controls[ "name" ];
-		this.controls.email = this.registerForm.controls[ "email" ];
-		this.controls.password = this.registerForm.controls[ "password" ];
-		this.controls.profileId = this.registerForm.controls[ "profileId" ];
-
-		this.controls.repeatPassword = this.formBuilder.control( "", Validators.compose( [ Validators.required, SameAsValidator( this.controls.password ) ] ) );
-		this.registerForm.addControl( "repeatPassword", this.controls.repeatPassword );
-
-
-		let valueCopy:string = "";
-		this.controls.profileId.valueChanges.subscribe( ( value:string )=> {
-			valueCopy = this.getSanitizedSlug( value );
-			if( value !== valueCopy )(<Control>this.controls.profileId).updateValue( valueCopy );
-		} );
+		// this.registerForm = this.formBuilder.group( {
+		// 	name: [ "", Validators.compose( [ Validators.required ] ) ],
+		// 	email: [ "", Validators.compose( [ Validators.required, EmailValidator ] ) ],
+		// 	password: [ "", Validators.compose( [ Validators.required ] ) ],
+		// 	profileId: [ "", Validators.compose( [] ) ],
+		// } );
+		//
+		// this.controls.name = this.registerForm.controls[ "name" ];
+		// this.controls.email = this.registerForm.controls[ "email" ];
+		// this.controls.password = this.registerForm.controls[ "password" ];
+		// this.controls.profileId = this.registerForm.controls[ "profileId" ];
+		//
+		// this.controls.repeatPassword = this.formBuilder.control( "", Validators.compose( [ Validators.required, SameAsValidator( this.controls.password ) ] ) );
+		// this.registerForm.addControl( "repeatPassword", this.controls.repeatPassword );
+		//
+		//
+		// let valueCopy:string = "";
+		// this.controls.profileId.valueChanges.subscribe( ( value:string )=> {
+		// 	valueCopy = this.getSanitizedSlug( value );
+		// 	if( value !== valueCopy )(<Control>this.controls.profileId).updateValue( valueCopy );
+		// } );
 	}
 
 	onSubmit( data:{ name:string, email:string, password:string, profileId:string }, $event:any ):void {
@@ -74,13 +83,13 @@ export class RegisterComponent implements OnInit {
 		this.sending = true;
 		this.errorMessage = "";
 
-		this.touchControls();
+		// this.touchControls();
 
-		if( ! this.registerForm.valid ) {
-			this.shakeForm();
-			this.sending = false;
-			return;
-		}
+		// if( ! this.registerForm.valid ) {
+		// 	this.shakeForm();
+		// 	this.sending = false;
+		// 	return;
+		// }
 
 		let name:string = data.name;
 		let username:string = data.email;
@@ -102,14 +111,14 @@ export class RegisterComponent implements OnInit {
 		return slug.toLowerCase().replace( / - | -|- /g, "-" ).replace( /[^-\w ]+/g, "" ).replace( / +/g, "-" );
 	}
 
-	touchControls():void {
-		for( let controlName in this.controls ) {
-			if( ! this.controls.hasOwnProperty( controlName ) ) continue;
-
-			let control:AbstractControl = this.controls[ controlName ];
-			control.markAsTouched();
-		}
-	}
+	// touchControls():void {
+	// 	for( let controlName in this.controls ) {
+	// 		if( ! this.controls.hasOwnProperty( controlName ) ) continue;
+	//
+	// 		let control:AbstractControl = this.controls[ controlName ];
+	// 		control.markAsTouched();
+	// 	}
+	// }
 
 	shakeForm():void {
 		let target:JQuery = this.$element;

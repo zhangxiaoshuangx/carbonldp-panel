@@ -1,5 +1,5 @@
 import { ElementRef, EventEmitter } from "@angular/core";
-import { FormBuilder, ControlGroup, AbstractControl } from "@angular/common/src/forms-deprecated";
+import { ControlGroup } from "@angular/common/src/forms-deprecated";
 import { AuthService } from "angular2-carbonldp/services";
 import Credentials from "carbonldp/Auth/Credentials";
 import * as HTTP from "carbonldp/HTTP";
@@ -13,13 +13,13 @@ export declare class LoginComponent {
     sending: boolean;
     errorMessage: string;
     loginForm: ControlGroup;
-    email: AbstractControl;
-    password: AbstractControl;
-    rememberMe: AbstractControl;
-    remember: boolean;
-    private formBuilder;
+    login: {
+        email: string;
+        password: string;
+        rememberMe: boolean;
+    };
     private authService;
-    constructor(element: ElementRef, formBuilder: FormBuilder, authService: AuthService.Class);
+    constructor(element: ElementRef, authService: AuthService.Class);
     ngOnInit(): void;
     onSubmit(data: {
         email: string;

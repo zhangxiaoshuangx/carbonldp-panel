@@ -106,7 +106,7 @@ System.register(["@angular/core", "@angular/forms"], function(exports_1, context
                     // (?=.*[0-9])       - Assert a string has at least one number
                     //if( controlGroup.value.match( /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,100}$/ ) ) {
                     if (control.value) {
-                        if (control.value === this.valuetoMatch)
+                        if (control.value === this.matchTo)
                             return null;
                         else {
                             return { "matchError": true };

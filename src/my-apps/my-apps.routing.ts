@@ -16,35 +16,35 @@ const MyAppsRoutes:Routes = [
 			alias: "my-apps",
 			displayName: "My Apps",
 		},
-		children: [
-			{
-				path: "",
-				component: AppsCatalogView,
-				data: {
-					title: "My Apps",
-				}
-			},
-			{
-				path: "create",
-				component: CreateAppView,
-				data: {
-					alias: "create",
-					displayName: "Create App",
-				},
-			},
-			{
-				path: "app-not-found",
-				component: AppNotFoundView,
-				data: {
-					alias: "app-not-found",
-					displayName: "No App"
-				}
-			},
-			{
-				path: ":slug",
-				loadChildren: () => AppContentModule,
-			}
-		]
+		// children: [
+		// 	{
+		// 		path: "",
+		// 		component: AppsCatalogView,
+		// 		data: {
+		// 			title: "My Apps",
+		// 		}
+		// 	},
+		// 	{
+		// 		path: "create",
+		// 		component: CreateAppView,
+		// 		data: {
+		// 			alias: "create",
+		// 			displayName: "Create App",
+		// 		},
+		// 	},
+		// 	{
+		// 		path: "app-not-found",
+		// 		component: AppNotFoundView,
+		// 		data: {
+		// 			alias: "app-not-found",
+		// 			displayName: "No App"
+		// 		}
+		// 	},
+		// 	{
+		// 		path: ":slug",
+		// 		loadChildren: () => AppContentModule,
+		// 	}
+		// ]
 	},
 ];
 
