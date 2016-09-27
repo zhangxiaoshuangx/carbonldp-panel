@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Literal", "carbonldp/RDF/URI", "carbonldp/Utils", "jquery", "semantic-ui/semantic", "./property.component.html!", "./property.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Literal", "carbonldp/RDF/List", "carbonldp/RDF/URI", "carbonldp/Utils", "jquery", "semantic-ui/semantic", "./property.component.html!", "./property.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, forms_deprecated_1, SDKRDFNode, SDKLiteral, URI, Utils, jquery_1, property_component_html_1, property_component_css_text_1;
+    var core_1, forms_deprecated_1, SDKRDFNode, SDKLiteral, SDKList, URI, Utils, jquery_1, property_component_html_1, property_component_css_text_1;
     var PropertyComponent, Modes;
     return {
         setters:[
@@ -25,6 +25,9 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
             },
             function (SDKLiteral_1) {
                 SDKLiteral = SDKLiteral_1;
+            },
+            function (SDKList_1) {
+                SDKList = SDKList_1;
             },
             function (URI_1) {
                 URI = URI_1;
@@ -48,6 +51,7 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                 function PropertyComponent(element) {
                     this.literals = [];
                     this.pointers = [];
+                    this.lists = [];
                     this.tempProperty = {};
                     this.existingFragments = [];
                     this.value = [];
@@ -229,6 +233,8 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                     this.tempLiterals = [];
                     this.pointers = [];
                     this.tempPointers = [];
+                    this.lists = [];
+                    this.tempLists = [];
                     if (typeof this.property.modifiedLiterals !== "undefined") {
                         this.literals = this.property.modifiedLiterals;
                         this.tempLiterals = this.property.modifiedLiterals;
@@ -253,6 +259,19 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                             }
                         });
                     }
+                    if (typeof this.property.modifiedLists !== "undefined") {
+                        this.lists = this.property.modifiedLists;
+                        this.tempLists = this.property.modifiedLists;
+                    }
+                    else {
+                        this.property[this.copyOrAdded].value.forEach(function (literalOrRDFNodeOrList) {
+                            if (SDKList.Factory.is(literalOrRDFNodeOrList)) {
+                                _this.lists.push({ copy: literalOrRDFNodeOrList });
+                                _this.tempLists.push({ copy: literalOrRDFNodeOrList });
+                            }
+                        });
+                    }
+                    console.log(this.property);
                 };
                 PropertyComponent.prototype.addLiteral = function () {
                     // Notify LiteralsComponent to add literal

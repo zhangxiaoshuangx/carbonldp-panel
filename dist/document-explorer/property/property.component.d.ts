@@ -10,8 +10,10 @@ export declare class PropertyComponent implements AfterViewInit, OnInit {
     $element: JQuery;
     literals: LiteralRow[];
     pointers: PointerRow[];
+    lists: PointerRow[];
     tempLiterals: LiteralRow[];
     tempPointers: PointerRow[];
+    tempLists: PointerRow[];
     tempProperty: Property;
     copyOrAdded: string;
     existingFragments: string[];
@@ -95,6 +97,7 @@ export interface PropertyRow {
     isBeingDeleted?: boolean;
     modifiedLiterals?: LiteralRow[];
     modifiedPointers?: PointerRow[];
+    modifiedLists?: PointerRow[];
 }
 export interface Property {
     id: string;
