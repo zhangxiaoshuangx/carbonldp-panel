@@ -1,5 +1,4 @@
-import { AfterViewInit, OnInit } from "@angular/core";
-import { FormBuilder, ControlGroup, AbstractControl, Control } from "@angular/common/src/forms-deprecated";
+import { OnInit } from "@angular/core";
 import Carbon from "carbonldp/Carbon";
 import * as CarbonApp from "carbonldp/App";
 import * as HTTP from "carbonldp/HTTP";
@@ -7,7 +6,7 @@ import * as Auth from "carbonldp/Auth";
 import { AppContextService } from "./../app-context.service";
 import { Message } from "./../../errors-area/error-message.component";
 import "semantic-ui/semantic";
-export declare class CreateAppComponent implements AfterViewInit, OnInit {
+export declare class CreateAppComponent implements OnInit {
     carbon: Carbon;
     appContextService: AppContextService;
     submitting: boolean;
@@ -18,27 +17,21 @@ export declare class CreateAppComponent implements AfterViewInit, OnInit {
     _slug: string;
     persistedSlug: string;
     persistedName: string;
-    createAppForm: ControlGroup;
-    formBuilder: FormBuilder;
-    name: AbstractControl;
-    slug: AbstractControl;
-    description: AbstractControl;
-    constructor(formBuilder: FormBuilder, carbon: Carbon, appContextService: AppContextService);
-    ngOnInit(): void;
-    ngAfterViewInit(): void;
-    slugLostControl(evt: any): void;
-    getSanitizedSlug(slug: string): string;
-    canDisplayErrors(): boolean;
-    onSubmit(data: {
+    slugInput: any;
+    createAppFormModel: {
         name: string;
         slug: string;
         description: string;
-    }, $event: any): void;
+    };
+    constructor(carbon: Carbon, appContextService: AppContextService);
+    ngOnInit(): void;
+    slugLostControl(evt: any): void;
+    getSanitizedSlug(evt: any): void;
+    onSubmit(form: any, $event: any): void;
     createApp(slug: string, appDocument: CarbonApp.Class): Promise<Auth.PersistedACL.Class>;
     private grantAccess(acl);
     private getHTTPErrorMessage(error, content);
     getErrorMessage(error: HTTP.Errors.Error): string;
-    slugValidator(slug: Control): any;
     clearMessages(evt: Event): void;
 }
 export default CreateAppComponent;

@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/common', "@angular/router", "./response/response.component", "./sparql-client.component", "carbonldp-panel/code-mirror/code-mirror.component", "./resultset-table/relativize-uri.pipe", "./resultset-table/prefix-uri.pipe", "./resultset-table/resultset-table.component"], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/common', "@angular/router", "@angular/forms", "./response/response.component", "./sparql-client.component", "carbonldp-panel/code-mirror/code-mirror.component", "./resultset-table/relativize-uri.pipe", "./resultset-table/prefix-uri.pipe", "./resultset-table/resultset-table.component"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/common', "@angular/router", "./respo
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, router_1, response_component_1, sparql_client_component_1, CodeMirrorComponent, relativize_uri_pipe_1, prefix_uri_pipe_1, resultset_table_component_1;
+    var core_1, common_1, router_1, forms_1, response_component_1, sparql_client_component_1, CodeMirrorComponent, relativize_uri_pipe_1, prefix_uri_pipe_1, resultset_table_component_1;
     var SPARQLClientModule;
     return {
         setters:[
@@ -22,6 +22,9 @@ System.register(['@angular/core', '@angular/common', "@angular/router", "./respo
             },
             function (router_1_1) {
                 router_1 = router_1_1;
+            },
+            function (forms_1_1) {
+                forms_1 = forms_1_1;
             },
             function (response_component_1_1) {
                 response_component_1 = response_component_1_1;
@@ -49,8 +52,8 @@ System.register(['@angular/core', '@angular/common', "@angular/router", "./respo
                     core_1.NgModule({
                         imports: [
                             common_1.CommonModule,
-                            common_1.DeprecatedFormsModule,
                             router_1.RouterModule,
+                            forms_1.FormsModule
                         ],
                         declarations: [
                             sparql_client_component_1.SPARQLClientComponent,

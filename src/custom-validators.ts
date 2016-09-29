@@ -67,6 +67,23 @@ export class PasswordValidator implements Validator {
 
 
 @Directive( {
+	selector: '[slug]',
+	providers: [ { provide: NG_VALIDATORS, useExisting: SlugValidator, multi: true } ]
+} )
+export class SlugValidator implements Validator {
+
+	validate( control:AbstractControl ):{[key:string]:any;} {
+		if( control.value ) {
+			if( control.value.match( /^[a-z0-9]+(?:-[a-z0-9]*)*(?:\/*)$/ ) ) {
+				return null;
+			}
+			return { "invalidSlug": true };
+		}
+	}
+}
+
+
+@Directive( {
 	selector: '[match]',
 	providers: [ { provide: NG_VALIDATORS, useExisting: MatchValidator, multi: true } ]
 } )
@@ -78,7 +95,7 @@ export class MatchValidator implements Validator {
 		// (?=.*[0-9])       - Assert a string has at least one number
 		//if( controlGroup.value.match( /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,100}$/ ) ) {
 		if( control.value ) {
-			if( control.value === this.matchTo)
+			if( control.value === this.matchTo )
 				return null;
 			else {
 				return { "matchError": true };
@@ -86,3 +103,22 @@ export class MatchValidator implements Validator {
 		}
 	}
 }
+
+@Directive( {
+	selector: '[domain]',
+	providers: [ { provide: NG_VALIDATORS, useExisting: DomainValidator, multi: true } ]
+} )
+export class DomainValidator implements Validator {
+
+	validate( control:AbstractControl ):{[key:string]:any;} {
+		if( control.value ) {
+			if( control.value.match( /^http(s?):\/\/((\w+\.)?\w+\.\w+|((2[0-5]{2}|1[0-9]{2}|[0-9]{1,2})\.){3}(2[0-5]{2}|1[0-9]{2}|[0-9]{1,2}))(\/)?$/gm ) )
+				return null;
+			else {
+				return { "invalidURLAddress": true };
+			}
+		}
+	}
+}
+
+

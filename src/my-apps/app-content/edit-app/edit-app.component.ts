@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { FormBuilder, ControlGroup, AbstractControl, Validators } from "@angular/common/src/forms-deprecated";
 
 import Carbon from "carbonldp/Carbon";
 import * as HTTP from "carbonldp/HTTP";
@@ -30,23 +29,19 @@ export class EditAppComponent implements OnInit {
 	displaySuccessMessage:boolean = false;
 	errorMessage:Message;
 
-	editAppForm:ControlGroup;
-	corsGroup:ControlGroup;
-	formBuilder:FormBuilder;
-	name:AbstractControl;
-	description:AbstractControl;
-	allDomains:AbstractControl;
-	domain:AbstractControl;
+	editAppFormModel:{name:string, description:string, allDomains:boolean, domain:string } = {
+		name: "",
+		description: "",
+		allDomains: true,
+		domain: ""
+	};
 
 	allowedDomains:string[] = [];
-	domainStr:string = "";
-
 	// Inputs and Outputs
 	@Input() app:App.Class;
 
 
-	constructor( formBuilder:FormBuilder, appContextService:AppContextService ) {
-		this.formBuilder = formBuilder;
+	constructor( appContextService:AppContextService ) {
 		this.appContextService = appContextService;
 	}
 
@@ -54,82 +49,52 @@ export class EditAppComponent implements OnInit {
 		let allowAllOrigins:boolean = false;
 		if( ! ! this.app.allowsOrigins && this.app.allowsOrigins.length > 0 ) {
 			allowAllOrigins = this.app.allowsOrigins[ 0 ][ "id" ] === Carbon.NS.CS.Class.AllOrigins;
-			if( ! allowAllOrigins )this.allowedDomains = <string[]>this.app.allowsOrigins;
+			if( ! allowAllOrigins ) this.allowedDomains = <string[]>this.app.allowsOrigins;
 		}
 
-		this.editAppForm = this.formBuilder.group( {
-			name: [ this.app.name, Validators.compose( [ Validators.required ] ) ],
-			description: [ this.app.description, Validators.compose( [ Validators.required ] ) ],
-			cors: this.formBuilder.group( {
-				allDomains: [ allowAllOrigins ],
-				domain: [ this.domainStr ],
-				allowedDomains: [ this.allowedDomains ],
-			}, { validator: Validators.compose( [ this.domainValidator, this.allowedDomainsValidator ] ) } ),
-		} );
-		this.name = this.editAppForm.controls[ "name" ];
-		this.description = this.editAppForm.controls[ "description" ];
-		this.corsGroup = <ControlGroup>this.editAppForm.controls[ "cors" ];
-		this.allDomains = this.corsGroup.controls[ "allDomains" ];
-		this.domain = this.corsGroup.controls[ "domain" ];
+		this.editAppFormModel.name = this.app.name;
+		this.editAppFormModel.description = this.app.description;
+		this.editAppFormModel.allDomains = allowAllOrigins;
 	}
 
-	domainValidator( corsGroup:ControlGroup ):any {
-		let allDomains:AbstractControl = corsGroup.controls[ "allDomains" ];
-		let domain:AbstractControl = corsGroup.controls[ "domain" ];
-		if( allDomains.value || (! allDomains.value && ! ! domain.value && ! ! domain.value.match( /^http(s?):\/\/((\w+\.)?\w+\.\w+|((2[0-5]{2}|1[0-9]{2}|[0-9]{1,2})\.){3}(2[0-5]{2}|1[0-9]{2}|[0-9]{1,2}))(\/)?$/gm ) ) ) {
-			return null;
+	addDomain( domain:any ):void {
+		if( domain.valid && ! ! domain.value ) {
+			this.allowedDomains.push( domain.value );
 		}
-		if( ! ! domain.value ) {
-			return { "invalidURLAddress": true };
-		}
+		// this.corsGroup.updateValueAndValidity();
 	}
 
-	allowedDomainsValidator( corsGroup:ControlGroup ):any {
-		if( ! corsGroup.value[ "allDomains" ] && (<string[]>corsGroup.value[ "allowedDomains" ]).length <= 0 ) {
-			return { "emptyAllowedAddresses": true };
-		}
-		return null;
-	}
-
-	addDomain( domain:string ):void {
-		if( this.domain.valid && ! ! domain ) this.allowedDomains.push( domain );
-		this.corsGroup.updateValueAndValidity();
-	}
-
-	removeDomain( option:string ):void {
+	removeDomain( option:string, allDomains:any ):void {
 		let idx:number = this.allowedDomains.indexOf( option );
 		if( idx >= 0 ) {
 			this.allowedDomains.splice( idx, 1 );
-			this.corsGroup.updateValueAndValidity();
+			//this.corsGroup.updateValueAndValidity();
 		}
 	}
 
-	canDisplayErrors():boolean {
-		return (! this.name.pristine && ! this.name.valid) || (! this.description.pristine && ! this.description.valid);
+	canDisplayErrors() {
+		// return (! this.name.pristine && ! this.name.valid) || (! this.description.pristine && ! this.description.valid);
 	}
 
-	onSubmit( data:{ name:string, description:string, cors:{allDomains:boolean, domain:string, allowedDomains:string[], } }, $event:Event ):void {
+	onSubmit( form, $event:Event ):void {
 		$event.preventDefault();
 
 		this.submitting = true;
 		this.errorMessage = null;
+		let name:string = form.value.name;
+		let description:string = form.value.description;
+		let allowsAllOrigins:any = form.value.allowAllOrigins;
+		let allowedDomains = this.allowedDomains;
 
-		this.name.markAsDirty( true );
-		this.description.markAsDirty( true );
-
-		if( ! this.editAppForm.valid ) {
+		if( !form.valid || (form.valid && (!allowsAllOrigins && allowedDomains.length===0))){
 			this.submitting = false;
 			return;
 		}
 
-		let name:string = data.name;
-		let description:string = data.description;
-		let allowsAllOrigin:any = data.cors.allDomains;
-		let allowedDomains:string[] = data.cors.allowedDomains;
 
 		if( name ) this.app.name = name;
 		if( description ) this.app.description = description;
-		if( allowsAllOrigin ) {
+		if( allowsAllOrigins ) {
 			this.app.allowsOrigins = [ Carbon.Pointer.Factory.create( Carbon.NS.CS.Class.AllOrigins ) ];
 		} else {
 			this.app.allowsOrigins = allowedDomains.length > 0 ? allowedDomains : this.app.allowsOrigins;
@@ -154,7 +119,7 @@ export class EditAppComponent implements OnInit {
 
 	getErrorMessage( error:HTTP.Errors.Error ):string {
 		let tempMessage:string = "";
-		switch( true ) {
+		switch ( true ) {
 			case error instanceof HTTP.Errors.BadRequestError:
 				tempMessage = "";
 				break;

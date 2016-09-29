@@ -39,7 +39,7 @@ System.register(["@angular/core", "@angular/forms"], function(exports_1, context
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, forms_1;
-    var EmailValidator, PasswordValidator, MatchValidator;
+    var EmailValidator, PasswordValidator, SlugValidator, MatchValidator, DomainValidator;
     return {
         setters:[
             function (core_1_1) {
@@ -98,6 +98,27 @@ System.register(["@angular/core", "@angular/forms"], function(exports_1, context
                 return PasswordValidator;
             }());
             exports_1("PasswordValidator", PasswordValidator);
+            SlugValidator = (function () {
+                function SlugValidator() {
+                }
+                SlugValidator.prototype.validate = function (control) {
+                    if (control.value) {
+                        if (control.value.match(/^[a-z0-9]+(?:-[a-z0-9]*)*(?:\/*)$/)) {
+                            return null;
+                        }
+                        return { "invalidSlug": true };
+                    }
+                };
+                SlugValidator = __decorate([
+                    core_1.Directive({
+                        selector: '[slug]',
+                        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: SlugValidator, multi: true }]
+                    }), 
+                    __metadata('design:paramtypes', [])
+                ], SlugValidator);
+                return SlugValidator;
+            }());
+            exports_1("SlugValidator", SlugValidator);
             MatchValidator = (function () {
                 function MatchValidator() {
                 }
@@ -127,6 +148,28 @@ System.register(["@angular/core", "@angular/forms"], function(exports_1, context
                 return MatchValidator;
             }());
             exports_1("MatchValidator", MatchValidator);
+            DomainValidator = (function () {
+                function DomainValidator() {
+                }
+                DomainValidator.prototype.validate = function (control) {
+                    if (control.value) {
+                        if (control.value.match(/^http(s?):\/\/((\w+\.)?\w+\.\w+|((2[0-5]{2}|1[0-9]{2}|[0-9]{1,2})\.){3}(2[0-5]{2}|1[0-9]{2}|[0-9]{1,2}))(\/)?$/gm))
+                            return null;
+                        else {
+                            return { "invalidURLAddress": true };
+                        }
+                    }
+                };
+                DomainValidator = __decorate([
+                    core_1.Directive({
+                        selector: '[domain]',
+                        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: DomainValidator, multi: true }]
+                    }), 
+                    __metadata('design:paramtypes', [])
+                ], DomainValidator);
+                return DomainValidator;
+            }());
+            exports_1("DomainValidator", DomainValidator);
         }
     }
 });
