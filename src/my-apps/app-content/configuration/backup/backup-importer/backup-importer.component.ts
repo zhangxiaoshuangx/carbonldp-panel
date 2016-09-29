@@ -32,16 +32,25 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 	$backups:JQuery;
 	monitorExecutionInterval:number;
 
-	formBuilder:FormBuilder;
-	importForm:ControlGroup;
-	uri:AbstractControl;
-	backup:AbstractControl;
-	backupFile:AbstractControl;
+	importFormModel: { uri:string, backup:string, backupFile:string }= {
+		uri:"",
+		backup:"",
+		backupFile:"",
+	// 	uri: [ "", Validators.compose( [ this.uriValidator ] ) ],
+	// 	backup: [ "", Validators.compose( [ this.existingBackupValidator.bind( this ) ] ) ],
+	// 	backupFile: [ "", Validators.compose( [ this.backupFileValidator.bind( this ) ] ) ],
+	}
+	// formBuilder:FormBuilder;
+	// importForm:ControlGroup;
+	// uri:AbstractControl;
+	// backup:AbstractControl;
+	// backupFile:AbstractControl;
 	backupFileBlob:Blob;
 
 	backups:PersistedDocument.Class[] = [];
 	backupsService:BackupsService;
 	jobsService:JobsService;
+
 	@Input() appContext:App.Context;
 
 	running:ImportStatus = new ImportStatus();
@@ -53,7 +62,7 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 
 	constructor( element:ElementRef, formBuilder:FormBuilder, backupsService:BackupsService, jobsService:JobsService ) {
 		this.element = element;
-		this.formBuilder = formBuilder;
+		// this.formBuilder = formBuilder;
 		this.backupsService = backupsService;
 		this.jobsService = jobsService;
 	}
@@ -62,14 +71,14 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 		this.$element = $( this.element.nativeElement );
 		this.$backups = this.$element.find( "select.backups" );
 		this.$importForm = this.$element.find( "form.importForm" );
-		this.importForm = this.formBuilder.group( {
-			uri: [ "", Validators.compose( [ this.uriValidator ] ) ],
-			backup: [ "", Validators.compose( [ this.existingBackupValidator.bind( this ) ] ) ],
-			backupFile: [ "", Validators.compose( [ this.backupFileValidator.bind( this ) ] ) ],
-		}, { validator: Validators.compose( [ this.importFormValidator.bind( this ) ] ) } );
-		this.uri = this.importForm.controls[ "uri" ];
-		this.backup = this.importForm.controls[ "backup" ];
-		this.backupFile = this.importForm.controls[ "backupFile" ];
+		// this.importForm = this.formBuilder.group( {
+		// 	uri: [ "", Validators.compose( [ this.uriValidator ] ) ],
+		// 	backup: [ "", Validators.compose( [ this.existingBackupValidator.bind( this ) ] ) ],
+		// 	backupFile: [ "", Validators.compose( [ this.backupFileValidator.bind( this ) ] ) ],
+		// }, { validator: Validators.compose( [ this.importFormValidator.bind( this ) ] ) } );
+		// this.uri = this.importForm.controls[ "uri" ];
+		// this.backup = this.importForm.controls[ "backup" ];
+		// this.backupFile = this.importForm.controls[ "backupFile" ];
 		this.getBackups();
 	}
 
@@ -80,10 +89,10 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 	}
 
 	onImportBackup():void {
-		this.running.start();
-		if( this.uri.valid )this.createBackupImport( this.uri.value );
-		if( this.backup.valid )this.createBackupImport( this.backup.value );
-		if( this.backupFile.valid )this.uploadBackup( this.backupFileBlob );
+		// this.running.start();
+		// if( this.uri.valid )this.createBackupImport( this.uri.value );
+		// if( this.backup.valid )this.createBackupImport( this.backup.value );
+		// if( this.backupFile.valid )this.uploadBackup( this.backupFileBlob );
 	}
 
 	executeImport( importJob:PersistedDocument.Class ):Promise<PersistedDocument.Class> {
@@ -139,72 +148,73 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 	onFileChange( event ):void {
 		var files:FileList = event.srcElement.files;
 		this.backupFileBlob = files[ 0 ];
-		(<Control>this.backupFile).updateValueAndValidity();
+		// (<Control>this.backupFile).updateValueAndValidity();
 	}
 
 	onInputLostFocus( event:FocusEvent ):void {
-		switch( event.srcElement.attributes.getNamedItem( "ngcontrol" ).value ) {
-			case "uri":
-				if( this.uri.valid ) {
-					this.$element.find( "[ngControl='backup']" ).prop( "disabled", true );
-					this.$element.find( "[ngControl='backupFile']" ).prop( "disabled", true );
-				} else { this.enableAllInputs() }
-				break;
-			case "backup":
-				if( this.backup.valid ) {
-					this.$element.find( "[ngControl='uri']" ).prop( "disabled", true );
-					this.$element.find( "[ngControl='backupFile']" ).prop( "disabled", true );
-				} else { this.enableAllInputs() }
-				break;
-			case "backupFile":
-				if( ! ! this.backupFileBlob ) {
-					this.$element.find( "[ngControl='uri']" ).prop( "disabled", true );
-					this.$element.find( "[ngControl='backup']" ).prop( "disabled", true );
-				} else { this.enableAllInputs() }
-				break;
-		}
+	// 	switch( event.srcElement.attributes.getNamedItem( "ngcontrol" ).value ) {
+	// 		case "uri":
+	// 			if( this.uri.valid ) {
+	// 				this.$element.find( "[ngControl='backup']" ).prop( "disabled", true );
+	// 				this.$element.find( "[ngControl='backupFile']" ).prop( "disabled", true );
+	// 			} else { this.enableAllInputs() }
+	// 			break;
+	// 		case "backup":
+	// 			if( this.backup.valid ) {
+	// 				this.$element.find( "[ngControl='uri']" ).prop( "disabled", true );
+	// 				this.$element.find( "[ngControl='backupFile']" ).prop( "disabled", true );
+	// 			} else { this.enableAllInputs() }
+	// 			break;
+	// 		case "backupFile":
+	// 			if( ! ! this.backupFileBlob ) {
+	// 				this.$element.find( "[ngControl='uri']" ).prop( "disabled", true );
+	// 				this.$element.find( "[ngControl='backup']" ).prop( "disabled", true );
+	// 			} else { this.enableAllInputs() }
+	// 			break;
+	// 	}
 	}
-
+	//
 	enableAllInputs():void {
-		this.$element.find( "[ngControl='uri']" ).prop( "disabled", false );
-		this.$element.find( "[ngControl='backup']" ).prop( "disabled", false );
-		this.$element.find( "[ngControl='backupFile']" ).prop( "disabled", false );
+	// 	this.$element.find( "[ngControl='uri']" ).prop( "disabled", false );
+	// 	this.$element.find( "[ngControl='backup']" ).prop( "disabled", false );
+	// 	this.$element.find( "[ngControl='backupFile']" ).prop( "disabled", false );
 	}
-
+	//
 	uriValidator( uri:AbstractControl ):any {
-		if( uri.value.match( /^(ftp|https?):\/\/(\w+:{0,1}\w*@)?((?![^\/]+\/(?:ftp|https?):)\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/ ) ) {
-			return null;
-		}
-		if( uri.touched && ! ! uri.value ) {
-			return { "invalidURIAddress": true };
-		}
-		return { "emptyURIAddress": true };
+	// 	if( uri.value.match( /^(ftp|https?):\/\/(\w+:{0,1}\w*@)?((?![^\/]+\/(?:ftp|https?):)\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/ ) ) {
+	// 		return null;
+	// 	}
+	// 	if( uri.touched && ! ! uri.value ) {
+	// 		return { "invalidURIAddress": true };
+	// 	}
+	// 	return { "emptyURIAddress": true };
 	}
-
+	//
 	existingBackupValidator( existingBackup:AbstractControl ):any {
-		if( ! ! existingBackup.value ) return null;
-		return { "invalidExistingBackupAddress": true };
+	// 	if( ! ! existingBackup.value ) return null;
+	// 	return { "invalidExistingBackupAddress": true };
 	}
-
+	//
 	backupFileValidator( backupFile:AbstractControl ):any {
-		if( ! ! this.backupFileBlob && this.backupFileBlob.type === "application/zip" ) return null;
-		if( ! this.backupFileBlob ) return { "emptyBackupFile": true };
-		return { "invalidBackupFileFormat": true };
+	// 	if( ! ! this.backupFileBlob && this.backupFileBlob.type === "application/zip" ) return null;
+	// 	if( ! this.backupFileBlob ) return { "emptyBackupFile": true };
+	// 	return { "invalidBackupFileFormat": true };
 	}
-
+	//
 	importFormValidator( importForm:ControlGroup ):any {
-		let validForm:boolean = false;
-		for( let control in importForm.controls ) {
-			if( ! ! importForm.controls[ control ].valid )validForm = true;
-		}
-		if( validForm ) {
-			return null;
-		}
-		return { "invalidImportForm": true };
+	// 	let validForm:boolean = false;
+	// 	for( let control in importForm.controls ) {
+	// 		if( ! ! importForm.controls[ control ].valid )validForm = true;
+	// 	}
+	// 	if( validForm ) {
+	// 		return null;
+	// 	}
+	// 	return { "invalidImportForm": true };
 	}
-
+	//
 	canDisplayImportButtonLoading():boolean {
-		return this.uploading.active ? true : this.creating.active ? true : this.executing.active ? true : false;
+		return false;//todo remove
+	// 	return this.uploading.active ? true : this.creating.active ? true : this.executing.active ? true : false;
 	}
 
 	uploadBackup( file:Blob ):void {

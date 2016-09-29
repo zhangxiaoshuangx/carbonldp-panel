@@ -45,6 +45,11 @@ System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backup
         execute: function() {
             BackupImporterComponent = (function () {
                 function BackupImporterComponent(element, formBuilder, backupsService, jobsService) {
+                    this.importFormModel = {
+                        uri: "",
+                        backup: "",
+                        backupFile: "",
+                    };
                     this.backups = [];
                     this.running = new ImportStatus();
                     this.uploading = new ImportStatus();
@@ -52,7 +57,7 @@ System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backup
                     this.executing = new ImportStatus();
                     this.errorMessages = [];
                     this.element = element;
-                    this.formBuilder = formBuilder;
+                    // this.formBuilder = formBuilder;
                     this.backupsService = backupsService;
                     this.jobsService = jobsService;
                 }
@@ -60,14 +65,14 @@ System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backup
                     this.$element = jquery_1.default(this.element.nativeElement);
                     this.$backups = this.$element.find("select.backups");
                     this.$importForm = this.$element.find("form.importForm");
-                    this.importForm = this.formBuilder.group({
-                        uri: ["", common_1.Validators.compose([this.uriValidator])],
-                        backup: ["", common_1.Validators.compose([this.existingBackupValidator.bind(this)])],
-                        backupFile: ["", common_1.Validators.compose([this.backupFileValidator.bind(this)])],
-                    }, { validator: common_1.Validators.compose([this.importFormValidator.bind(this)]) });
-                    this.uri = this.importForm.controls["uri"];
-                    this.backup = this.importForm.controls["backup"];
-                    this.backupFile = this.importForm.controls["backupFile"];
+                    // this.importForm = this.formBuilder.group( {
+                    // 	uri: [ "", Validators.compose( [ this.uriValidator ] ) ],
+                    // 	backup: [ "", Validators.compose( [ this.existingBackupValidator.bind( this ) ] ) ],
+                    // 	backupFile: [ "", Validators.compose( [ this.backupFileValidator.bind( this ) ] ) ],
+                    // }, { validator: Validators.compose( [ this.importFormValidator.bind( this ) ] ) } );
+                    // this.uri = this.importForm.controls[ "uri" ];
+                    // this.backup = this.importForm.controls[ "backup" ];
+                    // this.backupFile = this.importForm.controls[ "backupFile" ];
                     this.getBackups();
                 };
                 BackupImporterComponent.prototype.getBackups = function () {
@@ -78,13 +83,10 @@ System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backup
                     });
                 };
                 BackupImporterComponent.prototype.onImportBackup = function () {
-                    this.running.start();
-                    if (this.uri.valid)
-                        this.createBackupImport(this.uri.value);
-                    if (this.backup.valid)
-                        this.createBackupImport(this.backup.value);
-                    if (this.backupFile.valid)
-                        this.uploadBackup(this.backupFileBlob);
+                    // this.running.start();
+                    // if( this.uri.valid )this.createBackupImport( this.uri.value );
+                    // if( this.backup.valid )this.createBackupImport( this.backup.value );
+                    // if( this.backupFile.valid )this.uploadBackup( this.backupFileBlob );
                 };
                 BackupImporterComponent.prototype.executeImport = function (importJob) {
                     return this.jobsService.runJob(importJob);
@@ -141,78 +143,72 @@ System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backup
                 BackupImporterComponent.prototype.onFileChange = function (event) {
                     var files = event.srcElement.files;
                     this.backupFileBlob = files[0];
-                    this.backupFile.updateValueAndValidity();
+                    // (<Control>this.backupFile).updateValueAndValidity();
                 };
                 BackupImporterComponent.prototype.onInputLostFocus = function (event) {
-                    switch (event.srcElement.attributes.getNamedItem("ngcontrol").value) {
-                        case "uri":
-                            if (this.uri.valid) {
-                                this.$element.find("[ngControl='backup']").prop("disabled", true);
-                                this.$element.find("[ngControl='backupFile']").prop("disabled", true);
-                            }
-                            else {
-                                this.enableAllInputs();
-                            }
-                            break;
-                        case "backup":
-                            if (this.backup.valid) {
-                                this.$element.find("[ngControl='uri']").prop("disabled", true);
-                                this.$element.find("[ngControl='backupFile']").prop("disabled", true);
-                            }
-                            else {
-                                this.enableAllInputs();
-                            }
-                            break;
-                        case "backupFile":
-                            if (!!this.backupFileBlob) {
-                                this.$element.find("[ngControl='uri']").prop("disabled", true);
-                                this.$element.find("[ngControl='backup']").prop("disabled", true);
-                            }
-                            else {
-                                this.enableAllInputs();
-                            }
-                            break;
-                    }
+                    // 	switch( event.srcElement.attributes.getNamedItem( "ngcontrol" ).value ) {
+                    // 		case "uri":
+                    // 			if( this.uri.valid ) {
+                    // 				this.$element.find( "[ngControl='backup']" ).prop( "disabled", true );
+                    // 				this.$element.find( "[ngControl='backupFile']" ).prop( "disabled", true );
+                    // 			} else { this.enableAllInputs() }
+                    // 			break;
+                    // 		case "backup":
+                    // 			if( this.backup.valid ) {
+                    // 				this.$element.find( "[ngControl='uri']" ).prop( "disabled", true );
+                    // 				this.$element.find( "[ngControl='backupFile']" ).prop( "disabled", true );
+                    // 			} else { this.enableAllInputs() }
+                    // 			break;
+                    // 		case "backupFile":
+                    // 			if( ! ! this.backupFileBlob ) {
+                    // 				this.$element.find( "[ngControl='uri']" ).prop( "disabled", true );
+                    // 				this.$element.find( "[ngControl='backup']" ).prop( "disabled", true );
+                    // 			} else { this.enableAllInputs() }
+                    // 			break;
+                    // 	}
                 };
+                //
                 BackupImporterComponent.prototype.enableAllInputs = function () {
-                    this.$element.find("[ngControl='uri']").prop("disabled", false);
-                    this.$element.find("[ngControl='backup']").prop("disabled", false);
-                    this.$element.find("[ngControl='backupFile']").prop("disabled", false);
+                    // 	this.$element.find( "[ngControl='uri']" ).prop( "disabled", false );
+                    // 	this.$element.find( "[ngControl='backup']" ).prop( "disabled", false );
+                    // 	this.$element.find( "[ngControl='backupFile']" ).prop( "disabled", false );
                 };
+                //
                 BackupImporterComponent.prototype.uriValidator = function (uri) {
-                    if (uri.value.match(/^(ftp|https?):\/\/(\w+:{0,1}\w*@)?((?![^\/]+\/(?:ftp|https?):)\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/)) {
-                        return null;
-                    }
-                    if (uri.touched && !!uri.value) {
-                        return { "invalidURIAddress": true };
-                    }
-                    return { "emptyURIAddress": true };
+                    // 	if( uri.value.match( /^(ftp|https?):\/\/(\w+:{0,1}\w*@)?((?![^\/]+\/(?:ftp|https?):)\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/ ) ) {
+                    // 		return null;
+                    // 	}
+                    // 	if( uri.touched && ! ! uri.value ) {
+                    // 		return { "invalidURIAddress": true };
+                    // 	}
+                    // 	return { "emptyURIAddress": true };
                 };
+                //
                 BackupImporterComponent.prototype.existingBackupValidator = function (existingBackup) {
-                    if (!!existingBackup.value)
-                        return null;
-                    return { "invalidExistingBackupAddress": true };
+                    // 	if( ! ! existingBackup.value ) return null;
+                    // 	return { "invalidExistingBackupAddress": true };
                 };
+                //
                 BackupImporterComponent.prototype.backupFileValidator = function (backupFile) {
-                    if (!!this.backupFileBlob && this.backupFileBlob.type === "application/zip")
-                        return null;
-                    if (!this.backupFileBlob)
-                        return { "emptyBackupFile": true };
-                    return { "invalidBackupFileFormat": true };
+                    // 	if( ! ! this.backupFileBlob && this.backupFileBlob.type === "application/zip" ) return null;
+                    // 	if( ! this.backupFileBlob ) return { "emptyBackupFile": true };
+                    // 	return { "invalidBackupFileFormat": true };
                 };
+                //
                 BackupImporterComponent.prototype.importFormValidator = function (importForm) {
-                    var validForm = false;
-                    for (var control in importForm.controls) {
-                        if (!!importForm.controls[control].valid)
-                            validForm = true;
-                    }
-                    if (validForm) {
-                        return null;
-                    }
-                    return { "invalidImportForm": true };
+                    // 	let validForm:boolean = false;
+                    // 	for( let control in importForm.controls ) {
+                    // 		if( ! ! importForm.controls[ control ].valid )validForm = true;
+                    // 	}
+                    // 	if( validForm ) {
+                    // 		return null;
+                    // 	}
+                    // 	return { "invalidImportForm": true };
                 };
+                //
                 BackupImporterComponent.prototype.canDisplayImportButtonLoading = function () {
-                    return this.uploading.active ? true : this.creating.active ? true : this.executing.active ? true : false;
+                    return false; //todo remove
+                    // 	return this.uploading.active ? true : this.creating.active ? true : this.executing.active ? true : false;
                 };
                 BackupImporterComponent.prototype.uploadBackup = function (file) {
                     var _this = this;

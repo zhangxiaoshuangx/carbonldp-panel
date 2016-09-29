@@ -12,11 +12,11 @@ export declare class BackupImporterComponent implements OnInit, OnDestroy {
     $importForm: JQuery;
     $backups: JQuery;
     monitorExecutionInterval: number;
-    formBuilder: FormBuilder;
-    importForm: ControlGroup;
-    uri: AbstractControl;
-    backup: AbstractControl;
-    backupFile: AbstractControl;
+    importFormModel: {
+        uri: string;
+        backup: string;
+        backupFile: string;
+    };
     backupFileBlob: Blob;
     backups: PersistedDocument.Class[];
     backupsService: BackupsService;
