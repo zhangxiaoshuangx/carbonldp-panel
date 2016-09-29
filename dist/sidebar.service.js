@@ -21,6 +21,7 @@ System.register(["@angular/core"], function(exports_1, context_1) {
             SidebarService = (function () {
                 function SidebarService() {
                     var _this = this;
+                    this.base = "";
                     this._items = [];
                     this._toggleEmitter = new core_1.EventEmitter();
                     this._toggledEmitter = new core_1.EventEmitter();

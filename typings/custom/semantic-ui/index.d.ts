@@ -311,7 +311,8 @@ interface JQuery {
 
 	rating( arguments?:SemanticRatingArguments ):JQuery;
 
-	search( arguments?:SemanticSearchArguments ):JQuery;
+	// This signature conflicts with JSTree's
+	// search( arguments?:SemanticSearchArguments ):JQuery;
 
 	shape( arguments?:SemanticShapeArguments ):JQuery;
 

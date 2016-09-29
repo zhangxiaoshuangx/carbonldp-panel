@@ -2,6 +2,8 @@ import { Injectable, EventEmitter } from "@angular/core";
 
 @Injectable()
 export class SidebarService {
+
+	public base:string = "";
 	private _items:SidebarItem[] = [];
 	private _toggleEmitter:EventEmitter<any> = new EventEmitter<any>();
 	private _toggledEmitter:EventEmitter<boolean> = new EventEmitter<boolean>();

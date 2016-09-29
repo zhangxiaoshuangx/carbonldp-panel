@@ -1,5 +1,6 @@
 import { EventEmitter } from "@angular/core";
 export declare class SidebarService {
+    base: string;
     private _items;
     private _toggleEmitter;
     private _toggledEmitter;

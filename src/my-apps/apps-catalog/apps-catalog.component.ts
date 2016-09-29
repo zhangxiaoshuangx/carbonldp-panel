@@ -73,6 +73,7 @@ export class AppsCatalogComponent implements OnInit {
 			);
 		this.fetchApps();
 		this.initializeModal();
+		this.myAppsSidebarService.init();
 	}
 
 	activateGridView():void {
