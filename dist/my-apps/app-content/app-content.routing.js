@@ -1,7 +1,7 @@
-System.register(["@angular/router", "./app-content.resolver", "./app-content.view", "./dashboard/dashboard.view", "./sparql-client/sparql-client.view", "./edit-app/edit-app.view", "./configuration/configuration.view"], function(exports_1, context_1) {
+System.register(["@angular/router", "./app-content.resolver", "./app-content.view", "./dashboard/dashboard.view", "./sparql-client/sparql-client.view", "./edit-app/edit-app.view", "./explorer/explorer.view", "./configuration/configuration.view"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var router_1, app_content_resolver_1, app_content_view_1, dashboard_view_1, sparql_client_view_1, edit_app_view_1, configuration_view_1;
+    var router_1, app_content_resolver_1, app_content_view_1, dashboard_view_1, sparql_client_view_1, edit_app_view_1, explorer_view_1, configuration_view_1;
     var AppContentRoutes, routing;
     return {
         setters:[
@@ -22,6 +22,9 @@ System.register(["@angular/router", "./app-content.resolver", "./app-content.vie
             },
             function (edit_app_view_1_1) {
                 edit_app_view_1 = edit_app_view_1_1;
+            },
+            function (explorer_view_1_1) {
+                explorer_view_1 = explorer_view_1_1;
             },
             function (configuration_view_1_1) {
                 configuration_view_1 = configuration_view_1_1;
@@ -60,14 +63,14 @@ System.register(["@angular/router", "./app-content.resolver", "./app-content.vie
                                 displayName: "SPARQL Client",
                             },
                         },
-                        // {
-                        // 	path: "explore",
-                        // 	component: ExplorerView,
-                        // 	data: {
-                        // 		alias: "explore",
-                        // 		displayName: "Explorer",
-                        // 	},
-                        // },
+                        {
+                            path: "explore",
+                            component: explorer_view_1.ExplorerView,
+                            data: {
+                                alias: "explore",
+                                displayName: "Explorer",
+                            },
+                        },
                         {
                             path: "configure",
                             component: configuration_view_1.ConfigurationView,

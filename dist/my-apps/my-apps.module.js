@@ -83,7 +83,6 @@ System.register(["@angular/core", "@angular/platform-browser", '@angular/common'
                         imports: [
                             platform_browser_1.BrowserModule,
                             common_1.CommonModule,
-                            //DeprecatedFormsModule,
                             forms_1.FormsModule,
                             my_apps_routing_1.routing,
                             panel_module_1.PanelModule,

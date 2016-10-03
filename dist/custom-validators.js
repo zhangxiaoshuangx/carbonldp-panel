@@ -39,7 +39,7 @@ System.register(["@angular/core", "@angular/forms"], function(exports_1, context
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, forms_1;
-    var EmailValidator, PasswordValidator, SlugValidator, MatchValidator, DomainValidator;
+    var EmailValidator, PasswordValidator, SlugValidator, MatchValidator, DomainValidator, URIValidator, ExistingBackupValidator, BackupFileValidator, OneControlValidValidator;
     return {
         setters:[
             function (core_1_1) {
@@ -170,6 +170,101 @@ System.register(["@angular/core", "@angular/forms"], function(exports_1, context
                 return DomainValidator;
             }());
             exports_1("DomainValidator", DomainValidator);
+            URIValidator = (function () {
+                function URIValidator() {
+                }
+                URIValidator.prototype.validate = function (control) {
+                    if (control.value) {
+                        if (control.value.match(/^(ftp|https?):\/\/(\w+:{0,1}\w*@)?((?![^\/]+\/(?:ftp|https?):)\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/)) {
+                            return null;
+                        }
+                        else {
+                            //if( control.touched && ! ! control.value ) {
+                            return { "invalidURIAddress": true };
+                        }
+                    }
+                    return { "emptyURIAddress": true };
+                };
+                URIValidator = __decorate([
+                    core_1.Directive({
+                        selector: '[uri]',
+                        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: URIValidator, multi: true }]
+                    }), 
+                    __metadata('design:paramtypes', [])
+                ], URIValidator);
+                return URIValidator;
+            }());
+            exports_1("URIValidator", URIValidator);
+            ExistingBackupValidator = (function () {
+                function ExistingBackupValidator() {
+                }
+                ExistingBackupValidator.prototype.validate = function (control) {
+                    if (control.value)
+                        return null;
+                    return { "invalidExistingBackupAddress": true };
+                };
+                ExistingBackupValidator = __decorate([
+                    core_1.Directive({
+                        selector: '[existing-backup]',
+                        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: ExistingBackupValidator, multi: true }]
+                    }), 
+                    __metadata('design:paramtypes', [])
+                ], ExistingBackupValidator);
+                return ExistingBackupValidator;
+            }());
+            exports_1("ExistingBackupValidator", ExistingBackupValidator);
+            BackupFileValidator = (function () {
+                function BackupFileValidator() {
+                }
+                BackupFileValidator.prototype.ngOnChanges = function (changes) {
+                    this.backupFileBlob = changes["backupFileBlob"].currentValue;
+                    this.control.control.updateValueAndValidity(false, true);
+                };
+                BackupFileValidator.prototype.validate = function (control) {
+                    if (!!this.backupFileBlob && this.backupFileBlob.type === "application/zip")
+                        return null;
+                    if (!this.backupFileBlob)
+                        return { "emptyBackupFile": true };
+                    return { "invalidBackupFileFormat": true };
+                };
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Object)
+                ], BackupFileValidator.prototype, "backupFileBlob", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Object)
+                ], BackupFileValidator.prototype, "control", void 0);
+                BackupFileValidator = __decorate([
+                    core_1.Directive({
+                        selector: '[backup-file]',
+                        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: BackupFileValidator, multi: true }]
+                    }), 
+                    __metadata('design:paramtypes', [])
+                ], BackupFileValidator);
+                return BackupFileValidator;
+            }());
+            exports_1("BackupFileValidator", BackupFileValidator);
+            OneControlValidValidator = (function () {
+                function OneControlValidValidator() {
+                }
+                OneControlValidValidator.prototype.validate = function (formGroup) {
+                    for (var control in formGroup.controls) {
+                        if (!!formGroup.controls[control].valid)
+                            return null;
+                    }
+                    return { "invalidForm": true };
+                };
+                OneControlValidValidator = __decorate([
+                    core_1.Directive({
+                        selector: '[one-control-valid]',
+                        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: OneControlValidValidator, multi: true }]
+                    }), 
+                    __metadata('design:paramtypes', [])
+                ], OneControlValidValidator);
+                return OneControlValidValidator;
+            }());
+            exports_1("OneControlValidValidator", OneControlValidValidator);
         }
     }
 });

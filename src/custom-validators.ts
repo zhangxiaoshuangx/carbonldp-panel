@@ -28,7 +28,7 @@
 // };
 
 import { Directive, Input, OnChanges, SimpleChanges } from "@angular/core";
-import { AbstractControl, Validator, NG_VALIDATORS } from "@angular/forms";
+import { AbstractControl, Validator, NG_VALIDATORS, FormGroup } from "@angular/forms";
 
 @Directive( {
 	selector: '[email]',
@@ -121,4 +121,67 @@ export class DomainValidator implements Validator {
 	}
 }
 
+@Directive( {
+	selector: '[uri]',
+	providers: [ { provide: NG_VALIDATORS, useExisting: URIValidator, multi: true } ]
+} )
+export class URIValidator implements Validator {
 
+	validate( control:AbstractControl ):{[key:string]:any;} {
+		if( control.value ) {
+			if( control.value.match( /^(ftp|https?):\/\/(\w+:{0,1}\w*@)?((?![^\/]+\/(?:ftp|https?):)\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/ ) ) {
+				return null;
+			}
+			else {
+				//if( control.touched && ! ! control.value ) {
+				return { "invalidURIAddress": true };
+			}
+		}
+		return { "emptyURIAddress": true };
+	}
+}
+
+@Directive( {
+	selector: '[existing-backup]',
+	providers: [ { provide: NG_VALIDATORS, useExisting: ExistingBackupValidator, multi: true } ]
+} )
+export class ExistingBackupValidator implements Validator {
+
+	validate( control:AbstractControl ):{[key:string]:any;} {
+		if( control.value ) return null;
+		return { "invalidExistingBackupAddress": true };
+	}
+}
+@Directive( {
+	selector: '[backup-file]',
+	providers: [ { provide: NG_VALIDATORS, useExisting: BackupFileValidator, multi: true } ]
+} )
+export class BackupFileValidator implements Validator, OnChanges {
+	@Input() backupFileBlob;
+	@Input() control;
+
+	ngOnChanges( changes:SimpleChanges ) {
+		this.backupFileBlob = changes[ "backupFileBlob" ].currentValue;
+		this.control.control.updateValueAndValidity( false, true );
+	}
+
+	validate( control:AbstractControl ):any {
+		if( ! ! this.backupFileBlob && this.backupFileBlob.type === "application/zip" ) return null;
+		if( ! this.backupFileBlob ) return { "emptyBackupFile": true };
+		return { "invalidBackupFileFormat": true };
+	}
+}
+
+@Directive( {
+	selector: '[one-control-valid]',
+	providers: [ { provide: NG_VALIDATORS, useExisting: OneControlValidValidator, multi: true } ]
+} )
+export class OneControlValidValidator implements Validator {
+
+	validate( formGroup:FormGroup ):{[key:string]:any;} {
+		for ( let control in formGroup.controls ) {
+			if( ! ! formGroup.controls[ control ].valid ) return null;
+		}
+		return { "invalidForm": true };
+	}
+}

@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-import { CommonModule, DeprecatedFormsModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from "@angular/forms";
 
 //Providers
@@ -32,7 +32,6 @@ import { AppContextService } from "./app-context.service";
 	imports: [
 		BrowserModule,
 		CommonModule,
-		//DeprecatedFormsModule,
 		FormsModule,
 		routing,
 		PanelModule,
