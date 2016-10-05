@@ -52,7 +52,7 @@ import { BackupsService } from "./configuration/backup/backups.service";
 		SPARQLClientView,
 		EditAppView,
 		EditAppComponent,
-		// ExplorerView,
+		ExplorerView,
 		BackupExporterComponent,
 		BackupImporterComponent,
 		BackupsListComponent,

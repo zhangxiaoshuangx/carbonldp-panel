@@ -21,7 +21,8 @@
 	</div>
 	<div class="edit-mode" [hidden]="mode===modes.READ">
 		<div class="ui error form">
-			<input type="text" [ngFormControl]="idInput" [hidden]="true">
+			<!--<input type="text" [ngFormControl]="idInput" [hidden]="true">-->
+			<input type="text" name="idInput" [(ngModel)]="id" #idInput="ngModel" required [documentURI]="documentURI" id-pointer-validator [hidden]="true">
 			<select class="ui fluid search dropdown fragments" [hidden]="true">
 				<option value="">
 					Search or enter a fragment/bNode
@@ -50,8 +51,10 @@
 				</optgroup>
 			</select>
 			<div class="ui error message wide" *ngIf="!idInput.valid">
-				<p *ngIf="idInput.hasError('required')">Select a type or enter your own type.</p>
-				<p *ngIf="idInput.hasError('invalidId')">Enter a valid @id value.</p>
+				<p *ngIf="idInput.control.hasError('required')">Select a type or enter your own type.</p>
+				<p *ngIf="idInput.control.hasError('invalidId')">Enter a valid @id value.</p>
+				<p *ngIf="idInput.control.hasError('invalidParent')">Enter a valid name for a Named Fragment. A name must contains the parent URI ({{documentURI}}<- Your fragment name ->).</p>
+				<p *ngIf="idInput.control.hasError('duplicatedHashtag')">Use only one hashtag (#) symbol.</p>
 			</div>
 		</div>
 	</div>

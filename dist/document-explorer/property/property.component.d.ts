@@ -1,5 +1,4 @@
 import { ElementRef, EventEmitter, AfterViewInit, OnInit } from "@angular/core";
-import { AbstractControl } from "@angular/common/src/forms-deprecated";
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 import { LiteralRow } from "./../literals/literal.component";
 import { PointerRow } from "./../pointers/pointer.component";
@@ -22,8 +21,8 @@ export declare class PropertyComponent implements AfterViewInit, OnInit {
     addNewPointer: EventEmitter<boolean>;
     commonToken: string[];
     modes: Modes;
-    nameInput: AbstractControl;
-    idInput: AbstractControl;
+    nameInputControl: any;
+    idInputControl: any;
     mode: string;
     documentURI: string;
     bNodes: RDFNode.Class[];
@@ -82,8 +81,6 @@ export declare class PropertyComponent implements AfterViewInit, OnInit {
     private refreshDocument();
     private escape(uri);
     private unescape(uri);
-    private nameValidator(control);
-    private idValidator(control);
 }
 export interface PropertyRow {
     copy?: any;

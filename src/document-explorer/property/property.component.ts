@@ -1,5 +1,5 @@
-import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit, OnInit } from "@angular/core";
-import { AbstractControl, Control, Validators } from "@angular/common/src/forms-deprecated";
+import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit, OnInit, ViewChild } from "@angular/core";
+import { AbstractControl, FormControl, Validators } from "@angular/forms";
 
 import * as SDKRDFNode from "carbonldp/RDF/RDFNode";
 import * as SDKLiteral from "carbonldp/RDF/Literal";
@@ -44,8 +44,10 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	addNewPointer:EventEmitter<boolean> = new EventEmitter<boolean>();
 	commonToken:string[] = [ "@id", "@type", "@value" ];
 	modes:Modes = Modes;
-	nameInput:AbstractControl = new Control( this.name, Validators.compose( [ Validators.required, this.nameValidator.bind( this ) ] ) );
-	idInput:AbstractControl = new Control( this.value, Validators.compose( [ Validators.required, this.idValidator.bind( this ) ] ) );
+	// nameInput:AbstractControl = new Control( this.name, Validators.compose( [ Validators.required, this.nameValidator.bind( this ) ] ) );
+	// idInput:AbstractControl = new Control( this.value, Validators.compose( [ Validators.required, this.idValidator.bind( this ) ] ) );
+	@ViewChild( "nameInput" ) nameInputControl;
+	@ViewChild( "idInput" ) idInputControl;
 
 	@Input() mode:string = Modes.READ;
 	@Input() documentURI:string = "";
@@ -62,13 +64,15 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		this.tempProperty.id = prop[ this.copyOrAdded ].id;
 		this.name = prop[ this.copyOrAdded ].name;
 		this.tempProperty.name = prop[ this.copyOrAdded ].name;
-		(<Control>this.nameInput).updateValue( this.name );
+		// (<Control>this.nameInput).updateValue( this.name );
+		// if( this.nameInputControl )this.nameInput.control.updateValueAndValidity( this.name );
 		if( Utils.isArray( prop[ this.copyOrAdded ].value ) ) {
 			this.value = [];
 			prop[ this.copyOrAdded ].value.forEach( ( literalOrRDFNode )=> { (<Array<any>>this.value).push( Object.assign( literalOrRDFNode ) ) } )
 		} else {
 			this.value = prop[ this.copyOrAdded ].value;
-			(<Control>this.idInput).updateValue( this.value );
+			// if( this.idInputControl )this.idInputControl.control.updateValueAndValidity( this.value );
+			// (<FormControl>this.idInput).setValue( this.value );
 		}
 	}
 
@@ -104,17 +108,22 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		this.initializeAccordions();
 		this.initializePropertyButtons();
 		this.initializeDeletionDimmer();
+		// if( this.idInputControl )this.idInputControl.control.updateValueAndValidity(this.value);
+		// if( this.nameInputControl )this.nameInputControl.control.updateValueAndValidity(this.name);
+		// console.log(this.nameInput, this.idInput);
 	}
 
 	getDisplayName( uri:string ):string {
 		if( this.commonToken.indexOf( uri ) > - 1 )return uri;
 		if( URI.Util.hasFragment( uri ) )return this.unescape( this.getFragment( uri ) );
 		return this.unescape( URI.Util.getSlug( uri ) );
+		// return ""; //todo remove this line
 	}
 
 	getParentURI( uri:string ):string {
 		let slug:string = this.getSlug( uri );
 		return uri.substr( 0, uri.indexOf( slug ) );
+		// return ""; //todo remove this line
 	}
 
 	getSlug( uri:string ) {
@@ -123,15 +132,18 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 
 	getFragment( uri:string ):string {
 		return URI.Util.getFragment( uri );
+		// return ""; //todo remove this line
 	}
 
 	isArray( property:any ):boolean {
 		return Utils.isArray( property );
+		// return false; //todo remove this line
 	}
 
 	isUrl( uri:string ):boolean {
 		let r = /^(ftp|http|https):\/\/[^ "]+$/;
 		return r.test( uri );
+		// return false; //todo remove this line
 	}
 
 	goToBNode( id:string ):void {
@@ -143,7 +155,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	getTypeIcon( type:string ):string {
-		switch( this.getDisplayName( type ) ) {
+		switch ( this.getDisplayName( type ) ) {
 			case "RDFSource":
 				return "file outline";
 			case "Container":
@@ -153,6 +165,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 			default:
 				return "file excel outline";
 		}
+		// return ""; //todo remove this line
 	}
 
 	initializeAccordions():void {
@@ -171,14 +184,18 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 
 	onEditName():void {
 		this.mode = Modes.EDIT;
-		(<Control>this.nameInput).updateValue( this.unescape( this.name ) );
+		this.name=this.unescape((this.name));
+		//if( this.nameInput )this.nameInput.control.updateValueAndValidity(this.unescape( this.name ) );
+		// (<Control>this.nameInput).updateValue( this.unescape( this.name ) );
 	}
 
 	onEditId():void {
 		this.mode = Modes.EDIT;
 		this.existingFragments = [];
 		this.namedFragments.forEach( ( nameFragment:NamedFragmentRow ) => { this.existingFragments.push( nameFragment.name ); } );
-		( <Control>this.idInput ).updateValue( this.unescape( <string>this.value ) );
+		this.value=this.unescape(<string>this.value);
+		// this.idInput.control.updateValueAndValidity(this.unescape( <string>this.value ) );
+		// ( <Control>this.idInput ).updateValue( this.unescape( <string>this.value ) );
 	}
 
 	cancelDeletion():void {
@@ -186,16 +203,19 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	cancelEdition():void {
-		if( this.nameInput.valid ) {
+		if( this.nameInputControl.valid ) {
+			// if( this.nameInput.valid ) {
 			this.mode = Modes.READ;
-			(<Control>this.nameInput).updateValue( this.name );
+			// this.nameInput.control.updateValueAndValidity( this.name );
+			// 	(<Control>this.nameInput).updateValue( this.name );
 		}
 	}
 
 	cancelIdEdition():void {
-		if( this.idInput.valid ) {
+		if( this.idInputControl.valid ) {
 			this.mode = Modes.READ;
-			(<Control>this.idInput).updateValue( this.value );
+			// this.idInput.control.updateValueAndValidity( this.value );
+			// 	(<Control>this.idInput).updateValue( this.value );
 		}
 	}
 
@@ -213,12 +233,14 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	save():void {
-		this.checkForChangesOnName( this.sanitize( this.nameInput.value ) );
+		// this.checkForChangesOnName( this.sanitize( this.nameInput.value ) );
+		this.checkForChangesOnName( this.sanitize( this.name ) );
 		this.mode = Modes.READ;
 	}
 
 	saveId():void {
-		this.checkForChangesOnId( this.sanitize( this.idInput.value ) );
+		// this.checkForChangesOnId( this.sanitize( this.idInput.value ) );
+		this.checkForChangesOnId( this.sanitize( <string>this.value ) );//check changes on idInput
 		this.mode = Modes.READ;
 	}
 
@@ -228,6 +250,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		let parts:string[] = value.split( slug );
 		if( parts.length > 0 ) sanitized = parts[ 0 ] + this.escape( slug );
 		return sanitized;
+		// return ""; //todo remove this line
 	}
 
 	fillLiteralsAndPointers():void {
@@ -361,34 +384,36 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 
 	private escape( uri:string ):string {
 		return encodeURI( uri );
+		// return ""; //todo remove this line
 	}
 
 	private unescape( uri:string ):string {
 		return decodeURI( uri );
+		// return ""; //todo remove this line
 	}
 
-	private nameValidator( control:AbstractControl ):any {
-		if( ! ! control ) {
-			if( typeof control.value === "undefined" || control.value === null || ! control.value ) return null;
-			if( this.existingProperties.indexOf( control.value ) !== - 1 && (this.property.added ? this.id !== control.value : this.name !== control.value) ) return { "duplicatedPropertyName": true };
-			let url = new RegExp( "(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g" );
-			if( ! url.test( control.value ) ) return { "invalidName": true };
-			if( control.value.split( "#" ).length > 2 ) return { "duplicatedHashtag": true };
-		}
-		return null;
-	}
-
-	private idValidator( control:AbstractControl ):any {
-		if( ! ! control ) {
-			if( typeof control.value === "undefined" || control.value === null || ! control.value ) return null;
-			if( typeof control.value === "string" && ! control.value.startsWith( this.documentURI ) ) return { "invalidParent": true };
-			if( this.existingFragments.indexOf( control.value ) !== - 1 && (this.property.added ? this.id !== control.value : this.value !== control.value) ) return { "duplicatedNamedFragmentName": true };
-			let url = new RegExp( "(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g" );
-			if( ! url.test( control.value ) ) return { "invalidValue": true };
-			if( control.value.split( "#" ).length > 2 ) return { "duplicatedHashtag": true };
-		}
-		return null;
-	}
+	// private nameValidator( control:AbstractControl ):any {
+	// 	if( ! ! control ) {
+	// 		if( typeof control.value === "undefined" || control.value === null || ! control.value ) return null;
+	// 		if( this.existingProperties.indexOf( control.value ) !== - 1 && (this.property.added ? this.id !== control.value : this.name !== control.value) ) return { "duplicatedPropertyName": true };
+	// 		let url = new RegExp( "(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g" );
+	// 		if( ! url.test( control.value ) ) return { "invalidName": true };
+	// 		if( control.value.split( "#" ).length > 2 ) return { "duplicatedHashtag": true };
+	// 	}
+	// 	return null;
+	// }
+	//
+	// private idValidator( control:AbstractControl ):any {
+	// 	if( ! ! control ) {
+	// 		if( typeof control.value === "undefined" || control.value === null || ! control.value ) return null;
+	// 		if( typeof control.value === "string" && ! control.value.startsWith( this.documentURI ) ) return { "invalidParent": true };
+	// 		if( this.existingFragments.indexOf( control.value ) !== - 1 && (this.property.added ? this.id !== control.value : this.value !== control.value) ) return { "duplicatedNamedFragmentName": true };
+	// 		let url = new RegExp( "(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g" );
+	// 		if( ! url.test( control.value ) ) return { "invalidValue": true };
+	// 		if( control.value.split( "#" ).length > 2 ) return { "duplicatedHashtag": true };
+	// 	}
+	// 	return null;
+	// }
 }
 
 export interface PropertyRow {

@@ -1,4 +1,4 @@
-System.register(["@angular/core", '@angular/common', "./literals/literal.component", "./literals/literals.component", "./pointers/pointer.component", "./pointers/pointers.component", "./property/property.component", "./document-resource/document-resource.component", "./blank-nodes/blank-node.component", "./blank-nodes/blank-nodes.component", "./named-fragments/named-fragment.component", "./named-fragments/named-fragments.component", "./list-viewer/list-viewer.component", "./document-viewer/document-viewer.component", "./document-tree-view/document-tree-view.component", "./document-explorer.component", "./../panel.module", "./documents-resolver.service"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/common", "@angular/forms", "./literals/literal.component", "./literals/literals.component", "./pointers/pointer.component", "./pointers/pointers.component", "./property/property.component", "./document-resource/document-resource.component", "./blank-nodes/blank-node.component", "./blank-nodes/blank-nodes.component", "./named-fragments/named-fragment.component", "./named-fragments/named-fragments.component", "./list-viewer/list-viewer.component", "./document-viewer/document-viewer.component", "./document-tree-view/document-tree-view.component", "./document-explorer.component", "./../panel.module", "./../directives.module", "./documents-resolver.service"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", '@angular/common', "./literals/literal.compone
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, literal_component_1, literals_component_1, pointer_component_1, pointers_component_1, property_component_1, document_resource_component_1, blank_node_component_1, blank_nodes_component_1, named_fragment_component_1, named_fragments_component_1, list_viewer_component_1, document_viewer_component_1, document_tree_view_component_1, document_explorer_component_1, panel_module_1, documents_resolver_service_1;
+    var core_1, common_1, forms_1, literal_component_1, literals_component_1, pointer_component_1, pointers_component_1, property_component_1, document_resource_component_1, blank_node_component_1, blank_nodes_component_1, named_fragment_component_1, named_fragments_component_1, list_viewer_component_1, document_viewer_component_1, document_tree_view_component_1, document_explorer_component_1, panel_module_1, directives_module_1, documents_resolver_service_1;
     var DocumentExplorerModule;
     return {
         setters:[
@@ -19,6 +19,9 @@ System.register(["@angular/core", '@angular/common', "./literals/literal.compone
             },
             function (common_1_1) {
                 common_1 = common_1_1;
+            },
+            function (forms_1_1) {
+                forms_1 = forms_1_1;
             },
             function (literal_component_1_1) {
                 literal_component_1 = literal_component_1_1;
@@ -65,6 +68,9 @@ System.register(["@angular/core", '@angular/common', "./literals/literal.compone
             function (panel_module_1_1) {
                 panel_module_1 = panel_module_1_1;
             },
+            function (directives_module_1_1) {
+                directives_module_1 = directives_module_1_1;
+            },
             function (documents_resolver_service_1_1) {
                 documents_resolver_service_1 = documents_resolver_service_1_1;
             }],
@@ -82,8 +88,9 @@ System.register(["@angular/core", '@angular/common', "./literals/literal.compone
                     core_1.NgModule({
                         imports: [
                             common_1.CommonModule,
-                            common_1.DeprecatedFormsModule,
-                            panel_module_1.PanelModule
+                            forms_1.FormsModule,
+                            panel_module_1.PanelModule,
+                            directives_module_1.DirectivesModule
                         ],
                         declarations: [
                             literal_component_1.LiteralComponent,

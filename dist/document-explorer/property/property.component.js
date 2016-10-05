@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Literal", "carbonldp/RDF/URI", "carbonldp/Utils", "jquery", "semantic-ui/semantic", "./property.component.html!", "./property.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Literal", "carbonldp/RDF/URI", "carbonldp/Utils", "jquery", "semantic-ui/semantic", "./property.component.html!", "./property.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,15 +10,12 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, forms_deprecated_1, SDKRDFNode, SDKLiteral, URI, Utils, jquery_1, property_component_html_1, property_component_css_text_1;
+    var core_1, SDKRDFNode, SDKLiteral, URI, Utils, jquery_1, property_component_html_1, property_component_css_text_1;
     var PropertyComponent, Modes;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (forms_deprecated_1_1) {
-                forms_deprecated_1 = forms_deprecated_1_1;
             },
             function (SDKRDFNode_1) {
                 SDKRDFNode = SDKRDFNode_1;
@@ -55,8 +52,6 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                     this.addNewPointer = new core_1.EventEmitter();
                     this.commonToken = ["@id", "@type", "@value"];
                     this.modes = Modes;
-                    this.nameInput = new forms_deprecated_1.Control(this.name, forms_deprecated_1.Validators.compose([forms_deprecated_1.Validators.required, this.nameValidator.bind(this)]));
-                    this.idInput = new forms_deprecated_1.Control(this.value, forms_deprecated_1.Validators.compose([forms_deprecated_1.Validators.required, this.idValidator.bind(this)]));
                     this.mode = Modes.READ;
                     this.documentURI = "";
                     this.bNodes = [];
@@ -88,14 +83,14 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                         this.tempProperty.id = prop[this.copyOrAdded].id;
                         this.name = prop[this.copyOrAdded].name;
                         this.tempProperty.name = prop[this.copyOrAdded].name;
-                        this.nameInput.updateValue(this.name);
+                        // (<Control>this.nameInput).updateValue( this.name );
+                        // if( this.nameInputControl )this.nameInput.control.updateValueAndValidity( this.name );
                         if (Utils.isArray(prop[this.copyOrAdded].value)) {
                             this.value = [];
                             prop[this.copyOrAdded].value.forEach(function (literalOrRDFNode) { _this.value.push(Object.assign(literalOrRDFNode)); });
                         }
                         else {
                             this.value = prop[this.copyOrAdded].value;
-                            this.idInput.updateValue(this.value);
                         }
                     },
                     enumerable: true,
@@ -115,6 +110,9 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                     this.initializeAccordions();
                     this.initializePropertyButtons();
                     this.initializeDeletionDimmer();
+                    // if( this.idInputControl )this.idInputControl.control.updateValueAndValidity(this.value);
+                    // if( this.nameInputControl )this.nameInputControl.control.updateValueAndValidity(this.name);
+                    // console.log(this.nameInput, this.idInput);
                 };
                 PropertyComponent.prototype.getDisplayName = function (uri) {
                     if (this.commonToken.indexOf(uri) > -1)
@@ -122,23 +120,28 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                     if (URI.Util.hasFragment(uri))
                         return this.unescape(this.getFragment(uri));
                     return this.unescape(URI.Util.getSlug(uri));
+                    // return ""; //todo remove this line
                 };
                 PropertyComponent.prototype.getParentURI = function (uri) {
                     var slug = this.getSlug(uri);
                     return uri.substr(0, uri.indexOf(slug));
+                    // return ""; //todo remove this line
                 };
                 PropertyComponent.prototype.getSlug = function (uri) {
                     return URI.Util.getSlug(uri);
                 };
                 PropertyComponent.prototype.getFragment = function (uri) {
                     return URI.Util.getFragment(uri);
+                    // return ""; //todo remove this line
                 };
                 PropertyComponent.prototype.isArray = function (property) {
                     return Utils.isArray(property);
+                    // return false; //todo remove this line
                 };
                 PropertyComponent.prototype.isUrl = function (uri) {
                     var r = /^(ftp|http|https):\/\/[^ "]+$/;
                     return r.test(uri);
+                    // return false; //todo remove this line
                 };
                 PropertyComponent.prototype.goToBNode = function (id) {
                     this.onGoToBlankNode.emit(id);
@@ -157,6 +160,7 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                         default:
                             return "file excel outline";
                     }
+                    // return ""; //todo remove this line
                 };
                 PropertyComponent.prototype.initializeAccordions = function () {
                     this.$element.find(".ui.accordion").accordion();
@@ -171,28 +175,31 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                 };
                 PropertyComponent.prototype.onEditName = function () {
                     this.mode = Modes.EDIT;
-                    this.nameInput.updateValue(this.unescape(this.name));
+                    this.name = this.unescape((this.name));
+                    //if( this.nameInput )this.nameInput.control.updateValueAndValidity(this.unescape( this.name ) );
+                    // (<Control>this.nameInput).updateValue( this.unescape( this.name ) );
                 };
                 PropertyComponent.prototype.onEditId = function () {
                     var _this = this;
                     this.mode = Modes.EDIT;
                     this.existingFragments = [];
                     this.namedFragments.forEach(function (nameFragment) { _this.existingFragments.push(nameFragment.name); });
-                    this.idInput.updateValue(this.unescape(this.value));
+                    this.value = this.unescape(this.value);
+                    // this.idInput.control.updateValueAndValidity(this.unescape( <string>this.value ) );
+                    // ( <Control>this.idInput ).updateValue( this.unescape( <string>this.value ) );
                 };
                 PropertyComponent.prototype.cancelDeletion = function () {
                     this.$element.find(".confirm-deletion.dimmer").dimmer("hide");
                 };
                 PropertyComponent.prototype.cancelEdition = function () {
-                    if (this.nameInput.valid) {
+                    if (this.nameInputControl.valid) {
+                        // if( this.nameInput.valid ) {
                         this.mode = Modes.READ;
-                        this.nameInput.updateValue(this.name);
                     }
                 };
                 PropertyComponent.prototype.cancelIdEdition = function () {
-                    if (this.idInput.valid) {
+                    if (this.idInputControl.valid) {
                         this.mode = Modes.READ;
-                        this.idInput.updateValue(this.value);
                     }
                 };
                 PropertyComponent.prototype.askToConfirmDeletion = function () {
@@ -208,11 +215,13 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                     }
                 };
                 PropertyComponent.prototype.save = function () {
-                    this.checkForChangesOnName(this.sanitize(this.nameInput.value));
+                    // this.checkForChangesOnName( this.sanitize( this.nameInput.value ) );
+                    this.checkForChangesOnName(this.sanitize(this.name));
                     this.mode = Modes.READ;
                 };
                 PropertyComponent.prototype.saveId = function () {
-                    this.checkForChangesOnId(this.sanitize(this.idInput.value));
+                    // this.checkForChangesOnId( this.sanitize( this.idInput.value ) );
+                    this.checkForChangesOnId(this.sanitize(this.value)); //check changes on idInput
                     this.mode = Modes.READ;
                 };
                 PropertyComponent.prototype.sanitize = function (value) {
@@ -222,6 +231,7 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                     if (parts.length > 0)
                         sanitized = parts[0] + this.escape(slug);
                     return sanitized;
+                    // return ""; //todo remove this line
                 };
                 PropertyComponent.prototype.fillLiteralsAndPointers = function () {
                     var _this = this;
@@ -359,40 +369,20 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                 };
                 PropertyComponent.prototype.escape = function (uri) {
                     return encodeURI(uri);
+                    // return ""; //todo remove this line
                 };
                 PropertyComponent.prototype.unescape = function (uri) {
                     return decodeURI(uri);
+                    // return ""; //todo remove this line
                 };
-                PropertyComponent.prototype.nameValidator = function (control) {
-                    if (!!control) {
-                        if (typeof control.value === "undefined" || control.value === null || !control.value)
-                            return null;
-                        if (this.existingProperties.indexOf(control.value) !== -1 && (this.property.added ? this.id !== control.value : this.name !== control.value))
-                            return { "duplicatedPropertyName": true };
-                        var url = new RegExp("(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g");
-                        if (!url.test(control.value))
-                            return { "invalidName": true };
-                        if (control.value.split("#").length > 2)
-                            return { "duplicatedHashtag": true };
-                    }
-                    return null;
-                };
-                PropertyComponent.prototype.idValidator = function (control) {
-                    if (!!control) {
-                        if (typeof control.value === "undefined" || control.value === null || !control.value)
-                            return null;
-                        if (typeof control.value === "string" && !control.value.startsWith(this.documentURI))
-                            return { "invalidParent": true };
-                        if (this.existingFragments.indexOf(control.value) !== -1 && (this.property.added ? this.id !== control.value : this.value !== control.value))
-                            return { "duplicatedNamedFragmentName": true };
-                        var url = new RegExp("(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g");
-                        if (!url.test(control.value))
-                            return { "invalidValue": true };
-                        if (control.value.split("#").length > 2)
-                            return { "duplicatedHashtag": true };
-                    }
-                    return null;
-                };
+                __decorate([
+                    core_1.ViewChild("nameInput"), 
+                    __metadata('design:type', Object)
+                ], PropertyComponent.prototype, "nameInputControl", void 0);
+                __decorate([
+                    core_1.ViewChild("idInput"), 
+                    __metadata('design:type', Object)
+                ], PropertyComponent.prototype, "idInputControl", void 0);
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', String)

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Output, SimpleChange, EventEmitter, OnChanges } from "@angular/core";
+import { Component, ElementRef, Input, Output, SimpleChange, EventEmitter, OnChanges, ViewChild } from "@angular/core";
 import { Control, AbstractControl, Validators } from '@angular/common';
 
 import * as URI from "carbonldp/RDF/URI";
@@ -79,11 +79,12 @@ export class PointerComponent implements OnChanges {
 
 	set id( id:string ) {
 		this._id = id;
-		if( ! ! this.idInput && this.idInput.value !== this.id )(<Control>this.idInput).updateValue( this.id );
+		// if( ! ! this.idInput && this.idInput.value !== this.id )(<Control>this.idInput).updateValue( this.id );
+		// if( ! ! this.idInput && this.idInput.value !== this.id )this.idInput.control.updateValueAndValidity( this.id );
 		this.checkForChangesOnPointers();
 	}
 
-	idInput:AbstractControl = new Control( this.id, Validators.compose( [ Validators.required, this.idValidator.bind( this ) ] ) );
+	// idInput:AbstractControl = new Control( this.id, Validators.compose( [ Validators.required, this.idValidator.bind( this ) ] ) );
 
 
 	constructor( element:ElementRef ) {
@@ -152,17 +153,17 @@ export class PointerComponent implements OnChanges {
 	}
 
 
-	private idValidator( control:AbstractControl ):any {
-		if( ! ! control && (typeof control.value === "undefined" || control.value.trim().length === 0) ) {
-			return { "emptyControl": true };
-		}
-		if( ! ! control ) {
-			if( ! control.value.match( /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g ) ) {
-				if( ! URI.Util.isBNodeID( control.value ) ) return { "invalidId": true };
-			}
-		}
-		return null;
-	}
+	// private idValidator( control:AbstractControl ):any {
+	// 	if( ! ! control && (typeof control.value === "undefined" || control.value.trim().length === 0) ) {
+	// 		return { "emptyControl": true };
+	// 	}
+	// 	if( ! ! control ) {
+	// 		if( ! control.value.match( /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g ) ) {
+	// 			if( ! URI.Util.isBNodeID( control.value ) ) return { "invalidId": true };
+	// 		}
+	// 	}
+	// 	return null;
+	// }
 
 	private initializePointersDropdown():void {
 		this.pointersDropdown = $( this.element.nativeElement.querySelector( ".fragments.search.dropdown" ) );
@@ -177,7 +178,8 @@ export class PointerComponent implements OnChanges {
 
 	changeId( id:string, text?:string, choice?:JQuery ):void {
 		if( id === "empty" ) id = null;
-		(<Control>this.idInput).updateValue( id === "empty" ? "" : id );
+		// this.idInput.control.updateValueAndValidity( id === "empty" ? "" : id );
+		// (<Control>this.idInput).updateValue( id === "empty" ? "" : id );
 		this.id = id;
 	}
 

@@ -3,15 +3,12 @@ import { CommonModule } from '@angular/common';
 
 // Components
 import { HighlightDirective } from "./directives/highlight.directive";
-import { EmailValidator } from "./custom-validators";
-import { PasswordValidator } from "./custom-validators";
-import { MatchValidator } from "./custom-validators";
-import { SlugValidator } from "./custom-validators";
-import { DomainValidator } from "./custom-validators";
-import { URIValidator } from "./custom-validators";
-import { ExistingBackupValidator } from "./custom-validators";
-import { BackupFileValidator } from "./custom-validators";
-import { OneControlValidValidator } from "./custom-validators";
+import { EmailValidator, PasswordValidator, MatchValidator  } from "./custom-validators";
+import { SlugValidator, DomainValidator } from "./custom-validators";
+import { URIValidator, ExistingBackupValidator, BackupFileValidator, OneControlValidValidator } from "./custom-validators";
+import { IdValidator, NameExplorerValidator } from "./custom-validators";
+import { ValueValidator } from "./custom-validators";
+import { IdPointerValidator} from "./custom-validators";
 
 //TODO: Merge directives module with panel module, after solving components collisions between WebsiteModule and PanelModule
 
@@ -29,6 +26,10 @@ import { OneControlValidValidator } from "./custom-validators";
 		ExistingBackupValidator,
 		BackupFileValidator,
 		OneControlValidValidator,
+		IdValidator,
+		NameExplorerValidator,
+		ValueValidator,
+		IdPointerValidator,
 		HighlightDirective
 	],
 	exports: [
@@ -38,9 +39,14 @@ import { OneControlValidValidator } from "./custom-validators";
 		DomainValidator,
 		SlugValidator,
 		URIValidator,
+		ValueValidator,
 		ExistingBackupValidator,
 		BackupFileValidator,
 		OneControlValidValidator,
+		IdValidator,
+		NameExplorerValidator,
+		ValueValidator,
+		IdPointerValidator,
 		HighlightDirective,
 	],
 	providers: []

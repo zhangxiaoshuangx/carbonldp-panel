@@ -40,7 +40,9 @@
 			       placeholder="E-mail address"
 			       name="repeatPassword"
 			       [(ngModel)]="register.repeatPassword"
-			       required
+			       [matchTo]="register.password"
+			       [control]="repeatPassword"
+			       required match
 			       #repeatPassword="ngModel">
 		</div>
 	</div>
