@@ -1,5 +1,4 @@
 import { ElementRef, EventEmitter } from "@angular/core";
-import { ControlGroup } from "@angular/common/src/forms-deprecated";
 import { AuthService } from "angular2-carbonldp/services";
 import Credentials from "carbonldp/Auth/Credentials";
 import * as HTTP from "carbonldp/HTTP";
@@ -12,7 +11,6 @@ export declare class LoginComponent {
     $loginForm: JQuery;
     sending: boolean;
     errorMessage: string;
-    loginForm: ControlGroup;
     login: {
         email: string;
         password: string;

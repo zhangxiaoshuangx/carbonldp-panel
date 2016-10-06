@@ -51,23 +51,23 @@ export class EmailValidator implements Validator {
 	}
 }
 
-@Directive( {
-	selector: '[password]',
-	providers: [ { provide: NG_VALIDATORS, useExisting: PasswordValidator, multi: true } ]
-} )
-export class PasswordValidator implements Validator {
-	validate( control:AbstractControl ):{[key:string]:any;} {
-		// {6,100}           - Assert password is between 6 and 100 characters
-		// (?=.*[0-9])       - Assert a string has at least one number
-		if( control.value ) {
-			if( control.value.match( /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,100}$/ ) ) {
-				return null;
-			} else {
-				return { "invalidPassword": true };
-			}
-		}
-	}
-}
+// @Directive( {
+// 	selector: '[password]',
+// 	providers: [ { provide: NG_VALIDATORS, useExisting: PasswordValidator, multi: true } ]
+// } )
+// export class PasswordValidator implements Validator {
+// 	validate( control:AbstractControl ):{[key:string]:any;} {
+// 		// {6,100}           - Assert password is between 6 and 100 characters
+// 		// (?=.*[0-9])       - Assert a string has at least one number
+// 		if( control.value ) {
+// 			if( control.value.match( /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,100}$/ ) ) {
+// 				return null;
+// 			} else {
+// 				return { "invalidPassword": true };
+// 			}
+// 		}
+// 	}
+// }
 
 
 @Directive( {
@@ -150,17 +150,17 @@ export class URIValidator implements Validator {
 	}
 }
 
-@Directive( {
-	selector: '[existing-backup]',
-	providers: [ { provide: NG_VALIDATORS, useExisting: ExistingBackupValidator, multi: true } ]
-} )
-export class ExistingBackupValidator implements Validator {
-
-	validate( control:AbstractControl ):{[key:string]:any;} {
-		if( control.value ) return null;
-		return { "invalidExistingBackupAddress": true };
-	}
-}
+// @Directive( {
+// 	selector: '[existing-backup]',
+// 	providers: [ { provide: NG_VALIDATORS, useExisting: ExistingBackupValidator, multi: true } ]
+// } )
+// export class ExistingBackupValidator implements Validator {
+//
+// 	validate( control:AbstractControl ):{[key:string]:any;} {
+// 		if( control.value ) return null;
+// 		return { "invalidExistingBackupAddress": true };
+// 	}
+// }
 @Directive( {
 	selector: '[backup-file]',
 	providers: [ { provide: NG_VALIDATORS, useExisting: BackupFileValidator, multi: true } ]

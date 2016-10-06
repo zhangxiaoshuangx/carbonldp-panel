@@ -40,6 +40,7 @@ System.register(["@angular/core", "angular2-carbonldp/services", "carbonldp/HTTP
                     this.onLogin = new core_1.EventEmitter();
                     this.sending = false;
                     this.errorMessage = "";
+                    // loginForm:ControlGroup;
                     this.login = {
                         email: "",
                         password: "",

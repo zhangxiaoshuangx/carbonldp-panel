@@ -18,7 +18,7 @@
 				        name="backup"
 				        [(ngModel)]="importFormModel.backup"
 				        #backup="ngModel"
-				        existing-backup
+				        required
 				        (click)="getBackups()"
 				        (blur)="onInputLostFocus( backup )"
 				        [disabled]="backups.length===0">

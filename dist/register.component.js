@@ -81,7 +81,7 @@ System.register(["@angular/core", "carbonldp/HTTP", "angular2-carbonldp/services
                     // let valueCopy:string = "";
                     // this.controls.profileId.valueChanges.subscribe( ( value:string )=> {
                     // 	valueCopy = this.getSanitizedSlug( value );
-                    // if( value !== valueCopy )(<Control>this.controls.profileId).updateValue( valueCopy );
+                    // 	if( value !== valueCopy )(<Control>this.controls.profileId).updateValue( valueCopy );
                     // } );
                 };
                 RegisterComponent.prototype.onSubmit = function (form, $event) {
@@ -109,7 +109,7 @@ System.register(["@angular/core", "carbonldp/HTTP", "angular2-carbonldp/services
                     // } );
                 };
                 RegisterComponent.prototype.getSanitizedSlug = function (slug) {
-                    return slug.toLowerCase().replace(/ - | -|- /g, "-").replace(/[^-\w ]+/g, "").replace(/ +/g, "-");
+                    this.register.profileId = slug.toLowerCase().replace(/ - | -|- /g, "-").replace(/[^-\w ]+/g, "").replace(/ +/g, "-");
                 };
                 // touchControls():void {
                 // 	for( let controlName in this.controls ) {

@@ -11,7 +11,7 @@ System.register(["carbonldp/NS", "carbonldp/Utils", "carbonldp/RDF/Literal", "ca
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var NS, Utils, SDKLiteral, URI, core_1, forms_1;
-    var EmailValidator, PasswordValidator, SlugValidator, MatchValidator, DomainValidator, URIValidator, ExistingBackupValidator, BackupFileValidator, OneControlValidValidator, NameExplorerValidator, IdValidator, ValueValidator, IdPointerValidator;
+    var EmailValidator, SlugValidator, MatchValidator, DomainValidator, URIValidator, BackupFileValidator, OneControlValidValidator, NameExplorerValidator, IdValidator, ValueValidator, IdPointerValidator;
     return {
         setters:[
             function (NS_1) {
@@ -57,31 +57,23 @@ System.register(["carbonldp/NS", "carbonldp/Utils", "carbonldp/RDF/Literal", "ca
                 return EmailValidator;
             }());
             exports_1("EmailValidator", EmailValidator);
-            PasswordValidator = (function () {
-                function PasswordValidator() {
-                }
-                PasswordValidator.prototype.validate = function (control) {
-                    // {6,100}           - Assert password is between 6 and 100 characters
-                    // (?=.*[0-9])       - Assert a string has at least one number
-                    if (control.value) {
-                        if (control.value.match(/^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,100}$/)) {
-                            return null;
-                        }
-                        else {
-                            return { "invalidPassword": true };
-                        }
-                    }
-                };
-                PasswordValidator = __decorate([
-                    core_1.Directive({
-                        selector: '[password]',
-                        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: PasswordValidator, multi: true }]
-                    }), 
-                    __metadata('design:paramtypes', [])
-                ], PasswordValidator);
-                return PasswordValidator;
-            }());
-            exports_1("PasswordValidator", PasswordValidator);
+            // @Directive( {
+            // 	selector: '[password]',
+            // 	providers: [ { provide: NG_VALIDATORS, useExisting: PasswordValidator, multi: true } ]
+            // } )
+            // export class PasswordValidator implements Validator {
+            // 	validate( control:AbstractControl ):{[key:string]:any;} {
+            // 		// {6,100}           - Assert password is between 6 and 100 characters
+            // 		// (?=.*[0-9])       - Assert a string has at least one number
+            // 		if( control.value ) {
+            // 			if( control.value.match( /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,100}$/ ) ) {
+            // 				return null;
+            // 			} else {
+            // 				return { "invalidPassword": true };
+            // 			}
+            // 		}
+            // 	}
+            // }
             SlugValidator = (function () {
                 function SlugValidator() {
                 }
@@ -186,24 +178,17 @@ System.register(["carbonldp/NS", "carbonldp/Utils", "carbonldp/RDF/Literal", "ca
                 return URIValidator;
             }());
             exports_1("URIValidator", URIValidator);
-            ExistingBackupValidator = (function () {
-                function ExistingBackupValidator() {
-                }
-                ExistingBackupValidator.prototype.validate = function (control) {
-                    if (control.value)
-                        return null;
-                    return { "invalidExistingBackupAddress": true };
-                };
-                ExistingBackupValidator = __decorate([
-                    core_1.Directive({
-                        selector: '[existing-backup]',
-                        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: ExistingBackupValidator, multi: true }]
-                    }), 
-                    __metadata('design:paramtypes', [])
-                ], ExistingBackupValidator);
-                return ExistingBackupValidator;
-            }());
-            exports_1("ExistingBackupValidator", ExistingBackupValidator);
+            // @Directive( {
+            // 	selector: '[existing-backup]',
+            // 	providers: [ { provide: NG_VALIDATORS, useExisting: ExistingBackupValidator, multi: true } ]
+            // } )
+            // export class ExistingBackupValidator implements Validator {
+            //
+            // 	validate( control:AbstractControl ):{[key:string]:any;} {
+            // 		if( control.value ) return null;
+            // 		return { "invalidExistingBackupAddress": true };
+            // 	}
+            // }
             BackupFileValidator = (function () {
                 function BackupFileValidator() {
                 }

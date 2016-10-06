@@ -5,11 +5,6 @@ export declare class EmailValidator implements Validator {
         [key: string]: any;
     };
 }
-export declare class PasswordValidator implements Validator {
-    validate(control: AbstractControl): {
-        [key: string]: any;
-    };
-}
 export declare class SlugValidator implements Validator {
     validate(control: AbstractControl): {
         [key: string]: any;
@@ -29,11 +24,6 @@ export declare class DomainValidator implements Validator {
     };
 }
 export declare class URIValidator implements Validator {
-    validate(control: AbstractControl): {
-        [key: string]: any;
-    };
-}
-export declare class ExistingBackupValidator implements Validator {
     validate(control: AbstractControl): {
         [key: string]: any;
     };

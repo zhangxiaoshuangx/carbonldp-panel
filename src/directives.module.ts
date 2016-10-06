@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 
 // Components
 import { HighlightDirective } from "./directives/highlight.directive";
-import { EmailValidator, PasswordValidator, MatchValidator  } from "./custom-validators";
+import { EmailValidator, MatchValidator  } from "./custom-validators";
 import { SlugValidator, DomainValidator } from "./custom-validators";
-import { URIValidator, ExistingBackupValidator, BackupFileValidator, OneControlValidValidator } from "./custom-validators";
+import { URIValidator, BackupFileValidator, OneControlValidValidator } from "./custom-validators";
 import { IdValidator, NameExplorerValidator } from "./custom-validators";
 import { ValueValidator } from "./custom-validators";
 import { IdPointerValidator} from "./custom-validators";
@@ -18,12 +18,12 @@ import { IdPointerValidator} from "./custom-validators";
 	],
 	declarations: [
 		EmailValidator,
-		PasswordValidator,
+		// PasswordValidator,
 		MatchValidator,
 		SlugValidator,
 		DomainValidator,
 		URIValidator,
-		ExistingBackupValidator,
+		// ExistingBackupValidator,
 		BackupFileValidator,
 		OneControlValidValidator,
 		IdValidator,
@@ -34,13 +34,13 @@ import { IdPointerValidator} from "./custom-validators";
 	],
 	exports: [
 		EmailValidator,
-		PasswordValidator,
+		// PasswordValidator,
 		MatchValidator,
 		DomainValidator,
 		SlugValidator,
 		URIValidator,
 		ValueValidator,
-		ExistingBackupValidator,
+		// ExistingBackupValidator,
 		BackupFileValidator,
 		OneControlValidValidator,
 		IdValidator,

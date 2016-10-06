@@ -75,7 +75,7 @@ export class RegisterComponent implements OnInit {
 		// let valueCopy:string = "";
 		// this.controls.profileId.valueChanges.subscribe( ( value:string )=> {
 		// 	valueCopy = this.getSanitizedSlug( value );
-			// if( value !== valueCopy )(<Control>this.controls.profileId).updateValue( valueCopy );
+		// 	if( value !== valueCopy )(<Control>this.controls.profileId).updateValue( valueCopy );
 		// } );
 	}
 
@@ -109,8 +109,8 @@ export class RegisterComponent implements OnInit {
 		// } );
 	}
 
-	getSanitizedSlug( slug:string ):string {
-		return slug.toLowerCase().replace( / - | -|- /g, "-" ).replace( /[^-\w ]+/g, "" ).replace( / +/g, "-" );
+	getSanitizedSlug( slug:string ):void {
+		this.register.profileId = slug.toLowerCase().replace( / - | -|- /g, "-" ).replace( /[^-\w ]+/g, "" ).replace( / +/g, "-" );
 	}
 
 	// touchControls():void {
@@ -131,7 +131,7 @@ export class RegisterComponent implements OnInit {
 
 	setErrorMessage( error:HTTP.Errors.Error ):void {
 		if( typeof error.message !== "undefined" ) this.errorMessage = error.message;
-		else switch( true ) {
+		else switch ( true ) {
 			case error instanceof HTTP.Errors.ConflictError:
 				this.errorMessage = "That email is already in use";
 				break;

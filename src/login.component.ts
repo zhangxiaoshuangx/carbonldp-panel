@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, Output, Inject, EventEmitter } from "@angular/core";
-import { FormBuilder, ControlGroup, AbstractControl, Validators } from "@angular/common/src/forms-deprecated";
+// import { FormBuilder, ControlGroup, AbstractControl, Validators } from "@angular/common/src/forms-deprecated";
 
 import { AuthService } from "angular2-carbonldp/services";
 
@@ -30,7 +30,7 @@ export class LoginComponent {
 	sending:boolean = false;
 	errorMessage:string = "";
 
-	loginForm:ControlGroup;
+	// loginForm:ControlGroup;
 
 	login:{email:string,password:string, rememberMe: boolean}=
 	{

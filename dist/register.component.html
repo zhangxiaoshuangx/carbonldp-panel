@@ -27,7 +27,7 @@
 			       placeholder="E-mail address"
 			       name="password"
 			       [(ngModel)]="register.password"
-			       required password
+			       required
 			       #password="ngModel">
 		</div>
 	</div>
@@ -50,7 +50,7 @@
 		<div class="ui left icon input">
 			<i class="user icon"></i>
 			<input type="text" name="profileId" placeholder="Profile ID, E.g. my-agent-name (Optional)"
-			[(ngModel)]="register.profileId" #profileId="ngModel">
+			[(ngModel)]="register.profileId" #profileId="ngModel" slug (input)="getSanitizedSlug(profileId.value)">
 		</div>
 	</div>
 	<button type="submit"
@@ -61,7 +61,7 @@
 		Register
 	</button>
 </form>
-<div class="ui bottom attached errors message"><!-- *ngIf="-->
+<div class="ui bottom attached errors message" *ngIf="registerForm.valid"><!-- *ngIf="-->
 	<!--( controls.name.touched && ! controls.name.valid ) ||-->
 	<!--( controls.email.touched && ! controls.email.valid ) ||-->
 	<!--( controls.password.touched && ! controls.password.valid ) ||-->
