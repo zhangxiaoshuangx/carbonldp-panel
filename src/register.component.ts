@@ -40,7 +40,7 @@ export class RegisterComponent implements OnInit {
 		password: "",
 		repeatPassword: "",
 		profileId: ""
-	}
+	};
 
 	private errorMessage:string = "";
 
@@ -70,14 +70,16 @@ export class RegisterComponent implements OnInit {
 		// this.registerForm.addControl( "repeatPassword", this.controls.repeatPassword );
 		//
 		//
+
+		//todo: evaluate the use of profileId subscription
 		// let valueCopy:string = "";
 		// this.controls.profileId.valueChanges.subscribe( ( value:string )=> {
 		// 	valueCopy = this.getSanitizedSlug( value );
-		// 	if( value !== valueCopy )(<Control>this.controls.profileId).updateValue( valueCopy );
+			// if( value !== valueCopy )(<Control>this.controls.profileId).updateValue( valueCopy );
 		// } );
 	}
 
-	onSubmit( data:{ name:string, email:string, password:string, profileId:string }, $event:any ):void {
+	onSubmit( form, $event:any ):void {
 		$event.preventDefault();
 
 		this.sending = true;
@@ -85,26 +87,26 @@ export class RegisterComponent implements OnInit {
 
 		// this.touchControls();
 
-		// if( ! this.registerForm.valid ) {
-		// 	this.shakeForm();
-		// 	this.sending = false;
-		// 	return;
-		// }
+		if( ! form.valid ) {
+			this.shakeForm();
+			this.sending = false;
+			return;
+		}
 
-		let name:string = data.name;
-		let username:string = data.email;
-		let password:string = data.password;
-		let profileId:string = data.profileId;
+		let name:string = form.name;
+		let username:string = form.email;
+		let password:string = form.password;
+		let profileId:string = form.profileId;
 
 		if( ! profileId ) profileId = void 0;
 
-		this.authService.register( name, username, password, profileId ).then( () => {
-			this.sending = false;
-			this.onRegister.emit( null );
-		} ).catch( ( error:any ) => {
-			this.sending = false;
-			this.setErrorMessage( error );
-		} );
+		// this.authService.register( name, username, password, profileId ).then( () => {
+		// 	this.sending = false;
+		// 	this.onRegister.emit( null );
+		// } ).catch( ( error:any ) => {
+		// 	this.sending = false;
+		// 	this.setErrorMessage( error );
+		// } );
 	}
 
 	getSanitizedSlug( slug:string ):string {

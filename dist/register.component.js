@@ -77,36 +77,36 @@ System.register(["@angular/core", "carbonldp/HTTP", "angular2-carbonldp/services
                     // this.registerForm.addControl( "repeatPassword", this.controls.repeatPassword );
                     //
                     //
+                    //todo: evaluate the use of profileId subscription
                     // let valueCopy:string = "";
                     // this.controls.profileId.valueChanges.subscribe( ( value:string )=> {
                     // 	valueCopy = this.getSanitizedSlug( value );
-                    // 	if( value !== valueCopy )(<Control>this.controls.profileId).updateValue( valueCopy );
+                    // if( value !== valueCopy )(<Control>this.controls.profileId).updateValue( valueCopy );
                     // } );
                 };
-                RegisterComponent.prototype.onSubmit = function (data, $event) {
-                    var _this = this;
+                RegisterComponent.prototype.onSubmit = function (form, $event) {
                     $event.preventDefault();
                     this.sending = true;
                     this.errorMessage = "";
                     // this.touchControls();
-                    // if( ! this.registerForm.valid ) {
-                    // 	this.shakeForm();
-                    // 	this.sending = false;
-                    // 	return;
-                    // }
-                    var name = data.name;
-                    var username = data.email;
-                    var password = data.password;
-                    var profileId = data.profileId;
+                    if (!form.valid) {
+                        this.shakeForm();
+                        this.sending = false;
+                        return;
+                    }
+                    var name = form.name;
+                    var username = form.email;
+                    var password = form.password;
+                    var profileId = form.profileId;
                     if (!profileId)
                         profileId = void 0;
-                    this.authService.register(name, username, password, profileId).then(function () {
-                        _this.sending = false;
-                        _this.onRegister.emit(null);
-                    }).catch(function (error) {
-                        _this.sending = false;
-                        _this.setErrorMessage(error);
-                    });
+                    // this.authService.register( name, username, password, profileId ).then( () => {
+                    // 	this.sending = false;
+                    // 	this.onRegister.emit( null );
+                    // } ).catch( ( error:any ) => {
+                    // 	this.sending = false;
+                    // 	this.setErrorMessage( error );
+                    // } );
                 };
                 RegisterComponent.prototype.getSanitizedSlug = function (slug) {
                     return slug.toLowerCase().replace(/ - | -|- /g, "-").replace(/[^-\w ]+/g, "").replace(/ +/g, "-");
