@@ -13,7 +13,6 @@ import { PrefixURIPipe } from "./resultset-table/prefix-uri.pipe";
 import { ResultsetTableComponent } from "./resultset-table/resultset-table.component";
 
 
-
 @NgModule( {
 	imports: [
 		CommonModule,

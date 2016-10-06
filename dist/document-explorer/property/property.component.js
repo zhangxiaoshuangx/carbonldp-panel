@@ -82,6 +82,7 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                         this.id = prop[this.copyOrAdded].id;
                         this.tempProperty.id = prop[this.copyOrAdded].id;
                         this.name = prop[this.copyOrAdded].name;
+                        this.originalName = this.name;
                         this.tempProperty.name = prop[this.copyOrAdded].name;
                         // (<Control>this.nameInput).updateValue( this.name );
                         // if( this.nameInputControl )this.nameInput.control.updateValueAndValidity( this.name );

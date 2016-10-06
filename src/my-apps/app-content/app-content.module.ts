@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-import { CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from "@angular/forms";
 
 import { routing } from "./app-content.routing";
@@ -22,6 +22,9 @@ import { BackupsListComponent } from "./configuration/backup/backups-list/backup
 import { BackupsComponent } from "./configuration/backup/backups.component";
 import { ConfigurationComponent } from "./configuration/configuration.component";
 import { ConfigurationView } from "./configuration/configuration.view";
+
+//Directives
+import { BackupFileValidator, AtLeastOneValidValidator } from "./configuration/backup/backup-importer/backup-importer-validators";
 
 // Modules
 import { PanelModule } from "./../../panel.module";
@@ -59,6 +62,8 @@ import { BackupsService } from "./configuration/backup/backups.service";
 		BackupsComponent,
 		ConfigurationComponent,
 		ConfigurationView,
+		BackupFileValidator,
+		AtLeastOneValidValidator
 	],
 	exports: [],
 	providers: [

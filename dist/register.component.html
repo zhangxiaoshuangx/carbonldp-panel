@@ -50,7 +50,7 @@
 		<div class="ui left icon input">
 			<i class="user icon"></i>
 			<input type="text" name="profileId" placeholder="Profile ID, E.g. my-agent-name (Optional)"
-			[(ngModel)]="register.profileId" #profileId="ngModel" slug (input)="getSanitizedSlug(profileId.value)">
+			       [(ngModel)]="register.profileId" #profileId="ngModel" slug (input)="getSanitizedSlug(profileId.value)">
 		</div>
 	</div>
 	<button type="submit"
@@ -68,7 +68,7 @@
 	<!--( controls.repeatPassword.touched && ! controls.repeatPassword.valid ) ||-->
 	<!--( controls.profileId.touched && ! controls.profileId.valid ) ||-->
 	<!--( !! errorMessage)-->
-<!--">-->
+	<!--">-->
 
 	<ul class="list">
 		<li *ngIf="email.control.hasError( 'required')">The email is required.</li>
@@ -79,7 +79,7 @@
 
 		<li *ngIf="repeatPassword.control.hasError( 'required' )">Please repeat your password.</li>
 		<li *ngIf="! repeatPassword.control.hasError( 'required' ) && repeatPassword.control.hasError( 'matchError' )">The passwords don't match</li>
-<!--todo: analyze profileId role on registration-->
+		<!--todo: analyze profileId role on registration-->
 		<!--<li *ngIf="profileId.hasError( 'required' )">Please enter your profile id.</li>-->
 		<!--<li *ngIf="! profileId.hasError( 'required' ) && profileId.hasError( 'invalidProfileId' )">The profile id is invalid, only alphanumerics and dashes.</li>-->
 

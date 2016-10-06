@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/common', "./directives/highlight.dir
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, highlight_directive_1, custom_validators_1, custom_validators_2, custom_validators_3, custom_validators_4, custom_validators_5, custom_validators_6;
+    var core_1, common_1, highlight_directive_1, custom_validators_1, custom_validators_2, custom_validators_3;
     var DirectivesModule;
     return {
         setters:[
@@ -27,11 +27,11 @@ System.register(['@angular/core', '@angular/common', "./directives/highlight.dir
                 custom_validators_1 = custom_validators_1_1;
                 custom_validators_2 = custom_validators_1_1;
                 custom_validators_3 = custom_validators_1_1;
-                custom_validators_4 = custom_validators_1_1;
-                custom_validators_5 = custom_validators_1_1;
-                custom_validators_6 = custom_validators_1_1;
             }],
         execute: function() {
+            // import { IdValidator, NameExplorerValidator } from "./custom-validators";
+            // import { ValueValidator } from "./custom-validators";
+            // import { IdPointerValidator} from "./custom-validators";
             //TODO: Merge directives module with panel module, after solving components collisions between WebsiteModule and PanelModule
             DirectivesModule = (function () {
                 function DirectivesModule() {
@@ -49,12 +49,12 @@ System.register(['@angular/core', '@angular/common', "./directives/highlight.dir
                             custom_validators_2.DomainValidator,
                             custom_validators_3.URIValidator,
                             // ExistingBackupValidator,
-                            custom_validators_3.BackupFileValidator,
-                            custom_validators_3.OneControlValidValidator,
-                            custom_validators_4.IdValidator,
-                            custom_validators_4.NameExplorerValidator,
-                            custom_validators_5.ValueValidator,
-                            custom_validators_6.IdPointerValidator,
+                            // BackupFileValidator,
+                            // OneControlValidValidator,
+                            // IdValidator,
+                            // NameExplorerValidator,
+                            // ValueValidator,
+                            // IdPointerValidator,
                             highlight_directive_1.HighlightDirective
                         ],
                         exports: [
@@ -64,14 +64,14 @@ System.register(['@angular/core', '@angular/common', "./directives/highlight.dir
                             custom_validators_2.DomainValidator,
                             custom_validators_2.SlugValidator,
                             custom_validators_3.URIValidator,
-                            custom_validators_5.ValueValidator,
+                            // ValueValidator,
                             // ExistingBackupValidator,
-                            custom_validators_3.BackupFileValidator,
-                            custom_validators_3.OneControlValidValidator,
-                            custom_validators_4.IdValidator,
-                            custom_validators_4.NameExplorerValidator,
-                            custom_validators_5.ValueValidator,
-                            custom_validators_6.IdPointerValidator,
+                            // BackupFileValidator,
+                            // OneControlValidValidator,
+                            // IdValidator,
+                            // NameExplorerValidator,
+                            // ValueValidator,
+                            // IdPointerValidator,
                             highlight_directive_1.HighlightDirective,
                         ],
                         providers: []

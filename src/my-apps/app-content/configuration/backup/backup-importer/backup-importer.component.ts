@@ -17,6 +17,7 @@ import "semantic-ui/semantic";
 import template from "./backup-importer.component.html!";
 import style from "./backup-importer.component.css!text";
 
+
 @Component( {
 	selector: "cp-backup-importer",
 	template: template,
@@ -138,7 +139,7 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 	}
 
 	onInputLostFocus( control:any ):void {
-		switch ( control.name ) {
+		switch( control.name ) {
 			case "uri":
 				if( control.valid ) {
 					this.$element.find( "[ ng-reflect-name ='backup']" ).prop( "disabled", true );

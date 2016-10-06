@@ -1,6 +1,9 @@
 :host {
-  display: block; }
-  :host > .ui.message, :host .ui.message:first-child {
-    margin: 1em 2em 0 2em; }
+    display: block;
+}
+
+:host > .ui.message, :host .ui.message:first-child {
+    margin: 1em 2em 0 2em;
+}
 
 /*# sourceMappingURL=errors-area.component.css.map */

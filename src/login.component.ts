@@ -32,7 +32,7 @@ export class LoginComponent {
 
 	// loginForm:ControlGroup;
 
-	login:{email:string,password:string, rememberMe: boolean}=
+	login:{email:string,password:string, rememberMe:boolean} =
 	{
 		email: "",
 		password: "",

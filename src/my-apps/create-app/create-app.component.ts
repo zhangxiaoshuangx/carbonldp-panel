@@ -43,10 +43,10 @@ export class CreateAppComponent implements OnInit {
 	// name:AbstractControl;
 	// slug:AbstractControl;
 	// description:AbstractControl;
-	createAppFormModel:{name:string,slug:string,description:string}={
-		name:"",
-		slug:"",
-		description:""
+	createAppFormModel:{name:string,slug:string,description:string} = {
+		name: "",
+		slug: "",
+		description: ""
 	}
 
 	constructor( carbon:Carbon, appContextService:AppContextService ) {
@@ -55,32 +55,32 @@ export class CreateAppComponent implements OnInit {
 	}
 
 	ngOnInit():void {
-		this.slugInput = $("form > :input[name='slug']");
+		this.slugInput = $( "form > :input[name='slug']" );
 	}
 
 
 	slugLostControl( evt:any ):void {
-		if(typeof (evt.target) !== "undefined"){
-		if( ! evt.target.value.match( /^[a-z0-9]+(?:-[a-z0-9]*)*(?:\/*)$/ ) ) {
-			this.getSanitizedSlug( evt );
-		}
-		}
-	}
-
-	getSanitizedSlug( evt:any ):void{
-		let slug:string;
-		if( typeof evt.target !=="undefined" ) {
-			slug = evt.target.value;
-			if(slug){
-			slug = slug.toLowerCase().replace( / - | -|- /g, "-" ).replace( /[^-\w ]+/g, "" ).replace( / +/g, "-" );
-			if( slug.charAt( slug.length - 1 ) !== "/" ) slug += "/";
-
-			this.createAppFormModel.slug = slug;
+		if( typeof (evt.target) !== "undefined" ) {
+			if( ! evt.target.value.match( /^[a-z0-9]+(?:-[a-z0-9]*)*(?:\/*)$/ ) ) {
+				this.getSanitizedSlug( evt );
 			}
 		}
 	}
 
-	 onSubmit( form:any, $event:any ):void {
+	getSanitizedSlug( evt:any ):void {
+		let slug:string;
+		if( typeof evt.target !== "undefined" ) {
+			slug = evt.target.value;
+			if( slug ) {
+				slug = slug.toLowerCase().replace( / - | -|- /g, "-" ).replace( /[^-\w ]+/g, "" ).replace( / +/g, "-" );
+				if( slug.charAt( slug.length - 1 ) !== "/" ) slug += "/";
+
+				this.createAppFormModel.slug = slug;
+			}
+		}
+	}
+
+	onSubmit( form:any, $event:any ):void {
 		$event.preventDefault();
 
 		this.submitting = true;
@@ -90,7 +90,7 @@ export class CreateAppComponent implements OnInit {
 
 		if( ! form.valid ) {
 			this.submitting = false;
-		 	return;
+			return;
 		}
 
 		let name:string = form.value.name;

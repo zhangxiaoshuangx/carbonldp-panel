@@ -24,6 +24,8 @@ import { DirectivesModule } from "./../directives.module";
 // Services
 import { DocumentsResolverService } from "./documents-resolver.service";
 
+//Directives
+import { IdValidator, PropertyNameValidator, LiteralValueValidator, PointerValidator } from "./document-explorer-validators";
 
 @NgModule( {
 	imports: [
@@ -47,6 +49,10 @@ import { DocumentsResolverService } from "./documents-resolver.service";
 		DocumentViewerComponent,
 		DocumentTreeViewComponent,
 		DocumentExplorerComponent,
+		IdValidator,
+		PropertyNameValidator,
+		LiteralValueValidator,
+		PointerValidator,
 	],
 	exports: [
 		DocumentExplorerComponent,

@@ -17,7 +17,7 @@ const MyAppsRoutes:Routes = [
 			displayName: "My Apps",
 		},
 		children: [
-		{
+			{
 				path: "",
 				component: AppsCatalogView,
 				data: {
@@ -44,7 +44,7 @@ const MyAppsRoutes:Routes = [
 				path: ":slug",
 				loadChildren: () => AppContentModule,
 			}
-		 ]
+		]
 	},
 ];
 

@@ -1,4 +1,4 @@
-<form class="ui segment error form" #importForm="ngForm" one-control-valid>
+<form class="ui segment error form" #importForm="ngForm" at-least-one-valid>
 	<div class="ui two column middle aligned grid">
 		<div class="column">
 			<div class="field" [ngClass]="{error: (uri.touched && uri.control.hasError('invalidURIAddress'))}">

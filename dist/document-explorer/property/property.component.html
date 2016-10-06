@@ -111,8 +111,9 @@
 					       [existingProperties]="existingProperties"
 					       [property]="property"
 					       [id]="id"
+					       [originalName]="originalName"
 					       [control]="nameInput"
-					       name-explorer-validator
+					       property-name
 					       name="nameInput" [(ngModel)]="name" #nameInput="ngModel" (keyup.escape)="cancelEdition()" (keyup.enter)="nameInput.valid? save() : null">
 					<button class="ui button"
 					        [disabled]="!nameInput.valid"

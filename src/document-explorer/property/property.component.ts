@@ -38,6 +38,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 
 	id:string;
 	name:string;
+	originalName:string;
 	value:any[]|string = [];
 
 	addNewLiteral:EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -63,6 +64,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		this.id = prop[ this.copyOrAdded ].id;
 		this.tempProperty.id = prop[ this.copyOrAdded ].id;
 		this.name = prop[ this.copyOrAdded ].name;
+		this.originalName = this.name;
 		this.tempProperty.name = prop[ this.copyOrAdded ].name;
 		// (<Control>this.nameInput).updateValue( this.name );
 		// if( this.nameInputControl )this.nameInput.control.updateValueAndValidity( this.name );
@@ -155,7 +157,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	getTypeIcon( type:string ):string {
-		switch ( this.getDisplayName( type ) ) {
+		switch( this.getDisplayName( type ) ) {
 			case "RDFSource":
 				return "file outline";
 			case "Container":
@@ -184,7 +186,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 
 	onEditName():void {
 		this.mode = Modes.EDIT;
-		this.name=this.unescape((this.name));
+		this.name = this.unescape( (this.name) );
 		//if( this.nameInput )this.nameInput.control.updateValueAndValidity(this.unescape( this.name ) );
 		// (<Control>this.nameInput).updateValue( this.unescape( this.name ) );
 	}
@@ -193,7 +195,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		this.mode = Modes.EDIT;
 		this.existingFragments = [];
 		this.namedFragments.forEach( ( nameFragment:NamedFragmentRow ) => { this.existingFragments.push( nameFragment.name ); } );
-		this.value=this.unescape(<string>this.value);
+		this.value = this.unescape( <string>this.value );
 		// this.idInput.control.updateValueAndValidity(this.unescape( <string>this.value ) );
 		// ( <Control>this.idInput ).updateValue( this.unescape( <string>this.value ) );
 	}

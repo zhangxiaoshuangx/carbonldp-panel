@@ -22,7 +22,7 @@
 	<div class="edit-mode" [hidden]="mode===modes.READ">
 		<div class="ui error form">
 			<!--<input type="text" [ngFormControl]="idInput" [hidden]="true">-->
-			<input type="text" name="idInput" [(ngModel)]="id" #idInput="ngModel" required [documentURI]="documentURI" id-pointer-validator [hidden]="true">
+			<input type="text" name="idInput" [(ngModel)]="id" #idInput="ngModel" required pointer-validator [documentURI]="documentURI" [hidden]="true">
 			<select class="ui fluid search dropdown fragments" [hidden]="true">
 				<option value="">
 					Search or enter a fragment/bNode

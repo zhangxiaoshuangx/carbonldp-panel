@@ -49,7 +49,7 @@
 						<div class="right floated content">
 							<button class="ui mini circular icon basic black button"
 							        (click)="removeDomain(opt);">
-							<i class="remove icon"></i>
+								<i class="remove icon"></i>
 							</button>
 						</div>
 						<div class="bottom aligned content">
@@ -73,7 +73,7 @@
 	</div>
 	<button class="ui submit button"
 	        (click)="onSubmit(editAppForm, $event)"
-			[disabled]="(!editAppForm.valid || (editAppForm.valid && (!allDomains.value && allowedDomains.length===0)))">
+	        [disabled]="(!editAppForm.valid || (editAppForm.valid && (!allDomains.value && allowedDomains.length===0)))">
 		Submit
 	</button>
 </form>

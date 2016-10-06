@@ -16,6 +16,7 @@ export declare class PropertyComponent implements AfterViewInit, OnInit {
     existingFragments: string[];
     id: string;
     name: string;
+    originalName: string;
     value: any[] | string;
     addNewLiteral: EventEmitter<boolean>;
     addNewPointer: EventEmitter<boolean>;
