@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, Output, EventEmitter, ViewChild } from "@angular/core";
-import { Control, AbstractControl, Validators } from '@angular/common';
+// import { Control, AbstractControl, Validators } from '@angular/common';
 
 import * as NS from "carbonldp/NS";
 import * as Utils from "carbonldp/Utils";

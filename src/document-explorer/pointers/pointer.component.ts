@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, Output, SimpleChange, EventEmitter, OnChanges, ViewChild } from "@angular/core";
-import { Control, AbstractControl, Validators } from '@angular/common';
+// import { Control, AbstractControl, Validators } from '@angular/common';
 
 import * as URI from "carbonldp/RDF/URI";
 
