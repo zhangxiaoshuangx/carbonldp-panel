@@ -29,9 +29,6 @@ System.register(['@angular/core', '@angular/common', "./directives/highlight.dir
                 custom_validators_3 = custom_validators_1_1;
             }],
         execute: function() {
-            // import { IdValidator, NameExplorerValidator } from "./custom-validators";
-            // import { ValueValidator } from "./custom-validators";
-            // import { IdPointerValidator} from "./custom-validators";
             //TODO: Merge directives module with panel module, after solving components collisions between WebsiteModule and PanelModule
             DirectivesModule = (function () {
                 function DirectivesModule() {
@@ -43,35 +40,18 @@ System.register(['@angular/core', '@angular/common', "./directives/highlight.dir
                         ],
                         declarations: [
                             custom_validators_1.EmailValidator,
-                            // PasswordValidator,
                             custom_validators_1.MatchValidator,
                             custom_validators_2.SlugValidator,
                             custom_validators_2.DomainValidator,
                             custom_validators_3.URIValidator,
-                            // ExistingBackupValidator,
-                            // BackupFileValidator,
-                            // OneControlValidValidator,
-                            // IdValidator,
-                            // NameExplorerValidator,
-                            // ValueValidator,
-                            // IdPointerValidator,
                             highlight_directive_1.HighlightDirective
                         ],
                         exports: [
                             custom_validators_1.EmailValidator,
-                            // PasswordValidator,
                             custom_validators_1.MatchValidator,
                             custom_validators_2.DomainValidator,
                             custom_validators_2.SlugValidator,
                             custom_validators_3.URIValidator,
-                            // ValueValidator,
-                            // ExistingBackupValidator,
-                            // BackupFileValidator,
-                            // OneControlValidValidator,
-                            // IdValidator,
-                            // NameExplorerValidator,
-                            // ValueValidator,
-                            // IdPointerValidator,
                             highlight_directive_1.HighlightDirective,
                         ],
                         providers: []

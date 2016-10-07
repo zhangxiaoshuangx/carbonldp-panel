@@ -68,16 +68,12 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "carbonl
                     if (domain.valid && !!domain.value) {
                         this.allowedDomains.push(domain.value);
                     }
-                    // this.corsGroup.updateValueAndValidity();
                 };
                 EditAppComponent.prototype.removeDomain = function (option, allDomains) {
                     var idx = this.allowedDomains.indexOf(option);
                     if (idx >= 0) {
                         this.allowedDomains.splice(idx, 1);
                     }
-                };
-                EditAppComponent.prototype.canDisplayErrors = function () {
-                    // return (! this.name.pristine && ! this.name.valid) || (! this.description.pristine && ! this.description.valid);
                 };
                 EditAppComponent.prototype.onSubmit = function (form, $event) {
                     var _this = this;

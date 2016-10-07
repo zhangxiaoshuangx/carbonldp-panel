@@ -21,7 +21,6 @@ export declare class EditAppComponent implements OnInit {
     ngOnInit(): void;
     addDomain(domain: any): void;
     removeDomain(option: string, allDomains: any): void;
-    canDisplayErrors(): void;
     onSubmit(form: any, $event: Event): void;
     getErrorMessage(error: HTTP.Errors.Error): string;
     clearMessages(evt: Event): void;

@@ -35,7 +35,6 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "./../property/property.c
             }],
         execute: function() {
             PointerComponent = (function () {
-                // idInput:AbstractControl = new Control( this.id, Validators.compose( [ Validators.required, this.idValidator.bind( this ) ] ) );
                 function PointerComponent(element) {
                     this.tempPointer = {};
                     this.isBNode = false;
@@ -95,8 +94,6 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "./../property/property.c
                     get: function () { return this._id; },
                     set: function (id) {
                         this._id = id;
-                        // if( ! ! this.idInput && this.idInput.value !== this.id )(<Control>this.idInput).updateValue( this.id );
-                        // if( ! ! this.idInput && this.idInput.value !== this.id )this.idInput.control.updateValueAndValidity( this.id );
                         this.checkForChangesOnPointers();
                     },
                     enumerable: true,
@@ -157,17 +154,6 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "./../property/property.c
                     this.onSave.emit(this.tempPointer);
                     this.mode = property_component_1.Modes.READ;
                 };
-                // private idValidator( control:AbstractControl ):any {
-                // 	if( ! ! control && (typeof control.value === "undefined" || control.value.trim().length === 0) ) {
-                // 		return { "emptyControl": true };
-                // 	}
-                // 	if( ! ! control ) {
-                // 		if( ! control.value.match( /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g ) ) {
-                // 			if( ! URI.Util.isBNodeID( control.value ) ) return { "invalidId": true };
-                // 		}
-                // 	}
-                // 	return null;
-                // }
                 PointerComponent.prototype.initializePointersDropdown = function () {
                     this.pointersDropdown = jquery_1.default(this.element.nativeElement.querySelector(".fragments.search.dropdown"));
                     if (!!this.pointersDropdown) {
@@ -181,8 +167,6 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "./../property/property.c
                 PointerComponent.prototype.changeId = function (id, text, choice) {
                     if (id === "empty")
                         id = null;
-                    // this.idInput.control.updateValueAndValidity( id === "empty" ? "" : id );
-                    // (<Control>this.idInput).updateValue( id === "empty" ? "" : id );
                     this.id = id;
                 };
                 PointerComponent.prototype.getFriendlyName = function (uri) {

@@ -50,7 +50,6 @@ export class IdValidator implements Validator, OnChanges {
 
 
 	ngOnChanges( changes:SimpleChanges ) {
-		// if(changes["value"].currentValue) this.control.control.setValue( this.value );
 		this.control.control.updateValueAndValidity( false, true );
 	}
 
@@ -60,24 +59,11 @@ export class IdValidator implements Validator, OnChanges {
 			if( typeof control.value === "undefined" || control.value === null || ! control.value ) return null;
 			if( typeof control.value === "string" && ! control.value.startsWith( this.documentURI ) ) return { "invalidParent": true };
 			if( this.existingFragments.indexOf( control.value ) !== - 1 && (this.property.added ? this.id !== control.value : this.originalId !== control.value) ) return { "duplicatedNamedFragmentName": true };
-			// if( ! this.url.test( control.value ) ) return { "invalidValue": true };
 			if( control.value.split( "#" ).length > 2 ) return { "duplicatedHashtag": true };
 		}
 		return null;
 	}
 }
-// private idValidator( control:AbstractControl ):any {
-// 	if( ! ! control ) {
-// 		if( typeof control.value === "undefined" || control.value === null || ! control.value ) return null;
-// 		if( typeof control.value === "string" && ! control.value.startsWith( this.documentURI ) ) return { "invalidParent": true };
-// 		if( this.existingFragments.indexOf( control.value ) !== - 1 && (this.property.added ? this.id !== control.value : this.value !== control.value) ) return { "duplicatedNamedFragmentName": true };
-// 		let url = new RegExp( "(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g" );
-// 		if( ! url.test( control.value ) ) return { "invalidValue": true };
-// 		if( control.value.split( "#" ).length > 2 ) return { "duplicatedHashtag": true };
-// 	}
-// 	return null;
-// }
-// }
 
 
 @Directive( {

@@ -1,5 +1,4 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
-// import { CommonModule, DeprecatedFormsModule } from '@angular/common';
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";

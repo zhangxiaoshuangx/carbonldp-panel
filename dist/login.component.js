@@ -35,7 +35,6 @@ System.register(["@angular/core", "angular2-carbonldp/services", "carbonldp/HTTP
             }],
         execute: function() {
             LoginComponent = (function () {
-                // constructor( element:ElementRef, formBuilder:FormBuilder, @Inject( AuthService.Token ) authService:AuthService.Class ) {
                 function LoginComponent(element, authService) {
                     this.onLogin = new core_1.EventEmitter();
                     this.sending = false;
@@ -54,14 +53,6 @@ System.register(["@angular/core", "angular2-carbonldp/services", "carbonldp/HTTP
                     this.$element = jquery_1.default(this.element.nativeElement);
                     this.$loginForm = this.$element.find("form.loginForm");
                     this.$loginForm.find(".ui.checkbox").checkbox();
-                    // this.loginForm = this.formBuilder.group( {
-                    // 	email: [ "", Validators.compose( [ Validators.required, EmailValidator ] ) ],
-                    // 	password: [ "", Validators.compose( [ Validators.required ] ) ],
-                    // 	rememberMe: [ "", Validators.compose( [] ) ],
-                    // } );
-                    // this.email = this.loginForm.controls[ "email" ];
-                    // this.password = this.loginForm.controls[ "password" ];
-                    // this.rememberMe = this.loginForm.controls[ "rememberMe" ];
                 };
                 LoginComponent.prototype.onSubmit = function (data, $event) {
                     var _this = this;

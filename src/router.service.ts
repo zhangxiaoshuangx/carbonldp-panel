@@ -17,7 +17,6 @@ import { Injectable } from "@angular/core";
 @Injectable()
 export class RouterService {
 	private router:Router;
-	// private location:Location;
 
 	constructor( router:Router ) {
 		this.router = router;

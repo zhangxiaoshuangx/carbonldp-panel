@@ -85,8 +85,6 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                         this.name = prop[this.copyOrAdded].name;
                         this.tempProperty.name = prop[this.copyOrAdded].name;
                         this.originalName = this.name;
-                        // (<Control>this.nameInput).updateValue( this.name );
-                        // if( this.nameInputControl )this.nameInput.control.updateValueAndValidity( this.name );
                         if (Utils.isArray(prop[this.copyOrAdded].value)) {
                             this.value = [];
                             prop[this.copyOrAdded].value.forEach(function (literalOrRDFNode) { _this.value.push(Object.assign(literalOrRDFNode)); });
@@ -112,9 +110,6 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                     this.initializeAccordions();
                     this.initializePropertyButtons();
                     this.initializeDeletionDimmer();
-                    // if( this.idInputControl )this.idInputControl.control.updateValueAndValidity(this.value);
-                    // if( this.nameInputControl )this.nameInputControl.control.updateValueAndValidity(this.name);
-                    // console.log(this.nameInput, this.idInput);
                 };
                 PropertyComponent.prototype.getDisplayName = function (uri) {
                     if (this.commonToken.indexOf(uri) > -1)
@@ -122,14 +117,12 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                     if (URI.Util.hasFragment(uri))
                         return this.unescape(this.getFragment(uri));
                     return this.unescape(URI.Util.getSlug(uri));
-                    // return ""; //todo remove this line
                 };
                 PropertyComponent.prototype.getParentURI = function (uri) {
                     var parts = uri.split("#");
                     uri = "".concat(parts[0]).concat("#" + parts[1]);
                     var slug = this.getSlug(uri);
                     return uri.substr(0, uri.indexOf(slug));
-                    // return ""; //todo remove this line
                 };
                 PropertyComponent.prototype.getSlug = function (uri) {
                     var parts = uri.split("#");
@@ -140,16 +133,13 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                     var parts = uri.split("#");
                     uri = "".concat(parts[0]).concat("#" + parts[1]);
                     return URI.Util.getFragment(uri);
-                    // return ""; //todo remove this line
                 };
                 PropertyComponent.prototype.isArray = function (property) {
                     return Utils.isArray(property);
-                    // return false; //todo remove this line
                 };
                 PropertyComponent.prototype.isUrl = function (uri) {
                     var r = /^(ftp|http|https):\/\/[^ "]+$/;
                     return r.test(uri);
-                    // return false; //todo remove this line
                 };
                 PropertyComponent.prototype.goToBNode = function (id) {
                     this.onGoToBlankNode.emit(id);
@@ -168,7 +158,6 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                         default:
                             return "file excel outline";
                     }
-                    // return ""; //todo remove this line
                 };
                 PropertyComponent.prototype.initializeAccordions = function () {
                     this.$element.find(".ui.accordion").accordion();
@@ -184,8 +173,6 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                 PropertyComponent.prototype.onEditName = function () {
                     this.mode = Modes.EDIT;
                     this.name = this.unescape((this.name));
-                    //if( this.nameInput )this.nameInput.control.updateValueAndValidity(this.unescape( this.name ) );
-                    // (<Control>this.nameInput).updateValue( this.unescape( this.name ) );
                 };
                 PropertyComponent.prototype.onEditId = function () {
                     var _this = this;
@@ -193,15 +180,12 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                     this.existingFragments = [];
                     this.namedFragments.forEach(function (nameFragment) { _this.existingFragments.push(nameFragment.name); });
                     this.value = this.unescape(this.value);
-                    // this.idInput.control.updateValueAndValidity(this.unescape( <string>this.value ) );
-                    // ( <Control>this.idInput ).updateValue( this.unescape( <string>this.value ) );
                 };
                 PropertyComponent.prototype.cancelDeletion = function () {
                     this.$element.find(".confirm-deletion.dimmer").dimmer("hide");
                 };
                 PropertyComponent.prototype.cancelEdition = function () {
                     if (this.nameInputControl.valid) {
-                        // if( this.nameInput.valid ) {
                         this.mode = Modes.READ;
                     }
                 };
@@ -223,12 +207,10 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                     }
                 };
                 PropertyComponent.prototype.save = function () {
-                    // this.checkForChangesOnName( this.sanitize( this.nameInput.value ) );
                     this.checkForChangesOnName(this.sanitize(this.name));
                     this.mode = Modes.READ;
                 };
                 PropertyComponent.prototype.saveId = function () {
-                    // this.checkForChangesOnId( this.sanitize( this.idInput.value ) );
                     this.checkForChangesOnId(this.sanitize(this.value)); //check changes on idInput
                     this.mode = Modes.READ;
                 };
@@ -239,7 +221,6 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                     if (parts.length > 0)
                         sanitized = parts[0] + this.escape(slug);
                     return sanitized;
-                    // return ""; //todo remove this line
                 };
                 PropertyComponent.prototype.fillLiteralsAndPointers = function () {
                     var _this = this;
@@ -377,11 +358,9 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                 };
                 PropertyComponent.prototype.escape = function (uri) {
                     return encodeURI(uri);
-                    // return ""; //todo remove this line
                 };
                 PropertyComponent.prototype.unescape = function (uri) {
                     return decodeURI(uri);
-                    // return ""; //todo remove this line
                 };
                 __decorate([
                     core_1.ViewChild("nameInput"), 

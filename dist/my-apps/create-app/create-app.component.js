@@ -46,11 +46,6 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/App", "carbonld
                     this._slug = "";
                     this.persistedSlug = "";
                     this.persistedName = "";
-                    // createAppForm:ControlGroup;
-                    // formBuilder:FormBuilder;
-                    // name:AbstractControl;
-                    // slug:AbstractControl;
-                    // description:AbstractControl;
                     this.createAppFormModel = {
                         name: "",
                         slug: "",

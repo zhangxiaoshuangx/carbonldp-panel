@@ -823,8 +823,6 @@ System.register(["@angular/core", "carbonldp/NS", "carbonldp/Utils", "carbonldp/
                     get: function () { return this._value; },
                     set: function (value) {
                         this._value = value;
-                        // if( ! ! this.valueInput && this.valueInput.value !== this.value )(<Control>this.valueInput).updateValue( this.value );
-                        // if( ! ! this.valueInput && this.valueInput.value !== this.value )this.valueInput.control.updateValueAndValidity( this.value );
                     },
                     enumerable: true,
                     configurable: true
@@ -839,10 +837,6 @@ System.register(["@angular/core", "carbonldp/NS", "carbonldp/Utils", "carbonldp/
                             type = NS.XSD.DataType.string;
                         this._type = type;
                         this.isStringType = type === NS.XSD.DataType.string;
-                        // if( ! ! this.typeInput && this.typeInput.value !== this.type )(<Control>this.typeInput).updateValue( this.type );
-                        // if( ! ! this.typeInput && this.typeInput.value !== this.type )this.typeInput.control.updateValueAndValidity( this.type );
-                        // this.valueInput.updateValueAndValidity();
-                        // if(this.valueInput) this.valueInput.control.updateValueAndValidity();
                     },
                     enumerable: true,
                     configurable: true
@@ -853,9 +847,6 @@ System.register(["@angular/core", "carbonldp/NS", "carbonldp/Utils", "carbonldp/
                         this._language = language;
                         if (!!this.languageDropdown && !this.language)
                             this.languageDropdown.dropdown("set selected", "empty");
-                        // if( ! ! this.languageInput && this.languageInput.value !== this.language )(<Control>this.languageInput).updateValue( this.language );
-                        // if( ! ! this.languageInput && this.languageInput.value !== this.language )this.languageInput.control.updateValueAndValidity( this.language );
-                        // this.languageInput.updateValueAndValidity();
                     },
                     enumerable: true,
                     configurable: true
@@ -980,8 +971,6 @@ System.register(["@angular/core", "carbonldp/NS", "carbonldp/Utils", "carbonldp/
                 LiteralComponent.prototype.changeLanguage = function (language, text, choice) {
                     if (language === "empty")
                         language = null;
-                    //(<Control>this.languageInput).updateValue( language === "empty" ? "" : language );
-                    // this.languageInput.control.updateValueAndValidity(language === "empty" ? "" : language);
                     this.language = language;
                 };
                 LiteralComponent.prototype.initializeLanguageDropdown = function () {

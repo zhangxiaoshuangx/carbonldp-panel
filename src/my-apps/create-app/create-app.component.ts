@@ -38,16 +38,11 @@ export class CreateAppComponent implements OnInit {
 	persistedName:string = "";
 
 	slugInput;
-	// createAppForm:ControlGroup;
-	// formBuilder:FormBuilder;
-	// name:AbstractControl;
-	// slug:AbstractControl;
-	// description:AbstractControl;
 	createAppFormModel:{name:string,slug:string,description:string} = {
 		name: "",
 		slug: "",
 		description: ""
-	}
+	};
 
 	constructor( carbon:Carbon, appContextService:AppContextService ) {
 		this.carbon = carbon;

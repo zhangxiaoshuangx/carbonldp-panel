@@ -61,19 +61,13 @@ export class EditAppComponent implements OnInit {
 		if( domain.valid && ! ! domain.value ) {
 			this.allowedDomains.push( domain.value );
 		}
-		// this.corsGroup.updateValueAndValidity();
 	}
 
 	removeDomain( option:string, allDomains:any ):void {
 		let idx:number = this.allowedDomains.indexOf( option );
 		if( idx >= 0 ) {
 			this.allowedDomains.splice( idx, 1 );
-			//this.corsGroup.updateValueAndValidity();
 		}
-	}
-
-	canDisplayErrors() {
-		// return (! this.name.pristine && ! this.name.valid) || (! this.description.pristine && ! this.description.valid);
 	}
 
 	onSubmit( form, $event:Event ):void {

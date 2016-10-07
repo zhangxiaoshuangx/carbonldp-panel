@@ -1,12 +1,9 @@
 import { Component, ElementRef, Input, Output, Inject, EventEmitter } from "@angular/core";
-// import { FormBuilder, ControlGroup, AbstractControl, Validators } from "@angular/common/src/forms-deprecated";
 
 import { AuthService } from "angular2-carbonldp/services";
 
 import Credentials from "carbonldp/Auth/Credentials";
 import * as HTTP from "carbonldp/HTTP";
-
-import { EmailValidator } from "carbonldp-panel/custom-validators";
 
 import $ from "jquery";
 import "semantic-ui/semantic";
@@ -37,16 +34,10 @@ export class LoginComponent {
 		email: "",
 		password: "",
 		rememberMe: false
-	}
-	// email:AbstractControl; // To make available the state of the input in the template
-	// password:AbstractControl; // To make available the state of the input in the template
-	// rememberMe:AbstractControl;
-	// remember:boolean = true;
+	};
 
-	// private formBuilder:FormBuilder; // Validators
 	private authService:AuthService.Class;
 
-	// constructor( element:ElementRef, formBuilder:FormBuilder, @Inject( AuthService.Token ) authService:AuthService.Class ) {
 	constructor( element:ElementRef, @Inject( AuthService.Token ) authService:AuthService.Class ) {
 		this.element = element;
 		// this.formBuilder = formBuilder;
@@ -57,14 +48,6 @@ export class LoginComponent {
 		this.$element = $( this.element.nativeElement );
 		this.$loginForm = this.$element.find( "form.loginForm" );
 		this.$loginForm.find( ".ui.checkbox" ).checkbox();
-		// this.loginForm = this.formBuilder.group( {
-		// 	email: [ "", Validators.compose( [ Validators.required, EmailValidator ] ) ],
-		// 	password: [ "", Validators.compose( [ Validators.required ] ) ],
-		// 	rememberMe: [ "", Validators.compose( [] ) ],
-		// } );
-		// this.email = this.loginForm.controls[ "email" ];
-		// this.password = this.loginForm.controls[ "password" ];
-		// this.rememberMe = this.loginForm.controls[ "rememberMe" ];
 	}
 
 	onSubmit( data:{ email:string, password:string, rememberMe:boolean }, $event:any ):void {
