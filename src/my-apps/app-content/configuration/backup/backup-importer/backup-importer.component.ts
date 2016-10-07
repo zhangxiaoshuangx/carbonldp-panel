@@ -11,7 +11,6 @@ import { JobsService } from "../../job/jobs.service";
 import * as Job from "../../job/job";
 import { Message } from "./../../../../../errors-area/error-message.component";
 
-import $ from "jquery";
 import "semantic-ui/semantic";
 
 import template from "./backup-importer.component.html!";
@@ -28,9 +27,6 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 	@Input() appContext:App.Context;
 
 	element:ElementRef;
-	$element:JQuery;
-	$importForm:JQuery;
-	$backups:JQuery;
 	monitorExecutionInterval:number;
 
 	importFormModel:{ uri:string, backup:string, backupFile:string } = {
@@ -59,9 +55,6 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit():void {
-		this.$element = $( this.element.nativeElement );
-		this.$backups = this.$element.find( "select.backups" );
-		this.$importForm = this.$element.find( "form.importForm" );
 		this.getBackups();
 	}
 
@@ -135,36 +128,34 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 	onFileChange( event ):void {
 		var files:FileList = event.srcElement.files;
 		this.backupFileBlob = files[ 0 ];
-		// this.backupFileArray = [this.backupFileBlob, control ]
 	}
 
 	onInputLostFocus( control:any ):void {
-		switch( control.name ) {
+		switch ( control.name ) {
 			case "uri":
 				if( control.valid ) {
-					this.$element.find( "[ ng-reflect-name ='backup']" ).prop( "disabled", true );
-					this.$element.find( "[ ng-reflect-name ='backupFile']" ).prop( "disabled", true );
+					this.element.nativeElement.querySelector( "[ ng-reflect-name ='backup']" ).setAttribute( "disabled", true );
+					this.element.nativeElement.querySelector( "[ ng-reflect-name ='backupFile']" ).setAttribute( "disabled", true );
 				} else { this.enableAllInputs() }
 				break;
 			case "backup":
 				if( control.valid ) {
-					this.$element.find( "[ ng-reflect-name ='uri']" ).prop( "disabled", true );
-					this.$element.find( "[ ng-reflect-name ='backupFile']" ).prop( "disabled", true );
+					this.element.nativeElement.querySelector( "[ ng-reflect-name ='uri']" ).setAttribute( "disabled", true );
+					this.element.nativeElement.querySelector( "[ ng-reflect-name ='backupFile']" ).setAttribute( "disabled", true );
 				} else { this.enableAllInputs() }
 				break;
 			case "backupFile":
 				if( ! ! this.backupFileBlob ) {
-					this.$element.find( "[ ng-reflect-name ='uri']" ).prop( "disabled", true );
-					this.$element.find( "[ ng-reflect-name='backup']" ).prop( "disabled", true );
+					this.element.nativeElement.querySelector( "[ ng-reflect-name ='uri']" ).setAttribute( "disabled", true );
+					this.element.nativeElement.querySelector( "[ ng-reflect-name='backup']" ).setAttribute( "disabled", true );
 				} else { this.enableAllInputs() }
 				break;
 		}
 	}
 
 	enableAllInputs():void {
-		this.$element.find( "[ng-reflect-name='uri']" ).prop( "disabled", false );
-		this.$element.find( "[ng-reflect-name='backup']" ).prop( "disabled", false );
-		this.$element.find( "[ng-reflect-name='backupFile']" ).prop( "disabled", false );
+		this.element.nativeElement.querySelector( "[ng-reflect-name='uri']" ).removeAttribute( "disabled", true );
+		this.element.nativeElement.querySelector( "[ng-reflect-name='backupFile']" ).removeAttribute( "disabled", true );
 	}
 
 	canDisplayImportButtonLoading():boolean {

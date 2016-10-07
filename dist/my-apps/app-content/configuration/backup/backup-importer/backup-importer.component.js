@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/App", "../backups.service", "../../job/jobs.service", "../../job/job", "jquery", "semantic-ui/semantic", "./backup-importer.component.html!", "./backup-importer.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/App", "../backups.service", "../../job/jobs.service", "../../job/job", "semantic-ui/semantic", "./backup-importer.component.html!", "./backup-importer.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/App", "../backups.service", "../../
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, App, backups_service_1, jobs_service_1, Job, jquery_1, backup_importer_component_html_1, backup_importer_component_css_text_1;
+    var core_1, App, backups_service_1, jobs_service_1, Job, backup_importer_component_html_1, backup_importer_component_css_text_1;
     var BackupImporterComponent, ImportStatus;
     return {
         setters:[
@@ -28,9 +28,6 @@ System.register(["@angular/core", "carbonldp/App", "../backups.service", "../../
             },
             function (Job_1) {
                 Job = Job_1;
-            },
-            function (jquery_1_1) {
-                jquery_1 = jquery_1_1;
             },
             function (_1) {},
             function (backup_importer_component_html_1_1) {
@@ -59,9 +56,6 @@ System.register(["@angular/core", "carbonldp/App", "../backups.service", "../../
                     this.jobsService = jobsService;
                 }
                 BackupImporterComponent.prototype.ngOnInit = function () {
-                    this.$element = jquery_1.default(this.element.nativeElement);
-                    this.$backups = this.$element.find("select.backups");
-                    this.$importForm = this.$element.find("form.importForm");
                     this.getBackups();
                 };
                 BackupImporterComponent.prototype.getBackups = function () {
@@ -138,14 +132,13 @@ System.register(["@angular/core", "carbonldp/App", "../backups.service", "../../
                 BackupImporterComponent.prototype.onFileChange = function (event) {
                     var files = event.srcElement.files;
                     this.backupFileBlob = files[0];
-                    // this.backupFileArray = [this.backupFileBlob, control ]
                 };
                 BackupImporterComponent.prototype.onInputLostFocus = function (control) {
                     switch (control.name) {
                         case "uri":
                             if (control.valid) {
-                                this.$element.find("[ ng-reflect-name ='backup']").prop("disabled", true);
-                                this.$element.find("[ ng-reflect-name ='backupFile']").prop("disabled", true);
+                                this.element.nativeElement.querySelector("[ ng-reflect-name ='backup']").setAttribute("disabled", true);
+                                this.element.nativeElement.querySelector("[ ng-reflect-name ='backupFile']").setAttribute("disabled", true);
                             }
                             else {
                                 this.enableAllInputs();
@@ -153,8 +146,8 @@ System.register(["@angular/core", "carbonldp/App", "../backups.service", "../../
                             break;
                         case "backup":
                             if (control.valid) {
-                                this.$element.find("[ ng-reflect-name ='uri']").prop("disabled", true);
-                                this.$element.find("[ ng-reflect-name ='backupFile']").prop("disabled", true);
+                                this.element.nativeElement.querySelector("[ ng-reflect-name ='uri']").setAttribute("disabled", true);
+                                this.element.nativeElement.querySelector("[ ng-reflect-name ='backupFile']").setAttribute("disabled", true);
                             }
                             else {
                                 this.enableAllInputs();
@@ -162,8 +155,8 @@ System.register(["@angular/core", "carbonldp/App", "../backups.service", "../../
                             break;
                         case "backupFile":
                             if (!!this.backupFileBlob) {
-                                this.$element.find("[ ng-reflect-name ='uri']").prop("disabled", true);
-                                this.$element.find("[ ng-reflect-name='backup']").prop("disabled", true);
+                                this.element.nativeElement.querySelector("[ ng-reflect-name ='uri']").setAttribute("disabled", true);
+                                this.element.nativeElement.querySelector("[ ng-reflect-name='backup']").setAttribute("disabled", true);
                             }
                             else {
                                 this.enableAllInputs();
@@ -172,9 +165,8 @@ System.register(["@angular/core", "carbonldp/App", "../backups.service", "../../
                     }
                 };
                 BackupImporterComponent.prototype.enableAllInputs = function () {
-                    this.$element.find("[ng-reflect-name='uri']").prop("disabled", false);
-                    this.$element.find("[ng-reflect-name='backup']").prop("disabled", false);
-                    this.$element.find("[ng-reflect-name='backupFile']").prop("disabled", false);
+                    this.element.nativeElement.querySelector("[ng-reflect-name='uri']").removeAttribute("disabled", true);
+                    this.element.nativeElement.querySelector("[ng-reflect-name='backupFile']").removeAttribute("disabled", true);
                 };
                 BackupImporterComponent.prototype.canDisplayImportButtonLoading = function () {
                     return this.uploading.active ? true : this.creating.active ? true : this.executing.active ? true : false;

@@ -8,9 +8,6 @@ import "semantic-ui/semantic";
 export declare class BackupImporterComponent implements OnInit, OnDestroy {
     appContext: App.Context;
     element: ElementRef;
-    $element: JQuery;
-    $importForm: JQuery;
-    $backups: JQuery;
     monitorExecutionInterval: number;
     importFormModel: {
         uri: string;
