@@ -5,7 +5,7 @@
 	<!--<div class="edit-mode ui error form">-->
 	<div class="edit-mode ui error form" *ngIf="mode===modes.EDIT">
 		<div class="field" [ngClass]="{error:!valueInput.valid}">
-			<input type="text" name="valueInput" [(ngModel)]="value" #valueInput="ngModel" [type]="type" [control]="valueInput" required literal-value>
+			<input type="text" name="valueInput" [(ngModel)]="value" #valueInput="ngModel" [type]="type" [control]="valueInput" required cp-literal-value>
 			<!--<input type="text" [ngFormControl]="valueInput" (ngModelChange)="value=$event">-->
 		</div>
 		<div class="ui error message wide" *ngIf="!valueInput.valid">

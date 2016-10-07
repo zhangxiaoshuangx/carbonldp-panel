@@ -1,9 +1,1 @@
-{
-	"version": 3,
-	"sources": [ "sidebar.component.scss" ],
-	"names": [ ],
-	"mappings": "AAAA;EACC,UAAU;EACV,iBAAiB;EAEjB,qDAA0B;EAC1B,uDAA4B,EAY5B;EAjBD;IAQE,iBAAiB;IACjB,oBAAoB,EACpB;EAVF;IAYE,eAAe;IACf,YAAY;IACZ,YAAY;IACZ,sCAAgB,EAChB",
-	"file": "sidebar.component.css",
-	"sourcesContent": [ ":host {\n\tmargin: 0;\n\tborder-radius: 0;\n\n\tborder-top: 1px solid rgba(255, 255, 255, 0.0784314);\n\tborder-right: 1px solid rgba(255, 255, 255, 0.0784314);\n\n\t.item.collapse-menu {\n\t\tpadding-top: 9px;\n\t\tpadding-bottom: 9px;\n\t}\n\t> cp-sidebar-items::before {\n\t\tdisplay: block;\n\t\tcontent: '';\n\t\theight: 1px;\n\t\tbackground: rgba(255, 255, 255, .08)\n\t}\n}" ],
-	"sourceRoot": "/source/"
-}
+{"version":3,"sources":["sidebar.component.scss"],"names":[],"mappings":"AAAA;EACC,UAAU;EACV,iBAAiB;EAEjB,qDAA0B;EAC1B,uDAA4B,EAY5B;EAjBD;IAQE,iBAAiB;IACjB,oBAAoB,EACpB;EAVF;IAYE,eAAe;IACf,YAAY;IACZ,YAAY;IACZ,sCAAgB,EAChB","file":"sidebar.component.css","sourcesContent":[":host {\n\tmargin: 0;\n\tborder-radius: 0;\n\n\tborder-top: 1px solid rgba(255, 255, 255, 0.0784314);\n\tborder-right: 1px solid rgba(255, 255, 255, 0.0784314);\n\n\t.item.collapse-menu {\n\t\tpadding-top: 9px;\n\t\tpadding-bottom: 9px;\n\t}\n\t> cp-sidebar-items::before {\n\t\tdisplay: block;\n\t\tcontent: '';\n\t\theight: 1px;\n\t\tbackground: rgba(255, 255, 255, .08)\n\t}\n}"],"sourceRoot":"/source/"}

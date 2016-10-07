@@ -22,8 +22,10 @@
 					       [property]="property"
 					       [id]="id"
 					       [documentURI]="documentURI"
+					       [originalId]="originalId"
 					       [control]="idInput"
-					       id-validator
+					       cp-property-id
+					       uri
 					       name="idInput" [(ngModel)]="value" #idInput="ngModel" (keyup.escape)="cancelIdEdition()" (keyup.enter)="idInput.valid? saveId() : null">
 					<button class="ui button"
 					        [disabled]="!idInput.valid"
@@ -33,7 +35,7 @@
 				<div class="ui error message wide" *ngIf="!idInput.valid">
 					<p *ngIf="idInput.control.hasError('required')">Enter an id.</p>
 					<p *ngIf="idInput.control.hasError('invalidParent')">Enter a valid name for a Named Fragment. A name must contains the parent URI ({{documentURI}}<- Your fragment name ->).</p>
-					<p *ngIf="idInput.control.hasError('invalidValue')">Enter a valid URL. Only alphanumeric values (a-z, A-Z, 0..9)</p>
+					<p *ngIf="idInput.control.hasError('invalidURIAddress')">Enter a valid URL. Only alphanumeric values (a-z, A-Z, 0..9)</p>
 					<p *ngIf="idInput.control.hasError('duplicatedHashtag')">Use only one hashtag (#) symbol.</p>
 					<p *ngIf="idInput.control.hasError('duplicatedNamedFragmentName')">A Fragment with that name already exists.</p>
 				</div>
@@ -113,7 +115,7 @@
 					       [id]="id"
 					       [originalName]="originalName"
 					       [control]="nameInput"
-					       property-name
+					       cp-property-name
 					       name="nameInput" [(ngModel)]="name" #nameInput="ngModel" (keyup.escape)="cancelEdition()" (keyup.enter)="nameInput.valid? save() : null">
 					<button class="ui button"
 					        [disabled]="!nameInput.valid"

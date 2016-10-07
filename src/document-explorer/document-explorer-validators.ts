@@ -7,7 +7,7 @@ import { Directive, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { AbstractControl, Validator, NG_VALIDATORS } from "@angular/forms";
 
 @Directive( {
-	selector: "[property-name]",
+	selector: "[cp-property-name]",
 	providers: [ { provide: NG_VALIDATORS, useExisting: PropertyNameValidator, multi: true } ]
 } )
 export class PropertyNameValidator implements Validator, OnChanges {
@@ -16,7 +16,7 @@ export class PropertyNameValidator implements Validator, OnChanges {
 	@Input() id;
 	@Input() originalName;
 	@Input() control;
-	url = new RegExp( "(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g" );
+	url = new RegExp( "(\b(https?|ftp|file)://)?[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]" );
 
 	ngOnChanges( changes:SimpleChanges ) {
 		this.control.control.updateValueAndValidity( false, true );
@@ -35,7 +35,7 @@ export class PropertyNameValidator implements Validator, OnChanges {
 }
 
 @Directive( {
-	selector: "[id-validator]",
+	selector: "[cp-property-id]",
 	providers: [ { provide: NG_VALIDATORS, useExisting: IdValidator, multi: true } ]
 } )
 export class IdValidator implements Validator, OnChanges {
@@ -43,8 +43,10 @@ export class IdValidator implements Validator, OnChanges {
 	@Input() property;
 	@Input() documentURI;
 	@Input() id;
+	@Input() originalId;
 	@Input() control;
-	url = new RegExp( "(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g" );
+	// url = new RegExp( "(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g" );
+	url = new RegExp( "(\b(https?|ftp|file)://)?[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]" );
 
 
 	ngOnChanges( changes:SimpleChanges ) {
@@ -57,8 +59,8 @@ export class IdValidator implements Validator, OnChanges {
 		if( ! ! control ) {
 			if( typeof control.value === "undefined" || control.value === null || ! control.value ) return null;
 			if( typeof control.value === "string" && ! control.value.startsWith( this.documentURI ) ) return { "invalidParent": true };
-			if( this.existingFragments.indexOf( control.value ) !== - 1 && (this.property.added ? this.id !== control.value : true) ) return { "duplicatedNamedFragmentName": true };
-			if( ! this.url.test( control.value ) ) return { "invalidValue": true };
+			if( this.existingFragments.indexOf( control.value ) !== - 1 && (this.property.added ? this.id !== control.value : this.originalId !== control.value) ) return { "duplicatedNamedFragmentName": true };
+			// if( ! this.url.test( control.value ) ) return { "invalidValue": true };
 			if( control.value.split( "#" ).length > 2 ) return { "duplicatedHashtag": true };
 		}
 		return null;
@@ -79,7 +81,7 @@ export class IdValidator implements Validator, OnChanges {
 
 
 @Directive( {
-	selector: "[literal-value]",
+	selector: "[cp-literal-value]",
 	providers: [ { provide: NG_VALIDATORS, useExisting: LiteralValueValidator, multi: true } ]
 } )
 
@@ -93,10 +95,10 @@ export class LiteralValueValidator implements Validator, OnChanges {
 
 	validate( control:AbstractControl ):{[key:string]:any;} {
 		let valid:boolean;
-		switch( this.type ) {
+		switch ( this.type ) {
 			// Boolean
 			case NS.XSD.DataType.boolean:
-				switch( control.value ) {
+				switch ( control.value ) {
 					case "true":
 					case "yes":
 					case "y":
@@ -156,7 +158,7 @@ export class LiteralValueValidator implements Validator, OnChanges {
 }
 
 @Directive( {
-	selector: "[pointer-validator]",
+	selector: "[cp-pointer-id]",
 	providers: [ { provide: NG_VALIDATORS, useExisting: PointerValidator, multi: true } ]
 } )
 export class PointerValidator implements Validator {
@@ -165,18 +167,11 @@ export class PointerValidator implements Validator {
 
 	validate( control:AbstractControl ):{[key:string]:any;} {
 		if( ! ! control && typeof control.value === "undefined" ) {
-			//if( ! ! control && (typeof control.value === "undefined" || control.value.trim().length === 0) ) {
 			return { "emptyControl": true };
 		}
 		if( ! ! control.value ) {
-			if( this.url.test( control.value ) ) {
-				if( ! URI.Util.isBNodeID( control.value ) ) {
-					return { "invalidId": true };
-				}
-			}
-			else {
-				if( typeof control.value === "string" && ! control.value.startsWith( this.documentURI ) ) return { "invalidParent": true };
-				if( control.value.split( "#" ).length > 2 ) return { "duplicatedHashtag": true };
+			if( ! URI.Util.isBNodeID( control.value ) && ! this.url.test( control.value ) ) {
+				return { "invalidId": true };
 			}
 		}
 		return null;

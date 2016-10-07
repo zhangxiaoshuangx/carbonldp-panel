@@ -37,6 +37,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	existingFragments:string[] = [];
 
 	id:string;
+	originalId:string;
 	name:string;
 	originalName:string;
 	value:any[]|string = [];
@@ -61,11 +62,14 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	@Input() set property( prop:PropertyRow ) {
 		this.copyOrAdded = ! ! prop.copy ? (! ! prop.modified ? "modified" : "copy") : "added";
 		this._property = prop;
+
 		this.id = prop[ this.copyOrAdded ].id;
 		this.tempProperty.id = prop[ this.copyOrAdded ].id;
+		this.originalId = prop[ this.copyOrAdded ].value;
+
 		this.name = prop[ this.copyOrAdded ].name;
-		this.originalName = this.name;
 		this.tempProperty.name = prop[ this.copyOrAdded ].name;
+		this.originalName = this.name;
 		// (<Control>this.nameInput).updateValue( this.name );
 		// if( this.nameInputControl )this.nameInput.control.updateValueAndValidity( this.name );
 		if( Utils.isArray( prop[ this.copyOrAdded ].value ) ) {
@@ -123,16 +127,22 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	getParentURI( uri:string ):string {
+		let parts:string[] = uri.split( "#" );
+		uri = "".concat( parts[ 0 ] ).concat( "#" + parts[ 1 ] );
 		let slug:string = this.getSlug( uri );
 		return uri.substr( 0, uri.indexOf( slug ) );
 		// return ""; //todo remove this line
 	}
 
 	getSlug( uri:string ) {
+		let parts:string[] = uri.split( "#" );
+		uri = "".concat( parts[ 0 ] ).concat( "#" + parts[ 1 ] );
 		return URI.Util.getSlug( uri );
 	}
 
 	getFragment( uri:string ):string {
+		let parts:string[] = uri.split( "#" );
+		uri = "".concat( parts[ 0 ] ).concat( "#" + parts[ 1 ] );
 		return URI.Util.getFragment( uri );
 		// return ""; //todo remove this line
 	}
@@ -157,7 +167,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	getTypeIcon( type:string ):string {
-		switch( this.getDisplayName( type ) ) {
+		switch ( this.getDisplayName( type ) ) {
 			case "RDFSource":
 				return "file outline";
 			case "Container":

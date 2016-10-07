@@ -81,9 +81,10 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                         this._property = prop;
                         this.id = prop[this.copyOrAdded].id;
                         this.tempProperty.id = prop[this.copyOrAdded].id;
+                        this.originalId = prop[this.copyOrAdded].value;
                         this.name = prop[this.copyOrAdded].name;
-                        this.originalName = this.name;
                         this.tempProperty.name = prop[this.copyOrAdded].name;
+                        this.originalName = this.name;
                         // (<Control>this.nameInput).updateValue( this.name );
                         // if( this.nameInputControl )this.nameInput.control.updateValueAndValidity( this.name );
                         if (Utils.isArray(prop[this.copyOrAdded].value)) {
@@ -124,14 +125,20 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                     // return ""; //todo remove this line
                 };
                 PropertyComponent.prototype.getParentURI = function (uri) {
+                    var parts = uri.split("#");
+                    uri = "".concat(parts[0]).concat("#" + parts[1]);
                     var slug = this.getSlug(uri);
                     return uri.substr(0, uri.indexOf(slug));
                     // return ""; //todo remove this line
                 };
                 PropertyComponent.prototype.getSlug = function (uri) {
+                    var parts = uri.split("#");
+                    uri = "".concat(parts[0]).concat("#" + parts[1]);
                     return URI.Util.getSlug(uri);
                 };
                 PropertyComponent.prototype.getFragment = function (uri) {
+                    var parts = uri.split("#");
+                    uri = "".concat(parts[0]).concat("#" + parts[1]);
                     return URI.Util.getFragment(uri);
                     // return ""; //todo remove this line
                 };

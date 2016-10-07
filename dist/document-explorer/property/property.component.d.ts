@@ -15,6 +15,7 @@ export declare class PropertyComponent implements AfterViewInit, OnInit {
     copyOrAdded: string;
     existingFragments: string[];
     id: string;
+    originalId: string;
     name: string;
     originalName: string;
     value: any[] | string;

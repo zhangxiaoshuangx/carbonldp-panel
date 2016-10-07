@@ -1,56 +1,33 @@
 :host {
-    display: block;
-}
-
-:host .query-builder {
+  display: block; }
+  :host .query-builder {
     padding-left: 0;
-    padding-right: 0;
-}
-
-:host .query-builder .queries-list > p {
-    font-size: 2em;
-    color: #ffffff;
-    padding: .5em;
-}
-
-:host .query-builder .queries-list .item .name {
-    font-size: 1.3em;
-}
-
-:host .query-builder .queries-list .item .operation {
-    font-size: 1em;
-    font-family: monospace;
-}
-
-:host .query-builder .queries-list .item .operation.select {
-    color: cornflowerblue;
-}
-
-:host .query-builder .queries-list .item .operation.describe {
-    color: mediumpurple;
-}
-
-:host .query-builder .queries-list .item .operation.construct {
-    color: mediumvioletred;
-}
-
-:host .query-builder .queries-list .item .operation.ask {
-    color: orange;
-}
-
-:host .query-results {
+    padding-right: 0; }
+    :host .query-builder .queries-list > p {
+      font-size: 2em;
+      color: #ffffff;
+      padding: .5em; }
+    :host .query-builder .queries-list .item .name {
+      font-size: 1.3em; }
+    :host .query-builder .queries-list .item .operation {
+      font-size: 1em;
+      font-family: monospace; }
+    :host .query-builder .queries-list .item .operation.select {
+      color: cornflowerblue; }
+    :host .query-builder .queries-list .item .operation.describe {
+      color: mediumpurple; }
+    :host .query-builder .queries-list .item .operation.construct {
+      color: mediumvioletred; }
+    :host .query-builder .queries-list .item .operation.ask {
+      color: orange; }
+  :host .query-results {
     margin-bottom: 6%;
     padding-left: 0;
-    padding-right: 0;
-}
-
-:host .query-results .title .column {
-    padding-left: 0;
-    padding-right: 0;
-}
-
-:host .query-results .ui.list.responses-list > .item {
-    padding-bottom: 10px;
-}
+    padding-right: 0; }
+    :host .query-results .title .column {
+      padding-left: 0;
+      padding-right: 0; }
+    :host .query-results .ui.list.responses-list > .item {
+      padding-bottom: 10px; }
 
 /*# sourceMappingURL=sparql-client.component.css.map */
