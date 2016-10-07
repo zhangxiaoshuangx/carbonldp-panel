@@ -14,7 +14,7 @@
 			       placeholder="E-mail address"
 			       name="email"
 			       [(ngModel)]="register.email"
-			       required email
+			       required cp-email
 			       #email="ngModel">
 		</div>
 	</div>
@@ -42,7 +42,7 @@
 			       [(ngModel)]="register.repeatPassword"
 			       [matchTo]="register.password"
 			       [control]="repeatPassword"
-			       required match
+			       required cp-match
 			       #repeatPassword="ngModel">
 		</div>
 	</div>
@@ -50,7 +50,7 @@
 		<div class="ui left icon input">
 			<i class="user icon"></i>
 			<input type="text" name="profileId" placeholder="Profile ID, E.g. my-agent-name (Optional)"
-			       [(ngModel)]="register.profileId" #profileId="ngModel" slug (input)="getSanitizedSlug(profileId.value)">
+			       [(ngModel)]="register.profileId" #profileId="ngModel" cp-slug (input)="getSanitizedSlug(profileId.value)">
 		</div>
 	</div>
 	<button type="submit"

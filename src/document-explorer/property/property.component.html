@@ -25,7 +25,7 @@
 					       [originalId]="originalId"
 					       [control]="idInput"
 					       cp-property-id
-					       uri
+					       cp-uri
 					       name="idInput" [(ngModel)]="value" #idInput="ngModel" (keyup.escape)="cancelIdEdition()" (keyup.enter)="idInput.valid? saveId() : null">
 					<button class="ui button"
 					        [disabled]="!idInput.valid"

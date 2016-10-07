@@ -40,7 +40,7 @@
 		       [(ngModel)]="createAppFormModel.slug"
 		       (blur)="slugLostControl($event)"
 		       #slug="ngModel"
-		       slug>
+		       cp-slug>
 	</div>
 	<div class="field" [ngClass]="{ error: (!description.pristine && !description.valid) }">
 		<label>Description:</label>

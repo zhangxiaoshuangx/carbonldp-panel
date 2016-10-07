@@ -69,7 +69,7 @@ System.register(["@angular/core", "@angular/forms"], function(exports_1, context
                 };
                 EmailValidator = __decorate([
                     core_1.Directive({
-                        selector: "[email]",
+                        selector: "[cp-email]",
                         providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: EmailValidator, multi: true }]
                     }), 
                     __metadata('design:paramtypes', [])
@@ -107,7 +107,7 @@ System.register(["@angular/core", "@angular/forms"], function(exports_1, context
                 };
                 SlugValidator = __decorate([
                     core_1.Directive({
-                        selector: "[slug]",
+                        selector: "[cp-slug]",
                         providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: SlugValidator, multi: true }]
                     }), 
                     __metadata('design:paramtypes', [])
@@ -143,7 +143,7 @@ System.register(["@angular/core", "@angular/forms"], function(exports_1, context
                 ], MatchValidator.prototype, "control", void 0);
                 MatchValidator = __decorate([
                     core_1.Directive({
-                        selector: "[match]",
+                        selector: "[cp-match]",
                         providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: MatchValidator, multi: true }]
                     }), 
                     __metadata('design:paramtypes', [])
@@ -165,7 +165,7 @@ System.register(["@angular/core", "@angular/forms"], function(exports_1, context
                 };
                 DomainValidator = __decorate([
                     core_1.Directive({
-                        selector: "[domain]",
+                        selector: "[cp-domain]",
                         providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: DomainValidator, multi: true }]
                     }), 
                     __metadata('design:paramtypes', [])
@@ -190,7 +190,7 @@ System.register(["@angular/core", "@angular/forms"], function(exports_1, context
                 };
                 URIValidator = __decorate([
                     core_1.Directive({
-                        selector: "[uri]",
+                        selector: "[cp-uri]",
                         providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: URIValidator, multi: true }]
                     }), 
                     __metadata('design:paramtypes', [])

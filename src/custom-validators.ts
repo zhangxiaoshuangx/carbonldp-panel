@@ -35,7 +35,7 @@ import { Directive, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { AbstractControl, Validator, NG_VALIDATORS } from "@angular/forms";
 
 @Directive( {
-	selector: "[email]",
+	selector: "[cp-email]",
 	providers: [ { provide: NG_VALIDATORS, useExisting: EmailValidator, multi: true } ]
 } )
 export class EmailValidator implements Validator {
@@ -71,7 +71,7 @@ export class EmailValidator implements Validator {
 
 
 @Directive( {
-	selector: "[slug]",
+	selector: "[cp-slug]",
 	providers: [ { provide: NG_VALIDATORS, useExisting: SlugValidator, multi: true } ]
 } )
 export class SlugValidator implements Validator {
@@ -88,7 +88,7 @@ export class SlugValidator implements Validator {
 
 
 @Directive( {
-	selector: "[match]",
+	selector: "[cp-match]",
 	providers: [ { provide: NG_VALIDATORS, useExisting: MatchValidator, multi: true } ]
 } )
 export class MatchValidator implements Validator,OnChanges {
@@ -114,7 +114,7 @@ export class MatchValidator implements Validator,OnChanges {
 }
 
 @Directive( {
-	selector: "[domain]",
+	selector: "[cp-domain]",
 	providers: [ { provide: NG_VALIDATORS, useExisting: DomainValidator, multi: true } ]
 } )
 export class DomainValidator implements Validator {
@@ -131,7 +131,7 @@ export class DomainValidator implements Validator {
 }
 
 @Directive( {
-	selector: "[uri]",
+	selector: "[cp-uri]",
 	providers: [ { provide: NG_VALIDATORS, useExisting: URIValidator, multi: true } ]
 } )
 export class URIValidator implements Validator {
