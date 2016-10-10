@@ -10,4 +10,13 @@
   color: gray;
   font-size: .8em; }
 
+:host .updown.buttons {
+  max-height: 28px;
+  margin-top: 1px;
+  float: right; }
+  :host .updown.buttons .button {
+    max-height: 13px;
+    height: 13px;
+    padding: 1px; }
+
 /*# sourceMappingURL=literal.component.css.map */

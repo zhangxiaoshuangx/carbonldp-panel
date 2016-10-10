@@ -1,5 +1,4 @@
-import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit, OnInit } from "@angular/core";
-import { AbstractControl, Control, Validators } from "@angular/common/src/forms-deprecated";
+import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit, OnInit, ViewChild } from "@angular/core";
 
 import * as SDKRDFNode from "carbonldp/RDF/RDFNode";
 import * as SDKLiteral from "carbonldp/RDF/Literal";
@@ -41,7 +40,9 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	existingFragments:string[] = [];
 
 	id:string;
+	originalId:string;
 	name:string;
+	originalName:string;
 	value:any[]|string = [];
 
 	addNewLiteral:EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -49,8 +50,8 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	addNewList:EventEmitter<boolean> = new EventEmitter<boolean>();
 	commonToken:string[] = [ "@id", "@type", "@value" ];
 	modes:Modes = Modes;
-	nameInput:AbstractControl = new Control( this.name, Validators.compose( [ Validators.required, this.nameValidator.bind( this ) ] ) );
-	idInput:AbstractControl = new Control( this.value, Validators.compose( [ Validators.required, this.idValidator.bind( this ) ] ) );
+	@ViewChild( "nameInput" ) nameInputControl;
+	@ViewChild( "idInput" ) idInputControl;
 
 	@Input() mode:string = Modes.READ;
 	@Input() documentURI:string = "";
@@ -63,17 +64,19 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	@Input() set property( prop:PropertyRow ) {
 		this.copyOrAdded = ! ! prop.copy ? (! ! prop.modified ? "modified" : "copy") : "added";
 		this._property = prop;
+
 		this.id = prop[ this.copyOrAdded ].id;
 		this.tempProperty.id = prop[ this.copyOrAdded ].id;
+		this.originalId = prop[ this.copyOrAdded ].value;
+
 		this.name = prop[ this.copyOrAdded ].name;
 		this.tempProperty.name = prop[ this.copyOrAdded ].name;
-		(<Control>this.nameInput).updateValue( this.name );
+		this.originalName = this.name;
 		if( Utils.isArray( prop[ this.copyOrAdded ].value ) ) {
 			this.value = [];
 			prop[ this.copyOrAdded ].value.forEach( ( literalOrRDFNode )=> { (<Array<any>>this.value).push( Object.assign( literalOrRDFNode ) ) } )
 		} else {
 			this.value = prop[ this.copyOrAdded ].value;
-			(<Control>this.idInput).updateValue( this.value );
 		}
 	}
 
@@ -128,6 +131,8 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	getFragment( uri:string ):string {
+		let parts:string[] = uri.split( "#" );
+		uri = "".concat( parts[ 0 ] ).concat( "#" + parts[ 1 ] );
 		return URI.Util.getFragment( uri );
 	}
 
@@ -177,14 +182,14 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 
 	onEditName():void {
 		this.mode = Modes.EDIT;
-		(<Control>this.nameInput).updateValue( this.unescape( this.name ) );
+		this.name = this.unescape( (this.name) );
 	}
 
 	onEditId():void {
 		this.mode = Modes.EDIT;
 		this.existingFragments = [];
 		this.namedFragments.forEach( ( nameFragment:NamedFragmentRow ) => { this.existingFragments.push( nameFragment.name ); } );
-		( <Control>this.idInput ).updateValue( this.unescape( <string>this.value ) );
+		this.value = this.unescape( <string>this.value );
 	}
 
 	cancelDeletion():void {
@@ -192,16 +197,14 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	cancelEdition():void {
-		if( this.nameInput.valid ) {
+		if( this.nameInputControl.valid ) {
 			this.mode = Modes.READ;
-			(<Control>this.nameInput).updateValue( this.name );
 		}
 	}
 
 	cancelIdEdition():void {
-		if( this.idInput.valid ) {
+		if( this.idInputControl.valid ) {
 			this.mode = Modes.READ;
-			(<Control>this.idInput).updateValue( this.value );
 		}
 	}
 
@@ -219,12 +222,12 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	save():void {
-		this.checkForChangesOnName( this.sanitize( this.nameInput.value ) );
+		this.checkForChangesOnName( this.sanitize( this.name ) );
 		this.mode = Modes.READ;
 	}
 
 	saveId():void {
-		this.checkForChangesOnId( this.sanitize( this.idInput.value ) );
+		this.checkForChangesOnId( this.sanitize( <string>this.value ) );//check changes on idInput
 		this.mode = Modes.READ;
 	}
 
@@ -431,29 +434,6 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 
 	private unescape( uri:string ):string {
 		return decodeURI( uri );
-	}
-
-	private nameValidator( control:AbstractControl ):any {
-		if( ! ! control ) {
-			if( typeof control.value === "undefined" || control.value === null || ! control.value ) return null;
-			if( this.existingProperties.indexOf( control.value ) !== - 1 && (this.property.added ? this.id !== control.value : this.name !== control.value) ) return { "duplicatedPropertyName": true };
-			let url = new RegExp( "(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g" );
-			if( ! url.test( control.value ) ) return { "invalidName": true };
-			if( control.value.split( "#" ).length > 2 ) return { "duplicatedHashtag": true };
-		}
-		return null;
-	}
-
-	private idValidator( control:AbstractControl ):any {
-		if( ! ! control ) {
-			if( typeof control.value === "undefined" || control.value === null || ! control.value ) return null;
-			if( typeof control.value === "string" && ! control.value.startsWith( this.documentURI ) ) return { "invalidParent": true };
-			if( this.existingFragments.indexOf( control.value ) !== - 1 && (this.property.added ? this.id !== control.value : this.value !== control.value) ) return { "duplicatedNamedFragmentName": true };
-			let url = new RegExp( "(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g" );
-			if( ! url.test( control.value ) ) return { "invalidValue": true };
-			if( control.value.split( "#" ).length > 2 ) return { "duplicatedHashtag": true };
-		}
-		return null;
 	}
 }
 

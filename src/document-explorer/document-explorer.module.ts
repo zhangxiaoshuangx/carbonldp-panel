@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders } from "@angular/core";
-import { CommonModule, DeprecatedFormsModule } from '@angular/common';
-
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
 // Components
 import { LiteralComponent } from "./literals/literal.component";
 import { LiteralsComponent } from "./literals/literals.component";
@@ -20,16 +20,20 @@ import { DocumentExplorerComponent } from "./document-explorer.component";
 
 // Modules
 import { PanelModule } from "./../panel.module";
+import { DirectivesModule } from "./../directives.module";
 
 // Services
 import { DocumentsResolverService } from "./documents-resolver.service";
 
+//Directives
+import { IdValidator, PropertyNameValidator, LiteralValueValidator, PointerValidator } from "./document-explorer-validators";
 
 @NgModule( {
 	imports: [
 		CommonModule,
-		DeprecatedFormsModule,
-		PanelModule
+		FormsModule,
+		PanelModule,
+		DirectivesModule
 	],
 	declarations: [
 		LiteralComponent,
@@ -47,6 +51,10 @@ import { DocumentsResolverService } from "./documents-resolver.service";
 		DocumentViewerComponent,
 		DocumentTreeViewComponent,
 		DocumentExplorerComponent,
+		IdValidator,
+		PropertyNameValidator,
+		LiteralValueValidator,
+		PointerValidator,
 	],
 	exports: [
 		DocumentExplorerComponent,

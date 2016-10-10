@@ -1,5 +1,4 @@
 import { Component, ElementRef, Input, OnInit, OnDestroy } from "@angular/core";
-import { FormBuilder, ControlGroup, AbstractControl, Control, Validators } from "@angular/common";
 
 import * as App from "carbonldp/App";
 import * as Response from "carbonldp/HTTP/Response";
@@ -12,11 +11,11 @@ import { JobsService } from "../../job/jobs.service";
 import * as Job from "../../job/job";
 import { Message } from "./../../../../../errors-area/error-message.component";
 
-import $ from "jquery";
 import "semantic-ui/semantic";
 
 import template from "./backup-importer.component.html!";
 import style from "./backup-importer.component.css!text";
+
 
 @Component( {
 	selector: "cp-backup-importer",
@@ -25,24 +24,22 @@ import style from "./backup-importer.component.css!text";
 } )
 
 export class BackupImporterComponent implements OnInit, OnDestroy {
+	@Input() appContext:App.Context;
 
 	element:ElementRef;
-	$element:JQuery;
-	$importForm:JQuery;
-	$backups:JQuery;
 	monitorExecutionInterval:number;
 
-	formBuilder:FormBuilder;
-	importForm:ControlGroup;
-	uri:AbstractControl;
-	backup:AbstractControl;
-	backupFile:AbstractControl;
+	importFormModel:{ uri:string, backup:string, backupFile:string } = {
+		uri: "",
+		backup: "",
+		backupFile: "",
+	};
 	backupFileBlob:Blob;
+	backupFileArray:any[] = [];
 
 	backups:PersistedDocument.Class[] = [];
 	backupsService:BackupsService;
 	jobsService:JobsService;
-	@Input() appContext:App.Context;
 
 	running:ImportStatus = new ImportStatus();
 	uploading:ImportStatus = new ImportStatus();
@@ -51,27 +48,16 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 	errorMessages:Message[] = [];
 	errorMessage:Message;
 
-	constructor( element:ElementRef, formBuilder:FormBuilder, backupsService:BackupsService, jobsService:JobsService ) {
+	constructor( element:ElementRef, backupsService:BackupsService, jobsService:JobsService ) {
 		this.element = element;
-		this.formBuilder = formBuilder;
 		this.backupsService = backupsService;
 		this.jobsService = jobsService;
 	}
 
 	ngOnInit():void {
-		this.$element = $( this.element.nativeElement );
-		this.$backups = this.$element.find( "select.backups" );
-		this.$importForm = this.$element.find( "form.importForm" );
-		this.importForm = this.formBuilder.group( {
-			uri: [ "", Validators.compose( [ this.uriValidator ] ) ],
-			backup: [ "", Validators.compose( [ this.existingBackupValidator.bind( this ) ] ) ],
-			backupFile: [ "", Validators.compose( [ this.backupFileValidator.bind( this ) ] ) ],
-		}, { validator: Validators.compose( [ this.importFormValidator.bind( this ) ] ) } );
-		this.uri = this.importForm.controls[ "uri" ];
-		this.backup = this.importForm.controls[ "backup" ];
-		this.backupFile = this.importForm.controls[ "backupFile" ];
 		this.getBackups();
 	}
+
 
 	getBackups():void {
 		this.backupsService.getAll( this.appContext ).then( ( [backups, response]:[PersistedDocument.Class[], Response.Class] )=> {
@@ -79,11 +65,14 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 		} )
 	}
 
-	onImportBackup():void {
+	onImportBackup( form:any ):void {
+		let uri = form.form.controls.uri;
+		let backup = form.form.controls.backup;
+		let backupFile = form.form.controls.backupFile;
 		this.running.start();
-		if( this.uri.valid )this.createBackupImport( this.uri.value );
-		if( this.backup.valid )this.createBackupImport( this.backup.value );
-		if( this.backupFile.valid )this.uploadBackup( this.backupFileBlob );
+		if( uri.valid )this.createBackupImport( uri.value );
+		if( backup.valid )this.createBackupImport( backup.value );
+		if( backupFile.valid )this.uploadBackup( this.backupFileBlob );
 	}
 
 	executeImport( importJob:PersistedDocument.Class ):Promise<PersistedDocument.Class> {
@@ -139,68 +128,34 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 	onFileChange( event ):void {
 		var files:FileList = event.srcElement.files;
 		this.backupFileBlob = files[ 0 ];
-		(<Control>this.backupFile).updateValueAndValidity();
 	}
 
-	onInputLostFocus( event:FocusEvent ):void {
-		switch( event.srcElement.attributes.getNamedItem( "ngcontrol" ).value ) {
+	onInputLostFocus( control:any ):void {
+		switch( control.name ) {
 			case "uri":
-				if( this.uri.valid ) {
-					this.$element.find( "[ngControl='backup']" ).prop( "disabled", true );
-					this.$element.find( "[ngControl='backupFile']" ).prop( "disabled", true );
+				if( control.valid ) {
+					this.element.nativeElement.querySelector( "[ ng-reflect-name ='backup']" ).setAttribute( "disabled", true );
+					this.element.nativeElement.querySelector( "[ ng-reflect-name ='backupFile']" ).setAttribute( "disabled", true );
 				} else { this.enableAllInputs() }
 				break;
 			case "backup":
-				if( this.backup.valid ) {
-					this.$element.find( "[ngControl='uri']" ).prop( "disabled", true );
-					this.$element.find( "[ngControl='backupFile']" ).prop( "disabled", true );
+				if( control.valid ) {
+					this.element.nativeElement.querySelector( "[ ng-reflect-name ='uri']" ).setAttribute( "disabled", true );
+					this.element.nativeElement.querySelector( "[ ng-reflect-name ='backupFile']" ).setAttribute( "disabled", true );
 				} else { this.enableAllInputs() }
 				break;
 			case "backupFile":
 				if( ! ! this.backupFileBlob ) {
-					this.$element.find( "[ngControl='uri']" ).prop( "disabled", true );
-					this.$element.find( "[ngControl='backup']" ).prop( "disabled", true );
+					this.element.nativeElement.querySelector( "[ ng-reflect-name ='uri']" ).setAttribute( "disabled", true );
+					this.element.nativeElement.querySelector( "[ ng-reflect-name='backup']" ).setAttribute( "disabled", true );
 				} else { this.enableAllInputs() }
 				break;
 		}
 	}
 
 	enableAllInputs():void {
-		this.$element.find( "[ngControl='uri']" ).prop( "disabled", false );
-		this.$element.find( "[ngControl='backup']" ).prop( "disabled", false );
-		this.$element.find( "[ngControl='backupFile']" ).prop( "disabled", false );
-	}
-
-	uriValidator( uri:AbstractControl ):any {
-		if( uri.value.match( /^(ftp|https?):\/\/(\w+:{0,1}\w*@)?((?![^\/]+\/(?:ftp|https?):)\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/ ) ) {
-			return null;
-		}
-		if( uri.touched && ! ! uri.value ) {
-			return { "invalidURIAddress": true };
-		}
-		return { "emptyURIAddress": true };
-	}
-
-	existingBackupValidator( existingBackup:AbstractControl ):any {
-		if( ! ! existingBackup.value ) return null;
-		return { "invalidExistingBackupAddress": true };
-	}
-
-	backupFileValidator( backupFile:AbstractControl ):any {
-		if( ! ! this.backupFileBlob && this.backupFileBlob.type === "application/zip" ) return null;
-		if( ! this.backupFileBlob ) return { "emptyBackupFile": true };
-		return { "invalidBackupFileFormat": true };
-	}
-
-	importFormValidator( importForm:ControlGroup ):any {
-		let validForm:boolean = false;
-		for( let control in importForm.controls ) {
-			if( ! ! importForm.controls[ control ].valid )validForm = true;
-		}
-		if( validForm ) {
-			return null;
-		}
-		return { "invalidImportForm": true };
+		this.element.nativeElement.querySelector( "[ng-reflect-name='uri']" ).removeAttribute( "disabled", true );
+		this.element.nativeElement.querySelector( "[ng-reflect-name='backupFile']" ).removeAttribute( "disabled", true );
 	}
 
 	canDisplayImportButtonLoading():boolean {

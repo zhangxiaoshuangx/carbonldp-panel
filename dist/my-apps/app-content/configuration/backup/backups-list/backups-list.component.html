@@ -19,7 +19,7 @@
 				</div>
 			</div>
 			<div class="content">
-				<div class="header">{{backup.created | date:"MMM dd, yyy - HH:mm"}}</div>
+				<div class="header">{{backup.created | date:"MMM dd, yyyy - hh:mm:ss a"}}</div>
 				{{backup.fileIdentifier}}
 			</div>
 		</div>
@@ -54,7 +54,8 @@
 		<div class="description">
 			<div class="ui header">Are you sure?</div>
 			<p>You are about to delete the backup
-				"<span class="emphasize">{{askingBackupToRemove?.fileIdentifier}}</span>" created on <span class="emphasize">{{askingBackupToRemove?.created | date:"MMM dd, yyy - HH:mm"}} hrs.</span>.
+				"<span class="emphasize">{{askingBackupToRemove?.fileIdentifier}}</span>" created on <span class="emphasize">{{askingBackupToRemove?.created | date:"MMM dd, yyyy - hh:mm:ss a"}} hrs
+					.</span>.
 			</p>
 			<p>Are you sure you want to delete it?</p>
 			<div class="errors" *ngIf="deleteMessages.length>0">

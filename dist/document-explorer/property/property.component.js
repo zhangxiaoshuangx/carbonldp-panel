@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Literal", "carbonldp/RDF/List", "carbonldp/RDF/URI", "carbonldp/Utils", "jquery", "semantic-ui/semantic", "./property.component.html!", "./property.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Literal", "carbonldp/RDF/List", "carbonldp/RDF/URI", "carbonldp/Utils", "jquery", "semantic-ui/semantic", "./property.component.html!", "./property.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,15 +10,12 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, forms_deprecated_1, SDKRDFNode, SDKLiteral, SDKList, URI, Utils, jquery_1, property_component_html_1, property_component_css_text_1;
+    var core_1, SDKRDFNode, SDKLiteral, SDKList, URI, Utils, jquery_1, property_component_html_1, property_component_css_text_1;
     var PropertyComponent, Modes;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (forms_deprecated_1_1) {
-                forms_deprecated_1 = forms_deprecated_1_1;
             },
             function (SDKRDFNode_1) {
                 SDKRDFNode = SDKRDFNode_1;
@@ -57,10 +54,9 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                     this.value = [];
                     this.addNewLiteral = new core_1.EventEmitter();
                     this.addNewPointer = new core_1.EventEmitter();
+                    this.addNewList = new core_1.EventEmitter();
                     this.commonToken = ["@id", "@type", "@value"];
                     this.modes = Modes;
-                    this.nameInput = new forms_deprecated_1.Control(this.name, forms_deprecated_1.Validators.compose([forms_deprecated_1.Validators.required, this.nameValidator.bind(this)]));
-                    this.idInput = new forms_deprecated_1.Control(this.value, forms_deprecated_1.Validators.compose([forms_deprecated_1.Validators.required, this.idValidator.bind(this)]));
                     this.mode = Modes.READ;
                     this.documentURI = "";
                     this.bNodes = [];
@@ -80,6 +76,7 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                     this.valueHasChanged = false;
                     this.literalsHaveChanged = false;
                     this.pointersHaveChanged = false;
+                    this.listsHaveChanged = false;
                     this.element = element;
                 }
                 Object.defineProperty(PropertyComponent.prototype, "property", {
@@ -90,23 +87,23 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                         this._property = prop;
                         this.id = prop[this.copyOrAdded].id;
                         this.tempProperty.id = prop[this.copyOrAdded].id;
+                        this.originalId = prop[this.copyOrAdded].value;
                         this.name = prop[this.copyOrAdded].name;
                         this.tempProperty.name = prop[this.copyOrAdded].name;
-                        this.nameInput.updateValue(this.name);
+                        this.originalName = this.name;
                         if (Utils.isArray(prop[this.copyOrAdded].value)) {
                             this.value = [];
                             prop[this.copyOrAdded].value.forEach(function (literalOrRDFNode) { _this.value.push(Object.assign(literalOrRDFNode)); });
                         }
                         else {
                             this.value = prop[this.copyOrAdded].value;
-                            this.idInput.updateValue(this.value);
                         }
                     },
                     enumerable: true,
                     configurable: true
                 });
                 Object.defineProperty(PropertyComponent.prototype, "propertyHasChanged", {
-                    get: function () { return this.nameHasChanged || this.valueHasChanged || this.literalsHaveChanged || this.pointersHaveChanged; },
+                    get: function () { return this.nameHasChanged || this.valueHasChanged || this.literalsHaveChanged || this.pointersHaveChanged || this.listsHaveChanged; },
                     enumerable: true,
                     configurable: true
                 });
@@ -135,6 +132,8 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                     return URI.Util.getSlug(uri);
                 };
                 PropertyComponent.prototype.getFragment = function (uri) {
+                    var parts = uri.split("#");
+                    uri = "".concat(parts[0]).concat("#" + parts[1]);
                     return URI.Util.getFragment(uri);
                 };
                 PropertyComponent.prototype.isArray = function (property) {
@@ -171,36 +170,34 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                     });
                 };
                 PropertyComponent.prototype.initializeDeletionDimmer = function () {
-                    this.$element.find(".confirm-deletion.dimmer").dimmer({ closable: false });
+                    this.$element.find(".property.confirm-deletion.dimmer").dimmer({ closable: false });
                 };
                 PropertyComponent.prototype.onEditName = function () {
                     this.mode = Modes.EDIT;
-                    this.nameInput.updateValue(this.unescape(this.name));
+                    this.name = this.unescape((this.name));
                 };
                 PropertyComponent.prototype.onEditId = function () {
                     var _this = this;
                     this.mode = Modes.EDIT;
                     this.existingFragments = [];
                     this.namedFragments.forEach(function (nameFragment) { _this.existingFragments.push(nameFragment.name); });
-                    this.idInput.updateValue(this.unescape(this.value));
+                    this.value = this.unescape(this.value);
                 };
                 PropertyComponent.prototype.cancelDeletion = function () {
-                    this.$element.find(".confirm-deletion.dimmer").dimmer("hide");
+                    this.$element.find(".property.confirm-deletion.dimmer").dimmer("hide");
                 };
                 PropertyComponent.prototype.cancelEdition = function () {
-                    if (this.nameInput.valid) {
+                    if (this.nameInputControl.valid) {
                         this.mode = Modes.READ;
-                        this.nameInput.updateValue(this.name);
                     }
                 };
                 PropertyComponent.prototype.cancelIdEdition = function () {
-                    if (this.idInput.valid) {
+                    if (this.idInputControl.valid) {
                         this.mode = Modes.READ;
-                        this.idInput.updateValue(this.value);
                     }
                 };
                 PropertyComponent.prototype.askToConfirmDeletion = function () {
-                    this.$element.find(".confirm-deletion.dimmer").dimmer("show");
+                    this.$element.find(".property.confirm-deletion.dimmer").dimmer("show");
                 };
                 PropertyComponent.prototype.deleteProperty = function () {
                     if (typeof this.property.added !== "undefined") {
@@ -212,11 +209,11 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                     }
                 };
                 PropertyComponent.prototype.save = function () {
-                    this.checkForChangesOnName(this.sanitize(this.nameInput.value));
+                    this.checkForChangesOnName(this.sanitize(this.name));
                     this.mode = Modes.READ;
                 };
                 PropertyComponent.prototype.saveId = function () {
-                    this.checkForChangesOnId(this.sanitize(this.idInput.value));
+                    this.checkForChangesOnId(this.sanitize(this.value)); //check changes on idInput
                     this.mode = Modes.READ;
                 };
                 PropertyComponent.prototype.sanitize = function (value) {
@@ -266,12 +263,13 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                     else {
                         this.property[this.copyOrAdded].value.forEach(function (literalOrRDFNodeOrList) {
                             if (SDKList.Factory.is(literalOrRDFNodeOrList)) {
-                                _this.lists.push({ copy: literalOrRDFNodeOrList });
+                                console.log(literalOrRDFNodeOrList);
+                                _this.lists.push({ copy: literalOrRDFNodeOrList["@list"].map(function (item) { return { copy: item }; }) });
                                 _this.tempLists.push({ copy: literalOrRDFNodeOrList });
+                                console.log(_this.lists);
                             }
                         });
                     }
-                    console.log(this.property);
                 };
                 PropertyComponent.prototype.addLiteral = function () {
                     // Notify LiteralsComponent to add literal
@@ -280,6 +278,10 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                 PropertyComponent.prototype.addPointer = function () {
                     // Notify PointersComponent to add pointer
                     this.addNewPointer.emit(true);
+                };
+                PropertyComponent.prototype.addList = function () {
+                    // Notify ListsComponent to add pointer
+                    this.addNewList.emit(true);
                 };
                 PropertyComponent.prototype.checkForChangesOnName = function (newName) {
                     this.name = newName;
@@ -301,6 +303,46 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                 };
                 PropertyComponent.prototype.checkForChangesOnPointers = function (pointers) {
                     this.tempPointers = pointers;
+                    console.log(pointers);
+                    this.changePropertyContent();
+                };
+                PropertyComponent.prototype.checkForChangesOnLists = function (lists) {
+                    this.tempLists = lists;
+                    var resultingLists = [];
+                    this.tempLists.forEach(function (list) {
+                        var resultingList = {};
+                        if (list["added"]) {
+                            var resultingListContent_1 = [];
+                            list["added"].forEach(function (literalOrPointer) {
+                                if (!!literalOrPointer["deleted"])
+                                    return;
+                                resultingListContent_1.push(literalOrPointer[!!literalOrPointer["modified"] ? "modified" : !!literalOrPointer["added"] ? "added" : "copy"]);
+                            });
+                            resultingList.added = { "@list": resultingListContent_1 };
+                        }
+                        else {
+                            if (list["modified"]) {
+                                var resultingListContent_2 = [];
+                                list["modified"].forEach(function (literalOrPointer) {
+                                    if (!!literalOrPointer["deleted"])
+                                        return;
+                                    resultingListContent_2.push(literalOrPointer[!!literalOrPointer["modified"] ? "modified" : !!literalOrPointer["added"] ? "added" : "copy"]);
+                                });
+                                resultingList.modified = { "@list": resultingListContent_2 };
+                            }
+                            if (list["copy"]) {
+                                var resultingListContent_3 = [];
+                                list["copy"].forEach(function (literalOrPointer) {
+                                    if (!!literalOrPointer["deleted"])
+                                        return;
+                                    resultingListContent_3.push(literalOrPointer["copy"]);
+                                });
+                                resultingList.copy = { "@list": resultingListContent_3 };
+                            }
+                        }
+                        resultingLists.push(resultingList);
+                    });
+                    this.tempLists = resultingLists;
                     this.changePropertyContent();
                 };
                 PropertyComponent.prototype.changePropertyContent = function () {
@@ -323,12 +365,13 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                     // Change literals and pointers
                     if (Utils.isArray(this.value)) {
                         this.tempProperty.value = [];
-                        [].concat(this.tempLiterals).concat(this.tempPointers).forEach(function (literalOrPointerRow) {
-                            if (!literalOrPointerRow.deleted)
-                                _this.tempProperty.value.push(!!literalOrPointerRow.added ? literalOrPointerRow.added : !!literalOrPointerRow.modified ? literalOrPointerRow.modified : literalOrPointerRow.copy);
+                        [].concat(this.tempLiterals).concat(this.tempPointers).concat(this.tempLists).forEach(function (literalOrPointerOrListRow) {
+                            if (!literalOrPointerOrListRow.deleted)
+                                _this.tempProperty.value.push(!!literalOrPointerOrListRow.added ? literalOrPointerOrListRow.added : !!literalOrPointerOrListRow.modified ? literalOrPointerOrListRow.modified : literalOrPointerOrListRow.copy);
                         });
                         this.literalsHaveChanged = !!this.tempLiterals.find(function (literalRow) { return !!literalRow.modified || !!literalRow.added || !!literalRow.deleted; });
                         this.pointersHaveChanged = !!this.tempPointers.find(function (pointerRow) { return !!pointerRow.modified || !!pointerRow.added || !!pointerRow.deleted; });
+                        this.listsHaveChanged = !!this.tempLists.find(function (listRow) { return !!listRow.modified || !!listRow.added || !!listRow.deleted; });
                         if (this.literalsHaveChanged) {
                             this.property.modifiedLiterals = this.tempLiterals;
                         }
@@ -382,36 +425,14 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                 PropertyComponent.prototype.unescape = function (uri) {
                     return decodeURI(uri);
                 };
-                PropertyComponent.prototype.nameValidator = function (control) {
-                    if (!!control) {
-                        if (typeof control.value === "undefined" || control.value === null || !control.value)
-                            return null;
-                        if (this.existingProperties.indexOf(control.value) !== -1 && (this.property.added ? this.id !== control.value : this.name !== control.value))
-                            return { "duplicatedPropertyName": true };
-                        var url = new RegExp("(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g");
-                        if (!url.test(control.value))
-                            return { "invalidName": true };
-                        if (control.value.split("#").length > 2)
-                            return { "duplicatedHashtag": true };
-                    }
-                    return null;
-                };
-                PropertyComponent.prototype.idValidator = function (control) {
-                    if (!!control) {
-                        if (typeof control.value === "undefined" || control.value === null || !control.value)
-                            return null;
-                        if (typeof control.value === "string" && !control.value.startsWith(this.documentURI))
-                            return { "invalidParent": true };
-                        if (this.existingFragments.indexOf(control.value) !== -1 && (this.property.added ? this.id !== control.value : this.value !== control.value))
-                            return { "duplicatedNamedFragmentName": true };
-                        var url = new RegExp("(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g");
-                        if (!url.test(control.value))
-                            return { "invalidValue": true };
-                        if (control.value.split("#").length > 2)
-                            return { "duplicatedHashtag": true };
-                    }
-                    return null;
-                };
+                __decorate([
+                    core_1.ViewChild("nameInput"), 
+                    __metadata('design:type', Object)
+                ], PropertyComponent.prototype, "nameInputControl", void 0);
+                __decorate([
+                    core_1.ViewChild("idInput"), 
+                    __metadata('design:type', Object)
+                ], PropertyComponent.prototype, "idInputControl", void 0);
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', String)

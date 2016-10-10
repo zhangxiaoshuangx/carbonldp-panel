@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-import { CommonModule, DeprecatedFormsModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from "@angular/forms";
 
 import { routing } from "./app-content.routing";
 import { AppContentResolver } from "./app-content.resolver";
@@ -22,10 +23,14 @@ import { BackupsComponent } from "./configuration/backup/backups.component";
 import { ConfigurationComponent } from "./configuration/configuration.component";
 import { ConfigurationView } from "./configuration/configuration.view";
 
+//Directives
+import { BackupFileValidator, AtLeastOneValidValidator } from "./configuration/backup/backup-importer/backup-importer-validators";
+
 // Modules
 import { PanelModule } from "./../../panel.module";
 import { SPARQLClientModule } from "./../../sparql-client/sparql-client.module";
 import { DocumentExplorerModule } from "./../../document-explorer/document-explorer.module";
+import { DirectivesModule } from "./../../directives.module";
 
 // Services
 import { DocumentsResolverService } from "./../../document-explorer/documents-resolver.service";
@@ -37,11 +42,12 @@ import { BackupsService } from "./configuration/backup/backups.service";
 	imports: [
 		BrowserModule,
 		CommonModule,
-		DeprecatedFormsModule,
+		FormsModule,
 		routing,
 		PanelModule,
 		SPARQLClientModule,
 		DocumentExplorerModule,
+		DirectivesModule,
 	],
 	declarations: [
 		AppContentView,
@@ -56,6 +62,8 @@ import { BackupsService } from "./configuration/backup/backups.service";
 		BackupsComponent,
 		ConfigurationComponent,
 		ConfigurationView,
+		BackupFileValidator,
+		AtLeastOneValidValidator
 	],
 	exports: [],
 	providers: [

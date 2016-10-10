@@ -1,5 +1,4 @@
 import { ElementRef, EventEmitter } from "@angular/core";
-import { AbstractControl } from '@angular/common';
 import { Modes } from "./../property/property.component";
 import "semantic-ui/semantic";
 export declare class LiteralComponent {
@@ -26,12 +25,15 @@ export declare class LiteralComponent {
     literal: LiteralRow;
     canEdit: boolean;
     canDisplayLanguage: boolean;
+    partOfList: boolean;
+    isFirstItem: boolean;
+    isLastItem: boolean;
     onEditMode: EventEmitter<boolean>;
     onSave: EventEmitter<any>;
     onDeleteLiteral: EventEmitter<LiteralRow>;
-    valueInput: AbstractControl;
-    typeInput: AbstractControl;
-    languageInput: AbstractControl;
+    onMoveUp: EventEmitter<LiteralRow>;
+    onMoveDown: EventEmitter<LiteralRow>;
+    valueInputControl: any;
     constructor(element: ElementRef);
     onEdit(event: Event): void;
     deleteLiteral(): void;
@@ -43,7 +45,8 @@ export declare class LiteralComponent {
     private initializeTypesDropdown();
     private getDataTypes();
     private getXSDDataTypes();
-    private valueValidator(control);
+    moveUp(): void;
+    moveDown(): void;
 }
 export interface LiteralRow {
     copy: Literal;
