@@ -26,7 +26,7 @@ export class PropertyNameValidator implements Validator, OnChanges {
 
 		if( ! ! control ) {
 			if( typeof control.value === "undefined" || control.value === null || ! control.value ) return null;
-			if( this.existingProperties.indexOf( control.value ) !== - 1 && (this.property.added ? this.id !== control.value : this.originalName !== control.value) ) return { "duplicatedPropertyName": true };
+			if( this.existingProperties.indexOf( encodeURI( control.value ) ) !== - 1 && (this.property.added ? this.id !== encodeURI( control.value ) : this.originalName !== encodeURI( control.value )) ) return { "duplicatedPropertyName": true };
 			if( ! this.url.test( control.value ) ) return { "invalidName": true };
 			if( control.value.split( "#" ).length > 2 ) return { "duplicatedHashtag": true };
 		}
@@ -81,10 +81,10 @@ export class LiteralValueValidator implements Validator, OnChanges {
 
 	validate( control:AbstractControl ):{[key:string]:any;} {
 		let valid:boolean;
-		switch ( this.type ) {
+		switch( this.type ) {
 			// Boolean
 			case NS.XSD.DataType.boolean:
-				switch ( control.value ) {
+				switch( control.value ) {
 					case "true":
 					case "yes":
 					case "y":

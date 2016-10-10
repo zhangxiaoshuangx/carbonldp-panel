@@ -44,7 +44,7 @@ System.register(["carbonldp/NS", "carbonldp/Utils", "carbonldp/RDF/Literal", "ca
                     if (!!control) {
                         if (typeof control.value === "undefined" || control.value === null || !control.value)
                             return null;
-                        if (this.existingProperties.indexOf(control.value) !== -1 && (this.property.added ? this.id !== control.value : this.originalName !== control.value))
+                        if (this.existingProperties.indexOf(encodeURI(control.value)) !== -1 && (this.property.added ? this.id !== encodeURI(control.value) : this.originalName !== encodeURI(control.value)))
                             return { "duplicatedPropertyName": true };
                         if (!this.url.test(control.value))
                             return { "invalidName": true };

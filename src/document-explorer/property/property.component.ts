@@ -1,5 +1,4 @@
 import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit, OnInit, ViewChild } from "@angular/core";
-import { AbstractControl, FormControl, Validators } from "@angular/forms";
 
 import * as SDKRDFNode from "carbonldp/RDF/RDFNode";
 import * as SDKLiteral from "carbonldp/RDF/Literal";
@@ -117,15 +116,11 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	getParentURI( uri:string ):string {
-		let parts:string[] = uri.split( "#" );
-		uri = "".concat( parts[ 0 ] ).concat( "#" + parts[ 1 ] );
 		let slug:string = this.getSlug( uri );
 		return uri.substr( 0, uri.indexOf( slug ) );
 	}
 
 	getSlug( uri:string ) {
-		let parts:string[] = uri.split( "#" );
-		uri = "".concat( parts[ 0 ] ).concat( "#" + parts[ 1 ] );
 		return URI.Util.getSlug( uri );
 	}
 
