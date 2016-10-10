@@ -9,7 +9,6 @@
 				color: #FF4500;
 			}
 		}
-
 		.description {
 			.ui.accordion {
 				width: 100%;
@@ -18,11 +17,8 @@
 				padding: 0;
 			}
 		}
-
-		.inverted.dimmer {
-			.description {
-				color: #000000;
-			}
+		.inverted.dimmer .description {
+			color: #000000;
 		}
 	}
 	.status.indicator {
@@ -33,29 +29,28 @@
 	}
 }
 
-.ui.items > :host.item .meta input {
-	// Remove gap between input and save button when creating/editing a property name
-	margin-right: 0;
-}
-
-.ui.items > :host.item.added-property {
-	background-color: #F1FAFF;
-	padding: 0;;
-}
-
-.ui.items > :host.item.added-property .content {
-	padding: 15px;
-}
-
-.ui.items > :host.item.has-changed {
-	background-color: #FFFFE0;
-	padding: 0;
-}
-
-.ui.items > :host.item.has-changed .content {
-	padding: 15px;
-}
-
-.ui.divided.items > :host.item .content {
-	margin-top: 0;
+.ui {
+	&.items > :host.item {
+		.meta input {
+			// Remove gap between input and save button when creating/editing a property name
+			margin-right: 0;
+		}
+		&.added-property {
+			background-color: #F1FAFF;
+			padding: 0;
+			.content {
+				padding: 15px;
+			}
+		}
+		&.has-changed {
+			background-color: #FFFFE0;
+			padding: 0;
+			.content {
+				padding: 15px;
+			}
+		}
+	}
+	&.divided.items > :host.item .content {
+		margin-top: 0;
+	}
 }

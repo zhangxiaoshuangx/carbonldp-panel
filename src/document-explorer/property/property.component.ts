@@ -3,12 +3,14 @@ import { AbstractControl, Control, Validators } from "@angular/common/src/forms-
 
 import * as SDKRDFNode from "carbonldp/RDF/RDFNode";
 import * as SDKLiteral from "carbonldp/RDF/Literal";
+import * as SDKList from "carbonldp/RDF/List";
 import * as URI from "carbonldp/RDF/URI";
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 import * as Utils from "carbonldp/Utils";
 
-import { LiteralRow } from "./../literals/literal.component";
-import { PointerRow } from "./../pointers/pointer.component";
+import { Literal, LiteralRow } from "./../literals/literal.component";
+import { Pointer, PointerRow } from "./../pointers/pointer.component";
+import { List, ListRow } from "./../lists/list.component";
 import { NamedFragmentRow } from "./../named-fragments/named-fragment.component";
 
 import $ from "jquery";
@@ -30,8 +32,10 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	$element:JQuery;
 	literals:LiteralRow[] = [];
 	pointers:PointerRow[] = [];
+	lists:ListRow[] = [];
 	tempLiterals:LiteralRow[];
 	tempPointers:PointerRow[];
+	tempLists:ListRow[];
 	tempProperty:Property = <Property>{};
 	copyOrAdded:string;
 	existingFragments:string[] = [];
@@ -42,6 +46,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 
 	addNewLiteral:EventEmitter<boolean> = new EventEmitter<boolean>();
 	addNewPointer:EventEmitter<boolean> = new EventEmitter<boolean>();
+	addNewList:EventEmitter<boolean> = new EventEmitter<boolean>();
 	commonToken:string[] = [ "@id", "@type", "@value" ];
 	modes:Modes = Modes;
 	nameInput:AbstractControl = new Control( this.name, Validators.compose( [ Validators.required, this.nameValidator.bind( this ) ] ) );
@@ -87,8 +92,9 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	valueHasChanged:boolean = false;
 	literalsHaveChanged:boolean = false;
 	pointersHaveChanged:boolean = false;
+	listsHaveChanged:boolean = false;
 
-	get propertyHasChanged():boolean { return this.nameHasChanged || this.valueHasChanged || this.literalsHaveChanged || this.pointersHaveChanged; }
+	get propertyHasChanged():boolean { return this.nameHasChanged || this.valueHasChanged || this.literalsHaveChanged || this.pointersHaveChanged || this.listsHaveChanged; }
 
 	// TODO: Add @lists and @sets support
 	constructor( element:ElementRef ) {
@@ -166,7 +172,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	initializeDeletionDimmer():void {
-		this.$element.find( ".confirm-deletion.dimmer" ).dimmer( { closable: false } );
+		this.$element.find( ".property.confirm-deletion.dimmer" ).dimmer( { closable: false } );
 	}
 
 	onEditName():void {
@@ -182,7 +188,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	cancelDeletion():void {
-		this.$element.find( ".confirm-deletion.dimmer" ).dimmer( "hide" );
+		this.$element.find( ".property.confirm-deletion.dimmer" ).dimmer( "hide" );
 	}
 
 	cancelEdition():void {
@@ -200,7 +206,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	askToConfirmDeletion():void {
-		this.$element.find( ".confirm-deletion.dimmer" ).dimmer( "show" );
+		this.$element.find( ".property.confirm-deletion.dimmer" ).dimmer( "show" );
 	}
 
 	deleteProperty():void {
@@ -235,6 +241,8 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		this.tempLiterals = [];
 		this.pointers = [];
 		this.tempPointers = [];
+		this.lists = [];
+		this.tempLists = [];
 		if( typeof this.property.modifiedLiterals !== "undefined" ) {
 			this.literals = this.property.modifiedLiterals;
 			this.tempLiterals = this.property.modifiedLiterals;
@@ -257,6 +265,19 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 				}
 			} );
 		}
+		if( typeof this.property.modifiedLists !== "undefined" ) {
+			this.lists = this.property.modifiedLists;
+			this.tempLists = this.property.modifiedLists;
+		} else {
+			this.property[ this.copyOrAdded ].value.forEach( ( literalOrRDFNodeOrList )=> {
+				if( SDKList.Factory.is( literalOrRDFNodeOrList ) ) {
+					console.log( literalOrRDFNodeOrList );
+					this.lists.push( <ListRow>{ copy: literalOrRDFNodeOrList[ "@list" ].map( ( item ) => { return { copy: item } } ) } );
+					this.tempLists.push( <ListRow>{ copy: literalOrRDFNodeOrList } );
+					console.log( this.lists );
+				}
+			} );
+		}
 	}
 
 	addLiteral():void {
@@ -267,6 +288,11 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	addPointer():void {
 		// Notify PointersComponent to add pointer
 		this.addNewPointer.emit( true );
+	}
+
+	addList():void {
+		// Notify ListsComponent to add pointer
+		this.addNewList.emit( true );
 	}
 
 	checkForChangesOnName( newName:string ):void {
@@ -292,6 +318,44 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 
 	checkForChangesOnPointers( pointers:PointerRow[] ):void {
 		this.tempPointers = pointers;
+		console.log( pointers );
+		this.changePropertyContent();
+	}
+
+	checkForChangesOnLists( lists:ListRow[] ):void {
+		this.tempLists = lists;
+		let resultingLists:Array<ListRow>[] = [];
+		this.tempLists.forEach( ( list:ListRow ) => {
+			let resultingList:ListRow = {};
+
+			if( list[ "added" ] ) {
+				let resultingListContent:Array<LiteralRow|PointerRow> = [];
+				list[ "added" ].forEach( ( literalOrPointer:LiteralRow|PointerRow ) => {
+					if( ! ! literalOrPointer[ "deleted" ] ) return;
+					resultingListContent.push( literalOrPointer[ ! ! literalOrPointer[ "modified" ] ? "modified" : ! ! literalOrPointer[ "added" ] ? "added" : "copy" ] );
+				} );
+				resultingList.added = { "@list": resultingListContent };
+			} else {
+				if( list[ "modified" ] ) {
+					let resultingListContent:Array<LiteralRow|PointerRow> = [];
+					list[ "modified" ].forEach( ( literalOrPointer:LiteralRow|PointerRow ) => {
+						if( ! ! literalOrPointer[ "deleted" ] ) return;
+						resultingListContent.push( literalOrPointer[ ! ! literalOrPointer[ "modified" ] ? "modified" : ! ! literalOrPointer[ "added" ] ? "added" : "copy" ] );
+					} );
+					resultingList.modified = { "@list": resultingListContent };
+				}
+				if( list[ "copy" ] ) {
+					let resultingListContent:Array<LiteralRow|PointerRow> = [];
+					list[ "copy" ].forEach( ( literalOrPointer:LiteralRow|PointerRow ) => {
+						if( ! ! literalOrPointer[ "deleted" ] ) return;
+						resultingListContent.push( literalOrPointer[ "copy" ] );
+					} );
+					resultingList.copy = { "@list": resultingListContent };
+				}
+			}
+			resultingLists.push( resultingList );
+		} );
+		this.tempLists = resultingLists;
 		this.changePropertyContent();
 	}
 
@@ -314,11 +378,13 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		// Change literals and pointers
 		if( Utils.isArray( this.value ) ) {
 			this.tempProperty.value = [];
-			[].concat( this.tempLiterals ).concat( this.tempPointers ).forEach( ( literalOrPointerRow )=> {
-				if( ! literalOrPointerRow.deleted ) this.tempProperty.value.push( ! ! literalOrPointerRow.added ? literalOrPointerRow.added : ! ! literalOrPointerRow.modified ? literalOrPointerRow.modified : literalOrPointerRow.copy );
+			[].concat( this.tempLiterals ).concat( this.tempPointers ).concat( this.tempLists ).forEach( ( literalOrPointerOrListRow )=> {
+				if( ! literalOrPointerOrListRow.deleted )
+					this.tempProperty.value.push( ! ! literalOrPointerOrListRow.added ? literalOrPointerOrListRow.added : ! ! literalOrPointerOrListRow.modified ? literalOrPointerOrListRow.modified : literalOrPointerOrListRow.copy );
 			} );
 			this.literalsHaveChanged = ! ! this.tempLiterals.find( ( literalRow )=> {return ! ! literalRow.modified || ! ! literalRow.added || ! ! literalRow.deleted } );
 			this.pointersHaveChanged = ! ! this.tempPointers.find( ( pointerRow )=> {return ! ! pointerRow.modified || ! ! pointerRow.added || ! ! pointerRow.deleted } );
+			this.listsHaveChanged = ! ! this.tempLists.find( ( listRow )=> {return ! ! listRow.modified || ! ! listRow.added || ! ! listRow.deleted } );
 
 			if( this.literalsHaveChanged ) { this.property.modifiedLiterals = this.tempLiterals; }
 			else { delete this.property.modifiedLiterals; }
@@ -403,6 +469,7 @@ export interface PropertyRow {
 
 	modifiedLiterals?:LiteralRow[];
 	modifiedPointers?:PointerRow[];
+	modifiedLists?:PointerRow[];
 }
 export interface Property {
 	id:string;
