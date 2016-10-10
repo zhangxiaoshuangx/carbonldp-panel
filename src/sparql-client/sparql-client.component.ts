@@ -304,7 +304,7 @@ export class SPARQLClientComponent implements OnInit, AfterViewInit {
 	 * @returns      String. The name of the main SPARQL Query Operation.
 	 */
 	getSPARQLOperation( query:string ):string {
-		switch( true ) {
+		switch ( true ) {
 			case (this.regExpSelect.test( query )):
 				return this.sparqlQueryOperations.select.name;
 			case (this.regExpConstruct.test( query )):
@@ -379,7 +379,7 @@ export class SPARQLClientComponent implements OnInit, AfterViewInit {
 			query = activeResponse.query;
 		}
 		let promise:Promise<SPARQLClientResponse> = null;
-		switch( type ) {
+		switch ( type ) {
 			case this.sparqlTypes.query:
 				promise = this.executeQuery( query );
 				break;
@@ -409,7 +409,7 @@ export class SPARQLClientComponent implements OnInit, AfterViewInit {
 
 	executeQuery( query:SPARQLQuery ):Promise<SPARQLClientResponse> {
 		this.isSending = true;
-		switch( query.operation ) {
+		switch ( query.operation ) {
 			case this.sparqlQueryOperations.select.name:
 				return this.executeSELECT( query );
 			case this.sparqlQueryOperations.describe.name:
@@ -519,7 +519,7 @@ export class SPARQLClientComponent implements OnInit, AfterViewInit {
 
 	addResponse( response:SPARQLClientResponse ):void {
 		let responsesLength:number = this.responses.length, i:number;
-		for( i = responsesLength; i > 0; i -- ) {
+		for ( i = responsesLength; i > 0; i -- ) {
 			this.responses[ i ] = this.responses[ i - 1 ];
 		}
 		this.responses[ 0 ] = response;
@@ -678,7 +678,7 @@ export class SPARQLClientComponent implements OnInit, AfterViewInit {
 	}
 
 	getMessage( error:any ):Message {
-		switch( typeof error ) {
+		switch ( typeof error ) {
 			case "string":
 				return <Message>{
 					title: error,

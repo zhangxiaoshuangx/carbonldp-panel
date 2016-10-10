@@ -30,7 +30,7 @@ export class HeaderComponent implements AfterContentInit {
 
 	createCollapsableMenus():void {
 		let verticalMenu:JQuery = this.$element.find( ".ui.vertical.menu" );
-		this.$element.find( ".item.open" ).on( "click", function( e ) {
+		this.$element.find( ".item.open" ).on( "click", function ( e ) {
 			e.preventDefault();
 			verticalMenu.toggle();
 		} );

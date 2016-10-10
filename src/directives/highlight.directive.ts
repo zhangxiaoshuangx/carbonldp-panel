@@ -30,7 +30,7 @@ export class HighlightDirective implements AfterViewInit {
 
 		let tabs:boolean = null;
 		let extraIndentation:number = null;
-		for( let line of lines ) {
+		for ( let line of lines ) {
 			if( ! line.trim() ) continue;
 			if( tabs === null ) tabs = line.startsWith( "\t" );
 			let indentation:number = this.getIndentation( line, tabs );
@@ -44,14 +44,14 @@ export class HighlightDirective implements AfterViewInit {
 
 	private getIndentation( line:string, tabs:boolean = true ):number {
 		let indentationChar:string = tabs ? "\t" : " ";
-		for( var i:number = 0, length = line.length; i < length; i ++ ) {
+		for ( var i:number = 0, length = line.length; i < length; i ++ ) {
 			if( line.charAt( i ) !== indentationChar ) break;
 		}
 		return i;
 	}
 
 	private removeIndentation( lines:string[], indentation:number, tabs:boolean = true ):string[] {
-		for( let i:number = 0, length = lines.length; i < length; i ++ ) {
+		for ( let i:number = 0, length = lines.length; i < length; i ++ ) {
 			let line:string = lines[ i ];
 			if( ! line.trim() ) continue;
 			lines[ i ] = line.substring( indentation );

@@ -81,10 +81,10 @@ export class LiteralValueValidator implements Validator, OnChanges {
 
 	validate( control:AbstractControl ):{[key:string]:any;} {
 		let valid:boolean;
-		switch( this.type ) {
+		switch ( this.type ) {
 			// Boolean
 			case NS.XSD.DataType.boolean:
-				switch( control.value ) {
+				switch ( control.value ) {
 					case "true":
 					case "yes":
 					case "y":

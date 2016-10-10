@@ -126,7 +126,7 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 	emptyNode( nodeId:string ):void {
 		let $children:JQuery = this.documentTree.jstree( true ).get_children_dom( nodeId );
 		let childElements:Element[] = jQuery.makeArray( $children );
-		while( childElements.length > 0 ) {
+		while ( childElements.length > 0 ) {
 			this.documentTree.jstree( true ).delete_node( childElements[ 0 ] );
 			childElements.splice( 0, 1 );
 		}

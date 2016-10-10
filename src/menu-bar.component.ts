@@ -52,7 +52,7 @@ export class MenuBarComponent {
 						currentRoute = route;
 					}
 				} )
-			} while( currentRoute );
+			} while ( currentRoute );
 		} )
 	}
 
