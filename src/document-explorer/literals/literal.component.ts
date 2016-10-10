@@ -848,9 +848,15 @@ export class LiteralComponent {
 
 	@Input() canEdit:boolean = true;
 	@Input() canDisplayLanguage:boolean = false;
+	@Input() partOfList:boolean = false;
+	@Input() isFirstItem:boolean = false;
+	@Input() isLastItem:boolean = false;
+
 	@Output() onEditMode:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() onSave:EventEmitter<any> = new EventEmitter<any>();
 	@Output() onDeleteLiteral:EventEmitter<LiteralRow> = new EventEmitter<LiteralRow>();
+	@Output() onMoveUp:EventEmitter<LiteralRow> = new EventEmitter<LiteralRow>();
+	@Output() onMoveDown:EventEmitter<LiteralRow> = new EventEmitter<LiteralRow>();
 
 	valueInput:AbstractControl = new Control( this.value, Validators.compose( [ Validators.required, this.valueValidator.bind( this ) ] ) );
 	typeInput:AbstractControl = new Control( this.type, Validators.compose( [ Validators.required ] ) );
@@ -891,7 +897,7 @@ export class LiteralComponent {
 			delete this.tempLiteral[ "@language" ];
 		} else this.language = this.tempLiteral[ "@language" ];
 
-		if( typeof this.literal.added !== "undefined" && typeof this.value === "undefined" ) {
+		if( typeof this.literal.added !== "undefined" && typeof this.value === "undefined" || this.value === "" ) {
 			this.onDeleteLiteral.emit( this.literal );
 		}
 	}
@@ -1057,6 +1063,14 @@ export class LiteralComponent {
 			return { "invalidTypeError": true };
 		}
 		return null;
+	}
+
+	moveUp():void {
+		this.onMoveUp.emit( this.literal );
+	}
+
+	moveDown():void {
+		this.onMoveDown.emit( this.literal );
 	}
 
 }
