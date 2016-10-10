@@ -39,7 +39,6 @@
 		Login
 	</button>
 </form>
-<!--<div class="ui bottom attached negative message" *ngIf="(email.touched && !email.valid) || (password.touched && !password.valid) || (!!errorMessage)">-->
 <div class="ui bottom attached negative message" *ngIf="!loginForm.valid && loginForm.touched">
 	<ul *ngIf="!email.valid" class="list">
 		<li *ngIf="email.errors.required">email is required.</li>

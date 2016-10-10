@@ -2,11 +2,9 @@
 	<div class="read-mode" *ngIf="mode===modes.READ">
 		<p class="value">{{value}}</p>
 	</div>
-	<!--<div class="edit-mode ui error form">-->
 	<div class="edit-mode ui error form" *ngIf="mode===modes.EDIT">
 		<div class="field" [ngClass]="{error:!valueInput.valid}">
 			<input type="text" name="valueInput" [(ngModel)]="value" #valueInput="ngModel" [type]="type" [control]="valueInput" required cp-literal-value>
-			<!--<input type="text" [ngFormControl]="valueInput" (ngModelChange)="value=$event">-->
 		</div>
 		<div class="ui error message wide" *ngIf="!valueInput.valid">
 			<p *ngIf="valueInput.control.hasError('invalidTypeError') && !valueInput.control.hasError('required')">Invalid value type, please enter a valid {{type}}.</p>
@@ -20,7 +18,6 @@
 	</div>
 	<div class="edit-mode ui error form" [hidden]="mode===modes.READ">
 		<input type="text" name="typeInput" [(ngModel)]="type" #typeInput="ngModel" [hidden]="true">
-		<!--<input type="text" [ngFormControl]="typeInput" [hidden]="true">-->
 		<select class="ui fluid search dropdown types">
 			<option value="empty">
 				Search or enter a type
@@ -48,7 +45,6 @@
 		<p class="value" *ngIf="!isStringType">-</p>
 		<div class="ui error form" [hidden]="!isStringType">
 			<input type="text" name="languageInput" [(ngModel)]="language" #languageInput [hidden]="true">
-			<!--<input type="text" [ngFormControl]="languageInput" [hidden]="true">-->
 			<select class="ui fluid dropdown languages">
 				<option value="empty">
 					Select a language (opt)

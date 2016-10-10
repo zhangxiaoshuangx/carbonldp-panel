@@ -21,7 +21,6 @@
 	</div>
 	<div class="edit-mode" [hidden]="mode===modes.READ">
 		<div class="ui error form">
-			<!--<input type="text" [ngFormControl]="idInput" [hidden]="true">-->
 			<input type="text" name="idInput" [(ngModel)]="id" #idInput="ngModel" required cp-pointer-id [documentURI]="documentURI" [hidden]="true">
 			<select class="ui fluid search dropdown fragments" [hidden]="true">
 				<option value="">
