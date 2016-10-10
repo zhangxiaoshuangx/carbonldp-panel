@@ -1,14 +1,13 @@
 :host {
 
 	.dropdown.fragments {
-		.item[data-value='bNodes-category'],
-		.item[data-value='named-fragments-category'] {
-			text-align: center;
-		}
-		.text {
-			.description {
-				display: none;
+		.item {
+			&[data-value='bNodes-category'], &[data-value='named-fragments-category'] {
+				text-align: center;
 			}
+		}
+		.text .description {
+			display: none;
 		}
 		.item {
 			.title {
@@ -22,7 +21,19 @@
 			}
 		}
 	}
+
 	.hidden {
 		display: none;
+	}
+
+	.updown.buttons {
+		max-height: 28px;
+		margin-top: 1px;
+		float: right;
+		.button {
+			max-height: 13px;
+			height: 13px;
+			padding: 1px;
+		}
 	}
 }

@@ -66,12 +66,17 @@ export class PointerComponent implements OnChanges {
 	@Input() bNodes:BlankNodeRow[] = [];
 	@Input() namedFragments:NamedFragmentRow[] = [];
 	@Input() canEdit:boolean = true;
+	@Input() partOfList:boolean = false;
+	@Input() isFirstItem:boolean = false;
+	@Input() isLastItem:boolean = false;
 
 	@Output() onEditMode:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() onSave:EventEmitter<any> = new EventEmitter<any>();
 	@Output() onDeletePointer:EventEmitter<PointerRow> = new EventEmitter<PointerRow>();
 	@Output() onGoToBNode:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onGoToNamedFragment:EventEmitter<string> = new EventEmitter<string>();
+	@Output() onMoveUp:EventEmitter<PointerRow> = new EventEmitter<PointerRow>();
+	@Output() onMoveDown:EventEmitter<PointerRow> = new EventEmitter<PointerRow>();
 
 	// Literal Value;
 	private _id:string = "";
@@ -102,8 +107,8 @@ export class PointerComponent implements OnChanges {
 	}
 
 	ngOnChanges( changes:{[propName:string]:SimpleChange} ):void {
-		if( ( changes[ "bNodes" ].currentValue !== changes[ "bNodes" ].previousValue ) ||
-			( changes[ "namedFragments" ].currentValue !== changes[ "namedFragments" ].previousValue ) ) {
+		if( ( ! ! changes[ "bNodes" ] && changes[ "bNodes" ].currentValue !== changes[ "bNodes" ].previousValue ) ||
+			( ! ! changes[ "namedFragments" ] && changes[ "namedFragments" ].currentValue !== changes[ "namedFragments" ].previousValue ) ) {
 			this.checkForChangesOnPointers();
 		}
 	}
@@ -126,7 +131,7 @@ export class PointerComponent implements OnChanges {
 		} else this.id = this.tempPointer[ "@id" ];
 
 
-		if( typeof this.pointer.added !== "undefined" && typeof this.id === "undefined" ) {
+		if( typeof this.pointer.added !== "undefined" && (typeof this.id === "undefined" || this.id.length === 0) ) {
 			this.onDeletePointer.emit( this.pointer );
 		}
 	}
@@ -198,6 +203,13 @@ export class PointerComponent implements OnChanges {
 		if( this.existsOnPointers ) this.onGoToNamedFragment.emit( id );
 	}
 
+	moveUp():void {
+		this.onMoveUp.emit( this.pointer );
+	}
+
+	moveDown():void {
+		this.onMoveDown.emit( this.pointer );
+	}
 }
 export interface PointerRow {
 	copy:Pointer;
