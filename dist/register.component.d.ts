@@ -19,7 +19,7 @@ export declare class RegisterComponent implements OnInit {
     constructor(element: ElementRef, authService: AuthService.Class);
     ngOnInit(): void;
     onSubmit(form: any, $event: any): void;
-    getSanitizedSlug(slug: string): void;
+    sanitize(evt: any): void;
     shakeForm(): void;
     setErrorMessage(error: HTTP.Errors.Error): void;
 }

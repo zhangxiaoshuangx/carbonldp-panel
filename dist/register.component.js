@@ -35,18 +35,9 @@ System.register(["@angular/core", "carbonldp/HTTP", "angular2-carbonldp/services
             }],
         execute: function() {
             RegisterComponent = (function () {
-                // constructor( element:ElementRef, formBuilder:FormBuilder, @Inject( AuthService.Token ) authService:AuthService.Class ) {
                 function RegisterComponent(element, authService) {
                     this.onRegister = new core_1.EventEmitter();
                     this.sending = false;
-                    // private registerForm:ControlGroup;
-                    // private controls:{
-                    // 	name?:AbstractControl,
-                    // 	email?:AbstractControl,
-                    // 	password?:AbstractControl,
-                    // 	repeatPassword?:AbstractControl,
-                    // 	profileId?:AbstractControl,
-                    // } = {};
                     this.register = {
                         name: "",
                         email: "",
@@ -56,69 +47,46 @@ System.register(["@angular/core", "carbonldp/HTTP", "angular2-carbonldp/services
                     };
                     this.errorMessage = "";
                     this.element = element;
-                    // this.formBuilder = formBuilder;
                     this.authService = authService;
                 }
                 RegisterComponent.prototype.ngOnInit = function () {
                     this.$element = jquery_1.default(this.element.nativeElement);
-                    // this.registerForm = this.formBuilder.group( {
-                    // 	name: [ "", Validators.compose( [ Validators.required ] ) ],
-                    // 	email: [ "", Validators.compose( [ Validators.required, EmailValidator ] ) ],
-                    // 	password: [ "", Validators.compose( [ Validators.required ] ) ],
-                    // 	profileId: [ "", Validators.compose( [] ) ],
-                    // } );
-                    //
-                    // this.controls.name = this.registerForm.controls[ "name" ];
-                    // this.controls.email = this.registerForm.controls[ "email" ];
-                    // this.controls.password = this.registerForm.controls[ "password" ];
-                    // this.controls.profileId = this.registerForm.controls[ "profileId" ];
-                    //
-                    // this.controls.repeatPassword = this.formBuilder.control( "", Validators.compose( [ Validators.required, SameAsValidator( this.controls.password ) ] ) );
-                    // this.registerForm.addControl( "repeatPassword", this.controls.repeatPassword );
-                    //
-                    //
-                    //todo: evaluate the use of profileId subscription
-                    // let valueCopy:string = "";
-                    // this.controls.profileId.valueChanges.subscribe( ( value:string )=> {
-                    // 	valueCopy = this.getSanitizedSlug( value );
-                    // 	if( value !== valueCopy )(<Control>this.controls.profileId).updateValue( valueCopy );
-                    // } );
                 };
                 RegisterComponent.prototype.onSubmit = function (form, $event) {
+                    var _this = this;
                     $event.preventDefault();
                     this.sending = true;
                     this.errorMessage = "";
-                    // this.touchControls();
                     if (!form.valid) {
                         this.shakeForm();
                         this.sending = false;
                         return;
                     }
-                    var name = form.name;
-                    var username = form.email;
-                    var password = form.password;
-                    var profileId = form.profileId;
+                    var name = form.controls.name.value;
+                    var username = form.controls.email.value;
+                    var password = form.controls.password.value;
+                    var profileId = form.controls.profileId.value;
                     if (!profileId)
                         profileId = void 0;
-                    // this.authService.register( name, username, password, profileId ).then( () => {
-                    // 	this.sending = false;
-                    // 	this.onRegister.emit( null );
-                    // } ).catch( ( error:any ) => {
-                    // 	this.sending = false;
-                    // 	this.setErrorMessage( error );
-                    // } );
+                    this.authService.register(name, username, password, profileId).then(function () {
+                        _this.sending = false;
+                        _this.onRegister.emit(null);
+                    }).catch(function (error) {
+                        _this.sending = false;
+                        _this.setErrorMessage(error);
+                    });
                 };
-                RegisterComponent.prototype.getSanitizedSlug = function (slug) {
-                    this.register.profileId = slug.toLowerCase().replace(/ - | -|- /g, "-").replace(/[^-\w ]+/g, "").replace(/ +/g, "-");
+                RegisterComponent.prototype.sanitize = function (evt) {
+                    if (typeof evt.target !== "undefined") {
+                        var slug = evt.target.value;
+                        if (slug) {
+                            slug = slug.toLowerCase().replace(/ - | -|- /g, "-").replace(/[^-\w ]+/g, "").replace(/ +/g, "-");
+                            if (slug.charAt(slug.length - 1) !== "/")
+                                slug += "/";
+                            this.register.profileId = slug;
+                        }
+                    }
                 };
-                // touchControls():void {
-                // 	for( let controlName in this.controls ) {
-                // 		if( ! this.controls.hasOwnProperty( controlName ) ) continue;
-                //
-                // 		let control:AbstractControl = this.controls[ controlName ];
-                // 		control.markAsTouched();
-                // 	}
-                // }
                 RegisterComponent.prototype.shakeForm = function () {
                     var target = this.$element;
                     target.transition({
