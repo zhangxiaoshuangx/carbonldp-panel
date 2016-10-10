@@ -76,7 +76,7 @@ export class DocumentExplorerComponent {
 
 	private getErrorMessage( error:HTTP.Errors.Error ):string {
 		let tempMessage:string = "";
-		switch ( true ) {
+		switch( true ) {
 			case error instanceof HTTP.Errors.ForbiddenError:
 				tempMessage = "Forbidden Action.";
 				break;

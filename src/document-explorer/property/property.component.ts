@@ -148,7 +148,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	getTypeIcon( type:string ):string {
-		switch ( this.getDisplayName( type ) ) {
+		switch( this.getDisplayName( type ) ) {
 			case "RDFSource":
 				return "file outline";
 			case "Container":

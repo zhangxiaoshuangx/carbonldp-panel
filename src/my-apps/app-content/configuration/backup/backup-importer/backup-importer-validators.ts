@@ -30,7 +30,7 @@ export class BackupFileValidator implements Validator, OnChanges {
 export class AtLeastOneValidValidator implements Validator {
 
 	validate( formGroup:FormGroup ):{[key:string]:any;} {
-		for ( let control in formGroup.controls ) {
+		for( let control in formGroup.controls ) {
 			if( ! ! formGroup.controls[ control ].valid ) return null;
 		}
 		return { "invalidForm": true };

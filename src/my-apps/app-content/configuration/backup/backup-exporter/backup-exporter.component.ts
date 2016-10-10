@@ -70,7 +70,7 @@ export class BackupExporterComponent implements OnDestroy {
 			// Node typings are overriding setInterval, that's why we need to cast it to any before assigning it to a number variable
 			this.monitorExecutionInterval = <any>setInterval( ()=> {
 				execution.refresh().then( ()=> {
-					switch ( execution[ Job.Execution.STATUS ].id ) {
+					switch( execution[ Job.Execution.STATUS ].id ) {
 						case Job.ExecutionStatus.FINISHED:
 							clearInterval( this.monitorExecutionInterval );
 							resolve( execution );

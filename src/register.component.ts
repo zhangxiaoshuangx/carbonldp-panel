@@ -89,7 +89,7 @@ export class RegisterComponent implements OnInit {
 
 	setErrorMessage( error:HTTP.Errors.Error ):void {
 		if( typeof error.message !== "undefined" ) this.errorMessage = error.message;
-		else switch ( true ) {
+		else switch( true ) {
 			case error instanceof HTTP.Errors.ConflictError:
 				this.errorMessage = "That email is already in use";
 				break;

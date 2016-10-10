@@ -131,7 +131,7 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 	}
 
 	onInputLostFocus( control:any ):void {
-		switch ( control.name ) {
+		switch( control.name ) {
 			case "uri":
 				if( control.valid ) {
 					this.element.nativeElement.querySelector( "[ ng-reflect-name ='backup']" ).setAttribute( "disabled", true );
