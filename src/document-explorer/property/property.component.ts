@@ -116,15 +116,11 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	getParentURI( uri:string ):string {
-		let parts:string[] = uri.split( "#" );
-		uri = "".concat( parts[ 0 ] ).concat( "#" + parts[ 1 ] );
 		let slug:string = this.getSlug( uri );
 		return uri.substr( 0, uri.indexOf( slug ) );
 	}
 
 	getSlug( uri:string ) {
-		let parts:string[] = uri.split( "#" );
-		uri = "".concat( parts[ 0 ] ).concat( "#" + parts[ 1 ] );
 		return URI.Util.getSlug( uri );
 	}
 

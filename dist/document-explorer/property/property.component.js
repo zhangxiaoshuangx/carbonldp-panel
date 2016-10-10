@@ -119,14 +119,10 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                     return this.unescape(URI.Util.getSlug(uri));
                 };
                 PropertyComponent.prototype.getParentURI = function (uri) {
-                    var parts = uri.split("#");
-                    uri = "".concat(parts[0]).concat("#" + parts[1]);
                     var slug = this.getSlug(uri);
                     return uri.substr(0, uri.indexOf(slug));
                 };
                 PropertyComponent.prototype.getSlug = function (uri) {
-                    var parts = uri.split("#");
-                    uri = "".concat(parts[0]).concat("#" + parts[1]);
                     return URI.Util.getSlug(uri);
                 };
                 PropertyComponent.prototype.getFragment = function (uri) {
