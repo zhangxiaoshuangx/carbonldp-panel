@@ -35,7 +35,7 @@ System.register(["carbonldp/NS", "carbonldp/Utils", "carbonldp/RDF/Literal", "ca
         execute: function() {
             PropertyNameValidator = (function () {
                 function PropertyNameValidator() {
-                    this.url = new RegExp("(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g");
+                    this.url = new RegExp("(\b(https?|ftp|file)://)?[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]");
                 }
                 PropertyNameValidator.prototype.ngOnChanges = function (changes) {
                     this.control.control.updateValueAndValidity(false, true);
@@ -75,7 +75,7 @@ System.register(["carbonldp/NS", "carbonldp/Utils", "carbonldp/RDF/Literal", "ca
                 ], PropertyNameValidator.prototype, "control", void 0);
                 PropertyNameValidator = __decorate([
                     core_1.Directive({
-                        selector: "[property-name]",
+                        selector: "[cp-property-name]",
                         providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: PropertyNameValidator, multi: true }]
                     }), 
                     __metadata('design:paramtypes', [])
@@ -85,10 +85,10 @@ System.register(["carbonldp/NS", "carbonldp/Utils", "carbonldp/RDF/Literal", "ca
             exports_1("PropertyNameValidator", PropertyNameValidator);
             IdValidator = (function () {
                 function IdValidator() {
-                    this.url = new RegExp("(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g");
+                    // url = new RegExp( "(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g" );
+                    this.url = new RegExp("(\b(https?|ftp|file)://)?[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]");
                 }
                 IdValidator.prototype.ngOnChanges = function (changes) {
-                    // if(changes["value"].currentValue) this.control.control.setValue( this.value );
                     this.control.control.updateValueAndValidity(false, true);
                 };
                 IdValidator.prototype.validate = function (control) {
@@ -97,10 +97,8 @@ System.register(["carbonldp/NS", "carbonldp/Utils", "carbonldp/RDF/Literal", "ca
                             return null;
                         if (typeof control.value === "string" && !control.value.startsWith(this.documentURI))
                             return { "invalidParent": true };
-                        if (this.existingFragments.indexOf(control.value) !== -1 && (this.property.added ? this.id !== control.value : true))
+                        if (this.existingFragments.indexOf(control.value) !== -1 && (this.property.added ? this.id !== control.value : this.originalId !== control.value))
                             return { "duplicatedNamedFragmentName": true };
-                        if (!this.url.test(control.value))
-                            return { "invalidValue": true };
                         if (control.value.split("#").length > 2)
                             return { "duplicatedHashtag": true };
                     }
@@ -125,10 +123,14 @@ System.register(["carbonldp/NS", "carbonldp/Utils", "carbonldp/RDF/Literal", "ca
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', Object)
+                ], IdValidator.prototype, "originalId", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Object)
                 ], IdValidator.prototype, "control", void 0);
                 IdValidator = __decorate([
                     core_1.Directive({
-                        selector: "[id-validator]",
+                        selector: "[cp-property-id]",
                         providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: IdValidator, multi: true }]
                     }), 
                     __metadata('design:paramtypes', [])
@@ -136,18 +138,6 @@ System.register(["carbonldp/NS", "carbonldp/Utils", "carbonldp/RDF/Literal", "ca
                 return IdValidator;
             }());
             exports_1("IdValidator", IdValidator);
-            // private idValidator( control:AbstractControl ):any {
-            // 	if( ! ! control ) {
-            // 		if( typeof control.value === "undefined" || control.value === null || ! control.value ) return null;
-            // 		if( typeof control.value === "string" && ! control.value.startsWith( this.documentURI ) ) return { "invalidParent": true };
-            // 		if( this.existingFragments.indexOf( control.value ) !== - 1 && (this.property.added ? this.id !== control.value : this.value !== control.value) ) return { "duplicatedNamedFragmentName": true };
-            // 		let url = new RegExp( "(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g" );
-            // 		if( ! url.test( control.value ) ) return { "invalidValue": true };
-            // 		if( control.value.split( "#" ).length > 2 ) return { "duplicatedHashtag": true };
-            // 	}
-            // 	return null;
-            // }
-            // }
             LiteralValueValidator = (function () {
                 function LiteralValueValidator() {
                 }
@@ -220,7 +210,7 @@ System.register(["carbonldp/NS", "carbonldp/Utils", "carbonldp/RDF/Literal", "ca
                 ], LiteralValueValidator.prototype, "control", void 0);
                 LiteralValueValidator = __decorate([
                     core_1.Directive({
-                        selector: "[literal-value]",
+                        selector: "[cp-literal-value]",
                         providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: LiteralValueValidator, multi: true }]
                     }), 
                     __metadata('design:paramtypes', [])
@@ -234,20 +224,11 @@ System.register(["carbonldp/NS", "carbonldp/Utils", "carbonldp/RDF/Literal", "ca
                 }
                 PointerValidator.prototype.validate = function (control) {
                     if (!!control && typeof control.value === "undefined") {
-                        //if( ! ! control && (typeof control.value === "undefined" || control.value.trim().length === 0) ) {
                         return { "emptyControl": true };
                     }
                     if (!!control.value) {
-                        if (this.url.test(control.value)) {
-                            if (!URI.Util.isBNodeID(control.value)) {
-                                return { "invalidId": true };
-                            }
-                        }
-                        else {
-                            if (typeof control.value === "string" && !control.value.startsWith(this.documentURI))
-                                return { "invalidParent": true };
-                            if (control.value.split("#").length > 2)
-                                return { "duplicatedHashtag": true };
+                        if (!URI.Util.isBNodeID(control.value) && !this.url.test(control.value)) {
+                            return { "invalidId": true };
                         }
                     }
                     return null;
@@ -258,7 +239,7 @@ System.register(["carbonldp/NS", "carbonldp/Utils", "carbonldp/RDF/Literal", "ca
                 ], PointerValidator.prototype, "documentURI", void 0);
                 PointerValidator = __decorate([
                     core_1.Directive({
-                        selector: "[pointer-validator]",
+                        selector: "[cp-pointer-id]",
                         providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: PointerValidator, multi: true }]
                     }), 
                     __metadata('design:paramtypes', [])

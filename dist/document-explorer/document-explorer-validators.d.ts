@@ -17,6 +17,7 @@ export declare class IdValidator implements Validator, OnChanges {
     property: any;
     documentURI: any;
     id: any;
+    originalId: any;
     control: any;
     url: RegExp;
     ngOnChanges(changes: SimpleChanges): void;

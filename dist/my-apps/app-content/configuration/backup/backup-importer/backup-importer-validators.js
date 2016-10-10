@@ -45,7 +45,7 @@ System.register(["@angular/core", "@angular/forms"], function(exports_1, context
                 ], BackupFileValidator.prototype, "control", void 0);
                 BackupFileValidator = __decorate([
                     core_1.Directive({
-                        selector: "[backup-file]",
+                        selector: "[cp-backup-file]",
                         providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: BackupFileValidator, multi: true }]
                     }), 
                     __metadata('design:paramtypes', [])
@@ -53,7 +53,7 @@ System.register(["@angular/core", "@angular/forms"], function(exports_1, context
                 return BackupFileValidator;
             }());
             exports_1("BackupFileValidator", BackupFileValidator);
-            //check all controls if at least one is valid, then no errors are found, if none are valid then "invalidForm" error is added.
+            // Checks all controls. If at least one is valid, then no errors are found, if none are valid then "invalidForm" error is added.
             AtLeastOneValidValidator = (function () {
                 function AtLeastOneValidValidator() {
                 }
@@ -66,7 +66,7 @@ System.register(["@angular/core", "@angular/forms"], function(exports_1, context
                 };
                 AtLeastOneValidValidator = __decorate([
                     core_1.Directive({
-                        selector: "[at-least-one-valid]",
+                        selector: "[cp-import-form-valid]",
                         providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: AtLeastOneValidValidator, multi: true }]
                     }), 
                     __metadata('design:paramtypes', [])
