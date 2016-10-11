@@ -41,18 +41,11 @@ export class ListsComponent implements OnInit {
 		this.updateCanDisplayLists();
 	}
 
-	ngOnChanges( changes:{[propName:string]} ):void {
-		if( ( ! ! changes[ "lists" ] && changes[ "lists" ].currentValue !== changes[ "lists" ].previousValue ) {
-			// console.log( changes[ "lists" ] );
-		}
-	}
-
 	addNewList():void {
 		let newListRow:ListRow = <ListRow>{};
 		newListRow.added = [];
 		newListRow.isBeingCreated = true;
 		this.lists.splice( 0, 0, newListRow );
-		// this.updateCanDisplayLists();
 		this.saveList( null, null, 0 );
 	}
 

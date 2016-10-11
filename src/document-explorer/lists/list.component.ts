@@ -103,6 +103,7 @@ export class ListComponent {
 	}
 
 	saveItem( modifiedPointer:PointerRow, originalPointer:PointerRow, index:number ) {
+		if( typeof originalPointer.added !== "undefined" ) delete originalPointer.isBeingCreated;
 		this.updateTempList();
 	}
 
@@ -137,6 +138,8 @@ export class ListComponent {
 			this.list.modified = this.tempList;
 		} else if( typeof this.list.copy !== "undefined" && ! hasBeenModified ) {
 			delete this.list.modified;
+		} else {
+			this.list.added = this.tempList;
 		}
 		this.onSave.emit( this.list );
 	}

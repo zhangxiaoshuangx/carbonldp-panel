@@ -17,9 +17,6 @@ export declare class ListsComponent implements OnInit {
     onGoToNamedFragment: EventEmitter<string>;
     constructor();
     ngOnInit(): void;
-    ngOnChanges(changes: {
-        [propName: string];
-    }): void;
     addNewList(): void;
     saveList(modifiedList: List, originalList: List, index: number): void;
     deleteList(deletingList: ListRow, index: number): void;

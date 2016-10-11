@@ -86,6 +86,8 @@ export declare class PropertyComponent implements AfterViewInit, OnInit {
     checkForChangesOnLiterals(literals: LiteralRow[]): void;
     checkForChangesOnPointers(pointers: PointerRow[]): void;
     checkForChangesOnLists(lists: ListRow[]): void;
+    convertToListRow(lists: ListRow[]): ListRow[];
+    getRDFList(list: ListRow, copyOrAddedOrModified: string): any[];
     changePropertyContent(): void;
     private refreshDocument();
     private escape(uri);
@@ -101,7 +103,7 @@ export interface PropertyRow {
     isBeingDeleted?: boolean;
     modifiedLiterals?: LiteralRow[];
     modifiedPointers?: PointerRow[];
-    modifiedLists?: PointerRow[];
+    modifiedLists?: ListRow[];
 }
 export interface Property {
     id: string;

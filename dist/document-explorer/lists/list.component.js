@@ -102,6 +102,8 @@ System.register(["@angular/core", "semantic-ui/semantic", "carbonldp/RDF/RDFNode
                     this.updateTempList();
                 };
                 ListComponent.prototype.saveItem = function (modifiedPointer, originalPointer, index) {
+                    if (typeof originalPointer.added !== "undefined")
+                        delete originalPointer.isBeingCreated;
                     this.updateTempList();
                 };
                 ListComponent.prototype.deleteItem = function (deletingItem, index) {
@@ -131,6 +133,9 @@ System.register(["@angular/core", "semantic-ui/semantic", "carbonldp/RDF/RDFNode
                     }
                     else if (typeof this.list.copy !== "undefined" && !hasBeenModified) {
                         delete this.list.modified;
+                    }
+                    else {
+                        this.list.added = this.tempList;
                     }
                     this.onSave.emit(this.list);
                 };

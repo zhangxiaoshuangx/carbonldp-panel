@@ -263,10 +263,8 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                     else {
                         this.property[this.copyOrAdded].value.forEach(function (literalOrRDFNodeOrList) {
                             if (SDKList.Factory.is(literalOrRDFNodeOrList)) {
-                                console.log(literalOrRDFNodeOrList);
                                 _this.lists.push({ copy: literalOrRDFNodeOrList["@list"].map(function (item) { return { copy: item }; }) });
                                 _this.tempLists.push({ copy: literalOrRDFNodeOrList });
-                                console.log(_this.lists);
                             }
                         });
                     }
@@ -303,47 +301,45 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                 };
                 PropertyComponent.prototype.checkForChangesOnPointers = function (pointers) {
                     this.tempPointers = pointers;
-                    console.log(pointers);
                     this.changePropertyContent();
                 };
                 PropertyComponent.prototype.checkForChangesOnLists = function (lists) {
+                    this.lists = lists;
                     this.tempLists = lists;
+                    this.changePropertyContent();
+                };
+                PropertyComponent.prototype.convertToListRow = function (lists) {
+                    var _this = this;
                     var resultingLists = [];
-                    this.tempLists.forEach(function (list) {
+                    lists.forEach(function (list) {
                         var resultingList = {};
                         if (list["added"]) {
-                            var resultingListContent_1 = [];
-                            list["added"].forEach(function (literalOrPointer) {
-                                if (!!literalOrPointer["deleted"])
-                                    return;
-                                resultingListContent_1.push(literalOrPointer[!!literalOrPointer["modified"] ? "modified" : !!literalOrPointer["added"] ? "added" : "copy"]);
-                            });
-                            resultingList.added = { "@list": resultingListContent_1 };
+                            resultingList.added = { "@list": _this.getRDFList(list, "added") };
                         }
-                        else {
-                            if (list["modified"]) {
-                                var resultingListContent_2 = [];
-                                list["modified"].forEach(function (literalOrPointer) {
-                                    if (!!literalOrPointer["deleted"])
-                                        return;
-                                    resultingListContent_2.push(literalOrPointer[!!literalOrPointer["modified"] ? "modified" : !!literalOrPointer["added"] ? "added" : "copy"]);
-                                });
-                                resultingList.modified = { "@list": resultingListContent_2 };
-                            }
-                            if (list["copy"]) {
-                                var resultingListContent_3 = [];
-                                list["copy"].forEach(function (literalOrPointer) {
-                                    if (!!literalOrPointer["deleted"])
-                                        return;
-                                    resultingListContent_3.push(literalOrPointer["copy"]);
-                                });
-                                resultingList.copy = { "@list": resultingListContent_3 };
-                            }
+                        else if (list["deleted"]) {
+                            resultingList.deleted = { "@list": _this.getRDFList(list, "deleted") };
+                        }
+                        else if (list["modified"]) {
+                            resultingList.modified = { "@list": _this.getRDFList(list, "modified") };
+                        }
+                        else if (list["copy"]) {
+                            resultingList.copy = { "@list": _this.getRDFList(list, "copy") };
                         }
                         resultingLists.push(resultingList);
                     });
-                    this.tempLists = resultingLists;
-                    this.changePropertyContent();
+                    return resultingLists;
+                };
+                PropertyComponent.prototype.getRDFList = function (list, copyOrAddedOrModified) {
+                    var resultingListContent = [];
+                    list[copyOrAddedOrModified].forEach(function (literalOrPointer) {
+                        if (!!literalOrPointer["deleted"])
+                            return;
+                        if (copyOrAddedOrModified === "copy")
+                            resultingListContent.push(literalOrPointer["copy"]);
+                        else
+                            resultingListContent.push(literalOrPointer[!!literalOrPointer["modified"] ? "modified" : !!literalOrPointer["added"] ? "added" : "copy"]);
+                    });
+                    return resultingListContent;
                 };
                 PropertyComponent.prototype.changePropertyContent = function () {
                     var _this = this;
@@ -365,13 +361,14 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                     // Change literals and pointers
                     if (Utils.isArray(this.value)) {
                         this.tempProperty.value = [];
-                        [].concat(this.tempLiterals).concat(this.tempPointers).concat(this.tempLists).forEach(function (literalOrPointerOrListRow) {
+                        var tempLists = this.convertToListRow(this.tempLists);
+                        [].concat(this.tempLiterals).concat(this.tempPointers).concat(tempLists).forEach(function (literalOrPointerOrListRow) {
                             if (!literalOrPointerOrListRow.deleted)
                                 _this.tempProperty.value.push(!!literalOrPointerOrListRow.added ? literalOrPointerOrListRow.added : !!literalOrPointerOrListRow.modified ? literalOrPointerOrListRow.modified : literalOrPointerOrListRow.copy);
                         });
                         this.literalsHaveChanged = !!this.tempLiterals.find(function (literalRow) { return !!literalRow.modified || !!literalRow.added || !!literalRow.deleted; });
                         this.pointersHaveChanged = !!this.tempPointers.find(function (pointerRow) { return !!pointerRow.modified || !!pointerRow.added || !!pointerRow.deleted; });
-                        this.listsHaveChanged = !!this.tempLists.find(function (listRow) { return !!listRow.modified || !!listRow.added || !!listRow.deleted; });
+                        this.listsHaveChanged = !!tempLists.find(function (listRow) { return !!listRow.modified || !!listRow.added || !!listRow.deleted; });
                         if (this.literalsHaveChanged) {
                             this.property.modifiedLiterals = this.tempLiterals;
                         }
@@ -383,6 +380,12 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                         }
                         else {
                             delete this.property.modifiedPointers;
+                        }
+                        if (this.listsHaveChanged) {
+                            this.property.modifiedLists = this.tempLists;
+                        }
+                        else {
+                            delete this.property.modifiedLists;
                         }
                     }
                     else {

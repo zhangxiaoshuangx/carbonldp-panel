@@ -49,10 +49,6 @@ System.register(["@angular/core", "./../property/property.component", "semantic-
                     });
                     this.updateCanDisplayLists();
                 };
-                ListsComponent.prototype.ngOnChanges = function (changes) {
-                    if ((!!changes["lists"] && changes["lists"].currentValue !== changes["lists"].previousValue)) {
-                    }
-                };
                 ListsComponent.prototype.addNewList = function () {
                     var newListRow = {};
                     newListRow.added = [];

@@ -274,10 +274,8 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		} else {
 			this.property[ this.copyOrAdded ].value.forEach( ( literalOrRDFNodeOrList )=> {
 				if( SDKList.Factory.is( literalOrRDFNodeOrList ) ) {
-					console.log( literalOrRDFNodeOrList );
 					this.lists.push( <ListRow>{ copy: literalOrRDFNodeOrList[ "@list" ].map( ( item ) => { return { copy: item } } ) } );
 					this.tempLists.push( <ListRow>{ copy: literalOrRDFNodeOrList } );
-					console.log( this.lists );
 				}
 			} );
 		}
@@ -321,45 +319,43 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 
 	checkForChangesOnPointers( pointers:PointerRow[] ):void {
 		this.tempPointers = pointers;
-		console.log( pointers );
 		this.changePropertyContent();
 	}
 
 	checkForChangesOnLists( lists:ListRow[] ):void {
+		this.lists = lists;
 		this.tempLists = lists;
-		let resultingLists:Array<ListRow>[] = [];
-		this.tempLists.forEach( ( list:ListRow ) => {
-			let resultingList:ListRow = {};
+		this.changePropertyContent();
+	}
 
+	convertToListRow( lists:ListRow[] ):ListRow[] {
+		let resultingLists:ListRow[] = [];
+		lists.forEach( ( list:ListRow ) => {
+			let resultingList:ListRow = {};
 			if( list[ "added" ] ) {
-				let resultingListContent:Array<LiteralRow|PointerRow> = [];
-				list[ "added" ].forEach( ( literalOrPointer:LiteralRow|PointerRow ) => {
-					if( ! ! literalOrPointer[ "deleted" ] ) return;
-					resultingListContent.push( literalOrPointer[ ! ! literalOrPointer[ "modified" ] ? "modified" : ! ! literalOrPointer[ "added" ] ? "added" : "copy" ] );
-				} );
-				resultingList.added = { "@list": resultingListContent };
-			} else {
-				if( list[ "modified" ] ) {
-					let resultingListContent:Array<LiteralRow|PointerRow> = [];
-					list[ "modified" ].forEach( ( literalOrPointer:LiteralRow|PointerRow ) => {
-						if( ! ! literalOrPointer[ "deleted" ] ) return;
-						resultingListContent.push( literalOrPointer[ ! ! literalOrPointer[ "modified" ] ? "modified" : ! ! literalOrPointer[ "added" ] ? "added" : "copy" ] );
-					} );
-					resultingList.modified = { "@list": resultingListContent };
-				}
-				if( list[ "copy" ] ) {
-					let resultingListContent:Array<LiteralRow|PointerRow> = [];
-					list[ "copy" ].forEach( ( literalOrPointer:LiteralRow|PointerRow ) => {
-						if( ! ! literalOrPointer[ "deleted" ] ) return;
-						resultingListContent.push( literalOrPointer[ "copy" ] );
-					} );
-					resultingList.copy = { "@list": resultingListContent };
-				}
+				resultingList.added = { "@list": this.getRDFList( list, "added" ) };
+			} else if( list[ "deleted" ] ) {
+				resultingList.deleted = { "@list": this.getRDFList( list, "deleted" ) };
+			} else if( list[ "modified" ] ) {
+				resultingList.modified = { "@list": this.getRDFList( list, "modified" ) };
+			} else if( list[ "copy" ] ) {
+				resultingList.copy = { "@list": this.getRDFList( list, "copy" ) };
 			}
 			resultingLists.push( resultingList );
 		} );
-		this.tempLists = resultingLists;
-		this.changePropertyContent();
+		return resultingLists;
+	}
+
+	getRDFList( list:ListRow, copyOrAddedOrModified:string ):any[] {
+		let resultingListContent:any[] = [];
+		list[ copyOrAddedOrModified ].forEach( ( literalOrPointer:any ) => {
+			if( ! ! literalOrPointer[ "deleted" ] ) return;
+			if( copyOrAddedOrModified === "copy" )
+				resultingListContent.push( literalOrPointer[ "copy" ] );
+			else
+				resultingListContent.push( literalOrPointer[ ! ! literalOrPointer[ "modified" ] ? "modified" : ! ! literalOrPointer[ "added" ] ? "added" : "copy" ] );
+		} );
+		return resultingListContent;
 	}
 
 	changePropertyContent():void {
@@ -381,19 +377,23 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		// Change literals and pointers
 		if( Utils.isArray( this.value ) ) {
 			this.tempProperty.value = [];
-			[].concat( this.tempLiterals ).concat( this.tempPointers ).concat( this.tempLists ).forEach( ( literalOrPointerOrListRow )=> {
+			let tempLists:any[] = this.convertToListRow( this.tempLists );
+			[].concat( this.tempLiterals ).concat( this.tempPointers ).concat( tempLists ).forEach( ( literalOrPointerOrListRow )=> {
 				if( ! literalOrPointerOrListRow.deleted )
 					this.tempProperty.value.push( ! ! literalOrPointerOrListRow.added ? literalOrPointerOrListRow.added : ! ! literalOrPointerOrListRow.modified ? literalOrPointerOrListRow.modified : literalOrPointerOrListRow.copy );
 			} );
 			this.literalsHaveChanged = ! ! this.tempLiterals.find( ( literalRow )=> {return ! ! literalRow.modified || ! ! literalRow.added || ! ! literalRow.deleted } );
 			this.pointersHaveChanged = ! ! this.tempPointers.find( ( pointerRow )=> {return ! ! pointerRow.modified || ! ! pointerRow.added || ! ! pointerRow.deleted } );
-			this.listsHaveChanged = ! ! this.tempLists.find( ( listRow )=> {return ! ! listRow.modified || ! ! listRow.added || ! ! listRow.deleted } );
+			this.listsHaveChanged = ! ! tempLists.find( ( listRow )=> {return ! ! listRow.modified || ! ! listRow.added || ! ! listRow.deleted } );
 
 			if( this.literalsHaveChanged ) { this.property.modifiedLiterals = this.tempLiterals; }
 			else { delete this.property.modifiedLiterals; }
 
 			if( this.pointersHaveChanged ) { this.property.modifiedPointers = this.tempPointers; }
 			else { delete this.property.modifiedPointers; }
+
+			if( this.listsHaveChanged ) { this.property.modifiedLists = this.tempLists; }
+			else { delete this.property.modifiedLists; }
 
 		} else {
 
@@ -449,7 +449,7 @@ export interface PropertyRow {
 
 	modifiedLiterals?:LiteralRow[];
 	modifiedPointers?:PointerRow[];
-	modifiedLists?:PointerRow[];
+	modifiedLists?:ListRow[];
 }
 export interface Property {
 	id:string;
