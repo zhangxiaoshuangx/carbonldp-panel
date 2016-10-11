@@ -43,6 +43,7 @@ System.register(["@angular/core", "semantic-ui/semantic", "carbonldp/RDF/RDFNode
                     this.blankNodes = [];
                     this.namedFragments = [];
                     this.onSave = new core_1.EventEmitter();
+                    this.onDeleteList = new core_1.EventEmitter();
                     this.onGoToBlankNode = new core_1.EventEmitter();
                     this.onGoToNamedFragment = new core_1.EventEmitter();
                     this.headers = [];
@@ -158,9 +159,12 @@ System.register(["@angular/core", "semantic-ui/semantic", "carbonldp/RDF/RDFNode
                     this.$element.find(".list.confirm-deletion.dimmer").dimmer("hide");
                 };
                 ListComponent.prototype.deleteList = function () {
-                    if (this.list.copy)
+                    if (this.list.added)
+                        this.onDeleteList.emit(this.list);
+                    if (this.list.copy) {
                         this.list.deleted = this.list.copy;
-                    this.updateTempList();
+                        this.updateTempList();
+                    }
                 };
                 __decorate([
                     core_1.Input(), 
@@ -186,6 +190,10 @@ System.register(["@angular/core", "semantic-ui/semantic", "carbonldp/RDF/RDFNode
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], ListComponent.prototype, "onSave", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], ListComponent.prototype, "onDeleteList", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)

@@ -54,7 +54,6 @@ System.register(["@angular/core", "./../property/property.component", "semantic-
                     newListRow.added = [];
                     newListRow.isBeingCreated = true;
                     this.lists.splice(0, 0, newListRow);
-                    // this.updateCanDisplayLists();
                     this.saveList(null, null, 0);
                 };
                 ListsComponent.prototype.saveList = function (modifiedList, originalList, index) {

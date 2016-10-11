@@ -16,6 +16,7 @@ export declare class ListComponent {
     blankNodes: RDFNode.Class[];
     namedFragments: RDFNode.Class[];
     onSave: EventEmitter<ListRow>;
+    onDeleteList: EventEmitter<ListRow>;
     onGoToBlankNode: EventEmitter<string>;
     onGoToNamedFragment: EventEmitter<string>;
     headers: string[];

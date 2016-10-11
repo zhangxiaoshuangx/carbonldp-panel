@@ -48,6 +48,7 @@ export class ListComponent {
 	@Input() namedFragments:RDFNode.Class[] = [];
 
 	@Output() onSave:EventEmitter<ListRow> = new EventEmitter<ListRow>();
+	@Output() onDeleteList:EventEmitter<ListRow> = new EventEmitter<ListRow>();
 	@Output() onGoToBlankNode:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onGoToNamedFragment:EventEmitter<string> = new EventEmitter<string>();
 
@@ -169,8 +170,11 @@ export class ListComponent {
 	}
 
 	deleteList():void {
-		if( this.list.copy ) this.list.deleted = this.list.copy;
-		this.updateTempList();
+		if( this.list.added ) this.onDeleteList.emit( this.list );
+		if( this.list.copy ) {
+			this.list.deleted = this.list.copy;
+			this.updateTempList();
+		}
 	}
 
 }
