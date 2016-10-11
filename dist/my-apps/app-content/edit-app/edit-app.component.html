@@ -44,7 +44,7 @@
 				</div>
 			</div>
 			<div class="field ui segment" [ngClass]="{disabled: allDomains.value}">
-				<ui class="ui middle aligned divided list allowedDomains">
+				<div class="ui middle aligned divided list allowedDomains">
 					<li class="item" *ngFor="let opt of allowedDomains; let i = index;">
 						<div class="right floated content">
 							<button class="ui mini circular icon basic black button"
@@ -56,7 +56,7 @@
 							{{opt}}
 						</div>
 					</li>
-				</ui>
+				</div>
 				<div *ngIf="allowedDomains.length===0">
 					<p class="noAllowedOrigins">No allowed origins to show.</p>
 				</div>
