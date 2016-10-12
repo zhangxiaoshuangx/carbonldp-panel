@@ -220,16 +220,16 @@ System.register(["carbonldp/NS", "carbonldp/Utils", "carbonldp/RDF/Literal", "ca
             exports_1("LiteralValueValidator", LiteralValueValidator);
             PointerValidator = (function () {
                 function PointerValidator() {
-                    this.url = new RegExp("(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g");
+                    this.url = new RegExp("(\b(https?|ftp|file)://)?[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]");
                 }
                 PointerValidator.prototype.validate = function (control) {
                     if (!!control && typeof control.value === "undefined") {
                         return { "emptyControl": true };
                     }
                     if (!!control.value) {
-                        if (!URI.Util.isBNodeID(control.value) && !this.url.test(control.value)) {
-                            return { "invalidId": true };
-                        }
+                        if (URI.Util.isBNodeID(control.value) || this.url.test(control.value))
+                            return null;
+                        return { "invalidId": true };
                     }
                     return null;
                 };

@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, Output, EventEmitter, ViewChild } from "@
 
 import * as NS from "carbonldp/NS";
 import * as Utils from "carbonldp/Utils";
+import * as SDKLiteral from "carbonldp/RDF/Literal";
 import * as URI from "carbonldp/RDF/URI";
 
 import { Modes } from "./../property/property.component"
@@ -841,9 +842,15 @@ export class LiteralComponent {
 
 	@Input() canEdit:boolean = true;
 	@Input() canDisplayLanguage:boolean = false;
+	@Input() partOfList:boolean = false;
+	@Input() isFirstItem:boolean = false;
+	@Input() isLastItem:boolean = false;
+
 	@Output() onEditMode:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() onSave:EventEmitter<any> = new EventEmitter<any>();
 	@Output() onDeleteLiteral:EventEmitter<LiteralRow> = new EventEmitter<LiteralRow>();
+	@Output() onMoveUp:EventEmitter<LiteralRow> = new EventEmitter<LiteralRow>();
+	@Output() onMoveDown:EventEmitter<LiteralRow> = new EventEmitter<LiteralRow>();
 
 	@ViewChild( "valueInput" ) valueInputControl;
 
@@ -881,7 +888,7 @@ export class LiteralComponent {
 			delete this.tempLiteral[ "@language" ];
 		} else this.language = this.tempLiteral[ "@language" ];
 
-		if( typeof this.literal.added !== "undefined" && typeof this.value === "undefined" ) {
+		if( typeof this.literal.added !== "undefined" && typeof this.value === "undefined" || this.value === "" ) {
 			this.onDeleteLiteral.emit( this.literal );
 		}
 	}
@@ -984,6 +991,14 @@ export class LiteralComponent {
 			}
 		} );
 		return xsdDataTypes;
+	}
+
+	moveUp():void {
+		this.onMoveUp.emit( this.literal );
+	}
+
+	moveDown():void {
+		this.onMoveDown.emit( this.literal );
 	}
 
 }

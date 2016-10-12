@@ -48,11 +48,16 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "./../property/property.c
                     this.bNodes = [];
                     this.namedFragments = [];
                     this.canEdit = true;
+                    this.partOfList = false;
+                    this.isFirstItem = false;
+                    this.isLastItem = false;
                     this.onEditMode = new core_1.EventEmitter();
                     this.onSave = new core_1.EventEmitter();
                     this.onDeletePointer = new core_1.EventEmitter();
                     this.onGoToBNode = new core_1.EventEmitter();
                     this.onGoToNamedFragment = new core_1.EventEmitter();
+                    this.onMoveUp = new core_1.EventEmitter();
+                    this.onMoveDown = new core_1.EventEmitter();
                     // Literal Value;
                     this._id = "";
                     this.element = element;
@@ -109,8 +114,8 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "./../property/property.c
                     this.onDeletePointer.emit(this.pointer);
                 };
                 PointerComponent.prototype.ngOnChanges = function (changes) {
-                    if ((changes["bNodes"].currentValue !== changes["bNodes"].previousValue) ||
-                        (changes["namedFragments"].currentValue !== changes["namedFragments"].previousValue)) {
+                    if ((!!changes["bNodes"] && changes["bNodes"].currentValue !== changes["bNodes"].previousValue) ||
+                        (!!changes["namedFragments"] && changes["namedFragments"].currentValue !== changes["namedFragments"].previousValue)) {
                         this.checkForChangesOnPointers();
                     }
                 };
@@ -132,7 +137,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "./../property/property.c
                     }
                     else
                         this.id = this.tempPointer["@id"];
-                    if (typeof this.pointer.added !== "undefined" && typeof this.id === "undefined") {
+                    if (typeof this.pointer.added !== "undefined" && (typeof this.id === "undefined" || this.id.length === 0)) {
                         this.onDeletePointer.emit(this.pointer);
                     }
                 };
@@ -186,6 +191,12 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "./../property/property.c
                     if (this.existsOnPointers)
                         this.onGoToNamedFragment.emit(id);
                 };
+                PointerComponent.prototype.moveUp = function () {
+                    this.onMoveUp.emit(this.pointer);
+                };
+                PointerComponent.prototype.moveDown = function () {
+                    this.onMoveDown.emit(this.pointer);
+                };
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', String), 
@@ -212,6 +223,18 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "./../property/property.c
                     __metadata('design:type', Boolean)
                 ], PointerComponent.prototype, "canEdit", void 0);
                 __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Boolean)
+                ], PointerComponent.prototype, "partOfList", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Boolean)
+                ], PointerComponent.prototype, "isFirstItem", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Boolean)
+                ], PointerComponent.prototype, "isLastItem", void 0);
+                __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], PointerComponent.prototype, "onEditMode", void 0);
@@ -231,6 +254,14 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "./../property/property.c
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], PointerComponent.prototype, "onGoToNamedFragment", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], PointerComponent.prototype, "onMoveUp", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], PointerComponent.prototype, "onMoveDown", void 0);
                 PointerComponent = __decorate([
                     core_1.Component({
                         selector: "tr.cp-pointer",

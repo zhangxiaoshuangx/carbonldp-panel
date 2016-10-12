@@ -799,9 +799,14 @@ System.register(["@angular/core", "carbonldp/NS", "carbonldp/Utils", "carbonldp/
                     this._literal = {};
                     this.canEdit = true;
                     this.canDisplayLanguage = false;
+                    this.partOfList = false;
+                    this.isFirstItem = false;
+                    this.isLastItem = false;
                     this.onEditMode = new core_1.EventEmitter();
                     this.onSave = new core_1.EventEmitter();
                     this.onDeleteLiteral = new core_1.EventEmitter();
+                    this.onMoveUp = new core_1.EventEmitter();
+                    this.onMoveDown = new core_1.EventEmitter();
                     this.element = element;
                 }
                 Object.defineProperty(LiteralComponent.prototype, "mode", {
@@ -906,7 +911,7 @@ System.register(["@angular/core", "carbonldp/NS", "carbonldp/Utils", "carbonldp/
                     }
                     else
                         this.language = this.tempLiteral["@language"];
-                    if (typeof this.literal.added !== "undefined" && typeof this.value === "undefined") {
+                    if (typeof this.literal.added !== "undefined" && typeof this.value === "undefined" || this.value === "") {
                         this.onDeleteLiteral.emit(this.literal);
                     }
                 };
@@ -1008,6 +1013,12 @@ System.register(["@angular/core", "carbonldp/NS", "carbonldp/Utils", "carbonldp/
                     });
                     return xsdDataTypes;
                 };
+                LiteralComponent.prototype.moveUp = function () {
+                    this.onMoveUp.emit(this.literal);
+                };
+                LiteralComponent.prototype.moveDown = function () {
+                    this.onMoveDown.emit(this.literal);
+                };
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', String), 
@@ -1026,6 +1037,18 @@ System.register(["@angular/core", "carbonldp/NS", "carbonldp/Utils", "carbonldp/
                     __metadata('design:type', Boolean)
                 ], LiteralComponent.prototype, "canDisplayLanguage", void 0);
                 __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Boolean)
+                ], LiteralComponent.prototype, "partOfList", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Boolean)
+                ], LiteralComponent.prototype, "isFirstItem", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Boolean)
+                ], LiteralComponent.prototype, "isLastItem", void 0);
+                __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], LiteralComponent.prototype, "onEditMode", void 0);
@@ -1037,6 +1060,14 @@ System.register(["@angular/core", "carbonldp/NS", "carbonldp/Utils", "carbonldp/
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], LiteralComponent.prototype, "onDeleteLiteral", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], LiteralComponent.prototype, "onMoveUp", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], LiteralComponent.prototype, "onMoveDown", void 0);
                 __decorate([
                     core_1.ViewChild("valueInput"), 
                     __metadata('design:type', Object)

@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Literal", "carbonldp/RDF/URI", "carbonldp/Utils", "jquery", "semantic-ui/semantic", "./property.component.html!", "./property.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Literal", "carbonldp/RDF/List", "carbonldp/RDF/URI", "carbonldp/Utils", "jquery", "semantic-ui/semantic", "./property.component.html!", "./property.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, SDKRDFNode, SDKLiteral, URI, Utils, jquery_1, property_component_html_1, property_component_css_text_1;
+    var core_1, SDKRDFNode, SDKLiteral, SDKList, URI, Utils, jquery_1, property_component_html_1, property_component_css_text_1;
     var PropertyComponent, Modes;
     return {
         setters:[
@@ -22,6 +22,9 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
             },
             function (SDKLiteral_1) {
                 SDKLiteral = SDKLiteral_1;
+            },
+            function (SDKList_1) {
+                SDKList = SDKList_1;
             },
             function (URI_1) {
                 URI = URI_1;
@@ -45,11 +48,13 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                 function PropertyComponent(element) {
                     this.literals = [];
                     this.pointers = [];
+                    this.lists = [];
                     this.tempProperty = {};
                     this.existingFragments = [];
                     this.value = [];
                     this.addNewLiteral = new core_1.EventEmitter();
                     this.addNewPointer = new core_1.EventEmitter();
+                    this.addNewList = new core_1.EventEmitter();
                     this.commonToken = ["@id", "@type", "@value"];
                     this.modes = Modes;
                     this.mode = Modes.READ;
@@ -71,6 +76,7 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                     this.valueHasChanged = false;
                     this.literalsHaveChanged = false;
                     this.pointersHaveChanged = false;
+                    this.listsHaveChanged = false;
                     this.element = element;
                 }
                 Object.defineProperty(PropertyComponent.prototype, "property", {
@@ -97,7 +103,7 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                     configurable: true
                 });
                 Object.defineProperty(PropertyComponent.prototype, "propertyHasChanged", {
-                    get: function () { return this.nameHasChanged || this.valueHasChanged || this.literalsHaveChanged || this.pointersHaveChanged; },
+                    get: function () { return this.nameHasChanged || this.valueHasChanged || this.literalsHaveChanged || this.pointersHaveChanged || this.listsHaveChanged; },
                     enumerable: true,
                     configurable: true
                 });
@@ -164,7 +170,7 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                     });
                 };
                 PropertyComponent.prototype.initializeDeletionDimmer = function () {
-                    this.$element.find(".confirm-deletion.dimmer").dimmer({ closable: false });
+                    this.$element.find(".property.confirm-deletion.dimmer").dimmer({ closable: false });
                 };
                 PropertyComponent.prototype.onEditName = function () {
                     this.mode = Modes.EDIT;
@@ -178,7 +184,7 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                     this.value = this.unescape(this.value);
                 };
                 PropertyComponent.prototype.cancelDeletion = function () {
-                    this.$element.find(".confirm-deletion.dimmer").dimmer("hide");
+                    this.$element.find(".property.confirm-deletion.dimmer").dimmer("hide");
                 };
                 PropertyComponent.prototype.cancelEdition = function () {
                     if (this.nameInputControl.valid) {
@@ -191,7 +197,7 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                     }
                 };
                 PropertyComponent.prototype.askToConfirmDeletion = function () {
-                    this.$element.find(".confirm-deletion.dimmer").dimmer("show");
+                    this.$element.find(".property.confirm-deletion.dimmer").dimmer("show");
                 };
                 PropertyComponent.prototype.deleteProperty = function () {
                     if (typeof this.property.added !== "undefined") {
@@ -224,6 +230,8 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                     this.tempLiterals = [];
                     this.pointers = [];
                     this.tempPointers = [];
+                    this.lists = [];
+                    this.tempLists = [];
                     if (typeof this.property.modifiedLiterals !== "undefined") {
                         this.literals = this.property.modifiedLiterals;
                         this.tempLiterals = this.property.modifiedLiterals;
@@ -248,6 +256,18 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                             }
                         });
                     }
+                    if (typeof this.property.modifiedLists !== "undefined") {
+                        this.lists = this.property.modifiedLists;
+                        this.tempLists = this.property.modifiedLists;
+                    }
+                    else {
+                        this.property[this.copyOrAdded].value.forEach(function (literalOrRDFNodeOrList) {
+                            if (SDKList.Factory.is(literalOrRDFNodeOrList)) {
+                                _this.lists.push({ copy: literalOrRDFNodeOrList["@list"].map(function (item) { return { copy: item }; }) });
+                                _this.tempLists.push({ copy: literalOrRDFNodeOrList });
+                            }
+                        });
+                    }
                 };
                 PropertyComponent.prototype.addLiteral = function () {
                     // Notify LiteralsComponent to add literal
@@ -256,6 +276,10 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                 PropertyComponent.prototype.addPointer = function () {
                     // Notify PointersComponent to add pointer
                     this.addNewPointer.emit(true);
+                };
+                PropertyComponent.prototype.addList = function () {
+                    // Notify ListsComponent to add pointer
+                    this.addNewList.emit(true);
                 };
                 PropertyComponent.prototype.checkForChangesOnName = function (newName) {
                     this.name = newName;
@@ -279,6 +303,44 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                     this.tempPointers = pointers;
                     this.changePropertyContent();
                 };
+                PropertyComponent.prototype.checkForChangesOnLists = function (lists) {
+                    this.lists = lists;
+                    this.tempLists = lists;
+                    this.changePropertyContent();
+                };
+                PropertyComponent.prototype.convertToListRow = function (lists) {
+                    var _this = this;
+                    var resultingLists = [];
+                    lists.forEach(function (list) {
+                        var resultingList = {};
+                        if (list["added"]) {
+                            resultingList.added = { "@list": _this.getRDFList(list, "added") };
+                        }
+                        else if (list["deleted"]) {
+                            resultingList.deleted = { "@list": _this.getRDFList(list, "deleted") };
+                        }
+                        else if (list["modified"]) {
+                            resultingList.modified = { "@list": _this.getRDFList(list, "modified") };
+                        }
+                        else if (list["copy"]) {
+                            resultingList.copy = { "@list": _this.getRDFList(list, "copy") };
+                        }
+                        resultingLists.push(resultingList);
+                    });
+                    return resultingLists;
+                };
+                PropertyComponent.prototype.getRDFList = function (list, copyOrAddedOrModified) {
+                    var resultingListContent = [];
+                    list[copyOrAddedOrModified].forEach(function (literalOrPointer) {
+                        if (!!literalOrPointer["deleted"])
+                            return;
+                        if (copyOrAddedOrModified === "copy")
+                            resultingListContent.push(literalOrPointer["copy"]);
+                        else
+                            resultingListContent.push(literalOrPointer[!!literalOrPointer["modified"] ? "modified" : !!literalOrPointer["added"] ? "added" : "copy"]);
+                    });
+                    return resultingListContent;
+                };
                 PropertyComponent.prototype.changePropertyContent = function () {
                     var _this = this;
                     this.tempProperty.id = this.id;
@@ -299,12 +361,14 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                     // Change literals and pointers
                     if (Utils.isArray(this.value)) {
                         this.tempProperty.value = [];
-                        [].concat(this.tempLiterals).concat(this.tempPointers).forEach(function (literalOrPointerRow) {
-                            if (!literalOrPointerRow.deleted)
-                                _this.tempProperty.value.push(!!literalOrPointerRow.added ? literalOrPointerRow.added : !!literalOrPointerRow.modified ? literalOrPointerRow.modified : literalOrPointerRow.copy);
+                        var tempLists = this.convertToListRow(this.tempLists);
+                        [].concat(this.tempLiterals).concat(this.tempPointers).concat(tempLists).forEach(function (literalOrPointerOrListRow) {
+                            if (!literalOrPointerOrListRow.deleted)
+                                _this.tempProperty.value.push(!!literalOrPointerOrListRow.added ? literalOrPointerOrListRow.added : !!literalOrPointerOrListRow.modified ? literalOrPointerOrListRow.modified : literalOrPointerOrListRow.copy);
                         });
                         this.literalsHaveChanged = !!this.tempLiterals.find(function (literalRow) { return !!literalRow.modified || !!literalRow.added || !!literalRow.deleted; });
                         this.pointersHaveChanged = !!this.tempPointers.find(function (pointerRow) { return !!pointerRow.modified || !!pointerRow.added || !!pointerRow.deleted; });
+                        this.listsHaveChanged = !!tempLists.find(function (listRow) { return !!listRow.modified || !!listRow.added || !!listRow.deleted; });
                         if (this.literalsHaveChanged) {
                             this.property.modifiedLiterals = this.tempLiterals;
                         }
@@ -316,6 +380,12 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                         }
                         else {
                             delete this.property.modifiedPointers;
+                        }
+                        if (this.listsHaveChanged) {
+                            this.property.modifiedLists = this.tempLists;
+                        }
+                        else {
+                            delete this.property.modifiedLists;
                         }
                     }
                     else {

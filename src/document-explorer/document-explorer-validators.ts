@@ -149,16 +149,15 @@ export class LiteralValueValidator implements Validator, OnChanges {
 } )
 export class PointerValidator implements Validator {
 	@Input() documentURI;
-	url = new RegExp( "(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g" );
+	url = new RegExp( "(\b(https?|ftp|file)://)?[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]" );
 
 	validate( control:AbstractControl ):{[key:string]:any;} {
 		if( ! ! control && typeof control.value === "undefined" ) {
 			return { "emptyControl": true };
 		}
 		if( ! ! control.value ) {
-			if( ! URI.Util.isBNodeID( control.value ) && ! this.url.test( control.value ) ) {
-				return { "invalidId": true };
-			}
+			if( URI.Util.isBNodeID( control.value ) || this.url.test( control.value ) ) return null;
+			return { "invalidId": true };
 		}
 		return null;
 

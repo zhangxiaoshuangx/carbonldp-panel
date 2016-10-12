@@ -20,11 +20,16 @@ export declare class PointerComponent implements OnChanges {
     bNodes: BlankNodeRow[];
     namedFragments: NamedFragmentRow[];
     canEdit: boolean;
+    partOfList: boolean;
+    isFirstItem: boolean;
+    isLastItem: boolean;
     onEditMode: EventEmitter<boolean>;
     onSave: EventEmitter<any>;
     onDeletePointer: EventEmitter<PointerRow>;
     onGoToBNode: EventEmitter<string>;
     onGoToNamedFragment: EventEmitter<string>;
+    onMoveUp: EventEmitter<PointerRow>;
+    onMoveDown: EventEmitter<PointerRow>;
     private _id;
     id: string;
     constructor(element: ElementRef);
@@ -41,6 +46,8 @@ export declare class PointerComponent implements OnChanges {
     getFriendlyName(uri: string): string;
     goToBNode(id: string): void;
     goToNamedFragment(id: string): void;
+    moveUp(): void;
+    moveDown(): void;
 }
 export interface PointerRow {
     copy: Pointer;

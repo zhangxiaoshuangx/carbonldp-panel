@@ -1,0 +1,12 @@
+<template ngFor let-list="$implicit" [ngForOf]="lists" let-i="index">
+	<cp-list *ngIf="!list.deleted"
+	         [list]="list"
+	         [blankNodes]="blankNodes"
+	         [namedFragments]="namedFragments"
+	         [documentURI]="documentURI"
+
+	         (onSave)="saveList($event, list, i)"
+	         (onDeleteList)="deleteList($event, i)"
+	         (onGoToBlankNode)="goToBlankNode($event)"
+	         (onGoToNamedFragment)="goToNamedFragment($event)"></cp-list>
+</template>

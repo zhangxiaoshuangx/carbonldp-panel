@@ -25,9 +25,14 @@ export declare class LiteralComponent {
     literal: LiteralRow;
     canEdit: boolean;
     canDisplayLanguage: boolean;
+    partOfList: boolean;
+    isFirstItem: boolean;
+    isLastItem: boolean;
     onEditMode: EventEmitter<boolean>;
     onSave: EventEmitter<any>;
     onDeleteLiteral: EventEmitter<LiteralRow>;
+    onMoveUp: EventEmitter<LiteralRow>;
+    onMoveDown: EventEmitter<LiteralRow>;
     valueInputControl: any;
     constructor(element: ElementRef);
     onEdit(event: Event): void;
@@ -40,6 +45,8 @@ export declare class LiteralComponent {
     private initializeTypesDropdown();
     private getDataTypes();
     private getXSDDataTypes();
+    moveUp(): void;
+    moveDown(): void;
 }
 export interface LiteralRow {
     copy: Literal;

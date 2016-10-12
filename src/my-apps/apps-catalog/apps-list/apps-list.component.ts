@@ -17,7 +17,7 @@ export class AppsListComponent {
 	@Output() openApp:EventEmitter<App.Class> = new EventEmitter<App.Class>();
 	@Output() deleteApp:EventEmitter<App.Class> = new EventEmitter<App.Class>();
 
-	headers:Header[] = [ { name: "Name", value: "name" }, { name: "Creation", value: "created" }, { name: "Modification Date", value: "modified" } ];
+	headers:Header[] = [ { name: "Name", value: "name" }, { name: "Created", value: "created" }, { name: "Modified", value: "modified" } ];
 	sortedColumn:string = null;
 	ascending:boolean = false;
 

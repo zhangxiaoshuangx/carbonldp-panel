@@ -2,12 +2,14 @@ import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit, OnIn
 
 import * as SDKRDFNode from "carbonldp/RDF/RDFNode";
 import * as SDKLiteral from "carbonldp/RDF/Literal";
+import * as SDKList from "carbonldp/RDF/List";
 import * as URI from "carbonldp/RDF/URI";
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 import * as Utils from "carbonldp/Utils";
 
-import { LiteralRow } from "./../literals/literal.component";
-import { PointerRow } from "./../pointers/pointer.component";
+import { Literal, LiteralRow } from "./../literals/literal.component";
+import { Pointer, PointerRow } from "./../pointers/pointer.component";
+import { List, ListRow } from "./../lists/list.component";
 import { NamedFragmentRow } from "./../named-fragments/named-fragment.component";
 
 import $ from "jquery";
@@ -29,8 +31,10 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	$element:JQuery;
 	literals:LiteralRow[] = [];
 	pointers:PointerRow[] = [];
+	lists:ListRow[] = [];
 	tempLiterals:LiteralRow[];
 	tempPointers:PointerRow[];
+	tempLists:ListRow[];
 	tempProperty:Property = <Property>{};
 	copyOrAdded:string;
 	existingFragments:string[] = [];
@@ -43,6 +47,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 
 	addNewLiteral:EventEmitter<boolean> = new EventEmitter<boolean>();
 	addNewPointer:EventEmitter<boolean> = new EventEmitter<boolean>();
+	addNewList:EventEmitter<boolean> = new EventEmitter<boolean>();
 	commonToken:string[] = [ "@id", "@type", "@value" ];
 	modes:Modes = Modes;
 	@ViewChild( "nameInput" ) nameInputControl;
@@ -90,8 +95,9 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	valueHasChanged:boolean = false;
 	literalsHaveChanged:boolean = false;
 	pointersHaveChanged:boolean = false;
+	listsHaveChanged:boolean = false;
 
-	get propertyHasChanged():boolean { return this.nameHasChanged || this.valueHasChanged || this.literalsHaveChanged || this.pointersHaveChanged; }
+	get propertyHasChanged():boolean { return this.nameHasChanged || this.valueHasChanged || this.literalsHaveChanged || this.pointersHaveChanged || this.listsHaveChanged; }
 
 	// TODO: Add @lists and @sets support
 	constructor( element:ElementRef ) {
@@ -171,7 +177,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	initializeDeletionDimmer():void {
-		this.$element.find( ".confirm-deletion.dimmer" ).dimmer( { closable: false } );
+		this.$element.find( ".property.confirm-deletion.dimmer" ).dimmer( { closable: false } );
 	}
 
 	onEditName():void {
@@ -187,7 +193,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	cancelDeletion():void {
-		this.$element.find( ".confirm-deletion.dimmer" ).dimmer( "hide" );
+		this.$element.find( ".property.confirm-deletion.dimmer" ).dimmer( "hide" );
 	}
 
 	cancelEdition():void {
@@ -203,7 +209,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	askToConfirmDeletion():void {
-		this.$element.find( ".confirm-deletion.dimmer" ).dimmer( "show" );
+		this.$element.find( ".property.confirm-deletion.dimmer" ).dimmer( "show" );
 	}
 
 	deleteProperty():void {
@@ -238,6 +244,8 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		this.tempLiterals = [];
 		this.pointers = [];
 		this.tempPointers = [];
+		this.lists = [];
+		this.tempLists = [];
 		if( typeof this.property.modifiedLiterals !== "undefined" ) {
 			this.literals = this.property.modifiedLiterals;
 			this.tempLiterals = this.property.modifiedLiterals;
@@ -260,6 +268,17 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 				}
 			} );
 		}
+		if( typeof this.property.modifiedLists !== "undefined" ) {
+			this.lists = this.property.modifiedLists;
+			this.tempLists = this.property.modifiedLists;
+		} else {
+			this.property[ this.copyOrAdded ].value.forEach( ( literalOrRDFNodeOrList )=> {
+				if( SDKList.Factory.is( literalOrRDFNodeOrList ) ) {
+					this.lists.push( <ListRow>{ copy: literalOrRDFNodeOrList[ "@list" ].map( ( item ) => { return { copy: item } } ) } );
+					this.tempLists.push( <ListRow>{ copy: literalOrRDFNodeOrList } );
+				}
+			} );
+		}
 	}
 
 	addLiteral():void {
@@ -270,6 +289,11 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	addPointer():void {
 		// Notify PointersComponent to add pointer
 		this.addNewPointer.emit( true );
+	}
+
+	addList():void {
+		// Notify ListsComponent to add pointer
+		this.addNewList.emit( true );
 	}
 
 	checkForChangesOnName( newName:string ):void {
@@ -298,6 +322,42 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		this.changePropertyContent();
 	}
 
+	checkForChangesOnLists( lists:ListRow[] ):void {
+		this.lists = lists;
+		this.tempLists = lists;
+		this.changePropertyContent();
+	}
+
+	convertToListRow( lists:ListRow[] ):ListRow[] {
+		let resultingLists:ListRow[] = [];
+		lists.forEach( ( list:ListRow ) => {
+			let resultingList:ListRow = {};
+			if( list[ "added" ] ) {
+				resultingList.added = { "@list": this.getRDFList( list, "added" ) };
+			} else if( list[ "deleted" ] ) {
+				resultingList.deleted = { "@list": this.getRDFList( list, "deleted" ) };
+			} else if( list[ "modified" ] ) {
+				resultingList.modified = { "@list": this.getRDFList( list, "modified" ) };
+			} else if( list[ "copy" ] ) {
+				resultingList.copy = { "@list": this.getRDFList( list, "copy" ) };
+			}
+			resultingLists.push( resultingList );
+		} );
+		return resultingLists;
+	}
+
+	getRDFList( list:ListRow, copyOrAddedOrModified:string ):any[] {
+		let resultingListContent:any[] = [];
+		list[ copyOrAddedOrModified ].forEach( ( literalOrPointer:any ) => {
+			if( ! ! literalOrPointer[ "deleted" ] ) return;
+			if( copyOrAddedOrModified === "copy" )
+				resultingListContent.push( literalOrPointer[ "copy" ] );
+			else
+				resultingListContent.push( literalOrPointer[ ! ! literalOrPointer[ "modified" ] ? "modified" : ! ! literalOrPointer[ "added" ] ? "added" : "copy" ] );
+		} );
+		return resultingListContent;
+	}
+
 	changePropertyContent():void {
 		this.tempProperty.id = this.id;
 		this.tempProperty.name = this.name;
@@ -317,17 +377,23 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		// Change literals and pointers
 		if( Utils.isArray( this.value ) ) {
 			this.tempProperty.value = [];
-			[].concat( this.tempLiterals ).concat( this.tempPointers ).forEach( ( literalOrPointerRow )=> {
-				if( ! literalOrPointerRow.deleted ) this.tempProperty.value.push( ! ! literalOrPointerRow.added ? literalOrPointerRow.added : ! ! literalOrPointerRow.modified ? literalOrPointerRow.modified : literalOrPointerRow.copy );
+			let tempLists:any[] = this.convertToListRow( this.tempLists );
+			[].concat( this.tempLiterals ).concat( this.tempPointers ).concat( tempLists ).forEach( ( literalOrPointerOrListRow )=> {
+				if( ! literalOrPointerOrListRow.deleted )
+					this.tempProperty.value.push( ! ! literalOrPointerOrListRow.added ? literalOrPointerOrListRow.added : ! ! literalOrPointerOrListRow.modified ? literalOrPointerOrListRow.modified : literalOrPointerOrListRow.copy );
 			} );
 			this.literalsHaveChanged = ! ! this.tempLiterals.find( ( literalRow )=> {return ! ! literalRow.modified || ! ! literalRow.added || ! ! literalRow.deleted } );
 			this.pointersHaveChanged = ! ! this.tempPointers.find( ( pointerRow )=> {return ! ! pointerRow.modified || ! ! pointerRow.added || ! ! pointerRow.deleted } );
+			this.listsHaveChanged = ! ! tempLists.find( ( listRow )=> {return ! ! listRow.modified || ! ! listRow.added || ! ! listRow.deleted } );
 
 			if( this.literalsHaveChanged ) { this.property.modifiedLiterals = this.tempLiterals; }
 			else { delete this.property.modifiedLiterals; }
 
 			if( this.pointersHaveChanged ) { this.property.modifiedPointers = this.tempPointers; }
 			else { delete this.property.modifiedPointers; }
+
+			if( this.listsHaveChanged ) { this.property.modifiedLists = this.tempLists; }
+			else { delete this.property.modifiedLists; }
 
 		} else {
 
@@ -383,6 +449,7 @@ export interface PropertyRow {
 
 	modifiedLiterals?:LiteralRow[];
 	modifiedPointers?:PointerRow[];
+	modifiedLists?:ListRow[];
 }
 export interface Property {
 	id:string;
