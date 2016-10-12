@@ -1,4 +1,4 @@
-System.register(["@angular/core", '@angular/common', "carbonldp/NS", "carbonldp/Utils", "carbonldp/RDF/Literal", "carbonldp/RDF/URI", "./../property/property.component", "jquery", "semantic-ui/semantic", "./literal.component.html!", "./literal.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/NS", "carbonldp/Utils", "carbonldp/RDF/URI", "./../property/property.component", "jquery", "semantic-ui/semantic", "./literal.component.html!", "./literal.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,24 +10,18 @@ System.register(["@angular/core", '@angular/common', "carbonldp/NS", "carbonldp/
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, NS, Utils, SDKLiteral, URI, property_component_1, jquery_1, literal_component_html_1, literal_component_css_text_1;
+    var core_1, NS, Utils, URI, property_component_1, jquery_1, literal_component_html_1, literal_component_css_text_1;
     var LiteralComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (common_1_1) {
-                common_1 = common_1_1;
-            },
             function (NS_1) {
                 NS = NS_1;
             },
             function (Utils_1) {
                 Utils = Utils_1;
-            },
-            function (SDKLiteral_1) {
-                SDKLiteral = SDKLiteral_1;
             },
             function (URI_1) {
                 URI = URI_1;
@@ -808,9 +802,6 @@ System.register(["@angular/core", '@angular/common', "carbonldp/NS", "carbonldp/
                     this.onEditMode = new core_1.EventEmitter();
                     this.onSave = new core_1.EventEmitter();
                     this.onDeleteLiteral = new core_1.EventEmitter();
-                    this.valueInput = new common_1.Control(this.value, common_1.Validators.compose([common_1.Validators.required, this.valueValidator.bind(this)]));
-                    this.typeInput = new common_1.Control(this.type, common_1.Validators.compose([common_1.Validators.required]));
-                    this.languageInput = new common_1.Control(this.language, common_1.Validators.compose([]));
                     this.element = element;
                 }
                 Object.defineProperty(LiteralComponent.prototype, "mode", {
@@ -832,8 +823,6 @@ System.register(["@angular/core", '@angular/common', "carbonldp/NS", "carbonldp/
                     get: function () { return this._value; },
                     set: function (value) {
                         this._value = value;
-                        if (!!this.valueInput && this.valueInput.value !== this.value)
-                            this.valueInput.updateValue(this.value);
                     },
                     enumerable: true,
                     configurable: true
@@ -848,9 +837,6 @@ System.register(["@angular/core", '@angular/common', "carbonldp/NS", "carbonldp/
                             type = NS.XSD.DataType.string;
                         this._type = type;
                         this.isStringType = type === NS.XSD.DataType.string;
-                        if (!!this.typeInput && this.typeInput.value !== this.type)
-                            this.typeInput.updateValue(this.type);
-                        this.valueInput.updateValueAndValidity();
                     },
                     enumerable: true,
                     configurable: true
@@ -861,9 +847,6 @@ System.register(["@angular/core", '@angular/common', "carbonldp/NS", "carbonldp/
                         this._language = language;
                         if (!!this.languageDropdown && !this.language)
                             this.languageDropdown.dropdown("set selected", "empty");
-                        if (!!this.languageInput && this.languageInput.value !== this.language)
-                            this.languageInput.updateValue(this.language);
-                        this.languageInput.updateValueAndValidity();
                     },
                     enumerable: true,
                     configurable: true
@@ -988,7 +971,6 @@ System.register(["@angular/core", '@angular/common', "carbonldp/NS", "carbonldp/
                 LiteralComponent.prototype.changeLanguage = function (language, text, choice) {
                     if (language === "empty")
                         language = null;
-                    this.languageInput.updateValue(language === "empty" ? "" : language);
                     this.language = language;
                 };
                 LiteralComponent.prototype.initializeLanguageDropdown = function () {
@@ -1026,62 +1008,6 @@ System.register(["@angular/core", '@angular/common', "carbonldp/NS", "carbonldp/
                     });
                     return xsdDataTypes;
                 };
-                LiteralComponent.prototype.valueValidator = function (control) {
-                    var valid;
-                    switch (this.type) {
-                        // Boolean
-                        case NS.XSD.DataType.boolean:
-                            switch (control.value) {
-                                case "true":
-                                case "yes":
-                                case "y":
-                                case "1":
-                                case "false":
-                                case "no":
-                                case "n":
-                                case "0":
-                                    valid = true;
-                            }
-                            break;
-                        // Numbers
-                        case NS.XSD.DataType.int:
-                        case NS.XSD.DataType.integer:
-                            valid = !isNaN(control.value) && !isNaN(SDKLiteral.Factory.parse(control.value, this.type)) && Utils.isInteger(SDKLiteral.Factory.parse(control.value, this.type));
-                            break;
-                        case NS.XSD.DataType.byte:
-                        case NS.XSD.DataType.decimal:
-                        case NS.XSD.DataType.long:
-                        case NS.XSD.DataType.negativeInteger:
-                        case NS.XSD.DataType.nonNegativeInteger:
-                        case NS.XSD.DataType.nonPositiveInteger:
-                        case NS.XSD.DataType.positiveInteger:
-                        case NS.XSD.DataType.short:
-                        case NS.XSD.DataType.unsignedLong:
-                        case NS.XSD.DataType.unsignedInt:
-                        case NS.XSD.DataType.unsignedShort:
-                        case NS.XSD.DataType.unsignedByte:
-                        case NS.XSD.DataType.double:
-                        case NS.XSD.DataType.float:
-                            valid = !isNaN(control.value) && !isNaN(SDKLiteral.Factory.parse(control.value, this.type)) && Utils.isNumber(SDKLiteral.Factory.parse(control.value, this.type));
-                            break;
-                        // Dates
-                        case NS.XSD.DataType.date:
-                        case NS.XSD.DataType.dateTime:
-                        case NS.XSD.DataType.time:
-                            valid = Utils.isDate(SDKLiteral.Factory.parse(control.value, this.type));
-                            break;
-                        case NS.XSD.DataType.string:
-                            valid = Utils.isString(SDKLiteral.Factory.parse(control.value, this.type));
-                            break;
-                        default:
-                            valid = Utils.isString(control.value);
-                            break;
-                    }
-                    if (!valid) {
-                        return { "invalidTypeError": true };
-                    }
-                    return null;
-                };
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', String), 
@@ -1111,6 +1037,10 @@ System.register(["@angular/core", '@angular/common', "carbonldp/NS", "carbonldp/
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], LiteralComponent.prototype, "onDeleteLiteral", void 0);
+                __decorate([
+                    core_1.ViewChild("valueInput"), 
+                    __metadata('design:type', Object)
+                ], LiteralComponent.prototype, "valueInputControl", void 0);
                 LiteralComponent = __decorate([
                     core_1.Component({
                         selector: "tr.cp-literal",

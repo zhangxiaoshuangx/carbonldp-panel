@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbonldp/Carbon", "carbonldp/App", "carbonldp/HTTP", "carbonldp/NS/CS", "./../app-context.service", "semantic-ui/semantic", "./create-app.component.html!"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/App", "carbonldp/HTTP", "carbonldp/NS/CS", "./../app-context.service", "semantic-ui/semantic", "./create-app.component.html!"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,15 +10,12 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, forms_deprecated_1, Carbon_1, CarbonApp, HTTP, CS, app_context_service_1, create_app_component_html_1;
+    var core_1, Carbon_1, CarbonApp, HTTP, CS, app_context_service_1, create_app_component_html_1;
     var CreateAppComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (forms_deprecated_1_1) {
-                forms_deprecated_1 = forms_deprecated_1_1;
             },
             function (Carbon_1_1) {
                 Carbon_1 = Carbon_1_1;
@@ -41,7 +38,7 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
             }],
         execute: function() {
             CreateAppComponent = (function () {
-                function CreateAppComponent(formBuilder, carbon, appContextService) {
+                function CreateAppComponent(carbon, appContextService) {
                     this.submitting = false;
                     this.displaySuccessMessage = false;
                     this.displayWarningMessage = false;
@@ -49,62 +46,49 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                     this._slug = "";
                     this.persistedSlug = "";
                     this.persistedName = "";
-                    this.formBuilder = formBuilder;
+                    this.createAppFormModel = {
+                        name: "",
+                        slug: "",
+                        description: ""
+                    };
                     this.carbon = carbon;
                     this.appContextService = appContextService;
                 }
                 CreateAppComponent.prototype.ngOnInit = function () {
-                    this.createAppForm = this.formBuilder.group({
-                        name: ["", forms_deprecated_1.Validators.compose([forms_deprecated_1.Validators.required])],
-                        slug: ["", forms_deprecated_1.Validators.compose([this.slugValidator])],
-                        description: ["", forms_deprecated_1.Validators.compose([forms_deprecated_1.Validators.required])],
-                    });
-                    this.name = this.createAppForm.controls["name"];
-                    this.slug = this.createAppForm.controls["slug"];
-                    this.description = this.createAppForm.controls["description"];
-                };
-                CreateAppComponent.prototype.ngAfterViewInit = function () {
-                    var _this = this;
-                    this.name.valueChanges.subscribe(function (value) {
-                        if (value) {
-                            _this._slug = _this.getSanitizedSlug(value);
-                            _this.slug.updateValueAndValidity();
-                        }
-                    });
+                    this.slugInput = $("form > :input[name='slug']");
                 };
                 CreateAppComponent.prototype.slugLostControl = function (evt) {
-                    if (!evt.target.value.match(/^[a-z0-9]+(?:-[a-z0-9]*)*(?:\/*)$/)) {
-                        this.slug.updateValue(this.getSanitizedSlug(evt.target.value));
-                        this._slug = this.slug.value;
+                    if (typeof (evt.target) !== "undefined") {
+                        if (!evt.target.value.match(/^[a-z0-9]+(?:-[a-z0-9]*)*(?:\/*)$/)) {
+                            this.getSanitizedSlug(evt);
+                        }
                     }
                 };
-                CreateAppComponent.prototype.getSanitizedSlug = function (slug) {
-                    if (slug) {
-                        slug = slug.toLowerCase().replace(/ - | -|- /g, "-").replace(/[^-\w ]+/g, "").replace(/ +/g, "-");
-                        if (slug.charAt(slug.length - 1) !== "/")
-                            slug += "/";
+                CreateAppComponent.prototype.getSanitizedSlug = function (evt) {
+                    var slug;
+                    if (typeof evt.target !== "undefined") {
+                        slug = evt.target.value;
+                        if (slug) {
+                            slug = slug.toLowerCase().replace(/ - | -|- /g, "-").replace(/[^-\w ]+/g, "").replace(/ +/g, "-");
+                            if (slug.charAt(slug.length - 1) !== "/")
+                                slug += "/";
+                            this.createAppFormModel.slug = slug;
+                        }
                     }
-                    return slug;
                 };
-                CreateAppComponent.prototype.canDisplayErrors = function () {
-                    return (!this.name.pristine && !this.name.valid) || (!this.slug.pristine && !this.slug.valid) || (!this.description.pristine && !this.description.valid);
-                };
-                CreateAppComponent.prototype.onSubmit = function (data, $event) {
+                CreateAppComponent.prototype.onSubmit = function (form, $event) {
                     $event.preventDefault();
                     this.submitting = true;
                     this.errorMessage = null;
                     this.displaySuccessMessage = false;
                     this.displayWarningMessage = false;
-                    this.name.markAsDirty(true);
-                    this.slug.markAsDirty(true);
-                    this.description.markAsDirty(true);
-                    if (!this.createAppForm.valid) {
+                    if (!form.valid) {
                         this.submitting = false;
                         return;
                     }
-                    var name = data.name;
-                    var slug = data.slug;
-                    var description = data.description;
+                    var name = form.value.name;
+                    var slug = form.value.slug;
+                    var description = form.value.description;
                     var appDocument = CarbonApp.Factory.create(name);
                     appDocument.description = description;
                     appDocument.allowsOrigins = [Carbon_1.default.Pointer.Factory.create(Carbon_1.default.NS.CS.Class.AllOrigins)];
@@ -196,14 +180,6 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                     }
                     return friendlyMessage;
                 };
-                CreateAppComponent.prototype.slugValidator = function (slug) {
-                    if (!slug.value)
-                        return null;
-                    if (slug.value.match(/^[a-z0-9]+(?:-[a-z0-9]*)*(?:\/*)$/)) {
-                        return null;
-                    }
-                    return { "invalidSlug": true };
-                };
                 CreateAppComponent.prototype.clearMessages = function (evt) {
                     this.displaySuccessMessage = false;
                     this.displayWarningMessage = false;
@@ -215,7 +191,7 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "carbo
                         template: create_app_component_html_1.default,
                         styles: [":host { display: block; }"],
                     }), 
-                    __metadata('design:paramtypes', [forms_deprecated_1.FormBuilder, Carbon_1.default, app_context_service_1.AppContextService])
+                    __metadata('design:paramtypes', [Carbon_1.default, app_context_service_1.AppContextService])
                 ], CreateAppComponent);
                 return CreateAppComponent;
             }());

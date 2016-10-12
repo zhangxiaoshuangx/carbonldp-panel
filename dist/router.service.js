@@ -35,7 +35,6 @@ System.register(["@angular/router", "@angular/core"], function(exports_1, contex
              * </pre></code>
              */
             RouterService = (function () {
-                // private location:Location;
                 function RouterService(router) {
                     this.router = router;
                 }

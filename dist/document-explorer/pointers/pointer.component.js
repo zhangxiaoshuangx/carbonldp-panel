@@ -1,4 +1,4 @@
-System.register(["@angular/core", '@angular/common', "carbonldp/RDF/URI", "./../property/property.component", "jquery", "semantic-ui/semantic", "./pointer.component.html!", "./pointer.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/RDF/URI", "./../property/property.component", "jquery", "semantic-ui/semantic", "./pointer.component.html!", "./pointer.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,15 +10,12 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/URI", "./../
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, URI, property_component_1, jquery_1, pointer_component_html_1, pointer_component_css_text_1;
+    var core_1, URI, property_component_1, jquery_1, pointer_component_html_1, pointer_component_css_text_1;
     var PointerComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (common_1_1) {
-                common_1 = common_1_1;
             },
             function (URI_1) {
                 URI = URI_1;
@@ -58,7 +55,6 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/URI", "./../
                     this.onGoToNamedFragment = new core_1.EventEmitter();
                     // Literal Value;
                     this._id = "";
-                    this.idInput = new common_1.Control(this.id, common_1.Validators.compose([common_1.Validators.required, this.idValidator.bind(this)]));
                     this.element = element;
                 }
                 Object.defineProperty(PointerComponent.prototype, "mode", {
@@ -98,8 +94,6 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/URI", "./../
                     get: function () { return this._id; },
                     set: function (id) {
                         this._id = id;
-                        if (!!this.idInput && this.idInput.value !== this.id)
-                            this.idInput.updateValue(this.id);
                         this.checkForChangesOnPointers();
                     },
                     enumerable: true,
@@ -160,18 +154,6 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/URI", "./../
                     this.onSave.emit(this.tempPointer);
                     this.mode = property_component_1.Modes.READ;
                 };
-                PointerComponent.prototype.idValidator = function (control) {
-                    if (!!control && (typeof control.value === "undefined" || control.value.trim().length === 0)) {
-                        return { "emptyControl": true };
-                    }
-                    if (!!control) {
-                        if (!control.value.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g)) {
-                            if (!URI.Util.isBNodeID(control.value))
-                                return { "invalidId": true };
-                        }
-                    }
-                    return null;
-                };
                 PointerComponent.prototype.initializePointersDropdown = function () {
                     this.pointersDropdown = jquery_1.default(this.element.nativeElement.querySelector(".fragments.search.dropdown"));
                     if (!!this.pointersDropdown) {
@@ -185,7 +167,6 @@ System.register(["@angular/core", '@angular/common', "carbonldp/RDF/URI", "./../
                 PointerComponent.prototype.changeId = function (id, text, choice) {
                     if (id === "empty")
                         id = null;
-                    this.idInput.updateValue(id === "empty" ? "" : id);
                     this.id = id;
                 };
                 PointerComponent.prototype.getFriendlyName = function (uri) {

@@ -1,5 +1,4 @@
 import { ElementRef, EventEmitter, OnInit } from "@angular/core";
-import { FormBuilder } from "@angular/common/src/forms-deprecated";
 import * as HTTP from "carbonldp/HTTP";
 import { AuthService } from "angular2-carbonldp/services";
 import "semantic-ui/semantic";
@@ -7,22 +6,20 @@ export declare class RegisterComponent implements OnInit {
     onRegister: EventEmitter<any>;
     private element;
     private $element;
-    private formBuilder;
     private authService;
     private sending;
-    private registerForm;
-    private controls;
-    private errorMessage;
-    constructor(element: ElementRef, formBuilder: FormBuilder, authService: AuthService.Class);
-    ngOnInit(): void;
-    onSubmit(data: {
+    register: {
         name: string;
         email: string;
         password: string;
+        repeatPassword: string;
         profileId: string;
-    }, $event: any): void;
-    getSanitizedSlug(slug: string): string;
-    touchControls(): void;
+    };
+    private errorMessage;
+    constructor(element: ElementRef, authService: AuthService.Class);
+    ngOnInit(): void;
+    onSubmit(form: any, $event: any): void;
+    sanitize(evt: any): void;
     shakeForm(): void;
     setErrorMessage(error: HTTP.Errors.Error): void;
 }

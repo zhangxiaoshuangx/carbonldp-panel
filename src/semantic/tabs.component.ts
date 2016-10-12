@@ -8,7 +8,6 @@ import template from "./tabs.component.html!";
 	selector: "sui-tabs",
 	template: template,
 	styles: [ ":host { display:block; } " ],
-	// directives: [ TabComponent ],
 } )
 export class TabsComponent implements AfterContentInit, OnChanges {
 	@ContentChildren( TabComponent ) tabs:QueryList<TabComponent>;

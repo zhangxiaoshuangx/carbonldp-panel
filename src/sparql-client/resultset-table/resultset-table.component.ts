@@ -9,7 +9,6 @@ import style from "./resultset-table.component.css!text";
 	selector: "cp-resultset-table",
 	template: template,
 	styles: [ style ],
-	//pipes: [ RelativizeURIPipe, PrefixURIPipe ],
 } )
 
 export class ResultsetTableComponent implements OnChanges {

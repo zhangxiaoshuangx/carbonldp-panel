@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common/src/forms-deprecated", "angular2-carbonldp/services", "carbonldp/HTTP", "carbonldp-panel/custom-validators", "jquery", "semantic-ui/semantic", "./login.component.html!"], function(exports_1, context_1) {
+System.register(["@angular/core", "angular2-carbonldp/services", "carbonldp/HTTP", "jquery", "semantic-ui/semantic", "./login.component.html!"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -13,24 +13,18 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "angul
     var __param = (this && this.__param) || function (paramIndex, decorator) {
         return function (target, key) { decorator(target, key, paramIndex); }
     };
-    var core_1, forms_deprecated_1, services_1, HTTP, custom_validators_1, jquery_1, login_component_html_1;
+    var core_1, services_1, HTTP, jquery_1, login_component_html_1;
     var LoginComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (forms_deprecated_1_1) {
-                forms_deprecated_1 = forms_deprecated_1_1;
-            },
             function (services_1_1) {
                 services_1 = services_1_1;
             },
             function (HTTP_1) {
                 HTTP = HTTP_1;
-            },
-            function (custom_validators_1_1) {
-                custom_validators_1 = custom_validators_1_1;
             },
             function (jquery_1_1) {
                 jquery_1 = jquery_1_1;
@@ -41,40 +35,30 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "angul
             }],
         execute: function() {
             LoginComponent = (function () {
-                function LoginComponent(element, formBuilder, authService) {
+                function LoginComponent(element, authService) {
                     this.onLogin = new core_1.EventEmitter();
                     this.sending = false;
                     this.errorMessage = "";
-                    this.remember = true;
+                    // loginForm:ControlGroup;
+                    this.login = {
+                        email: "",
+                        password: "",
+                        rememberMe: false
+                    };
                     this.element = element;
-                    this.formBuilder = formBuilder;
+                    // this.formBuilder = formBuilder;
                     this.authService = authService;
                 }
                 LoginComponent.prototype.ngOnInit = function () {
                     this.$element = jquery_1.default(this.element.nativeElement);
                     this.$loginForm = this.$element.find("form.loginForm");
                     this.$loginForm.find(".ui.checkbox").checkbox();
-                    this.loginForm = this.formBuilder.group({
-                        email: ["", forms_deprecated_1.Validators.compose([forms_deprecated_1.Validators.required, custom_validators_1.EmailValidator])],
-                        password: ["", forms_deprecated_1.Validators.compose([forms_deprecated_1.Validators.required])],
-                        rememberMe: ["", forms_deprecated_1.Validators.compose([])],
-                    });
-                    this.email = this.loginForm.controls["email"];
-                    this.password = this.loginForm.controls["password"];
-                    this.rememberMe = this.loginForm.controls["rememberMe"];
                 };
                 LoginComponent.prototype.onSubmit = function (data, $event) {
                     var _this = this;
                     $event.preventDefault();
                     this.sending = true;
                     this.errorMessage = "";
-                    this.email.markAsTouched();
-                    this.password.markAsTouched();
-                    if (!this.loginForm.valid) {
-                        this.shakeForm();
-                        this.sending = false;
-                        return;
-                    }
                     var username = data.email;
                     var password = data.password;
                     var rememberMe = !!data.rememberMe;
@@ -143,8 +127,8 @@ System.register(["@angular/core", "@angular/common/src/forms-deprecated", "angul
                         template: login_component_html_1.default,
                         styles: [":host { display:block; } "],
                     }),
-                    __param(2, core_1.Inject(services_1.AuthService.Token)), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, forms_deprecated_1.FormBuilder, Object])
+                    __param(1, core_1.Inject(services_1.AuthService.Token)), 
+                    __metadata('design:paramtypes', [core_1.ElementRef, Object])
                 ], LoginComponent);
                 return LoginComponent;
             }());

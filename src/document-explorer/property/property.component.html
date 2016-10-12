@@ -16,18 +16,27 @@
 		<div [hidden]="mode === modes.READ">
 			<div class="ui error form">
 				<div class="ui fluid action input">
-					<input type="text" [ngFormControl]="idInput" (keyup.escape)="cancelIdEdition()" (keyup.enter)="idInput.valid? saveId() : null">
+					<input type="text" required
+					       [existingFragments]="existingFragments"
+					       [property]="property"
+					       [id]="id"
+					       [documentURI]="documentURI"
+					       [originalId]="originalId"
+					       [control]="idInput"
+					       cp-property-id
+					       cp-uri
+					       name="idInput" [(ngModel)]="value" #idInput="ngModel" (keyup.escape)="cancelIdEdition()" (keyup.enter)="idInput.valid? saveId() : null">
 					<button class="ui button"
 					        [disabled]="!idInput.valid"
 					        (click)="saveId(idInput.value)">Save
 					</button>
 				</div>
 				<div class="ui error message wide" *ngIf="!idInput.valid">
-					<p *ngIf="idInput.hasError('required')">Enter an id.</p>
-					<p *ngIf="idInput.hasError('invalidParent')">Enter a valid name for a Named Fragment. A name must contains the parent URI ({{documentURI}}<- Your fragment name ->).</p>
-					<p *ngIf="idInput.hasError('invalidValue')">Enter a valid URL. Only alphanumeric values (a-z, A-Z, 0..9)</p>
-					<p *ngIf="idInput.hasError('duplicatedHashtag')">Use only one hashtag (#) symbol.</p>
-					<p *ngIf="idInput.hasError('duplicatedNamedFragmentName')">A Fragment with that name already exists.</p>
+					<p *ngIf="idInput.control.hasError('required')">Enter an id.</p>
+					<p *ngIf="idInput.control.hasError('invalidParent')">Enter a valid name for a Named Fragment. A name must contains the parent URI ({{documentURI}}<- Your fragment name ->).</p>
+					<p *ngIf="idInput.control.hasError('invalidURIAddress')">Enter a valid URL. Only alphanumeric values (a-z, A-Z, 0..9)</p>
+					<p *ngIf="idInput.control.hasError('duplicatedHashtag')">Use only one hashtag (#) symbol.</p>
+					<p *ngIf="idInput.control.hasError('duplicatedNamedFragmentName')">A Fragment with that name already exists.</p>
 				</div>
 			</div>
 		</div>
@@ -98,17 +107,24 @@
 		<div [hidden]="mode === modes.READ">
 			<div class="ui error form">
 				<div class="ui fluid action input">
-					<input type="text" [ngFormControl]="nameInput" (keyup.escape)="cancelEdition()" (keyup.enter)="nameInput.valid? save() : null">
+					<input type="text"
+					       [existingProperties]="existingProperties"
+					       [property]="property"
+					       [id]="id"
+					       [originalName]="originalName"
+					       [control]="nameInput"
+					       cp-property-name
+					       name="nameInput" [(ngModel)]="name" #nameInput="ngModel" (keyup.escape)="cancelEdition()" (keyup.enter)="nameInput.valid? save() : null">
 					<button class="ui button"
 					        [disabled]="!nameInput.valid"
 					        (click)="save(nameInput.value)">Save
 					</button>
 				</div>
 				<div class="ui error message wide" *ngIf="!nameInput.valid">
-					<p *ngIf="nameInput.hasError('required')">Enter a name for the property.</p>
-					<p *ngIf="nameInput.hasError('invalidName')">Enter a valid URL. Only alphanumeric values (a-z, A-Z, 0..9)</p>
-					<p *ngIf="nameInput.hasError('duplicatedHashtag')">Use only one hashtag (#) symbol.</p>
-					<p *ngIf="nameInput.hasError('duplicatedPropertyName')">A property with that name already exists.</p>
+					<p *ngIf="nameInput.control.hasError('required')">Enter a name for the property.</p>
+					<p *ngIf="nameInput.control.hasError('invalidName')">Enter a valid URL. Only alphanumeric values (a-z, A-Z, 0..9)</p>
+					<p *ngIf="nameInput.control.hasError('duplicatedHashtag')">Use only one hashtag (#) symbol.</p>
+					<p *ngIf="nameInput.control.hasError('duplicatedPropertyName')">A property with that name already exists.</p>
 				</div>
 			</div>
 		</div>
