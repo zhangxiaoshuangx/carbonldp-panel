@@ -10,7 +10,7 @@ export declare class DocumentTreeViewComponent implements AfterViewInit, OnInit 
     element: ElementRef;
     $element: JQuery;
     documentTree: JQuery;
-    nodeChildren: any[];
+    nodeChildren: JSTreeNode[];
     documentContext: SDKContext.Class;
     onResolveUri: EventEmitter<RDFDocument.Class>;
     onError: EventEmitter<HTTP.Errors.Error>;
@@ -19,13 +19,20 @@ export declare class DocumentTreeViewComponent implements AfterViewInit, OnInit 
     ngOnInit(): void;
     ngAfterViewInit(): void;
     getDocumentTree(): Promise<PersistedDocument.Class>;
-    buildNode(uri: string): any;
+    buildNode(uri: string, isAccessPoint?: boolean): JSTreeNode;
     renderTree(): void;
     emptyNode(nodeId: string): void;
     onBeforeOpenNode(parentId: string, parentNode: any, position: string): void;
     onClickNode(parentId: string, node: any, position: string): void;
     addChild(parentId: string, node: any, position: string): void;
-    getNodeChildren(uri: string): Promise<any[]>;
+    getNodeChildren(uri: string): Promise<JSTreeNode[]>;
     getSlug(pointer: Pointer.Class | string): string;
+}
+export interface JSTreeNode {
+    text: any;
+    state: any;
+    children: any;
+    data: any;
+    type?: any;
 }
 export default DocumentTreeViewComponent;
