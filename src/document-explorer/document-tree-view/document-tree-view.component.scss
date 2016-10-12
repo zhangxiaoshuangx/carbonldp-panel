@@ -1,4 +1,12 @@
 :host {
 	display: block;
 	overflow-y: scroll;
+
+	.jstree-container-ul {
+		li {
+			a.accesspoint > .icon {
+				color: orange;
+			}
+		}
+	}
 }
