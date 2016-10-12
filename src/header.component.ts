@@ -12,6 +12,9 @@ import style from "./header.component.css!text";
 	selector: "cp-header",
 	template: template,
 	styles: [ style ],
+	host: {
+		class: "ui navigation inverted menu"
+	}
 } )
 export class HeaderComponent implements AfterContentInit {
 	private element:ElementRef;

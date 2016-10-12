@@ -53,6 +53,9 @@ System.register(["@angular/core", "carbonldp-panel/header.service", "jquery", "s
                         selector: "cp-header",
                         template: header_component_html_1.default,
                         styles: [header_component_css_text_1.default],
+                        host: {
+                            class: "ui navigation inverted menu"
+                        }
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef, header_service_1.HeaderService])
                 ], HeaderComponent);
