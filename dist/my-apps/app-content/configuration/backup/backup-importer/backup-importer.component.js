@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backups.service", "../../job/jobs.service", "../../job/job", "jquery", "semantic-ui/semantic", "./backup-importer.component.html!", "./backup-importer.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/App", "../backups.service", "../../job/jobs.service", "../../job/job", "semantic-ui/semantic", "./backup-importer.component.html!", "./backup-importer.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,15 +10,12 @@ System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backup
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, App, backups_service_1, jobs_service_1, Job, jquery_1, backup_importer_component_html_1, backup_importer_component_css_text_1;
+    var core_1, App, backups_service_1, jobs_service_1, Job, backup_importer_component_html_1, backup_importer_component_css_text_1;
     var BackupImporterComponent, ImportStatus;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (common_1_1) {
-                common_1 = common_1_1;
             },
             function (App_1) {
                 App = App_1;
@@ -32,9 +29,6 @@ System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backup
             function (Job_1) {
                 Job = Job_1;
             },
-            function (jquery_1_1) {
-                jquery_1 = jquery_1_1;
-            },
             function (_1) {},
             function (backup_importer_component_html_1_1) {
                 backup_importer_component_html_1 = backup_importer_component_html_1_1;
@@ -44,7 +38,13 @@ System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backup
             }],
         execute: function() {
             BackupImporterComponent = (function () {
-                function BackupImporterComponent(element, formBuilder, backupsService, jobsService) {
+                function BackupImporterComponent(element, backupsService, jobsService) {
+                    this.importFormModel = {
+                        uri: "",
+                        backup: "",
+                        backupFile: "",
+                    };
+                    this.backupFileArray = [];
                     this.backups = [];
                     this.running = new ImportStatus();
                     this.uploading = new ImportStatus();
@@ -52,22 +52,10 @@ System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backup
                     this.executing = new ImportStatus();
                     this.errorMessages = [];
                     this.element = element;
-                    this.formBuilder = formBuilder;
                     this.backupsService = backupsService;
                     this.jobsService = jobsService;
                 }
                 BackupImporterComponent.prototype.ngOnInit = function () {
-                    this.$element = jquery_1.default(this.element.nativeElement);
-                    this.$backups = this.$element.find("select.backups");
-                    this.$importForm = this.$element.find("form.importForm");
-                    this.importForm = this.formBuilder.group({
-                        uri: ["", common_1.Validators.compose([this.uriValidator])],
-                        backup: ["", common_1.Validators.compose([this.existingBackupValidator.bind(this)])],
-                        backupFile: ["", common_1.Validators.compose([this.backupFileValidator.bind(this)])],
-                    }, { validator: common_1.Validators.compose([this.importFormValidator.bind(this)]) });
-                    this.uri = this.importForm.controls["uri"];
-                    this.backup = this.importForm.controls["backup"];
-                    this.backupFile = this.importForm.controls["backupFile"];
                     this.getBackups();
                 };
                 BackupImporterComponent.prototype.getBackups = function () {
@@ -77,13 +65,16 @@ System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backup
                         _this.backups = backups.sort(function (a, b) { return b.modified < a.modified ? -1 : b.modified > a.modified ? 1 : 0; });
                     });
                 };
-                BackupImporterComponent.prototype.onImportBackup = function () {
+                BackupImporterComponent.prototype.onImportBackup = function (form) {
+                    var uri = form.form.controls.uri;
+                    var backup = form.form.controls.backup;
+                    var backupFile = form.form.controls.backupFile;
                     this.running.start();
-                    if (this.uri.valid)
-                        this.createBackupImport(this.uri.value);
-                    if (this.backup.valid)
-                        this.createBackupImport(this.backup.value);
-                    if (this.backupFile.valid)
+                    if (uri.valid)
+                        this.createBackupImport(uri.value);
+                    if (backup.valid)
+                        this.createBackupImport(backup.value);
+                    if (backupFile.valid)
                         this.uploadBackup(this.backupFileBlob);
                 };
                 BackupImporterComponent.prototype.executeImport = function (importJob) {
@@ -141,23 +132,22 @@ System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backup
                 BackupImporterComponent.prototype.onFileChange = function (event) {
                     var files = event.srcElement.files;
                     this.backupFileBlob = files[0];
-                    this.backupFile.updateValueAndValidity();
                 };
-                BackupImporterComponent.prototype.onInputLostFocus = function (event) {
-                    switch (event.srcElement.attributes.getNamedItem("ngcontrol").value) {
+                BackupImporterComponent.prototype.onInputLostFocus = function (control) {
+                    switch (control.name) {
                         case "uri":
-                            if (this.uri.valid) {
-                                this.$element.find("[ngControl='backup']").prop("disabled", true);
-                                this.$element.find("[ngControl='backupFile']").prop("disabled", true);
+                            if (control.valid) {
+                                this.element.nativeElement.querySelector("[ ng-reflect-name ='backup']").setAttribute("disabled", true);
+                                this.element.nativeElement.querySelector("[ ng-reflect-name ='backupFile']").setAttribute("disabled", true);
                             }
                             else {
                                 this.enableAllInputs();
                             }
                             break;
                         case "backup":
-                            if (this.backup.valid) {
-                                this.$element.find("[ngControl='uri']").prop("disabled", true);
-                                this.$element.find("[ngControl='backupFile']").prop("disabled", true);
+                            if (control.valid) {
+                                this.element.nativeElement.querySelector("[ ng-reflect-name ='uri']").setAttribute("disabled", true);
+                                this.element.nativeElement.querySelector("[ ng-reflect-name ='backupFile']").setAttribute("disabled", true);
                             }
                             else {
                                 this.enableAllInputs();
@@ -165,8 +155,8 @@ System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backup
                             break;
                         case "backupFile":
                             if (!!this.backupFileBlob) {
-                                this.$element.find("[ngControl='uri']").prop("disabled", true);
-                                this.$element.find("[ngControl='backup']").prop("disabled", true);
+                                this.element.nativeElement.querySelector("[ ng-reflect-name ='uri']").setAttribute("disabled", true);
+                                this.element.nativeElement.querySelector("[ ng-reflect-name='backup']").setAttribute("disabled", true);
                             }
                             else {
                                 this.enableAllInputs();
@@ -175,41 +165,8 @@ System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backup
                     }
                 };
                 BackupImporterComponent.prototype.enableAllInputs = function () {
-                    this.$element.find("[ngControl='uri']").prop("disabled", false);
-                    this.$element.find("[ngControl='backup']").prop("disabled", false);
-                    this.$element.find("[ngControl='backupFile']").prop("disabled", false);
-                };
-                BackupImporterComponent.prototype.uriValidator = function (uri) {
-                    if (uri.value.match(/^(ftp|https?):\/\/(\w+:{0,1}\w*@)?((?![^\/]+\/(?:ftp|https?):)\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/)) {
-                        return null;
-                    }
-                    if (uri.touched && !!uri.value) {
-                        return { "invalidURIAddress": true };
-                    }
-                    return { "emptyURIAddress": true };
-                };
-                BackupImporterComponent.prototype.existingBackupValidator = function (existingBackup) {
-                    if (!!existingBackup.value)
-                        return null;
-                    return { "invalidExistingBackupAddress": true };
-                };
-                BackupImporterComponent.prototype.backupFileValidator = function (backupFile) {
-                    if (!!this.backupFileBlob && this.backupFileBlob.type === "application/zip")
-                        return null;
-                    if (!this.backupFileBlob)
-                        return { "emptyBackupFile": true };
-                    return { "invalidBackupFileFormat": true };
-                };
-                BackupImporterComponent.prototype.importFormValidator = function (importForm) {
-                    var validForm = false;
-                    for (var control in importForm.controls) {
-                        if (!!importForm.controls[control].valid)
-                            validForm = true;
-                    }
-                    if (validForm) {
-                        return null;
-                    }
-                    return { "invalidImportForm": true };
+                    this.element.nativeElement.querySelector("[ng-reflect-name='uri']").removeAttribute("disabled", true);
+                    this.element.nativeElement.querySelector("[ng-reflect-name='backupFile']").removeAttribute("disabled", true);
                 };
                 BackupImporterComponent.prototype.canDisplayImportButtonLoading = function () {
                     return this.uploading.active ? true : this.creating.active ? true : this.executing.active ? true : false;
@@ -304,7 +261,7 @@ System.register(["@angular/core", "@angular/common", "carbonldp/App", "../backup
                         template: backup_importer_component_html_1.default,
                         styles: [backup_importer_component_css_text_1.default],
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, common_1.FormBuilder, backups_service_1.BackupsService, jobs_service_1.JobsService])
+                    __metadata('design:paramtypes', [core_1.ElementRef, backups_service_1.BackupsService, jobs_service_1.JobsService])
                 ], BackupImporterComponent);
                 return BackupImporterComponent;
             }());

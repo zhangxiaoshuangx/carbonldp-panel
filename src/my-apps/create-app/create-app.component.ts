@@ -1,5 +1,4 @@
-import { Component, AfterViewInit, OnInit } from "@angular/core";
-import { FormBuilder, ControlGroup, AbstractControl, Control, Validators } from "@angular/common/src/forms-deprecated";
+import { Component, OnInit } from "@angular/core";
 
 import Carbon from "carbonldp/Carbon";
 import * as CarbonApp from "carbonldp/App";
@@ -23,7 +22,7 @@ import template from "./create-app.component.html!";
 	template: template,
 	styles: [ ":host { display: block; }" ],
 } )
-export class CreateAppComponent implements AfterViewInit, OnInit {
+export class CreateAppComponent implements OnInit {
 	carbon:Carbon;
 
 	appContextService:AppContextService;
@@ -38,61 +37,45 @@ export class CreateAppComponent implements AfterViewInit, OnInit {
 	persistedSlug:string = "";
 	persistedName:string = "";
 
-	createAppForm:ControlGroup;
-	formBuilder:FormBuilder;
-	name:AbstractControl;
-	slug:AbstractControl;
-	description:AbstractControl;
+	slugInput;
+	createAppFormModel:{name:string,slug:string,description:string} = {
+		name: "",
+		slug: "",
+		description: ""
+	};
 
-
-	constructor( formBuilder:FormBuilder, carbon:Carbon, appContextService:AppContextService ) {
-		this.formBuilder = formBuilder;
+	constructor( carbon:Carbon, appContextService:AppContextService ) {
 		this.carbon = carbon;
 		this.appContextService = appContextService;
 	}
 
 	ngOnInit():void {
-		this.createAppForm = this.formBuilder.group( {
-			name: [ "", Validators.compose( [ Validators.required ] ) ],
-			slug: [ "", Validators.compose( [ this.slugValidator ] ) ],
-			description: [ "", Validators.compose( [ Validators.required ] ) ],
-		} );
-		this.name = this.createAppForm.controls[ "name" ];
-		this.slug = this.createAppForm.controls[ "slug" ];
-		this.description = this.createAppForm.controls[ "description" ];
+		this.slugInput = $( "form > :input[name='slug']" );
 	}
 
-	ngAfterViewInit():void {
-		this.name.valueChanges.subscribe(
-			( value ):void => {
-				if( value ) {
-					this._slug = this.getSanitizedSlug( value );
-					this.slug.updateValueAndValidity();
-				}
-			}
-		);
-	}
 
 	slugLostControl( evt:any ):void {
-		if( ! evt.target.value.match( /^[a-z0-9]+(?:-[a-z0-9]*)*(?:\/*)$/ ) ) {
-			(<Control> this.slug).updateValue( this.getSanitizedSlug( evt.target.value ) );
-			this._slug = this.slug.value;
+		if( typeof (evt.target) !== "undefined" ) {
+			if( ! evt.target.value.match( /^[a-z0-9]+(?:-[a-z0-9]*)*(?:\/*)$/ ) ) {
+				this.getSanitizedSlug( evt );
+			}
 		}
 	}
 
-	getSanitizedSlug( slug:string ):string {
-		if( slug ) {
-			slug = slug.toLowerCase().replace( / - | -|- /g, "-" ).replace( /[^-\w ]+/g, "" ).replace( / +/g, "-" );
-			if( slug.charAt( slug.length - 1 ) !== "/" ) slug += "/";
+	getSanitizedSlug( evt:any ):void {
+		let slug:string;
+		if( typeof evt.target !== "undefined" ) {
+			slug = evt.target.value;
+			if( slug ) {
+				slug = slug.toLowerCase().replace( / - | -|- /g, "-" ).replace( /[^-\w ]+/g, "" ).replace( / +/g, "-" );
+				if( slug.charAt( slug.length - 1 ) !== "/" ) slug += "/";
+
+				this.createAppFormModel.slug = slug;
+			}
 		}
-		return slug;
 	}
 
-	canDisplayErrors():boolean {
-		return (! this.name.pristine && ! this.name.valid) || (! this.slug.pristine && ! this.slug.valid) || (! this.description.pristine && ! this.description.valid);
-	}
-
-	onSubmit( data:{ name:string, slug:string, description:string }, $event:any ):void {
+	onSubmit( form:any, $event:any ):void {
 		$event.preventDefault();
 
 		this.submitting = true;
@@ -100,18 +83,14 @@ export class CreateAppComponent implements AfterViewInit, OnInit {
 		this.displaySuccessMessage = false;
 		this.displayWarningMessage = false;
 
-		this.name.markAsDirty( true );
-		this.slug.markAsDirty( true );
-		this.description.markAsDirty( true );
-
-		if( ! this.createAppForm.valid ) {
+		if( ! form.valid ) {
 			this.submitting = false;
 			return;
 		}
 
-		let name:string = data.name;
-		let slug:string = data.slug;
-		let description:string = data.description;
+		let name:string = form.value.name;
+		let slug:string = form.value.slug;
+		let description:string = form.value.description;
 
 		let appDocument:CarbonApp.Class = CarbonApp.Factory.create( name );
 		appDocument.description = description;
@@ -204,15 +183,6 @@ export class CreateAppComponent implements AfterViewInit, OnInit {
 				break;
 		}
 		return friendlyMessage;
-	}
-
-
-	slugValidator( slug:Control ):any {
-		if( ! slug.value ) return null;
-		if( slug.value.match( /^[a-z0-9]+(?:-[a-z0-9]*)*(?:\/*)$/ ) ) {
-			return null;
-		}
-		return { "invalidSlug": true };
 	}
 
 	clearMessages( evt:Event ):void {

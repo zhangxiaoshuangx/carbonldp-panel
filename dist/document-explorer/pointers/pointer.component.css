@@ -1,5 +1,4 @@
-:host .dropdown.fragments .item[data-value='bNodes-category'],
-:host .dropdown.fragments .item[data-value='named-fragments-category'] {
+:host .dropdown.fragments .item[data-value='bNodes-category'], :host .dropdown.fragments .item[data-value='named-fragments-category'] {
   text-align: center; }
 
 :host .dropdown.fragments .text .description {
@@ -16,5 +15,14 @@
 
 :host .hidden {
   display: none; }
+
+:host .updown.buttons {
+  max-height: 28px;
+  margin-top: 1px;
+  float: right; }
+  :host .updown.buttons .button {
+    max-height: 13px;
+    height: 13px;
+    padding: 1px; }
 
 /*# sourceMappingURL=pointer.component.css.map */

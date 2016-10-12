@@ -1,5 +1,4 @@
 import { ElementRef, SimpleChange, EventEmitter, OnChanges } from "@angular/core";
-import { AbstractControl } from '@angular/common';
 import { Modes } from "./../property/property.component";
 import { BlankNodeRow } from "./../blank-nodes/blank-node.component";
 import { NamedFragmentRow } from "./../named-fragments/named-fragment.component";
@@ -21,14 +20,18 @@ export declare class PointerComponent implements OnChanges {
     bNodes: BlankNodeRow[];
     namedFragments: NamedFragmentRow[];
     canEdit: boolean;
+    partOfList: boolean;
+    isFirstItem: boolean;
+    isLastItem: boolean;
     onEditMode: EventEmitter<boolean>;
     onSave: EventEmitter<any>;
     onDeletePointer: EventEmitter<PointerRow>;
     onGoToBNode: EventEmitter<string>;
     onGoToNamedFragment: EventEmitter<string>;
+    onMoveUp: EventEmitter<PointerRow>;
+    onMoveDown: EventEmitter<PointerRow>;
     private _id;
     id: string;
-    idInput: AbstractControl;
     constructor(element: ElementRef);
     onEdit(event: Event): void;
     deletePointer(): void;
@@ -38,12 +41,13 @@ export declare class PointerComponent implements OnChanges {
     checkForChangesOnPointers(): void;
     cancelEdit(): void;
     save(): void;
-    private idValidator(control);
     private initializePointersDropdown();
     changeId(id: string, text?: string, choice?: JQuery): void;
     getFriendlyName(uri: string): string;
     goToBNode(id: string): void;
     goToNamedFragment(id: string): void;
+    moveUp(): void;
+    moveDown(): void;
 }
 export interface PointerRow {
     copy: Pointer;

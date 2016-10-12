@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
-import { CommonModule, DeprecatedFormsModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from "@angular/forms";
 
 //Providers
 import { CARBON_PROVIDERS } from "angular2-carbonldp/boot";
@@ -21,6 +21,7 @@ import { AppNotFoundView } from "./app-not-found.view";
 
 // Modules
 import { PanelModule } from "./../panel.module";
+import { DirectivesModule } from "./../directives.module";
 
 // Services
 import { AppContextService } from "./app-context.service";
@@ -28,11 +29,11 @@ import { AppContextService } from "./app-context.service";
 
 @NgModule( {
 	imports: [
-		BrowserModule,
 		CommonModule,
-		DeprecatedFormsModule,
+		FormsModule,
 		routing,
 		PanelModule,
+		DirectivesModule,
 	],
 	declarations: [
 		MyAppsView,

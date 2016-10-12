@@ -25,10 +25,10 @@
 				</h3>
 			</td>
 			<td>
-				{{app.created | date:"MMMM/dd/yyyy H:mm hrs"}}
+				{{app.created | date:"MMM dd, yyyy - hh:mm a"}}
 			</td>
 			<td>
-				{{app.modified | date:"MMMM/dd/yyyy H:mm hrs"}}
+				{{app.modified | date:"MMM dd, yyyy - hh:mm a"}}
 			</td>
 			<td class="center aligned">
 				<cp-app-action-buttons [app]="app" (deleteApp)="onDeleteApp( app )"></cp-app-action-buttons>

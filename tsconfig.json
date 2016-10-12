@@ -1,24 +1,24 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "module": "system",
-    "noImplicitAny": false,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "moduleResolution": "node",
-    "baseUrl": ".",
-    "paths": {
-      "angular2-carbonldp/*": [ "../angular2-carbonldp/dist/*" ],
-      "carbonldp-panel/*": [ "src/*" ],
-      "carbonldp/*": [ "../CarbonLDP-JS-SDK/dist/*" ]
-    }
-  },
-  "exclude": [
-    "dist",
-    "node_modules/*",
-    "node_modules/typescript",
-    "typings/custom",
-    "typings/globals",
-    "typings/index.d.ts"
-  ]
+	"compilerOptions": {
+		"target": "es5",
+		"module": "system",
+		"noImplicitAny": false,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"moduleResolution": "node",
+		"baseUrl": ".",
+		"paths": {
+			"angular2-carbonldp/*": [ "../angular2-carbonldp/dist/*" ],
+			"carbonldp-panel/*": [ "src/*" ],
+			"carbonldp/*": [ "../CarbonLDP-JS-SDK/dist/*" ]
+		}
+	},
+	"exclude": [
+		"dist",
+		"node_modules/*",
+		"node_modules/typescript",
+		"typings/custom",
+		"typings/globals",
+		"typings/index.d.ts"
+	]
 }

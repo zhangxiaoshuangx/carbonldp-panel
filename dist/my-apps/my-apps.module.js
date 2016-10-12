@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/platform-browser", '@angular/common', "angular2-carbonldp/boot", "angular2-carbonldp/services", "./my-apps.routing", "./my-apps.view", "./create-app/create-app.view", "./create-app/create-app.component", "./apps-catalog/apps-catalog.view", "./apps-catalog/apps-catalog.component", "./apps-catalog/apps-tiles/apps-tiles.component", "./apps-catalog/apps-tiles/app-tile.component", "./apps-catalog/apps-list/apps-list.component", "./apps-catalog/app-action-buttons/app-action-buttons.component", "./app-not-found.view", "./../panel.module", "./app-context.service"], function(exports_1, context_1) {
+System.register(["@angular/core", '@angular/common', "@angular/forms", "angular2-carbonldp/boot", "angular2-carbonldp/services", "./my-apps.routing", "./my-apps.view", "./create-app/create-app.view", "./create-app/create-app.component", "./apps-catalog/apps-catalog.view", "./apps-catalog/apps-catalog.component", "./apps-catalog/apps-tiles/apps-tiles.component", "./apps-catalog/apps-tiles/app-tile.component", "./apps-catalog/apps-list/apps-list.component", "./apps-catalog/app-action-buttons/app-action-buttons.component", "./app-not-found.view", "./../panel.module", "./../directives.module", "./app-context.service"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,18 +10,18 @@ System.register(["@angular/core", "@angular/platform-browser", '@angular/common'
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, platform_browser_1, common_1, boot_1, services_1, my_apps_routing_1, my_apps_view_1, create_app_view_1, create_app_component_1, apps_catalog_view_1, apps_catalog_component_1, apps_tiles_component_1, app_tile_component_1, apps_list_component_1, app_action_buttons_component_1, app_not_found_view_1, panel_module_1, app_context_service_1;
+    var core_1, common_1, forms_1, boot_1, services_1, my_apps_routing_1, my_apps_view_1, create_app_view_1, create_app_component_1, apps_catalog_view_1, apps_catalog_component_1, apps_tiles_component_1, app_tile_component_1, apps_list_component_1, app_action_buttons_component_1, app_not_found_view_1, panel_module_1, directives_module_1, app_context_service_1;
     var MyAppsModule;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (platform_browser_1_1) {
-                platform_browser_1 = platform_browser_1_1;
-            },
             function (common_1_1) {
                 common_1 = common_1_1;
+            },
+            function (forms_1_1) {
+                forms_1 = forms_1_1;
             },
             function (boot_1_1) {
                 boot_1 = boot_1_1;
@@ -65,6 +65,9 @@ System.register(["@angular/core", "@angular/platform-browser", '@angular/common'
             function (panel_module_1_1) {
                 panel_module_1 = panel_module_1_1;
             },
+            function (directives_module_1_1) {
+                directives_module_1 = directives_module_1_1;
+            },
             function (app_context_service_1_1) {
                 app_context_service_1 = app_context_service_1_1;
             }],
@@ -75,11 +78,11 @@ System.register(["@angular/core", "@angular/platform-browser", '@angular/common'
                 MyAppsModule = __decorate([
                     core_1.NgModule({
                         imports: [
-                            platform_browser_1.BrowserModule,
                             common_1.CommonModule,
-                            common_1.DeprecatedFormsModule,
+                            forms_1.FormsModule,
                             my_apps_routing_1.routing,
                             panel_module_1.PanelModule,
+                            directives_module_1.DirectivesModule,
                         ],
                         declarations: [
                             my_apps_view_1.MyAppsView,

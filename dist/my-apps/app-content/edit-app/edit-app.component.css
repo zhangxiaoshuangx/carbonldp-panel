@@ -1,11 +1,14 @@
 :host {
   display: block; }
-  :host .list .item .content {
-    color: #000000; }
-  :host p.noAllowedOrigins {
-    color: #808080;
-    font-size: 1.5em; }
-  :host .hidden {
-    display: none; }
+
+.list .item .content {
+  color: #000000; }
+
+p.noAllowedOrigins {
+  color: #808080;
+  font-size: 1.5em; }
+
+.hidden {
+  display: none; }
 
 /*# sourceMappingURL=edit-app.component.css.map */

@@ -1,14 +1,15 @@
-import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit, OnInit } from "@angular/core";
-import { AbstractControl, Control, Validators } from "@angular/common/src/forms-deprecated";
+import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit, OnInit, ViewChild } from "@angular/core";
 
 import * as SDKRDFNode from "carbonldp/RDF/RDFNode";
 import * as SDKLiteral from "carbonldp/RDF/Literal";
+import * as SDKList from "carbonldp/RDF/List";
 import * as URI from "carbonldp/RDF/URI";
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 import * as Utils from "carbonldp/Utils";
 
-import { LiteralRow } from "./../literals/literal.component";
-import { PointerRow } from "./../pointers/pointer.component";
+import { Literal, LiteralRow } from "./../literals/literal.component";
+import { Pointer, PointerRow } from "./../pointers/pointer.component";
+import { List, ListRow } from "./../lists/list.component";
 import { NamedFragmentRow } from "./../named-fragments/named-fragment.component";
 
 import $ from "jquery";
@@ -30,22 +31,27 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	$element:JQuery;
 	literals:LiteralRow[] = [];
 	pointers:PointerRow[] = [];
+	lists:ListRow[] = [];
 	tempLiterals:LiteralRow[];
 	tempPointers:PointerRow[];
+	tempLists:ListRow[];
 	tempProperty:Property = <Property>{};
 	copyOrAdded:string;
 	existingFragments:string[] = [];
 
 	id:string;
+	originalId:string;
 	name:string;
+	originalName:string;
 	value:any[]|string = [];
 
 	addNewLiteral:EventEmitter<boolean> = new EventEmitter<boolean>();
 	addNewPointer:EventEmitter<boolean> = new EventEmitter<boolean>();
+	addNewList:EventEmitter<boolean> = new EventEmitter<boolean>();
 	commonToken:string[] = [ "@id", "@type", "@value" ];
 	modes:Modes = Modes;
-	nameInput:AbstractControl = new Control( this.name, Validators.compose( [ Validators.required, this.nameValidator.bind( this ) ] ) );
-	idInput:AbstractControl = new Control( this.value, Validators.compose( [ Validators.required, this.idValidator.bind( this ) ] ) );
+	@ViewChild( "nameInput" ) nameInputControl;
+	@ViewChild( "idInput" ) idInputControl;
 
 	@Input() mode:string = Modes.READ;
 	@Input() documentURI:string = "";
@@ -58,17 +64,19 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	@Input() set property( prop:PropertyRow ) {
 		this.copyOrAdded = ! ! prop.copy ? (! ! prop.modified ? "modified" : "copy") : "added";
 		this._property = prop;
+
 		this.id = prop[ this.copyOrAdded ].id;
 		this.tempProperty.id = prop[ this.copyOrAdded ].id;
+		this.originalId = prop[ this.copyOrAdded ].value;
+
 		this.name = prop[ this.copyOrAdded ].name;
 		this.tempProperty.name = prop[ this.copyOrAdded ].name;
-		(<Control>this.nameInput).updateValue( this.name );
+		this.originalName = this.name;
 		if( Utils.isArray( prop[ this.copyOrAdded ].value ) ) {
 			this.value = [];
 			prop[ this.copyOrAdded ].value.forEach( ( literalOrRDFNode )=> { (<Array<any>>this.value).push( Object.assign( literalOrRDFNode ) ) } )
 		} else {
 			this.value = prop[ this.copyOrAdded ].value;
-			(<Control>this.idInput).updateValue( this.value );
 		}
 	}
 
@@ -87,8 +95,9 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	valueHasChanged:boolean = false;
 	literalsHaveChanged:boolean = false;
 	pointersHaveChanged:boolean = false;
+	listsHaveChanged:boolean = false;
 
-	get propertyHasChanged():boolean { return this.nameHasChanged || this.valueHasChanged || this.literalsHaveChanged || this.pointersHaveChanged; }
+	get propertyHasChanged():boolean { return this.nameHasChanged || this.valueHasChanged || this.literalsHaveChanged || this.pointersHaveChanged || this.listsHaveChanged; }
 
 	// TODO: Add @lists and @sets support
 	constructor( element:ElementRef ) {
@@ -122,6 +131,8 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	getFragment( uri:string ):string {
+		let parts:string[] = uri.split( "#" );
+		uri = "".concat( parts[ 0 ] ).concat( "#" + parts[ 1 ] );
 		return URI.Util.getFragment( uri );
 	}
 
@@ -166,41 +177,39 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	initializeDeletionDimmer():void {
-		this.$element.find( ".confirm-deletion.dimmer" ).dimmer( { closable: false } );
+		this.$element.find( ".property.confirm-deletion.dimmer" ).dimmer( { closable: false } );
 	}
 
 	onEditName():void {
 		this.mode = Modes.EDIT;
-		(<Control>this.nameInput).updateValue( this.unescape( this.name ) );
+		this.name = this.unescape( (this.name) );
 	}
 
 	onEditId():void {
 		this.mode = Modes.EDIT;
 		this.existingFragments = [];
 		this.namedFragments.forEach( ( nameFragment:NamedFragmentRow ) => { this.existingFragments.push( nameFragment.name ); } );
-		( <Control>this.idInput ).updateValue( this.unescape( <string>this.value ) );
+		this.value = this.unescape( <string>this.value );
 	}
 
 	cancelDeletion():void {
-		this.$element.find( ".confirm-deletion.dimmer" ).dimmer( "hide" );
+		this.$element.find( ".property.confirm-deletion.dimmer" ).dimmer( "hide" );
 	}
 
 	cancelEdition():void {
-		if( this.nameInput.valid ) {
+		if( this.nameInputControl.valid ) {
 			this.mode = Modes.READ;
-			(<Control>this.nameInput).updateValue( this.name );
 		}
 	}
 
 	cancelIdEdition():void {
-		if( this.idInput.valid ) {
+		if( this.idInputControl.valid ) {
 			this.mode = Modes.READ;
-			(<Control>this.idInput).updateValue( this.value );
 		}
 	}
 
 	askToConfirmDeletion():void {
-		this.$element.find( ".confirm-deletion.dimmer" ).dimmer( "show" );
+		this.$element.find( ".property.confirm-deletion.dimmer" ).dimmer( "show" );
 	}
 
 	deleteProperty():void {
@@ -213,12 +222,12 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	}
 
 	save():void {
-		this.checkForChangesOnName( this.sanitize( this.nameInput.value ) );
+		this.checkForChangesOnName( this.sanitize( this.name ) );
 		this.mode = Modes.READ;
 	}
 
 	saveId():void {
-		this.checkForChangesOnId( this.sanitize( this.idInput.value ) );
+		this.checkForChangesOnId( this.sanitize( <string>this.value ) );//check changes on idInput
 		this.mode = Modes.READ;
 	}
 
@@ -235,6 +244,8 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		this.tempLiterals = [];
 		this.pointers = [];
 		this.tempPointers = [];
+		this.lists = [];
+		this.tempLists = [];
 		if( typeof this.property.modifiedLiterals !== "undefined" ) {
 			this.literals = this.property.modifiedLiterals;
 			this.tempLiterals = this.property.modifiedLiterals;
@@ -257,6 +268,17 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 				}
 			} );
 		}
+		if( typeof this.property.modifiedLists !== "undefined" ) {
+			this.lists = this.property.modifiedLists;
+			this.tempLists = this.property.modifiedLists;
+		} else {
+			this.property[ this.copyOrAdded ].value.forEach( ( literalOrRDFNodeOrList )=> {
+				if( SDKList.Factory.is( literalOrRDFNodeOrList ) ) {
+					this.lists.push( <ListRow>{ copy: literalOrRDFNodeOrList[ "@list" ].map( ( item ) => { return { copy: item } } ) } );
+					this.tempLists.push( <ListRow>{ copy: literalOrRDFNodeOrList } );
+				}
+			} );
+		}
 	}
 
 	addLiteral():void {
@@ -267,6 +289,11 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	addPointer():void {
 		// Notify PointersComponent to add pointer
 		this.addNewPointer.emit( true );
+	}
+
+	addList():void {
+		// Notify ListsComponent to add pointer
+		this.addNewList.emit( true );
 	}
 
 	checkForChangesOnName( newName:string ):void {
@@ -295,6 +322,42 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		this.changePropertyContent();
 	}
 
+	checkForChangesOnLists( lists:ListRow[] ):void {
+		this.lists = lists;
+		this.tempLists = lists;
+		this.changePropertyContent();
+	}
+
+	convertToListRow( lists:ListRow[] ):ListRow[] {
+		let resultingLists:ListRow[] = [];
+		lists.forEach( ( list:ListRow ) => {
+			let resultingList:ListRow = {};
+			if( list[ "added" ] ) {
+				resultingList.added = { "@list": this.getRDFList( list, "added" ) };
+			} else if( list[ "deleted" ] ) {
+				resultingList.deleted = { "@list": this.getRDFList( list, "deleted" ) };
+			} else if( list[ "modified" ] ) {
+				resultingList.modified = { "@list": this.getRDFList( list, "modified" ) };
+			} else if( list[ "copy" ] ) {
+				resultingList.copy = { "@list": this.getRDFList( list, "copy" ) };
+			}
+			resultingLists.push( resultingList );
+		} );
+		return resultingLists;
+	}
+
+	getRDFList( list:ListRow, copyOrAddedOrModified:string ):any[] {
+		let resultingListContent:any[] = [];
+		list[ copyOrAddedOrModified ].forEach( ( literalOrPointer:any ) => {
+			if( ! ! literalOrPointer[ "deleted" ] ) return;
+			if( copyOrAddedOrModified === "copy" )
+				resultingListContent.push( literalOrPointer[ "copy" ] );
+			else
+				resultingListContent.push( literalOrPointer[ ! ! literalOrPointer[ "modified" ] ? "modified" : ! ! literalOrPointer[ "added" ] ? "added" : "copy" ] );
+		} );
+		return resultingListContent;
+	}
+
 	changePropertyContent():void {
 		this.tempProperty.id = this.id;
 		this.tempProperty.name = this.name;
@@ -314,17 +377,23 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		// Change literals and pointers
 		if( Utils.isArray( this.value ) ) {
 			this.tempProperty.value = [];
-			[].concat( this.tempLiterals ).concat( this.tempPointers ).forEach( ( literalOrPointerRow )=> {
-				if( ! literalOrPointerRow.deleted ) this.tempProperty.value.push( ! ! literalOrPointerRow.added ? literalOrPointerRow.added : ! ! literalOrPointerRow.modified ? literalOrPointerRow.modified : literalOrPointerRow.copy );
+			let tempLists:any[] = this.convertToListRow( this.tempLists );
+			[].concat( this.tempLiterals ).concat( this.tempPointers ).concat( tempLists ).forEach( ( literalOrPointerOrListRow )=> {
+				if( ! literalOrPointerOrListRow.deleted )
+					this.tempProperty.value.push( ! ! literalOrPointerOrListRow.added ? literalOrPointerOrListRow.added : ! ! literalOrPointerOrListRow.modified ? literalOrPointerOrListRow.modified : literalOrPointerOrListRow.copy );
 			} );
 			this.literalsHaveChanged = ! ! this.tempLiterals.find( ( literalRow )=> {return ! ! literalRow.modified || ! ! literalRow.added || ! ! literalRow.deleted } );
 			this.pointersHaveChanged = ! ! this.tempPointers.find( ( pointerRow )=> {return ! ! pointerRow.modified || ! ! pointerRow.added || ! ! pointerRow.deleted } );
+			this.listsHaveChanged = ! ! tempLists.find( ( listRow )=> {return ! ! listRow.modified || ! ! listRow.added || ! ! listRow.deleted } );
 
 			if( this.literalsHaveChanged ) { this.property.modifiedLiterals = this.tempLiterals; }
 			else { delete this.property.modifiedLiterals; }
 
 			if( this.pointersHaveChanged ) { this.property.modifiedPointers = this.tempPointers; }
 			else { delete this.property.modifiedPointers; }
+
+			if( this.listsHaveChanged ) { this.property.modifiedLists = this.tempLists; }
+			else { delete this.property.modifiedLists; }
 
 		} else {
 
@@ -366,29 +435,6 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	private unescape( uri:string ):string {
 		return decodeURI( uri );
 	}
-
-	private nameValidator( control:AbstractControl ):any {
-		if( ! ! control ) {
-			if( typeof control.value === "undefined" || control.value === null || ! control.value ) return null;
-			if( this.existingProperties.indexOf( control.value ) !== - 1 && (this.property.added ? this.id !== control.value : this.name !== control.value) ) return { "duplicatedPropertyName": true };
-			let url = new RegExp( "(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g" );
-			if( ! url.test( control.value ) ) return { "invalidName": true };
-			if( control.value.split( "#" ).length > 2 ) return { "duplicatedHashtag": true };
-		}
-		return null;
-	}
-
-	private idValidator( control:AbstractControl ):any {
-		if( ! ! control ) {
-			if( typeof control.value === "undefined" || control.value === null || ! control.value ) return null;
-			if( typeof control.value === "string" && ! control.value.startsWith( this.documentURI ) ) return { "invalidParent": true };
-			if( this.existingFragments.indexOf( control.value ) !== - 1 && (this.property.added ? this.id !== control.value : this.value !== control.value) ) return { "duplicatedNamedFragmentName": true };
-			let url = new RegExp( "(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g" );
-			if( ! url.test( control.value ) ) return { "invalidValue": true };
-			if( control.value.split( "#" ).length > 2 ) return { "duplicatedHashtag": true };
-		}
-		return null;
-	}
 }
 
 export interface PropertyRow {
@@ -403,6 +449,7 @@ export interface PropertyRow {
 
 	modifiedLiterals?:LiteralRow[];
 	modifiedPointers?:PointerRow[];
+	modifiedLists?:ListRow[];
 }
 export interface Property {
 	id:string;

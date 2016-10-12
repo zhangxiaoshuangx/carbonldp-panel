@@ -29,7 +29,7 @@ System.register(["@angular/core", "semantic-ui/semantic", "./apps-list.component
                 function AppsListComponent() {
                     this.openApp = new core_1.EventEmitter();
                     this.deleteApp = new core_1.EventEmitter();
-                    this.headers = [{ name: "Name", value: "name" }, { name: "Creation", value: "created" }, { name: "Modification Date", value: "modified" }];
+                    this.headers = [{ name: "Name", value: "name" }, { name: "Created", value: "created" }, { name: "Modified", value: "modified" }];
                     this.sortedColumn = null;
                     this.ascending = false;
                 }

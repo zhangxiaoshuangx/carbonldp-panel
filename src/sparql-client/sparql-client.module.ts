@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, DeprecatedFormsModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from "@angular/router";
+import { FormsModule } from "@angular/forms";
 
 import { ResponseComponent } from "./response/response.component";
 import { SPARQLClientComponent } from "./sparql-client.component";
@@ -12,12 +13,11 @@ import { PrefixURIPipe } from "./resultset-table/prefix-uri.pipe";
 import { ResultsetTableComponent } from "./resultset-table/resultset-table.component";
 
 
-
 @NgModule( {
 	imports: [
 		CommonModule,
-		DeprecatedFormsModule,
 		RouterModule,
+		FormsModule
 	],
 	declarations: [
 		SPARQLClientComponent,

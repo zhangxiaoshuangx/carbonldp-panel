@@ -1,5 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
-import { CommonModule, DeprecatedFormsModule } from '@angular/common';
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 
 // Components
@@ -15,6 +16,7 @@ import { MenuBarComponent } from "./menu-bar.component";
 
 // Modules
 import { SemanticModule } from "./semantic/semantic.module";
+import { DirectivesModule } from "./directives.module";
 
 // Services
 import { RouterService } from "./router.service";
@@ -27,8 +29,9 @@ import { ErrorsAreaService } from "./errors-area/errors-area.service";
 	imports: [
 		CommonModule,
 		RouterModule,
-		DeprecatedFormsModule,
-		SemanticModule
+		SemanticModule,
+		DirectivesModule,
+		FormsModule
 	],
 	declarations: [
 		HeaderComponent,
