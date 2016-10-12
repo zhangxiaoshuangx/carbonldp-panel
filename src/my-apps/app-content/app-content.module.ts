@@ -1,12 +1,10 @@
 import { NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
 import { CommonModule } from '@angular/common';
 import { FormsModule } from "@angular/forms";
 
 import { routing } from "./app-content.routing";
 import { AppContentResolver } from "./app-content.resolver";
 import { AppContentService } from "./app-content.service";
-
 
 // Components
 import { AppContentView } from "./app-content.view";
@@ -40,7 +38,6 @@ import { BackupsService } from "./configuration/backup/backups.service";
 
 @NgModule( {
 	imports: [
-		BrowserModule,
 		CommonModule,
 		FormsModule,
 		routing,
