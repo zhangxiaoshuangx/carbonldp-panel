@@ -26,7 +26,7 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 	$element:JQuery;
 
 	documentTree:JQuery;
-	nodeChildren:any[] = [];
+	nodeChildren:JSTreeNode[] = [];
 
 	@Input() documentContext:SDKContext.Class;
 	@Output() onResolveUri:EventEmitter<RDFDocument.Class> = new EventEmitter<RDFDocument.Class>();
@@ -68,21 +68,21 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 		} );
 	}
 
-	buildNode( uri:string ):any {
-		return {
-			"text": this.getSlug( uri ),
-			"state": { "opened": false },
-			"children": [
-				{
-					"text": "Loading...",
-				},
+	buildNode( uri:string, isAccessPoint?:boolean ):JSTreeNode {
+		let node:JSTreeNode = {
+			text: this.getSlug( uri ),
+			state: { "opened": false },
+			children: [
+				{ "text": "Loading...", },
 			],
-			"data": {
+			data: {
 				"pointer": {
 					"id": uri,
 				},
 			},
 		};
+		if( isAccessPoint ) node.type = "accesspoint";
+		return node;
 	}
 
 	renderTree():void {
@@ -98,6 +98,13 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 				"loading": {
 					"icon": "spinner loading icon",
 				},
+				"accesspoint": {
+					"icon": "selected radio icon",
+					"a_attr": {
+						"class": "accesspoint",
+						"title": "The element is an AccessPoint, not a direct child of the selected document."
+					}
+				}
 			},
 			"plugins": [ "types", "wholerow" ],
 		} );
@@ -161,15 +168,25 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 		this.documentTree.jstree( true ).create_node( parentId, node, position );
 	}
 
-	getNodeChildren( uri:string ):Promise<any[]> {
+	getNodeChildren( uri:string ):Promise<JSTreeNode[]> {
 		return this.documentContext.documents.get( uri ).then( ( [resolvedRoot, response]:[PersistedDocument.Class, HTTP.Response.Class] ) => {
 			return resolvedRoot.refresh().then( ( [refreshedRoot, response]:[PersistedDocument.Class, HTTP.Response.Class] )=> {
-				if( ! resolvedRoot.contains ) return [];
-				return resolvedRoot.contains.filter( ( pointer:Pointer.Class ):boolean => {
-					return pointer.id.indexOf( "/agents/me/" ) === - 1;
-				} ).map( ( pointer:Pointer.Class ):void => {
-					return this.buildNode( pointer.id );
-				} );
+				if( ! resolvedRoot.accessPoints && ! resolvedRoot.contains ) return [];
+				let accessPoints:JSTreeNode[] = [],
+					children:JSTreeNode[] = [];
+				if( ! ! resolvedRoot.contains ) {
+					children = resolvedRoot.contains.filter( ( pointer:Pointer.Class ):boolean => {
+						return pointer.id.indexOf( "/agents/me/" ) === - 1;
+					} ).map( ( pointer:Pointer.Class ):JSTreeNode => {
+						return this.buildNode( pointer.id );
+					} );
+				}
+				if( ! ! resolvedRoot.accessPoints ) {
+					accessPoints = resolvedRoot.accessPoints.map( ( pointer:Pointer.Class ):JSTreeNode => {
+						return this.buildNode( pointer.id, true );
+					} );
+				}
+				return children.concat( accessPoints );
 			} );
 		} ).catch( ( error ) => {
 			console.error( error );
@@ -184,6 +201,14 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 		return URI.Util.getSlug( <string>pointer );
 	}
 
+}
+
+export interface JSTreeNode {
+	text:any,
+	state:any,
+	children:any,
+	data:any,
+	type?:any
 }
 
 export default DocumentTreeViewComponent;

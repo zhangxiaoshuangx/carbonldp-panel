@@ -76,21 +76,22 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                         _this.onError.emit(error);
                     });
                 };
-                DocumentTreeViewComponent.prototype.buildNode = function (uri) {
-                    return {
-                        "text": this.getSlug(uri),
-                        "state": { "opened": false },
-                        "children": [
-                            {
-                                "text": "Loading...",
-                            },
+                DocumentTreeViewComponent.prototype.buildNode = function (uri, isAccessPoint) {
+                    var node = {
+                        text: this.getSlug(uri),
+                        state: { "opened": false },
+                        children: [
+                            { "text": "Loading...", },
                         ],
-                        "data": {
+                        data: {
                             "pointer": {
                                 "id": uri,
                             },
                         },
                     };
+                    if (isAccessPoint)
+                        node.type = "accesspoint";
+                    return node;
                 };
                 DocumentTreeViewComponent.prototype.renderTree = function () {
                     var _this = this;
@@ -106,6 +107,13 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                             "loading": {
                                 "icon": "spinner loading icon",
                             },
+                            "accesspoint": {
+                                "icon": "selected radio icon",
+                                "a_attr": {
+                                    "class": "accesspoint",
+                                    "title": "The element is an AccessPoint, not a direct child of the selected document."
+                                }
+                            }
                         },
                         "plugins": ["types", "wholerow"],
                     });
@@ -171,13 +179,22 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                         var resolvedRoot = _a[0], response = _a[1];
                         return resolvedRoot.refresh().then(function (_a) {
                             var refreshedRoot = _a[0], response = _a[1];
-                            if (!resolvedRoot.contains)
+                            if (!resolvedRoot.accessPoints && !resolvedRoot.contains)
                                 return [];
-                            return resolvedRoot.contains.filter(function (pointer) {
-                                return pointer.id.indexOf("/agents/me/") === -1;
-                            }).map(function (pointer) {
-                                return _this.buildNode(pointer.id);
-                            });
+                            var accessPoints = [], children = [];
+                            if (!!resolvedRoot.contains) {
+                                children = resolvedRoot.contains.filter(function (pointer) {
+                                    return pointer.id.indexOf("/agents/me/") === -1;
+                                }).map(function (pointer) {
+                                    return _this.buildNode(pointer.id);
+                                });
+                            }
+                            if (!!resolvedRoot.accessPoints) {
+                                accessPoints = resolvedRoot.accessPoints.map(function (pointer) {
+                                    return _this.buildNode(pointer.id, true);
+                                });
+                            }
+                            return children.concat(accessPoints);
                         });
                     }).catch(function (error) {
                         console.error(error);
