@@ -1,5 +1,7 @@
 :host {
   display: block;
   overflow-y: scroll; }
+  :host .jstree-container-ul li a.accesspoint > .icon {
+    color: orange; }
 
 /*# sourceMappingURL=document-tree-view.component.css.map */
