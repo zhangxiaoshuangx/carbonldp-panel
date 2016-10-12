@@ -45,7 +45,11 @@
 			</div>
 			<div class="field ui segment" [ngClass]="{disabled: allDomains.value}">
 				<div class="ui middle aligned divided list allowedDomains">
+<<<<<<< HEAD
 					<div class="item" *ngFor="let opt of allowedDomains; let i = index;">
+=======
+					<li class="item" *ngFor="let opt of allowedDomains; let i = index;">
+>>>>>>> origin/task/angular-RC6
 						<div class="right floated content">
 							<button class="ui mini circular icon basic black button"
 							        (click)="removeDomain(opt);">
@@ -55,7 +59,11 @@
 						<div class="bottom aligned content">
 							{{opt}}
 						</div>
+<<<<<<< HEAD
 					</div>
+=======
+					</li>
+>>>>>>> origin/task/angular-RC6
 				</div>
 				<div *ngIf="allowedDomains.length===0">
 					<p class="noAllowedOrigins">No allowed origins to show.</p>
