@@ -1,9 +1,0 @@
-<template ngFor let-listRow="$implicit" [ngForOf]="lists" let-i="index">
-	<cp-list [list]="listRow"
-	         [blankNodes]="bNodes"
-	         [namedFragments]="namedFragments"
-	         [documentURI]="documentURI"
-
-	         (onGoToBlankNode)="goToBlankNode($event)"
-	         (onGoToNamedFragment)="goToNamedFragment($event)"></cp-list>
-</template>

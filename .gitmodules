@@ -1,0 +1,6 @@
+[submodule "carbonldp-js-sdk"]
+	path = carbonldp-js-sdk
+	url = https://github.com/CarbonLDP/carbonldp-js-sdk.git
+[submodule "angular2-carbonldp"]
+	path = angular2-carbonldp
+	url = https://github.com/CarbonLDP/angular2-carbonldp.git
