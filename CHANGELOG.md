@@ -1,3 +1,20 @@
+# 0.4.0 (2016/10/12)
+
+- Upgraded to angular 2.0.2
+- Updated forms to use the new `@angular/forms` module
+- Added new validators in custom-validators
+- Added directives.module to hold customize validators and directives
+- Added @lists support to DocumentExplorer
+    - View the contents of a list
+    - Edit the contents of a list
+    - Create a new list
+    - Delete a list
+- Changed MyApps "Created on" and "Last Modify" labels to just "Created" and "Modified"
+- Fixed typo of DocumentExplorer stating "Select a document from the three..." to tree
+- Fixed date outputs to show year instead of the 'yyy' typo
+- Fixed date outputs of AppTileComponent and MyAppsCatalog to display date in a more friendly way e.g."Oct 07, 2016 - 11:03 AM"
+- Completed #18 - Added support for AccessPoints by listing them when navigating the tree of the Document Explorer. 
+
 # 0.3.1 (2016/09/02)
 
 - Rename imports to "carbonldp-panel...

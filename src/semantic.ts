@@ -5,7 +5,7 @@ import { CollapsibleDirective, CollapsibleTitleDirective, CollapsibleContentDire
 import { TabsComponent } from "./semantic/tabs.component";
 import { TabComponent } from "./semantic/tab.component";
 
-export const SUI_COMPONENTS:Type[] = [
+export const SUI_COMPONENTS:Type<any>[] = [
 	AccordionComponent,
 	CollapsibleDirective,
 	CollapsibleTitleDirective,

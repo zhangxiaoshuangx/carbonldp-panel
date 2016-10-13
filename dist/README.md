@@ -1,4 +1,9 @@
 # carbonldp-panel
+
+[![npm version](https://badge.fury.io/js/carbonldp-panel.svg)](https://badge.fury.io/js/carbonldp-panel)
+
+[![Build Status](https://travis-ci.org/CarbonLDP/carbonldp-panel.svg)](https://travis-ci.org/CarbonLDP/carbonldp-panel)
+
 Common components, services and utilities shared between different panel projects
 
 ## Development
