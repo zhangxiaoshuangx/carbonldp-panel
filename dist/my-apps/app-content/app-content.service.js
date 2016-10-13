@@ -20,7 +20,19 @@ System.register(['@angular/core'], function(exports_1, context_1) {
         execute: function() {
             AppContentService = (function () {
                 function AppContentService() {
+                    this.onAppHasChanged = new core_1.EventEmitter();
                 }
+                Object.defineProperty(AppContentService.prototype, "activeApp", {
+                    get: function () {
+                        return this._activeapp;
+                    },
+                    set: function (app) {
+                        this._activeapp = app;
+                        this.onAppHasChanged.emit(this.activeApp);
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 AppContentService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [])

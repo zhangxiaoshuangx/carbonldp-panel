@@ -27,7 +27,14 @@ System.register(["@angular/core", "./../../app-content/app-content.service", "se
         execute: function() {
             ConfigurationView = (function () {
                 function ConfigurationView(appContentService) {
+                    var _this = this;
+                    this.canDisplay = true;
                     this.app = appContentService.activeApp;
+                    appContentService.onAppHasChanged.subscribe(function (app) {
+                        _this.app = app;
+                        _this.canDisplay = false;
+                        setTimeout(function () { _this.canDisplay = true; }, 5);
+                    });
                 }
                 ConfigurationView = __decorate([
                     core_1.Component({

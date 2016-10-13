@@ -15,11 +15,17 @@ import template from "./sparql-client.view.html!";
 export class SPARQLClientView {
 	$element:JQuery;
 	appContext:App.Context;
+	canDisplay:boolean = true;
 	private errorsAreaService:ErrorsAreaService;
 
 	constructor( errorsAreaService:ErrorsAreaService, appContentService:AppContentService ) {
 		this.appContext = appContentService.activeApp.context;
 		this.errorsAreaService = errorsAreaService;
+		appContentService.onAppHasChanged.subscribe( ( app:App.Class )=> {
+			this.appContext = appContentService.activeApp.context;
+			this.canDisplay = false;
+			setTimeout( ()=> { this.canDisplay = true;}, 5 );
+		} );
 	}
 
 	notifyErrorAreaService( error:any ):void {
