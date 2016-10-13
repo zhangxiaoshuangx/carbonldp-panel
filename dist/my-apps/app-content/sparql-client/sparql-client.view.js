@@ -36,7 +36,7 @@ System.register(["@angular/core", "./../../app-content/app-content.service", "ca
                     appContentService.onAppHasChanged.subscribe(function (app) {
                         _this.appContext = appContentService.activeApp.context;
                         _this.canDisplay = false;
-                        setTimeout(function () { _this.canDisplay = true; }, 5);
+                        setTimeout(function () { _this.canDisplay = true; }, 0);
                     });
                 }
                 SPARQLClientView.prototype.notifyErrorAreaService = function (error) {

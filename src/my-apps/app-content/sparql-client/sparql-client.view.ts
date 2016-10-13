@@ -24,7 +24,7 @@ export class SPARQLClientView {
 		appContentService.onAppHasChanged.subscribe( ( app:App.Class )=> {
 			this.appContext = appContentService.activeApp.context;
 			this.canDisplay = false;
-			setTimeout( ()=> { this.canDisplay = true;}, 5 );
+			setTimeout( ()=> { this.canDisplay = true;}, 0 );
 		} );
 	}
 

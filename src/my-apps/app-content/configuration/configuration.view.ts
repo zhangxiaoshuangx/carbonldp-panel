@@ -21,7 +21,7 @@ export class ConfigurationView {
 		appContentService.onAppHasChanged.subscribe( ( app:App.Class )=> {
 			this.app = app;
 			this.canDisplay = false;
-			setTimeout( ()=> { this.canDisplay = true;}, 5 );
+			setTimeout( ()=> { this.canDisplay = true;}, 0 );
 		} );
 	}
 
