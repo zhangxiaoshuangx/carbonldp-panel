@@ -70,16 +70,13 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 
 	buildNode( uri:string, isAccessPoint?:boolean ):JSTreeNode {
 		let node:JSTreeNode = {
+			id: uri,
 			text: this.getSlug( uri ),
 			state: { "opened": false },
 			children: [
 				{ "text": "Loading...", },
 			],
-			data: {
-				"pointer": {
-					"id": uri,
-				},
-			},
+			data: {},
 		};
 		if( isAccessPoint ) node.type = "accesspoint";
 		return node;
@@ -117,15 +114,16 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 			this.onBeforeOpenNode( parentId, parentNode, position );
 		} );
 		this.documentTree.on( "changed.jstree", ( e:Event, data:any ):void => {
+			if( data[ "action" ] !== "select_node" ) return;
 			let parentId:any = data.node.id;
 			let parentNode:any = data.node;
 			let position:string = "last";
 			this.onClickNode( parentId, parentNode, position );
 		} );
 		this.documentTree.on( "loaded.jstree", ()=> {
-			this.documentTree.jstree( "open_all" );
+			this.documentTree.jstree( "select_node", this.nodeChildren[ 0 ].id );
 			if( this.nodeChildren && this.nodeChildren.length > 0 ) {
-				this.onResolveUri.emit( this.nodeChildren[ 0 ].data.pointer.id );
+				this.onResolveUri.emit( <string>this.nodeChildren[ 0 ].id );
 			}
 		} );
 	}
@@ -144,7 +142,7 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 		let $documentTree:JSTree = this.documentTree.jstree( true );
 
 		$documentTree.set_icon( parentNode, $documentTree.settings.types.loading.icon );
-		this.getNodeChildren( parentNode.data.pointer.id ).then( ( children:any[] ):void => {
+		this.getNodeChildren( parentNode.id ).then( ( children:any[] ):void => {
 			this.emptyNode( parentId );
 			if( children.length > 0 ) {
 				children.forEach( ( childNode:any ) => this.addChild( parentId, childNode, position ) );
@@ -161,7 +159,7 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 		} else {
 			tree.open_node( node );
 		}
-		this.onResolveUri.emit( node.data.pointer.id );
+		this.onResolveUri.emit( node.id );
 	}
 
 	addChild( parentId:string, node:any, position:string ):void {
@@ -204,6 +202,7 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 }
 
 export interface JSTreeNode {
+	id:string,
 	text:any,
 	state:any,
 	children:any,

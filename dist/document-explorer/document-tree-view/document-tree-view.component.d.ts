@@ -29,6 +29,7 @@ export declare class DocumentTreeViewComponent implements AfterViewInit, OnInit 
     getSlug(pointer: Pointer.Class | string): string;
 }
 export interface JSTreeNode {
+    id: string;
     text: any;
     state: any;
     children: any;
