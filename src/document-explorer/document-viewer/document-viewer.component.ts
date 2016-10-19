@@ -37,6 +37,7 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	bNodes:BlankNodeRow[] = [];
 	namedFragments:NamedFragmentRow[] = [];
 	savingErrorMessage:Message;
+	documentURI:string = "";
 
 	rootNodeHasChanged:boolean = false;
 	rootNodeRecords:RootRecords;
@@ -44,6 +45,10 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	bNodesChanges:BlankNodesRecords;
 	namedFragmentsHaveChanged:boolean = false;
 	namedFragmentsChanges:NamedFragmentsRecords;
+
+	createChildFormModel:{ slug:string } = {
+		slug: ""
+	};
 
 	get documentContentHasChanged() {
 		return this.rootNodeHasChanged || this.bNodesHaveChanged || this.namedFragmentsHaveChanged;
@@ -113,6 +118,7 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 			this.clearDocumentChanges();
 			this.loadingDocument = false;
 			this.savingErrorMessage = null;
+			this.documentURI = this.document[ "@id" ];
 			setTimeout(
 				()=> {
 					this.goToSection( "documentResource" );
@@ -307,6 +313,23 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 
 	closeMessage( message:HTMLElement ):void {
 		$( message ).transition( "fade" );
+	}
+
+	private createChild():void {
+		let childSlug:string = ! ! this.createChildFormModel.slug ? this.createChildFormModel.slug : null;
+		let childContent:any = {};
+		this.documentsResolverService.createChild( this.documentContext, this.documentURI, childContent, childSlug );
+	}
+
+	private slugLostControl( evt:any ):void {
+		if( typeof (evt.target) === "undefined" ) return;
+		if( ! evt.target.value.endsWith( "/" ) && evt.target.value.trim() !== "" ) evt.target.value += "/";
+	}
+
+	private getSanitizedSlug( slug:string ):string {
+		if( ! slug ) return slug;
+		slug = slug.toLowerCase().replace( / - | -|- /g, "-" ).replace( /[^-\w ]+/g, "" ).replace( / +/g, "-" );
+		return slug;
 	}
 
 	private beforeRefreshDocument( documentURI:string ):void {
