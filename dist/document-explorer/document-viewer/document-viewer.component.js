@@ -54,9 +54,13 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     this.sections = ["bNodes", "namedFragments", "documentResource"];
                     this.bNodes = [];
                     this.namedFragments = [];
+                    this.documentURI = "";
                     this.rootNodeHasChanged = false;
                     this.bNodesHaveChanged = false;
                     this.namedFragmentsHaveChanged = false;
+                    this.createChildFormModel = {
+                        slug: ""
+                    };
                     this.onLoadingDocument = new core_1.EventEmitter();
                     this.onSavingDocument = new core_1.EventEmitter();
                     this.onRefreshDocument = new core_1.EventEmitter();
@@ -121,6 +125,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                         this.clearDocumentChanges();
                         this.loadingDocument = false;
                         this.savingErrorMessage = null;
+                        this.documentURI = this.document["@id"];
                         setTimeout(function () {
                             _this.goToSection("documentResource");
                             _this.initializeTabs();
@@ -296,6 +301,23 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 };
                 DocumentViewerComponent.prototype.closeMessage = function (message) {
                     jquery_1.default(message).transition("fade");
+                };
+                DocumentViewerComponent.prototype.createChild = function () {
+                    var childSlug = !!this.createChildFormModel.slug ? this.createChildFormModel.slug : null;
+                    var childContent = {};
+                    this.documentsResolverService.createChild(this.documentContext, this.documentURI, childContent, childSlug);
+                };
+                DocumentViewerComponent.prototype.slugLostControl = function (evt) {
+                    if (typeof (evt.target) === "undefined")
+                        return;
+                    if (!evt.target.value.endsWith("/") && evt.target.value.trim() !== "")
+                        evt.target.value += "/";
+                };
+                DocumentViewerComponent.prototype.getSanitizedSlug = function (slug) {
+                    if (!slug)
+                        return slug;
+                    slug = slug.toLowerCase().replace(/ - | -|- /g, "-").replace(/[^-\w ]+/g, "").replace(/ +/g, "-");
+                    return slug;
                 };
                 DocumentViewerComponent.prototype.beforeRefreshDocument = function (documentURI) {
                     if (this.documentContentHasChanged)

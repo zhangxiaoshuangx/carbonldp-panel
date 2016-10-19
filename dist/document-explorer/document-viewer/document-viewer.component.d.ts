@@ -20,12 +20,16 @@ export declare class DocumentViewerComponent implements AfterViewInit, OnChanges
     bNodes: BlankNodeRow[];
     namedFragments: NamedFragmentRow[];
     savingErrorMessage: Message;
+    documentURI: string;
     rootNodeHasChanged: boolean;
     rootNodeRecords: RootRecords;
     bNodesHaveChanged: boolean;
     bNodesChanges: BlankNodesRecords;
     namedFragmentsHaveChanged: boolean;
     namedFragmentsChanges: NamedFragmentsRecords;
+    createChildFormModel: {
+        slug: string;
+    };
     readonly documentContentHasChanged: boolean;
     documentsResolverService: DocumentsResolverService;
     uri: string;
@@ -65,6 +69,9 @@ export declare class DocumentViewerComponent implements AfterViewInit, OnChanges
     getErrors(error: HTTPError): Promise<any[]>;
     clearSavingError(): void;
     closeMessage(message: HTMLElement): void;
+    private createChild();
+    private slugLostControl(evt);
+    private getSanitizedSlug(slug);
     private beforeRefreshDocument(documentURI);
     private refreshDocument(documentURI);
     private toggleConfirmRefresh();

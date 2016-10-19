@@ -45,7 +45,6 @@ export declare class PropertyComponent implements AfterViewInit, OnInit {
     onDeleteNewProperty: EventEmitter<PropertyRow>;
     onSaveNewProperty: EventEmitter<PropertyRow>;
     onChangeNewProperty: EventEmitter<PropertyRow>;
-    onRefreshDocument: EventEmitter<string>;
     nameHasChanged: boolean;
     valueHasChanged: boolean;
     literalsHaveChanged: boolean;
@@ -89,7 +88,6 @@ export declare class PropertyComponent implements AfterViewInit, OnInit {
     convertToListRow(lists: ListRow[]): ListRow[];
     getRDFList(list: ListRow, copyOrAddedOrModified: string): any[];
     changePropertyContent(): void;
-    private refreshDocument();
     private escape(uri);
     private unescape(uri);
 }

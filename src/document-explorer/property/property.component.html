@@ -41,12 +41,6 @@
 			</div>
 		</div>
 	</div>
-	<div *ngIf="value === documentURI">
-		<button class="ui right labeled icon basic mini button" (click)="refreshDocument()">
-			<i class="refresh icon"></i>
-			Refresh
-		</button>
-	</div>
 	<div class="description" *ngIf="canEdit && isPartOfNamedFragment">
 		<div class="ui icon bottom left pointing dropdown basic mini button options" title="Options">
 			<i class="ellipsis horizontal icon"></i>

@@ -38,10 +38,18 @@
 <div class="ui basic segment document-content" *ngIf="document">
 	<div class="ui divided items">
 		<cp-property class="property item"
-		             (onRefreshDocument)="beforeRefreshDocument($event)"
 		             [documentURI]="rootNode['@id']"
 		             [property]="{copy:{id:'@id', name:'@id', value:rootNode['@id']}}">
 		</cp-property>
+		<div class="item">
+			<div class="content">
+				<div _ngcontent-arx-18="" class="document options">
+					<button class="ui right labeled icon basic mini button" (click)="beforeRefreshDocument( documentURI )">
+						<i class="refresh icon"></i>
+						Refresh
+				</div>
+			</div>
+		</div>
 		<div class="item">
 			<div class="content">
 				<div class="description">
