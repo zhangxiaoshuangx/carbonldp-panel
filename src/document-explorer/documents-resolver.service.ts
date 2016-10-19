@@ -5,6 +5,7 @@ import * as HTTP from "carbonldp/HTTP";
 import * as NS from "carbonldp/NS";
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
+import * as PersistedDocument from "carbonldp/PersistedDocument";
 
 @Injectable()
 export class DocumentsResolverService {
@@ -45,6 +46,17 @@ export class DocumentsResolverService {
 			let keys = Object.keys( this.documents );
 			let values = keys.map( ( v ) => { return this.documents[ v ].document; } );
 			resolve( values );
+		} );
+	}
+
+	createChild( context:SDKContext.Class, parentURI:string, content:any, childSlug?:string ):Promise<PersistedDocument.Class> {
+		return context.documents.createChild( parentURI, content, childSlug ).then(
+			( [createdChild, response]:[PersistedDocument.Class, HTTP.Response.Class] )=> {
+				return createdChild;
+			}
+		).catch( ( error ) => {
+			console.error( error );
+			return Promise.reject( error );
 		} );
 	}
 

@@ -47,7 +47,39 @@
 					<button class="ui right labeled icon basic mini button" (click)="beforeRefreshDocument( documentURI )">
 						<i class="refresh icon"></i>
 						Refresh
+					</button>
+					<button class="ui right labeled icon basic mini button">
+						<i class="add icon"></i>
+						Add child
+					</button>
+					<button class="ui right labeled right floated icon basic mini red button">
+						<i class="refresh icon"></i>
+						Delete
+					</button>
 				</div>
+				<form class="ui segment error form" #createChildForm="ngForm">
+					<div class="field"
+					     [ngClass]="{error: slug.touched && !slug.valid}">
+						<div class="ui action fluid input">
+							<input type="text" name="slug"
+							       placeholder="Optional: Enter the slug of the child. e.g. &quot;my-child-name/&quot;"
+							       #slug="ngModel"
+							       cp-slug
+							       [ngModel]="createChildFormModel.slug"
+							       (ngModelChange)="createChildFormModel.slug = getSanitizedSlug($event)"
+							       (blur)="slugLostControl($event)">
+							<button class="ui button"
+							        [ngClass]="{ 'basic red': (slug.touched && !slug.valid)  }"
+							        (click)="createChild()"
+							        [disabled]="!createChildForm.valid">Create
+							</button>
+						</div>
+					</div>
+					<div class="ui error message" *ngIf="slug.touched && slug.control.hasError('invalidSlug')">
+						<div class="header">Invalid slug</div>
+						<p>Please, provide a valid slug/name for the child document.<br>(Only numbers and letters with dashes)</p>
+					</div>
+				</form>
 			</div>
 		</div>
 		<div class="item">
