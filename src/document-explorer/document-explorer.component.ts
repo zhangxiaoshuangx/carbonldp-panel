@@ -28,6 +28,7 @@ export class DocumentExplorerComponent {
 
 	@Input() documentContext:SDKContext.Class;
 	@Output() onRefreshNode:EventEmitter<string> = new EventEmitter<string>();
+	@Output() onOpenNode:EventEmitter<string> = new EventEmitter<string>();
 
 	constructor( documentsResolverService:DocumentsResolverService ) {
 		this.documentsResolverService = documentsResolverService;
@@ -67,6 +68,10 @@ export class DocumentExplorerComponent {
 
 	refreshNode( nodeId:string ):void {
 		this.onRefreshNode.emit( nodeId );
+	}
+
+	openNode( nodeId:string ):void {
+		this.onOpenNode.emit( nodeId );
 	}
 
 	private getHTTPErrorMessage( error:HTTP.Errors.Error, content:string ):Message {
