@@ -30,6 +30,7 @@ export declare class DocumentViewerComponent implements AfterViewInit, OnChanges
     createChildFormModel: {
         slug: string;
     };
+    canDisplayCreateChildForm: boolean;
     readonly documentContentHasChanged: boolean;
     documentsResolverService: DocumentsResolverService;
     uri: string;
@@ -69,6 +70,7 @@ export declare class DocumentViewerComponent implements AfterViewInit, OnChanges
     getErrors(error: HTTPError): Promise<any[]>;
     clearSavingError(): void;
     closeMessage(message: HTMLElement): void;
+    private toggleCreateChildForm();
     private createChild();
     private slugLostControl(evt);
     private getSanitizedSlug(slug);

@@ -5,6 +5,7 @@ import * as RDFNode from "carbonldp/RDF/RDFNode";
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
 import * as JSONLDParser from "carbonldp/JSONLD/Parser";
+import * as PersistedDocument from "carbonldp/PersistedDocument";
 import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
 import { DocumentsResolverService } from "./../documents-resolver.service";
@@ -49,6 +50,7 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	createChildFormModel:{ slug:string } = {
 		slug: ""
 	};
+	canDisplayCreateChildForm:boolean = false;
 
 	get documentContentHasChanged() {
 		return this.rootNodeHasChanged || this.bNodesHaveChanged || this.namedFragmentsHaveChanged;
@@ -315,10 +317,37 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 		$( message ).transition( "fade" );
 	}
 
+	private toggleCreateChildForm():void {
+		$( "form.createchild" ).transition( {
+			transition: "drop",
+			onComplete: ()=> { this.canDisplayCreateChildForm = ! this.canDisplayCreateChildForm; }
+		} );
+	}
+
 	private createChild():void {
 		let childSlug:string = ! ! this.createChildFormModel.slug ? this.createChildFormModel.slug : null;
 		let childContent:any = {};
-		this.documentsResolverService.createChild( this.documentContext, this.documentURI, childContent, childSlug );
+		this.loadingDocument = true;
+		this.documentsResolverService.createChild( this.documentContext, this.documentURI, childContent, childSlug ).then(
+			( createdChild:PersistedDocument.Class ) => {
+
+			}
+		).catch( ( error:HTTPError )=> {
+			this.savingErrorMessage = {
+				title: error.name,
+				content: error.message,
+				statusCode: "" + error.statusCode,
+				statusMessage: (<XMLHttpRequest>error.response.request).statusText,
+				endpoint: (<any>error.response.request).responseURL,
+			};
+			if( ! ! error.response.data ) {
+				this.getErrors( error ).then( ( errors )=> {
+					this.savingErrorMessage[ "errors" ] = errors;
+				} );
+			}
+		} ).then( ()=> {
+			this.loadingDocument = false;
+		} );
 	}
 
 	private slugLostControl( evt:any ):void {

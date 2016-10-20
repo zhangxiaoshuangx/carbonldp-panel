@@ -61,6 +61,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     this.createChildFormModel = {
                         slug: ""
                     };
+                    this.canDisplayCreateChildForm = false;
                     this.onLoadingDocument = new core_1.EventEmitter();
                     this.onSavingDocument = new core_1.EventEmitter();
                     this.onRefreshDocument = new core_1.EventEmitter();
@@ -302,10 +303,35 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 DocumentViewerComponent.prototype.closeMessage = function (message) {
                     jquery_1.default(message).transition("fade");
                 };
+                DocumentViewerComponent.prototype.toggleCreateChildForm = function () {
+                    var _this = this;
+                    jquery_1.default("form.createchild").transition({
+                        transition: "drop",
+                        onComplete: function () { _this.canDisplayCreateChildForm = !_this.canDisplayCreateChildForm; }
+                    });
+                };
                 DocumentViewerComponent.prototype.createChild = function () {
+                    var _this = this;
                     var childSlug = !!this.createChildFormModel.slug ? this.createChildFormModel.slug : null;
                     var childContent = {};
-                    this.documentsResolverService.createChild(this.documentContext, this.documentURI, childContent, childSlug);
+                    this.loadingDocument = true;
+                    this.documentsResolverService.createChild(this.documentContext, this.documentURI, childContent, childSlug).then(function (createdChild) {
+                    }).catch(function (error) {
+                        _this.savingErrorMessage = {
+                            title: error.name,
+                            content: error.message,
+                            statusCode: "" + error.statusCode,
+                            statusMessage: error.response.request.statusText,
+                            endpoint: error.response.request.responseURL,
+                        };
+                        if (!!error.response.data) {
+                            _this.getErrors(error).then(function (errors) {
+                                _this.savingErrorMessage["errors"] = errors;
+                            });
+                        }
+                    }).then(function () {
+                        _this.loadingDocument = false;
+                    });
                 };
                 DocumentViewerComponent.prototype.slugLostControl = function (evt) {
                     if (typeof (evt.target) === "undefined")
