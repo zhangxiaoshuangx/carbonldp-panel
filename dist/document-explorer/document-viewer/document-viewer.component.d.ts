@@ -16,6 +16,7 @@ export declare class DocumentViewerComponent implements AfterViewInit, OnChanges
     $element: JQuery;
     $saveSuccessMessage: JQuery;
     $createChildSuccessMessage: JQuery;
+    $confirmDeletionDimmer: JQuery;
     sections: string[];
     rootNode: RDFNode.Class;
     bNodes: BlankNodeRow[];
@@ -38,6 +39,7 @@ export declare class DocumentViewerComponent implements AfterViewInit, OnChanges
     documentContext: SDKContext.Class;
     private _document;
     document: RDFDocument.Class;
+    onOpenNode: EventEmitter<string>;
     onRefreshNode: EventEmitter<string>;
     onLoadingDocument: EventEmitter<boolean>;
     onSavingDocument: EventEmitter<boolean>;
@@ -72,6 +74,10 @@ export declare class DocumentViewerComponent implements AfterViewInit, OnChanges
     getErrors(error: HTTPError): Promise<any[]>;
     clearSavingError(): void;
     closeMessage(message: HTMLElement): void;
+    private deleteDocument();
+    private cancelDeletion();
+    private askToConfirmDeletion();
+    private getParentURI(documentURI);
     private toggleCreateChildForm();
     private createChild();
     private slugLostControl(evt);

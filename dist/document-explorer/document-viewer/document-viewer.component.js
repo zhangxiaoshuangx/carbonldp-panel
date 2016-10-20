@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Document", "carbonldp/JSONLD/Parser", "./../documents-resolver.service", "./../document-resource/document-resource.component", "./../blank-nodes/blank-nodes.component", "./../named-fragments/named-fragments.component", "jquery", "semantic-ui/semantic", "./document-viewer.component.html!", "./document-viewer.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Document", "carbonldp/JSONLD/Parser", "carbonldp/RDF/URI", "./../documents-resolver.service", "./../document-resource/document-resource.component", "./../blank-nodes/blank-nodes.component", "./../named-fragments/named-fragments.component", "jquery", "semantic-ui/semantic", "./document-viewer.component.html!", "./document-viewer.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, SDKContext, RDFDocument, JSONLDParser, documents_resolver_service_1, document_resource_component_1, blank_nodes_component_1, named_fragments_component_1, jquery_1, document_viewer_component_html_1, document_viewer_component_css_text_1;
+    var core_1, SDKContext, RDFDocument, JSONLDParser, URI, documents_resolver_service_1, document_resource_component_1, blank_nodes_component_1, named_fragments_component_1, jquery_1, document_viewer_component_html_1, document_viewer_component_css_text_1;
     var DocumentViewerComponent;
     return {
         setters:[
@@ -25,6 +25,9 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
             },
             function (JSONLDParser_1) {
                 JSONLDParser = JSONLDParser_1;
+            },
+            function (URI_1) {
+                URI = URI_1;
             },
             function (documents_resolver_service_1_1) {
                 documents_resolver_service_1 = documents_resolver_service_1_1;
@@ -62,6 +65,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                         slug: ""
                     };
                     this.canDisplayCreateChildForm = false;
+                    this.onOpenNode = new core_1.EventEmitter();
                     this.onRefreshNode = new core_1.EventEmitter();
                     this.onLoadingDocument = new core_1.EventEmitter();
                     this.onSavingDocument = new core_1.EventEmitter();
@@ -109,6 +113,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     this.$element = jquery_1.default(this.element.nativeElement);
                     this.$saveSuccessMessage = this.$element.find(".success.save.message");
                     this.$createChildSuccessMessage = this.$element.find(".success.createchild.message");
+                    this.$confirmDeletionDimmer = this.$element.find(".document.confirm-deletion.dimmer").dimmer({ closable: false });
                 };
                 DocumentViewerComponent.prototype.ngOnChanges = function (changes) {
                     var _this = this;
@@ -305,6 +310,35 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 DocumentViewerComponent.prototype.closeMessage = function (message) {
                     jquery_1.default(message).transition("fade");
                 };
+                DocumentViewerComponent.prototype.deleteDocument = function () {
+                    var _this = this;
+                    this.documentsResolverService.delete(this.documentContext, this.documentURI).then(function (result) {
+                        _this.onOpenNode.emit(_this.getParentURI(_this.documentURI));
+                    }).catch(function (error) {
+                        _this.savingErrorMessage = {
+                            title: error.name,
+                            content: error.message,
+                            statusCode: "" + error.statusCode,
+                            statusMessage: error.response.request.statusText,
+                            endpoint: error.response.request.responseURL,
+                        };
+                        if (!!error.response.data) {
+                            _this.getErrors(error).then(function (errors) {
+                                _this.savingErrorMessage["errors"] = errors;
+                            });
+                        }
+                    });
+                };
+                DocumentViewerComponent.prototype.cancelDeletion = function () {
+                    this.$element.find(".document.confirm-deletion.dimmer").dimmer("hide");
+                };
+                DocumentViewerComponent.prototype.askToConfirmDeletion = function () {
+                    this.$element.find(".document.confirm-deletion.dimmer").dimmer("show");
+                };
+                DocumentViewerComponent.prototype.getParentURI = function (documentURI) {
+                    var slug = URI.Util.getSlug(documentURI), slugIdx = documentURI.indexOf(slug);
+                    return documentURI.substr(0, slugIdx);
+                };
                 DocumentViewerComponent.prototype.toggleCreateChildForm = function () {
                     var _this = this;
                     jquery_1.default("form.createchild").transition({
@@ -392,6 +426,10 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     __metadata('design:type', Object), 
                     __metadata('design:paramtypes', [Object])
                 ], DocumentViewerComponent.prototype, "document", null);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], DocumentViewerComponent.prototype, "onOpenNode", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)

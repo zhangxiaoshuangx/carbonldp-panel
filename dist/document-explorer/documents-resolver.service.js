@@ -78,6 +78,12 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "carbonl
                         return Promise.reject(error);
                     });
                 };
+                DocumentsResolverService.prototype.delete = function (context, documentURI) {
+                    return context.documents.delete(documentURI).catch(function (error) {
+                        console.error(error);
+                        return Promise.reject(error);
+                    });
+                };
                 DocumentsResolverService.prototype.update = function (uri, body, documentContext) {
                     if (!uri || !body)
                         return Promise.reject(new Error("Provide the required parameters"));

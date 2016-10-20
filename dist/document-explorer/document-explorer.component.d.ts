@@ -13,6 +13,7 @@ export declare class DocumentExplorerComponent {
     messages: Message[];
     documentContext: SDKContext.Class;
     onRefreshNode: EventEmitter<string>;
+    onOpenNode: EventEmitter<string>;
     constructor(documentsResolverService: DocumentsResolverService);
     onLoadingDocument(loadingDocument: boolean): void;
     showLoading(savingDocument: boolean): void;
@@ -20,6 +21,7 @@ export declare class DocumentExplorerComponent {
     handleError(error: HTTP.Errors.Error): void;
     refreshDocument(documentURI: string): void;
     refreshNode(nodeId: string): void;
+    openNode(nodeId: string): void;
     private getHTTPErrorMessage(error, content);
     private getErrorMessage(error);
 }

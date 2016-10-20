@@ -13,6 +13,7 @@ export declare class DocumentTreeViewComponent implements AfterViewInit, OnInit 
     nodeChildren: JSTreeNode[];
     documentContext: SDKContext.Class;
     refreshNode: EventEmitter<string>;
+    openNode: EventEmitter<string>;
     onResolveUri: EventEmitter<RDFDocument.Class>;
     onError: EventEmitter<HTTP.Errors.Error>;
     onLoadingDocument: EventEmitter<boolean>;

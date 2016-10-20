@@ -40,6 +40,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./d
                     this.savingDocument = false;
                     this.messages = [];
                     this.onRefreshNode = new core_1.EventEmitter();
+                    this.onOpenNode = new core_1.EventEmitter();
                     this.documentsResolverService = documentsResolverService;
                 }
                 DocumentExplorerComponent.prototype.onLoadingDocument = function (loadingDocument) {
@@ -73,6 +74,9 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./d
                 };
                 DocumentExplorerComponent.prototype.refreshNode = function (nodeId) {
                     this.onRefreshNode.emit(nodeId);
+                };
+                DocumentExplorerComponent.prototype.openNode = function (nodeId) {
+                    this.onOpenNode.emit(nodeId);
                 };
                 DocumentExplorerComponent.prototype.getHTTPErrorMessage = function (error, content) {
                     return {
@@ -119,6 +123,10 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./d
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], DocumentExplorerComponent.prototype, "onRefreshNode", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], DocumentExplorerComponent.prototype, "onOpenNode", void 0);
                 DocumentExplorerComponent = __decorate([
                     core_1.Component({
                         selector: "cp-document-explorer",
