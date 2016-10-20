@@ -6,6 +6,7 @@ import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
 import * as JSONLDParser from "carbonldp/JSONLD/Parser";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
+import * as URI from "carbonldp/RDF/URI";
 import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
 import { DocumentsResolverService } from "./../documents-resolver.service";
@@ -33,6 +34,7 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	$element:JQuery;
 	$saveSuccessMessage:JQuery;
 	$createChildSuccessMessage:JQuery;
+	$confirmDeletionDimmer:JQuery;
 
 	sections:string[] = [ "bNodes", "namedFragments", "documentResource" ];
 	rootNode:RDFNode.Class;
@@ -69,6 +71,7 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 
 	get document():RDFDocument.Class {return this._document;}
 
+	@Output() onOpenNode:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onRefreshNode:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onLoadingDocument:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() onSavingDocument:EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -104,6 +107,7 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 		this.$element = $( this.element.nativeElement );
 		this.$saveSuccessMessage = this.$element.find( ".success.save.message" );
 		this.$createChildSuccessMessage = this.$element.find( ".success.createchild.message" );
+		this.$confirmDeletionDimmer = this.$element.find( ".document.confirm-deletion.dimmer" ).dimmer( { closable: false } );
 	}
 
 	ngOnChanges( changes:{[propName:string]:SimpleChange} ):void {
@@ -318,6 +322,24 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 
 	closeMessage( message:HTMLElement ):void {
 		$( message ).transition( "fade" );
+	}
+
+	private deleteDocument():void {
+		// Delete document call to service code...
+	}
+
+	private cancelDeletion():void {
+		this.$element.find( ".document.confirm-deletion.dimmer" ).dimmer( "hide" );
+	}
+
+	private askToConfirmDeletion():void {
+		this.$element.find( ".document.confirm-deletion.dimmer" ).dimmer( "show" );
+	}
+
+	private getParentURI( documentURI:string ):string {
+		let slug:string = URI.Util.getSlug( documentURI ),
+			slugIdx:number = documentURI.indexOf( slug );
+		return documentURI.substr( 0, slugIdx );
 	}
 
 	private toggleCreateChildForm():void {
