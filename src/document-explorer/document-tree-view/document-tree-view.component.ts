@@ -29,6 +29,7 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 	nodeChildren:JSTreeNode[] = [];
 
 	@Input() documentContext:SDKContext.Class;
+	@Input() refreshNode:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onResolveUri:EventEmitter<RDFDocument.Class> = new EventEmitter<RDFDocument.Class>();
 	@Output() onError:EventEmitter<HTTP.Errors.Error> = new EventEmitter<HTTP.Errors.Error>();
 	@Output() onLoadingDocument:EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -53,6 +54,11 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 		this.onLoadingDocument.emit( true );
 		this.getDocumentTree().then( ()=> {
 			this.onLoadingDocument.emit( false );
+		} );
+		this.refreshNode.subscribe( ( nodeId:string )=> {
+			let tree:JSTree = this.documentTree.jstree( true );
+			tree.close_node( nodeId );
+			tree.open_node( nodeId );
 		} );
 	}
 
