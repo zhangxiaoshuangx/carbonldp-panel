@@ -325,7 +325,24 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	}
 
 	private deleteDocument():void {
-		// Delete document call to service code...
+		this.documentsResolverService.delete( this.documentContext, this.documentURI ).then( ( result )=> {
+
+			this.onOpenNode.emit( this.getParentURI( this.documentURI ) );
+
+		} ).catch( ( error:HTTPError )=> {
+			this.savingErrorMessage = {
+				title: error.name,
+				content: error.message,
+				statusCode: "" + error.statusCode,
+				statusMessage: (<XMLHttpRequest>error.response.request).statusText,
+				endpoint: (<any>error.response.request).responseURL,
+			};
+			if( ! ! error.response.data ) {
+				this.getErrors( error ).then( ( errors )=> {
+					this.savingErrorMessage[ "errors" ] = errors;
+				} );
+			}
+		} );
 	}
 
 	private cancelDeletion():void {
