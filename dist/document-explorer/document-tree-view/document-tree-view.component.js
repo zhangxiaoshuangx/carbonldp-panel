@@ -38,6 +38,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
             DocumentTreeViewComponent = (function () {
                 function DocumentTreeViewComponent(element) {
                     this.nodeChildren = [];
+                    this.refreshNode = new core_1.EventEmitter();
                     this.onResolveUri = new core_1.EventEmitter();
                     this.onError = new core_1.EventEmitter();
                     this.onLoadingDocument = new core_1.EventEmitter();
@@ -60,6 +61,11 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     this.onLoadingDocument.emit(true);
                     this.getDocumentTree().then(function () {
                         _this.onLoadingDocument.emit(false);
+                    });
+                    this.refreshNode.subscribe(function (nodeId) {
+                        var tree = _this.documentTree.jstree(true);
+                        tree.close_node(nodeId);
+                        tree.open_node(nodeId);
                     });
                 };
                 DocumentTreeViewComponent.prototype.getDocumentTree = function () {
@@ -209,6 +215,10 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     core_1.Input(), 
                     __metadata('design:type', SDKContext.Class)
                 ], DocumentTreeViewComponent.prototype, "documentContext", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], DocumentTreeViewComponent.prototype, "refreshNode", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)

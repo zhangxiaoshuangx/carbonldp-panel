@@ -12,6 +12,7 @@ export declare class DocumentTreeViewComponent implements AfterViewInit, OnInit 
     documentTree: JQuery;
     nodeChildren: JSTreeNode[];
     documentContext: SDKContext.Class;
+    refreshNode: EventEmitter<string>;
     onResolveUri: EventEmitter<RDFDocument.Class>;
     onError: EventEmitter<HTTP.Errors.Error>;
     onLoadingDocument: EventEmitter<boolean>;

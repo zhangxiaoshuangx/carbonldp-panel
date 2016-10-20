@@ -31,7 +31,8 @@ import style from "./document-viewer.component.css!text";
 export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	element:ElementRef;
 	$element:JQuery;
-	$successMessage:JQuery;
+	$saveSuccessMessage:JQuery;
+	$createChildSuccessMessage:JQuery;
 
 	sections:string[] = [ "bNodes", "namedFragments", "documentResource" ];
 	rootNode:RDFNode.Class;
@@ -68,6 +69,7 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 
 	get document():RDFDocument.Class {return this._document;}
 
+	@Output() onRefreshNode:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onLoadingDocument:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() onSavingDocument:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() onRefreshDocument:EventEmitter<string> = new EventEmitter<string>();
@@ -100,7 +102,8 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 
 	ngAfterViewInit():void {
 		this.$element = $( this.element.nativeElement );
-		this.$successMessage = this.$element.find( ".success.message" );
+		this.$saveSuccessMessage = this.$element.find( ".success.save.message" );
+		this.$createChildSuccessMessage = this.$element.find( ".success.createchild.message" );
 	}
 
 	ngOnChanges( changes:{[propName:string]:SimpleChange} ):void {
@@ -267,10 +270,10 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 			( updatedDocument:RDFDocument.Class )=> {
 				this.document = updatedDocument[ 0 ];
 				setTimeout( ()=> {
-					this.$successMessage.transition( {
+					this.$saveSuccessMessage.transition( {
 						onComplete: ()=> {
 							setTimeout( ()=> {
-								if( ! this.$successMessage.hasClass( "hidden" ) ) this.$successMessage.transition( "fade" );
+								if( ! this.$saveSuccessMessage.hasClass( "hidden" ) ) this.$saveSuccessMessage.transition( "fade" );
 							}, 4000 );
 						}
 					} );
@@ -330,7 +333,16 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 		this.loadingDocument = true;
 		this.documentsResolverService.createChild( this.documentContext, this.documentURI, childContent, childSlug ).then(
 			( createdChild:PersistedDocument.Class ) => {
-
+				this.onRefreshNode.emit( this.documentURI );
+				setTimeout( ()=> {
+					this.$createChildSuccessMessage.transition( {
+						onComplete: ()=> {
+							setTimeout( ()=> {
+								if( ! this.$createChildSuccessMessage.hasClass( "hidden" ) ) this.$createChildSuccessMessage.transition( "fade" );
+							}, 4000 );
+						}
+					} );
+				}, 1500 );
 			}
 		).catch( ( error:HTTPError )=> {
 			this.savingErrorMessage = {

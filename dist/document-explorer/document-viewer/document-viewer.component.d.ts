@@ -14,7 +14,8 @@ import "semantic-ui/semantic";
 export declare class DocumentViewerComponent implements AfterViewInit, OnChanges {
     element: ElementRef;
     $element: JQuery;
-    $successMessage: JQuery;
+    $saveSuccessMessage: JQuery;
+    $createChildSuccessMessage: JQuery;
     sections: string[];
     rootNode: RDFNode.Class;
     bNodes: BlankNodeRow[];
@@ -37,6 +38,7 @@ export declare class DocumentViewerComponent implements AfterViewInit, OnChanges
     documentContext: SDKContext.Class;
     private _document;
     document: RDFDocument.Class;
+    onRefreshNode: EventEmitter<string>;
     onLoadingDocument: EventEmitter<boolean>;
     onSavingDocument: EventEmitter<boolean>;
     onRefreshDocument: EventEmitter<string>;

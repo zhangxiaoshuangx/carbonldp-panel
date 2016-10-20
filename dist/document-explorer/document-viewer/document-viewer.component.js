@@ -62,6 +62,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                         slug: ""
                     };
                     this.canDisplayCreateChildForm = false;
+                    this.onRefreshNode = new core_1.EventEmitter();
                     this.onLoadingDocument = new core_1.EventEmitter();
                     this.onSavingDocument = new core_1.EventEmitter();
                     this.onRefreshDocument = new core_1.EventEmitter();
@@ -106,7 +107,8 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 });
                 DocumentViewerComponent.prototype.ngAfterViewInit = function () {
                     this.$element = jquery_1.default(this.element.nativeElement);
-                    this.$successMessage = this.$element.find(".success.message");
+                    this.$saveSuccessMessage = this.$element.find(".success.save.message");
+                    this.$createChildSuccessMessage = this.$element.find(".success.createchild.message");
                 };
                 DocumentViewerComponent.prototype.ngOnChanges = function (changes) {
                     var _this = this;
@@ -257,11 +259,11 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     this.documentsResolverService.update(backupDocument["@id"], body, this.documentContext).then(function (updatedDocument) {
                         _this.document = updatedDocument[0];
                         setTimeout(function () {
-                            _this.$successMessage.transition({
+                            _this.$saveSuccessMessage.transition({
                                 onComplete: function () {
                                     setTimeout(function () {
-                                        if (!_this.$successMessage.hasClass("hidden"))
-                                            _this.$successMessage.transition("fade");
+                                        if (!_this.$saveSuccessMessage.hasClass("hidden"))
+                                            _this.$saveSuccessMessage.transition("fade");
                                     }, 4000);
                                 }
                             });
@@ -316,6 +318,17 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     var childContent = {};
                     this.loadingDocument = true;
                     this.documentsResolverService.createChild(this.documentContext, this.documentURI, childContent, childSlug).then(function (createdChild) {
+                        _this.onRefreshNode.emit(_this.documentURI);
+                        setTimeout(function () {
+                            _this.$createChildSuccessMessage.transition({
+                                onComplete: function () {
+                                    setTimeout(function () {
+                                        if (!_this.$createChildSuccessMessage.hasClass("hidden"))
+                                            _this.$createChildSuccessMessage.transition("fade");
+                                    }, 4000);
+                                }
+                            });
+                        }, 1500);
                     }).catch(function (error) {
                         _this.savingErrorMessage = {
                             title: error.name,
@@ -379,6 +392,10 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     __metadata('design:type', Object), 
                     __metadata('design:paramtypes', [Object])
                 ], DocumentViewerComponent.prototype, "document", null);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], DocumentViewerComponent.prototype, "onRefreshNode", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
