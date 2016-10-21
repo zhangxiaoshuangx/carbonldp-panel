@@ -359,7 +359,9 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 };
                 DocumentViewerComponent.prototype.createChild = function () {
                     var _this = this;
-                    var childSlug = !!this.createChildFormModel.slug ? this.createChildFormModel.slug : null;
+                    var childSlug = null;
+                    if (!!this.createChildFormModel.slug)
+                        childSlug = this.createChildFormModel.slug + ((this.createChildFormModel.slug.endsWith("/") && this.createChildFormModel.slug.trim() !== "") ? "/" : "");
                     var childContent = {};
                     this.loadingDocument = true;
                     this.documentsResolverService.createChild(this.documentContext, this.documentURI, childContent, childSlug).then(function (createdChild) {

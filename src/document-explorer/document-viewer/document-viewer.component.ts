@@ -380,7 +380,9 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	}
 
 	private createChild():void {
-		let childSlug:string = ! ! this.createChildFormModel.slug ? this.createChildFormModel.slug : null;
+		let childSlug:string = null;
+		if( ! ! this.createChildFormModel.slug )
+			childSlug = this.createChildFormModel.slug + ((this.createChildFormModel.slug.endsWith( "/" ) && this.createChildFormModel.slug.trim() !== "" ) ? "/" : "");
 		let childContent:any = {};
 		this.loadingDocument = true;
 		this.documentsResolverService.createChild( this.documentContext, this.documentURI, childContent, childSlug ).then(
