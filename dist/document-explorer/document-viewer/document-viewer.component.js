@@ -355,7 +355,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     this.$element.find("form.createchild").transition({
                         transition: "drop",
                         onComplete: function () { _this.canDisplayCreateChildForm = false; }
-                    });
+                    }).transition("hide");
                 };
                 DocumentViewerComponent.prototype.createChild = function () {
                     var _this = this;

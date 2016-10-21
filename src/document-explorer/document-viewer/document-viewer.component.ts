@@ -376,7 +376,7 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 		this.$element.find( "form.createchild" ).transition( {
 			transition: "drop",
 			onComplete: ()=> { this.canDisplayCreateChildForm = false; }
-		} );
+		} ).transition( "hide" );
 	}
 
 	private createChild():void {
