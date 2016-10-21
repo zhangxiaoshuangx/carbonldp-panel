@@ -58,19 +58,17 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                 DocumentTreeViewComponent.prototype.ngAfterViewInit = function () {
                     var _this = this;
                     this.$element = jquery_1.default(this.element.nativeElement);
-                    this.documentTree = this.$element.find(".document.treeview");
+                    this.$tree = this.$element.find(".document.treeview");
                     this.onLoadingDocument.emit(true);
                     this.getDocumentTree().then(function () {
                         _this.onLoadingDocument.emit(false);
                     });
                     this.refreshNode.subscribe(function (nodeId) {
-                        var tree = _this.documentTree.jstree(true);
-                        tree.close_node(nodeId);
-                        tree.open_node(nodeId);
+                        _this.jsTree.deselect_node(nodeId);
+                        _this.jsTree.select_node(nodeId);
                     });
                     this.openNode.subscribe(function (nodeId) {
-                        var tree = _this.documentTree.jstree(true);
-                        tree.select_node(nodeId);
+                        _this.jsTree.select_node(nodeId);
                     });
                 };
                 DocumentTreeViewComponent.prototype.getDocumentTree = function () {
@@ -103,7 +101,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                 };
                 DocumentTreeViewComponent.prototype.renderTree = function () {
                     var _this = this;
-                    this.documentTree.jstree({
+                    this.jsTree = this.$tree.jstree({
                         "core": {
                             "data": this.nodeChildren,
                             "check_callback": true,
@@ -124,64 +122,60 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                             }
                         },
                         "plugins": ["types", "wholerow"],
-                    });
-                    this.documentTree.jstree();
-                    this.documentTree.on("create_node.jstree", function (e, data) { });
-                    this.documentTree.on("before_open.jstree", function (e, data) {
+                    }).jstree(true);
+                    this.$tree.on("before_open.jstree", function (e, data) {
                         var parentId = data.node.id;
                         var parentNode = data.node;
                         var position = "last";
                         _this.onBeforeOpenNode(parentId, parentNode, position);
                     });
-                    this.documentTree.on("changed.jstree", function (e, data) {
+                    this.$tree.on("changed.jstree", function (e, data) {
                         if (data["action"] !== "select_node")
                             return;
                         var parentId = data.node.id;
                         var parentNode = data.node;
                         var position = "last";
-                        _this.onClickNode(parentId, parentNode, position);
+                        _this.onChange(parentId, parentNode, position);
                     });
-                    this.documentTree.on("loaded.jstree", function () {
-                        _this.documentTree.jstree("select_node", _this.nodeChildren[0].id);
+                    this.$tree.on("loaded.jstree", function () {
+                        _this.jsTree.select_node(_this.nodeChildren[0].id);
                         if (_this.nodeChildren && _this.nodeChildren.length > 0) {
                             _this.onResolveUri.emit(_this.nodeChildren[0].id);
                         }
                     });
                 };
-                DocumentTreeViewComponent.prototype.emptyNode = function (nodeId) {
-                    var $children = this.documentTree.jstree(true).get_children_dom(nodeId);
-                    var childElements = jQuery.makeArray($children);
-                    while (childElements.length > 0) {
-                        this.documentTree.jstree(true).delete_node(childElements[0]);
-                        childElements.splice(0, 1);
-                    }
-                };
                 DocumentTreeViewComponent.prototype.onBeforeOpenNode = function (parentId, parentNode, position) {
                     var _this = this;
                     var oldIcon = parentNode.icon;
-                    var $documentTree = this.documentTree.jstree(true);
-                    $documentTree.set_icon(parentNode, $documentTree.settings.types.loading.icon);
+                    this.jsTree.set_icon(parentNode, this.jsTree.settings.types.loading.icon);
                     this.getNodeChildren(parentNode.id).then(function (children) {
                         _this.emptyNode(parentId);
                         if (children.length > 0) {
                             children.forEach(function (childNode) { return _this.addChild(parentId, childNode, position); });
                         }
                     }).then(function () {
-                        $documentTree.set_icon(parentNode, oldIcon);
+                        _this.jsTree.set_icon(parentNode, oldIcon);
                     });
                 };
-                DocumentTreeViewComponent.prototype.onClickNode = function (parentId, node, position) {
-                    var tree = this.documentTree.jstree(true);
-                    if (tree.is_open(node)) {
+                DocumentTreeViewComponent.prototype.onChange = function (parentId, node, position) {
+                    if (this.jsTree.is_open(node)) {
                         this.onBeforeOpenNode(parentId, node, position);
                     }
                     else {
-                        tree.open_node(node);
+                        this.jsTree.open_node(node);
                     }
                     this.onResolveUri.emit(node.id);
                 };
                 DocumentTreeViewComponent.prototype.addChild = function (parentId, node, position) {
-                    this.documentTree.jstree(true).create_node(parentId, node, position);
+                    this.jsTree.create_node(parentId, node, position);
+                };
+                DocumentTreeViewComponent.prototype.emptyNode = function (nodeId) {
+                    var $children = this.jsTree.get_children_dom(nodeId);
+                    var childElements = jQuery.makeArray($children);
+                    while (childElements.length > 0) {
+                        this.jsTree.delete_node(childElements[0]);
+                        childElements.splice(0, 1);
+                    }
                 };
                 DocumentTreeViewComponent.prototype.getNodeChildren = function (uri) {
                     var _this = this;

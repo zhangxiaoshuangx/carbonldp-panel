@@ -79,6 +79,7 @@ export declare class DocumentViewerComponent implements AfterViewInit, OnChanges
     private askToConfirmDeletion();
     private getParentURI(documentURI);
     private toggleCreateChildForm();
+    private hideCreateChildForm();
     private createChild();
     private slugLostControl(evt);
     private getSanitizedSlug(slug);

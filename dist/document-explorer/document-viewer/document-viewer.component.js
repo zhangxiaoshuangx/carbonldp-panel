@@ -134,6 +134,9 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                         this.loadingDocument = false;
                         this.savingErrorMessage = null;
                         this.documentURI = this.document["@id"];
+                        this.cancelDeletion();
+                        this.hideCreateChildForm();
+                        this.createChildFormModel = { slug: "" };
                         setTimeout(function () {
                             _this.goToSection("documentResource");
                             _this.initializeTabs();
@@ -314,6 +317,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     var _this = this;
                     this.documentsResolverService.delete(this.documentContext, this.documentURI).then(function (result) {
                         _this.onOpenNode.emit(_this.getParentURI(_this.documentURI));
+                        _this.cancelDeletion();
                     }).catch(function (error) {
                         _this.savingErrorMessage = {
                             title: error.name,
@@ -341,9 +345,16 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 };
                 DocumentViewerComponent.prototype.toggleCreateChildForm = function () {
                     var _this = this;
-                    jquery_1.default("form.createchild").transition({
+                    this.$element.find("form.createchild").transition({
                         transition: "drop",
                         onComplete: function () { _this.canDisplayCreateChildForm = !_this.canDisplayCreateChildForm; }
+                    });
+                };
+                DocumentViewerComponent.prototype.hideCreateChildForm = function () {
+                    var _this = this;
+                    this.$element.find("form.createchild").transition({
+                        transition: "drop",
+                        onComplete: function () { _this.canDisplayCreateChildForm = false; }
                     });
                 };
                 DocumentViewerComponent.prototype.createChild = function () {

@@ -128,6 +128,11 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 			this.loadingDocument = false;
 			this.savingErrorMessage = null;
 			this.documentURI = this.document[ "@id" ];
+
+			this.cancelDeletion();
+			this.hideCreateChildForm();
+			this.createChildFormModel = { slug: "" };
+
 			setTimeout(
 				()=> {
 					this.goToSection( "documentResource" );
@@ -328,6 +333,7 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 		this.documentsResolverService.delete( this.documentContext, this.documentURI ).then( ( result )=> {
 
 			this.onOpenNode.emit( this.getParentURI( this.documentURI ) );
+			this.cancelDeletion();
 
 		} ).catch( ( error:HTTPError )=> {
 			this.savingErrorMessage = {
@@ -360,9 +366,16 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	}
 
 	private toggleCreateChildForm():void {
-		$( "form.createchild" ).transition( {
+		this.$element.find( "form.createchild" ).transition( {
 			transition: "drop",
 			onComplete: ()=> { this.canDisplayCreateChildForm = ! this.canDisplayCreateChildForm; }
+		} );
+	}
+
+	private hideCreateChildForm():void {
+		this.$element.find( "form.createchild" ).transition( {
+			transition: "drop",
+			onComplete: ()=> { this.canDisplayCreateChildForm = false; }
 		} );
 	}
 

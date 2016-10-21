@@ -3,18 +3,18 @@ import * as Pointer from "carbonldp/Pointer";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
 import * as HTTP from "carbonldp/HTTP";
 import * as SDKContext from "carbonldp/SDKContext";
-import * as RDFDocument from "carbonldp/RDF/Document";
 import "semantic-ui/semantic";
 import "jstree/dist/jstree.min";
 export declare class DocumentTreeViewComponent implements AfterViewInit, OnInit {
     element: ElementRef;
     $element: JQuery;
-    documentTree: JQuery;
+    jsTree: JSTree;
+    $tree: JQuery;
     nodeChildren: JSTreeNode[];
     documentContext: SDKContext.Class;
     refreshNode: EventEmitter<string>;
     openNode: EventEmitter<string>;
-    onResolveUri: EventEmitter<RDFDocument.Class>;
+    onResolveUri: EventEmitter<string>;
     onError: EventEmitter<HTTP.Errors.Error>;
     onLoadingDocument: EventEmitter<boolean>;
     constructor(element: ElementRef);
@@ -23,10 +23,10 @@ export declare class DocumentTreeViewComponent implements AfterViewInit, OnInit 
     getDocumentTree(): Promise<PersistedDocument.Class>;
     buildNode(uri: string, isAccessPoint?: boolean): JSTreeNode;
     renderTree(): void;
-    emptyNode(nodeId: string): void;
     onBeforeOpenNode(parentId: string, parentNode: any, position: string): void;
-    onClickNode(parentId: string, node: any, position: string): void;
+    onChange(parentId: string, node: any, position: string): void;
     addChild(parentId: string, node: any, position: string): void;
+    emptyNode(nodeId: string): void;
     getNodeChildren(uri: string): Promise<JSTreeNode[]>;
     getSlug(pointer: Pointer.Class | string): string;
 }
