@@ -1,1 +1,1 @@
-{"version":3,"sources":["apps-list.component.css"],"names":[],"mappings":"AAAA;EACE,eAAe,EAAE;EACjB;IACE,gBAAgB,EAAE","file":"apps-list.component.css","sourcesContent":[":host {\n  display: block; }\n  :host table.selectable tr {\n    cursor: pointer; }\n"]}
+{"version":3,"sources":["apps-list.component.css"],"names":[],"mappings":"AAAA;EACE,eAAe,EAAE;EACjB;IACE,gBAAgB,EAAE","file":"my-apps/apps-catalog/apps-list/apps-list.component.css","sourcesContent":[":host {\n  display: block; }\n  :host table.selectable tr {\n    cursor: pointer; }\n"],"sourceRoot":"/source/"}
