@@ -96,6 +96,7 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 			"core": {
 				"data": this.nodeChildren,
 				"check_callback": true,
+				"multiple": false,
 			},
 			"types": {
 				"default": {
@@ -120,18 +121,24 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 			let position:string = "last";
 			this.onBeforeOpenNode( parentId, parentNode, position );
 		} );
-		this.$tree.on( "changed.jstree", ( e:Event, data:any ):void => {
-			if( data[ "action" ] !== "select_node" ) return;
-			let parentId:any = data.node.id;
-			let parentNode:any = data.node;
-			let position:string = "last";
-			this.onChange( parentId, parentNode, position );
-		} );
+		this.$tree.on( "select_node.jstree", ( e:Event, data:any ):void => {} );
 		this.$tree.on( "loaded.jstree", ()=> {
 			this.jsTree.select_node( this.nodeChildren[ 0 ].id );
 			if( this.nodeChildren && this.nodeChildren.length > 0 ) {
 				this.onResolveUri.emit( <string>this.nodeChildren[ 0 ].id );
 			}
+		} );
+		this.$tree.on( "dblclick.jstree", ".jstree-anchor", ( e:Event ) => {
+			let node:JSTreeNode = this.jsTree.get_node( e.target );
+			let parentId:any = node.id;
+			let parentNode:any = node;
+			let position:string = "last";
+			this.onChange( parentId, parentNode, position );
+		} );
+		this.$tree.on( "dblclick.jstree", ".jstree-wholerow", ( e:Event ) => {
+			e.stopImmediatePropagation();
+			let tmpEvt:JQueryEventObject = $.Event( "dblclick" );
+			$( e.currentTarget ).closest( ".jstree-node" ).children( ".jstree-anchor" ).first().trigger( tmpEvt ).focus();
 		} );
 	}
 

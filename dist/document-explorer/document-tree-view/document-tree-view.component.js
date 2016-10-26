@@ -105,6 +105,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                         "core": {
                             "data": this.nodeChildren,
                             "check_callback": true,
+                            "multiple": false,
                         },
                         "types": {
                             "default": {
@@ -129,19 +130,31 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                         var position = "last";
                         _this.onBeforeOpenNode(parentId, parentNode, position);
                     });
-                    this.$tree.on("changed.jstree", function (e, data) {
-                        if (data["action"] !== "select_node")
-                            return;
-                        var parentId = data.node.id;
-                        var parentNode = data.node;
-                        var position = "last";
-                        _this.onChange(parentId, parentNode, position);
+                    this.$tree.on("select_node.jstree", function (e, data) {
+                        // var node = this.jsTree.get_node( e.target );
+                        // let parentId:any = node.id;
+                        // let parentNode:any = node;
+                        // let position:string = "last";
+                        // this.onChange( parentId, parentNode, position );
                     });
                     this.$tree.on("loaded.jstree", function () {
                         _this.jsTree.select_node(_this.nodeChildren[0].id);
                         if (_this.nodeChildren && _this.nodeChildren.length > 0) {
                             _this.onResolveUri.emit(_this.nodeChildren[0].id);
                         }
+                    });
+                    this.$tree.on("dblclick.jstree", ".jstree-anchor", function (e) {
+                        var node = _this.jsTree.get_node(e.target);
+                        var parentId = node.id;
+                        var parentNode = node;
+                        var position = "last";
+                        _this.onChange(parentId, parentNode, position);
+                    });
+                    this.$tree.on("dblclick.jstree", ".jstree-wholerow", function (e) {
+                        e.stopImmediatePropagation();
+                        console.log("other e: %o", e);
+                        var tmpEvt = jquery_1.default.Event("dblclick");
+                        jquery_1.default(e.currentTarget).closest(".jstree-node").children(".jstree-anchor").first().trigger(tmpEvt).focus();
                     });
                 };
                 DocumentTreeViewComponent.prototype.onBeforeOpenNode = function (parentId, parentNode, position) {
