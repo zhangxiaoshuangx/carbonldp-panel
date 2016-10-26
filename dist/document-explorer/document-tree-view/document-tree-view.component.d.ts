@@ -11,6 +11,7 @@ export declare class DocumentTreeViewComponent implements AfterViewInit, OnInit 
     jsTree: JSTree;
     $tree: JQuery;
     nodeChildren: JSTreeNode[];
+    selectedURI: string;
     documentContext: SDKContext.Class;
     refreshNode: EventEmitter<string>;
     openNode: EventEmitter<string>;
@@ -23,6 +24,7 @@ export declare class DocumentTreeViewComponent implements AfterViewInit, OnInit 
     getDocumentTree(): Promise<PersistedDocument.Class>;
     buildNode(uri: string, isAccessPoint?: boolean): JSTreeNode;
     renderTree(): void;
+    loadNode(obj: any): void;
     onBeforeOpenNode(parentId: string, parentNode: any, position: string): void;
     onChange(parentId: string, node: any, position: string): void;
     addChild(parentId: string, node: any, position: string): void;

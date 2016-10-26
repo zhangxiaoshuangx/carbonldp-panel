@@ -38,6 +38,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
             DocumentTreeViewComponent = (function () {
                 function DocumentTreeViewComponent(element) {
                     this.nodeChildren = [];
+                    this.selectedURI = "";
                     this.refreshNode = new core_1.EventEmitter();
                     this.openNode = new core_1.EventEmitter();
                     this.onResolveUri = new core_1.EventEmitter();
@@ -130,7 +131,10 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                         var position = "last";
                         _this.onBeforeOpenNode(parentId, parentNode, position);
                     });
-                    this.$tree.on("select_node.jstree", function (e, data) { });
+                    this.$tree.on("select_node.jstree", function (e, data) {
+                        var node = data.node;
+                        _this.selectedURI = node.id;
+                    });
                     this.$tree.on("loaded.jstree", function () {
                         _this.jsTree.select_node(_this.nodeChildren[0].id);
                         if (_this.nodeChildren && _this.nodeChildren.length > 0) {
@@ -138,17 +142,20 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                         }
                     });
                     this.$tree.on("dblclick.jstree", ".jstree-anchor", function (e) {
-                        var node = _this.jsTree.get_node(e.target);
-                        var parentId = node.id;
-                        var parentNode = node;
-                        var position = "last";
-                        _this.onChange(parentId, parentNode, position);
+                        _this.loadNode(e.target);
                     });
                     this.$tree.on("dblclick.jstree", ".jstree-wholerow", function (e) {
                         e.stopImmediatePropagation();
                         var tmpEvt = jquery_1.default.Event("dblclick");
                         jquery_1.default(e.currentTarget).closest(".jstree-node").children(".jstree-anchor").first().trigger(tmpEvt).focus();
                     });
+                };
+                DocumentTreeViewComponent.prototype.loadNode = function (obj) {
+                    var node = this.jsTree.get_node(obj);
+                    var parentId = node.id;
+                    var parentNode = node;
+                    var position = "last";
+                    this.onChange(parentId, parentNode, position);
                 };
                 DocumentTreeViewComponent.prototype.onBeforeOpenNode = function (parentId, parentNode, position) {
                     var _this = this;
