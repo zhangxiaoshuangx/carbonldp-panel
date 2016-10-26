@@ -143,8 +143,7 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 	}
 
 	onBeforeOpenNode( parentId:string, parentNode:any, position:string ):void {
-		let oldIcon:string = parentNode.icon;
-
+		let originalIcon:string = ! ! this.jsTree.settings.types[ parentNode.type ] ? this.jsTree.settings.types[ parentNode.type ].icon : "help icon";
 		this.jsTree.set_icon( parentNode, this.jsTree.settings.types.loading.icon );
 		this.getNodeChildren( parentNode.id ).then( ( children:any[] ):void => {
 			this.emptyNode( parentId );
@@ -152,7 +151,7 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 				children.forEach( ( childNode:any ) => this.addChild( parentId, childNode, position ) );
 			}
 		} ).then( () => {
-			this.jsTree.set_icon( parentNode, oldIcon );
+			this.jsTree.set_icon( parentNode, originalIcon );
 		} );
 	}
 

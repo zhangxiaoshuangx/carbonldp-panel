@@ -3,11 +3,13 @@
   overflow-y: scroll; }
   :host .jstree-container-ul li a.accesspoint > .icon {
     color: orange; }
-  :host > .menu {
-    min-height: 100px;
-    max-height: 100px;
-    background-color: #ececec;
+  :host > .treeview.menu {
+    max-height: 58px;
+    margin-bottom: 0;
+    background-color: #f4f4f4;
     border-right: 1px solid #d3d3d3;
     border-bottom: 1px solid #d3d3d3; }
+    :host > .treeview.menu > .ui.icon.button {
+      background-color: #FFFFFF; }
 
 /*# sourceMappingURL=document-tree-view.component.css.map */

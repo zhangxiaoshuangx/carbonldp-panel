@@ -130,13 +130,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                         var position = "last";
                         _this.onBeforeOpenNode(parentId, parentNode, position);
                     });
-                    this.$tree.on("select_node.jstree", function (e, data) {
-                        // var node = this.jsTree.get_node( e.target );
-                        // let parentId:any = node.id;
-                        // let parentNode:any = node;
-                        // let position:string = "last";
-                        // this.onChange( parentId, parentNode, position );
-                    });
+                    this.$tree.on("select_node.jstree", function (e, data) { });
                     this.$tree.on("loaded.jstree", function () {
                         _this.jsTree.select_node(_this.nodeChildren[0].id);
                         if (_this.nodeChildren && _this.nodeChildren.length > 0) {
@@ -152,14 +146,13 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     });
                     this.$tree.on("dblclick.jstree", ".jstree-wholerow", function (e) {
                         e.stopImmediatePropagation();
-                        console.log("other e: %o", e);
                         var tmpEvt = jquery_1.default.Event("dblclick");
                         jquery_1.default(e.currentTarget).closest(".jstree-node").children(".jstree-anchor").first().trigger(tmpEvt).focus();
                     });
                 };
                 DocumentTreeViewComponent.prototype.onBeforeOpenNode = function (parentId, parentNode, position) {
                     var _this = this;
-                    var oldIcon = parentNode.icon;
+                    var originalIcon = !!this.jsTree.settings.types[parentNode.type] ? this.jsTree.settings.types[parentNode.type].icon : "help icon";
                     this.jsTree.set_icon(parentNode, this.jsTree.settings.types.loading.icon);
                     this.getNodeChildren(parentNode.id).then(function (children) {
                         _this.emptyNode(parentId);
@@ -167,7 +160,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                             children.forEach(function (childNode) { return _this.addChild(parentId, childNode, position); });
                         }
                     }).then(function () {
-                        _this.jsTree.set_icon(parentNode, oldIcon);
+                        _this.jsTree.set_icon(parentNode, originalIcon);
                     });
                 };
                 DocumentTreeViewComponent.prototype.onChange = function (parentId, node, position) {
