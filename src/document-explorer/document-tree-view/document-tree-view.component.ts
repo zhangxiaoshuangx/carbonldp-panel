@@ -27,7 +27,16 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 	jsTree:JSTree;
 	$tree:JQuery;
 	nodeChildren:JSTreeNode[] = [];
-	selectedURI:string = "";
+	private _selectedURI:string = "";
+
+	set selectedURI( value:string ) {
+		this._selectedURI = value;
+		this.onSelectDocument.emit( this.selectedURI );
+	}
+
+	get selectedURI():string {
+		return this._selectedURI;
+	}
 
 	@Input() documentContext:SDKContext.Class;
 	@Input() refreshNode:EventEmitter<string> = new EventEmitter<string>();
@@ -35,6 +44,8 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 	@Output() onResolveUri:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onError:EventEmitter<HTTP.Errors.Error> = new EventEmitter<HTTP.Errors.Error>();
 	@Output() onLoadingDocument:EventEmitter<boolean> = new EventEmitter<boolean>();
+	@Output() onShowCreateChildForm:EventEmitter<boolean> = new EventEmitter<boolean>();
+	@Output() onSelectDocument:EventEmitter<string> = new EventEmitter<string>();
 
 	constructor( element:ElementRef ) {
 		this.element = element;
@@ -58,8 +69,7 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 			this.onLoadingDocument.emit( false );
 		} );
 		this.refreshNode.subscribe( ( nodeId:string )=> {
-			this.jsTree.deselect_node( nodeId );
-			this.jsTree.select_node( nodeId );
+			this.loadNode( nodeId );
 		} );
 		this.openNode.subscribe( ( nodeId:string )=> {
 			this.jsTree.select_node( nodeId );
@@ -215,6 +225,10 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 	getSlug( pointer:Pointer.Class | string ):string {
 		if( typeof pointer !== "string" ) return ( <Pointer.Class>pointer ).id;
 		return URI.Util.getSlug( <string>pointer );
+	}
+
+	showCreateChildForm():void {
+		this.onShowCreateChildForm.emit( true );
 	}
 
 }
