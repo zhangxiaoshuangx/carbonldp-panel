@@ -45,6 +45,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     this.onError = new core_1.EventEmitter();
                     this.onLoadingDocument = new core_1.EventEmitter();
                     this.onShowCreateChildForm = new core_1.EventEmitter();
+                    this.onShowDeleteChildForm = new core_1.EventEmitter();
                     this.onSelectDocument = new core_1.EventEmitter();
                     this.element = element;
                 }
@@ -78,6 +79,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                         _this.onLoadingDocument.emit(false);
                     });
                     this.refreshNode.subscribe(function (nodeId) {
+                        _this.jsTree.select_node(nodeId);
                         _this.loadNode(nodeId);
                     });
                     this.openNode.subscribe(function (nodeId) {
@@ -238,6 +240,9 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                 DocumentTreeViewComponent.prototype.showCreateChildForm = function () {
                     this.onShowCreateChildForm.emit(true);
                 };
+                DocumentTreeViewComponent.prototype.showDeleteChildForm = function () {
+                    this.onShowDeleteChildForm.emit(true);
+                };
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', SDKContext.Class)
@@ -266,6 +271,10 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], DocumentTreeViewComponent.prototype, "onShowCreateChildForm", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], DocumentTreeViewComponent.prototype, "onShowDeleteChildForm", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)

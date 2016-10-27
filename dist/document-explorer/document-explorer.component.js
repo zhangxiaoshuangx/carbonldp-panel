@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "carbonldp/JSONLD/Parser", "./documents-resolver.service", "semantic-ui/semantic", "./document-explorer.component.html!", "./document-explorer.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "carbonldp/JSONLD/Parser", "carbonldp/RDF/URI", "./documents-resolver.service", "semantic-ui/semantic", "./document-explorer.component.html!", "./document-explorer.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, SDKContext, HTTP, JSONLDParser, documents_resolver_service_1, document_explorer_component_html_1, document_explorer_component_css_text_1;
+    var core_1, SDKContext, HTTP, JSONLDParser, URI, documents_resolver_service_1, document_explorer_component_html_1, document_explorer_component_css_text_1;
     var DocumentExplorerComponent;
     return {
         setters:[
@@ -25,6 +25,9 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
             },
             function (JSONLDParser_1) {
                 JSONLDParser = JSONLDParser_1;
+            },
+            function (URI_1) {
+                URI = URI_1;
             },
             function (documents_resolver_service_1_1) {
                 documents_resolver_service_1 = documents_resolver_service_1_1;
@@ -93,6 +96,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                 DocumentExplorerComponent.prototype.openNode = function (nodeId) {
                     this.onOpenNode.emit(nodeId);
                 };
+                //<editor-fold desc="#region Create child">
                 DocumentExplorerComponent.prototype.changeSelection = function (documentURI) {
                     this.selectedDocumentURI = documentURI;
                 };
@@ -156,6 +160,39 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                         return errors;
                     });
                 };
+                //</editor-fold>
+                //<editor-fold desc="#region Delete child">
+                DocumentExplorerComponent.prototype.deleteDocument = function () {
+                    var _this = this;
+                    this.documentsResolverService.delete(this.documentContext, this.selectedDocumentURI).then(function (result) {
+                        _this.refreshNode(_this.getParentURI(_this.selectedDocumentURI));
+                        _this.cancelDeletion();
+                    }).catch(function (error) {
+                        _this.savingErrorMessage = {
+                            title: error.name,
+                            content: error.message,
+                            statusCode: "" + error.statusCode,
+                            statusMessage: error.response.request.statusText,
+                            endpoint: error.response.request.responseURL,
+                        };
+                        if (!!error.response.data) {
+                            _this.getErrors(error).then(function (errors) {
+                                _this.savingErrorMessage["errors"] = errors;
+                            });
+                        }
+                    });
+                };
+                DocumentExplorerComponent.prototype.cancelDeletion = function () {
+                    this.$deleteDocumentDimmer.dimmer("hide");
+                };
+                DocumentExplorerComponent.prototype.showDeleteChildForm = function () {
+                    this.$deleteDocumentDimmer.dimmer("show");
+                };
+                DocumentExplorerComponent.prototype.getParentURI = function (documentURI) {
+                    var slug = URI.Util.getSlug(documentURI), slugIdx = documentURI.indexOf(slug);
+                    return documentURI.substr(0, slugIdx);
+                };
+                //</editor-fold>
                 DocumentExplorerComponent.prototype.getHTTPErrorMessage = function (error, content) {
                     return {
                         title: error.name,

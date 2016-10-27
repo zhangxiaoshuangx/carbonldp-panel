@@ -5,7 +5,6 @@ import * as RDFNode from "carbonldp/RDF/RDFNode";
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
 import * as JSONLDParser from "carbonldp/JSONLD/Parser";
-import * as URI from "carbonldp/RDF/URI";
 import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
 import { DocumentsResolverService } from "./../documents-resolver.service";
@@ -138,8 +137,6 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 			this.loadingDocument = false;
 			this.savingErrorMessage = null;
 			this.documentURI = this.document[ "@id" ];
-
-			this.cancelDeletion();
 
 			setTimeout(
 				()=> {
@@ -335,42 +332,6 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 
 	closeMessage( message:HTMLElement ):void {
 		$( message ).transition( "fade" );
-	}
-
-	private deleteDocument():void {
-		this.documentsResolverService.delete( this.documentContext, this.documentURI ).then( ( result )=> {
-
-			this.onOpenNode.emit( this.getParentURI( this.documentURI ) );
-			this.cancelDeletion();
-
-		} ).catch( ( error:HTTPError )=> {
-			this.savingErrorMessage = {
-				title: error.name,
-				content: error.message,
-				statusCode: "" + error.statusCode,
-				statusMessage: (<XMLHttpRequest>error.response.request).statusText,
-				endpoint: (<any>error.response.request).responseURL,
-			};
-			if( ! ! error.response.data ) {
-				this.getErrors( error ).then( ( errors )=> {
-					this.savingErrorMessage[ "errors" ] = errors;
-				} );
-			}
-		} );
-	}
-
-	private cancelDeletion():void {
-		this.$element.find( ".document.confirm-deletion.dimmer" ).dimmer( "hide" );
-	}
-
-	private askToConfirmDeletion():void {
-		this.$element.find( ".document.confirm-deletion.dimmer" ).dimmer( "show" );
-	}
-
-	private getParentURI( documentURI:string ):string {
-		let slug:string = URI.Util.getSlug( documentURI ),
-			slugIdx:number = documentURI.indexOf( slug );
-		return documentURI.substr( 0, slugIdx );
 	}
 
 	private beforeRefreshDocument( documentURI:string ):void {

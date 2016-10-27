@@ -1,8 +1,9 @@
 :host {
-  display: block;
-  overflow-y: scroll; }
+  display: block; }
   :host .jstree-container-ul li a.accesspoint > .icon {
     color: orange; }
+  :host > .treeview.document {
+    overflow: scroll; }
   :host > .treeview.menu {
     max-height: 58px;
     margin-bottom: 0;

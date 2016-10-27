@@ -55,9 +55,6 @@
 						<i class="refresh icon"></i>
 						Refresh
 					</button>
-					<button class="ui right floated basic mini red button" (click)="askToConfirmDeletion()">
-						Delete
-					</button>
 				</div>
 			</div>
 		</div>
@@ -144,20 +141,5 @@
 				<span *ngIf="!!error['https://carbonldp.com/ns/v1/platform#message']">{{error["https://carbonldp.com/ns/v1/platform#message"][0]["@value"]}}</span>
 			</li>
 		</ol>
-	</div>
-</div>
-<div class="ui confirm-deletion document dimmer">
-	<div class="content">
-		<div class="center">
-			<h2 class="ui inverted header"><i class="trash outline red icon"></i> Are you sure?</h2>
-			<p class="ui description">
-				<span>You are about to delete the document</span><br><br>
-				<span>'{{documentURI}}'</span><br><br>
-				<span>If you delete it, all its children and its access points will also be deleted.</span><br>
-				<span>Do you really want to delete it?</span>
-			</p>
-			<div class="ui red button" title="Confirm deletion" (click)="deleteDocument()">Yes</div>
-			<div class="ui button" title="Cancel deletion" (click)="cancelDeletion()">No</div>
-		</div>
 	</div>
 </div>

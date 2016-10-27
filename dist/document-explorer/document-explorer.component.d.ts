@@ -42,6 +42,10 @@ export declare class DocumentExplorerComponent {
     private createChild();
     private clearSavingError();
     private getErrors(error);
+    private deleteDocument();
+    private cancelDeletion();
+    private showDeleteChildForm();
+    private getParentURI(documentURI);
     private getHTTPErrorMessage(error, content);
     private getErrorMessage(error);
 }

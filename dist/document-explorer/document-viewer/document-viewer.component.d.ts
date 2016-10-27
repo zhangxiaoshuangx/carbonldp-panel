@@ -71,10 +71,6 @@ export declare class DocumentViewerComponent implements AfterViewInit, OnChanges
     getErrors(error: HTTPError): Promise<any[]>;
     clearSavingError(): void;
     closeMessage(message: HTMLElement): void;
-    private deleteDocument();
-    private cancelDeletion();
-    private askToConfirmDeletion();
-    private getParentURI(documentURI);
     private beforeRefreshDocument(documentURI);
     private refreshDocument(documentURI);
     private toggleConfirmRefresh();
