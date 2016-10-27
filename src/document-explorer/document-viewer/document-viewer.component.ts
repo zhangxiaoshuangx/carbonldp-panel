@@ -5,7 +5,6 @@ import * as RDFNode from "carbonldp/RDF/RDFNode";
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
 import * as JSONLDParser from "carbonldp/JSONLD/Parser";
-import * as PersistedDocument from "carbonldp/PersistedDocument";
 import * as URI from "carbonldp/RDF/URI";
 import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
@@ -21,6 +20,7 @@ import "semantic-ui/semantic";
 
 import template from "./document-viewer.component.html!";
 import style from "./document-viewer.component.css!text";
+import { type } from "os";
 
 @Component( {
 	selector: "cp-document-viewer",
@@ -50,11 +50,6 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	namedFragmentsHaveChanged:boolean = false;
 	namedFragmentsChanges:NamedFragmentsRecords;
 
-	createChildFormModel:{ slug:string } = {
-		slug: ""
-	};
-	canDisplayCreateChildForm:boolean = false;
-
 	get documentContentHasChanged() {
 		return this.rootNodeHasChanged || this.bNodesHaveChanged || this.namedFragmentsHaveChanged;
 	}
@@ -63,6 +58,7 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	documentsResolverService:DocumentsResolverService;
 	@Input() uri:string;
 	@Input() documentContext:SDKContext.Class;
+	@Input() displaySuccessMessage:EventEmitter<string> = new EventEmitter<string>();
 	private _document:RDFDocument.Class;
 	@Input() set document( value:RDFDocument.Class ) {
 		this._document = value;
@@ -70,6 +66,7 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	}
 
 	get document():RDFDocument.Class {return this._document;}
+
 
 	@Output() onOpenNode:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onRefreshNode:EventEmitter<string> = new EventEmitter<string>();
@@ -108,6 +105,19 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 		this.$saveSuccessMessage = this.$element.find( ".success.save.message" );
 		this.$createChildSuccessMessage = this.$element.find( ".success.createchild.message" );
 		this.$confirmDeletionDimmer = this.$element.find( ".document.confirm-deletion.dimmer" ).dimmer( { closable: false } );
+		this.displaySuccessMessage.subscribe( ( type:string )=> {
+			switch( type ) {
+				case "createchild":
+					this.$createChildSuccessMessage.transition( {
+						onComplete: ()=> {
+							setTimeout( ()=> {
+								if( ! this.$createChildSuccessMessage.hasClass( "hidden" ) ) this.$createChildSuccessMessage.transition( "fade" );
+							}, 2500 );
+						}
+					} );
+					break;
+			}
+		} );
 	}
 
 	ngOnChanges( changes:{[propName:string]:SimpleChange} ):void {
@@ -130,8 +140,6 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 			this.documentURI = this.document[ "@id" ];
 
 			this.cancelDeletion();
-			this.hideCreateChildForm();
-			this.createChildFormModel = { slug: "" };
 
 			setTimeout(
 				()=> {
@@ -363,68 +371,6 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 		let slug:string = URI.Util.getSlug( documentURI ),
 			slugIdx:number = documentURI.indexOf( slug );
 		return documentURI.substr( 0, slugIdx );
-	}
-
-	private toggleCreateChildForm():void {
-		this.$element.find( "form.createchild" ).transition( {
-			transition: "drop",
-			onComplete: ()=> { this.canDisplayCreateChildForm = ! this.canDisplayCreateChildForm; }
-		} );
-	}
-
-	private hideCreateChildForm():void {
-		this.$element.find( "form.createchild" ).transition( {
-			transition: "drop",
-			onComplete: ()=> { this.canDisplayCreateChildForm = false; }
-		} ).transition( "hide" );
-	}
-
-	private createChild():void {
-		let childSlug:string = null;
-		if( ! ! this.createChildFormModel.slug )
-			childSlug = this.createChildFormModel.slug + ((this.createChildFormModel.slug.endsWith( "/" ) && this.createChildFormModel.slug.trim() !== "" ) ? "/" : "");
-		let childContent:any = {};
-		this.loadingDocument = true;
-		this.documentsResolverService.createChild( this.documentContext, this.documentURI, childContent, childSlug ).then(
-			( createdChild:PersistedDocument.Class ) => {
-				this.onRefreshNode.emit( this.documentURI );
-				setTimeout( ()=> {
-					this.$createChildSuccessMessage.transition( {
-						onComplete: ()=> {
-							setTimeout( ()=> {
-								if( ! this.$createChildSuccessMessage.hasClass( "hidden" ) ) this.$createChildSuccessMessage.transition( "fade" );
-							}, 4000 );
-						}
-					} );
-				}, 1500 );
-			}
-		).catch( ( error:HTTPError )=> {
-			this.savingErrorMessage = {
-				title: error.name,
-				content: error.message,
-				statusCode: "" + error.statusCode,
-				statusMessage: (<XMLHttpRequest>error.response.request).statusText,
-				endpoint: (<any>error.response.request).responseURL,
-			};
-			if( ! ! error.response.data ) {
-				this.getErrors( error ).then( ( errors )=> {
-					this.savingErrorMessage[ "errors" ] = errors;
-				} );
-			}
-		} ).then( ()=> {
-			this.loadingDocument = false;
-		} );
-	}
-
-	private slugLostControl( evt:any ):void {
-		if( typeof (evt.target) === "undefined" ) return;
-		if( ! evt.target.value.endsWith( "/" ) && evt.target.value.trim() !== "" ) evt.target.value += "/";
-	}
-
-	private getSanitizedSlug( slug:string ):string {
-		if( ! slug ) return slug;
-		slug = slug.toLowerCase().replace( / - | -|- /g, "-" ).replace( /[^-\w ]+/g, "" ).replace( / +/g, "-" );
-		return slug;
 	}
 
 	private beforeRefreshDocument( documentURI:string ):void {

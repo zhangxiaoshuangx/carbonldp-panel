@@ -38,14 +38,27 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
             DocumentTreeViewComponent = (function () {
                 function DocumentTreeViewComponent(element) {
                     this.nodeChildren = [];
-                    this.selectedURI = "";
+                    this._selectedURI = "";
                     this.refreshNode = new core_1.EventEmitter();
                     this.openNode = new core_1.EventEmitter();
                     this.onResolveUri = new core_1.EventEmitter();
                     this.onError = new core_1.EventEmitter();
                     this.onLoadingDocument = new core_1.EventEmitter();
+                    this.onShowCreateChildForm = new core_1.EventEmitter();
+                    this.onSelectDocument = new core_1.EventEmitter();
                     this.element = element;
                 }
+                Object.defineProperty(DocumentTreeViewComponent.prototype, "selectedURI", {
+                    get: function () {
+                        return this._selectedURI;
+                    },
+                    set: function (value) {
+                        this._selectedURI = value;
+                        this.onSelectDocument.emit(this.selectedURI);
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 DocumentTreeViewComponent.prototype.ngOnInit = function () {
                     var alreadyImported = document.querySelectorAll("head [href='assets/node_modules/jstree/dist/themes/default/style.min.css']").length > 0;
                     if (alreadyImported)
@@ -65,8 +78,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                         _this.onLoadingDocument.emit(false);
                     });
                     this.refreshNode.subscribe(function (nodeId) {
-                        _this.jsTree.deselect_node(nodeId);
-                        _this.jsTree.select_node(nodeId);
+                        _this.loadNode(nodeId);
                     });
                     this.openNode.subscribe(function (nodeId) {
                         _this.jsTree.select_node(nodeId);
@@ -223,6 +235,9 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                         return pointer.id;
                     return URI.Util.getSlug(pointer);
                 };
+                DocumentTreeViewComponent.prototype.showCreateChildForm = function () {
+                    this.onShowCreateChildForm.emit(true);
+                };
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', SDKContext.Class)
@@ -247,6 +262,14 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], DocumentTreeViewComponent.prototype, "onLoadingDocument", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], DocumentTreeViewComponent.prototype, "onShowCreateChildForm", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], DocumentTreeViewComponent.prototype, "onSelectDocument", void 0);
                 DocumentTreeViewComponent = __decorate([
                     core_1.Component({
                         selector: "cp-document-treeview",

@@ -11,6 +11,7 @@ export declare class DocumentTreeViewComponent implements AfterViewInit, OnInit 
     jsTree: JSTree;
     $tree: JQuery;
     nodeChildren: JSTreeNode[];
+    private _selectedURI;
     selectedURI: string;
     documentContext: SDKContext.Class;
     refreshNode: EventEmitter<string>;
@@ -18,6 +19,8 @@ export declare class DocumentTreeViewComponent implements AfterViewInit, OnInit 
     onResolveUri: EventEmitter<string>;
     onError: EventEmitter<HTTP.Errors.Error>;
     onLoadingDocument: EventEmitter<boolean>;
+    onShowCreateChildForm: EventEmitter<boolean>;
+    onSelectDocument: EventEmitter<string>;
     constructor(element: ElementRef);
     ngOnInit(): void;
     ngAfterViewInit(): void;
@@ -31,6 +34,7 @@ export declare class DocumentTreeViewComponent implements AfterViewInit, OnInit 
     emptyNode(nodeId: string): void;
     getNodeChildren(uri: string): Promise<JSTreeNode[]>;
     getSlug(pointer: Pointer.Class | string): string;
+    showCreateChildForm(): void;
 }
 export interface JSTreeNode {
     id: string;

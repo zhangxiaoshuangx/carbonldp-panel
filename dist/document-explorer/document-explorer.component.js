@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./documents-resolver.service", "semantic-ui/semantic", "./document-explorer.component.html!", "./document-explorer.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "carbonldp/JSONLD/Parser", "./documents-resolver.service", "semantic-ui/semantic", "./document-explorer.component.html!", "./document-explorer.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./d
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, SDKContext, HTTP, documents_resolver_service_1, document_explorer_component_html_1, document_explorer_component_css_text_1;
+    var core_1, SDKContext, HTTP, JSONLDParser, documents_resolver_service_1, document_explorer_component_html_1, document_explorer_component_css_text_1;
     var DocumentExplorerComponent;
     return {
         setters:[
@@ -22,6 +22,9 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./d
             },
             function (HTTP_1) {
                 HTTP = HTTP_1;
+            },
+            function (JSONLDParser_1) {
+                JSONLDParser = JSONLDParser_1;
             },
             function (documents_resolver_service_1_1) {
                 documents_resolver_service_1 = documents_resolver_service_1_1;
@@ -35,14 +38,26 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./d
             }],
         execute: function() {
             DocumentExplorerComponent = (function () {
-                function DocumentExplorerComponent(documentsResolverService) {
+                function DocumentExplorerComponent(element, documentsResolverService) {
+                    this.selectedDocumentURI = "";
                     this.loadingDocument = false;
                     this.savingDocument = false;
                     this.messages = [];
+                    this.createChildFormModel = {
+                        slug: ""
+                    };
                     this.onRefreshNode = new core_1.EventEmitter();
                     this.onOpenNode = new core_1.EventEmitter();
+                    this.onDisplaySuccessMessage = new core_1.EventEmitter();
+                    this.element = element;
                     this.documentsResolverService = documentsResolverService;
                 }
+                DocumentExplorerComponent.prototype.ngAfterViewInit = function () {
+                    this.$element = $(this.element.nativeElement);
+                    this.$createChildSuccessMessage = this.$element.find(".success.createchild.message");
+                    this.$createDocumentDimmer = this.$element.find(".create.document.dimmer").dimmer({ closable: false });
+                    this.$deleteDocumentDimmer = this.$element.find(".delete.document.dimmer").dimmer({ closable: false });
+                };
                 DocumentExplorerComponent.prototype.onLoadingDocument = function (loadingDocument) {
                     this.loadingDocument = loadingDocument;
                 };
@@ -77,6 +92,72 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./d
                 };
                 DocumentExplorerComponent.prototype.openNode = function (nodeId) {
                     this.onOpenNode.emit(nodeId);
+                };
+                DocumentExplorerComponent.prototype.changeSelection = function (documentURI) {
+                    this.selectedDocumentURI = documentURI;
+                };
+                DocumentExplorerComponent.prototype.showCreateChildForm = function () {
+                    this.$createDocumentDimmer.dimmer("show");
+                };
+                DocumentExplorerComponent.prototype.toggleCreateChildForm = function () {
+                    this.$createDocumentDimmer.dimmer("toggle");
+                };
+                DocumentExplorerComponent.prototype.hideCreateChildForm = function () {
+                    this.$createDocumentDimmer.dimmer("hide");
+                    this.clearSavingError();
+                    this.createChildFormModel.slug = "";
+                };
+                DocumentExplorerComponent.prototype.slugLostControl = function (evt) {
+                    if (typeof (evt.target) === "undefined")
+                        return;
+                    if (!evt.target.value.endsWith("/") && evt.target.value.trim() !== "")
+                        evt.target.value += "/";
+                };
+                DocumentExplorerComponent.prototype.getSanitizedSlug = function (slug) {
+                    if (!slug)
+                        return slug;
+                    return slug.toLowerCase().replace(/ - | -|- /g, "-").replace(/[^-\w ]+/g, "").replace(/ +/g, "-");
+                };
+                DocumentExplorerComponent.prototype.createChild = function () {
+                    var _this = this;
+                    var childSlug = null;
+                    if (!!this.createChildFormModel.slug)
+                        childSlug = this.createChildFormModel.slug + ((this.createChildFormModel.slug.endsWith("/") && this.createChildFormModel.slug.trim() !== "") ? "/" : "");
+                    var childContent = {};
+                    this.loadingDocument = true;
+                    this.documentsResolverService.createChild(this.documentContext, this.selectedDocumentURI, childContent, childSlug).then(function (createdChild) {
+                        _this.onRefreshNode.emit(_this.selectedDocumentURI);
+                        _this.hideCreateChildForm();
+                        _this.onDisplaySuccessMessage.emit("createchild");
+                    }).catch(function (error) {
+                        _this.savingErrorMessage = {
+                            title: error.name,
+                            content: error.message,
+                            statusCode: "" + error.statusCode,
+                            statusMessage: error.response.request.statusText,
+                            endpoint: error.response.request.responseURL,
+                        };
+                        if (!!error.response.data) {
+                            _this.getErrors(error).then(function (errors) {
+                                _this.savingErrorMessage["errors"] = errors;
+                            });
+                        }
+                    }).then(function () {
+                        _this.loadingDocument = false;
+                    });
+                };
+                DocumentExplorerComponent.prototype.clearSavingError = function () {
+                    this.savingErrorMessage = null;
+                };
+                DocumentExplorerComponent.prototype.getErrors = function (error) {
+                    var parser = new JSONLDParser.Class();
+                    var mainError = {};
+                    var errors = [];
+                    return parser.parse(error.response.data).then(function (mainErrors) {
+                        mainError = mainErrors.find(function (error) { return error["@type"].indexOf("https://carbonldp.com/ns/v1/platform#ErrorResponse") !== -1; });
+                        errors = mainErrors.filter(function (error) { return error["@type"].indexOf("https://carbonldp.com/ns/v1/platform#Error") !== -1; });
+                        return errors;
+                    });
                 };
                 DocumentExplorerComponent.prototype.getHTTPErrorMessage = function (error, content) {
                     return {
@@ -127,13 +208,17 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./d
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], DocumentExplorerComponent.prototype, "onOpenNode", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], DocumentExplorerComponent.prototype, "onDisplaySuccessMessage", void 0);
                 DocumentExplorerComponent = __decorate([
                     core_1.Component({
                         selector: "cp-document-explorer",
                         template: document_explorer_component_html_1.default,
                         styles: [document_explorer_component_css_text_1.default],
                     }), 
-                    __metadata('design:paramtypes', [documents_resolver_service_1.DocumentsResolverService])
+                    __metadata('design:paramtypes', [core_1.ElementRef, documents_resolver_service_1.DocumentsResolverService])
                 ], DocumentExplorerComponent);
                 return DocumentExplorerComponent;
             }());
