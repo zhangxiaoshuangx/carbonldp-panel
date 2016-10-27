@@ -15,6 +15,7 @@
 
 		                      (onSelectDocument)="changeSelection($event)"
 		                      (onShowCreateChildForm)="showCreateChildForm()"
+		                      (onShowDeleteChildForm)="showDeleteChildForm()"
 		                      (onError)="handleError($event)"
 		                      (onLoadingDocument)="onLoadingDocument($event)"
 		                      (onResolveUri)="resolveDocument($event)"></cp-document-treeview>
@@ -31,7 +32,7 @@
 		<div class="ui create document dimmer">
 			<div class="content">
 				<div class="center">
-					<h2 class="ui inverted header">Creating a new document</h2>
+					<h2 class="ui inverted header">Creating a child document</h2>
 					<div class="ui description">
 						<p>Enter the slug of the document you want to create:</p>
 						<form class="ui error createchild form" #createChildForm="ngForm">
@@ -85,10 +86,10 @@
 				<div class="center">
 					<h2 class="ui inverted header"><i class="trash outline red icon"></i> Are you sure?</h2>
 					<p class="ui description">
-						<span>You are about to delete the document</span><br><br>
-						<span>'{{documentURI}}'</span><br><br>
+						<span>You are about to delete the following document:</span><br><br>
+						<span>'{{selectedDocumentURI}}'</span><br><br>
 						<span>If you delete it, all its children and its access points will also be deleted.</span><br>
-						<span>Do you really want to delete it?</span>
+						<span>Do you really want to proceed?</span>
 					</p>
 					<div class="ui red button" title="Confirm deletion" (click)="deleteDocument()">Yes</div>
 					<div class="ui button" title="Cancel deletion" (click)="cancelDeletion()">No</div>

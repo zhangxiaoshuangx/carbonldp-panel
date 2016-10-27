@@ -5,6 +5,7 @@ import * as RDFDocument from "carbonldp/RDF/Document";
 import * as HTTP from "carbonldp/HTTP";
 import * as JSONLDParser from "carbonldp/JSONLD/Parser";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
+import * as URI from "carbonldp/RDF/URI";
 import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
 import { DocumentsResolverService } from "./documents-resolver.service"
@@ -98,6 +99,7 @@ export class DocumentExplorerComponent {
 		this.onOpenNode.emit( nodeId );
 	}
 
+	//<editor-fold desc="#region Create child">
 	private changeSelection( documentURI:string ) {
 		this.selectedDocumentURI = documentURI;
 	}
@@ -166,6 +168,47 @@ export class DocumentExplorerComponent {
 			return errors;
 		} );
 	}
+
+	//</editor-fold>
+
+	//<editor-fold desc="#region Delete child">
+	private deleteDocument():void {
+		this.documentsResolverService.delete( this.documentContext, this.selectedDocumentURI ).then( ( result )=> {
+
+			this.refreshNode( this.getParentURI( this.selectedDocumentURI ) );
+			this.cancelDeletion();
+
+		} ).catch( ( error:HTTPError )=> {
+			this.savingErrorMessage = {
+				title: error.name,
+				content: error.message,
+				statusCode: "" + error.statusCode,
+				statusMessage: (<XMLHttpRequest>error.response.request).statusText,
+				endpoint: (<any>error.response.request).responseURL,
+			};
+			if( ! ! error.response.data ) {
+				this.getErrors( error ).then( ( errors )=> {
+					this.savingErrorMessage[ "errors" ] = errors;
+				} );
+			}
+		} );
+	}
+
+	private cancelDeletion():void {
+		this.$deleteDocumentDimmer.dimmer( "hide" );
+	}
+
+	private showDeleteChildForm():void {
+		this.$deleteDocumentDimmer.dimmer( "show" );
+	}
+
+	private getParentURI( documentURI:string ):string {
+		let slug:string = URI.Util.getSlug( documentURI ),
+			slugIdx:number = documentURI.indexOf( slug );
+		return documentURI.substr( 0, slugIdx );
+	}
+
+	//</editor-fold>
 
 	private getHTTPErrorMessage( error:HTTP.Errors.Error, content:string ):Message {
 		return {
