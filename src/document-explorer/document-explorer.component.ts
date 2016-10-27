@@ -1,8 +1,11 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Component, ElementRef, Input, Output, EventEmitter } from "@angular/core";
 
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
 import * as HTTP from "carbonldp/HTTP";
+import * as JSONLDParser from "carbonldp/JSONLD/Parser";
+import * as PersistedDocument from "carbonldp/PersistedDocument";
+import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
 import { DocumentsResolverService } from "./documents-resolver.service"
 import { Message } from "carbonldp-panel/errors-area/error-message.component";
@@ -20,18 +23,39 @@ import style from "./document-explorer.component.css!text";
 
 export class DocumentExplorerComponent {
 
+	element:ElementRef;
+	$element:JQuery;
+	$createChildSuccessMessage:JQuery;
+	$createDocumentDimmer:JQuery;
+	$deleteDocumentDimmer:JQuery;
+
+	selectedDocumentURI:string = "";
 	loadingDocument:boolean = false;
 	savingDocument:boolean = false;
 	inspectingDocument:RDFDocument.Class;
 	documentsResolverService:DocumentsResolverService;
 	messages:Message[] = [];
+	savingErrorMessage:Message;
+
+	createChildFormModel:{ slug:string } = {
+		slug: ""
+	};
 
 	@Input() documentContext:SDKContext.Class;
 	@Output() onRefreshNode:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onOpenNode:EventEmitter<string> = new EventEmitter<string>();
+	@Output() onDisplaySuccessMessage:EventEmitter<string> = new EventEmitter<string>();
 
-	constructor( documentsResolverService:DocumentsResolverService ) {
+	constructor( element:ElementRef, documentsResolverService:DocumentsResolverService ) {
+		this.element = element;
 		this.documentsResolverService = documentsResolverService;
+	}
+
+	ngAfterViewInit():void {
+		this.$element = $( this.element.nativeElement );
+		this.$createChildSuccessMessage = this.$element.find( ".success.createchild.message" );
+		this.$createDocumentDimmer = this.$element.find( ".create.document.dimmer" ).dimmer( { closable: false } );
+		this.$deleteDocumentDimmer = this.$element.find( ".delete.document.dimmer" ).dimmer( { closable: false } );
 	}
 
 	onLoadingDocument( loadingDocument:boolean ):void {
@@ -72,6 +96,75 @@ export class DocumentExplorerComponent {
 
 	openNode( nodeId:string ):void {
 		this.onOpenNode.emit( nodeId );
+	}
+
+	private changeSelection( documentURI:string ) {
+		this.selectedDocumentURI = documentURI;
+	}
+
+	private showCreateChildForm():void {
+		this.$createDocumentDimmer.dimmer( "show" );
+	}
+
+	private hideCreateChildForm():void {
+		this.$createDocumentDimmer.dimmer( "hide" );
+		this.clearSavingError();
+		this.createChildFormModel.slug = "";
+	}
+
+	private slugLostControl( evt:any ):void {
+		if( typeof (evt.target) === "undefined" ) return;
+		if( ! evt.target.value.endsWith( "/" ) && evt.target.value.trim() !== "" ) evt.target.value += "/";
+	}
+
+	private getSanitizedSlug( slug:string ):string {
+		if( ! slug ) return slug;
+		return slug.toLowerCase().replace( / - | -|- /g, "-" ).replace( /[^-\w ]+/g, "" ).replace( / +/g, "-" );
+	}
+
+	private createChild():void {
+		let childSlug:string = null;
+		if( ! ! this.createChildFormModel.slug )
+			childSlug = this.createChildFormModel.slug + ((this.createChildFormModel.slug.endsWith( "/" ) && this.createChildFormModel.slug.trim() !== "" ) ? "/" : "");
+		let childContent:any = {};
+		this.loadingDocument = true;
+		this.documentsResolverService.createChild( this.documentContext, this.selectedDocumentURI, childContent, childSlug ).then(
+			( createdChild:PersistedDocument.Class ) => {
+				this.onRefreshNode.emit( this.selectedDocumentURI );
+				this.hideCreateChildForm();
+				this.onDisplaySuccessMessage.emit( "createchild" );
+			}
+		).catch( ( error:HTTPError )=> {
+			this.savingErrorMessage = {
+				title: error.name,
+				content: error.message,
+				statusCode: "" + error.statusCode,
+				statusMessage: (<XMLHttpRequest>error.response.request).statusText,
+				endpoint: (<any>error.response.request).responseURL,
+			};
+			if( ! ! error.response.data ) {
+				this.getErrors( error ).then( ( errors )=> {
+					this.savingErrorMessage[ "errors" ] = errors;
+				} );
+			}
+		} ).then( ()=> {
+			this.loadingDocument = false;
+		} );
+	}
+
+	private clearSavingError():void {
+		this.savingErrorMessage = null;
+	}
+
+	private getErrors( error:HTTPError ):Promise<any[]> {
+		let parser:JSONLDParser.Class = new JSONLDParser.Class();
+		let mainError = {};
+		let errors:any[] = [];
+		return parser.parse( error.response.data ).then( ( mainErrors )=> {
+			mainError = mainErrors.find( ( error )=> { return error[ "@type" ].indexOf( "https://carbonldp.com/ns/v1/platform#ErrorResponse" ) !== - 1} );
+			errors = mainErrors.filter( ( error )=> { return error[ "@type" ].indexOf( "https://carbonldp.com/ns/v1/platform#Error" ) !== - 1} );
+			return errors;
+		} );
 	}
 
 	private getHTTPErrorMessage( error:HTTP.Errors.Error, content:string ):Message {

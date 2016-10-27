@@ -36,7 +36,6 @@ export declare class DocumentExplorerComponent {
     openNode(nodeId: string): void;
     private changeSelection(documentURI);
     private showCreateChildForm();
-    private toggleCreateChildForm();
     private hideCreateChildForm();
     private slugLostControl(evt);
     private getSanitizedSlug(slug);

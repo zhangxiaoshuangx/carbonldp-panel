@@ -12,16 +12,88 @@
 		                      [documentContext]="documentContext"
 		                      [refreshNode]="onRefreshNode"
 		                      [openNode]="onOpenNode"
+
+		                      (onSelectDocument)="changeSelection($event)"
+		                      (onShowCreateChildForm)="showCreateChildForm()"
 		                      (onError)="handleError($event)"
 		                      (onLoadingDocument)="onLoadingDocument($event)"
 		                      (onResolveUri)="resolveDocument($event)"></cp-document-treeview>
 		<cp-document-viewer class="eleven wide column"
 		                    [document]="inspectingDocument"
 		                    [documentContext]="documentContext"
+		                    [displaySuccessMessage]="onDisplaySuccessMessage"
+
 		                    (onRefreshNode)="refreshNode($event)"
 		                    (onOpenNode)="openNode($event)"
 		                    (onSavingDocument)="showLoading($event)"
 		                    (onLoadingDocument)="onLoadingDocument($event)"
 		                    (onRefreshDocument)="refreshDocument($event)"></cp-document-viewer>
+		<div class="ui create document dimmer">
+			<div class="content">
+				<div class="center">
+					<h2 class="ui inverted header">Creating a new document</h2>
+					<div class="ui description">
+						<p>Enter the slug of the document you want to create:</p>
+						<form class="ui error createchild form" #createChildForm="ngForm">
+							<div class="field"
+							     [ngClass]="{error: slug.touched && !slug.valid}">
+								<div class="ui action fluid input">
+									<input type="text" name="slug"
+									       placeholder="Optional: Enter the slug of the child. e.g. &quot;my-child-name/&quot;"
+									       #slug="ngModel"
+									       cp-slug
+									       (keyup.esc)="hideCreateChildForm()"
+									       [ngModel]="createChildFormModel.slug"
+									       (ngModelChange)="createChildFormModel.slug = getSanitizedSlug($event)"
+									       (blur)="slugLostControl($event)">
+									<button class="ui button"
+									        [ngClass]="{ 'red': (slug.touched && !slug.valid)  }"
+									        (click)="createChild()"
+									        [disabled]="!createChildForm.valid">Create
+									</button>
+								</div>
+							</div>
+							<button class="ui mini inverted button" title="Cancel creation" (click)="hideCreateChildForm()">Cancel</button>
+							<div class="ui error message" *ngIf="slug.touched && slug.control.hasError('invalidSlug')">
+								<div class="header">Invalid slug</div>
+								<p>Please, provide a valid slug/name for the child document.<br>(Only numbers and letters with dashes)</p>
+							</div>
+							<div class="ui saving error message transition" *ngIf="!!savingErrorMessage">
+								<i class="close icon" (click)="clearSavingError()"></i>
+								<div class="header">
+									{{savingErrorMessage.title}}
+								</div>
+								<p>
+									<span *ngIf="savingErrorMessage.content">{{savingErrorMessage.content}}<br></span>
+									<span *ngIf="savingErrorMessage.statusCode">Status: {{savingErrorMessage.statusCode}} - {{savingErrorMessage.statusMessage}}<br></span>
+									<span *ngIf="savingErrorMessage.endpoint">URI: {{savingErrorMessage.endpoint}}</span>
+								</p>
+								<ol class="ui list" *ngIf="!!savingErrorMessage.errors">
+									<li value="*" *ngFor="let error of savingErrorMessage.errors; let i = index;">
+										<span *ngIf="!!error['https://carbonldp.com/ns/v1/platform#carbonCode']">Carbon code: {{error["https://carbonldp.com/ns/v1/platform#carbonCode"][0]["@value"]}} -</span>
+										<span *ngIf="!!error['https://carbonldp.com/ns/v1/platform#message']">{{error["https://carbonldp.com/ns/v1/platform#message"][0]["@value"]}}</span>
+									</li>
+								</ol>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="ui delete document dimmer">
+			<div class="content">
+				<div class="center">
+					<h2 class="ui inverted header"><i class="trash outline red icon"></i> Are you sure?</h2>
+					<p class="ui description">
+						<span>You are about to delete the document</span><br><br>
+						<span>'{{documentURI}}'</span><br><br>
+						<span>If you delete it, all its children and its access points will also be deleted.</span><br>
+						<span>Do you really want to delete it?</span>
+					</p>
+					<div class="ui red button" title="Confirm deletion" (click)="deleteDocument()">Yes</div>
+					<div class="ui button" title="Cancel deletion" (click)="cancelDeletion()">No</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

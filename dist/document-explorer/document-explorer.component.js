@@ -99,9 +99,6 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                 DocumentExplorerComponent.prototype.showCreateChildForm = function () {
                     this.$createDocumentDimmer.dimmer("show");
                 };
-                DocumentExplorerComponent.prototype.toggleCreateChildForm = function () {
-                    this.$createDocumentDimmer.dimmer("toggle");
-                };
                 DocumentExplorerComponent.prototype.hideCreateChildForm = function () {
                     this.$createDocumentDimmer.dimmer("hide");
                     this.clearSavingError();
