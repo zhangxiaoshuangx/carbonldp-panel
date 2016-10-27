@@ -45,6 +45,7 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 	@Output() onError:EventEmitter<HTTP.Errors.Error> = new EventEmitter<HTTP.Errors.Error>();
 	@Output() onLoadingDocument:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() onShowCreateChildForm:EventEmitter<boolean> = new EventEmitter<boolean>();
+	@Output() onShowDeleteChildForm:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() onSelectDocument:EventEmitter<string> = new EventEmitter<string>();
 
 	constructor( element:ElementRef ) {
@@ -69,6 +70,7 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 			this.onLoadingDocument.emit( false );
 		} );
 		this.refreshNode.subscribe( ( nodeId:string )=> {
+			this.jsTree.select_node( nodeId );
 			this.loadNode( nodeId );
 		} );
 		this.openNode.subscribe( ( nodeId:string )=> {
@@ -229,6 +231,10 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 
 	showCreateChildForm():void {
 		this.onShowCreateChildForm.emit( true );
+	}
+
+	showDeleteChildForm():void {
+		this.onShowDeleteChildForm.emit( true );
 	}
 
 }
