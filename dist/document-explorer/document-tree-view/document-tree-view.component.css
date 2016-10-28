@@ -2,15 +2,15 @@
   display: block; }
   :host .jstree-container-ul li a.accesspoint > .icon {
     color: orange; }
-  :host > .treeview.document {
+  :host > .treeview.content {
     overflow: scroll; }
-  :host > .treeview.menu {
+  :host > .treeview.options {
     max-height: 58px;
     margin-bottom: 0;
     background-color: #f4f4f4;
     border-right: 1px solid #d3d3d3;
     border-bottom: 1px solid #d3d3d3; }
-    :host > .treeview.menu > .ui.icon.button {
+    :host > .treeview.options > .ui.icon.button {
       background-color: #FFFFFF; }
 
 /*# sourceMappingURL=document-tree-view.component.css.map */

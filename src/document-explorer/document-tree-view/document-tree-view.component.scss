@@ -1,6 +1,5 @@
 :host {
 	display: block;
-	overflow-y: scroll;
 
 	.jstree-container-ul {
 		li {
@@ -9,8 +8,11 @@
 			}
 		}
 	}
+	> .treeview.content {
+		overflow: scroll;
+	}
 
-	> .treeview.menu {
+	> .treeview.options {
 		max-height: 58px;
 		margin-bottom: 0;
 		background-color: #f4f4f4;
