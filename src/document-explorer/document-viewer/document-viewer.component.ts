@@ -31,7 +31,7 @@ import { type } from "os";
 export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	element:ElementRef;
 	$element:JQuery;
-	$saveSuccessMessage:JQuery;
+	$saveDocumentSuccessMessage:JQuery;
 	$createChildSuccessMessage:JQuery;
 	$confirmDeletionDimmer:JQuery;
 
@@ -101,8 +101,8 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 
 	ngAfterViewInit():void {
 		this.$element = $( this.element.nativeElement );
-		this.$saveSuccessMessage = this.$element.find( ".success.save.message" );
-		this.$createChildSuccessMessage = this.$element.find( ".success.createchild.message" );
+		this.$saveDocumentSuccessMessage = this.$element.find( ".success.save.savedocument.message" );
+		this.$createChildSuccessMessage = this.$element.find( ".success.save.createchild.message" );
 		this.$confirmDeletionDimmer = this.$element.find( ".document.confirm-deletion.dimmer" ).dimmer( { closable: false } );
 		this.displaySuccessMessage.subscribe( ( type:string )=> {
 			switch( type ) {
@@ -284,10 +284,10 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 			( updatedDocument:RDFDocument.Class )=> {
 				this.document = updatedDocument[ 0 ];
 				setTimeout( ()=> {
-					this.$saveSuccessMessage.transition( {
+					this.$saveDocumentSuccessMessage.transition( {
 						onComplete: ()=> {
 							setTimeout( ()=> {
-								if( ! this.$saveSuccessMessage.hasClass( "hidden" ) ) this.$saveSuccessMessage.transition( "fade" );
+								if( ! this.$saveDocumentSuccessMessage.hasClass( "hidden" ) ) this.$saveDocumentSuccessMessage.transition( "fade" );
 							}, 4000 );
 						}
 					} );
