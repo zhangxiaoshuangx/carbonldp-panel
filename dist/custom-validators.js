@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/forms"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/forms", "carbonldp/RDF/URI"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,8 +10,8 @@ System.register(["@angular/core", "@angular/forms"], function(exports_1, context
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, forms_1;
-    var EmailValidator, SlugValidator, MatchValidator, DomainValidator, URIValidator;
+    var core_1, forms_1, URI;
+    var EmailValidator, SlugValidator, MatchValidator, DomainValidator, URIValidator, URIFragmentValidator;
     return {
         setters:[
             function (core_1_1) {
@@ -19,6 +19,9 @@ System.register(["@angular/core", "@angular/forms"], function(exports_1, context
             },
             function (forms_1_1) {
                 forms_1 = forms_1_1;
+            },
+            function (URI_1) {
+                URI = URI_1;
             }],
         execute: function() {
             EmailValidator = (function () {
@@ -149,6 +152,32 @@ System.register(["@angular/core", "@angular/forms"], function(exports_1, context
                 return URIValidator;
             }());
             exports_1("URIValidator", URIValidator);
+            URIFragmentValidator = (function () {
+                function URIFragmentValidator() {
+                }
+                URIFragmentValidator.prototype.validate = function (control) {
+                    if (!control.value)
+                        return null;
+                    if (!control.value.match(/^(ftp|https?):\/\/(\w+:{0,1}\w*@)?((?![^\/]+\/(?:ftp|https?):)\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/))
+                        return { "invalidURIAddress": true };
+                    if (!URI.Util.hasFragment(control.value))
+                        return { "missingFragment": true };
+                    if (control.value.split("#").length > 2)
+                        return { "multipleFragment": true };
+                    if (URI.Util.getFragment(control.value).trim().length === 0)
+                        return { "missingFragment": true };
+                    return null;
+                };
+                URIFragmentValidator = __decorate([
+                    core_1.Directive({
+                        selector: "[cp-uri-fragment]",
+                        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: URIFragmentValidator, multi: true }]
+                    }), 
+                    __metadata('design:paramtypes', [])
+                ], URIFragmentValidator);
+                return URIFragmentValidator;
+            }());
+            exports_1("URIFragmentValidator", URIFragmentValidator);
         }
     }
 });

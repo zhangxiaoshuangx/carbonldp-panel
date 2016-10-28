@@ -14,7 +14,7 @@ import "semantic-ui/semantic";
 export declare class DocumentViewerComponent implements AfterViewInit, OnChanges {
     element: ElementRef;
     $element: JQuery;
-    $saveSuccessMessage: JQuery;
+    $saveDocumentSuccessMessage: JQuery;
     $createChildSuccessMessage: JQuery;
     $confirmDeletionDimmer: JQuery;
     sections: string[];

@@ -47,7 +47,11 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                     this.savingDocument = false;
                     this.messages = [];
                     this.createChildFormModel = {
-                        slug: ""
+                        slug: "",
+                        advancedOptions: {
+                            hasMemberRelation: "http://www.w3.org/ns/ldp#member",
+                            isMemberOfRelation: ""
+                        }
                     };
                     this.onRefreshNode = new core_1.EventEmitter();
                     this.onOpenNode = new core_1.EventEmitter();
@@ -60,6 +64,8 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                     this.$createChildSuccessMessage = this.$element.find(".success.createchild.message");
                     this.$createDocumentDimmer = this.$element.find(".create.document.dimmer").dimmer({ closable: false });
                     this.$deleteDocumentDimmer = this.$element.find(".delete.document.dimmer").dimmer({ closable: false });
+                    this.$createChildForm = this.$element.find(".createchild.form");
+                    this.$createChildForm.find(".advancedoptions.accordion").accordion();
                 };
                 DocumentExplorerComponent.prototype.onLoadingDocument = function (loadingDocument) {
                     this.loadingDocument = loadingDocument;
@@ -107,6 +113,8 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                     this.$createDocumentDimmer.dimmer("hide");
                     this.clearSavingError();
                     this.createChildFormModel.slug = "";
+                    this.createChildFormModel.advancedOptions.hasMemberRelation = "http://www.w3.org/ns/ldp#member";
+                    this.createChildFormModel.advancedOptions.isMemberOfRelation = "";
                 };
                 DocumentExplorerComponent.prototype.slugLostControl = function (evt) {
                     if (typeof (evt.target) === "undefined")
@@ -124,7 +132,11 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                     var childSlug = null;
                     if (!!this.createChildFormModel.slug)
                         childSlug = this.createChildFormModel.slug + ((this.createChildFormModel.slug.endsWith("/") && this.createChildFormModel.slug.trim() !== "") ? "/" : "");
-                    var childContent = {};
+                    var childContent = {
+                        hasMemberRelation: this.createChildFormModel.advancedOptions.hasMemberRelation
+                    };
+                    if (!!this.createChildFormModel.advancedOptions.isMemberOfRelation)
+                        childContent["isMemberOfRelation"] = this.createChildFormModel.advancedOptions.isMemberOfRelation;
                     this.loadingDocument = true;
                     this.documentsResolverService.createChild(this.documentContext, this.selectedDocumentURI, childContent, childSlug).then(function (createdChild) {
                         _this.onRefreshNode.emit(_this.selectedDocumentURI);

@@ -10,9 +10,7 @@
       padding: 0; }
       :host > .ui.divided.grid.segment > .stretched.row > .treeview-container {
         padding: 0; }
-  :host .createchild.form {
-    padding: 0 20%; }
-    :host .createchild.form .ui.saving.error.message {
-      text-align: left; }
+  :host .createchild.form .ui.saving.error.message {
+    text-align: left; }
 
 /*# sourceMappingURL=document-explorer.component.css.map */

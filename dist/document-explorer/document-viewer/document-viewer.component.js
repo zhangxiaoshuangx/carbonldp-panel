@@ -106,8 +106,8 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 DocumentViewerComponent.prototype.ngAfterViewInit = function () {
                     var _this = this;
                     this.$element = jquery_1.default(this.element.nativeElement);
-                    this.$saveSuccessMessage = this.$element.find(".success.save.message");
-                    this.$createChildSuccessMessage = this.$element.find(".success.createchild.message");
+                    this.$saveDocumentSuccessMessage = this.$element.find(".success.save.savedocument.message");
+                    this.$createChildSuccessMessage = this.$element.find(".success.save.createchild.message");
                     this.$confirmDeletionDimmer = this.$element.find(".document.confirm-deletion.dimmer").dimmer({ closable: false });
                     this.displaySuccessMessage.subscribe(function (type) {
                         switch (type) {
@@ -273,11 +273,11 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     this.documentsResolverService.update(backupDocument["@id"], body, this.documentContext).then(function (updatedDocument) {
                         _this.document = updatedDocument[0];
                         setTimeout(function () {
-                            _this.$saveSuccessMessage.transition({
+                            _this.$saveDocumentSuccessMessage.transition({
                                 onComplete: function () {
                                     setTimeout(function () {
-                                        if (!_this.$saveSuccessMessage.hasClass("hidden"))
-                                            _this.$saveSuccessMessage.transition("fade");
+                                        if (!_this.$saveDocumentSuccessMessage.hasClass("hidden"))
+                                            _this.$saveDocumentSuccessMessage.transition("fade");
                                     }, 4000);
                                 }
                             });

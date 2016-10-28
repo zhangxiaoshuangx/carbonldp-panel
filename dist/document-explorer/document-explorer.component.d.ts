@@ -9,6 +9,7 @@ export declare class DocumentExplorerComponent {
     element: ElementRef;
     $element: JQuery;
     $createChildSuccessMessage: JQuery;
+    $createChildForm: JQuery;
     $createDocumentDimmer: JQuery;
     $deleteDocumentDimmer: JQuery;
     selectedDocumentURI: string;
@@ -20,6 +21,10 @@ export declare class DocumentExplorerComponent {
     savingErrorMessage: Message;
     createChildFormModel: {
         slug: string;
+        advancedOptions: {
+            hasMemberRelation: string;
+            isMemberOfRelation: string;
+        };
     };
     documentContext: SDKContext.Class;
     onRefreshNode: EventEmitter<string>;
