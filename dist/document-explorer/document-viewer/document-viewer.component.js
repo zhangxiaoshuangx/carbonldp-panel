@@ -108,7 +108,6 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     this.$element = jquery_1.default(this.element.nativeElement);
                     this.$saveDocumentSuccessMessage = this.$element.find(".success.save.savedocument.message");
                     this.$createChildSuccessMessage = this.$element.find(".success.save.createchild.message");
-                    this.$confirmDeletionDimmer = this.$element.find(".document.confirm-deletion.dimmer").dimmer({ closable: false });
                     this.displaySuccessMessage.subscribe(function (type) {
                         switch (type) {
                             case "createchild":

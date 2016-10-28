@@ -1,16 +1,13 @@
 <div class="ui basic segment options treeview">
-	<button class="ui mini basic icon button" title="View content" (click)="loadNode(selectedURI)">
-		<i class="eye icon"></i>
-	</button>
-	<button class="ui mini basic icon button" title="Add child" (click)="showCreateChildForm()">
-		<i class="plus icon"></i>
-	</button>
-	<button class="ui mini basic icon button" title="Add access point">
-		<i class="icons">
-			<i class="selected radio icon"></i>
-			<i class="corner add icon"></i>
-		</i>
-	</button>
+	<div class="ui mini basic buttons">
+		<button class="ui mini basic button" (click)="showCreateChildForm()">Create</button>
+		<div class="ui top left pointing dropdown icon mini basic button">
+			<i class="dropdown icon"></i>
+			<div class="mini menu">
+				<div class="item" (click)="showCreateChildForm()"><i class="file outline icon"></i>Child (Document)</div>
+			</div>
+		</div>
+	</div>
 	<button class="ui mini basic red right aligned icon button" title="Delete document" (click)="showDeleteChildForm()">
 		<i class="remove icon"></i>
 	</button>

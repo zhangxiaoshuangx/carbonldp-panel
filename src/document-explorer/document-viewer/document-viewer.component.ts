@@ -19,7 +19,6 @@ import "semantic-ui/semantic";
 
 import template from "./document-viewer.component.html!";
 import style from "./document-viewer.component.css!text";
-import { type } from "os";
 
 @Component( {
 	selector: "cp-document-viewer",
@@ -33,7 +32,6 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	$element:JQuery;
 	$saveDocumentSuccessMessage:JQuery;
 	$createChildSuccessMessage:JQuery;
-	$confirmDeletionDimmer:JQuery;
 
 	sections:string[] = [ "bNodes", "namedFragments", "documentResource" ];
 	rootNode:RDFNode.Class;
@@ -103,7 +101,6 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 		this.$element = $( this.element.nativeElement );
 		this.$saveDocumentSuccessMessage = this.$element.find( ".success.save.savedocument.message" );
 		this.$createChildSuccessMessage = this.$element.find( ".success.save.createchild.message" );
-		this.$confirmDeletionDimmer = this.$element.find( ".document.confirm-deletion.dimmer" ).dimmer( { closable: false } );
 		this.displaySuccessMessage.subscribe( ( type:string )=> {
 			switch( type ) {
 				case "createchild":

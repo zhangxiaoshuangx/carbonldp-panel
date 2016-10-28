@@ -16,7 +16,6 @@ export declare class DocumentViewerComponent implements AfterViewInit, OnChanges
     $element: JQuery;
     $saveDocumentSuccessMessage: JQuery;
     $createChildSuccessMessage: JQuery;
-    $confirmDeletionDimmer: JQuery;
     sections: string[];
     rootNode: RDFNode.Class;
     bNodes: BlankNodeRow[];

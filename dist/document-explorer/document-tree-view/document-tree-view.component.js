@@ -74,6 +74,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     var _this = this;
                     this.$element = jquery_1.default(this.element.nativeElement);
                     this.$tree = this.$element.find(".treeview.content");
+                    this.$element.find(".treeview.options .buttons .dropdown").dropdown();
                     this.onLoadingDocument.emit(true);
                     this.getDocumentTree().then(function () {
                         _this.onLoadingDocument.emit(false);
