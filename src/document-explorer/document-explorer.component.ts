@@ -27,6 +27,7 @@ export class DocumentExplorerComponent {
 	element:ElementRef;
 	$element:JQuery;
 	$createChildSuccessMessage:JQuery;
+	$createChildForm:JQuery;
 	$createDocumentDimmer:JQuery;
 	$deleteDocumentDimmer:JQuery;
 
@@ -38,8 +39,12 @@ export class DocumentExplorerComponent {
 	messages:Message[] = [];
 	savingErrorMessage:Message;
 
-	createChildFormModel:{ slug:string } = {
-		slug: ""
+	createChildFormModel:{ slug:string, advancedOptions:{hasMemberRelation:string, isMemberOfRelation:string }} = {
+		slug: "",
+		advancedOptions: {
+			hasMemberRelation: "http://www.w3.org/ns/ldp#member",
+			isMemberOfRelation: ""
+		}
 	};
 
 	@Input() documentContext:SDKContext.Class;
@@ -57,6 +62,8 @@ export class DocumentExplorerComponent {
 		this.$createChildSuccessMessage = this.$element.find( ".success.createchild.message" );
 		this.$createDocumentDimmer = this.$element.find( ".create.document.dimmer" ).dimmer( { closable: false } );
 		this.$deleteDocumentDimmer = this.$element.find( ".delete.document.dimmer" ).dimmer( { closable: false } );
+		this.$createChildForm = this.$element.find( ".createchild.form" );
+		this.$createChildForm.find( ".advancedoptions.accordion" ).accordion();
 	}
 
 	onLoadingDocument( loadingDocument:boolean ):void {
@@ -112,6 +119,8 @@ export class DocumentExplorerComponent {
 		this.$createDocumentDimmer.dimmer( "hide" );
 		this.clearSavingError();
 		this.createChildFormModel.slug = "";
+		this.createChildFormModel.advancedOptions.hasMemberRelation = "http://www.w3.org/ns/ldp#member";
+		this.createChildFormModel.advancedOptions.isMemberOfRelation = "";
 	}
 
 	private slugLostControl( evt:any ):void {
@@ -128,7 +137,10 @@ export class DocumentExplorerComponent {
 		let childSlug:string = null;
 		if( ! ! this.createChildFormModel.slug )
 			childSlug = this.createChildFormModel.slug + ((this.createChildFormModel.slug.endsWith( "/" ) && this.createChildFormModel.slug.trim() !== "" ) ? "/" : "");
-		let childContent:any = {};
+		let childContent:any = {
+			hasMemberRelation: this.createChildFormModel.advancedOptions.hasMemberRelation
+		};
+		if( ! ! this.createChildFormModel.advancedOptions.isMemberOfRelation ) childContent[ "isMemberOfRelation" ] = this.createChildFormModel.advancedOptions.isMemberOfRelation;
 		this.loadingDocument = true;
 		this.documentsResolverService.createChild( this.documentContext, this.selectedDocumentURI, childContent, childSlug ).then(
 			( createdChild:PersistedDocument.Class ) => {
