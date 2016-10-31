@@ -1,4 +1,4 @@
-<form #loginForm="ngForm" class="ui form attached segment large" role="form" (submit)="onSubmit(loginForm.value, $event)">
+<form #loginForm="ngForm" class="ui login form attached segment large" role="form" (submit)="onSubmit(loginForm.value, $event)">
 	<div class="field" [ngClass]="{ error: (!email.valid && email.touched) }">
 		<div class="ui left icon input">
 			<i class="user icon"></i>
@@ -39,7 +39,7 @@
 		Login
 	</button>
 </form>
-<div class="ui bottom attached negative message" *ngIf="(!loginForm.valid && loginForm.touched) || !!errorMessage">
+<div class="ui bottom attached negative message" *ngIf=" (!loginForm.valid && (email.touched || password.touched)) || !!errorMessage">
 	<ul class="list" *ngIf="!email.valid && email.touched">
 		<li *ngIf="email.errors.required">email is required.</li>
 		<li *ngIf="email.errors.invalidEmailAddress">Enter a valid email address.</li>

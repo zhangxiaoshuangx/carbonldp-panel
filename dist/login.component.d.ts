@@ -1,9 +1,9 @@
-import { ElementRef, EventEmitter } from "@angular/core";
+import { ElementRef, EventEmitter, OnInit } from "@angular/core";
 import { AuthService } from "angular2-carbonldp/services";
 import Credentials from "carbonldp/Auth/Credentials";
 import * as HTTP from "carbonldp/HTTP";
 import "semantic-ui/semantic";
-export declare class LoginComponent {
+export declare class LoginComponent implements OnInit {
     container: string | JQuery;
     onLogin: EventEmitter<Credentials>;
     element: ElementRef;

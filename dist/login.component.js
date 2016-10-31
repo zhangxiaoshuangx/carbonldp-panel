@@ -39,19 +39,17 @@ System.register(["@angular/core", "angular2-carbonldp/services", "carbonldp/HTTP
                     this.onLogin = new core_1.EventEmitter();
                     this.sending = false;
                     this.errorMessage = "";
-                    // loginForm:ControlGroup;
                     this.login = {
                         email: "",
                         password: "",
                         rememberMe: false
                     };
                     this.element = element;
-                    // this.formBuilder = formBuilder;
                     this.authService = authService;
                 }
                 LoginComponent.prototype.ngOnInit = function () {
                     this.$element = jquery_1.default(this.element.nativeElement);
-                    this.$loginForm = this.$element.find("form.loginForm");
+                    this.$loginForm = this.$element.find("form.login");
                     this.$loginForm.find(".ui.checkbox").checkbox();
                 };
                 LoginComponent.prototype.onSubmit = function (data, $event) {
@@ -68,6 +66,8 @@ System.register(["@angular/core", "angular2-carbonldp/services", "carbonldp/HTTP
                     }).catch(function (error) {
                         _this.sending = false;
                         _this.setErrorMessage(error);
+                    }).then(function () {
+                        _this.shakeForm();
                     });
                 };
                 LoginComponent.prototype.getDays = function (firstDate, lastDate) {
