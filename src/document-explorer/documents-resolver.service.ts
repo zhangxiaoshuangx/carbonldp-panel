@@ -6,6 +6,7 @@ import * as NS from "carbonldp/NS";
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
+import * as AccessPoint from "carbonldp/AccessPoint";
 
 @Injectable()
 export class DocumentsResolverService {
@@ -51,6 +52,17 @@ export class DocumentsResolverService {
 
 	createChild( context:SDKContext.Class, parentURI:string, content:any, childSlug?:string ):Promise<PersistedDocument.Class> {
 		return context.documents.createChild( parentURI, content, childSlug ).then(
+			( [createdChild, response]:[PersistedDocument.Class, HTTP.Response.Class] )=> {
+				return createdChild;
+			}
+		).catch( ( error ) => {
+			console.error( error );
+			return Promise.reject( error );
+		} );
+	}
+
+	createAccessPoint( document:PersistedDocument.Class, accessPoint:AccessPoint.Class, slug?:string ):Promise<PersistedDocument.Class> {
+		return document.createAccessPoint( accessPoint, slug ).then(
 			( [createdChild, response]:[PersistedDocument.Class, HTTP.Response.Class] )=> {
 				return createdChild;
 			}
