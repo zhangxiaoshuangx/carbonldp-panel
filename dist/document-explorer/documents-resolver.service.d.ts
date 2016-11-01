@@ -14,6 +14,7 @@ export declare class DocumentsResolverService {
     get(uri: string, documentContext: SDKContext.Class): Promise<RDFDocument.Class>;
     getAll(): Promise<RDFDocument.Class[]>;
     createChild(context: SDKContext.Class, parentURI: string, content: any, childSlug?: string): Promise<PersistedDocument.Class>;
+    createAccessPoint(context: SDKContext.Class, parentURI: string, content: any, childSlug?: string): Promise<PersistedDocument.Class>;
     delete(context: SDKContext.Class, documentURI: string): Promise<HTTP.Response.Class>;
     update(uri: string, body: string, documentContext: SDKContext.Class): Promise<RDFDocument.Class>;
     private callUpdate(uri, body, eTag, documentContext);

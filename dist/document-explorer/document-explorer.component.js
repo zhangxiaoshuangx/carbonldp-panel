@@ -53,6 +53,11 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                             isMemberOfRelation: ""
                         }
                     };
+                    this.createAccessPointFormModel = {
+                        slug: "",
+                        hasMemberRelation: "http://www.w3.org/ns/ldp#member",
+                        isMemberOfRelation: ""
+                    };
                     this.onRefreshNode = new core_1.EventEmitter();
                     this.onOpenNode = new core_1.EventEmitter();
                     this.onDisplaySuccessMessage = new core_1.EventEmitter();
@@ -123,9 +128,9 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                 DocumentExplorerComponent.prototype.hideCreateAccessPointForm = function () {
                     this.$createAccessPointDimmer.dimmer("hide");
                     this.clearSavingError();
-                    this.createChildFormModel.slug = "";
-                    this.createChildFormModel.advancedOptions.hasMemberRelation = "http://www.w3.org/ns/ldp#member";
-                    this.createChildFormModel.advancedOptions.isMemberOfRelation = "";
+                    this.createAccessPointFormModel.slug = "";
+                    this.createAccessPointFormModel.hasMemberRelation = "http://www.w3.org/ns/ldp#member";
+                    this.createAccessPointFormModel.isMemberOfRelation = "";
                 };
                 DocumentExplorerComponent.prototype.slugLostControl = function (evt) {
                     if (typeof (evt.target) === "undefined")
@@ -169,6 +174,8 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                     }).then(function () {
                         _this.loadingDocument = false;
                     });
+                };
+                DocumentExplorerComponent.prototype.createAccessPoint = function () {
                 };
                 DocumentExplorerComponent.prototype.clearSavingError = function () {
                     this.savingErrorMessage = null;

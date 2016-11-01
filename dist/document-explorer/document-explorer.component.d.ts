@@ -13,6 +13,8 @@ export declare class DocumentExplorerComponent {
     $createDocumentDimmer: JQuery;
     $deleteDocumentDimmer: JQuery;
     $createAccessPointDimmer: JQuery;
+    $createAccessPointForm: JQuery;
+    $deleteAccessPointDimmer: JQuery;
     selectedDocumentURI: string;
     loadingDocument: boolean;
     savingDocument: boolean;
@@ -26,6 +28,11 @@ export declare class DocumentExplorerComponent {
             hasMemberRelation: string;
             isMemberOfRelation: string;
         };
+    };
+    createAccessPointFormModel: {
+        slug: string;
+        hasMemberRelation: string;
+        isMemberOfRelation: string;
     };
     documentContext: SDKContext.Class;
     onRefreshNode: EventEmitter<string>;
@@ -48,6 +55,7 @@ export declare class DocumentExplorerComponent {
     private slugLostControl(evt);
     private getSanitizedSlug(slug);
     private createChild();
+    private createAccessPoint();
     private clearSavingError();
     private getErrors(error);
     private deleteDocument();

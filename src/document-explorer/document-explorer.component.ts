@@ -26,11 +26,15 @@ export class DocumentExplorerComponent {
 
 	element:ElementRef;
 	$element:JQuery;
+
 	$createChildSuccessMessage:JQuery;
 	$createChildForm:JQuery;
 	$createDocumentDimmer:JQuery;
 	$deleteDocumentDimmer:JQuery;
+
 	$createAccessPointDimmer:JQuery;
+	$createAccessPointForm:JQuery;
+	$deleteAccessPointDimmer:JQuery;
 
 	selectedDocumentURI:string = "";
 	loadingDocument:boolean = false;
@@ -46,6 +50,11 @@ export class DocumentExplorerComponent {
 			hasMemberRelation: "http://www.w3.org/ns/ldp#member",
 			isMemberOfRelation: ""
 		}
+	};
+	createAccessPointFormModel:{ slug:string, hasMemberRelation:string, isMemberOfRelation:string } = {
+		slug: "",
+		hasMemberRelation: "http://www.w3.org/ns/ldp#member",
+		isMemberOfRelation: ""
 	};
 
 	@Input() documentContext:SDKContext.Class;
@@ -132,9 +141,9 @@ export class DocumentExplorerComponent {
 	private hideCreateAccessPointForm():void {
 		this.$createAccessPointDimmer.dimmer( "hide" );
 		this.clearSavingError();
-		this.createChildFormModel.slug = "";
-		this.createChildFormModel.advancedOptions.hasMemberRelation = "http://www.w3.org/ns/ldp#member";
-		this.createChildFormModel.advancedOptions.isMemberOfRelation = "";
+		this.createAccessPointFormModel.slug = "";
+		this.createAccessPointFormModel.hasMemberRelation = "http://www.w3.org/ns/ldp#member";
+		this.createAccessPointFormModel.isMemberOfRelation = "";
 	}
 
 	private slugLostControl( evt:any ):void {
