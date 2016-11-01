@@ -64,6 +64,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                     this.$createChildSuccessMessage = this.$element.find(".success.createchild.message");
                     this.$createDocumentDimmer = this.$element.find(".create.document.dimmer").dimmer({ closable: false });
                     this.$deleteDocumentDimmer = this.$element.find(".delete.document.dimmer").dimmer({ closable: false });
+                    this.$createAccessPointDimmer = this.$element.find(".create.accesspoint.dimmer").dimmer({ closable: false });
                     this.$createChildForm = this.$element.find(".createchild.form");
                     this.$createChildForm.find(".advancedoptions.accordion").accordion();
                 };
@@ -109,8 +110,18 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                 DocumentExplorerComponent.prototype.showCreateChildForm = function () {
                     this.$createDocumentDimmer.dimmer("show");
                 };
+                DocumentExplorerComponent.prototype.showCreateAccessPointForm = function () {
+                    this.$createAccessPointDimmer.dimmer("show");
+                };
                 DocumentExplorerComponent.prototype.hideCreateChildForm = function () {
                     this.$createDocumentDimmer.dimmer("hide");
+                    this.clearSavingError();
+                    this.createChildFormModel.slug = "";
+                    this.createChildFormModel.advancedOptions.hasMemberRelation = "http://www.w3.org/ns/ldp#member";
+                    this.createChildFormModel.advancedOptions.isMemberOfRelation = "";
+                };
+                DocumentExplorerComponent.prototype.hideCreateAccessPointForm = function () {
+                    this.$createAccessPointDimmer.dimmer("hide");
                     this.clearSavingError();
                     this.createChildFormModel.slug = "";
                     this.createChildFormModel.advancedOptions.hasMemberRelation = "http://www.w3.org/ns/ldp#member";

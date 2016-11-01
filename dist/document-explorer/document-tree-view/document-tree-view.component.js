@@ -46,6 +46,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     this.onLoadingDocument = new core_1.EventEmitter();
                     this.onShowCreateChildForm = new core_1.EventEmitter();
                     this.onShowDeleteChildForm = new core_1.EventEmitter();
+                    this.onShowCreateAccessPointForm = new core_1.EventEmitter();
                     this.onSelectDocument = new core_1.EventEmitter();
                     this.element = element;
                 }
@@ -241,6 +242,9 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                 DocumentTreeViewComponent.prototype.showCreateChildForm = function () {
                     this.onShowCreateChildForm.emit(true);
                 };
+                DocumentTreeViewComponent.prototype.showCreateAccessPointForm = function () {
+                    this.onShowCreateAccessPointForm.emit(true);
+                };
                 DocumentTreeViewComponent.prototype.showDeleteChildForm = function () {
                     this.onShowDeleteChildForm.emit(true);
                 };
@@ -276,6 +280,10 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], DocumentTreeViewComponent.prototype, "onShowDeleteChildForm", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], DocumentTreeViewComponent.prototype, "onShowCreateAccessPointForm", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)

@@ -21,6 +21,7 @@ export declare class DocumentTreeViewComponent implements AfterViewInit, OnInit 
     onLoadingDocument: EventEmitter<boolean>;
     onShowCreateChildForm: EventEmitter<boolean>;
     onShowDeleteChildForm: EventEmitter<boolean>;
+    onShowCreateAccessPointForm: EventEmitter<boolean>;
     onSelectDocument: EventEmitter<string>;
     constructor(element: ElementRef);
     ngOnInit(): void;
@@ -36,6 +37,7 @@ export declare class DocumentTreeViewComponent implements AfterViewInit, OnInit 
     getNodeChildren(uri: string): Promise<JSTreeNode[]>;
     getSlug(pointer: Pointer.Class | string): string;
     showCreateChildForm(): void;
+    showCreateAccessPointForm(): void;
     showDeleteChildForm(): void;
 }
 export interface JSTreeNode {

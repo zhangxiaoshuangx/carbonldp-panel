@@ -12,6 +12,7 @@ export declare class DocumentExplorerComponent {
     $createChildForm: JQuery;
     $createDocumentDimmer: JQuery;
     $deleteDocumentDimmer: JQuery;
+    $createAccessPointDimmer: JQuery;
     selectedDocumentURI: string;
     loadingDocument: boolean;
     savingDocument: boolean;
@@ -41,7 +42,9 @@ export declare class DocumentExplorerComponent {
     openNode(nodeId: string): void;
     private changeSelection(documentURI);
     private showCreateChildForm();
+    private showCreateAccessPointForm();
     private hideCreateChildForm();
+    private hideCreateAccessPointForm();
     private slugLostControl(evt);
     private getSanitizedSlug(slug);
     private createChild();
