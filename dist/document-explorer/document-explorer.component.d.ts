@@ -55,7 +55,7 @@ export declare class DocumentExplorerComponent {
     private slugLostControl(evt);
     private getSanitizedSlug(slug);
     private createChild();
-    private createAccessPoint();
+    private onSubmitAccessPoint(data, $event);
     private clearSavingError();
     private getErrors(error);
     private deleteDocument();

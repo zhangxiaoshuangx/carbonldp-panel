@@ -78,8 +78,8 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "carbonl
                         return Promise.reject(error);
                     });
                 };
-                DocumentsResolverService.prototype.createAccessPoint = function (context, parentURI, content, childSlug) {
-                    return context.documents.createChild(parentURI, content, childSlug).then(function (_a) {
+                DocumentsResolverService.prototype.createAccessPoint = function (document, accessPoint, slug) {
+                    return document.createAccessPoint(accessPoint, slug).then(function (_a) {
                         var createdChild = _a[0], response = _a[1];
                         return createdChild;
                     }).catch(function (error) {

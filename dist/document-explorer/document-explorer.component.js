@@ -175,7 +175,32 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                         _this.loadingDocument = false;
                     });
                 };
-                DocumentExplorerComponent.prototype.createAccessPoint = function () {
+                DocumentExplorerComponent.prototype.onSubmitAccessPoint = function (data, $event) {
+                    var _this = this;
+                    $event.preventDefault();
+                    var slug = data.slug;
+                    var accessPoint = {
+                        hasMemberRelation: data.hasMemberRelation
+                    };
+                    if (!!data.isMemberOfRelation)
+                        accessPoint.isMemberOfRelation = data.isMemberOfRelation;
+                    this.documentContext.documents.get(this.selectedDocumentURI).then(function (_a) {
+                        var document = _a[0], response = _a[1];
+                        return _this.documentsResolverService.createAccessPoint(document, accessPoint, slug);
+                    }).catch(function (error) {
+                        _this.savingErrorMessage = {
+                            title: error.name,
+                            content: error.message,
+                            statusCode: "" + error.statusCode,
+                            statusMessage: error.response.request.statusText,
+                            endpoint: error.response.request.responseURL,
+                        };
+                        if (!!error.response.data) {
+                            _this.getErrors(error).then(function (errors) {
+                                _this.savingErrorMessage["errors"] = errors;
+                            });
+                        }
+                    });
                 };
                 DocumentExplorerComponent.prototype.clearSavingError = function () {
                     this.savingErrorMessage = null;
