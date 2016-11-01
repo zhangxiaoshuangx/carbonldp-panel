@@ -187,6 +187,10 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                     this.documentContext.documents.get(this.selectedDocumentURI).then(function (_a) {
                         var document = _a[0], response = _a[1];
                         return _this.documentsResolverService.createAccessPoint(document, accessPoint, slug);
+                    }).then(function (document) {
+                        _this.onRefreshNode.emit(_this.selectedDocumentURI);
+                        _this.hideCreateAccessPointForm();
+                        _this.onDisplaySuccessMessage.emit("createchild");
                     }).catch(function (error) {
                         _this.savingErrorMessage = {
                             title: error.name,

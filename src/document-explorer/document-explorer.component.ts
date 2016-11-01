@@ -6,6 +6,7 @@ import * as HTTP from "carbonldp/HTTP";
 import * as JSONLDParser from "carbonldp/JSONLD/Parser";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
 import * as URI from "carbonldp/RDF/URI";
+import * as AccessPoint from "carbonldp/AccessPoint";
 import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
 import { DocumentsResolverService } from "./documents-resolver.service"
@@ -186,6 +187,40 @@ export class DocumentExplorerComponent {
 			}
 		} ).then( ()=> {
 			this.loadingDocument = false;
+		} );
+	}
+
+	private onSubmitAccessPoint( data:{ slug:string, hasMemberRelation:string, isMemberOfRelation:string }, $event:any ):void {
+		$event.preventDefault();
+		let slug:string = data.slug;
+		let accessPoint:AccessPoint.Class = {
+			hasMemberRelation: data.hasMemberRelation
+		};
+		if( ! ! data.isMemberOfRelation ) accessPoint.isMemberOfRelation = data.isMemberOfRelation;
+
+		this.documentContext.documents.get( this.selectedDocumentURI ).then( ( [document, response]:[PersistedDocument.Class, HTTP.Response.Class] )=> {
+
+			return this.documentsResolverService.createAccessPoint( document, accessPoint, slug );
+
+		} ).then( ( document:PersistedDocument.Class )=> {
+
+			this.onRefreshNode.emit( this.selectedDocumentURI );
+			this.hideCreateAccessPointForm();
+			this.onDisplaySuccessMessage.emit( "createchild" );
+
+		} ).catch( ( error:HTTPError )=> {
+			this.savingErrorMessage = {
+				title: error.name,
+				content: error.message,
+				statusCode: "" + error.statusCode,
+				statusMessage: (<XMLHttpRequest>error.response.request).statusText,
+				endpoint: (<any>error.response.request).responseURL,
+			};
+			if( ! ! error.response.data ) {
+				this.getErrors( error ).then( ( errors )=> {
+					this.savingErrorMessage[ "errors" ] = errors;
+				} );
+			}
 		} );
 	}
 
