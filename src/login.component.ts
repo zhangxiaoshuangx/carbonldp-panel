@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Output, Inject, EventEmitter } from "@angular/core";
+import { Component, ElementRef, Input, Output, Inject, EventEmitter, OnInit } from "@angular/core";
 
 import { AuthService } from "angular2-carbonldp/services";
 
@@ -15,7 +15,7 @@ import template from "./login.component.html!";
 	template: template,
 	styles: [ ":host { display:block; } " ],
 } )
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 	@Input( "container" ) container:string|JQuery;
 	@Output( "onLogin" ) onLogin:EventEmitter<Credentials> = new EventEmitter<Credentials>();
 
@@ -26,8 +26,6 @@ export class LoginComponent {
 
 	sending:boolean = false;
 	errorMessage:string = "";
-
-	// loginForm:ControlGroup;
 
 	login:{email:string,password:string, rememberMe:boolean} =
 	{
@@ -40,13 +38,12 @@ export class LoginComponent {
 
 	constructor( element:ElementRef, @Inject( AuthService.Token ) authService:AuthService.Class ) {
 		this.element = element;
-		// this.formBuilder = formBuilder;
 		this.authService = authService;
 	}
 
 	ngOnInit():void {
 		this.$element = $( this.element.nativeElement );
-		this.$loginForm = this.$element.find( "form.loginForm" );
+		this.$loginForm = this.$element.find( "form.login" );
 		this.$loginForm.find( ".ui.checkbox" ).checkbox();
 	}
 
@@ -65,6 +62,7 @@ export class LoginComponent {
 		} ).catch( ( error:HTTP.Errors.Error ) => {
 			this.sending = false;
 			this.setErrorMessage( error );
+			this.shakeForm();
 		} );
 	}
 
