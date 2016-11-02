@@ -10,7 +10,7 @@ export declare class DocumentExplorerComponent {
     $element: JQuery;
     $createChildSuccessMessage: JQuery;
     $createChildForm: JQuery;
-    $createDocumentDimmer: JQuery;
+    $createDocumentModal: JQuery;
     $deleteDocumentDimmer: JQuery;
     selectedDocumentURI: string;
     loadingDocument: boolean;

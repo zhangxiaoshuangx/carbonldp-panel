@@ -63,10 +63,9 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                 DocumentExplorerComponent.prototype.ngAfterViewInit = function () {
                     this.$element = $(this.element.nativeElement);
                     this.$createChildSuccessMessage = this.$element.find(".success.createchild.message");
-                    this.$createDocumentDimmer = this.$element.find(".create.document.dimmer").dimmer({ closable: false });
+                    this.$createDocumentModal = this.$element.find(".create.document.modal").modal({ closable: false });
                     this.$deleteDocumentDimmer = this.$element.find(".delete.document.dimmer").dimmer({ closable: false });
-                    this.$createChildForm = this.$element.find(".createchild.form");
-                    this.$createChildForm.find(".advancedoptions.accordion").accordion();
+                    this.$createDocumentModal.find(".advancedoptions.accordion").accordion();
                 };
                 DocumentExplorerComponent.prototype.onLoadingDocument = function (loadingDocument) {
                     this.loadingDocument = loadingDocument;
@@ -110,10 +109,10 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                     this.selectedDocumentURI = documentURI;
                 };
                 DocumentExplorerComponent.prototype.showCreateChildForm = function () {
-                    this.$createDocumentDimmer.dimmer("show");
+                    this.$createDocumentModal.modal("show");
                 };
                 DocumentExplorerComponent.prototype.hideCreateChildForm = function () {
-                    this.$createDocumentDimmer.dimmer("hide");
+                    this.$createDocumentModal.modal("hide");
                     this.clearSavingError();
                     this.createChildFormModel.slug = "";
                     this.createChildFormModel.advancedOptions.hasMemberRelation = "http://www.w3.org/ns/ldp#member";

@@ -28,7 +28,7 @@ export class DocumentExplorerComponent {
 	$element:JQuery;
 	$createChildSuccessMessage:JQuery;
 	$createChildForm:JQuery;
-	$createDocumentDimmer:JQuery;
+	$createDocumentModal:JQuery;
 	$deleteDocumentDimmer:JQuery;
 
 	selectedDocumentURI:string = "";
@@ -63,10 +63,9 @@ export class DocumentExplorerComponent {
 	ngAfterViewInit():void {
 		this.$element = $( this.element.nativeElement );
 		this.$createChildSuccessMessage = this.$element.find( ".success.createchild.message" );
-		this.$createDocumentDimmer = this.$element.find( ".create.document.dimmer" ).dimmer( { closable: false } );
+		this.$createDocumentModal = this.$element.find( ".create.document.modal" ).modal( { closable: false } );
 		this.$deleteDocumentDimmer = this.$element.find( ".delete.document.dimmer" ).dimmer( { closable: false } );
-		this.$createChildForm = this.$element.find( ".createchild.form" );
-		this.$createChildForm.find( ".advancedoptions.accordion" ).accordion();
+		this.$createDocumentModal.find( ".advancedoptions.accordion" ).accordion();
 	}
 
 	onLoadingDocument( loadingDocument:boolean ):void {
@@ -117,11 +116,11 @@ export class DocumentExplorerComponent {
 	}
 
 	private showCreateChildForm():void {
-		this.$createDocumentDimmer.dimmer( "show" );
+		this.$createDocumentModal.modal( "show" );
 	}
 
 	private hideCreateChildForm():void {
-		this.$createDocumentDimmer.dimmer( "hide" );
+		this.$createDocumentModal.modal( "hide" );
 		this.clearSavingError();
 		this.createChildFormModel.slug = "";
 		this.createChildFormModel.advancedOptions.hasMemberRelation = "http://www.w3.org/ns/ldp#member";
