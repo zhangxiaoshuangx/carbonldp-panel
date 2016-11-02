@@ -37,7 +37,6 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	rootNode:RDFNode.Class;
 	bNodes:BlankNodeRow[] = [];
 	namedFragments:NamedFragmentRow[] = [];
-	savingErrorMessage:Message;
 	documentURI:string = "";
 
 	rootNodeHasChanged:boolean = false;
@@ -46,7 +45,6 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	bNodesChanges:BlankNodesRecords;
 	namedFragmentsHaveChanged:boolean = false;
 	namedFragmentsChanges:NamedFragmentsRecords;
-
 	get documentContentHasChanged() {
 		return this.rootNodeHasChanged || this.bNodesHaveChanged || this.namedFragmentsHaveChanged;
 	}
@@ -122,7 +120,6 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 			this.generateFragments();
 			this.clearDocumentChanges();
 			this.loadingDocument = false;
-			this.savingErrorMessage = null;
 			this.documentURI = this.document[ "@id" ];
 
 			setTimeout( ()=> {
@@ -288,10 +285,6 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 			errors = mainErrors.filter( ( error )=> { return error[ "@type" ].indexOf( "https://carbonldp.com/ns/v1/platform#Error" ) !== - 1} );
 			return errors;
 		} );
-	}
-
-	clearSavingError():void {
-		this.savingErrorMessage = null;
 	}
 
 	closeMessage( message:HTMLElement ):void {

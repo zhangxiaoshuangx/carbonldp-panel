@@ -130,7 +130,6 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                         this.generateFragments();
                         this.clearDocumentChanges();
                         this.loadingDocument = false;
-                        this.savingErrorMessage = null;
                         this.documentURI = this.document["@id"];
                         setTimeout(function () {
                             _this.goToSection("documentResource");
@@ -280,9 +279,6 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                         errors = mainErrors.filter(function (error) { return error["@type"].indexOf("https://carbonldp.com/ns/v1/platform#Error") !== -1; });
                         return errors;
                     });
-                };
-                DocumentViewerComponent.prototype.clearSavingError = function () {
-                    this.savingErrorMessage = null;
                 };
                 DocumentViewerComponent.prototype.closeMessage = function (message) {
                     jquery_1.default(message).transition("fade");

@@ -1,5 +1,4 @@
 import { ElementRef, EventEmitter, SimpleChange, AfterViewInit, OnChanges } from "@angular/core";
-import { Message } from "carbonldp-panel/errors-area/error-message.component";
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
@@ -20,7 +19,6 @@ export declare class DocumentViewerComponent implements AfterViewInit, OnChanges
     rootNode: RDFNode.Class;
     bNodes: BlankNodeRow[];
     namedFragments: NamedFragmentRow[];
-    savingErrorMessage: Message;
     documentURI: string;
     rootNodeHasChanged: boolean;
     rootNodeRecords: RootRecords;
@@ -69,7 +67,6 @@ export declare class DocumentViewerComponent implements AfterViewInit, OnChanges
     clearDocumentChanges(): void;
     saveDocument(): void;
     getErrors(error: HTTPError): Promise<any[]>;
-    clearSavingError(): void;
     closeMessage(message: HTMLElement): void;
     showSuccessMessage(content: string, timeout?: number): void;
     private beforeRefreshDocument(documentURI);
