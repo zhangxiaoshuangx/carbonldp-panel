@@ -58,9 +58,8 @@ export declare class DocumentExplorerComponent {
     private getParentURI(documentURI);
     private clearSavingError();
     private handleExternalError(error);
-    private captureMessage(error);
-    private getErrors(error);
-    private getHTTPErrorMessage(error, content);
     private getErrorMessage(error);
+    private getErrors(error);
+    private getFriendlyHTTPMessage(error);
 }
 export default DocumentExplorerComponent;

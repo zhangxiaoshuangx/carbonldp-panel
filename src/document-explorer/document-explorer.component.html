@@ -1,13 +1,10 @@
 <div class="ui divided grid segment" [ngClass]="{loading:loadingDocument || savingDocument}">
-
-	<div class="row" *ngIf="messages.length > 0">
-		<div class="sixteen wide column">
+	<div class="stretched row">
+		<div class="error messages" *ngIf="messages.length > 0">
 			<template ngFor let-message="$implicit" [ngForOf]="messages" let-i="index">
-				<cp-error-message [message]="message"></cp-error-message>
+				<cp-error-message [message]="message" [closable]="true"></cp-error-message>
 			</template>
 		</div>
-	</div>
-	<div class="stretched row">
 		<cp-document-treeview class="five wide column treeview-container"
 		                      [documentContext]="documentContext"
 		                      [refreshNode]="onRefreshNode"
@@ -17,7 +14,7 @@
 		                      (onShowCreateChildForm)="showCreateChildForm()"
 		                      (onShowDeleteChildForm)="showDeleteChildForm()"
 		                      (onShowCreateAccessPointForm)="showCreateAccessPointForm()"
-		                      (onError)="handleError($event)"
+		                      (onError)="handleExternalError($event)"
 		                      (onLoadingDocument)="onLoadingDocument($event)"
 		                      (onResolveUri)="resolveDocument($event)"></cp-document-treeview>
 		<cp-document-viewer class="eleven wide column"
@@ -25,6 +22,7 @@
 		                    [documentContext]="documentContext"
 		                    [displaySuccessMessage]="onDisplaySuccessMessage"
 
+		                    (onError)="handleExternalError($event)"
 		                    (onRefreshNode)="refreshNode($event)"
 		                    (onOpenNode)="openNode($event)"
 		                    (onSavingDocument)="showLoading($event)"
@@ -134,23 +132,7 @@
 							</div>
 
 
-							<div class="ui saving error message transition" *ngIf="!!savingErrorMessage">
-								<i class="close icon" (click)="clearSavingError()"></i>
-								<div class="header">
-									{{savingErrorMessage.title}}
-								</div>
-								<p>
-									<span *ngIf="savingErrorMessage.content">{{savingErrorMessage.content}}<br></span>
-									<span *ngIf="savingErrorMessage.statusCode">Status: {{savingErrorMessage.statusCode}} - {{savingErrorMessage.statusMessage}}<br></span>
-									<span *ngIf="savingErrorMessage.endpoint">URI: {{savingErrorMessage.endpoint}}</span>
-								</p>
-								<ol class="ui list" *ngIf="!!savingErrorMessage.errors">
-									<li value="*" *ngFor="let error of savingErrorMessage.errors; let i = index;">
-										<span *ngIf="!!error['https://carbonldp.com/ns/v1/platform#carbonCode']">Carbon code: {{error["https://carbonldp.com/ns/v1/platform#carbonCode"][0]["@value"]}} -</span>
-										<span *ngIf="!!error['https://carbonldp.com/ns/v1/platform#message']">{{error["https://carbonldp.com/ns/v1/platform#message"][0]["@value"]}}</span>
-									</li>
-								</ol>
-							</div>
+							<cp-error-message [message]="savingErrorMessage" [closable]="true" *ngIf="!!savingErrorMessage"></cp-error-message>
 						</form>
 					</div>
 					<div class="ui bottom attached left aligned segment">
@@ -273,23 +255,7 @@
 							</div>
 
 
-							<div class="ui saving error message transition" *ngIf="!!savingErrorMessage">
-								<i class="close icon" (click)="clearSavingError()"></i>
-								<div class="header">
-									{{savingErrorMessage.title}}
-								</div>
-								<p>
-									<span *ngIf="savingErrorMessage.content">{{savingErrorMessage.content}}<br></span>
-									<span *ngIf="savingErrorMessage.statusCode">Status: {{savingErrorMessage.statusCode}} - {{savingErrorMessage.statusMessage}}<br></span>
-									<span *ngIf="savingErrorMessage.endpoint">URI: {{savingErrorMessage.endpoint}}</span>
-								</p>
-								<ol class="ui list" *ngIf="!!savingErrorMessage.errors">
-									<li value="*" *ngFor="let error of savingErrorMessage.errors; let i = index;">
-										<span *ngIf="!!error['https://carbonldp.com/ns/v1/platform#carbonCode']">Carbon code: {{error["https://carbonldp.com/ns/v1/platform#carbonCode"][0]["@value"]}} -</span>
-										<span *ngIf="!!error['https://carbonldp.com/ns/v1/platform#message']">{{error["https://carbonldp.com/ns/v1/platform#message"][0]["@value"]}}</span>
-									</li>
-								</ol>
-							</div>
+							<cp-error-message [message]="savingErrorMessage" [closable]="true" *ngIf="!!savingErrorMessage"></cp-error-message>
 						</form>
 					</div>
 					<div class="ui bottom attached left aligned segment">

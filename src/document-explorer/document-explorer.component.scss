@@ -22,4 +22,10 @@
 			text-align: left;
 		}
 	}
+
+	.error.messages {
+		position: absolute;
+		z-index: 101;
+		width: 100%;
+	}
 }

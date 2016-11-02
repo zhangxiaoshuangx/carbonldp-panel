@@ -147,7 +147,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                         _this.hideCreateChildForm();
                         _this.onDisplaySuccessMessage.emit("<p>The child document was created correctly</p>");
                     }).catch(function (error) {
-                        _this.savingErrorMessage = _this.captureMessage(error);
+                        _this.savingErrorMessage = _this.getErrorMessage(error);
                     }).then(function () {
                         _this.loadingDocument = false;
                     });
@@ -169,7 +169,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                         _this.hideCreateAccessPointForm();
                         _this.onDisplaySuccessMessage.emit("<p>The Access Point was created correctly</p>");
                     }).catch(function (error) {
-                        _this.savingErrorMessage = _this.captureMessage(error);
+                        _this.savingErrorMessage = _this.getErrorMessage(error);
                     });
                 };
                 //</editor-fold>
@@ -180,7 +180,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                         _this.refreshNode(_this.getParentURI(_this.selectedDocumentURI));
                         _this.cancelDeletion();
                     }).catch(function (error) {
-                        _this.savingErrorMessage = _this.captureMessage(error);
+                        _this.savingErrorMessage = _this.getErrorMessage(error);
                     });
                 };
                 DocumentExplorerComponent.prototype.cancelDeletion = function () {
@@ -194,21 +194,14 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                     return documentURI.substr(0, slugIdx);
                 };
                 //</editor-fold>
+                // Start:Error Handling
                 DocumentExplorerComponent.prototype.clearSavingError = function () {
                     this.savingErrorMessage = null;
                 };
                 DocumentExplorerComponent.prototype.handleExternalError = function (error) {
-                    var errorMessage;
-                    // if( error.response ) errorMessage = this.getHTTPErrorMessage( error, this.getErrorMessage( error ) );
-                    // else {
-                    // 	errorMessage = <Message>{
-                    // 		title: error.name,
-                    // 		content: JSON.stringify( error )
-                    // 	};
-                    // }
-                    this.messages.push(this.captureMessage(error));
+                    this.messages.push(this.getErrorMessage(error));
                 };
-                DocumentExplorerComponent.prototype.captureMessage = function (error) {
+                DocumentExplorerComponent.prototype.getErrorMessage = function (error) {
                     var errorMessage = {
                         title: "",
                         content: "",
@@ -220,8 +213,10 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                     errorMessage.content = error.hasOwnProperty("message") ? error.message : "";
                     // If it's a HTTP error
                     if (error.hasOwnProperty("statusCode")) {
+                        errorMessage.content = errorMessage.content === "" ? this.getFriendlyHTTPMessage(error) : errorMessage.content;
                         errorMessage.statusCode = error.hasOwnProperty("message") ? "" + error.statusCode : "";
                         errorMessage.statusMessage = error.response.request.statusText;
+                        errorMessage.title = errorMessage.statusMessage;
                         errorMessage.endpoint = error.response.request.responseURL;
                         if (!!error.response.data)
                             this.getErrors(error).then(function (errors) { errorMessage["errors"] = errors; });
@@ -229,7 +224,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                     else if (error.hasOwnProperty("stack")) {
                         // If it's an uncaught exception
                         errorMessage.title = error.message;
-                        errorMessage.content = error.stack;
+                        errorMessage.stack = error.stack;
                     }
                     return errorMessage;
                 };
@@ -243,16 +238,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                         return errors;
                     });
                 };
-                DocumentExplorerComponent.prototype.getHTTPErrorMessage = function (error, content) {
-                    return {
-                        title: error.name,
-                        content: content + (!!error.message ? (" Reason: " + error.message) : ""),
-                        endpoint: error.response.request.responseURL,
-                        statusCode: "" + error.response.request.status + " - RequestID: " + error.requestID,
-                        statusMessage: error.response.request.statusText
-                    };
-                };
-                DocumentExplorerComponent.prototype.getErrorMessage = function (error) {
+                DocumentExplorerComponent.prototype.getFriendlyHTTPMessage = function (error) {
                     var tempMessage = "";
                     switch (true) {
                         case error instanceof HTTP.Errors.ForbiddenError:

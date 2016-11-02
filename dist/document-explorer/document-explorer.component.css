@@ -14,7 +14,7 @@
     text-align: left; }
   :host .error.messages {
     position: absolute;
-    z-index: 2;
+    z-index: 101;
     width: 100%; }
 
 /*# sourceMappingURL=document-explorer.component.css.map */

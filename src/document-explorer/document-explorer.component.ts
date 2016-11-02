@@ -34,8 +34,6 @@ export class DocumentExplorerComponent {
 	$deleteDocumentDimmer:JQuery;
 
 	$createAccessPointDimmer:JQuery;
-	$createAccessPointForm:JQuery;
-	$deleteAccessPointDimmer:JQuery;
 
 	selectedDocumentURI:string = "";
 	loadingDocument:boolean = false;
@@ -92,18 +90,6 @@ export class DocumentExplorerComponent {
 			this.inspectingDocument = document[ 0 ];
 			this.loadingDocument = false;
 		} );
-	}
-
-	handleError( error:HTTP.Errors.Error ):void {
-		let errorMessage:Message;
-		if( error.response ) errorMessage = this.getHTTPErrorMessage( error, this.getErrorMessage( error ) );
-		else {
-			errorMessage = <Message>{
-				title: error.name,
-				content: JSON.stringify( error )
-			};
-		}
-		this.messages.push( errorMessage );
 	}
 
 	refreshDocument( documentURI:string ):void {
@@ -170,21 +156,10 @@ export class DocumentExplorerComponent {
 			( createdChild:PersistedDocument.Class ) => {
 				this.onRefreshNode.emit( this.selectedDocumentURI );
 				this.hideCreateChildForm();
-				this.onDisplaySuccessMessage.emit( "createchild" );
+				this.onDisplaySuccessMessage.emit( "<p>The child document was created correctly</p>" );
 			}
 		).catch( ( error:HTTPError )=> {
-			this.savingErrorMessage = {
-				title: error.name,
-				content: error.message,
-				statusCode: "" + error.statusCode,
-				statusMessage: (<XMLHttpRequest>error.response.request).statusText,
-				endpoint: (<any>error.response.request).responseURL,
-			};
-			if( ! ! error.response.data ) {
-				this.getErrors( error ).then( ( errors )=> {
-					this.savingErrorMessage[ "errors" ] = errors;
-				} );
-			}
+			this.savingErrorMessage = this.getErrorMessage( error )
 		} ).then( ()=> {
 			this.loadingDocument = false;
 		} );
@@ -206,36 +181,10 @@ export class DocumentExplorerComponent {
 
 			this.onRefreshNode.emit( this.selectedDocumentURI );
 			this.hideCreateAccessPointForm();
-			this.onDisplaySuccessMessage.emit( "createchild" );
+			this.onDisplaySuccessMessage.emit( "<p>The Access Point was created correctly</p>" );
 
 		} ).catch( ( error:HTTPError )=> {
-			this.savingErrorMessage = {
-				title: error.name,
-				content: error.message,
-				statusCode: "" + error.statusCode,
-				statusMessage: (<XMLHttpRequest>error.response.request).statusText,
-				endpoint: (<any>error.response.request).responseURL,
-			};
-			if( ! ! error.response.data ) {
-				this.getErrors( error ).then( ( errors )=> {
-					this.savingErrorMessage[ "errors" ] = errors;
-				} );
-			}
-		} );
-	}
-
-	private clearSavingError():void {
-		this.savingErrorMessage = null;
-	}
-
-	private getErrors( error:HTTPError ):Promise<any[]> {
-		let parser:JSONLDParser.Class = new JSONLDParser.Class();
-		let mainError = {};
-		let errors:any[] = [];
-		return parser.parse( error.response.data ).then( ( mainErrors )=> {
-			mainError = mainErrors.find( ( error )=> { return error[ "@type" ].indexOf( "https://carbonldp.com/ns/v1/platform#ErrorResponse" ) !== - 1} );
-			errors = mainErrors.filter( ( error )=> { return error[ "@type" ].indexOf( "https://carbonldp.com/ns/v1/platform#Error" ) !== - 1} );
-			return errors;
+			this.savingErrorMessage = this.getErrorMessage( error )
 		} );
 	}
 
@@ -249,18 +198,7 @@ export class DocumentExplorerComponent {
 			this.cancelDeletion();
 
 		} ).catch( ( error:HTTPError )=> {
-			this.savingErrorMessage = {
-				title: error.name,
-				content: error.message,
-				statusCode: "" + error.statusCode,
-				statusMessage: (<XMLHttpRequest>error.response.request).statusText,
-				endpoint: (<any>error.response.request).responseURL,
-			};
-			if( ! ! error.response.data ) {
-				this.getErrors( error ).then( ( errors )=> {
-					this.savingErrorMessage[ "errors" ] = errors;
-				} );
-			}
+			this.savingErrorMessage = this.getErrorMessage( error );
 		} );
 	}
 
@@ -280,17 +218,56 @@ export class DocumentExplorerComponent {
 
 	//</editor-fold>
 
-	private getHTTPErrorMessage( error:HTTP.Errors.Error, content:string ):Message {
-		return {
-			title: error.name,
-			content: content + (! ! error.message ? (" Reason: " + error.message) : ""),
-			endpoint: (<any>error.response.request).responseURL,
-			statusCode: "" + (<XMLHttpRequest>error.response.request).status + " - RequestID: " + error.requestID,
-			statusMessage: (<XMLHttpRequest>error.response.request).statusText
-		};
+	// Start:Error Handling
+	private clearSavingError():void {
+		this.savingErrorMessage = null;
 	}
 
-	private getErrorMessage( error:HTTP.Errors.Error ):string {
+	private handleExternalError( error:HTTPError ):void {
+		this.messages.push( this.getErrorMessage( error ) );
+	}
+
+	private getErrorMessage( error:HTTPError ):Message {
+		let errorMessage:Message = {
+			title: "",
+			content: "",
+			statusCode: "",
+			statusMessage: "",
+			endpoint: ""
+		};
+
+		errorMessage.title = error.hasOwnProperty( "name" ) ? error.name : "";
+		errorMessage.content = error.hasOwnProperty( "message" ) ? error.message : "";
+
+		// If it's a HTTP error
+		if( error.hasOwnProperty( "statusCode" ) ) {
+			errorMessage.content = errorMessage.content === "" ? this.getFriendlyHTTPMessage( error ) : errorMessage.content;
+			errorMessage.statusCode = error.hasOwnProperty( "message" ) ? "" + error.statusCode : "";
+			errorMessage.statusMessage = ( <XMLHttpRequest>error.response.request ).statusText;
+			errorMessage.title = errorMessage.statusMessage;
+			errorMessage.endpoint = ( <any>error.response.request ).responseURL;
+			if( ! ! error.response.data )
+				this.getErrors( error ).then( ( errors )=> { errorMessage[ "errors" ] = errors; } );
+		} else if( error.hasOwnProperty( "stack" ) ) {
+			// If it's an uncaught exception
+			errorMessage.title = error.message;
+			errorMessage.stack = error.stack;
+		}
+		return errorMessage;
+	}
+
+	private getErrors( error:HTTPError ):Promise<any[]> {
+		let parser:JSONLDParser.Class = new JSONLDParser.Class();
+		let mainError = {};
+		let errors:any[] = [];
+		return parser.parse( error.response.data ).then( ( mainErrors )=> {
+			mainError = mainErrors.find( ( error )=> { return error[ "@type" ].indexOf( "https://carbonldp.com/ns/v1/platform#ErrorResponse" ) !== - 1} );
+			errors = mainErrors.filter( ( error )=> { return error[ "@type" ].indexOf( "https://carbonldp.com/ns/v1/platform#Error" ) !== - 1} );
+			return errors;
+		} );
+	}
+
+	private getFriendlyHTTPMessage( error:HTTP.Errors.Error ):string {
 		let tempMessage:string = "";
 		switch( true ) {
 			case error instanceof HTTP.Errors.ForbiddenError:
@@ -318,6 +295,8 @@ export class DocumentExplorerComponent {
 		}
 		return tempMessage;
 	}
+
+	// End:Error Handling
 }
 
 export default DocumentExplorerComponent;
