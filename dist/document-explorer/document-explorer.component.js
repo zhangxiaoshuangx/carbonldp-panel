@@ -41,7 +41,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
             }],
         execute: function() {
             DocumentExplorerComponent = (function () {
-                function DocumentExplorerComponent(element, documentsResolverService) {
+                function DocumentExplorerComponent(element, documentsResolverService, zone) {
                     this.selectedDocumentURI = "";
                     this.loadingDocument = false;
                     this.savingDocument = false;
@@ -58,6 +58,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                     this.onDisplaySuccessMessage = new core_1.EventEmitter();
                     this.element = element;
                     this.documentsResolverService = documentsResolverService;
+                    this.zone = zone;
                 }
                 DocumentExplorerComponent.prototype.ngAfterViewInit = function () {
                     this.$element = $(this.element.nativeElement);
@@ -77,8 +78,10 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                     var _this = this;
                     this.loadingDocument = true;
                     this.documentsResolverService.get(uri, this.documentContext).then(function (document) {
-                        _this.inspectingDocument = document[0];
-                        _this.loadingDocument = false;
+                        _this.zone.run(function () {
+                            _this.inspectingDocument = document[0];
+                            _this.loadingDocument = false;
+                        });
                     });
                 };
                 DocumentExplorerComponent.prototype.handleError = function (error) {
@@ -264,7 +267,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                         template: document_explorer_component_html_1.default,
                         styles: [document_explorer_component_css_text_1.default],
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, documents_resolver_service_1.DocumentsResolverService])
+                    __metadata('design:paramtypes', [core_1.ElementRef, documents_resolver_service_1.DocumentsResolverService, core_1.NgZone])
                 ], DocumentExplorerComponent);
                 return DocumentExplorerComponent;
             }());

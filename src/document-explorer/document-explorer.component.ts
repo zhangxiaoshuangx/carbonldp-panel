@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Output, EventEmitter } from "@angular/core";
+import { Component, ElementRef, Input, Output, EventEmitter, NgZone } from "@angular/core";
 
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
@@ -52,9 +52,12 @@ export class DocumentExplorerComponent {
 	@Output() onOpenNode:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onDisplaySuccessMessage:EventEmitter<string> = new EventEmitter<string>();
 
-	constructor( element:ElementRef, documentsResolverService:DocumentsResolverService ) {
+	private zone:NgZone;
+
+	constructor( element:ElementRef, documentsResolverService:DocumentsResolverService, zone:NgZone ) {
 		this.element = element;
 		this.documentsResolverService = documentsResolverService;
+		this.zone = zone;
 	}
 
 	ngAfterViewInit():void {
@@ -77,8 +80,10 @@ export class DocumentExplorerComponent {
 	resolveDocument( uri:string ):void {
 		this.loadingDocument = true;
 		this.documentsResolverService.get( uri, this.documentContext ).then( ( document:RDFDocument.Class )=> {
-			this.inspectingDocument = document[ 0 ];
-			this.loadingDocument = false;
+			this.zone.run( () => {
+				this.inspectingDocument = document[ 0 ];
+				this.loadingDocument = false;
+			} );
 		} );
 	}
 
