@@ -13,19 +13,12 @@
    *ngIf="documentContentHasChanged" (click)="saveDocument()">
 	<i class="save icon"></i>Save changes
 </a>
-<div class="ui positive save success savedocument message hidden" #successMessage>
+<div class="ui positive save success message hidden" #successMessage>
 	<i class="close icon" (click)="closeMessage(successMessage)"></i>
 	<div class="header">
 		Success!
 	</div>
-	<p>Changes saved successfully</p>
-</div>
-<div class="ui positive save success createchild message hidden" #successCreateChildMessage>
-	<i class="close icon" (click)="closeMessage(successCreateChildMessage)"></i>
-	<div class="header">
-		Success!
-	</div>
-	<p>The child was created correctly</p>
+	<div [innerHTML]="successMessageContent"></div>
 </div>
 <div class="ui unsaved prompt warning icon message hidden">
 	<i class="warning icon"></i>

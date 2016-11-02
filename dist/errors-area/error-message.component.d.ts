@@ -7,6 +7,7 @@ export declare class ErrorMessageComponent implements OnChanges {
     statusMessage: string;
     endpoint: string;
     message: Message;
+    errors: any[];
     closable: boolean;
     onClose: EventEmitter<any>;
     constructor();
@@ -22,5 +23,6 @@ export interface Message {
     statusCode: string;
     statusMessage: string;
     endpoint: string;
+    errors: any[];
 }
 export default ErrorMessageComponent;

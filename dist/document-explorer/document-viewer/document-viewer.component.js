@@ -51,6 +51,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
         execute: function() {
             DocumentViewerComponent = (function () {
                 function DocumentViewerComponent(element, documentsResolverService) {
+                    this.successMessageContent = "";
                     this.sections = ["bNodes", "namedFragments", "documentResource"];
                     this.bNodes = [];
                     this.namedFragments = [];
@@ -59,6 +60,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     this.bNodesHaveChanged = false;
                     this.namedFragmentsHaveChanged = false;
                     this.displaySuccessMessage = new core_1.EventEmitter();
+                    this.onError = new core_1.EventEmitter();
                     this.onOpenNode = new core_1.EventEmitter();
                     this.onRefreshNode = new core_1.EventEmitter();
                     this.onLoadingDocument = new core_1.EventEmitter();
@@ -106,21 +108,9 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 DocumentViewerComponent.prototype.ngAfterViewInit = function () {
                     var _this = this;
                     this.$element = jquery_1.default(this.element.nativeElement);
-                    this.$saveDocumentSuccessMessage = this.$element.find(".success.save.savedocument.message");
-                    this.$createChildSuccessMessage = this.$element.find(".success.save.createchild.message");
-                    this.displaySuccessMessage.subscribe(function (type) {
-                        switch (type) {
-                            case "createchild":
-                                _this.$createChildSuccessMessage.transition({
-                                    onComplete: function () {
-                                        setTimeout(function () {
-                                            if (!_this.$createChildSuccessMessage.hasClass("hidden"))
-                                                _this.$createChildSuccessMessage.transition("fade");
-                                        }, 2500);
-                                    }
-                                });
-                                break;
-                        }
+                    this.$successMessage = this.$element.find(".success.message");
+                    this.displaySuccessMessage.subscribe(function (content) {
+                        _this.showSuccessMessage(content, 2500);
                     });
                 };
                 DocumentViewerComponent.prototype.ngOnChanges = function (changes) {
@@ -271,30 +261,22 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     var body = JSON.stringify(backupDocument, null, "\t");
                     this.documentsResolverService.update(backupDocument["@id"], body, this.documentContext).then(function (updatedDocument) {
                         _this.document = updatedDocument[0];
-                        setTimeout(function () {
-                            _this.$saveDocumentSuccessMessage.transition({
-                                onComplete: function () {
-                                    setTimeout(function () {
-                                        if (!_this.$saveDocumentSuccessMessage.hasClass("hidden"))
-                                            _this.$saveDocumentSuccessMessage.transition("fade");
-                                    }, 4000);
-                                }
-                            });
-                        }, 1500);
+                        _this.showSuccessMessage("<p>Changes saved successfully</p>", 4500);
                     }).catch(function (error) {
-                        _this.savingErrorMessage = {
-                            title: error.name,
-                            content: error.response.request.statusText,
-                            statusCode: "" + error.response.status,
-                            statusMessage: error.response.request.statusText,
-                            endpoint: error.response.request.responseURL,
-                        };
-                        if (!!error.response.data) {
-                            // TODO: Change this method to use the correct HTTPError when Javascript SDK implements it
-                            _this.getErrors(error).then(function (errors) {
-                                _this.savingErrorMessage["errors"] = errors;
-                            });
-                        }
+                        // this.savingErrorMessage = {
+                        // 	title: error.name,
+                        // 	content: (<XMLHttpRequest>error.response.request).statusText,
+                        // 	statusCode: "" + error.response.status,
+                        // 	statusMessage: (<XMLHttpRequest>error.response.request).statusText,
+                        // 	endpoint: (<any>error.response.request).responseURL,
+                        // };
+                        // if( ! ! error.response.data ) {
+                        // 	// TODO: Change this method to use the correct HTTPError when Javascript SDK implements it
+                        // 	this.getErrors( error ).then( ( errors )=> {
+                        // 		this.savingErrorMessage[ "errors" ] = errors;
+                        // 	} );
+                        // }
+                        _this.onError.emit(error);
                     }).then(function () {
                         _this.savingDocument = false;
                         _this.rootNodeHasChanged = _this.rootNodeRecords.changes.size > 0 || _this.rootNodeRecords.additions.size > 0 || _this.rootNodeRecords.deletions.size > 0;
@@ -317,6 +299,19 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 };
                 DocumentViewerComponent.prototype.closeMessage = function (message) {
                     jquery_1.default(message).transition("fade");
+                };
+                DocumentViewerComponent.prototype.showSuccessMessage = function (content, timeout) {
+                    var _this = this;
+                    this.successMessageContent = content;
+                    this.$successMessage.transition({
+                        onComplete: function () {
+                            setTimeout(function () {
+                                if (!_this.$successMessage.hasClass("hidden"))
+                                    _this.$successMessage.transition("fade");
+                                _this.successMessageContent = "";
+                            }, typeof timeout !== "undefined" ? timeout : 2500);
+                        }
+                    });
                 };
                 DocumentViewerComponent.prototype.beforeRefreshDocument = function (documentURI) {
                     if (this.documentContentHasChanged)
@@ -356,6 +351,10 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     __metadata('design:type', Object), 
                     __metadata('design:paramtypes', [Object])
                 ], DocumentViewerComponent.prototype, "document", null);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], DocumentViewerComponent.prototype, "onError", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)

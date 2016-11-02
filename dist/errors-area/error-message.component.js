@@ -41,6 +41,7 @@ System.register(["@angular/core", "jquery", "semantic-ui/semantic", "./error-mes
                     this.statusCode = this.message.statusCode;
                     this.statusMessage = this.message.statusMessage;
                     this.endpoint = this.message.endpoint;
+                    this.errors = this.message.errors;
                 };
                 ErrorMessageComponent.prototype.close = function (event, messageDiv) {
                     var _this = this;
@@ -73,6 +74,10 @@ System.register(["@angular/core", "jquery", "semantic-ui/semantic", "./error-mes
                     core_1.Input(), 
                     __metadata('design:type', Object)
                 ], ErrorMessageComponent.prototype, "message", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Array)
+                ], ErrorMessageComponent.prototype, "errors", void 0);
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', Boolean)

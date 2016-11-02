@@ -19,6 +19,7 @@ export class ErrorMessageComponent implements OnChanges {
 	@Input() statusMessage:string;
 	@Input() endpoint:string;
 	@Input() message:Message;
+	@Input() errors:any[];
 	@Input() closable:boolean = false;
 	@Output() onClose:EventEmitter<any> = new EventEmitter();
 
@@ -36,6 +37,7 @@ export class ErrorMessageComponent implements OnChanges {
 		this.statusCode = this.message.statusCode;
 		this.statusMessage = this.message.statusMessage;
 		this.endpoint = this.message.endpoint;
+		this.errors = this.message.errors;
 	}
 
 	close( event:Event, messageDiv:HTMLElement ):void {
@@ -52,6 +54,7 @@ export interface Message {
 	statusCode:string;
 	statusMessage:string;
 	endpoint:string;
+	errors:any[];
 }
 
 export default ErrorMessageComponent;

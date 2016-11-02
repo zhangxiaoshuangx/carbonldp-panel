@@ -1,7 +1,6 @@
 import { ElementRef, EventEmitter } from "@angular/core";
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
-import * as HTTP from "carbonldp/HTTP";
 import { DocumentsResolverService } from "./documents-resolver.service";
 import { Message } from "carbonldp-panel/errors-area/error-message.component";
 import "semantic-ui/semantic";
@@ -13,8 +12,6 @@ export declare class DocumentExplorerComponent {
     $createDocumentDimmer: JQuery;
     $deleteDocumentDimmer: JQuery;
     $createAccessPointDimmer: JQuery;
-    $createAccessPointForm: JQuery;
-    $deleteAccessPointDimmer: JQuery;
     selectedDocumentURI: string;
     loadingDocument: boolean;
     savingDocument: boolean;
@@ -43,7 +40,6 @@ export declare class DocumentExplorerComponent {
     onLoadingDocument(loadingDocument: boolean): void;
     showLoading(savingDocument: boolean): void;
     resolveDocument(uri: string): void;
-    handleError(error: HTTP.Errors.Error): void;
     refreshDocument(documentURI: string): void;
     refreshNode(nodeId: string): void;
     openNode(nodeId: string): void;
@@ -56,12 +52,14 @@ export declare class DocumentExplorerComponent {
     private getSanitizedSlug(slug);
     private createChild();
     private onSubmitAccessPoint(data, $event);
-    private clearSavingError();
-    private getErrors(error);
     private deleteDocument();
     private cancelDeletion();
     private showDeleteChildForm();
     private getParentURI(documentURI);
+    private clearSavingError();
+    private handleExternalError(error);
+    private captureMessage(error);
+    private getErrors(error);
     private getHTTPErrorMessage(error, content);
     private getErrorMessage(error);
 }
