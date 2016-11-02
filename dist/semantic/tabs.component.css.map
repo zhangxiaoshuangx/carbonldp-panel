@@ -1,0 +1,1 @@
+{"version":3,"sources":["tabs.component.css"],"names":[],"mappings":"AAAA;EACE,eAAe,EAAE;EACjB;IACE,cAAc,EAAE;IAChB;MACE,WAAW,EAAE","file":"tabs.component.css","sourcesContent":[":host {\n  display: block; }\n  :host .ui.grid {\n    padding: 1rem; }\n    :host .ui.grid > .row {\n      padding: 0; }\n"]}
