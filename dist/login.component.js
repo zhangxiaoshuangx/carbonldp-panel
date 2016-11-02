@@ -66,7 +66,6 @@ System.register(["@angular/core", "angular2-carbonldp/services", "carbonldp/HTTP
                     }).catch(function (error) {
                         _this.sending = false;
                         _this.setErrorMessage(error);
-                    }).then(function () {
                         _this.shakeForm();
                     });
                 };

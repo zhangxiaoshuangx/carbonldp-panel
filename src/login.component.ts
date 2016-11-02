@@ -62,7 +62,6 @@ export class LoginComponent implements OnInit {
 		} ).catch( ( error:HTTP.Errors.Error ) => {
 			this.sending = false;
 			this.setErrorMessage( error );
-		} ).then( ()=> {
 			this.shakeForm();
 		} );
 	}
