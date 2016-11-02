@@ -1,1 +1,1 @@
-{"version":3,"sources":["app-content.view.css"],"names":[],"mappings":"AAAA;EACE,eAAe,EAAE","file":"my-apps/app-content/app-content.view.css","sourcesContent":[":host {\n  display: block; }\n"],"sourceRoot":"/source/"}
+{"version":3,"sources":["app-content.view.css"],"names":[],"mappings":"AAAA;EACE,eAAe,EAAE","file":"app-content.view.css","sourcesContent":[":host {\n  display: block; }\n"]}

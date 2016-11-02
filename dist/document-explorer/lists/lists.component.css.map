@@ -1,1 +1,1 @@
-{"version":3,"sources":["lists.component.css"],"names":[],"mappings":"AAAA;EACE,cAAc,EAAE","file":"document-explorer/lists/lists.component.css","sourcesContent":["cp-list {\n  padding: 2% 0; }\n"],"sourceRoot":"/source/"}
+{"version":3,"sources":["lists.component.css"],"names":[],"mappings":"AAAA;EACE,cAAc,EAAE","file":"lists.component.css","sourcesContent":["cp-list {\n  padding: 2% 0; }\n"]}
