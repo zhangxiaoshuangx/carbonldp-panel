@@ -12,9 +12,15 @@ import template from "./edit-app.view.html!";
 } )
 export class EditAppView {
 	app:App.Class;
+	canDisplay:boolean = true;
 
 	constructor( appContentService:AppContentService ) {
 		this.app = appContentService.activeApp;
+		appContentService.onAppHasChanged.subscribe( ( app:App.Class )=> {
+			this.app = app;
+			this.canDisplay = false;
+			setTimeout( ()=> { this.canDisplay = true;}, 0 );
+		} );
 	}
 
 }

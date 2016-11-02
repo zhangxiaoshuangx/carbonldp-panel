@@ -89,7 +89,6 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 	@Output() onDeleteNewProperty:EventEmitter<PropertyRow> = new EventEmitter<PropertyRow>();
 	@Output() onSaveNewProperty:EventEmitter<PropertyRow> = new EventEmitter<PropertyRow>();
 	@Output() onChangeNewProperty:EventEmitter<PropertyRow> = new EventEmitter<PropertyRow>();
-	@Output() onRefreshDocument:EventEmitter<string> = new EventEmitter<string>();
 
 	nameHasChanged:boolean = false;
 	valueHasChanged:boolean = false;
@@ -422,10 +421,6 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 			else
 				this.onChangeNewProperty.emit( this.tempProperty );
 		}
-	}
-
-	private refreshDocument():void {
-		this.onRefreshDocument.emit( this.documentURI );
 	}
 
 	private escape( uri:string ):string {

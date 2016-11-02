@@ -38,6 +38,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
             DocumentTreeViewComponent = (function () {
                 function DocumentTreeViewComponent(element) {
                     this.nodeChildren = [];
+                    this.refreshNode = new core_1.EventEmitter();
                     this.onResolveUri = new core_1.EventEmitter();
                     this.onError = new core_1.EventEmitter();
                     this.onLoadingDocument = new core_1.EventEmitter();
@@ -61,6 +62,11 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     this.getDocumentTree().then(function () {
                         _this.onLoadingDocument.emit(false);
                     });
+                    this.refreshNode.subscribe(function (nodeId) {
+                        var tree = _this.documentTree.jstree(true);
+                        tree.close_node(nodeId);
+                        tree.open_node(nodeId);
+                    });
                 };
                 DocumentTreeViewComponent.prototype.getDocumentTree = function () {
                     var _this = this;
@@ -78,16 +84,13 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                 };
                 DocumentTreeViewComponent.prototype.buildNode = function (uri, isAccessPoint) {
                     var node = {
+                        id: uri,
                         text: this.getSlug(uri),
                         state: { "opened": false },
                         children: [
                             { "text": "Loading...", },
                         ],
-                        data: {
-                            "pointer": {
-                                "id": uri,
-                            },
-                        },
+                        data: {},
                     };
                     if (isAccessPoint)
                         node.type = "accesspoint";
@@ -126,15 +129,17 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                         _this.onBeforeOpenNode(parentId, parentNode, position);
                     });
                     this.documentTree.on("changed.jstree", function (e, data) {
+                        if (data["action"] !== "select_node")
+                            return;
                         var parentId = data.node.id;
                         var parentNode = data.node;
                         var position = "last";
                         _this.onClickNode(parentId, parentNode, position);
                     });
                     this.documentTree.on("loaded.jstree", function () {
-                        _this.documentTree.jstree("open_all");
+                        _this.documentTree.jstree("select_node", _this.nodeChildren[0].id);
                         if (_this.nodeChildren && _this.nodeChildren.length > 0) {
-                            _this.onResolveUri.emit(_this.nodeChildren[0].data.pointer.id);
+                            _this.onResolveUri.emit(_this.nodeChildren[0].id);
                         }
                     });
                 };
@@ -151,7 +156,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     var oldIcon = parentNode.icon;
                     var $documentTree = this.documentTree.jstree(true);
                     $documentTree.set_icon(parentNode, $documentTree.settings.types.loading.icon);
-                    this.getNodeChildren(parentNode.data.pointer.id).then(function (children) {
+                    this.getNodeChildren(parentNode.id).then(function (children) {
                         _this.emptyNode(parentId);
                         if (children.length > 0) {
                             children.forEach(function (childNode) { return _this.addChild(parentId, childNode, position); });
@@ -168,7 +173,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     else {
                         tree.open_node(node);
                     }
-                    this.onResolveUri.emit(node.data.pointer.id);
+                    this.onResolveUri.emit(node.id);
                 };
                 DocumentTreeViewComponent.prototype.addChild = function (parentId, node, position) {
                     this.documentTree.jstree(true).create_node(parentId, node, position);
@@ -210,6 +215,10 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     core_1.Input(), 
                     __metadata('design:type', SDKContext.Class)
                 ], DocumentTreeViewComponent.prototype, "documentContext", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], DocumentTreeViewComponent.prototype, "refreshNode", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)

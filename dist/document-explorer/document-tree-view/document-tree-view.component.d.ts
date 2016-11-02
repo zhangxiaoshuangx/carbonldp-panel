@@ -12,6 +12,7 @@ export declare class DocumentTreeViewComponent implements AfterViewInit, OnInit 
     documentTree: JQuery;
     nodeChildren: JSTreeNode[];
     documentContext: SDKContext.Class;
+    refreshNode: EventEmitter<string>;
     onResolveUri: EventEmitter<RDFDocument.Class>;
     onError: EventEmitter<HTTP.Errors.Error>;
     onLoadingDocument: EventEmitter<boolean>;
@@ -29,6 +30,7 @@ export declare class DocumentTreeViewComponent implements AfterViewInit, OnInit 
     getSlug(pointer: Pointer.Class | string): string;
 }
 export interface JSTreeNode {
+    id: string;
     text: any;
     state: any;
     children: any;

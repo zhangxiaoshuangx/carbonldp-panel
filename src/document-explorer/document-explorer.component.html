@@ -10,12 +10,14 @@
 	<div class="stretched row">
 		<cp-document-treeview class="five wide column treeview-container"
 		                      [documentContext]="documentContext"
+		                      [refreshNode]="onRefreshNode"
 		                      (onError)="handleError($event)"
 		                      (onLoadingDocument)="onLoadingDocument($event)"
 		                      (onResolveUri)="resolveDocument($event)"></cp-document-treeview>
 		<cp-document-viewer class="eleven wide column"
 		                    [document]="inspectingDocument"
 		                    [documentContext]="documentContext"
+		                    (onRefreshNode)="refreshNode($event)"
 		                    (onSavingDocument)="showLoading($event)"
 		                    (onLoadingDocument)="onLoadingDocument($event)"
 		                    (onRefreshDocument)="refreshDocument($event)"></cp-document-viewer>

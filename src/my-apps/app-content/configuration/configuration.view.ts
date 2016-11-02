@@ -14,9 +14,15 @@ import template from "./configuration.view.html!";
 } )
 export class ConfigurationView {
 	app:App.Class;
+	canDisplay:boolean = true;
 
 	constructor( appContentService:AppContentService ) {
 		this.app = appContentService.activeApp;
+		appContentService.onAppHasChanged.subscribe( ( app:App.Class )=> {
+			this.app = app;
+			this.canDisplay = false;
+			setTimeout( ()=> { this.canDisplay = true;}, 0 );
+		} );
 	}
 
 }

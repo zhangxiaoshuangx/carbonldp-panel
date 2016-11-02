@@ -69,6 +69,15 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "carbonl
                         resolve(values);
                     });
                 };
+                DocumentsResolverService.prototype.createChild = function (context, parentURI, content, childSlug) {
+                    return context.documents.createChild(parentURI, content, childSlug).then(function (_a) {
+                        var createdChild = _a[0], response = _a[1];
+                        return createdChild;
+                    }).catch(function (error) {
+                        console.error(error);
+                        return Promise.reject(error);
+                    });
+                };
                 DocumentsResolverService.prototype.update = function (uri, body, documentContext) {
                     if (!uri || !body)
                         return Promise.reject(new Error("Provide the required parameters"));

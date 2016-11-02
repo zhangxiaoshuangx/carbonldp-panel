@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
 
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
@@ -27,6 +27,7 @@ export class DocumentExplorerComponent {
 	messages:Message[] = [];
 
 	@Input() documentContext:SDKContext.Class;
+	@Output() onRefreshNode:EventEmitter<string> = new EventEmitter<string>();
 
 	constructor( documentsResolverService:DocumentsResolverService ) {
 		this.documentsResolverService = documentsResolverService;
@@ -62,6 +63,10 @@ export class DocumentExplorerComponent {
 
 	refreshDocument( documentURI:string ):void {
 		this.resolveDocument( documentURI );
+	}
+
+	refreshNode( nodeId:string ):void {
+		this.onRefreshNode.emit( nodeId );
 	}
 
 	private getHTTPErrorMessage( error:HTTP.Errors.Error, content:string ):Message {

@@ -9,6 +9,10 @@
 		overflow-y: scroll;
 		overflow-x: hidden;
 	}
+	.document.options {
+		padding: 0;
+		width: 100%;
+	}
 	.success.message {
 		position: absolute;
 		z-index: 1;

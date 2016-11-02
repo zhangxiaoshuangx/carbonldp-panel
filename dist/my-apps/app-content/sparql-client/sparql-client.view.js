@@ -29,8 +29,15 @@ System.register(["@angular/core", "./../../app-content/app-content.service", "ca
         execute: function() {
             SPARQLClientView = (function () {
                 function SPARQLClientView(errorsAreaService, appContentService) {
+                    var _this = this;
+                    this.canDisplay = true;
                     this.appContext = appContentService.activeApp.context;
                     this.errorsAreaService = errorsAreaService;
+                    appContentService.onAppHasChanged.subscribe(function (app) {
+                        _this.appContext = appContentService.activeApp.context;
+                        _this.canDisplay = false;
+                        setTimeout(function () { _this.canDisplay = true; }, 0);
+                    });
                 }
                 SPARQLClientView.prototype.notifyErrorAreaService = function (error) {
                     this.errorsAreaService.addError(error.title, error.content, error.statusCode, error.statusMessage, error.endpoint);

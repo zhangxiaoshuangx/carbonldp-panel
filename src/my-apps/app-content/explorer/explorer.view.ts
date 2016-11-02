@@ -12,9 +12,15 @@ import template from "./explorer.view.html!";
 } )
 export class ExplorerView {
 	app:App.Class;
+	canDisplay:boolean = true;
 
 	constructor( appContentService:AppContentService ) {
 		this.app = appContentService.activeApp;
+		appContentService.onAppHasChanged.subscribe( ( app:App.Class )=> {
+			this.app = app;
+			this.canDisplay = false;
+			setTimeout( ()=> { this.canDisplay = true;}, 0 );
+		} );
 	}
 
 }

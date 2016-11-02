@@ -54,9 +54,15 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     this.sections = ["bNodes", "namedFragments", "documentResource"];
                     this.bNodes = [];
                     this.namedFragments = [];
+                    this.documentURI = "";
                     this.rootNodeHasChanged = false;
                     this.bNodesHaveChanged = false;
                     this.namedFragmentsHaveChanged = false;
+                    this.createChildFormModel = {
+                        slug: ""
+                    };
+                    this.canDisplayCreateChildForm = false;
+                    this.onRefreshNode = new core_1.EventEmitter();
                     this.onLoadingDocument = new core_1.EventEmitter();
                     this.onSavingDocument = new core_1.EventEmitter();
                     this.onRefreshDocument = new core_1.EventEmitter();
@@ -101,7 +107,8 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 });
                 DocumentViewerComponent.prototype.ngAfterViewInit = function () {
                     this.$element = jquery_1.default(this.element.nativeElement);
-                    this.$successMessage = this.$element.find(".success.message");
+                    this.$saveSuccessMessage = this.$element.find(".success.save.message");
+                    this.$createChildSuccessMessage = this.$element.find(".success.createchild.message");
                 };
                 DocumentViewerComponent.prototype.ngOnChanges = function (changes) {
                     var _this = this;
@@ -121,6 +128,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                         this.clearDocumentChanges();
                         this.loadingDocument = false;
                         this.savingErrorMessage = null;
+                        this.documentURI = this.document["@id"];
                         setTimeout(function () {
                             _this.goToSection("documentResource");
                             _this.initializeTabs();
@@ -251,11 +259,11 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     this.documentsResolverService.update(backupDocument["@id"], body, this.documentContext).then(function (updatedDocument) {
                         _this.document = updatedDocument[0];
                         setTimeout(function () {
-                            _this.$successMessage.transition({
+                            _this.$saveSuccessMessage.transition({
                                 onComplete: function () {
                                     setTimeout(function () {
-                                        if (!_this.$successMessage.hasClass("hidden"))
-                                            _this.$successMessage.transition("fade");
+                                        if (!_this.$saveSuccessMessage.hasClass("hidden"))
+                                            _this.$saveSuccessMessage.transition("fade");
                                     }, 4000);
                                 }
                             });
@@ -297,6 +305,59 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 DocumentViewerComponent.prototype.closeMessage = function (message) {
                     jquery_1.default(message).transition("fade");
                 };
+                DocumentViewerComponent.prototype.toggleCreateChildForm = function () {
+                    var _this = this;
+                    jquery_1.default("form.createchild").transition({
+                        transition: "drop",
+                        onComplete: function () { _this.canDisplayCreateChildForm = !_this.canDisplayCreateChildForm; }
+                    });
+                };
+                DocumentViewerComponent.prototype.createChild = function () {
+                    var _this = this;
+                    var childSlug = !!this.createChildFormModel.slug ? this.createChildFormModel.slug : null;
+                    var childContent = {};
+                    this.loadingDocument = true;
+                    this.documentsResolverService.createChild(this.documentContext, this.documentURI, childContent, childSlug).then(function (createdChild) {
+                        _this.onRefreshNode.emit(_this.documentURI);
+                        setTimeout(function () {
+                            _this.$createChildSuccessMessage.transition({
+                                onComplete: function () {
+                                    setTimeout(function () {
+                                        if (!_this.$createChildSuccessMessage.hasClass("hidden"))
+                                            _this.$createChildSuccessMessage.transition("fade");
+                                    }, 4000);
+                                }
+                            });
+                        }, 1500);
+                    }).catch(function (error) {
+                        _this.savingErrorMessage = {
+                            title: error.name,
+                            content: error.message,
+                            statusCode: "" + error.statusCode,
+                            statusMessage: error.response.request.statusText,
+                            endpoint: error.response.request.responseURL,
+                        };
+                        if (!!error.response.data) {
+                            _this.getErrors(error).then(function (errors) {
+                                _this.savingErrorMessage["errors"] = errors;
+                            });
+                        }
+                    }).then(function () {
+                        _this.loadingDocument = false;
+                    });
+                };
+                DocumentViewerComponent.prototype.slugLostControl = function (evt) {
+                    if (typeof (evt.target) === "undefined")
+                        return;
+                    if (!evt.target.value.endsWith("/") && evt.target.value.trim() !== "")
+                        evt.target.value += "/";
+                };
+                DocumentViewerComponent.prototype.getSanitizedSlug = function (slug) {
+                    if (!slug)
+                        return slug;
+                    slug = slug.toLowerCase().replace(/ - | -|- /g, "-").replace(/[^-\w ]+/g, "").replace(/ +/g, "-");
+                    return slug;
+                };
                 DocumentViewerComponent.prototype.beforeRefreshDocument = function (documentURI) {
                     if (this.documentContentHasChanged)
                         this.toggleConfirmRefresh();
@@ -331,6 +392,10 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     __metadata('design:type', Object), 
                     __metadata('design:paramtypes', [Object])
                 ], DocumentViewerComponent.prototype, "document", null);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], DocumentViewerComponent.prototype, "onRefreshNode", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
