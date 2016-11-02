@@ -1,4 +1,4 @@
-import { ElementRef, EventEmitter } from "@angular/core";
+import { ElementRef, EventEmitter, NgZone } from "@angular/core";
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
 import * as HTTP from "carbonldp/HTTP";
@@ -30,7 +30,8 @@ export declare class DocumentExplorerComponent {
     onRefreshNode: EventEmitter<string>;
     onOpenNode: EventEmitter<string>;
     onDisplaySuccessMessage: EventEmitter<string>;
-    constructor(element: ElementRef, documentsResolverService: DocumentsResolverService);
+    private zone;
+    constructor(element: ElementRef, documentsResolverService: DocumentsResolverService, zone: NgZone);
     ngAfterViewInit(): void;
     onLoadingDocument(loadingDocument: boolean): void;
     showLoading(savingDocument: boolean): void;
