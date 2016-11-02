@@ -263,19 +263,6 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                         _this.document = updatedDocument[0];
                         _this.showSuccessMessage("<p>Changes saved successfully</p>", 4500);
                     }).catch(function (error) {
-                        // this.savingErrorMessage = {
-                        // 	title: error.name,
-                        // 	content: (<XMLHttpRequest>error.response.request).statusText,
-                        // 	statusCode: "" + error.response.status,
-                        // 	statusMessage: (<XMLHttpRequest>error.response.request).statusText,
-                        // 	endpoint: (<any>error.response.request).responseURL,
-                        // };
-                        // if( ! ! error.response.data ) {
-                        // 	// TODO: Change this method to use the correct HTTPError when Javascript SDK implements it
-                        // 	this.getErrors( error ).then( ( errors )=> {
-                        // 		this.savingErrorMessage[ "errors" ] = errors;
-                        // 	} );
-                        // }
                         _this.onError.emit(error);
                     }).then(function () {
                         _this.savingDocument = false;
