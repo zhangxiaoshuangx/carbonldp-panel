@@ -61,7 +61,7 @@
 					<p class="noAllowedOrigins">No allowed origins to show.</p>
 				</div>
 			</div>
-			<div class="ui negative message" *ngIf="!allDomains.value && allowedDomains.length===0">
+			<div class="ui error message" *ngIf="!allDomains.value || allowedDomains.length===0">
 				<i class="warning icon"></i>
 				You have not entered an address, please add at least one or allow all origins.
 			</div>
@@ -77,7 +77,7 @@
 		Submit
 	</button>
 </form>
-<div class="ui bottom attached error message" *ngIf="!editAppForm.valid">
+<div class="ui bottom attached error message" *ngIf="!editAppForm.valid && (name.control.hasError('required') || description.control.hasError('required'))">
 	<ol class="ui list">
 		<li value="*" *ngIf="!name.pristine && name.control.hasError('required')">
 			The name is required.
