@@ -27,9 +27,8 @@ export class DocumentExplorerComponent {
 	element:ElementRef;
 	$element:JQuery;
 	$createChildSuccessMessage:JQuery;
-	$createChildForm:JQuery;
 	$createDocumentModal:JQuery;
-	$deleteDocumentDimmer:JQuery;
+	$deleteDocumentModal:JQuery;
 
 	selectedDocumentURI:string = "";
 	loadingDocument:boolean = false;
@@ -64,7 +63,7 @@ export class DocumentExplorerComponent {
 		this.$element = $( this.element.nativeElement );
 		this.$createChildSuccessMessage = this.$element.find( ".success.createchild.message" );
 		this.$createDocumentModal = this.$element.find( ".create.document.modal" ).modal( { closable: false } );
-		this.$deleteDocumentDimmer = this.$element.find( ".delete.document.dimmer" ).dimmer( { closable: false } );
+		this.$deleteDocumentModal = this.$element.find( ".delete.document.modal" ).modal( { closable: false } );
 		this.$createDocumentModal.find( ".advancedoptions.accordion" ).accordion();
 	}
 
@@ -211,11 +210,11 @@ export class DocumentExplorerComponent {
 	}
 
 	private cancelDeletion():void {
-		this.$deleteDocumentDimmer.dimmer( "hide" );
+		this.$deleteDocumentModal.modal( "hide" );
 	}
 
 	private showDeleteChildForm():void {
-		this.$deleteDocumentDimmer.dimmer( "show" );
+		this.$deleteDocumentModal.modal( "show" );
 	}
 
 	private getParentURI( documentURI:string ):string {

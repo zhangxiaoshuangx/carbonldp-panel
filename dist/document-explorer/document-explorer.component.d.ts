@@ -9,9 +9,8 @@ export declare class DocumentExplorerComponent {
     element: ElementRef;
     $element: JQuery;
     $createChildSuccessMessage: JQuery;
-    $createChildForm: JQuery;
     $createDocumentModal: JQuery;
-    $deleteDocumentDimmer: JQuery;
+    $deleteDocumentModal: JQuery;
     selectedDocumentURI: string;
     loadingDocument: boolean;
     savingDocument: boolean;

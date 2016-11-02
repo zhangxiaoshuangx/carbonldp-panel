@@ -64,7 +64,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                     this.$element = $(this.element.nativeElement);
                     this.$createChildSuccessMessage = this.$element.find(".success.createchild.message");
                     this.$createDocumentModal = this.$element.find(".create.document.modal").modal({ closable: false });
-                    this.$deleteDocumentDimmer = this.$element.find(".delete.document.dimmer").dimmer({ closable: false });
+                    this.$deleteDocumentModal = this.$element.find(".delete.document.modal").modal({ closable: false });
                     this.$createDocumentModal.find(".advancedoptions.accordion").accordion();
                 };
                 DocumentExplorerComponent.prototype.onLoadingDocument = function (loadingDocument) {
@@ -197,10 +197,10 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                     });
                 };
                 DocumentExplorerComponent.prototype.cancelDeletion = function () {
-                    this.$deleteDocumentDimmer.dimmer("hide");
+                    this.$deleteDocumentModal.modal("hide");
                 };
                 DocumentExplorerComponent.prototype.showDeleteChildForm = function () {
-                    this.$deleteDocumentDimmer.dimmer("show");
+                    this.$deleteDocumentModal.modal("show");
                 };
                 DocumentExplorerComponent.prototype.getParentURI = function (documentURI) {
                     var slug = URI.Util.getSlug(documentURI), slugIdx = documentURI.indexOf(slug);

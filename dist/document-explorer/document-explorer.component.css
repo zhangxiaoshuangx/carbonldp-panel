@@ -14,4 +14,8 @@
   :host .createchild.form .ui.saving.error.message {
     text-align: left; }
 
+.ui.delete.document.modal,
+.ui.delete.document.modal > .actions {
+  text-align: center; }
+
 /*# sourceMappingURL=document-explorer.component.css.map */
