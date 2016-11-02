@@ -3,7 +3,6 @@ import * as Pointer from "carbonldp/Pointer";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
 import * as HTTP from "carbonldp/HTTP";
 import * as SDKContext from "carbonldp/SDKContext";
-import * as RDFDocument from "carbonldp/RDF/Document";
 import "semantic-ui/semantic";
 import "jstree/dist/jstree.min";
 export declare class DocumentTreeViewComponent implements AfterViewInit, OnInit {
@@ -13,7 +12,7 @@ export declare class DocumentTreeViewComponent implements AfterViewInit, OnInit 
     nodeChildren: JSTreeNode[];
     documentContext: SDKContext.Class;
     refreshNode: EventEmitter<string>;
-    onResolveUri: EventEmitter<RDFDocument.Class>;
+    onResolveUri: EventEmitter<string>;
     onError: EventEmitter<HTTP.Errors.Error>;
     onLoadingDocument: EventEmitter<boolean>;
     constructor(element: ElementRef);

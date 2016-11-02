@@ -30,7 +30,7 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 
 	@Input() documentContext:SDKContext.Class;
 	@Input() refreshNode:EventEmitter<string> = new EventEmitter<string>();
-	@Output() onResolveUri:EventEmitter<RDFDocument.Class> = new EventEmitter<RDFDocument.Class>();
+	@Output() onResolveUri:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onError:EventEmitter<HTTP.Errors.Error> = new EventEmitter<HTTP.Errors.Error>();
 	@Output() onLoadingDocument:EventEmitter<boolean> = new EventEmitter<boolean>();
 
