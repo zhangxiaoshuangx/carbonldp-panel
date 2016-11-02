@@ -3,6 +3,7 @@
   :host .ui.segment {
     color: #000000; }
   :host > .ui.divided.grid.segment {
+    height: 800px;
     max-height: 800px; }
     :host > .ui.divided.grid.segment > .stretched.row {
       border: 1px solid lightgray;
