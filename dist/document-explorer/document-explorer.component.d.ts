@@ -1,10 +1,10 @@
-import { ElementRef, EventEmitter, NgZone } from "@angular/core";
+import { ElementRef, EventEmitter, NgZone, AfterViewInit } from "@angular/core";
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
 import { DocumentsResolverService } from "./documents-resolver.service";
 import { Message } from "carbonldp-panel/errors-area/error-message.component";
 import "semantic-ui/semantic";
-export declare class DocumentExplorerComponent {
+export declare class DocumentExplorerComponent implements AfterViewInit {
     element: ElementRef;
     $element: JQuery;
     $createDocumentModal: JQuery;
