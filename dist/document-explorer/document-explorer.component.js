@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./documents-resolver.service", "semantic-ui/semantic", "./document-explorer.component.html!", "./document-explorer.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "carbonldp/JSONLD/Parser", "carbonldp/RDF/URI", "./documents-resolver.service", "semantic-ui/semantic", "./document-explorer.component.html!", "./document-explorer.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./d
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, SDKContext, HTTP, documents_resolver_service_1, document_explorer_component_html_1, document_explorer_component_css_text_1;
+    var core_1, SDKContext, HTTP, JSONLDParser, URI, documents_resolver_service_1, document_explorer_component_html_1, document_explorer_component_css_text_1;
     var DocumentExplorerComponent;
     return {
         setters:[
@@ -22,6 +22,12 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./d
             },
             function (HTTP_1) {
                 HTTP = HTTP_1;
+            },
+            function (JSONLDParser_1) {
+                JSONLDParser = JSONLDParser_1;
+            },
+            function (URI_1) {
+                URI = URI_1;
             },
             function (documents_resolver_service_1_1) {
                 documents_resolver_service_1 = documents_resolver_service_1_1;
@@ -35,13 +41,32 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./d
             }],
         execute: function() {
             DocumentExplorerComponent = (function () {
-                function DocumentExplorerComponent(documentsResolverService) {
+                function DocumentExplorerComponent(element, documentsResolverService, zone) {
+                    this.selectedDocumentURI = "";
                     this.loadingDocument = false;
                     this.savingDocument = false;
                     this.messages = [];
+                    this.createChildFormModel = {
+                        slug: "",
+                        advancedOptions: {
+                            hasMemberRelation: "http://www.w3.org/ns/ldp#member",
+                            isMemberOfRelation: ""
+                        }
+                    };
                     this.onRefreshNode = new core_1.EventEmitter();
+                    this.onOpenNode = new core_1.EventEmitter();
+                    this.onDisplaySuccessMessage = new core_1.EventEmitter();
+                    this.element = element;
                     this.documentsResolverService = documentsResolverService;
+                    this.zone = zone;
                 }
+                DocumentExplorerComponent.prototype.ngAfterViewInit = function () {
+                    this.$element = $(this.element.nativeElement);
+                    this.$createChildSuccessMessage = this.$element.find(".success.createchild.message");
+                    this.$createDocumentModal = this.$element.find(".create.document.modal").modal({ closable: false });
+                    this.$deleteDocumentModal = this.$element.find(".delete.document.modal").modal({ closable: false });
+                    this.$createDocumentModal.find(".advancedoptions.accordion").accordion();
+                };
                 DocumentExplorerComponent.prototype.onLoadingDocument = function (loadingDocument) {
                     this.loadingDocument = loadingDocument;
                 };
@@ -52,8 +77,10 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./d
                     var _this = this;
                     this.loadingDocument = true;
                     this.documentsResolverService.get(uri, this.documentContext).then(function (document) {
-                        _this.inspectingDocument = document[0];
-                        _this.loadingDocument = false;
+                        _this.zone.run(function () {
+                            _this.inspectingDocument = document[0];
+                            _this.loadingDocument = false;
+                        });
                     });
                 };
                 DocumentExplorerComponent.prototype.handleError = function (error) {
@@ -74,6 +101,112 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./d
                 DocumentExplorerComponent.prototype.refreshNode = function (nodeId) {
                     this.onRefreshNode.emit(nodeId);
                 };
+                DocumentExplorerComponent.prototype.openNode = function (nodeId) {
+                    this.onOpenNode.emit(nodeId);
+                };
+                //<editor-fold desc="#region Create child">
+                DocumentExplorerComponent.prototype.changeSelection = function (documentURI) {
+                    this.selectedDocumentURI = documentURI;
+                };
+                DocumentExplorerComponent.prototype.showCreateChildForm = function () {
+                    this.$createDocumentModal.modal("show");
+                };
+                DocumentExplorerComponent.prototype.hideCreateChildForm = function () {
+                    this.$createDocumentModal.modal("hide");
+                    this.clearSavingError();
+                    this.createChildFormModel.slug = "";
+                    this.createChildFormModel.advancedOptions.hasMemberRelation = "http://www.w3.org/ns/ldp#member";
+                    this.createChildFormModel.advancedOptions.isMemberOfRelation = "";
+                };
+                DocumentExplorerComponent.prototype.slugLostControl = function (evt) {
+                    if (typeof (evt.target) === "undefined")
+                        return;
+                    if (!evt.target.value.endsWith("/") && evt.target.value.trim() !== "")
+                        evt.target.value += "/";
+                };
+                DocumentExplorerComponent.prototype.getSanitizedSlug = function (slug) {
+                    if (!slug)
+                        return slug;
+                    return slug.toLowerCase().replace(/ - | -|- /g, "-").replace(/[^-\w ]+/g, "").replace(/ +/g, "-");
+                };
+                DocumentExplorerComponent.prototype.createChild = function () {
+                    var _this = this;
+                    var childSlug = null;
+                    if (!!this.createChildFormModel.slug)
+                        childSlug = this.createChildFormModel.slug + ((this.createChildFormModel.slug.endsWith("/") && this.createChildFormModel.slug.trim() !== "") ? "/" : "");
+                    var childContent = {
+                        hasMemberRelation: this.createChildFormModel.advancedOptions.hasMemberRelation
+                    };
+                    if (!!this.createChildFormModel.advancedOptions.isMemberOfRelation)
+                        childContent["isMemberOfRelation"] = this.createChildFormModel.advancedOptions.isMemberOfRelation;
+                    this.loadingDocument = true;
+                    this.documentsResolverService.createChild(this.documentContext, this.selectedDocumentURI, childContent, childSlug).then(function (createdChild) {
+                        _this.onRefreshNode.emit(_this.selectedDocumentURI);
+                        _this.hideCreateChildForm();
+                        _this.onDisplaySuccessMessage.emit("createchild");
+                    }).catch(function (error) {
+                        _this.savingErrorMessage = {
+                            title: error.name,
+                            content: error.message,
+                            statusCode: "" + error.statusCode,
+                            statusMessage: error.response.request.statusText,
+                            endpoint: error.response.request.responseURL,
+                        };
+                        if (!!error.response.data) {
+                            _this.getErrors(error).then(function (errors) {
+                                _this.savingErrorMessage["errors"] = errors;
+                            });
+                        }
+                    }).then(function () {
+                        _this.loadingDocument = false;
+                    });
+                };
+                DocumentExplorerComponent.prototype.clearSavingError = function () {
+                    this.savingErrorMessage = null;
+                };
+                DocumentExplorerComponent.prototype.getErrors = function (error) {
+                    var parser = new JSONLDParser.Class();
+                    var mainError = {};
+                    var errors = [];
+                    return parser.parse(error.response.data).then(function (mainErrors) {
+                        mainError = mainErrors.find(function (error) { return error["@type"].indexOf("https://carbonldp.com/ns/v1/platform#ErrorResponse") !== -1; });
+                        errors = mainErrors.filter(function (error) { return error["@type"].indexOf("https://carbonldp.com/ns/v1/platform#Error") !== -1; });
+                        return errors;
+                    });
+                };
+                //</editor-fold>
+                //<editor-fold desc="#region Delete child">
+                DocumentExplorerComponent.prototype.deleteDocument = function () {
+                    var _this = this;
+                    this.documentsResolverService.delete(this.documentContext, this.selectedDocumentURI).then(function (result) {
+                        _this.refreshNode(_this.getParentURI(_this.selectedDocumentURI));
+                        _this.cancelDeletion();
+                    }).catch(function (error) {
+                        _this.savingErrorMessage = {
+                            title: error.name,
+                            content: error.message,
+                            statusCode: "" + error.statusCode,
+                            statusMessage: error.response.request.statusText,
+                            endpoint: error.response.request.responseURL,
+                        };
+                        if (!!error.response.data) {
+                            _this.getErrors(error).then(function (errors) {
+                                _this.savingErrorMessage["errors"] = errors;
+                            });
+                        }
+                    });
+                };
+                DocumentExplorerComponent.prototype.cancelDeletion = function () {
+                    this.$deleteDocumentModal.modal("hide");
+                };
+                DocumentExplorerComponent.prototype.showDeleteChildForm = function () {
+                    this.$deleteDocumentModal.modal("show");
+                };
+                DocumentExplorerComponent.prototype.getParentURI = function (documentURI) {
+                    var slug = URI.Util.getSlug(documentURI), slugIdx = documentURI.indexOf(slug);
+                    return documentURI.substr(0, slugIdx);
+                };
+                //</editor-fold>
                 DocumentExplorerComponent.prototype.getHTTPErrorMessage = function (error, content) {
                     return {
                         title: error.name,
@@ -119,13 +252,21 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "./d
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], DocumentExplorerComponent.prototype, "onRefreshNode", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], DocumentExplorerComponent.prototype, "onOpenNode", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], DocumentExplorerComponent.prototype, "onDisplaySuccessMessage", void 0);
                 DocumentExplorerComponent = __decorate([
                     core_1.Component({
                         selector: "cp-document-explorer",
                         template: document_explorer_component_html_1.default,
                         styles: [document_explorer_component_css_text_1.default],
                     }), 
-                    __metadata('design:paramtypes', [documents_resolver_service_1.DocumentsResolverService])
+                    __metadata('design:paramtypes', [core_1.ElementRef, documents_resolver_service_1.DocumentsResolverService, core_1.NgZone])
                 ], DocumentExplorerComponent);
                 return DocumentExplorerComponent;
             }());

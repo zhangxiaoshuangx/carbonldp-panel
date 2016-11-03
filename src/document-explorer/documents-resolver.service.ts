@@ -60,6 +60,13 @@ export class DocumentsResolverService {
 		} );
 	}
 
+	delete( context:SDKContext.Class, documentURI:string ):Promise<HTTP.Response.Class> {
+		return context.documents.delete( documentURI ).catch( ( error ) => {
+			console.error( error );
+			return Promise.reject( error );
+		} );
+	}
+
 	update( uri:string, body:string, documentContext:SDKContext.Class ):Promise<RDFDocument.Class> {
 		if( ! uri || ! body ) return <any> Promise.reject( new Error( "Provide the required parameters" ) );
 		//Refresh document ETag

@@ -5,7 +5,6 @@ import * as PersistedDocument from "carbonldp/PersistedDocument";
 import * as HTTP from "carbonldp/HTTP";
 import * as URI from "carbonldp/RDF/URI";
 import * as SDKContext from "carbonldp/SDKContext";
-import * as RDFDocument from "carbonldp/RDF/Document";
 
 import $ from "jquery";
 import "semantic-ui/semantic";
@@ -25,14 +24,29 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 	element:ElementRef;
 	$element:JQuery;
 
-	documentTree:JQuery;
+	jsTree:JSTree;
+	$tree:JQuery;
 	nodeChildren:JSTreeNode[] = [];
+	private _selectedURI:string = "";
+
+	set selectedURI( value:string ) {
+		this._selectedURI = value;
+		this.onSelectDocument.emit( this.selectedURI );
+	}
+
+	get selectedURI():string {
+		return this._selectedURI;
+	}
 
 	@Input() documentContext:SDKContext.Class;
 	@Input() refreshNode:EventEmitter<string> = new EventEmitter<string>();
+	@Input() openNode:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onResolveUri:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onError:EventEmitter<HTTP.Errors.Error> = new EventEmitter<HTTP.Errors.Error>();
 	@Output() onLoadingDocument:EventEmitter<boolean> = new EventEmitter<boolean>();
+	@Output() onShowCreateChildForm:EventEmitter<boolean> = new EventEmitter<boolean>();
+	@Output() onShowDeleteChildForm:EventEmitter<boolean> = new EventEmitter<boolean>();
+	@Output() onSelectDocument:EventEmitter<string> = new EventEmitter<string>();
 
 	constructor( element:ElementRef ) {
 		this.element = element;
@@ -50,15 +64,18 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 
 	ngAfterViewInit():void {
 		this.$element = $( this.element.nativeElement );
-		this.documentTree = this.$element.find( ".document.treeview" );
+		this.$tree = this.$element.find( ".treeview.content" );
+		this.$element.find( ".treeview.options .dropdown.button" ).dropdown( { action: "hide" } );
 		this.onLoadingDocument.emit( true );
 		this.getDocumentTree().then( ()=> {
 			this.onLoadingDocument.emit( false );
 		} );
 		this.refreshNode.subscribe( ( nodeId:string )=> {
-			let tree:JSTree = this.documentTree.jstree( true );
-			tree.close_node( nodeId );
-			tree.open_node( nodeId );
+			this.jsTree.select_node( nodeId );
+			this.loadNode( nodeId );
+		} );
+		this.openNode.subscribe( ( nodeId:string )=> {
+			this.jsTree.select_node( nodeId );
 		} );
 	}
 
@@ -89,10 +106,11 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 	}
 
 	renderTree():void {
-		this.documentTree.jstree( {
+		this.jsTree = this.$tree.jstree( {
 			"core": {
 				"data": this.nodeChildren,
 				"check_callback": true,
+				"multiple": false,
 			},
 			"types": {
 				"default": {
@@ -110,66 +128,75 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 				}
 			},
 			"plugins": [ "types", "wholerow" ],
-		} );
-		this.documentTree.jstree();
-		this.documentTree.on( "create_node.jstree", ( e:Event, data:any ):void => {} );
-		this.documentTree.on( "before_open.jstree", ( e:Event, data:any ):void => {
+		} ).jstree( true );
+		this.$tree.on( "before_open.jstree", ( e:Event, data:any ):void => {
 			let parentId:any = data.node.id;
 			let parentNode:any = data.node;
 			let position:string = "last";
 			this.onBeforeOpenNode( parentId, parentNode, position );
 		} );
-		this.documentTree.on( "changed.jstree", ( e:Event, data:any ):void => {
-			if( data[ "action" ] !== "select_node" ) return;
-			let parentId:any = data.node.id;
-			let parentNode:any = data.node;
-			let position:string = "last";
-			this.onClickNode( parentId, parentNode, position );
+		this.$tree.on( "select_node.jstree", ( e:Event, data:any ):void => {
+			let node:any = data.node;
+			this.selectedURI = node.id;
 		} );
-		this.documentTree.on( "loaded.jstree", ()=> {
-			this.documentTree.jstree( "select_node", this.nodeChildren[ 0 ].id );
+		this.$tree.on( "loaded.jstree", ()=> {
+			this.jsTree.select_node( this.nodeChildren[ 0 ].id );
+			this.jsTree.open_node( this.nodeChildren[ 0 ].id );
 			if( this.nodeChildren && this.nodeChildren.length > 0 ) {
 				this.onResolveUri.emit( <string>this.nodeChildren[ 0 ].id );
 			}
 		} );
+		this.$tree.on( "dblclick.jstree", ".jstree-anchor", ( e:Event ) => {
+			this.loadNode( e.target );
+		} );
+		this.$tree.on( "dblclick.jstree", ".jstree-wholerow", ( e:Event ) => {
+			e.stopImmediatePropagation();
+			let tmpEvt:JQueryEventObject = $.Event( "dblclick" );
+			$( e.currentTarget ).closest( ".jstree-node" ).children( ".jstree-anchor" ).first().trigger( tmpEvt ).focus();
+		} );
 	}
 
-	emptyNode( nodeId:string ):void {
-		let $children:JQuery = this.documentTree.jstree( true ).get_children_dom( nodeId );
-		let childElements:Element[] = jQuery.makeArray( $children );
-		while( childElements.length > 0 ) {
-			this.documentTree.jstree( true ).delete_node( childElements[ 0 ] );
-			childElements.splice( 0, 1 );
-		}
+	loadNode( obj:any ):void {
+		let node:JSTreeNode = this.jsTree.get_node( obj );
+		let parentId:any = node.id;
+		let parentNode:any = node;
+		let position:string = "last";
+		this.onChange( parentId, parentNode, position );
 	}
 
 	onBeforeOpenNode( parentId:string, parentNode:any, position:string ):void {
-		let oldIcon:string = parentNode.icon;
-		let $documentTree:JSTree = this.documentTree.jstree( true );
-
-		$documentTree.set_icon( parentNode, $documentTree.settings.types.loading.icon );
+		let originalIcon:string = ! ! this.jsTree.settings.types[ parentNode.type ] ? this.jsTree.settings.types[ parentNode.type ].icon : "help icon";
+		this.jsTree.set_icon( parentNode, this.jsTree.settings.types.loading.icon );
 		this.getNodeChildren( parentNode.id ).then( ( children:any[] ):void => {
 			this.emptyNode( parentId );
 			if( children.length > 0 ) {
 				children.forEach( ( childNode:any ) => this.addChild( parentId, childNode, position ) );
 			}
 		} ).then( () => {
-			$documentTree.set_icon( parentNode, oldIcon );
+			this.jsTree.set_icon( parentNode, originalIcon );
 		} );
 	}
 
-	onClickNode( parentId:string, node:any, position:string ):void {
-		let tree:JSTree = this.documentTree.jstree( true );
-		if( tree.is_open( node ) ) {
+	onChange( parentId:string, node:any, position:string ):void {
+		if( this.jsTree.is_open( node ) ) {
 			this.onBeforeOpenNode( parentId, node, position );
 		} else {
-			tree.open_node( node );
+			this.jsTree.open_node( node );
 		}
 		this.onResolveUri.emit( node.id );
 	}
 
 	addChild( parentId:string, node:any, position:string ):void {
-		this.documentTree.jstree( true ).create_node( parentId, node, position );
+		this.jsTree.create_node( parentId, node, position );
+	}
+
+	emptyNode( nodeId:string ):void {
+		let $children:JQuery = this.jsTree.get_children_dom( nodeId );
+		let childElements:Element[] = jQuery.makeArray( $children );
+		while( childElements.length > 0 ) {
+			this.jsTree.delete_node( childElements[ 0 ] );
+			childElements.splice( 0, 1 );
+		}
 	}
 
 	getNodeChildren( uri:string ):Promise<JSTreeNode[]> {
@@ -201,8 +228,15 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 
 	getSlug( pointer:Pointer.Class | string ):string {
 		if( typeof pointer !== "string" ) return ( <Pointer.Class>pointer ).id;
-
 		return URI.Util.getSlug( <string>pointer );
+	}
+
+	showCreateChildForm():void {
+		this.onShowCreateChildForm.emit( true );
+	}
+
+	showDeleteChildForm():void {
+		this.onShowDeleteChildForm.emit( true );
 	}
 
 }

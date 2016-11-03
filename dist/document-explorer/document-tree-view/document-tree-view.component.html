@@ -1,4 +1,20 @@
-<div class="document treeview">
+<div class="ui basic segment options treeview">
+	<div class="ui top left pointing dropdown mini basic violet button">
+		<i class="plus icon"></i>
+		<span class="text">New</span>
+		<div class="menu">
+			<a class="item" (click)="showCreateChildForm()">
+				<i class="file outline icon"></i>
+				Child (Document)
+			</a>
+		</div>
+	</div>
+	<button class="ui mini basic red right aligned icon button" title="Delete document" (click)="showDeleteChildForm()">
+		<i class="trash outline icon"></i>
+	</button>
+</div>
+
+<div class="content treeview">
 	<ul>
 	</ul>
 </div>

@@ -14,7 +14,7 @@ import "semantic-ui/semantic";
 export declare class DocumentViewerComponent implements AfterViewInit, OnChanges {
     element: ElementRef;
     $element: JQuery;
-    $saveSuccessMessage: JQuery;
+    $saveDocumentSuccessMessage: JQuery;
     $createChildSuccessMessage: JQuery;
     sections: string[];
     rootNode: RDFNode.Class;
@@ -28,16 +28,14 @@ export declare class DocumentViewerComponent implements AfterViewInit, OnChanges
     bNodesChanges: BlankNodesRecords;
     namedFragmentsHaveChanged: boolean;
     namedFragmentsChanges: NamedFragmentsRecords;
-    createChildFormModel: {
-        slug: string;
-    };
-    canDisplayCreateChildForm: boolean;
     readonly documentContentHasChanged: boolean;
     documentsResolverService: DocumentsResolverService;
     uri: string;
     documentContext: SDKContext.Class;
+    displaySuccessMessage: EventEmitter<string>;
     private _document;
     document: RDFDocument.Class;
+    onOpenNode: EventEmitter<string>;
     onRefreshNode: EventEmitter<string>;
     onLoadingDocument: EventEmitter<boolean>;
     onSavingDocument: EventEmitter<boolean>;
@@ -72,10 +70,6 @@ export declare class DocumentViewerComponent implements AfterViewInit, OnChanges
     getErrors(error: HTTPError): Promise<any[]>;
     clearSavingError(): void;
     closeMessage(message: HTMLElement): void;
-    private toggleCreateChildForm();
-    private createChild();
-    private slugLostControl(evt);
-    private getSanitizedSlug(slug);
     private beforeRefreshDocument(documentURI);
     private refreshDocument(documentURI);
     private toggleConfirmRefresh();

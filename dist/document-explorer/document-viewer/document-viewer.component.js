@@ -58,10 +58,8 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     this.rootNodeHasChanged = false;
                     this.bNodesHaveChanged = false;
                     this.namedFragmentsHaveChanged = false;
-                    this.createChildFormModel = {
-                        slug: ""
-                    };
-                    this.canDisplayCreateChildForm = false;
+                    this.displaySuccessMessage = new core_1.EventEmitter();
+                    this.onOpenNode = new core_1.EventEmitter();
                     this.onRefreshNode = new core_1.EventEmitter();
                     this.onLoadingDocument = new core_1.EventEmitter();
                     this.onSavingDocument = new core_1.EventEmitter();
@@ -106,9 +104,24 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     configurable: true
                 });
                 DocumentViewerComponent.prototype.ngAfterViewInit = function () {
+                    var _this = this;
                     this.$element = jquery_1.default(this.element.nativeElement);
-                    this.$saveSuccessMessage = this.$element.find(".success.save.message");
-                    this.$createChildSuccessMessage = this.$element.find(".success.createchild.message");
+                    this.$saveDocumentSuccessMessage = this.$element.find(".success.save.savedocument.message");
+                    this.$createChildSuccessMessage = this.$element.find(".success.save.createchild.message");
+                    this.displaySuccessMessage.subscribe(function (type) {
+                        switch (type) {
+                            case "createchild":
+                                _this.$createChildSuccessMessage.transition({
+                                    onComplete: function () {
+                                        setTimeout(function () {
+                                            if (!_this.$createChildSuccessMessage.hasClass("hidden"))
+                                                _this.$createChildSuccessMessage.transition("fade");
+                                        }, 2500);
+                                    }
+                                });
+                                break;
+                        }
+                    });
                 };
                 DocumentViewerComponent.prototype.ngOnChanges = function (changes) {
                     var _this = this;
@@ -259,11 +272,11 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     this.documentsResolverService.update(backupDocument["@id"], body, this.documentContext).then(function (updatedDocument) {
                         _this.document = updatedDocument[0];
                         setTimeout(function () {
-                            _this.$saveSuccessMessage.transition({
+                            _this.$saveDocumentSuccessMessage.transition({
                                 onComplete: function () {
                                     setTimeout(function () {
-                                        if (!_this.$saveSuccessMessage.hasClass("hidden"))
-                                            _this.$saveSuccessMessage.transition("fade");
+                                        if (!_this.$saveDocumentSuccessMessage.hasClass("hidden"))
+                                            _this.$saveDocumentSuccessMessage.transition("fade");
                                     }, 4000);
                                 }
                             });
@@ -305,59 +318,6 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 DocumentViewerComponent.prototype.closeMessage = function (message) {
                     jquery_1.default(message).transition("fade");
                 };
-                DocumentViewerComponent.prototype.toggleCreateChildForm = function () {
-                    var _this = this;
-                    jquery_1.default("form.createchild").transition({
-                        transition: "drop",
-                        onComplete: function () { _this.canDisplayCreateChildForm = !_this.canDisplayCreateChildForm; }
-                    });
-                };
-                DocumentViewerComponent.prototype.createChild = function () {
-                    var _this = this;
-                    var childSlug = !!this.createChildFormModel.slug ? this.createChildFormModel.slug : null;
-                    var childContent = {};
-                    this.loadingDocument = true;
-                    this.documentsResolverService.createChild(this.documentContext, this.documentURI, childContent, childSlug).then(function (createdChild) {
-                        _this.onRefreshNode.emit(_this.documentURI);
-                        setTimeout(function () {
-                            _this.$createChildSuccessMessage.transition({
-                                onComplete: function () {
-                                    setTimeout(function () {
-                                        if (!_this.$createChildSuccessMessage.hasClass("hidden"))
-                                            _this.$createChildSuccessMessage.transition("fade");
-                                    }, 4000);
-                                }
-                            });
-                        }, 1500);
-                    }).catch(function (error) {
-                        _this.savingErrorMessage = {
-                            title: error.name,
-                            content: error.message,
-                            statusCode: "" + error.statusCode,
-                            statusMessage: error.response.request.statusText,
-                            endpoint: error.response.request.responseURL,
-                        };
-                        if (!!error.response.data) {
-                            _this.getErrors(error).then(function (errors) {
-                                _this.savingErrorMessage["errors"] = errors;
-                            });
-                        }
-                    }).then(function () {
-                        _this.loadingDocument = false;
-                    });
-                };
-                DocumentViewerComponent.prototype.slugLostControl = function (evt) {
-                    if (typeof (evt.target) === "undefined")
-                        return;
-                    if (!evt.target.value.endsWith("/") && evt.target.value.trim() !== "")
-                        evt.target.value += "/";
-                };
-                DocumentViewerComponent.prototype.getSanitizedSlug = function (slug) {
-                    if (!slug)
-                        return slug;
-                    slug = slug.toLowerCase().replace(/ - | -|- /g, "-").replace(/[^-\w ]+/g, "").replace(/ +/g, "-");
-                    return slug;
-                };
                 DocumentViewerComponent.prototype.beforeRefreshDocument = function (documentURI) {
                     if (this.documentContentHasChanged)
                         this.toggleConfirmRefresh();
@@ -389,9 +349,17 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                 ], DocumentViewerComponent.prototype, "documentContext", void 0);
                 __decorate([
                     core_1.Input(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], DocumentViewerComponent.prototype, "displaySuccessMessage", void 0);
+                __decorate([
+                    core_1.Input(), 
                     __metadata('design:type', Object), 
                     __metadata('design:paramtypes', [Object])
                 ], DocumentViewerComponent.prototype, "document", null);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], DocumentViewerComponent.prototype, "onOpenNode", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)

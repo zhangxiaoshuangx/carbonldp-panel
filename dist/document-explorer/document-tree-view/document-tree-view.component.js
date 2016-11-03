@@ -38,12 +38,28 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
             DocumentTreeViewComponent = (function () {
                 function DocumentTreeViewComponent(element) {
                     this.nodeChildren = [];
+                    this._selectedURI = "";
                     this.refreshNode = new core_1.EventEmitter();
+                    this.openNode = new core_1.EventEmitter();
                     this.onResolveUri = new core_1.EventEmitter();
                     this.onError = new core_1.EventEmitter();
                     this.onLoadingDocument = new core_1.EventEmitter();
+                    this.onShowCreateChildForm = new core_1.EventEmitter();
+                    this.onShowDeleteChildForm = new core_1.EventEmitter();
+                    this.onSelectDocument = new core_1.EventEmitter();
                     this.element = element;
                 }
+                Object.defineProperty(DocumentTreeViewComponent.prototype, "selectedURI", {
+                    get: function () {
+                        return this._selectedURI;
+                    },
+                    set: function (value) {
+                        this._selectedURI = value;
+                        this.onSelectDocument.emit(this.selectedURI);
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 DocumentTreeViewComponent.prototype.ngOnInit = function () {
                     var alreadyImported = document.querySelectorAll("head [href='assets/node_modules/jstree/dist/themes/default/style.min.css']").length > 0;
                     if (alreadyImported)
@@ -57,15 +73,18 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                 DocumentTreeViewComponent.prototype.ngAfterViewInit = function () {
                     var _this = this;
                     this.$element = jquery_1.default(this.element.nativeElement);
-                    this.documentTree = this.$element.find(".document.treeview");
+                    this.$tree = this.$element.find(".treeview.content");
+                    this.$element.find(".treeview.options .dropdown.button").dropdown({ action: "hide" });
                     this.onLoadingDocument.emit(true);
                     this.getDocumentTree().then(function () {
                         _this.onLoadingDocument.emit(false);
                     });
                     this.refreshNode.subscribe(function (nodeId) {
-                        var tree = _this.documentTree.jstree(true);
-                        tree.close_node(nodeId);
-                        tree.open_node(nodeId);
+                        _this.jsTree.select_node(nodeId);
+                        _this.loadNode(nodeId);
+                    });
+                    this.openNode.subscribe(function (nodeId) {
+                        _this.jsTree.select_node(nodeId);
                     });
                 };
                 DocumentTreeViewComponent.prototype.getDocumentTree = function () {
@@ -98,10 +117,11 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                 };
                 DocumentTreeViewComponent.prototype.renderTree = function () {
                     var _this = this;
-                    this.documentTree.jstree({
+                    this.jsTree = this.$tree.jstree({
                         "core": {
                             "data": this.nodeChildren,
                             "check_callback": true,
+                            "multiple": false,
                         },
                         "types": {
                             "default": {
@@ -119,64 +139,72 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                             }
                         },
                         "plugins": ["types", "wholerow"],
-                    });
-                    this.documentTree.jstree();
-                    this.documentTree.on("create_node.jstree", function (e, data) { });
-                    this.documentTree.on("before_open.jstree", function (e, data) {
+                    }).jstree(true);
+                    this.$tree.on("before_open.jstree", function (e, data) {
                         var parentId = data.node.id;
                         var parentNode = data.node;
                         var position = "last";
                         _this.onBeforeOpenNode(parentId, parentNode, position);
                     });
-                    this.documentTree.on("changed.jstree", function (e, data) {
-                        if (data["action"] !== "select_node")
-                            return;
-                        var parentId = data.node.id;
-                        var parentNode = data.node;
-                        var position = "last";
-                        _this.onClickNode(parentId, parentNode, position);
+                    this.$tree.on("select_node.jstree", function (e, data) {
+                        var node = data.node;
+                        _this.selectedURI = node.id;
                     });
-                    this.documentTree.on("loaded.jstree", function () {
-                        _this.documentTree.jstree("select_node", _this.nodeChildren[0].id);
+                    this.$tree.on("loaded.jstree", function () {
+                        _this.jsTree.select_node(_this.nodeChildren[0].id);
+                        _this.jsTree.open_node(_this.nodeChildren[0].id);
                         if (_this.nodeChildren && _this.nodeChildren.length > 0) {
                             _this.onResolveUri.emit(_this.nodeChildren[0].id);
                         }
                     });
+                    this.$tree.on("dblclick.jstree", ".jstree-anchor", function (e) {
+                        _this.loadNode(e.target);
+                    });
+                    this.$tree.on("dblclick.jstree", ".jstree-wholerow", function (e) {
+                        e.stopImmediatePropagation();
+                        var tmpEvt = jquery_1.default.Event("dblclick");
+                        jquery_1.default(e.currentTarget).closest(".jstree-node").children(".jstree-anchor").first().trigger(tmpEvt).focus();
+                    });
                 };
-                DocumentTreeViewComponent.prototype.emptyNode = function (nodeId) {
-                    var $children = this.documentTree.jstree(true).get_children_dom(nodeId);
-                    var childElements = jQuery.makeArray($children);
-                    while (childElements.length > 0) {
-                        this.documentTree.jstree(true).delete_node(childElements[0]);
-                        childElements.splice(0, 1);
-                    }
+                DocumentTreeViewComponent.prototype.loadNode = function (obj) {
+                    var node = this.jsTree.get_node(obj);
+                    var parentId = node.id;
+                    var parentNode = node;
+                    var position = "last";
+                    this.onChange(parentId, parentNode, position);
                 };
                 DocumentTreeViewComponent.prototype.onBeforeOpenNode = function (parentId, parentNode, position) {
                     var _this = this;
-                    var oldIcon = parentNode.icon;
-                    var $documentTree = this.documentTree.jstree(true);
-                    $documentTree.set_icon(parentNode, $documentTree.settings.types.loading.icon);
+                    var originalIcon = !!this.jsTree.settings.types[parentNode.type] ? this.jsTree.settings.types[parentNode.type].icon : "help icon";
+                    this.jsTree.set_icon(parentNode, this.jsTree.settings.types.loading.icon);
                     this.getNodeChildren(parentNode.id).then(function (children) {
                         _this.emptyNode(parentId);
                         if (children.length > 0) {
                             children.forEach(function (childNode) { return _this.addChild(parentId, childNode, position); });
                         }
                     }).then(function () {
-                        $documentTree.set_icon(parentNode, oldIcon);
+                        _this.jsTree.set_icon(parentNode, originalIcon);
                     });
                 };
-                DocumentTreeViewComponent.prototype.onClickNode = function (parentId, node, position) {
-                    var tree = this.documentTree.jstree(true);
-                    if (tree.is_open(node)) {
+                DocumentTreeViewComponent.prototype.onChange = function (parentId, node, position) {
+                    if (this.jsTree.is_open(node)) {
                         this.onBeforeOpenNode(parentId, node, position);
                     }
                     else {
-                        tree.open_node(node);
+                        this.jsTree.open_node(node);
                     }
                     this.onResolveUri.emit(node.id);
                 };
                 DocumentTreeViewComponent.prototype.addChild = function (parentId, node, position) {
-                    this.documentTree.jstree(true).create_node(parentId, node, position);
+                    this.jsTree.create_node(parentId, node, position);
+                };
+                DocumentTreeViewComponent.prototype.emptyNode = function (nodeId) {
+                    var $children = this.jsTree.get_children_dom(nodeId);
+                    var childElements = jQuery.makeArray($children);
+                    while (childElements.length > 0) {
+                        this.jsTree.delete_node(childElements[0]);
+                        childElements.splice(0, 1);
+                    }
                 };
                 DocumentTreeViewComponent.prototype.getNodeChildren = function (uri) {
                     var _this = this;
@@ -211,6 +239,12 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                         return pointer.id;
                     return URI.Util.getSlug(pointer);
                 };
+                DocumentTreeViewComponent.prototype.showCreateChildForm = function () {
+                    this.onShowCreateChildForm.emit(true);
+                };
+                DocumentTreeViewComponent.prototype.showDeleteChildForm = function () {
+                    this.onShowDeleteChildForm.emit(true);
+                };
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', SDKContext.Class)
@@ -219,6 +253,10 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     core_1.Input(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], DocumentTreeViewComponent.prototype, "refreshNode", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], DocumentTreeViewComponent.prototype, "openNode", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
@@ -231,6 +269,18 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], DocumentTreeViewComponent.prototype, "onLoadingDocument", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], DocumentTreeViewComponent.prototype, "onShowCreateChildForm", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], DocumentTreeViewComponent.prototype, "onShowDeleteChildForm", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], DocumentTreeViewComponent.prototype, "onSelectDocument", void 0);
                 DocumentTreeViewComponent = __decorate([
                     core_1.Component({
                         selector: "cp-document-treeview",

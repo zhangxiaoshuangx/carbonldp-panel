@@ -1,4 +1,4 @@
-import { EventEmitter } from "@angular/core";
+import { ElementRef, EventEmitter, NgZone } from "@angular/core";
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
 import * as HTTP from "carbonldp/HTTP";
@@ -6,20 +6,51 @@ import { DocumentsResolverService } from "./documents-resolver.service";
 import { Message } from "carbonldp-panel/errors-area/error-message.component";
 import "semantic-ui/semantic";
 export declare class DocumentExplorerComponent {
+    element: ElementRef;
+    $element: JQuery;
+    $createChildSuccessMessage: JQuery;
+    $createDocumentModal: JQuery;
+    $deleteDocumentModal: JQuery;
+    selectedDocumentURI: string;
     loadingDocument: boolean;
     savingDocument: boolean;
     inspectingDocument: RDFDocument.Class;
     documentsResolverService: DocumentsResolverService;
     messages: Message[];
+    savingErrorMessage: Message;
+    createChildFormModel: {
+        slug: string;
+        advancedOptions: {
+            hasMemberRelation: string;
+            isMemberOfRelation: string;
+        };
+    };
     documentContext: SDKContext.Class;
     onRefreshNode: EventEmitter<string>;
-    constructor(documentsResolverService: DocumentsResolverService);
+    onOpenNode: EventEmitter<string>;
+    onDisplaySuccessMessage: EventEmitter<string>;
+    private zone;
+    constructor(element: ElementRef, documentsResolverService: DocumentsResolverService, zone: NgZone);
+    ngAfterViewInit(): void;
     onLoadingDocument(loadingDocument: boolean): void;
     showLoading(savingDocument: boolean): void;
     resolveDocument(uri: string): void;
     handleError(error: HTTP.Errors.Error): void;
     refreshDocument(documentURI: string): void;
     refreshNode(nodeId: string): void;
+    openNode(nodeId: string): void;
+    private changeSelection(documentURI);
+    private showCreateChildForm();
+    private hideCreateChildForm();
+    private slugLostControl(evt);
+    private getSanitizedSlug(slug);
+    private createChild();
+    private clearSavingError();
+    private getErrors(error);
+    private deleteDocument();
+    private cancelDeletion();
+    private showDeleteChildForm();
+    private getParentURI(documentURI);
     private getHTTPErrorMessage(error, content);
     private getErrorMessage(error);
 }
