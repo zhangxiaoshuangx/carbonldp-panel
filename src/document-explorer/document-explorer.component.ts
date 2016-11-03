@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Output, EventEmitter } from "@angular/core";
+import { Component, ElementRef, Input, Output, EventEmitter, NgZone } from "@angular/core";
 
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
@@ -29,9 +29,8 @@ export class DocumentExplorerComponent {
 	$element:JQuery;
 
 	$createChildSuccessMessage:JQuery;
-	$createChildForm:JQuery;
-	$createDocumentDimmer:JQuery;
-	$deleteDocumentDimmer:JQuery;
+	$createDocumentModal:JQuery;
+	$deleteDocumentModal:JQuery;
 
 	$createAccessPointDimmer:JQuery;
 
@@ -61,19 +60,21 @@ export class DocumentExplorerComponent {
 	@Output() onOpenNode:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onDisplaySuccessMessage:EventEmitter<string> = new EventEmitter<string>();
 
-	constructor( element:ElementRef, documentsResolverService:DocumentsResolverService ) {
+	private zone:NgZone;
+
+	constructor( element:ElementRef, documentsResolverService:DocumentsResolverService, zone:NgZone ) {
 		this.element = element;
 		this.documentsResolverService = documentsResolverService;
+		this.zone = zone;
 	}
 
 	ngAfterViewInit():void {
 		this.$element = $( this.element.nativeElement );
 		this.$createChildSuccessMessage = this.$element.find( ".success.createchild.message" );
-		this.$createDocumentDimmer = this.$element.find( ".create.document.dimmer" ).dimmer( { closable: false } );
-		this.$deleteDocumentDimmer = this.$element.find( ".delete.document.dimmer" ).dimmer( { closable: false } );
+		this.$createDocumentModal = this.$element.find( ".create.document.modal" ).modal( { closable: false } );
+		this.$deleteDocumentModal = this.$element.find( ".delete.document.modal" ).modal( { closable: false } );
 		this.$createAccessPointDimmer = this.$element.find( ".create.accesspoint.dimmer" ).dimmer( { closable: false } );
-		this.$createChildForm = this.$element.find( ".createchild.form" );
-		this.$createChildForm.find( ".advancedoptions.accordion" ).accordion();
+		this.$createDocumentModal.find( ".advancedoptions.accordion" ).accordion();
 	}
 
 	onLoadingDocument( loadingDocument:boolean ):void {
@@ -87,8 +88,10 @@ export class DocumentExplorerComponent {
 	resolveDocument( uri:string ):void {
 		this.loadingDocument = true;
 		this.documentsResolverService.get( uri, this.documentContext ).then( ( document:RDFDocument.Class )=> {
-			this.inspectingDocument = document[ 0 ];
-			this.loadingDocument = false;
+			this.zone.run( () => {
+				this.inspectingDocument = document[ 0 ];
+				this.loadingDocument = false;
+			} );
 		} );
 	}
 
@@ -110,7 +113,7 @@ export class DocumentExplorerComponent {
 	}
 
 	private showCreateChildForm():void {
-		this.$createDocumentDimmer.dimmer( "show" );
+		this.$createDocumentModal.modal( "show" );
 	}
 
 	private showCreateAccessPointForm():void {
@@ -118,7 +121,7 @@ export class DocumentExplorerComponent {
 	}
 
 	private hideCreateChildForm():void {
-		this.$createDocumentDimmer.dimmer( "hide" );
+		this.$createDocumentModal.modal( "hide" );
 		this.clearSavingError();
 		this.createChildFormModel.slug = "";
 		this.createChildFormModel.advancedOptions.hasMemberRelation = "http://www.w3.org/ns/ldp#member";
@@ -203,11 +206,11 @@ export class DocumentExplorerComponent {
 	}
 
 	private cancelDeletion():void {
-		this.$deleteDocumentDimmer.dimmer( "hide" );
+		this.$deleteDocumentModal.modal( "hide" );
 	}
 
 	private showDeleteChildForm():void {
-		this.$deleteDocumentDimmer.dimmer( "show" );
+		this.$deleteDocumentModal.modal( "show" );
 	}
 
 	private getParentURI( documentURI:string ):string {

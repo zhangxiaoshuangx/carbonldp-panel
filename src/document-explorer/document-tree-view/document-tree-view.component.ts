@@ -66,7 +66,7 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 	ngAfterViewInit():void {
 		this.$element = $( this.element.nativeElement );
 		this.$tree = this.$element.find( ".treeview.content" );
-		this.$element.find( ".treeview.options .buttons .dropdown" ).dropdown();
+		this.$element.find( ".treeview.options .dropdown.button" ).dropdown( { action: "hide" } );
 		this.onLoadingDocument.emit( true );
 		this.getDocumentTree().then( ()=> {
 			this.onLoadingDocument.emit( false );
@@ -142,6 +142,7 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 		} );
 		this.$tree.on( "loaded.jstree", ()=> {
 			this.jsTree.select_node( this.nodeChildren[ 0 ].id );
+			this.jsTree.open_node( this.nodeChildren[ 0 ].id );
 			if( this.nodeChildren && this.nodeChildren.length > 0 ) {
 				this.onResolveUri.emit( <string>this.nodeChildren[ 0 ].id );
 			}

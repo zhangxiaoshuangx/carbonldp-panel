@@ -75,7 +75,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     var _this = this;
                     this.$element = jquery_1.default(this.element.nativeElement);
                     this.$tree = this.$element.find(".treeview.content");
-                    this.$element.find(".treeview.options .buttons .dropdown").dropdown();
+                    this.$element.find(".treeview.options .dropdown.button").dropdown({ action: "hide" });
                     this.onLoadingDocument.emit(true);
                     this.getDocumentTree().then(function () {
                         _this.onLoadingDocument.emit(false);
@@ -153,6 +153,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     });
                     this.$tree.on("loaded.jstree", function () {
                         _this.jsTree.select_node(_this.nodeChildren[0].id);
+                        _this.jsTree.open_node(_this.nodeChildren[0].id);
                         if (_this.nodeChildren && _this.nodeChildren.length > 0) {
                             _this.onResolveUri.emit(_this.nodeChildren[0].id);
                         }
