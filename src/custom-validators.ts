@@ -70,7 +70,7 @@ export class DomainValidator implements Validator {
 
 	validate( control:AbstractControl ):{[key:string]:any;} {
 		if( control.value ) {
-			if( control.value.match( /^http(s?):\/\/((\w+\.)?\w+\.\w+|((2[0-5]{2}|1[0-9]{2}|[0-9]{1,2})\.){3}(2[0-5]{2}|1[0-9]{2}|[0-9]{1,2}))(\/)?$/gm ) )
+			if( control.value.match( /^((cc:|https:|http:|[/][/])([a-z]|[A-Z]|[:0-9]|[/.-]){3,})$/g ) )
 				return null;
 			else {
 				return { "invalidURLAddress": true };
