@@ -1,8 +1,9 @@
 :host {
   display: block; }
-  :host .ui.grid {
-    padding: 1rem; }
-    :host .ui.grid > .row {
-      padding: 0; }
+
+.ui.grid {
+  padding: 1rem; }
+  .ui.grid > .row {
+    padding: 0; }
 
 /*# sourceMappingURL=tabs.component.css.map */

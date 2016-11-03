@@ -1,12 +1,11 @@
 :host {
 	display:block;
-	.ui.grid{
-		padding: 1rem;
-		>.row{
-			padding:0;
-		}
+}
+
+.ui.grid{
+	padding: 1rem;
+	>.row{
+		padding:0;
 	}
-
-
 }
 
