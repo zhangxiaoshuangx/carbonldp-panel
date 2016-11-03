@@ -11,7 +11,12 @@
 			"angular2-carbonldp/*": [ "../angular2-carbonldp/dist/*" ],
 			"carbonldp-panel/*": [ "src/*" ],
 			"carbonldp/*": [ "../CarbonLDP-JS-SDK/dist/*" ]
-		}
+		},
+		"lib": [
+			"dom",
+			"es2015",
+			"scripthost"
+		]
 	},
 	"exclude": [
 		"dist",
