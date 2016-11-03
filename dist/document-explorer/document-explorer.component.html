@@ -29,7 +29,7 @@
 		                    (onSavingDocument)="showLoading($event)"
 		                    (onLoadingDocument)="onLoadingDocument($event)"
 		                    (onRefreshDocument)="refreshDocument($event)"></cp-document-viewer>
-		<form class="ui create document modal error createchild form" #createChildForm="ngForm">
+		<form class="ui create document modal error createchild form" #createChildForm="ngForm" (submit)="onSubmitCreateChild(createChildForm.value, $event)">
 			<div class="header">
 				<h2 class="ui header">
 					<i class="file outline icon"></i>
@@ -49,14 +49,13 @@
 						       #slug="ngModel"
 						       cp-slug
 						       (keyup.esc)="hideCreateChildForm()"
-						       (keyup.enter)="createChild()"
 						       [ngModel]="createChildFormModel.slug"
 						       (ngModelChange)="createChildFormModel.slug = getSanitizedSlug($event)"
 						       (blur)="slugLostControl($event)">
 					</div>
 				</div>
 
-				<div class="ui advancedoptions accordion" ngModelGroup="createChildFormModel.advancedOptions" #advancedOptions="ngModelGroup">
+				<div class="ui advancedoptions accordion" ngModelGroup="advancedOptions" #advancedOptions="ngModelGroup">
 					<div class="title">
 						<i class="dropdown icon"></i>
 						Advanced options
@@ -137,10 +136,10 @@
 				<cp-error-message [message]="savingErrorMessage" [closable]="true" *ngIf="!!savingErrorMessage"></cp-error-message>
 			</div>
 			<div class="actions">
-				<button class="ui mini basic button" title="Cancel creation" (click)="hideCreateChildForm()">Cancel</button>
+				<button type="button"  class="ui mini basic button" title="Cancel creation" (click)="hideCreateChildForm()">Cancel</button>
 				<button class="ui mini basic right floated button"
 				        [ngClass]="{ 'red': !createChildForm.valid, 'green': createChildForm.valid  }"
-				        (click)="createChild()"
+				        (click)="onSubmitCreateChild(createChildForm.value, $event)"
 				        [disabled]="!createChildForm.valid">Create
 				</button>
 			</div>

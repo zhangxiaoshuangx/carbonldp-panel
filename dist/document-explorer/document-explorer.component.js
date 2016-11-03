@@ -68,9 +68,9 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                 DocumentExplorerComponent.prototype.ngAfterViewInit = function () {
                     this.$element = $(this.element.nativeElement);
                     this.$createChildSuccessMessage = this.$element.find(".success.createchild.message");
+                    this.$createAccessPointModal = this.$element.find(".create.accesspoint.modal").modal({ closable: false });
                     this.$createDocumentModal = this.$element.find(".create.document.modal").modal({ closable: false });
                     this.$deleteDocumentModal = this.$element.find(".delete.document.modal").modal({ closable: false });
-                    this.$createAccessPointModal = this.$element.find(".create.accesspoint.modal").modal({ closable: false });
                     this.$createDocumentModal.find(".advancedoptions.accordion").accordion();
                 };
                 DocumentExplorerComponent.prototype.onLoadingDocument = function (loadingDocument) {
@@ -133,16 +133,17 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                         return slug;
                     return slug.toLowerCase().replace(/ - | -|- /g, "-").replace(/[^-\w ]+/g, "").replace(/ +/g, "-");
                 };
-                DocumentExplorerComponent.prototype.createChild = function () {
+                DocumentExplorerComponent.prototype.onSubmitCreateChild = function (data, $event) {
                     var _this = this;
+                    $event.preventDefault();
                     var childSlug = null;
-                    if (!!this.createChildFormModel.slug)
-                        childSlug = this.createChildFormModel.slug + ((this.createChildFormModel.slug.endsWith("/") && this.createChildFormModel.slug.trim() !== "") ? "/" : "");
+                    if (!!data.slug)
+                        childSlug = data.slug + ((data.slug.endsWith("/") && data.slug.trim() !== "") ? "/" : "");
                     var childContent = {
-                        hasMemberRelation: this.createChildFormModel.advancedOptions.hasMemberRelation
+                        hasMemberRelation: data.advancedOptions.hasMemberRelation
                     };
-                    if (!!this.createChildFormModel.advancedOptions.isMemberOfRelation)
-                        childContent["isMemberOfRelation"] = this.createChildFormModel.advancedOptions.isMemberOfRelation;
+                    if (!!data.advancedOptions.isMemberOfRelation)
+                        childContent["isMemberOfRelation"] = data.advancedOptions.isMemberOfRelation;
                     this.loadingDocument = true;
                     this.documentsResolverService.createChild(this.documentContext, this.selectedDocumentURI, childContent, childSlug).then(function (createdChild) {
                         _this.onRefreshNode.emit(_this.selectedDocumentURI);

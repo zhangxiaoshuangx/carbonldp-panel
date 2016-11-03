@@ -50,7 +50,7 @@ export declare class DocumentExplorerComponent {
     private hideCreateAccessPointForm();
     private slugLostControl(evt);
     private getSanitizedSlug(slug);
-    private createChild();
+    private onSubmitCreateChild(data, $event);
     private onSubmitAccessPoint(data, $event);
     private deleteDocument();
     private cancelDeletion();
