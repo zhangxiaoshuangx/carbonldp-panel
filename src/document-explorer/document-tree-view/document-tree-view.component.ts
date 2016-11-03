@@ -46,6 +46,7 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 	@Output() onLoadingDocument:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() onShowCreateChildForm:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() onShowDeleteChildForm:EventEmitter<boolean> = new EventEmitter<boolean>();
+	@Output() onShowCreateAccessPointForm:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() onSelectDocument:EventEmitter<string> = new EventEmitter<string>();
 
 	constructor( element:ElementRef ) {
@@ -233,6 +234,10 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 
 	showCreateChildForm():void {
 		this.onShowCreateChildForm.emit( true );
+	}
+
+	showCreateAccessPointForm():void {
+		this.onShowCreateAccessPointForm.emit( true );
 	}
 
 	showDeleteChildForm():void {

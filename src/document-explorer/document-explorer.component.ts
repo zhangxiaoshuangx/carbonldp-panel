@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Output, EventEmitter, NgZone } from "@angular/core";
+import { Component, ElementRef, Input, Output, EventEmitter, NgZone, AfterViewInit } from "@angular/core";
 
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
@@ -6,6 +6,7 @@ import * as HTTP from "carbonldp/HTTP";
 import * as JSONLDParser from "carbonldp/JSONLD/Parser";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
 import * as URI from "carbonldp/RDF/URI";
+import * as AccessPoint from "carbonldp/AccessPoint";
 import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
 import { DocumentsResolverService } from "./documents-resolver.service"
@@ -22,13 +23,14 @@ import style from "./document-explorer.component.css!text";
 	styles: [ style ],
 } )
 
-export class DocumentExplorerComponent {
+export class DocumentExplorerComponent implements AfterViewInit {
 
 	element:ElementRef;
 	$element:JQuery;
-	$createChildSuccessMessage:JQuery;
+
 	$createDocumentModal:JQuery;
 	$deleteDocumentModal:JQuery;
+	$createAccessPointModal:JQuery;
 
 	selectedDocumentURI:string = "";
 	loadingDocument:boolean = false;
@@ -44,6 +46,11 @@ export class DocumentExplorerComponent {
 			hasMemberRelation: "http://www.w3.org/ns/ldp#member",
 			isMemberOfRelation: ""
 		}
+	};
+	createAccessPointFormModel:{ slug:string, hasMemberRelation:string, isMemberOfRelation:string } = {
+		slug: "",
+		hasMemberRelation: "http://www.w3.org/ns/ldp#member",
+		isMemberOfRelation: ""
 	};
 
 	@Input() documentContext:SDKContext.Class;
@@ -61,7 +68,7 @@ export class DocumentExplorerComponent {
 
 	ngAfterViewInit():void {
 		this.$element = $( this.element.nativeElement );
-		this.$createChildSuccessMessage = this.$element.find( ".success.createchild.message" );
+		this.$createAccessPointModal = this.$element.find( ".create.accesspoint.modal" ).modal( { closable: false } );
 		this.$createDocumentModal = this.$element.find( ".create.document.modal" ).modal( { closable: false } );
 		this.$deleteDocumentModal = this.$element.find( ".delete.document.modal" ).modal( { closable: false } );
 		this.$createDocumentModal.find( ".advancedoptions.accordion" ).accordion();
@@ -85,18 +92,6 @@ export class DocumentExplorerComponent {
 		} );
 	}
 
-	handleError( error:HTTP.Errors.Error ):void {
-		let errorMessage:Message;
-		if( error.response ) errorMessage = this.getHTTPErrorMessage( error, this.getErrorMessage( error ) );
-		else {
-			errorMessage = <Message>{
-				title: error.name,
-				content: JSON.stringify( error )
-			};
-		}
-		this.messages.push( errorMessage );
-	}
-
 	refreshDocument( documentURI:string ):void {
 		this.resolveDocument( documentURI );
 	}
@@ -109,13 +104,12 @@ export class DocumentExplorerComponent {
 		this.onOpenNode.emit( nodeId );
 	}
 
-	//<editor-fold desc="#region Create child">
 	private changeSelection( documentURI:string ) {
 		this.selectedDocumentURI = documentURI;
 	}
 
-	private showCreateChildForm():void {
-		this.$createDocumentModal.modal( "show" );
+	private showModal( element:HTMLElement ):void {
+		$( element ).modal( "show" );
 	}
 
 	private hideCreateChildForm():void {
@@ -124,6 +118,18 @@ export class DocumentExplorerComponent {
 		this.createChildFormModel.slug = "";
 		this.createChildFormModel.advancedOptions.hasMemberRelation = "http://www.w3.org/ns/ldp#member";
 		this.createChildFormModel.advancedOptions.isMemberOfRelation = "";
+	}
+
+	private hideCreateAccessPointForm():void {
+		this.$createAccessPointModal.modal( "hide" );
+		this.clearSavingError();
+		this.createAccessPointFormModel.slug = "";
+		this.createAccessPointFormModel.hasMemberRelation = "http://www.w3.org/ns/ldp#member";
+		this.createAccessPointFormModel.isMemberOfRelation = "";
+	}
+
+	private hideDeleteDocumentForm():void {
+		this.$deleteDocumentModal.modal( "hide" );
 	}
 
 	private slugLostControl( evt:any ):void {
@@ -136,41 +142,104 @@ export class DocumentExplorerComponent {
 		return slug.toLowerCase().replace( / - | -|- /g, "-" ).replace( /[^-\w ]+/g, "" ).replace( / +/g, "-" );
 	}
 
-	private createChild():void {
+	private onSubmitCreateChild( data:{ slug:string, advancedOptions:{hasMemberRelation:string, isMemberOfRelation:string }}, $event:any ):void {
+		$event.preventDefault();
 		let childSlug:string = null;
-		if( ! ! this.createChildFormModel.slug )
-			childSlug = this.createChildFormModel.slug + ((this.createChildFormModel.slug.endsWith( "/" ) && this.createChildFormModel.slug.trim() !== "" ) ? "/" : "");
+		if( ! ! data.slug )
+			childSlug = data.slug + ((data.slug.endsWith( "/" ) && data.slug.trim() !== "" ) ? "/" : "");
 		let childContent:any = {
-			hasMemberRelation: this.createChildFormModel.advancedOptions.hasMemberRelation
+			hasMemberRelation: data.advancedOptions.hasMemberRelation
 		};
-		if( ! ! this.createChildFormModel.advancedOptions.isMemberOfRelation ) childContent[ "isMemberOfRelation" ] = this.createChildFormModel.advancedOptions.isMemberOfRelation;
+		if( ! ! data.advancedOptions.isMemberOfRelation ) childContent[ "isMemberOfRelation" ] = data.advancedOptions.isMemberOfRelation;
 		this.loadingDocument = true;
 		this.documentsResolverService.createChild( this.documentContext, this.selectedDocumentURI, childContent, childSlug ).then(
 			( createdChild:PersistedDocument.Class ) => {
 				this.onRefreshNode.emit( this.selectedDocumentURI );
 				this.hideCreateChildForm();
-				this.onDisplaySuccessMessage.emit( "createchild" );
+				this.onDisplaySuccessMessage.emit( "<p>The child document was created correctly</p>" );
 			}
 		).catch( ( error:HTTPError )=> {
-			this.savingErrorMessage = {
-				title: error.name,
-				content: error.message,
-				statusCode: "" + error.statusCode,
-				statusMessage: (<XMLHttpRequest>error.response.request).statusText,
-				endpoint: (<any>error.response.request).responseURL,
-			};
-			if( ! ! error.response.data ) {
-				this.getErrors( error ).then( ( errors )=> {
-					this.savingErrorMessage[ "errors" ] = errors;
-				} );
-			}
+			this.savingErrorMessage = this.getErrorMessage( error )
 		} ).then( ()=> {
 			this.loadingDocument = false;
 		} );
 	}
 
+	private onSubmitAccessPoint( data:{ slug:string, hasMemberRelation:string, isMemberOfRelation:string }, $event:any ):void {
+		$event.preventDefault();
+		let slug:string = data.slug;
+		let accessPoint:AccessPoint.Class = {
+			hasMemberRelation: data.hasMemberRelation
+		};
+		if( ! ! data.isMemberOfRelation ) accessPoint.isMemberOfRelation = data.isMemberOfRelation;
+
+		this.documentContext.documents.get( this.selectedDocumentURI ).then( ( [document, response]:[PersistedDocument.Class, HTTP.Response.Class] )=> {
+
+			return this.documentsResolverService.createAccessPoint( document, accessPoint, slug );
+
+		} ).then( ( document:PersistedDocument.Class )=> {
+
+			this.onRefreshNode.emit( this.selectedDocumentURI );
+			this.hideCreateAccessPointForm();
+			this.onDisplaySuccessMessage.emit( "<p>The Access Point was created correctly</p>" );
+
+		} ).catch( ( error:HTTPError )=> {
+			this.savingErrorMessage = this.getErrorMessage( error )
+		} );
+	}
+
+	private deleteDocument():void {
+		this.documentsResolverService.delete( this.documentContext, this.selectedDocumentURI ).then( ( result )=> {
+
+			this.refreshNode( this.getParentURI( this.selectedDocumentURI ) );
+			this.hideDeleteDocumentForm();
+
+		} ).catch( ( error:HTTPError )=> {
+			this.savingErrorMessage = this.getErrorMessage( error );
+		} );
+	}
+
+	private getParentURI( documentURI:string ):string {
+		let slug:string = URI.Util.getSlug( documentURI ),
+			slugIdx:number = documentURI.indexOf( slug );
+		return documentURI.substr( 0, slugIdx );
+	}
+
 	private clearSavingError():void {
 		this.savingErrorMessage = null;
+	}
+
+	private handleExternalError( error:HTTPError ):void {
+		this.messages.push( this.getErrorMessage( error ) );
+	}
+
+	private getErrorMessage( error:HTTPError ):Message {
+		let errorMessage:Message = {
+			title: "",
+			content: "",
+			statusCode: "",
+			statusMessage: "",
+			endpoint: ""
+		};
+
+		errorMessage.title = error.hasOwnProperty( "name" ) ? error.name : "";
+		errorMessage.content = error.hasOwnProperty( "message" ) ? error.message : "";
+
+		// If it's a HTTP error
+		if( error.hasOwnProperty( "statusCode" ) ) {
+			errorMessage.content = errorMessage.content === "" ? this.getFriendlyHTTPMessage( error ) : errorMessage.content;
+			errorMessage.statusCode = error.hasOwnProperty( "message" ) ? "" + error.statusCode : "";
+			errorMessage.statusMessage = ( <XMLHttpRequest>error.response.request ).statusText;
+			errorMessage.title = errorMessage.statusMessage;
+			errorMessage.endpoint = ( <any>error.response.request ).responseURL;
+			if( ! ! error.response.data )
+				this.getErrors( error ).then( ( errors )=> { errorMessage[ "errors" ] = errors; } );
+		} else if( error.hasOwnProperty( "stack" ) ) {
+			// If it's an uncaught exception
+			errorMessage.title = error.message;
+			errorMessage.stack = error.stack;
+		}
+		return errorMessage;
 	}
 
 	private getErrors( error:HTTPError ):Promise<any[]> {
@@ -184,58 +253,7 @@ export class DocumentExplorerComponent {
 		} );
 	}
 
-	//</editor-fold>
-
-	//<editor-fold desc="#region Delete child">
-	private deleteDocument():void {
-		this.documentsResolverService.delete( this.documentContext, this.selectedDocumentURI ).then( ( result )=> {
-
-			this.refreshNode( this.getParentURI( this.selectedDocumentURI ) );
-			this.cancelDeletion();
-
-		} ).catch( ( error:HTTPError )=> {
-			this.savingErrorMessage = {
-				title: error.name,
-				content: error.message,
-				statusCode: "" + error.statusCode,
-				statusMessage: (<XMLHttpRequest>error.response.request).statusText,
-				endpoint: (<any>error.response.request).responseURL,
-			};
-			if( ! ! error.response.data ) {
-				this.getErrors( error ).then( ( errors )=> {
-					this.savingErrorMessage[ "errors" ] = errors;
-				} );
-			}
-		} );
-	}
-
-	private cancelDeletion():void {
-		this.$deleteDocumentModal.modal( "hide" );
-	}
-
-	private showDeleteChildForm():void {
-		this.$deleteDocumentModal.modal( "show" );
-	}
-
-	private getParentURI( documentURI:string ):string {
-		let slug:string = URI.Util.getSlug( documentURI ),
-			slugIdx:number = documentURI.indexOf( slug );
-		return documentURI.substr( 0, slugIdx );
-	}
-
-	//</editor-fold>
-
-	private getHTTPErrorMessage( error:HTTP.Errors.Error, content:string ):Message {
-		return {
-			title: error.name,
-			content: content + (! ! error.message ? (" Reason: " + error.message) : ""),
-			endpoint: (<any>error.response.request).responseURL,
-			statusCode: "" + (<XMLHttpRequest>error.response.request).status + " - RequestID: " + error.requestID,
-			statusMessage: (<XMLHttpRequest>error.response.request).statusText
-		};
-	}
-
-	private getErrorMessage( error:HTTP.Errors.Error ):string {
+	private getFriendlyHTTPMessage( error:HTTP.Errors.Error ):string {
 		let tempMessage:string = "";
 		switch( true ) {
 			case error instanceof HTTP.Errors.ForbiddenError:

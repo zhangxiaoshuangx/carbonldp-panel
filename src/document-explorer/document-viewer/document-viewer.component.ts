@@ -1,6 +1,5 @@
 import { Component, ElementRef, Input, Output, EventEmitter, SimpleChange, ViewChild, AfterViewInit, OnChanges } from "@angular/core";
 
-import { Message } from "carbonldp-panel/errors-area/error-message.component";
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
@@ -30,14 +29,13 @@ import style from "./document-viewer.component.css!text";
 export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	element:ElementRef;
 	$element:JQuery;
-	$saveDocumentSuccessMessage:JQuery;
-	$createChildSuccessMessage:JQuery;
+	$successMessage:JQuery;
+	successMessageContent:string = "";
 
 	sections:string[] = [ "bNodes", "namedFragments", "documentResource" ];
 	rootNode:RDFNode.Class;
 	bNodes:BlankNodeRow[] = [];
 	namedFragments:NamedFragmentRow[] = [];
-	savingErrorMessage:Message;
 	documentURI:string = "";
 
 	rootNodeHasChanged:boolean = false;
@@ -65,6 +63,7 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	get document():RDFDocument.Class {return this._document;}
 
 
+	@Output() onError:EventEmitter<HTTPError> = new EventEmitter<HTTPError>();
 	@Output() onOpenNode:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onRefreshNode:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onLoadingDocument:EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -99,20 +98,9 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 
 	ngAfterViewInit():void {
 		this.$element = $( this.element.nativeElement );
-		this.$saveDocumentSuccessMessage = this.$element.find( ".success.save.savedocument.message" );
-		this.$createChildSuccessMessage = this.$element.find( ".success.save.createchild.message" );
-		this.displaySuccessMessage.subscribe( ( type:string )=> {
-			switch( type ) {
-				case "createchild":
-					this.$createChildSuccessMessage.transition( {
-						onComplete: ()=> {
-							setTimeout( ()=> {
-								if( ! this.$createChildSuccessMessage.hasClass( "hidden" ) ) this.$createChildSuccessMessage.transition( "fade" );
-							}, 2500 );
-						}
-					} );
-					break;
-			}
+		this.$successMessage = this.$element.find( ".success.message" );
+		this.displaySuccessMessage.subscribe( ( content:string )=> {
+			this.showSuccessMessage( content, 2500 );
 		} );
 	}
 
@@ -132,15 +120,12 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 			this.generateFragments();
 			this.clearDocumentChanges();
 			this.loadingDocument = false;
-			this.savingErrorMessage = null;
 			this.documentURI = this.document[ "@id" ];
 
-			setTimeout(
-				()=> {
-					this.goToSection( "documentResource" );
-					this.initializeTabs();
-				}, 250
-			);
+			setTimeout( ()=> {
+				this.goToSection( "documentResource" );
+				this.initializeTabs();
+			}, 250 );
 		}
 	}
 
@@ -161,14 +146,13 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 					copy: bNode
 				}
 			} );
-		this.namedFragments = RDFDocument.Util.getFragmentResources( this.document ).map(
-			( namedFragment:RDFNode.Class )=> {
-				return {
-					id: namedFragment[ "@id" ],
-					name: namedFragment[ "@id" ],
-					copy: namedFragment
-				}
-			} );
+		this.namedFragments = RDFDocument.Util.getFragmentResources( this.document ).map( ( namedFragment:RDFNode.Class )=> {
+			return {
+				id: namedFragment[ "@id" ],
+				name: namedFragment[ "@id" ],
+				copy: namedFragment
+			}
+		} );
 	}
 
 	openBlankNode( id:string ):void {
@@ -280,30 +264,10 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 		this.documentsResolverService.update( backupDocument[ "@id" ], body, this.documentContext ).then(
 			( updatedDocument:RDFDocument.Class )=> {
 				this.document = updatedDocument[ 0 ];
-				setTimeout( ()=> {
-					this.$saveDocumentSuccessMessage.transition( {
-						onComplete: ()=> {
-							setTimeout( ()=> {
-								if( ! this.$saveDocumentSuccessMessage.hasClass( "hidden" ) ) this.$saveDocumentSuccessMessage.transition( "fade" );
-							}, 4000 );
-						}
-					} );
-				}, 1500 );
+				this.showSuccessMessage( "<p>Changes saved successfully</p>", 4500 );
 			}
 		).catch( ( error:HTTPError )=> {
-			this.savingErrorMessage = {
-				title: error.name,
-				content: (<XMLHttpRequest>error.response.request).statusText,
-				statusCode: "" + error.response.status,
-				statusMessage: (<XMLHttpRequest>error.response.request).statusText,
-				endpoint: (<any>error.response.request).responseURL,
-			};
-			if( ! ! error.response.data ) {
-				// TODO: Change this method to use the correct HTTPError when Javascript SDK implements it
-				this.getErrors( error ).then( ( errors )=> {
-					this.savingErrorMessage[ "errors" ] = errors;
-				} );
-			}
+			this.onError.emit( error );
 		} ).then( ()=> {
 			this.savingDocument = false;
 			this.rootNodeHasChanged = this.rootNodeRecords.changes.size > 0 || this.rootNodeRecords.additions.size > 0 || this.rootNodeRecords.deletions.size > 0;
@@ -323,12 +287,20 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 		} );
 	}
 
-	clearSavingError():void {
-		this.savingErrorMessage = null;
-	}
-
 	closeMessage( message:HTMLElement ):void {
 		$( message ).transition( "fade" );
+	}
+
+	showSuccessMessage( content:string, timeout?:number ):void {
+		this.successMessageContent = content;
+		this.$successMessage.transition( {
+			onComplete: ()=> {
+				setTimeout( ()=> {
+					if( ! this.$successMessage.hasClass( "hidden" ) ) this.$successMessage.transition( "fade" );
+					this.successMessageContent = "";
+				}, typeof timeout !== "undefined" ? timeout : 2500 );
+			}
+		} );
 	}
 
 	private beforeRefreshDocument( documentURI:string ):void {

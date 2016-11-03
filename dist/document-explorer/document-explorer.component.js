@@ -53,6 +53,11 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                             isMemberOfRelation: ""
                         }
                     };
+                    this.createAccessPointFormModel = {
+                        slug: "",
+                        hasMemberRelation: "http://www.w3.org/ns/ldp#member",
+                        isMemberOfRelation: ""
+                    };
                     this.onRefreshNode = new core_1.EventEmitter();
                     this.onOpenNode = new core_1.EventEmitter();
                     this.onDisplaySuccessMessage = new core_1.EventEmitter();
@@ -62,7 +67,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                 }
                 DocumentExplorerComponent.prototype.ngAfterViewInit = function () {
                     this.$element = $(this.element.nativeElement);
-                    this.$createChildSuccessMessage = this.$element.find(".success.createchild.message");
+                    this.$createAccessPointModal = this.$element.find(".create.accesspoint.modal").modal({ closable: false });
                     this.$createDocumentModal = this.$element.find(".create.document.modal").modal({ closable: false });
                     this.$deleteDocumentModal = this.$element.find(".delete.document.modal").modal({ closable: false });
                     this.$createDocumentModal.find(".advancedoptions.accordion").accordion();
@@ -83,18 +88,6 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                         });
                     });
                 };
-                DocumentExplorerComponent.prototype.handleError = function (error) {
-                    var errorMessage;
-                    if (error.response)
-                        errorMessage = this.getHTTPErrorMessage(error, this.getErrorMessage(error));
-                    else {
-                        errorMessage = {
-                            title: error.name,
-                            content: JSON.stringify(error)
-                        };
-                    }
-                    this.messages.push(errorMessage);
-                };
                 DocumentExplorerComponent.prototype.refreshDocument = function (documentURI) {
                     this.resolveDocument(documentURI);
                 };
@@ -108,8 +101,8 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                 DocumentExplorerComponent.prototype.changeSelection = function (documentURI) {
                     this.selectedDocumentURI = documentURI;
                 };
-                DocumentExplorerComponent.prototype.showCreateChildForm = function () {
-                    this.$createDocumentModal.modal("show");
+                DocumentExplorerComponent.prototype.showModal = function (element) {
+                    $(element).modal("show");
                 };
                 DocumentExplorerComponent.prototype.hideCreateChildForm = function () {
                     this.$createDocumentModal.modal("hide");
@@ -117,6 +110,16 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                     this.createChildFormModel.slug = "";
                     this.createChildFormModel.advancedOptions.hasMemberRelation = "http://www.w3.org/ns/ldp#member";
                     this.createChildFormModel.advancedOptions.isMemberOfRelation = "";
+                };
+                DocumentExplorerComponent.prototype.hideCreateAccessPointForm = function () {
+                    this.$createAccessPointModal.modal("hide");
+                    this.clearSavingError();
+                    this.createAccessPointFormModel.slug = "";
+                    this.createAccessPointFormModel.hasMemberRelation = "http://www.w3.org/ns/ldp#member";
+                    this.createAccessPointFormModel.isMemberOfRelation = "";
+                };
+                DocumentExplorerComponent.prototype.hideDeleteDocumentForm = function () {
+                    this.$deleteDocumentModal.modal("hide");
                 };
                 DocumentExplorerComponent.prototype.slugLostControl = function (evt) {
                     if (typeof (evt.target) === "undefined")
@@ -129,40 +132,97 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                         return slug;
                     return slug.toLowerCase().replace(/ - | -|- /g, "-").replace(/[^-\w ]+/g, "").replace(/ +/g, "-");
                 };
-                DocumentExplorerComponent.prototype.createChild = function () {
+                DocumentExplorerComponent.prototype.onSubmitCreateChild = function (data, $event) {
                     var _this = this;
+                    $event.preventDefault();
                     var childSlug = null;
-                    if (!!this.createChildFormModel.slug)
-                        childSlug = this.createChildFormModel.slug + ((this.createChildFormModel.slug.endsWith("/") && this.createChildFormModel.slug.trim() !== "") ? "/" : "");
+                    if (!!data.slug)
+                        childSlug = data.slug + ((data.slug.endsWith("/") && data.slug.trim() !== "") ? "/" : "");
                     var childContent = {
-                        hasMemberRelation: this.createChildFormModel.advancedOptions.hasMemberRelation
+                        hasMemberRelation: data.advancedOptions.hasMemberRelation
                     };
-                    if (!!this.createChildFormModel.advancedOptions.isMemberOfRelation)
-                        childContent["isMemberOfRelation"] = this.createChildFormModel.advancedOptions.isMemberOfRelation;
+                    if (!!data.advancedOptions.isMemberOfRelation)
+                        childContent["isMemberOfRelation"] = data.advancedOptions.isMemberOfRelation;
                     this.loadingDocument = true;
                     this.documentsResolverService.createChild(this.documentContext, this.selectedDocumentURI, childContent, childSlug).then(function (createdChild) {
                         _this.onRefreshNode.emit(_this.selectedDocumentURI);
                         _this.hideCreateChildForm();
-                        _this.onDisplaySuccessMessage.emit("createchild");
+                        _this.onDisplaySuccessMessage.emit("<p>The child document was created correctly</p>");
                     }).catch(function (error) {
-                        _this.savingErrorMessage = {
-                            title: error.name,
-                            content: error.message,
-                            statusCode: "" + error.statusCode,
-                            statusMessage: error.response.request.statusText,
-                            endpoint: error.response.request.responseURL,
-                        };
-                        if (!!error.response.data) {
-                            _this.getErrors(error).then(function (errors) {
-                                _this.savingErrorMessage["errors"] = errors;
-                            });
-                        }
+                        _this.savingErrorMessage = _this.getErrorMessage(error);
                     }).then(function () {
                         _this.loadingDocument = false;
                     });
                 };
+                DocumentExplorerComponent.prototype.onSubmitAccessPoint = function (data, $event) {
+                    var _this = this;
+                    $event.preventDefault();
+                    var slug = data.slug;
+                    var accessPoint = {
+                        hasMemberRelation: data.hasMemberRelation
+                    };
+                    if (!!data.isMemberOfRelation)
+                        accessPoint.isMemberOfRelation = data.isMemberOfRelation;
+                    this.documentContext.documents.get(this.selectedDocumentURI).then(function (_a) {
+                        var document = _a[0], response = _a[1];
+                        return _this.documentsResolverService.createAccessPoint(document, accessPoint, slug);
+                    }).then(function (document) {
+                        _this.onRefreshNode.emit(_this.selectedDocumentURI);
+                        _this.hideCreateAccessPointForm();
+                        _this.onDisplaySuccessMessage.emit("<p>The Access Point was created correctly</p>");
+                    }).catch(function (error) {
+                        _this.savingErrorMessage = _this.getErrorMessage(error);
+                    });
+                };
+                //</editor-fold>
+                //<editor-fold desc="#region Delete child">
+                DocumentExplorerComponent.prototype.deleteDocument = function () {
+                    var _this = this;
+                    this.documentsResolverService.delete(this.documentContext, this.selectedDocumentURI).then(function (result) {
+                        _this.refreshNode(_this.getParentURI(_this.selectedDocumentURI));
+                        _this.hideDeleteDocumentForm();
+                    }).catch(function (error) {
+                        _this.savingErrorMessage = _this.getErrorMessage(error);
+                    });
+                };
+                DocumentExplorerComponent.prototype.getParentURI = function (documentURI) {
+                    var slug = URI.Util.getSlug(documentURI), slugIdx = documentURI.indexOf(slug);
+                    return documentURI.substr(0, slugIdx);
+                };
+                //</editor-fold>
+                // Start:Error Handling
                 DocumentExplorerComponent.prototype.clearSavingError = function () {
                     this.savingErrorMessage = null;
+                };
+                DocumentExplorerComponent.prototype.handleExternalError = function (error) {
+                    this.messages.push(this.getErrorMessage(error));
+                };
+                DocumentExplorerComponent.prototype.getErrorMessage = function (error) {
+                    var errorMessage = {
+                        title: "",
+                        content: "",
+                        statusCode: "",
+                        statusMessage: "",
+                        endpoint: ""
+                    };
+                    errorMessage.title = error.hasOwnProperty("name") ? error.name : "";
+                    errorMessage.content = error.hasOwnProperty("message") ? error.message : "";
+                    // If it's a HTTP error
+                    if (error.hasOwnProperty("statusCode")) {
+                        errorMessage.content = errorMessage.content === "" ? this.getFriendlyHTTPMessage(error) : errorMessage.content;
+                        errorMessage.statusCode = error.hasOwnProperty("message") ? "" + error.statusCode : "";
+                        errorMessage.statusMessage = error.response.request.statusText;
+                        errorMessage.title = errorMessage.statusMessage;
+                        errorMessage.endpoint = error.response.request.responseURL;
+                        if (!!error.response.data)
+                            this.getErrors(error).then(function (errors) { errorMessage["errors"] = errors; });
+                    }
+                    else if (error.hasOwnProperty("stack")) {
+                        // If it's an uncaught exception
+                        errorMessage.title = error.message;
+                        errorMessage.stack = error.stack;
+                    }
+                    return errorMessage;
                 };
                 DocumentExplorerComponent.prototype.getErrors = function (error) {
                     var parser = new JSONLDParser.Class();
@@ -174,49 +234,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                         return errors;
                     });
                 };
-                //</editor-fold>
-                //<editor-fold desc="#region Delete child">
-                DocumentExplorerComponent.prototype.deleteDocument = function () {
-                    var _this = this;
-                    this.documentsResolverService.delete(this.documentContext, this.selectedDocumentURI).then(function (result) {
-                        _this.refreshNode(_this.getParentURI(_this.selectedDocumentURI));
-                        _this.cancelDeletion();
-                    }).catch(function (error) {
-                        _this.savingErrorMessage = {
-                            title: error.name,
-                            content: error.message,
-                            statusCode: "" + error.statusCode,
-                            statusMessage: error.response.request.statusText,
-                            endpoint: error.response.request.responseURL,
-                        };
-                        if (!!error.response.data) {
-                            _this.getErrors(error).then(function (errors) {
-                                _this.savingErrorMessage["errors"] = errors;
-                            });
-                        }
-                    });
-                };
-                DocumentExplorerComponent.prototype.cancelDeletion = function () {
-                    this.$deleteDocumentModal.modal("hide");
-                };
-                DocumentExplorerComponent.prototype.showDeleteChildForm = function () {
-                    this.$deleteDocumentModal.modal("show");
-                };
-                DocumentExplorerComponent.prototype.getParentURI = function (documentURI) {
-                    var slug = URI.Util.getSlug(documentURI), slugIdx = documentURI.indexOf(slug);
-                    return documentURI.substr(0, slugIdx);
-                };
-                //</editor-fold>
-                DocumentExplorerComponent.prototype.getHTTPErrorMessage = function (error, content) {
-                    return {
-                        title: error.name,
-                        content: content + (!!error.message ? (" Reason: " + error.message) : ""),
-                        endpoint: error.response.request.responseURL,
-                        statusCode: "" + error.response.request.status + " - RequestID: " + error.requestID,
-                        statusMessage: error.response.request.statusText
-                    };
-                };
-                DocumentExplorerComponent.prototype.getErrorMessage = function (error) {
+                DocumentExplorerComponent.prototype.getFriendlyHTTPMessage = function (error) {
                     var tempMessage = "";
                     switch (true) {
                         case error instanceof HTTP.Errors.ForbiddenError:

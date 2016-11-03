@@ -13,6 +13,10 @@
         padding: 0; }
   :host .createchild.form .ui.saving.error.message {
     text-align: left; }
+  :host .error.messages {
+    position: absolute;
+    z-index: 101;
+    width: 100%; }
 
 .ui.delete.document.modal,
 .ui.delete.document.modal > .actions {
