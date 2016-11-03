@@ -152,6 +152,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     });
                     this.$tree.on("loaded.jstree", function () {
                         _this.jsTree.select_node(_this.nodeChildren[0].id);
+                        _this.jsTree.open_node(_this.nodeChildren[0].id);
                         if (_this.nodeChildren && _this.nodeChildren.length > 0) {
                             _this.onResolveUri.emit(_this.nodeChildren[0].id);
                         }

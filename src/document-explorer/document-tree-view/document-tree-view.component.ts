@@ -141,6 +141,7 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 		} );
 		this.$tree.on( "loaded.jstree", ()=> {
 			this.jsTree.select_node( this.nodeChildren[ 0 ].id );
+			this.jsTree.open_node( this.nodeChildren[ 0 ].id );
 			if( this.nodeChildren && this.nodeChildren.length > 0 ) {
 				this.onResolveUri.emit( <string>this.nodeChildren[ 0 ].id );
 			}
