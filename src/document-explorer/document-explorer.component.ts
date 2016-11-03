@@ -32,7 +32,7 @@ export class DocumentExplorerComponent {
 	$createDocumentModal:JQuery;
 	$deleteDocumentModal:JQuery;
 
-	$createAccessPointDimmer:JQuery;
+	$createAccessPointModal:JQuery;
 
 	selectedDocumentURI:string = "";
 	loadingDocument:boolean = false;
@@ -73,7 +73,7 @@ export class DocumentExplorerComponent {
 		this.$createChildSuccessMessage = this.$element.find( ".success.createchild.message" );
 		this.$createDocumentModal = this.$element.find( ".create.document.modal" ).modal( { closable: false } );
 		this.$deleteDocumentModal = this.$element.find( ".delete.document.modal" ).modal( { closable: false } );
-		this.$createAccessPointDimmer = this.$element.find( ".create.accesspoint.dimmer" ).dimmer( { closable: false } );
+		this.$createAccessPointModal = this.$element.find( ".create.accesspoint.modal" ).modal( { closable: false } );
 		this.$createDocumentModal.find( ".advancedoptions.accordion" ).accordion();
 	}
 
@@ -117,7 +117,7 @@ export class DocumentExplorerComponent {
 	}
 
 	private showCreateAccessPointForm():void {
-		this.$createAccessPointDimmer.dimmer( "show" );
+		this.$createAccessPointModal.modal( "show" );
 	}
 
 	private hideCreateChildForm():void {
@@ -129,7 +129,7 @@ export class DocumentExplorerComponent {
 	}
 
 	private hideCreateAccessPointForm():void {
-		this.$createAccessPointDimmer.dimmer( "hide" );
+		this.$createAccessPointModal.modal( "hide" );
 		this.clearSavingError();
 		this.createAccessPointFormModel.slug = "";
 		this.createAccessPointFormModel.hasMemberRelation = "http://www.w3.org/ns/ldp#member";
