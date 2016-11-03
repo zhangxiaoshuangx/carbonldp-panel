@@ -23,7 +23,7 @@
   },
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
-  "jspm": { },
+  "jspm": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -36,6 +36,10 @@
     "@angular/platform-browser": "^2.0.2",
     "@angular/platform-browser-dynamic": "^2.0.2",
     "@angular/router": "^3.0.2",
+    "@types/codemirror": "0.0.34",
+    "@types/jquery": "^2.0.33",
+    "@types/jstree": "^3.3.32",
+    "@types/node": "^6.0.46",
     "angular2-carbonldp": "^0.4.1",
     "carbonldp": "^0.39.0",
     "codemirror": "^5.16.0",
