@@ -53,6 +53,11 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                             isMemberOfRelation: ""
                         }
                     };
+                    this.createAccessPointFormModel = {
+                        slug: "",
+                        hasMemberRelation: "http://www.w3.org/ns/ldp#member",
+                        isMemberOfRelation: ""
+                    };
                     this.onRefreshNode = new core_1.EventEmitter();
                     this.onOpenNode = new core_1.EventEmitter();
                     this.onDisplaySuccessMessage = new core_1.EventEmitter();
@@ -65,6 +70,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                     this.$createChildSuccessMessage = this.$element.find(".success.createchild.message");
                     this.$createDocumentModal = this.$element.find(".create.document.modal").modal({ closable: false });
                     this.$deleteDocumentModal = this.$element.find(".delete.document.modal").modal({ closable: false });
+                    this.$createAccessPointModal = this.$element.find(".create.accesspoint.modal").modal({ closable: false });
                     this.$createDocumentModal.find(".advancedoptions.accordion").accordion();
                 };
                 DocumentExplorerComponent.prototype.onLoadingDocument = function (loadingDocument) {
@@ -83,18 +89,6 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                         });
                     });
                 };
-                DocumentExplorerComponent.prototype.handleError = function (error) {
-                    var errorMessage;
-                    if (error.response)
-                        errorMessage = this.getHTTPErrorMessage(error, this.getErrorMessage(error));
-                    else {
-                        errorMessage = {
-                            title: error.name,
-                            content: JSON.stringify(error)
-                        };
-                    }
-                    this.messages.push(errorMessage);
-                };
                 DocumentExplorerComponent.prototype.refreshDocument = function (documentURI) {
                     this.resolveDocument(documentURI);
                 };
@@ -111,12 +105,22 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                 DocumentExplorerComponent.prototype.showCreateChildForm = function () {
                     this.$createDocumentModal.modal("show");
                 };
+                DocumentExplorerComponent.prototype.showCreateAccessPointForm = function () {
+                    this.$createAccessPointModal.modal("show");
+                };
                 DocumentExplorerComponent.prototype.hideCreateChildForm = function () {
                     this.$createDocumentModal.modal("hide");
                     this.clearSavingError();
                     this.createChildFormModel.slug = "";
                     this.createChildFormModel.advancedOptions.hasMemberRelation = "http://www.w3.org/ns/ldp#member";
                     this.createChildFormModel.advancedOptions.isMemberOfRelation = "";
+                };
+                DocumentExplorerComponent.prototype.hideCreateAccessPointForm = function () {
+                    this.$createAccessPointModal.modal("hide");
+                    this.clearSavingError();
+                    this.createAccessPointFormModel.slug = "";
+                    this.createAccessPointFormModel.hasMemberRelation = "http://www.w3.org/ns/ldp#member";
+                    this.createAccessPointFormModel.isMemberOfRelation = "";
                 };
                 DocumentExplorerComponent.prototype.slugLostControl = function (evt) {
                     if (typeof (evt.target) === "undefined")
@@ -143,35 +147,31 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                     this.documentsResolverService.createChild(this.documentContext, this.selectedDocumentURI, childContent, childSlug).then(function (createdChild) {
                         _this.onRefreshNode.emit(_this.selectedDocumentURI);
                         _this.hideCreateChildForm();
-                        _this.onDisplaySuccessMessage.emit("createchild");
+                        _this.onDisplaySuccessMessage.emit("<p>The child document was created correctly</p>");
                     }).catch(function (error) {
-                        _this.savingErrorMessage = {
-                            title: error.name,
-                            content: error.message,
-                            statusCode: "" + error.statusCode,
-                            statusMessage: error.response.request.statusText,
-                            endpoint: error.response.request.responseURL,
-                        };
-                        if (!!error.response.data) {
-                            _this.getErrors(error).then(function (errors) {
-                                _this.savingErrorMessage["errors"] = errors;
-                            });
-                        }
+                        _this.savingErrorMessage = _this.getErrorMessage(error);
                     }).then(function () {
                         _this.loadingDocument = false;
                     });
                 };
-                DocumentExplorerComponent.prototype.clearSavingError = function () {
-                    this.savingErrorMessage = null;
-                };
-                DocumentExplorerComponent.prototype.getErrors = function (error) {
-                    var parser = new JSONLDParser.Class();
-                    var mainError = {};
-                    var errors = [];
-                    return parser.parse(error.response.data).then(function (mainErrors) {
-                        mainError = mainErrors.find(function (error) { return error["@type"].indexOf("https://carbonldp.com/ns/v1/platform#ErrorResponse") !== -1; });
-                        errors = mainErrors.filter(function (error) { return error["@type"].indexOf("https://carbonldp.com/ns/v1/platform#Error") !== -1; });
-                        return errors;
+                DocumentExplorerComponent.prototype.onSubmitAccessPoint = function (data, $event) {
+                    var _this = this;
+                    $event.preventDefault();
+                    var slug = data.slug;
+                    var accessPoint = {
+                        hasMemberRelation: data.hasMemberRelation
+                    };
+                    if (!!data.isMemberOfRelation)
+                        accessPoint.isMemberOfRelation = data.isMemberOfRelation;
+                    this.documentContext.documents.get(this.selectedDocumentURI).then(function (_a) {
+                        var document = _a[0], response = _a[1];
+                        return _this.documentsResolverService.createAccessPoint(document, accessPoint, slug);
+                    }).then(function (document) {
+                        _this.onRefreshNode.emit(_this.selectedDocumentURI);
+                        _this.hideCreateAccessPointForm();
+                        _this.onDisplaySuccessMessage.emit("<p>The Access Point was created correctly</p>");
+                    }).catch(function (error) {
+                        _this.savingErrorMessage = _this.getErrorMessage(error);
                     });
                 };
                 //</editor-fold>
@@ -182,18 +182,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                         _this.refreshNode(_this.getParentURI(_this.selectedDocumentURI));
                         _this.cancelDeletion();
                     }).catch(function (error) {
-                        _this.savingErrorMessage = {
-                            title: error.name,
-                            content: error.message,
-                            statusCode: "" + error.statusCode,
-                            statusMessage: error.response.request.statusText,
-                            endpoint: error.response.request.responseURL,
-                        };
-                        if (!!error.response.data) {
-                            _this.getErrors(error).then(function (errors) {
-                                _this.savingErrorMessage["errors"] = errors;
-                            });
-                        }
+                        _this.savingErrorMessage = _this.getErrorMessage(error);
                     });
                 };
                 DocumentExplorerComponent.prototype.cancelDeletion = function () {
@@ -207,16 +196,51 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                     return documentURI.substr(0, slugIdx);
                 };
                 //</editor-fold>
-                DocumentExplorerComponent.prototype.getHTTPErrorMessage = function (error, content) {
-                    return {
-                        title: error.name,
-                        content: content + (!!error.message ? (" Reason: " + error.message) : ""),
-                        endpoint: error.response.request.responseURL,
-                        statusCode: "" + error.response.request.status + " - RequestID: " + error.requestID,
-                        statusMessage: error.response.request.statusText
-                    };
+                // Start:Error Handling
+                DocumentExplorerComponent.prototype.clearSavingError = function () {
+                    this.savingErrorMessage = null;
+                };
+                DocumentExplorerComponent.prototype.handleExternalError = function (error) {
+                    this.messages.push(this.getErrorMessage(error));
                 };
                 DocumentExplorerComponent.prototype.getErrorMessage = function (error) {
+                    var errorMessage = {
+                        title: "",
+                        content: "",
+                        statusCode: "",
+                        statusMessage: "",
+                        endpoint: ""
+                    };
+                    errorMessage.title = error.hasOwnProperty("name") ? error.name : "";
+                    errorMessage.content = error.hasOwnProperty("message") ? error.message : "";
+                    // If it's a HTTP error
+                    if (error.hasOwnProperty("statusCode")) {
+                        errorMessage.content = errorMessage.content === "" ? this.getFriendlyHTTPMessage(error) : errorMessage.content;
+                        errorMessage.statusCode = error.hasOwnProperty("message") ? "" + error.statusCode : "";
+                        errorMessage.statusMessage = error.response.request.statusText;
+                        errorMessage.title = errorMessage.statusMessage;
+                        errorMessage.endpoint = error.response.request.responseURL;
+                        if (!!error.response.data)
+                            this.getErrors(error).then(function (errors) { errorMessage["errors"] = errors; });
+                    }
+                    else if (error.hasOwnProperty("stack")) {
+                        // If it's an uncaught exception
+                        errorMessage.title = error.message;
+                        errorMessage.stack = error.stack;
+                    }
+                    return errorMessage;
+                };
+                DocumentExplorerComponent.prototype.getErrors = function (error) {
+                    var parser = new JSONLDParser.Class();
+                    var mainError = {};
+                    var errors = [];
+                    return parser.parse(error.response.data).then(function (mainErrors) {
+                        mainError = mainErrors.find(function (error) { return error["@type"].indexOf("https://carbonldp.com/ns/v1/platform#ErrorResponse") !== -1; });
+                        errors = mainErrors.filter(function (error) { return error["@type"].indexOf("https://carbonldp.com/ns/v1/platform#Error") !== -1; });
+                        return errors;
+                    });
+                };
+                DocumentExplorerComponent.prototype.getFriendlyHTTPMessage = function (error) {
                     var tempMessage = "";
                     switch (true) {
                         case error instanceof HTTP.Errors.ForbiddenError:
