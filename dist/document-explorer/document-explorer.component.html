@@ -12,9 +12,9 @@
 		                      [openNode]="onOpenNode"
 
 		                      (onSelectDocument)="changeSelection($event)"
-		                      (onShowCreateChildForm)="showCreateChildForm()"
-		                      (onShowDeleteChildForm)="showDeleteChildForm()"
-		                      (onShowCreateAccessPointForm)="showCreateAccessPointForm()"
+		                      (onShowCreateChildForm)="showModal(createChildFormModal)"
+		                      (onShowDeleteChildForm)="showModal(deleteDocumentModal)"
+		                      (onShowCreateAccessPointForm)="showModal(createAccessPointFormModal)"
 		                      (onError)="handleExternalError($event)"
 		                      (onLoadingDocument)="onLoadingDocument($event)"
 		                      (onResolveUri)="resolveDocument($event)"></cp-document-treeview>
@@ -29,7 +29,7 @@
 		                    (onSavingDocument)="showLoading($event)"
 		                    (onLoadingDocument)="onLoadingDocument($event)"
 		                    (onRefreshDocument)="refreshDocument($event)"></cp-document-viewer>
-		<form class="ui create document modal error createchild form" #createChildForm="ngForm" (submit)="onSubmitCreateChild(createChildForm.value, $event)">
+		<form class="ui create document modal error createchild form" #createChildFormModal #createChildForm="ngForm" (submit)="onSubmitCreateChild(createChildForm.value, $event)">
 			<div class="header">
 				<h2 class="ui header">
 					<i class="file outline icon"></i>
@@ -136,7 +136,7 @@
 				<cp-error-message [message]="savingErrorMessage" [closable]="true" *ngIf="!!savingErrorMessage"></cp-error-message>
 			</div>
 			<div class="actions">
-				<button type="button"  class="ui mini basic button" title="Cancel creation" (click)="hideCreateChildForm()">Cancel</button>
+				<button type="button" class="ui mini basic button" title="Cancel creation" (click)="hideCreateChildForm()">Cancel</button>
 				<button class="ui mini basic right floated button"
 				        [ngClass]="{ 'red': !createChildForm.valid, 'green': createChildForm.valid  }"
 				        (click)="onSubmitCreateChild(createChildForm.value, $event)"
@@ -144,7 +144,7 @@
 				</button>
 			</div>
 		</form>
-		<form class="ui create accesspoint modal error form" #createAccessPointForm="ngForm" (submit)="onSubmitAccessPoint(createAccessPointForm.value, $event)">
+		<form class="ui create accesspoint modal error form" #createAccessPointFormModal #createAccessPointForm="ngForm" (submit)="onSubmitAccessPoint(createAccessPointForm.value, $event)">
 			<div class="header">
 				<h2 class="ui header">
 					<i class="selected radio icon"></i>
@@ -257,7 +257,7 @@
 				</button>
 			</div>
 		</form>
-		<div class="ui delete document basic modal">
+		<div class="ui delete document basic modal" #deleteDocumentModal>
 			<div class="header">
 				<h2 class="ui inverted header"><i class="trash outline red icon"></i> Are you sure?</h2>
 			</div>

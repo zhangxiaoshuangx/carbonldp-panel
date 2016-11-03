@@ -7,7 +7,6 @@ import "semantic-ui/semantic";
 export declare class DocumentExplorerComponent {
     element: ElementRef;
     $element: JQuery;
-    $createChildSuccessMessage: JQuery;
     $createDocumentModal: JQuery;
     $deleteDocumentModal: JQuery;
     $createAccessPointModal: JQuery;
@@ -44,17 +43,15 @@ export declare class DocumentExplorerComponent {
     refreshNode(nodeId: string): void;
     openNode(nodeId: string): void;
     private changeSelection(documentURI);
-    private showCreateChildForm();
-    private showCreateAccessPointForm();
+    private showModal(element);
     private hideCreateChildForm();
     private hideCreateAccessPointForm();
+    private hideDeleteDocumentForm();
     private slugLostControl(evt);
     private getSanitizedSlug(slug);
     private onSubmitCreateChild(data, $event);
     private onSubmitAccessPoint(data, $event);
     private deleteDocument();
-    private cancelDeletion();
-    private showDeleteChildForm();
     private getParentURI(documentURI);
     private clearSavingError();
     private handleExternalError(error);

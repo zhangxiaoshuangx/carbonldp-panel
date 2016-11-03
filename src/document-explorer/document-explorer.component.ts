@@ -28,10 +28,8 @@ export class DocumentExplorerComponent {
 	element:ElementRef;
 	$element:JQuery;
 
-	$createChildSuccessMessage:JQuery;
 	$createDocumentModal:JQuery;
 	$deleteDocumentModal:JQuery;
-
 	$createAccessPointModal:JQuery;
 
 	selectedDocumentURI:string = "";
@@ -70,7 +68,6 @@ export class DocumentExplorerComponent {
 
 	ngAfterViewInit():void {
 		this.$element = $( this.element.nativeElement );
-		this.$createChildSuccessMessage = this.$element.find( ".success.createchild.message" );
 		this.$createAccessPointModal = this.$element.find( ".create.accesspoint.modal" ).modal( { closable: false } );
 		this.$createDocumentModal = this.$element.find( ".create.document.modal" ).modal( { closable: false } );
 		this.$deleteDocumentModal = this.$element.find( ".delete.document.modal" ).modal( { closable: false } );
@@ -112,12 +109,8 @@ export class DocumentExplorerComponent {
 		this.selectedDocumentURI = documentURI;
 	}
 
-	private showCreateChildForm():void {
-		this.$createDocumentModal.modal( "show" );
-	}
-
-	private showCreateAccessPointForm():void {
-		this.$createAccessPointModal.modal( "show" );
+	private showModal( element:HTMLElement ):void {
+		$( element ).modal( "show" );
 	}
 
 	private hideCreateChildForm():void {
@@ -134,6 +127,10 @@ export class DocumentExplorerComponent {
 		this.createAccessPointFormModel.slug = "";
 		this.createAccessPointFormModel.hasMemberRelation = "http://www.w3.org/ns/ldp#member";
 		this.createAccessPointFormModel.isMemberOfRelation = "";
+	}
+
+	private hideDeleteDocumentForm():void {
+		this.$deleteDocumentModal.modal( "hide" );
 	}
 
 	private slugLostControl( evt:any ):void {
@@ -199,19 +196,11 @@ export class DocumentExplorerComponent {
 		this.documentsResolverService.delete( this.documentContext, this.selectedDocumentURI ).then( ( result )=> {
 
 			this.refreshNode( this.getParentURI( this.selectedDocumentURI ) );
-			this.cancelDeletion();
+			this.hideDeleteDocumentForm();
 
 		} ).catch( ( error:HTTPError )=> {
 			this.savingErrorMessage = this.getErrorMessage( error );
 		} );
-	}
-
-	private cancelDeletion():void {
-		this.$deleteDocumentModal.modal( "hide" );
-	}
-
-	private showDeleteChildForm():void {
-		this.$deleteDocumentModal.modal( "show" );
 	}
 
 	private getParentURI( documentURI:string ):string {

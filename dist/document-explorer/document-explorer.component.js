@@ -67,7 +67,6 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                 }
                 DocumentExplorerComponent.prototype.ngAfterViewInit = function () {
                     this.$element = $(this.element.nativeElement);
-                    this.$createChildSuccessMessage = this.$element.find(".success.createchild.message");
                     this.$createAccessPointModal = this.$element.find(".create.accesspoint.modal").modal({ closable: false });
                     this.$createDocumentModal = this.$element.find(".create.document.modal").modal({ closable: false });
                     this.$deleteDocumentModal = this.$element.find(".delete.document.modal").modal({ closable: false });
@@ -102,11 +101,8 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                 DocumentExplorerComponent.prototype.changeSelection = function (documentURI) {
                     this.selectedDocumentURI = documentURI;
                 };
-                DocumentExplorerComponent.prototype.showCreateChildForm = function () {
-                    this.$createDocumentModal.modal("show");
-                };
-                DocumentExplorerComponent.prototype.showCreateAccessPointForm = function () {
-                    this.$createAccessPointModal.modal("show");
+                DocumentExplorerComponent.prototype.showModal = function (element) {
+                    $(element).modal("show");
                 };
                 DocumentExplorerComponent.prototype.hideCreateChildForm = function () {
                     this.$createDocumentModal.modal("hide");
@@ -121,6 +117,9 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                     this.createAccessPointFormModel.slug = "";
                     this.createAccessPointFormModel.hasMemberRelation = "http://www.w3.org/ns/ldp#member";
                     this.createAccessPointFormModel.isMemberOfRelation = "";
+                };
+                DocumentExplorerComponent.prototype.hideDeleteDocumentForm = function () {
+                    this.$deleteDocumentModal.modal("hide");
                 };
                 DocumentExplorerComponent.prototype.slugLostControl = function (evt) {
                     if (typeof (evt.target) === "undefined")
@@ -181,16 +180,10 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                     var _this = this;
                     this.documentsResolverService.delete(this.documentContext, this.selectedDocumentURI).then(function (result) {
                         _this.refreshNode(_this.getParentURI(_this.selectedDocumentURI));
-                        _this.cancelDeletion();
+                        _this.hideDeleteDocumentForm();
                     }).catch(function (error) {
                         _this.savingErrorMessage = _this.getErrorMessage(error);
                     });
-                };
-                DocumentExplorerComponent.prototype.cancelDeletion = function () {
-                    this.$deleteDocumentModal.modal("hide");
-                };
-                DocumentExplorerComponent.prototype.showDeleteChildForm = function () {
-                    this.$deleteDocumentModal.modal("show");
                 };
                 DocumentExplorerComponent.prototype.getParentURI = function (documentURI) {
                     var slug = URI.Util.getSlug(documentURI), slugIdx = documentURI.indexOf(slug);
