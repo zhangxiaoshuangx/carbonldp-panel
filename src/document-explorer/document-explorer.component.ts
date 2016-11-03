@@ -104,7 +104,6 @@ export class DocumentExplorerComponent implements AfterViewInit {
 		this.onOpenNode.emit( nodeId );
 	}
 
-	//<editor-fold desc="#region Create child">
 	private changeSelection( documentURI:string ) {
 		this.selectedDocumentURI = documentURI;
 	}
@@ -189,9 +188,6 @@ export class DocumentExplorerComponent implements AfterViewInit {
 		} );
 	}
 
-	//</editor-fold>
-
-	//<editor-fold desc="#region Delete child">
 	private deleteDocument():void {
 		this.documentsResolverService.delete( this.documentContext, this.selectedDocumentURI ).then( ( result )=> {
 
@@ -209,9 +205,6 @@ export class DocumentExplorerComponent implements AfterViewInit {
 		return documentURI.substr( 0, slugIdx );
 	}
 
-	//</editor-fold>
-
-	// Start:Error Handling
 	private clearSavingError():void {
 		this.savingErrorMessage = null;
 	}
@@ -288,8 +281,6 @@ export class DocumentExplorerComponent implements AfterViewInit {
 		}
 		return tempMessage;
 	}
-
-	// End:Error Handling
 }
 
 export default DocumentExplorerComponent;
