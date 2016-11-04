@@ -84,6 +84,13 @@ System.register(["@angular/core"], function(exports_1, context_1) {
                     this.title.active = this._active;
                 };
                 CollapsibleDirective.prototype.onClick = function (event) {
+                    var titleChildren = this.title.element.nativeElement.children;
+                    for (var i = 0; i <= titleChildren.length; i++) {
+                        if (event.target === titleChildren[i]) {
+                            this.toggleContent();
+                            return;
+                        }
+                    }
                     if (event.target === this.element.nativeElement || event.target === this.title.element.nativeElement)
                         this.toggleContent();
                 };

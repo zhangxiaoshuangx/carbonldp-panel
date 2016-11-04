@@ -52,7 +52,6 @@ System.register(["@angular/core", "./tab.component", "./tabs.component.html!", "
                 ;
                 TabsComponent.prototype.reloadTitles = function () {
                     this.titles = this.tabs.toArray().filter(function (tab) { return tab.title; }).map(function (tab) { return tab.title; });
-                    console.log(this.titles);
                 };
                 TabsComponent.prototype.activateTab = function (index) {
                     var _this = this;

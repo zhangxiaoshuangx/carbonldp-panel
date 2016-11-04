@@ -38,7 +38,6 @@ export class TabsComponent implements AfterContentInit, OnChanges {
 
 	reloadTitles():void {
 		this.titles = this.tabs.toArray().filter( tab => tab.title ).map( tab => tab.title );
-		console.log(this.titles);
 	}
 
 	activateTab( index:number = 0 ):void {

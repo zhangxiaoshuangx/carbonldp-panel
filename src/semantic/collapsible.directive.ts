@@ -11,7 +11,6 @@ export class CollapsibleTitleDirective {
 		this.element = element;
 	}
 }
-
 @Directive( {
 	selector: ".content"
 } )
@@ -61,6 +60,14 @@ export class CollapsibleDirective implements AfterContentInit {
 	}
 
 	@HostListener( "click", [ "$event" ] ) onClick( event:MouseEvent ):void {
+		let titleChildren:HTMLElement[] = this.title.element.nativeElement.children;
+		for( let i=0; i <= titleChildren.length; i++){
+			if(event.target === titleChildren[i]){
+				this.toggleContent();
+				return;
+			}
+		}
+		
 		if( event.target === this.element.nativeElement || event.target === this.title.element.nativeElement ) this.toggleContent();
 	}
 
