@@ -67,7 +67,6 @@ export class CollapsibleDirective implements AfterContentInit {
 				return;
 			}
 		}
-		
 		if( event.target === this.element.nativeElement || event.target === this.title.element.nativeElement ) this.toggleContent();
 	}
 

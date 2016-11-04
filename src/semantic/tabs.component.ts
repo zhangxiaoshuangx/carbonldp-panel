@@ -32,7 +32,7 @@ export class TabsComponent implements AfterContentInit, OnChanges {
 			this.activateTab( changes[ "activeTab" ].currentValue );
 		}
 	}
-	activateDropdown(){
+	activateDropdown():void{
 		$(".ui.dropdown").dropdown();
 	};
 
