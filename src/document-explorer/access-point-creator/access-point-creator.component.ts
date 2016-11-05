@@ -13,14 +13,14 @@ import { ErrorMessageGenerator } from "carbonldp-panel/errors-area/error-message
 
 import "semantic-ui/semantic";
 
-import template from "./create-access-point-modal.component.html!";
+import template from "./access-point-creator.component.html!";
 
 @Component( {
-	selector: "cp-create-access-point-modal",
+	selector: "cp-access-point-creator",
 	template: template,
 } )
 
-export class CreateAccessPointModalComponent implements AfterViewInit {
+export class AccessPointCreatorComponent implements AfterViewInit {
 
 	private element:ElementRef;
 	private $element:JQuery;
@@ -104,4 +104,4 @@ export class CreateAccessPointModalComponent implements AfterViewInit {
 
 }
 
-export default CreateAccessPointModalComponent;
+export default AccessPointCreatorComponent;
