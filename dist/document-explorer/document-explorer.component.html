@@ -14,7 +14,7 @@
 		                      (onSelectDocument)="changeSelection($event)"
 		                      (onShowCreateChildForm)="showModal(createChildFormModal)"
 		                      (onShowDeleteChildForm)="showModal(deleteDocumentModal)"
-		                      (onShowCreateAccessPointForm)="showModal(createAccessPointFormModal)"
+		                      (onShowCreateAccessPointForm)="createAccessPointModal.show()"
 		                      (onError)="handleExternalError($event)"
 		                      (onLoadingDocument)="onLoadingDocument($event)"
 		                      (onResolveUri)="resolveDocument($event)"></cp-document-treeview>
@@ -29,6 +29,10 @@
 		                    (onSavingDocument)="showLoading($event)"
 		                    (onLoadingDocument)="onLoadingDocument($event)"
 		                    (onRefreshDocument)="refreshDocument($event)"></cp-document-viewer>
+		<cp-create-access-point-modal #createAccessPointModal
+		                              [context]="documentContext"
+		                              [parentURI]="selectedDocumentURI"
+		                              (onSuccess)="onSuccessAccessPoint($event)"></cp-create-access-point-modal>
 		<form class="ui create document modal error createchild form" #createChildFormModal #createChildForm="ngForm" (submit)="onSubmitCreateChild(createChildForm.value, $event)">
 			<div class="header">
 				<h2 class="ui header">
@@ -141,119 +145,6 @@
 				        [ngClass]="{ 'red': !createChildForm.valid, 'green': createChildForm.valid  }"
 				        (click)="onSubmitCreateChild(createChildForm.value, $event)"
 				        [disabled]="!createChildForm.valid">Create
-				</button>
-			</div>
-		</form>
-		<form class="ui create accesspoint modal error form" #createAccessPointFormModal #createAccessPointForm="ngForm" (submit)="onSubmitAccessPoint(createAccessPointForm.value, $event)">
-			<div class="header">
-				<h2 class="ui header">
-					<i class="selected radio icon"></i>
-					<span class="content">
-						Creating an Access Point
-						<span class="sub header">Configure an Access Point to list members to this document.</span>
-					</span>
-				</h2>
-			</div>
-			<div class="content">
-				<div class="field"
-				     [ngClass]="{error: slug.touched && !slug.valid}">
-					<label>Slug: The slug of the access point you want to create: (Optional)</label>
-					<div class="ui fluid input">
-						<input type="text" name="slug" tabindex="0"
-						       placeholder="Optional: Enter the slug of the Access Point. e.g. &quot;my-access-point-name/&quot;"
-						       #slug="ngModel"
-						       cp-slug
-						       (keyup.esc)="hideCreateAccessPointForm()"
-						       [ngModel]="createAccessPointFormModel.slug"
-						       (ngModelChange)="createAccessPointFormModel.slug = getSanitizedSlug($event)"
-						       (blur)="slugLostControl($event)">
-					</div>
-				</div>
-				<br>
-				<div class="field"
-				     [ngClass]="{error: hasMemberRelation.touched && !hasMemberRelation.valid}">
-					<label>
-						<a target="_blank"
-						   tabindex="-1"
-						   href="https://carbonldp.com/documentation/javascript-sdk-getting-started#membership-relation">HasMemberRelation</a>:
-						The name of the property that will hold the array of members (by default member). </label>
-					<div class="ui fluid input">
-						<input type="text" name="hasMemberRelation"
-						       placeholder="E.g: http://www.w3.org/ns/ldp#member"
-						       #hasMemberRelation="ngModel"
-						       required cp-uri-fragment
-						       [(ngModel)]="createAccessPointFormModel.hasMemberRelation">
-					</div>
-				</div>
-				<br>
-				<div class="field"
-				     [ngClass]="{error: isMemberOfRelation.touched && !isMemberOfRelation.valid}">
-					<label>
-						<a tabindex="-1" target="_blank"
-						   href="https://carbonldp.com/documentation/javascript-sdk-getting-started#membership-relation">IsMemberOfRelation</a>:
-						The name of the property that each member will have, which links back to the document they are member of (Optional).
-					</label>
-					<div class="ui fluid input">
-						<input type="text" name="isMemberOfRelation"
-						       placeholder="Optional: E.g: http://www.w3.org/ns/ldp#member"
-						       #isMemberOfRelation="ngModel"
-						       cp-uri-fragment
-						       (keyup.esc)="hideCreateAccessPointForm()"
-						       [(ngModel)]="createAccessPointFormModel.isMemberOfRelation">
-					</div>
-				</div>
-				<div class="ui error message" *ngIf="!createAccessPointForm.valid">
-					<ol class="ui list">
-						<!--slug-->
-						<li value="*" *ngIf="createAccessPointForm.controls.slug.touched && createAccessPointForm.controls.slug.hasError('invalidSlug')">
-							Please, provide a valid slug/name for the Access Oiubt.<br>(Only numbers and letters with dashes)
-						</li>
-
-						<!--hasMemberRelation-->
-						<li value="*" *ngIf="createAccessPointForm.controls.hasMemberRelation.hasError('required')">
-							The 'hasMemberRelation' property is required.
-						</li>
-						<li value="*" *ngIf="createAccessPointForm.controls.hasMemberRelation.hasError('invalidURIAddress')">
-							Please, provide a valid URI for the 'hasMemberRelation' property.<br>
-							E.g: http://www.w3.org/ns/ldp#my-member-name
-						</li>
-						<li value="*" *ngIf="createAccessPointForm.controls.hasMemberRelation.hasError('missingFragment')">
-							Please, provide a name/fragment for the 'hasMemberRelation' property.<br>
-							E.g: http://www.w3.org/ns/ldp#my-member-name
-						</li>
-						<li value="*" *ngIf="createAccessPointForm.controls.hasMemberRelation.hasError('multipleFragment')">
-							Please, provide only one name after the hashtag (#) for the 'hasMemberRelation' property.<br>
-							E.g: http://www.w3.org/ns/ldp#my-member-name
-						</li>
-
-						<!--isMemberOfRelation-->
-						<li value="*" *ngIf="createAccessPointForm.controls.isMemberOfRelation.hasError('invalidURIAddress')">
-							Please, provide a valid URI for the 'isMemberOfRelation' property.<br>
-							E.g: http://www.w3.org/ns/ldp#my-member-name
-						</li>
-						<li value="*" *ngIf="createAccessPointForm.controls.isMemberOfRelation.hasError('missingFragment')">
-							Please, provide a name/fragment for the 'isMemberOfRelation' property.<br>
-							E.g: http://www.w3.org/ns/ldp#my-member-name
-						</li>
-						<li value="*" *ngIf="createAccessPointForm.controls.isMemberOfRelation.hasError('multipleFragment')">
-							Please, provide only one name after the hashtag (#) for the 'isMemberOfRelation' property.<br>
-							E.g: http://www.w3.org/ns/ldp#my-member-name
-						</li>
-
-
-					</ol>
-				</div>
-
-
-				<cp-error-message [message]="savingErrorMessage" [closable]="true" *ngIf="!!savingErrorMessage"></cp-error-message>
-			</div>
-			<div class="actions">
-				<button type="button" class="ui mini basic button" tabindex="5" title="Cancel creation" (click)="hideCreateAccessPointForm()">Cancel</button>
-				<button type="submit"
-				        class="ui mini basic right floated button"
-				        [ngClass]="{ 'red': !createAccessPointForm.valid, 'green': createAccessPointForm.valid  }"
-				        (click)="onSubmitAccessPoint(createAccessPointForm.value, $event)"
-				        [disabled]="!createAccessPointForm.valid">Create
 				</button>
 			</div>
 		</form>

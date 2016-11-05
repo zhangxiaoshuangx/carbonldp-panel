@@ -24,11 +24,6 @@ export declare class DocumentExplorerComponent implements AfterViewInit {
             isMemberOfRelation: string;
         };
     };
-    createAccessPointFormModel: {
-        slug: string;
-        hasMemberRelation: string;
-        isMemberOfRelation: string;
-    };
     documentContext: SDKContext.Class;
     onRefreshNode: EventEmitter<string>;
     onOpenNode: EventEmitter<string>;
@@ -45,18 +40,14 @@ export declare class DocumentExplorerComponent implements AfterViewInit {
     private changeSelection(documentURI);
     private showModal(element);
     private hideCreateChildForm();
-    private hideCreateAccessPointForm();
     private hideDeleteDocumentForm();
     private slugLostControl(evt);
     private getSanitizedSlug(slug);
     private onSubmitCreateChild(data, $event);
-    private onSubmitAccessPoint(data, $event);
+    private onSuccessAccessPoint(data, $event);
     private deleteDocument();
     private getParentURI(documentURI);
     private clearSavingError();
     private handleExternalError(error);
-    private getErrorMessage(error);
-    private getErrors(error);
-    private getFriendlyHTTPMessage(error);
 }
 export default DocumentExplorerComponent;
