@@ -97,7 +97,6 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                 DocumentExplorerComponent.prototype.openNode = function (nodeId) {
                     this.onOpenNode.emit(nodeId);
                 };
-                //<editor-fold desc="#region Create child">
                 DocumentExplorerComponent.prototype.changeSelection = function (documentURI) {
                     this.selectedDocumentURI = documentURI;
                 };
@@ -174,8 +173,6 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                         _this.savingErrorMessage = _this.getErrorMessage(error);
                     });
                 };
-                //</editor-fold>
-                //<editor-fold desc="#region Delete child">
                 DocumentExplorerComponent.prototype.deleteDocument = function () {
                     var _this = this;
                     this.documentsResolverService.delete(this.documentContext, this.selectedDocumentURI).then(function (result) {
@@ -189,8 +186,6 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/HTTP", "car
                     var slug = URI.Util.getSlug(documentURI), slugIdx = documentURI.indexOf(slug);
                     return documentURI.substr(0, slugIdx);
                 };
-                //</editor-fold>
-                // Start:Error Handling
                 DocumentExplorerComponent.prototype.clearSavingError = function () {
                     this.savingErrorMessage = null;
                 };
