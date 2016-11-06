@@ -7,9 +7,7 @@ import "semantic-ui/semantic";
 export declare class DocumentExplorerComponent implements AfterViewInit {
     element: ElementRef;
     $element: JQuery;
-    $createDocumentModal: JQuery;
     $deleteDocumentModal: JQuery;
-    $createAccessPointModal: JQuery;
     selectedDocumentURI: string;
     loadingDocument: boolean;
     savingDocument: boolean;
@@ -17,13 +15,6 @@ export declare class DocumentExplorerComponent implements AfterViewInit {
     documentsResolverService: DocumentsResolverService;
     messages: Message[];
     savingErrorMessage: Message;
-    createChildFormModel: {
-        slug: string;
-        advancedOptions: {
-            hasMemberRelation: string;
-            isMemberOfRelation: string;
-        };
-    };
     documentContext: SDKContext.Class;
     onRefreshNode: EventEmitter<string>;
     onOpenNode: EventEmitter<string>;
@@ -39,12 +30,9 @@ export declare class DocumentExplorerComponent implements AfterViewInit {
     openNode(nodeId: string): void;
     private changeSelection(documentURI);
     private showModal(element);
-    private hideCreateChildForm();
     private hideDeleteDocumentForm();
-    private slugLostControl(evt);
-    private getSanitizedSlug(slug);
-    private onSubmitCreateChild(data, $event);
-    private onSuccessAccessPoint(data, $event);
+    private onSuccessAccessPoint($event);
+    private onSuccessCreateDocument($event);
     private deleteDocument();
     private getParentURI(documentURI);
     private clearSavingError();

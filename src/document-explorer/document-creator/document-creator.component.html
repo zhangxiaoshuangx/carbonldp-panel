@@ -1,0 +1,113 @@
+<form class="ui create document modal error createchild form" #createChildFormModal #createChildForm="ngForm" (submit)="onSubmitCreateChild(createChildForm.value, $event)">
+	<div class="header">
+		<h2 class="ui header">
+			<i class="file outline icon"></i>
+			<span class="content">
+				Creating a Child Document
+				<span class="sub header">Create a new document as a child of another one.</span>
+			</span>
+		</h2>
+	</div>
+	<div class="content">
+		<div class="field"
+		     [ngClass]="{error: slug.touched && !slug.valid}">
+			<label>Slug: The slug of the document you want to create: (Optional)</label>
+			<div class="ui fluid input">
+				<input type="text" name="slug"
+				       placeholder="Optional: Enter the slug of the child. e.g. &quot;my-child-name/&quot;"
+				       #slug="ngModel"
+				       cp-slug
+				       (keyup.esc)="hideCreateChildForm()"
+				       [ngModel]="createChildFormModel.slug"
+				       (ngModelChange)="createChildFormModel.slug = getSanitizedSlug($event)"
+				       (blur)="slugLostFocus($event)">
+			</div>
+		</div>
+
+		<div class="ui advancedoptions accordion" ngModelGroup="advancedOptions" #advancedOptions="ngModelGroup">
+			<div class="title">
+				<i class="dropdown icon"></i>
+				Advanced options
+				<div class="ui circular red basic mini label" *ngIf="!advancedOptions.valid">Errors</div>
+			</div>
+			<div class="content">
+				<br>
+				<div class="field"
+				     [ngClass]="{error: hasMemberRelation.touched && !hasMemberRelation.valid}">
+					<label><a href="https://carbonldp.com/documentation/javascript-sdk-getting-started#membership-relation" target="_blank">hasMemberRelation</a>: The name of the property that will hold the array of members (by default member). </label>
+					<div class="ui fluid input">
+						<input type="text" name="hasMemberRelation"
+						       placeholder="E.g: http://www.w3.org/ns/ldp#member"
+						       #hasMemberRelation="ngModel"
+						       required cp-uri-fragment
+						       (keyup.esc)="hideCreateChildForm()"
+						       [(ngModel)]="createChildFormModel.advancedOptions.hasMemberRelation">
+					</div>
+				</div>
+				<br>
+				<div class="field"
+				     [ngClass]="{error: isMemberOfRelation.touched && !isMemberOfRelation.valid}">
+					<label><a href="https://carbonldp.com/documentation/javascript-sdk-getting-started#membership-relation" target="_blank">isMemberOfRelation</a>: The name of the property that each member will have, which links back to the document they are member of (Optional). </label>
+					<div class="ui fluid input">
+						<input type="text" name="isMemberOfRelation"
+						       placeholder="Optional: E.g: http://www.w3.org/ns/ldp#member"
+						       #isMemberOfRelation="ngModel"
+						       cp-uri-fragment
+						       (keyup.esc)="hideCreateChildForm()"
+						       [(ngModel)]="createChildFormModel.advancedOptions.isMemberOfRelation">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="ui error message" *ngIf="!createChildForm.valid">
+			<ol class="ui list">
+				<!--slug-->
+				<li value="*" *ngIf="slug.touched && slug.control.hasError('invalidSlug')">
+					Please, provide a valid slug/name for the child document.<br>(Only numbers and letters with dashes)
+				</li>
+
+				<!--hasMemberRelation-->
+				<li value="*" *ngIf="hasMemberRelation.control.hasError('required')">
+					The 'hasMemberRelation' property is required.
+				</li>
+				<li value="*" *ngIf="hasMemberRelation.control.hasError('invalidURIAddress')">
+					Please, provide a valid URI for the 'hasMemberRelation' property.<br>
+					E.g: http://www.w3.org/ns/ldp#my-member-name
+				</li>
+				<li value="*" *ngIf="hasMemberRelation.control.hasError('missingFragment')">
+					Please, provide a name/fragment for the 'hasMemberRelation' property.<br>
+					E.g: http://www.w3.org/ns/ldp#my-member-name
+				</li>
+				<li value="*" *ngIf="hasMemberRelation.control.hasError('multipleFragment')">
+					Please, provide only one name after the hashtag (#) for the 'hasMemberRelation' property.<br>
+					E.g: http://www.w3.org/ns/ldp#my-member-name
+				</li>
+
+				<!--isMemberOfRelation-->
+				<li value="*" *ngIf="isMemberOfRelation.control.hasError('invalidURIAddress')">
+					Please, provide a valid URI for the 'isMemberOfRelation' property.<br>
+					E.g: http://www.w3.org/ns/ldp#my-member-name
+				</li>
+				<li value="*" *ngIf="isMemberOfRelation.control.hasError('missingFragment')">
+					Please, provide a name/fragment for the 'isMemberOfRelation' property.<br>
+					E.g: http://www.w3.org/ns/ldp#my-member-name
+				</li>
+				<li value="*" *ngIf="isMemberOfRelation.control.hasError('multipleFragment')">
+					Please, provide only one name after the hashtag (#) for the 'isMemberOfRelation' property.<br>
+					E.g: http://www.w3.org/ns/ldp#my-member-name
+				</li>
+			</ol>
+		</div>
+
+		<cp-error-message [message]="errorMessage" [closable]="true" *ngIf="!!errorMessage"></cp-error-message>
+	</div>
+	<div class="actions">
+		<button type="button" class="ui mini basic button" title="Cancel creation" (click)="hideCreateChildForm()">Cancel</button>
+		<button class="ui mini basic right floated button"
+		        [ngClass]="{ 'red': !createChildForm.valid, 'green': createChildForm.valid  }"
+		        (click)="onSubmitCreateChild(createChildForm.value, $event)"
+		        [disabled]="!createChildForm.valid">Create
+		</button>
+	</div>
+</form>

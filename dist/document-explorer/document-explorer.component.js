@@ -40,13 +40,6 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/URI", "
                     this.loadingDocument = false;
                     this.savingDocument = false;
                     this.messages = [];
-                    this.createChildFormModel = {
-                        slug: "",
-                        advancedOptions: {
-                            hasMemberRelation: "http://www.w3.org/ns/ldp#member",
-                            isMemberOfRelation: ""
-                        }
-                    };
                     this.onRefreshNode = new core_1.EventEmitter();
                     this.onOpenNode = new core_1.EventEmitter();
                     this.onDisplaySuccessMessage = new core_1.EventEmitter();
@@ -56,10 +49,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/URI", "
                 }
                 DocumentExplorerComponent.prototype.ngAfterViewInit = function () {
                     this.$element = $(this.element.nativeElement);
-                    this.$createAccessPointModal = this.$element.find(".create.accesspoint.modal").modal({ closable: false });
-                    this.$createDocumentModal = this.$element.find(".create.document.modal").modal({ closable: false });
                     this.$deleteDocumentModal = this.$element.find(".delete.document.modal").modal({ closable: false });
-                    this.$createDocumentModal.find(".advancedoptions.accordion").accordion();
                 };
                 DocumentExplorerComponent.prototype.onLoadingDocument = function (loadingDocument) {
                     this.loadingDocument = loadingDocument;
@@ -92,52 +82,16 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/URI", "
                 DocumentExplorerComponent.prototype.showModal = function (element) {
                     $(element).modal("show");
                 };
-                DocumentExplorerComponent.prototype.hideCreateChildForm = function () {
-                    this.$createDocumentModal.modal("hide");
-                    this.clearSavingError();
-                    this.createChildFormModel.slug = "";
-                    this.createChildFormModel.advancedOptions.hasMemberRelation = "http://www.w3.org/ns/ldp#member";
-                    this.createChildFormModel.advancedOptions.isMemberOfRelation = "";
-                };
                 DocumentExplorerComponent.prototype.hideDeleteDocumentForm = function () {
                     this.$deleteDocumentModal.modal("hide");
                 };
-                DocumentExplorerComponent.prototype.slugLostControl = function (evt) {
-                    if (typeof (evt.target) === "undefined")
-                        return;
-                    if (!evt.target.value.endsWith("/") && evt.target.value.trim() !== "")
-                        evt.target.value += "/";
-                };
-                DocumentExplorerComponent.prototype.getSanitizedSlug = function (slug) {
-                    if (!slug)
-                        return slug;
-                    return slug.toLowerCase().replace(/ - | -|- /g, "-").replace(/[^-\w ]+/g, "").replace(/ +/g, "-");
-                };
-                DocumentExplorerComponent.prototype.onSubmitCreateChild = function (data, $event) {
-                    var _this = this;
-                    $event.preventDefault();
-                    var childSlug = null;
-                    if (!!data.slug)
-                        childSlug = data.slug + ((data.slug.endsWith("/") && data.slug.trim() !== "") ? "/" : "");
-                    var childContent = {
-                        hasMemberRelation: data.advancedOptions.hasMemberRelation
-                    };
-                    if (!!data.advancedOptions.isMemberOfRelation)
-                        childContent["isMemberOfRelation"] = data.advancedOptions.isMemberOfRelation;
-                    this.loadingDocument = true;
-                    this.documentsResolverService.createChild(this.documentContext, this.selectedDocumentURI, childContent, childSlug).then(function (createdChild) {
-                        _this.onRefreshNode.emit(_this.selectedDocumentURI);
-                        _this.hideCreateChildForm();
-                        _this.onDisplaySuccessMessage.emit("<p>The child document was created correctly</p>");
-                    }).catch(function (error) {
-                        _this.savingErrorMessage = _this.getErrorMessage(error);
-                    }).then(function () {
-                        _this.loadingDocument = false;
-                    });
-                };
-                DocumentExplorerComponent.prototype.onSuccessAccessPoint = function (data, $event) {
+                DocumentExplorerComponent.prototype.onSuccessAccessPoint = function ($event) {
                     this.onRefreshNode.emit(this.selectedDocumentURI);
                     this.onDisplaySuccessMessage.emit("<p>The Access Point was created correctly</p>");
+                };
+                DocumentExplorerComponent.prototype.onSuccessCreateDocument = function ($event) {
+                    this.onRefreshNode.emit(this.selectedDocumentURI);
+                    this.onDisplaySuccessMessage.emit("<p>The child document was created correctly</p>");
                 };
                 DocumentExplorerComponent.prototype.deleteDocument = function () {
                     var _this = this;
