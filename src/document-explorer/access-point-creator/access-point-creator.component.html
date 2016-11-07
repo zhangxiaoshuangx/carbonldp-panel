@@ -14,7 +14,7 @@
 			<label>Slug: The slug of the access point you want to create: (Optional)</label>
 			<div class="ui fluid input">
 				<input type="text" name="slug" tabindex="0"
-				       placeholder="Optional: Enter the slug of the Access Point. e.g. &quot;my-access-point-name/&quot;"
+				       placeholder="Optional: E.g. &quot;daughters/&quot;"
 				       #slug="ngModel"
 				       cp-slug
 				       (keyup.esc)="hideCreateAccessPointForm()"
@@ -29,11 +29,11 @@
 			<label>
 				<a target="_blank"
 				   tabindex="-1"
-				   href="https://carbonldp.com/documentation/javascript-sdk-getting-started#membership-relation">HasMemberRelation</a>:
+				   href="https://carbonldp.com/documentation/javascript-sdk-getting-started#membership-relation">hasMemberRelation</a>:
 				The name of the property that will hold the array of members (by default member). </label>
 			<div class="ui fluid input">
 				<input type="text" name="hasMemberRelation"
-				       placeholder="E.g: http://www.w3.org/ns/ldp#member"
+				       placeholder="E.g: http://example.com/ns#daughter"
 				       #hasMemberRelation="ngModel"
 				       required cp-uri-fragment
 				       [(ngModel)]="createAccessPointFormModel.hasMemberRelation">
@@ -44,12 +44,12 @@
 		     [ngClass]="{error: isMemberOfRelation.touched && !isMemberOfRelation.valid}">
 			<label>
 				<a tabindex="-1" target="_blank"
-				   href="https://carbonldp.com/documentation/javascript-sdk-getting-started#membership-relation">IsMemberOfRelation</a>:
+				   href="https://carbonldp.com/documentation/javascript-sdk-getting-started#membership-relation">isMemberOfRelation</a>:
 				The name of the property that each member will have, which links back to the document they are member of (Optional).
 			</label>
 			<div class="ui fluid input">
 				<input type="text" name="isMemberOfRelation"
-				       placeholder="Optional: E.g: http://www.w3.org/ns/ldp#member"
+				       placeholder="Optional: E.g: http://example.com/ns#father"
 				       #isMemberOfRelation="ngModel"
 				       cp-uri-fragment
 				       (keyup.esc)="hideCreateAccessPointForm()"
@@ -60,7 +60,7 @@
 			<ol class="ui list">
 				<!--slug-->
 				<li value="*" *ngIf="createAccessPointForm.controls.slug.touched && createAccessPointForm.controls.slug.hasError('invalidSlug')">
-					Please, provide a valid slug/name for the Access Oiubt.<br>(Only numbers and letters with dashes)
+					Please, provide a valid slug/name for the Access Point.<br>(Only numbers and letters with dashes)
 				</li>
 
 				<!--hasMemberRelation-->
