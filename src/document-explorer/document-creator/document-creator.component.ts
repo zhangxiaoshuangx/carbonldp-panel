@@ -87,10 +87,10 @@ export class DocumentCreatorComponent implements AfterViewInit {
 	}
 
 	public hide():void {
-		this.hideCreateChildForm();
+		this.hideForm();
 	}
 
-	private hideCreateChildForm():void {
+	private hideForm():void {
 		this.$createDocumentModal.modal( "hide" );
 		this.clearErrorMessage();
 		this.createChildFormModel.slug = "";
