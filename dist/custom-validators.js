@@ -11,7 +11,7 @@ System.register(["@angular/core", "@angular/forms", "carbonldp/RDF/URI"], functi
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, forms_1, URI;
-    var EmailValidator, SlugValidator, MatchValidator, DomainValidator, URIValidator, URIFragmentValidator;
+    var EmailValidator, SlugValidator, MatchValidator, DomainValidator, URIValidator, FragmentValidator, URIFragmentValidator;
     return {
         setters:[
             function (core_1_1) {
@@ -152,6 +152,32 @@ System.register(["@angular/core", "@angular/forms", "carbonldp/RDF/URI"], functi
                 return URIValidator;
             }());
             exports_1("URIValidator", URIValidator);
+            FragmentValidator = (function () {
+                function FragmentValidator() {
+                }
+                FragmentValidator.prototype.validate = function (control) {
+                    if (!control.value)
+                        return null;
+                    if (!control.value.match(/^(ftp|https?):\/\/(\w+:{0,1}\w*@)?((?![^\/]+\/(?:ftp|https?):)\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/))
+                        return { "invalidURIAddress": true };
+                    if (!URI.Util.hasFragment(control.value))
+                        return { "missingFragment": true };
+                    if (control.value.split("#").length > 2)
+                        return { "multipleFragment": true };
+                    if (URI.Util.getFragment(control.value).trim().length === 0)
+                        return { "missingFragment": true };
+                    return null;
+                };
+                FragmentValidator = __decorate([
+                    core_1.Directive({
+                        selector: "[cp-fragment]",
+                        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: FragmentValidator, multi: true }]
+                    }), 
+                    __metadata('design:paramtypes', [])
+                ], FragmentValidator);
+                return FragmentValidator;
+            }());
+            exports_1("FragmentValidator", FragmentValidator);
             URIFragmentValidator = (function () {
                 function URIFragmentValidator() {
                 }
@@ -161,7 +187,7 @@ System.register(["@angular/core", "@angular/forms", "carbonldp/RDF/URI"], functi
                     if (!control.value.match(/^(ftp|https?):\/\/(\w+:{0,1}\w*@)?((?![^\/]+\/(?:ftp|https?):)\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/))
                         return { "invalidURIAddress": true };
                     if (!URI.Util.hasFragment(control.value))
-                        return { "missingFragment": true };
+                        return;
                     if (control.value.split("#").length > 2)
                         return { "multipleFragment": true };
                     if (URI.Util.getFragment(control.value).trim().length === 0)

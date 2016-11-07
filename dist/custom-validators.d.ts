@@ -28,6 +28,11 @@ export declare class URIValidator implements Validator {
         [key: string]: any;
     };
 }
+export declare class FragmentValidator implements Validator {
+    validate(control: AbstractControl): {
+        [key: string]: any;
+    };
+}
 export declare class URIFragmentValidator implements Validator {
     validate(control: AbstractControl): {
         [key: string]: any;
