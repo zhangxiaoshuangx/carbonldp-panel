@@ -32,7 +32,7 @@ export class AccessPointCreatorComponent implements AfterViewInit {
 
 	private createAccessPointFormModel:{ slug:string, hasMemberRelation:string, isMemberOfRelation:string } = {
 		slug: "",
-		hasMemberRelation: "http://www.w3.org/ns/ldp#member",
+		hasMemberRelation: "",
 		isMemberOfRelation: ""
 	};
 	@Input() context:SDKContext.Class;
