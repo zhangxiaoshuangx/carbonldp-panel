@@ -35,7 +35,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "./documents-resolver.
             }],
         execute: function() {
             DocumentExplorerComponent = (function () {
-                function DocumentExplorerComponent(element, documentsResolverService, zone) {
+                function DocumentExplorerComponent(documentsResolverService, zone) {
                     this.selectedDocumentURI = "";
                     this.loadingDocument = false;
                     this.savingDocument = false;
@@ -43,13 +43,9 @@ System.register(["@angular/core", "carbonldp/SDKContext", "./documents-resolver.
                     this.onRefreshNode = new core_1.EventEmitter();
                     this.onOpenNode = new core_1.EventEmitter();
                     this.onDisplaySuccessMessage = new core_1.EventEmitter();
-                    this.element = element;
                     this.documentsResolverService = documentsResolverService;
                     this.zone = zone;
                 }
-                DocumentExplorerComponent.prototype.ngAfterViewInit = function () {
-                    this.$element = $(this.element.nativeElement);
-                };
                 DocumentExplorerComponent.prototype.onLoadingDocument = function (loadingDocument) {
                     this.loadingDocument = loadingDocument;
                 };
@@ -114,7 +110,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "./documents-resolver.
                         template: document_explorer_component_html_1.default,
                         styles: [document_explorer_component_css_text_1.default],
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, documents_resolver_service_1.DocumentsResolverService, core_1.NgZone])
+                    __metadata('design:paramtypes', [documents_resolver_service_1.DocumentsResolverService, core_1.NgZone])
                 ], DocumentExplorerComponent);
                 return DocumentExplorerComponent;
             }());

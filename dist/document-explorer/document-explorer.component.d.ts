@@ -1,12 +1,10 @@
-import { ElementRef, EventEmitter, NgZone, AfterViewInit } from "@angular/core";
+import { EventEmitter, NgZone } from "@angular/core";
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
 import { DocumentsResolverService } from "./documents-resolver.service";
 import { Message } from "carbonldp-panel/errors-area/error-message.component";
 import "semantic-ui/semantic";
-export declare class DocumentExplorerComponent implements AfterViewInit {
-    element: ElementRef;
-    $element: JQuery;
+export declare class DocumentExplorerComponent {
     selectedDocumentURI: string;
     loadingDocument: boolean;
     savingDocument: boolean;
@@ -18,8 +16,7 @@ export declare class DocumentExplorerComponent implements AfterViewInit {
     onOpenNode: EventEmitter<string>;
     onDisplaySuccessMessage: EventEmitter<string>;
     private zone;
-    constructor(element: ElementRef, documentsResolverService: DocumentsResolverService, zone: NgZone);
-    ngAfterViewInit(): void;
+    constructor(documentsResolverService: DocumentsResolverService, zone: NgZone);
     onLoadingDocument(loadingDocument: boolean): void;
     showLoading(savingDocument: boolean): void;
     resolveDocument(uri: string): void;
