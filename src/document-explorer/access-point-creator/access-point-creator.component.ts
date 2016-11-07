@@ -1,4 +1,5 @@
 import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit } from "@angular/core";
+import { NgForm } from "@angular/forms";
 
 import * as SDKContext from "carbonldp/SDKContext";
 import * as HTTP from "carbonldp/HTTP";
@@ -24,11 +25,11 @@ export class AccessPointCreatorComponent implements AfterViewInit {
 
 	private element:ElementRef;
 	private $element:JQuery;
-
 	private $createAccessPointModal:JQuery;
 
 	private documentsResolverService:DocumentsResolverService;
 	private errorMessage:Message;
+	private visible:boolean = true;
 
 	private createAccessPointFormModel:{ slug:string, hasMemberRelation:string, isMemberOfRelation:string } = {
 		slug: "",
@@ -51,7 +52,7 @@ export class AccessPointCreatorComponent implements AfterViewInit {
 		this.$createAccessPointModal = this.$element.find( ".create.accesspoint.modal" ).modal( { closable: false } );
 	}
 
-	private onSubmitAccessPoint( data:{ slug:string, hasMemberRelation:string, isMemberOfRelation:string }, $event:any ):void {
+	private onSubmitAccessPoint( data:{ slug:string, hasMemberRelation:string, isMemberOfRelation:string }, $event:any, form:NgForm ):void {
 		$event.preventDefault();
 		let slug:string = data.slug;
 		let accessPoint:AccessPoint.Class = {
@@ -63,6 +64,7 @@ export class AccessPointCreatorComponent implements AfterViewInit {
 			return this.documentsResolverService.createAccessPoint( document, accessPoint, slug );
 		} ).then( ( document:PersistedDocument.Class )=> {
 			this.onSuccess.emit( document );
+			form.resetForm();
 			this.hide();
 		} ).catch( ( error:HTTPError )=> {
 			this.onError.emit( error );
@@ -87,14 +89,14 @@ export class AccessPointCreatorComponent implements AfterViewInit {
 	}
 
 	public hide():void {
-		this.hideCreateAccessPointForm();
+		this.hideForm();
 	}
 
-	private hideCreateAccessPointForm():void {
+	private hideForm():void {
 		this.$createAccessPointModal.modal( "hide" );
 		this.clearErrorMessage();
 		this.createAccessPointFormModel.slug = "";
-		this.createAccessPointFormModel.hasMemberRelation = "http://www.w3.org/ns/ldp#member";
+		this.createAccessPointFormModel.hasMemberRelation = "";
 		this.createAccessPointFormModel.isMemberOfRelation = "";
 	}
 
