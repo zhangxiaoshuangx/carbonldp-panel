@@ -32,6 +32,7 @@ import { InputValidationDirective } from "./directives/input-validation.directiv
 		URIValidator,
 		URIFragmentValidator,
 		HighlightDirective,
+		InputValidationDirective
 	],
 	providers: []
 } )
