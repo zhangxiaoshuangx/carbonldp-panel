@@ -10,7 +10,7 @@
 	</div>
 	<div class="content">
 		<div class="field"
-		     [ngClass]="{error: slug.touched && !slug.valid}">
+		     [ngClass]="{error: !slug.valid}">
 			<label>Slug: The slug of the document you want to create: (Optional)</label>
 			<div class="ui fluid input">
 				<input type="text" name="slug"
@@ -30,12 +30,12 @@
 			<div class="title">
 				<i class="dropdown icon"></i>
 				Advanced options
-				<div class="ui circular red basic mini label" *ngIf="!advancedOptions.valid">Errors</div>
+				<div class="ui circular red basic mini label" *ngIf="!hasMemberRelation.valid || !isMemberOfRelation.valid">Errors</div>
 			</div>
 			<div class="content">
 				<br>
 				<div class="field"
-				     [ngClass]="{error: hasMemberRelation.touched && !hasMemberRelation.valid}">
+				     [ngClass]="{error: !hasMemberRelation.valid}">
 					<label><a href="https://carbonldp.com/documentation/javascript-sdk-getting-started#membership-relation" target="_blank">hasMemberRelation</a>: The name of the property that will hold the array of members (by default member). </label>
 					<div class="ui fluid input">
 						<input type="text" name="hasMemberRelation"
@@ -50,7 +50,7 @@
 				</div>
 				<br>
 				<div class="field"
-				     [ngClass]="{error: isMemberOfRelation.touched && !isMemberOfRelation.valid}">
+				     [ngClass]="{error: !isMemberOfRelation.valid}">
 					<label><a href="https://carbonldp.com/documentation/javascript-sdk-getting-started#membership-relation" target="_blank">isMemberOfRelation</a>: The name of the property that each member will have, which links back to the document they are member of (Optional). </label>
 					<div class="ui fluid input">
 						<input type="text" name="isMemberOfRelation"
@@ -69,7 +69,7 @@
 		<div class="ui error message" *ngIf="! slug.valid || ! hasMemberRelation.valid || ! isMemberOfRelation.valid ">
 			<ul class="ui list" *ngIf="!slug.valid">
 				<!--slug-->
-				<li value="*" *ngIf="slug.touched && slug.control.hasError('invalidSlug')">
+				<li value="*" *ngIf="slug.control.hasError('invalidSlug')">
 					Please, provide a valid slug/name for the child document.<br>(Only numbers and letters with dashes)
 				</li>
 			</ul>
@@ -95,15 +95,15 @@
 				<!--isMemberOfRelation-->
 				<li value="*" *ngIf="isMemberOfRelation.control.hasError('invalidURIAddress')">
 					Please, provide a valid URI for the 'isMemberOfRelation' property.<br>
-					E.g: http://www.w3.org/ns/ldp#my-member-name
+					E.g: http://www.w3.org/ns/ldp#my-parent-relation-name
 				</li>
 				<li value="*" *ngIf="isMemberOfRelation.control.hasError('missingFragment')">
 					Please, provide a name/fragment for the 'isMemberOfRelation' property.<br>
-					E.g: http://www.w3.org/ns/ldp#my-member-name
+					E.g: http://www.w3.org/ns/ldp#my-parent-relation-name
 				</li>
 				<li value="*" *ngIf="isMemberOfRelation.control.hasError('multipleFragment')">
 					Please, provide only one name after the hashtag (#) for the 'isMemberOfRelation' property.<br>
-					E.g: http://www.w3.org/ns/ldp#my-member-name
+					E.g: http://www.w3.org/ns/ldp#my-parent-relation-name
 				</li>
 			</ul>
 		</div>
