@@ -1,0 +1,11 @@
+:host {
+  display: block; }
+  :host .ui.stack.accordion .title {
+    color: inherit; }
+  :host .ui.stack.accordion .ui.stack.segment {
+    max-height: 150px;
+    overflow-y: scroll; }
+    :host .ui.stack.accordion .ui.stack.segment code {
+      font-size: 0.9em; }
+
+/*# sourceMappingURL=error-message.component.css.map */

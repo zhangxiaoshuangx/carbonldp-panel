@@ -10,6 +10,7 @@ export declare class TabsComponent implements AfterContentInit, OnChanges {
     ngOnChanges(changes: {
         [key: string]: SimpleChange;
     }): void;
+    activateDropdown(): void;
     reloadTitles(): void;
     activateTab(index?: number): void;
     onTitleClick(titleIndex: number): void;
