@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/URI", "./documents-resolver.service", "semantic-ui/semantic", "./document-explorer.component.html!", "./document-explorer.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/SDKContext", "./documents-resolver.service", "carbonldp-panel/errors-area/error-message-generator", "semantic-ui/semantic", "./document-explorer.component.html!", "./document-explorer.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/URI", "
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, SDKContext, URI, documents_resolver_service_1, document_explorer_component_html_1, document_explorer_component_css_text_1;
+    var core_1, SDKContext, documents_resolver_service_1, error_message_generator_1, document_explorer_component_html_1, document_explorer_component_css_text_1;
     var DocumentExplorerComponent;
     return {
         setters:[
@@ -20,11 +20,11 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/URI", "
             function (SDKContext_1) {
                 SDKContext = SDKContext_1;
             },
-            function (URI_1) {
-                URI = URI_1;
-            },
             function (documents_resolver_service_1_1) {
                 documents_resolver_service_1 = documents_resolver_service_1_1;
+            },
+            function (error_message_generator_1_1) {
+                error_message_generator_1 = error_message_generator_1_1;
             },
             function (_1) {},
             function (document_explorer_component_html_1_1) {
@@ -49,7 +49,6 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/URI", "
                 }
                 DocumentExplorerComponent.prototype.ngAfterViewInit = function () {
                     this.$element = $(this.element.nativeElement);
-                    this.$deleteDocumentModal = this.$element.find(".delete.document.modal").modal({ closable: false });
                 };
                 DocumentExplorerComponent.prototype.onLoadingDocument = function (loadingDocument) {
                     this.loadingDocument = loadingDocument;
@@ -79,12 +78,6 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/URI", "
                 DocumentExplorerComponent.prototype.changeSelection = function (documentURI) {
                     this.selectedDocumentURI = documentURI;
                 };
-                DocumentExplorerComponent.prototype.showModal = function (element) {
-                    $(element).modal("show");
-                };
-                DocumentExplorerComponent.prototype.hideDeleteDocumentForm = function () {
-                    this.$deleteDocumentModal.modal("hide");
-                };
                 DocumentExplorerComponent.prototype.onSuccessAccessPoint = function ($event) {
                     this.onRefreshNode.emit(this.selectedDocumentURI);
                     this.onDisplaySuccessMessage.emit("<p>The Access Point was created correctly</p>");
@@ -93,24 +86,11 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/URI", "
                     this.onRefreshNode.emit(this.selectedDocumentURI);
                     this.onDisplaySuccessMessage.emit("<p>The child document was created correctly</p>");
                 };
-                DocumentExplorerComponent.prototype.deleteDocument = function () {
-                    var _this = this;
-                    this.documentsResolverService.delete(this.documentContext, this.selectedDocumentURI).then(function (result) {
-                        _this.refreshNode(_this.getParentURI(_this.selectedDocumentURI));
-                        _this.hideDeleteDocumentForm();
-                    }).catch(function (error) {
-                        // this.savingErrorMessage = this.getErrorMessage( error );
-                    });
-                };
-                DocumentExplorerComponent.prototype.getParentURI = function (documentURI) {
-                    var slug = URI.Util.getSlug(documentURI), slugIdx = documentURI.indexOf(slug);
-                    return documentURI.substr(0, slugIdx);
-                };
-                DocumentExplorerComponent.prototype.clearSavingError = function () {
-                    this.savingErrorMessage = null;
+                DocumentExplorerComponent.prototype.onSuccessDeleteDocument = function ($event) {
+                    this.onRefreshNode.emit($event);
                 };
                 DocumentExplorerComponent.prototype.handleExternalError = function (error) {
-                    // this.messages.push( this.getErrorMessage( error ) );
+                    this.messages.push(error_message_generator_1.ErrorMessageGenerator.getErrorMessage(error));
                 };
                 __decorate([
                     core_1.Input(), 

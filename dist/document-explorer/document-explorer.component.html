@@ -13,7 +13,7 @@
 
 		                      (onSelectDocument)="changeSelection($event)"
 		                      (onShowCreateChildForm)="documentCreator.show()"
-		                      (onShowDeleteChildForm)="showModal(deleteDocumentModal)"
+		                      (onShowDeleteChildForm)="documentDeleter.show()"
 		                      (onShowCreateAccessPointForm)="accessPointCreator.show()"
 		                      (onError)="handleExternalError($event)"
 		                      (onLoadingDocument)="onLoadingDocument($event)"
@@ -36,23 +36,10 @@
 		<cp-access-point-creator #accessPointCreator
 		                         [context]="documentContext"
 		                         [parentURI]="selectedDocumentURI"
-		                         (onSuccess)="onSuccessAccessPoint($event)"></cp-access-point-creator>
-		<div class="ui delete document basic modal" #deleteDocumentModal>
-			<div class="header">
-				<h2 class="ui inverted header"><i class="trash outline red icon"></i> Are you sure?</h2>
-			</div>
-			<div class="content">
-				<p class="ui description">
-					<span>You are about to delete the following document:</span>
-					<span>'{{selectedDocumentURI}}'</span><br><br>
-					<span>If you delete it, all its children and its access points will also be deleted.</span><br>
-					<span>Do you really want to proceed?</span>
-				</p>
-			</div>
-			<div class="actions">
-				<div class="ui button" title="Cancel deletion" (click)="cancelDeletion()">No</div>
-				<div class="ui red button" title="Confirm deletion" (click)="deleteDocument()">Yes</div>
-			</div>
-		</div>
+		                         (onSuccess)="onSuccessCreateDocument($event)"></cp-access-point-creator>
+		<cp-document-deleter #documentDeleter
+		                     [context]="documentContext"
+		                     [documentURI]="selectedDocumentURI"
+		                     (onSuccess)="onSuccessDeleteDocument($event)"></cp-document-deleter>
 	</div>
 </div>

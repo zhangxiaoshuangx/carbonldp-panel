@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common", "@angular/forms", "./literals/literal.component", "./literals/literals.component", "./pointers/pointer.component", "./pointers/pointers.component", "./lists/list.component", "./lists/lists.component", "./property/property.component", "./document-resource/document-resource.component", "./blank-nodes/blank-node.component", "./blank-nodes/blank-nodes.component", "./named-fragments/named-fragment.component", "./named-fragments/named-fragments.component", "./document-viewer/document-viewer.component", "./document-tree-view/document-tree-view.component", "./document-explorer.component", "./access-point-creator/access-point-creator.component", "./document-creator/document-creator.component", "./../panel.module", "./../directives.module", "./documents-resolver.service", "./document-explorer-validators"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/common", "@angular/forms", "./literals/literal.component", "./literals/literals.component", "./pointers/pointer.component", "./pointers/pointers.component", "./lists/list.component", "./lists/lists.component", "./property/property.component", "./document-resource/document-resource.component", "./blank-nodes/blank-node.component", "./blank-nodes/blank-nodes.component", "./named-fragments/named-fragment.component", "./named-fragments/named-fragments.component", "./document-viewer/document-viewer.component", "./document-tree-view/document-tree-view.component", "./document-explorer.component", "./access-point-creator/access-point-creator.component", "./document-creator/document-creator.component", "./document-deleter/document-deleter.component", "./../panel.module", "./../directives.module", "./documents-resolver.service", "./document-explorer-validators"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/common", "@angular/forms", "./litera
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, forms_1, literal_component_1, literals_component_1, pointer_component_1, pointers_component_1, list_component_1, lists_component_1, property_component_1, document_resource_component_1, blank_node_component_1, blank_nodes_component_1, named_fragment_component_1, named_fragments_component_1, document_viewer_component_1, document_tree_view_component_1, document_explorer_component_1, access_point_creator_component_1, document_creator_component_1, panel_module_1, directives_module_1, documents_resolver_service_1, document_explorer_validators_1;
+    var core_1, common_1, forms_1, literal_component_1, literals_component_1, pointer_component_1, pointers_component_1, list_component_1, lists_component_1, property_component_1, document_resource_component_1, blank_node_component_1, blank_nodes_component_1, named_fragment_component_1, named_fragments_component_1, document_viewer_component_1, document_tree_view_component_1, document_explorer_component_1, access_point_creator_component_1, document_creator_component_1, document_deleter_component_1, panel_module_1, directives_module_1, documents_resolver_service_1, document_explorer_validators_1;
     var DocumentExplorerModule;
     return {
         setters:[
@@ -74,6 +74,9 @@ System.register(["@angular/core", "@angular/common", "@angular/forms", "./litera
             function (document_creator_component_1_1) {
                 document_creator_component_1 = document_creator_component_1_1;
             },
+            function (document_deleter_component_1_1) {
+                document_deleter_component_1 = document_deleter_component_1_1;
+            },
             function (panel_module_1_1) {
                 panel_module_1 = panel_module_1_1;
             },
@@ -122,6 +125,7 @@ System.register(["@angular/core", "@angular/common", "@angular/forms", "./litera
                             document_explorer_component_1.DocumentExplorerComponent,
                             access_point_creator_component_1.AccessPointCreatorComponent,
                             document_creator_component_1.DocumentCreatorComponent,
+                            document_deleter_component_1.DocumentDeleterComponent,
                             document_explorer_validators_1.IdValidator,
                             document_explorer_validators_1.PropertyNameValidator,
                             document_explorer_validators_1.LiteralValueValidator,
