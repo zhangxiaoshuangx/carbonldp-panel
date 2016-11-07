@@ -1,11 +1,9 @@
 import { Component, ElementRef, Input, Output, EventEmitter, SimpleChange, ViewChild, AfterViewInit, OnChanges } from "@angular/core";
 
-import { Message } from "carbonldp-panel/errors-area/error-message.component";
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
 import * as JSONLDParser from "carbonldp/JSONLD/Parser";
-import * as PersistedDocument from "carbonldp/PersistedDocument";
 import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
 import { DocumentsResolverService } from "./../documents-resolver.service";
@@ -31,14 +29,13 @@ import style from "./document-viewer.component.css!text";
 export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	element:ElementRef;
 	$element:JQuery;
-	$saveSuccessMessage:JQuery;
-	$createChildSuccessMessage:JQuery;
+	$successMessage:JQuery;
+	successMessageContent:string = "";
 
 	sections:string[] = [ "bNodes", "namedFragments", "documentResource" ];
 	rootNode:RDFNode.Class;
 	bNodes:BlankNodeRow[] = [];
 	namedFragments:NamedFragmentRow[] = [];
-	savingErrorMessage:Message;
 	documentURI:string = "";
 
 	rootNodeHasChanged:boolean = false;
@@ -48,11 +45,6 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	namedFragmentsHaveChanged:boolean = false;
 	namedFragmentsChanges:NamedFragmentsRecords;
 
-	createChildFormModel:{ slug:string } = {
-		slug: ""
-	};
-	canDisplayCreateChildForm:boolean = false;
-
 	get documentContentHasChanged() {
 		return this.rootNodeHasChanged || this.bNodesHaveChanged || this.namedFragmentsHaveChanged;
 	}
@@ -61,6 +53,7 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 	documentsResolverService:DocumentsResolverService;
 	@Input() uri:string;
 	@Input() documentContext:SDKContext.Class;
+	@Input() displaySuccessMessage:EventEmitter<string> = new EventEmitter<string>();
 	private _document:RDFDocument.Class;
 	@Input() set document( value:RDFDocument.Class ) {
 		this._document = value;
@@ -69,6 +62,9 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 
 	get document():RDFDocument.Class {return this._document;}
 
+
+	@Output() onError:EventEmitter<HTTPError> = new EventEmitter<HTTPError>();
+	@Output() onOpenNode:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onRefreshNode:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onLoadingDocument:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() onSavingDocument:EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -102,8 +98,10 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 
 	ngAfterViewInit():void {
 		this.$element = $( this.element.nativeElement );
-		this.$saveSuccessMessage = this.$element.find( ".success.save.message" );
-		this.$createChildSuccessMessage = this.$element.find( ".success.createchild.message" );
+		this.$successMessage = this.$element.find( ".success.message" );
+		this.displaySuccessMessage.subscribe( ( content:string )=> {
+			this.showSuccessMessage( content, 2500 );
+		} );
 	}
 
 	ngOnChanges( changes:{[propName:string]:SimpleChange} ):void {
@@ -122,14 +120,12 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 			this.generateFragments();
 			this.clearDocumentChanges();
 			this.loadingDocument = false;
-			this.savingErrorMessage = null;
 			this.documentURI = this.document[ "@id" ];
-			setTimeout(
-				()=> {
-					this.goToSection( "documentResource" );
-					this.initializeTabs();
-				}, 250
-			);
+
+			setTimeout( ()=> {
+				this.goToSection( "documentResource" );
+				this.initializeTabs();
+			}, 250 );
 		}
 	}
 
@@ -150,14 +146,13 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 					copy: bNode
 				}
 			} );
-		this.namedFragments = RDFDocument.Util.getFragmentResources( this.document ).map(
-			( namedFragment:RDFNode.Class )=> {
-				return {
-					id: namedFragment[ "@id" ],
-					name: namedFragment[ "@id" ],
-					copy: namedFragment
-				}
-			} );
+		this.namedFragments = RDFDocument.Util.getFragmentResources( this.document ).map( ( namedFragment:RDFNode.Class )=> {
+			return {
+				id: namedFragment[ "@id" ],
+				name: namedFragment[ "@id" ],
+				copy: namedFragment
+			}
+		} );
 	}
 
 	openBlankNode( id:string ):void {
@@ -269,30 +264,10 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 		this.documentsResolverService.update( backupDocument[ "@id" ], body, this.documentContext ).then(
 			( updatedDocument:RDFDocument.Class )=> {
 				this.document = updatedDocument[ 0 ];
-				setTimeout( ()=> {
-					this.$saveSuccessMessage.transition( {
-						onComplete: ()=> {
-							setTimeout( ()=> {
-								if( ! this.$saveSuccessMessage.hasClass( "hidden" ) ) this.$saveSuccessMessage.transition( "fade" );
-							}, 4000 );
-						}
-					} );
-				}, 1500 );
+				this.showSuccessMessage( "<p>Changes saved successfully</p>", 4500 );
 			}
 		).catch( ( error:HTTPError )=> {
-			this.savingErrorMessage = {
-				title: error.name,
-				content: (<XMLHttpRequest>error.response.request).statusText,
-				statusCode: "" + error.response.status,
-				statusMessage: (<XMLHttpRequest>error.response.request).statusText,
-				endpoint: (<any>error.response.request).responseURL,
-			};
-			if( ! ! error.response.data ) {
-				// TODO: Change this method to use the correct HTTPError when Javascript SDK implements it
-				this.getErrors( error ).then( ( errors )=> {
-					this.savingErrorMessage[ "errors" ] = errors;
-				} );
-			}
+			this.onError.emit( error );
 		} ).then( ()=> {
 			this.savingDocument = false;
 			this.rootNodeHasChanged = this.rootNodeRecords.changes.size > 0 || this.rootNodeRecords.additions.size > 0 || this.rootNodeRecords.deletions.size > 0;
@@ -312,65 +287,20 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 		} );
 	}
 
-	clearSavingError():void {
-		this.savingErrorMessage = null;
-	}
-
 	closeMessage( message:HTMLElement ):void {
 		$( message ).transition( "fade" );
 	}
 
-	private toggleCreateChildForm():void {
-		$( "form.createchild" ).transition( {
-			transition: "drop",
-			onComplete: ()=> { this.canDisplayCreateChildForm = ! this.canDisplayCreateChildForm; }
-		} );
-	}
-
-	private createChild():void {
-		let childSlug:string = ! ! this.createChildFormModel.slug ? this.createChildFormModel.slug : null;
-		let childContent:any = {};
-		this.loadingDocument = true;
-		this.documentsResolverService.createChild( this.documentContext, this.documentURI, childContent, childSlug ).then(
-			( createdChild:PersistedDocument.Class ) => {
-				this.onRefreshNode.emit( this.documentURI );
+	showSuccessMessage( content:string, timeout?:number ):void {
+		this.successMessageContent = content;
+		this.$successMessage.transition( {
+			onComplete: ()=> {
 				setTimeout( ()=> {
-					this.$createChildSuccessMessage.transition( {
-						onComplete: ()=> {
-							setTimeout( ()=> {
-								if( ! this.$createChildSuccessMessage.hasClass( "hidden" ) ) this.$createChildSuccessMessage.transition( "fade" );
-							}, 4000 );
-						}
-					} );
-				}, 1500 );
+					if( ! this.$successMessage.hasClass( "hidden" ) ) this.$successMessage.transition( "fade" );
+					this.successMessageContent = "";
+				}, typeof timeout !== "undefined" ? timeout : 2500 );
 			}
-		).catch( ( error:HTTPError )=> {
-			this.savingErrorMessage = {
-				title: error.name,
-				content: error.message,
-				statusCode: "" + error.statusCode,
-				statusMessage: (<XMLHttpRequest>error.response.request).statusText,
-				endpoint: (<any>error.response.request).responseURL,
-			};
-			if( ! ! error.response.data ) {
-				this.getErrors( error ).then( ( errors )=> {
-					this.savingErrorMessage[ "errors" ] = errors;
-				} );
-			}
-		} ).then( ()=> {
-			this.loadingDocument = false;
 		} );
-	}
-
-	private slugLostControl( evt:any ):void {
-		if( typeof (evt.target) === "undefined" ) return;
-		if( ! evt.target.value.endsWith( "/" ) && evt.target.value.trim() !== "" ) evt.target.value += "/";
-	}
-
-	private getSanitizedSlug( slug:string ):string {
-		if( ! slug ) return slug;
-		slug = slug.toLowerCase().replace( / - | -|- /g, "-" ).replace( /[^-\w ]+/g, "" ).replace( / +/g, "-" );
-		return slug;
 	}
 
 	private beforeRefreshDocument( documentURI:string ):void {

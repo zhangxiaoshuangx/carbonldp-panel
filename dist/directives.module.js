@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/common', "./directives/highlight.directive", "./custom-validators"], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/common', "./directives/highlight.directive", "./custom-validators", "./directives/input-validation.directive"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/common', "./directives/highlight.dir
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, highlight_directive_1, custom_validators_1, custom_validators_2, custom_validators_3;
+    var core_1, common_1, highlight_directive_1, custom_validators_1, custom_validators_2, custom_validators_3, input_validation_directive_1;
     var DirectivesModule;
     return {
         setters:[
@@ -27,6 +27,9 @@ System.register(['@angular/core', '@angular/common', "./directives/highlight.dir
                 custom_validators_1 = custom_validators_1_1;
                 custom_validators_2 = custom_validators_1_1;
                 custom_validators_3 = custom_validators_1_1;
+            },
+            function (input_validation_directive_1_1) {
+                input_validation_directive_1 = input_validation_directive_1_1;
             }],
         execute: function() {
             //TODO: Merge directives module with panel module, after solving components collisions between WebsiteModule and PanelModule
@@ -44,7 +47,9 @@ System.register(['@angular/core', '@angular/common', "./directives/highlight.dir
                             custom_validators_2.SlugValidator,
                             custom_validators_2.DomainValidator,
                             custom_validators_3.URIValidator,
-                            highlight_directive_1.HighlightDirective
+                            custom_validators_3.URIFragmentValidator,
+                            highlight_directive_1.HighlightDirective,
+                            input_validation_directive_1.InputValidationDirective
                         ],
                         exports: [
                             custom_validators_1.EmailValidator,
@@ -52,6 +57,7 @@ System.register(['@angular/core', '@angular/common', "./directives/highlight.dir
                             custom_validators_2.DomainValidator,
                             custom_validators_2.SlugValidator,
                             custom_validators_3.URIValidator,
+                            custom_validators_3.URIFragmentValidator,
                             highlight_directive_1.HighlightDirective,
                         ],
                         providers: []

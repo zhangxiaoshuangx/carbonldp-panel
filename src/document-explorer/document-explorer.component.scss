@@ -4,6 +4,7 @@
 		color: #000000;
 	}
 	> .ui.divided.grid.segment {
+		height: 800px;
 		max-height: 800px;
 
 		> .stretched.row {
@@ -16,4 +17,21 @@
 			}
 		}
 	}
+	.createchild.form {
+
+		.ui.saving.error.message {
+			text-align: left;
+		}
+	}
+
+	.error.messages {
+		position: absolute;
+		z-index: 101;
+		width: 100%;
+	}
+}
+
+.ui.delete.document.modal,
+.ui.delete.document.modal > .actions {
+	text-align: center;
 }

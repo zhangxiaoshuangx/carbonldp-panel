@@ -3,6 +3,7 @@
   :host .ui.segment {
     color: #000000; }
   :host > .ui.divided.grid.segment {
+    height: 800px;
     max-height: 800px; }
     :host > .ui.divided.grid.segment > .stretched.row {
       border: 1px solid lightgray;
@@ -10,5 +11,15 @@
       padding: 0; }
       :host > .ui.divided.grid.segment > .stretched.row > .treeview-container {
         padding: 0; }
+  :host .createchild.form .ui.saving.error.message {
+    text-align: left; }
+  :host .error.messages {
+    position: absolute;
+    z-index: 101;
+    width: 100%; }
+
+.ui.delete.document.modal,
+.ui.delete.document.modal > .actions {
+  text-align: center; }
 
 /*# sourceMappingURL=document-explorer.component.css.map */

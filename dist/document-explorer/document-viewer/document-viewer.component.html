@@ -1,11 +1,11 @@
 <div class="ui basic segment" *ngIf="!document">
 	<div class="ui icon message">
-		<i class="warning icon"></i>
+		<i class="notched circle loading icon"></i>
 		<div class="content">
 			<div class="header">
-				No document selected.
+				Just one second
 			</div>
-			<p>Please, provide a document by selecting one from the tree or providing a document to the component.</p>
+			<p>Please wait while the document is being loaded...</p>
 		</div>
 	</div>
 </div>
@@ -18,14 +18,7 @@
 	<div class="header">
 		Success!
 	</div>
-	<p>Changes saved successfully</p>
-</div>
-<div class="ui positive save success createchild message hidden" #successCreateChildMessage>
-	<i class="close icon" (click)="closeMessage(successCreateChildMessage)"></i>
-	<div class="header">
-		Success!
-	</div>
-	<p>The child was created correctly</p>
+	<div [innerHTML]="successMessageContent"></div>
 </div>
 <div class="ui unsaved prompt warning icon message hidden">
 	<i class="warning icon"></i>
@@ -55,46 +48,7 @@
 						<i class="refresh icon"></i>
 						Refresh
 					</button>
-					<button class="ui right labeled icon basic mini button"
-					        *ngIf="!canDisplayCreateChildForm"
-					        (click)="toggleCreateChildForm()">
-						<i class="add icon"></i>
-						Add child
-					</button>
-					<button class="ui basic mini button"
-					        *ngIf="canDisplayCreateChildForm"
-					        (click)="toggleCreateChildForm()">
-						Cancel
-					</button>
-					<button class="ui right labeled right floated icon basic mini red button">
-						<i class="refresh icon"></i>
-						Delete
-					</button>
 				</div>
-				<form class="ui segment error createchild form" #createChildForm="ngForm" [hidden]="!canDisplayCreateChildForm">
-					<div class="field"
-					     [ngClass]="{error: slug.touched && !slug.valid}">
-						<div class="ui action fluid input">
-							<input type="text" name="slug"
-							       placeholder="Optional: Enter the slug of the child. e.g. &quot;my-child-name/&quot;"
-							       #slug="ngModel"
-							       cp-slug
-							       (keyup.esc)="toggleCreateChildForm()"
-							       [ngModel]="createChildFormModel.slug"
-							       (ngModelChange)="createChildFormModel.slug = getSanitizedSlug($event)"
-							       (blur)="slugLostControl($event)">
-							<button class="ui button"
-							        [ngClass]="{ 'basic red': (slug.touched && !slug.valid)  }"
-							        (click)="createChild()"
-							        [disabled]="!createChildForm.valid">Create
-							</button>
-						</div>
-					</div>
-					<div class="ui error message" *ngIf="slug.touched && slug.control.hasError('invalidSlug')">
-						<div class="header">Invalid slug</div>
-						<p>Please, provide a valid slug/name for the child document.<br>(Only numbers and letters with dashes)</p>
-					</div>
-				</form>
 			</div>
 		</div>
 		<div class="item">
@@ -161,24 +115,5 @@
 				</div>
 			</div>
 		</div>
-	</div>
-</div>
-<div *ngIf="!!savingErrorMessage">
-	<div class="ui error message transition">
-		<i class="close icon" (click)="clearSavingError()"></i>
-		<div class="header">
-			{{savingErrorMessage.title}}
-		</div>
-		<p>
-			<span *ngIf="savingErrorMessage.content">{{savingErrorMessage.content}}<br></span>
-			<span *ngIf="savingErrorMessage.statusCode">Status: {{savingErrorMessage.statusCode}} - {{savingErrorMessage.statusMessage}}<br></span>
-			<span *ngIf="savingErrorMessage.endpoint">URI: {{savingErrorMessage.endpoint}}</span>
-		</p>
-		<ol class="ui list" *ngIf="!!savingErrorMessage.errors">
-			<li value="*" *ngFor="let error of savingErrorMessage.errors; let i = index;">
-				<span *ngIf="!!error['https://carbonldp.com/ns/v1/platform#carbonCode']">Carbon code: {{error["https://carbonldp.com/ns/v1/platform#carbonCode"][0]["@value"]}} -</span>
-				<span *ngIf="!!error['https://carbonldp.com/ns/v1/platform#message']">{{error["https://carbonldp.com/ns/v1/platform#message"][0]["@value"]}}</span>
-			</li>
-		</ol>
 	</div>
 </div>
