@@ -22,7 +22,7 @@ import { NgModel, AbstractControl } from "@angular/forms";
  * </div>
  */
 @Directive( {
-	selector: "input[cpValidation][ngModel], textarea[cpValidation][ngModel]",
+	selector: "[cpValidation][ngModel]",
 	exportAs: "cpValidation",
 } )
 export class InputValidationDirective {

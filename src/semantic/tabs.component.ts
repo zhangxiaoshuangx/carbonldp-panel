@@ -3,11 +3,12 @@ import { Component, Input, Output, EventEmitter, ContentChildren, QueryList, Aft
 import { TabComponent } from "./tab.component";
 
 import template from "./tabs.component.html!";
+import style from "./tabs.component.css!text";
 
 @Component( {
 	selector: "sui-tabs",
 	template: template,
-	styles: [ ":host { display:block; } " ],
+	styles: [ style ],
 } )
 export class TabsComponent implements AfterContentInit, OnChanges {
 	@ContentChildren( TabComponent ) tabs:QueryList<TabComponent>;
@@ -21,7 +22,7 @@ export class TabsComponent implements AfterContentInit, OnChanges {
 	ngAfterContentInit():void {
 		this.reloadTitles();
 		this.activateTab( 0 );
-
+		this.activateDropdown();
 		this.tabs.changes.subscribe( this.reloadTitles );
 	}
 
@@ -31,6 +32,9 @@ export class TabsComponent implements AfterContentInit, OnChanges {
 			this.activateTab( changes[ "activeTab" ].currentValue );
 		}
 	}
+	activateDropdown():void{
+		$(".ui.dropdown").dropdown();
+	};
 
 	reloadTitles():void {
 		this.titles = this.tabs.toArray().filter( tab => tab.title ).map( tab => tab.title );

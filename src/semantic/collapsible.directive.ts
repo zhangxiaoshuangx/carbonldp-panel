@@ -11,7 +11,6 @@ export class CollapsibleTitleDirective {
 		this.element = element;
 	}
 }
-
 @Directive( {
 	selector: ".content"
 } )
@@ -23,10 +22,14 @@ export class CollapsibleContentDirective {
 	selector: "[suiCollapsible]"
 } )
 export class CollapsibleDirective implements AfterContentInit {
-	@ContentChild( CollapsibleContentDirective ) content:CollapsibleContentDirective;
-	@ContentChild( CollapsibleTitleDirective ) title:CollapsibleTitleDirective;
+	@ContentChild( CollapsibleContentDirective )
+	content:CollapsibleContentDirective;
 
-	@Output( "suiActiveChange" ) activeChange:EventEmitter<boolean> = new EventEmitter<boolean>();
+	@ContentChild( CollapsibleTitleDirective )
+	title:CollapsibleTitleDirective;
+
+	@Output( "suiActiveChange" )
+	activeChange:EventEmitter<boolean> = new EventEmitter<boolean>();
 
 	element:ElementRef;
 
@@ -34,7 +37,8 @@ export class CollapsibleDirective implements AfterContentInit {
 		return this.content ? this.content.active : this._active;
 	}
 
-	@Input( "suiActive" ) set active( active:boolean ) {
+	@Input( "suiActive" )
+	set active( active:boolean ) {
 		if( active === this._active && this._activeJustChanged ) {
 			this._activeJustChanged = false;
 			return;
@@ -60,8 +64,9 @@ export class CollapsibleDirective implements AfterContentInit {
 		this.title.active = this._active;
 	}
 
-	@HostListener( "click", [ "$event" ] ) onClick( event:MouseEvent ):void {
-		if( event.target === this.element.nativeElement || event.target === this.title.element.nativeElement ) this.toggleContent();
+	@HostListener( "click", [ "$event" ] )
+	onClick( event:MouseEvent ):void {
+		if( event.target === this.title.element.nativeElement || this.title.element.nativeElement.contains( event.target ) ) this.toggleContent();
 	}
 
 	toggleContent():void {

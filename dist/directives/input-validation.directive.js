@@ -89,7 +89,7 @@ System.register(["@angular/core", "@angular/forms"], function(exports_1, context
                 ], InputValidationDirective.prototype, "onBlur", null);
                 InputValidationDirective = __decorate([
                     core_1.Directive({
-                        selector: "input[cpValidation][ngModel], textarea[cpValidation][ngModel]",
+                        selector: "[cpValidation][ngModel]",
                         exportAs: "cpValidation",
                     }),
                     __param(0, core_1.Optional()),

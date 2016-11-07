@@ -1,4 +1,4 @@
-System.register(["@angular/core", "./tab.component", "./tabs.component.html!"], function(exports_1, context_1) {
+System.register(["@angular/core", "./tab.component", "./tabs.component.html!", "./tabs.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "./tab.component", "./tabs.component.html!"], 
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, tab_component_1, tabs_component_html_1;
+    var core_1, tab_component_1, tabs_component_html_1, tabs_component_css_text_1;
     var TabsComponent;
     return {
         setters:[
@@ -22,6 +22,9 @@ System.register(["@angular/core", "./tab.component", "./tabs.component.html!"], 
             },
             function (tabs_component_html_1_1) {
                 tabs_component_html_1 = tabs_component_html_1_1;
+            },
+            function (tabs_component_css_text_1_1) {
+                tabs_component_css_text_1 = tabs_component_css_text_1_1;
             }],
         execute: function() {
             TabsComponent = (function () {
@@ -34,6 +37,7 @@ System.register(["@angular/core", "./tab.component", "./tabs.component.html!"], 
                 TabsComponent.prototype.ngAfterContentInit = function () {
                     this.reloadTitles();
                     this.activateTab(0);
+                    this.activateDropdown();
                     this.tabs.changes.subscribe(this.reloadTitles);
                 };
                 TabsComponent.prototype.ngOnChanges = function (changes) {
@@ -42,6 +46,10 @@ System.register(["@angular/core", "./tab.component", "./tabs.component.html!"], 
                         this.activateTab(changes["activeTab"].currentValue);
                     }
                 };
+                TabsComponent.prototype.activateDropdown = function () {
+                    $(".ui.dropdown").dropdown();
+                };
+                ;
                 TabsComponent.prototype.reloadTitles = function () {
                     this.titles = this.tabs.toArray().filter(function (tab) { return tab.title; }).map(function (tab) { return tab.title; });
                 };
@@ -78,7 +86,7 @@ System.register(["@angular/core", "./tab.component", "./tabs.component.html!"], 
                     core_1.Component({
                         selector: "sui-tabs",
                         template: tabs_component_html_1.default,
-                        styles: [":host { display:block; } "],
+                        styles: [tabs_component_css_text_1.default],
                     }), 
                     __metadata('design:paramtypes', [])
                 ], TabsComponent);
