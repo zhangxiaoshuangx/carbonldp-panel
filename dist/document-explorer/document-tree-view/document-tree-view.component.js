@@ -95,23 +95,23 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                         return resolvedRoot.refresh();
                     }).then(function (_a) {
                         var updatedRoot = _a[0], updatedResponse = _a[1];
-                        _this.nodeChildren.push(_this.buildNode(_this.documentContext.getBaseURI()));
+                        _this.nodeChildren.push(_this.buildNode(_this.documentContext.getBaseURI(), false, true));
                         _this.renderTree();
                     }).catch(function (error) {
                         console.error(error);
                         _this.onError.emit(error);
                     });
                 };
-                DocumentTreeViewComponent.prototype.buildNode = function (uri, isAccessPoint) {
+                DocumentTreeViewComponent.prototype.buildNode = function (uri, isAccessPoint, children) {
                     var node = {
                         id: uri,
                         text: this.getSlug(uri),
                         state: { "opened": false },
-                        children: [
-                            { "text": "Loading...", },
-                        ],
+                        children: [],
                         data: {},
                     };
+                    if (children)
+                        node.children.push({ "text": "Loading...", });
                     if (isAccessPoint)
                         node.type = "accesspoint";
                     return node;
@@ -178,7 +178,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     var _this = this;
                     var originalIcon = !!this.jsTree.settings.types[parentNode.type] ? this.jsTree.settings.types[parentNode.type].icon : "help icon";
                     this.jsTree.set_icon(parentNode, this.jsTree.settings.types.loading.icon);
-                    this.getNodeChildren(parentNode.id).then(function (children) {
+                    return this.getNodeChildren(parentNode.id).then(function (children) {
                         _this.emptyNode(parentId);
                         if (children.length > 0) {
                             children.forEach(function (childNode) { return _this.addChild(parentId, childNode, position); });
@@ -188,13 +188,13 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                     });
                 };
                 DocumentTreeViewComponent.prototype.onChange = function (parentId, node, position) {
-                    if (this.jsTree.is_open(node)) {
-                        this.onBeforeOpenNode(parentId, node, position);
-                    }
-                    else {
-                        this.jsTree.open_node(node);
-                    }
-                    this.onResolveUri.emit(node.id);
+                    var _this = this;
+                    this.onBeforeOpenNode(parentId, node, position).then(function () {
+                        if (!_this.jsTree.is_open(node)) {
+                            _this.jsTree.open_node(node);
+                        }
+                        _this.onResolveUri.emit(node.id);
+                    });
                 };
                 DocumentTreeViewComponent.prototype.addChild = function (parentId, node, position) {
                     this.jsTree.create_node(parentId, node, position);
@@ -209,27 +209,28 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                 };
                 DocumentTreeViewComponent.prototype.getNodeChildren = function (uri) {
                     var _this = this;
-                    return this.documentContext.documents.get(uri).then(function (_a) {
-                        var resolvedRoot = _a[0], response = _a[1];
-                        return resolvedRoot.refresh().then(function (_a) {
-                            var refreshedRoot = _a[0], response = _a[1];
-                            if (!resolvedRoot.accessPoints && !resolvedRoot.contains)
-                                return [];
-                            var accessPoints = [], children = [];
-                            if (!!resolvedRoot.contains) {
-                                children = resolvedRoot.contains.filter(function (pointer) {
-                                    return pointer.id.indexOf("/agents/me/") === -1;
-                                }).map(function (pointer) {
-                                    return _this.buildNode(pointer.id);
-                                });
-                            }
-                            if (!!resolvedRoot.accessPoints) {
-                                accessPoints = resolvedRoot.accessPoints.map(function (pointer) {
-                                    return _this.buildNode(pointer.id, true);
-                                });
-                            }
-                            return children.concat(accessPoints);
+                    var query = "SELECT ?p ?o ?p2 ?o2 \n\t\t\tWHERE{\n\t\t\t\t<__URI__> ?p ?o VALUES (?p) \n\t\t\t\t{\n\t\t\t\t\t(<http://www.w3.org/ns/ldp#contains>)\n\t\t\t\t\t(<https://carbonldp.com/ns/v1/platform#accessPoint>)\n\t\t\t\t}\n\t\t\t\tOPTIONAL {\n\t\t\t\t\t?o ?p2 ?o2\tVALUES (?p2) \n\t\t\t\t\t{\t\t\n\t\t\t\t\t\t(<http://www.w3.org/ns/ldp#contains>)\t\n\t\t\t\t\t\t(<https://carbonldp.com/ns/v1/platform#accessPoint>)\t\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}";
+                    query = query.replace("__URI__", uri);
+                    return this.documentContext.documents.executeSELECTQuery(uri, query).then(function (_a) {
+                        var results = _a[0], response = _a[1];
+                        var accessPoints = new Map(), children = new Map(), nodes = [];
+                        results.bindings.forEach(function (binding) {
+                            if (binding.p.id !== "http://www.w3.org/ns/ldp#contains" || (!!binding.o2 && binding.o2.id.indexOf("/agents/me/") !== -1))
+                                return;
+                            children.set(binding.o.id, children.get(binding.o.id) ? true : !!binding.p2);
                         });
+                        results.bindings.forEach(function (binding) {
+                            if (binding.p.id !== "https://carbonldp.com/ns/v1/platform#accessPoint")
+                                return;
+                            accessPoints.set(binding.o.id, accessPoints.get(binding.o.id) ? true : !!binding.p2);
+                        });
+                        children.forEach(function (hasChildren, id, children) {
+                            nodes.push(_this.buildNode(id, false, hasChildren));
+                        });
+                        accessPoints.forEach(function (hasChildren, id, children) {
+                            nodes.push(_this.buildNode(id, true, hasChildren));
+                        });
+                        return nodes;
                     }).catch(function (error) {
                         console.error(error);
                         return [];
