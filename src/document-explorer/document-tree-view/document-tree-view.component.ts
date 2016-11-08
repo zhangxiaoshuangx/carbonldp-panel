@@ -85,7 +85,7 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 		return this.documentContext.documents.get( "" ).then( ( [ resolvedRoot, response ]:[ PersistedDocument.Class, HTTP.Response.Class ] ) => {
 			return resolvedRoot.refresh();
 		} ).then( ( [updatedRoot, updatedResponse]:[PersistedDocument.Class, HTTP.Response.Class] ) => {
-			this.nodeChildren.push( this.buildNode( this.documentContext.getBaseURI(), false, true ) );
+			this.nodeChildren.push( this.buildNode( this.documentContext.getBaseURI(), "default", true ) );
 			this.renderTree();
 		} ).catch( ( error:HTTP.Errors.Error ) => {
 			console.error( error );
@@ -93,7 +93,7 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 		} );
 	}
 
-	buildNode( uri:string, isAccessPoint?:boolean, children?:boolean ):JSTreeNode {
+	buildNode( uri:string, nodeType?:string, hasChildren?:boolean ):JSTreeNode {
 		let node:JSTreeNode = {
 			id: uri,
 			text: this.getSlug( uri ),
@@ -101,8 +101,8 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 			children: [],
 			data: {},
 		};
-		if( children ) node.children.push( { "text": "Loading...", } );
-		if( isAccessPoint ) node.type = "accesspoint";
+		if( nodeType === "accesspoint" ) node.type = "accesspoint";
+		if( hasChildren ) node.children.push( { "text": "Loading...", } );
 		return node;
 	}
 
@@ -236,10 +236,10 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 
 
 			children.forEach( ( hasChildren:boolean, id:string, children:Map<string,boolean> )=> {
-				nodes.push( this.buildNode( id, false, hasChildren ) );
+				nodes.push( this.buildNode( id, "default", hasChildren ) );
 			} );
 			accessPoints.forEach( ( hasChildren:boolean, id:string, children:Map<string,boolean> )=> {
-				nodes.push( this.buildNode( id, true, hasChildren ) );
+				nodes.push( this.buildNode( id, "accesspoint", hasChildren ) );
 			} );
 
 			return nodes;

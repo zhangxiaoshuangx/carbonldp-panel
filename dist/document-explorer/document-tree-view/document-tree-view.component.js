@@ -95,14 +95,14 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                         return resolvedRoot.refresh();
                     }).then(function (_a) {
                         var updatedRoot = _a[0], updatedResponse = _a[1];
-                        _this.nodeChildren.push(_this.buildNode(_this.documentContext.getBaseURI(), false, true));
+                        _this.nodeChildren.push(_this.buildNode(_this.documentContext.getBaseURI(), "default", true));
                         _this.renderTree();
                     }).catch(function (error) {
                         console.error(error);
                         _this.onError.emit(error);
                     });
                 };
-                DocumentTreeViewComponent.prototype.buildNode = function (uri, isAccessPoint, children) {
+                DocumentTreeViewComponent.prototype.buildNode = function (uri, nodeType, hasChildren) {
                     var node = {
                         id: uri,
                         text: this.getSlug(uri),
@@ -110,10 +110,10 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                         children: [],
                         data: {},
                     };
-                    if (children)
-                        node.children.push({ "text": "Loading...", });
-                    if (isAccessPoint)
+                    if (nodeType === "accesspoint")
                         node.type = "accesspoint";
+                    if (hasChildren)
+                        node.children.push({ "text": "Loading...", });
                     return node;
                 };
                 DocumentTreeViewComponent.prototype.renderTree = function () {
@@ -225,10 +225,10 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                             accessPoints.set(binding.o.id, accessPoints.get(binding.o.id) ? true : !!binding.p2);
                         });
                         children.forEach(function (hasChildren, id, children) {
-                            nodes.push(_this.buildNode(id, false, hasChildren));
+                            nodes.push(_this.buildNode(id, "default", hasChildren));
                         });
                         accessPoints.forEach(function (hasChildren, id, children) {
-                            nodes.push(_this.buildNode(id, true, hasChildren));
+                            nodes.push(_this.buildNode(id, "accesspoint", hasChildren));
                         });
                         return nodes;
                     }).catch(function (error) {
