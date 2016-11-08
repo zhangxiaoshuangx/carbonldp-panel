@@ -17,6 +17,9 @@ import { NamedFragmentsComponent } from "./named-fragments/named-fragments.compo
 import { DocumentViewerComponent } from "./document-viewer/document-viewer.component";
 import { DocumentTreeViewComponent } from "./document-tree-view/document-tree-view.component";
 import { DocumentExplorerComponent } from "./document-explorer.component";
+import { AccessPointCreatorComponent } from "./access-point-creator/access-point-creator.component";
+import { DocumentCreatorComponent } from "./document-creator/document-creator.component";
+import { DocumentDeleterComponent } from "./document-deleter/document-deleter.component";
 
 // Modules
 import { PanelModule } from "./../panel.module";
@@ -25,7 +28,7 @@ import { DirectivesModule } from "./../directives.module";
 // Services
 import { DocumentsResolverService } from "./documents-resolver.service";
 
-//Directives
+// Directives
 import { IdValidator, PropertyNameValidator, LiteralValueValidator, PointerValidator } from "./document-explorer-validators";
 
 @NgModule( {
@@ -51,6 +54,9 @@ import { IdValidator, PropertyNameValidator, LiteralValueValidator, PointerValid
 		DocumentViewerComponent,
 		DocumentTreeViewComponent,
 		DocumentExplorerComponent,
+		AccessPointCreatorComponent,
+		DocumentCreatorComponent,
+		DocumentDeleterComponent,
 		IdValidator,
 		PropertyNameValidator,
 		LiteralValueValidator,

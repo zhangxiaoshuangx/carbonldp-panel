@@ -1,41 +1,22 @@
-import { ElementRef, EventEmitter, NgZone, AfterViewInit } from "@angular/core";
+import { EventEmitter, NgZone } from "@angular/core";
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
 import { DocumentsResolverService } from "./documents-resolver.service";
 import { Message } from "carbonldp-panel/errors-area/error-message.component";
 import "semantic-ui/semantic";
-export declare class DocumentExplorerComponent implements AfterViewInit {
-    element: ElementRef;
-    $element: JQuery;
-    $createDocumentModal: JQuery;
-    $deleteDocumentModal: JQuery;
-    $createAccessPointModal: JQuery;
+export declare class DocumentExplorerComponent {
     selectedDocumentURI: string;
     loadingDocument: boolean;
     savingDocument: boolean;
     inspectingDocument: RDFDocument.Class;
     documentsResolverService: DocumentsResolverService;
     messages: Message[];
-    savingErrorMessage: Message;
-    createChildFormModel: {
-        slug: string;
-        advancedOptions: {
-            hasMemberRelation: string;
-            isMemberOfRelation: string;
-        };
-    };
-    createAccessPointFormModel: {
-        slug: string;
-        hasMemberRelation: string;
-        isMemberOfRelation: string;
-    };
     documentContext: SDKContext.Class;
     onRefreshNode: EventEmitter<string>;
     onOpenNode: EventEmitter<string>;
     onDisplaySuccessMessage: EventEmitter<string>;
     private zone;
-    constructor(element: ElementRef, documentsResolverService: DocumentsResolverService, zone: NgZone);
-    ngAfterViewInit(): void;
+    constructor(documentsResolverService: DocumentsResolverService, zone: NgZone);
     onLoadingDocument(loadingDocument: boolean): void;
     showLoading(savingDocument: boolean): void;
     resolveDocument(uri: string): void;
@@ -43,20 +24,9 @@ export declare class DocumentExplorerComponent implements AfterViewInit {
     refreshNode(nodeId: string): void;
     openNode(nodeId: string): void;
     private changeSelection(documentURI);
-    private showModal(element);
-    private hideCreateChildForm();
-    private hideCreateAccessPointForm();
-    private hideDeleteDocumentForm();
-    private slugLostControl(evt);
-    private getSanitizedSlug(slug);
-    private onSubmitCreateChild(data, $event);
-    private onSubmitAccessPoint(data, $event);
-    private deleteDocument();
-    private getParentURI(documentURI);
-    private clearSavingError();
+    private onSuccessAccessPoint($event);
+    private onSuccessCreateDocument($event);
+    private onSuccessDeleteDocument($event);
     private handleExternalError(error);
-    private getErrorMessage(error);
-    private getErrors(error);
-    private getFriendlyHTTPMessage(error);
 }
 export default DocumentExplorerComponent;

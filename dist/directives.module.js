@@ -47,6 +47,7 @@ System.register(['@angular/core', '@angular/common', "./directives/highlight.dir
                             custom_validators_2.SlugValidator,
                             custom_validators_2.DomainValidator,
                             custom_validators_3.URIValidator,
+                            custom_validators_3.FragmentValidator,
                             custom_validators_3.URIFragmentValidator,
                             highlight_directive_1.HighlightDirective,
                             input_validation_directive_1.InputValidationDirective
@@ -57,6 +58,7 @@ System.register(['@angular/core', '@angular/common', "./directives/highlight.dir
                             custom_validators_2.DomainValidator,
                             custom_validators_2.SlugValidator,
                             custom_validators_3.URIValidator,
+                            custom_validators_3.FragmentValidator,
                             custom_validators_3.URIFragmentValidator,
                             highlight_directive_1.HighlightDirective,
                             input_validation_directive_1.InputValidationDirective

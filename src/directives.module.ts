@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { HighlightDirective } from "./directives/highlight.directive";
 import { EmailValidator, MatchValidator } from "./custom-validators";
 import { SlugValidator, DomainValidator } from "./custom-validators";
-import { URIValidator, URIFragmentValidator } from "./custom-validators";
+import { URIValidator, FragmentValidator, URIFragmentValidator } from "./custom-validators";
 import { InputValidationDirective } from "./directives/input-validation.directive";
 
 //TODO: Merge directives module with panel module, after solving components collisions between WebsiteModule and PanelModule
@@ -20,6 +20,7 @@ import { InputValidationDirective } from "./directives/input-validation.directiv
 		SlugValidator,
 		DomainValidator,
 		URIValidator,
+		FragmentValidator,
 		URIFragmentValidator,
 		HighlightDirective,
 		InputValidationDirective
@@ -30,6 +31,7 @@ import { InputValidationDirective } from "./directives/input-validation.directiv
 		DomainValidator,
 		SlugValidator,
 		URIValidator,
+		FragmentValidator,
 		URIFragmentValidator,
 		HighlightDirective,
 		InputValidationDirective
