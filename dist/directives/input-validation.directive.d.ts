@@ -23,6 +23,10 @@ export declare class InputValidationDirective {
     private ngModel;
     readonly control: AbstractControl;
     readonly valid: boolean;
+    readonly invalid: boolean;
+    readonly errors: {
+        [key: string]: any;
+    };
     private hasFocus;
     private wasFocused;
     constructor(ngModel: NgModel);
