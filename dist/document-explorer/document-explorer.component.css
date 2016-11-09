@@ -18,8 +18,4 @@
     z-index: 101;
     width: 100%; }
 
-.ui.delete.document.modal,
-.ui.delete.document.modal > .actions {
-  text-align: center; }
-
 /*# sourceMappingURL=document-explorer.component.css.map */

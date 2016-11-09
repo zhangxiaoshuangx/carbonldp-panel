@@ -48,10 +48,7 @@ export class MatchValidator implements Validator,OnChanges {
 		this.control.control.updateValueAndValidity( false, true );
 	}
 
-	validate( control:AbstractControl ):{[key:string]:any;} {
-		// {6,100}           - Assert password is between 6 and 100 characters
-		// (?=.*[0-9])       - Assert a string has at least one number
-		//if( controlGroup.value.match( /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,100}$/ ) ) {
+	validate( control:AbstractControl ):{ [ key:string ]:any; } {
 		if( control.value ) {
 			if( control.value === this.matchTo )
 				return null;
@@ -100,6 +97,23 @@ export class URIValidator implements Validator {
 }
 
 @Directive( {
+	selector: "[cp-fragment]",
+	providers: [ { provide: NG_VALIDATORS, useExisting: FragmentValidator, multi: true } ]
+} )
+export class FragmentValidator implements Validator {
+
+	validate( control:AbstractControl ):{[key:string]:any;} {
+		if( ! control.value ) return null;
+		if( ! control.value.match( /^(ftp|https?):\/\/(\w+:{0,1}\w*@)?((?![^\/]+\/(?:ftp|https?):)\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/ ) ) return { "invalidURIAddress": true };
+		if( ! URI.Util.hasFragment( control.value ) ) return { "missingFragment": true };
+		if( control.value.split( "#" ).length > 2 ) return { "multipleFragment": true };
+		if( URI.Util.getFragment( control.value ).trim().length === 0 ) return { "missingFragment": true };
+
+		return null;
+	}
+}
+
+@Directive( {
 	selector: "[cp-uri-fragment]",
 	providers: [ { provide: NG_VALIDATORS, useExisting: URIFragmentValidator, multi: true } ]
 } )
@@ -108,7 +122,7 @@ export class URIFragmentValidator implements Validator {
 	validate( control:AbstractControl ):{[key:string]:any;} {
 		if( ! control.value ) return null;
 		if( ! control.value.match( /^(ftp|https?):\/\/(\w+:{0,1}\w*@)?((?![^\/]+\/(?:ftp|https?):)\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/ ) ) return { "invalidURIAddress": true };
-		if( ! URI.Util.hasFragment( control.value ) ) return { "missingFragment": true };
+		if( ! URI.Util.hasFragment( control.value ) ) return;
 		if( control.value.split( "#" ).length > 2 ) return { "multipleFragment": true };
 		if( URI.Util.getFragment( control.value ).trim().length === 0 ) return { "missingFragment": true };
 

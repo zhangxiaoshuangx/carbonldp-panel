@@ -47,6 +47,7 @@ System.register(["@angular/core", "@angular/forms"], function(exports_1, context
             InputValidationDirective = (function () {
                 function InputValidationDirective(ngModel) {
                     this.ngModel = ngModel;
+                    // TODO: Make other ngModel properties accessible
                     this.hasFocus = false;
                     this.wasFocused = false;
                 }
@@ -63,7 +64,23 @@ System.register(["@angular/core", "@angular/forms"], function(exports_1, context
                     get: function () {
                         if (!this.ngModel)
                             return true;
-                        return this.hasFocus || !this.wasFocused || this.ngModel.valid;
+                        return !this.ngModel.touched || this.hasFocus || !this.wasFocused || this.ngModel.valid;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(InputValidationDirective.prototype, "invalid", {
+                    get: function () {
+                        return !this.valid;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(InputValidationDirective.prototype, "errors", {
+                    get: function () {
+                        if (!this.ngModel)
+                            return {};
+                        return this.ngModel.errors;
                     },
                     enumerable: true,
                     configurable: true

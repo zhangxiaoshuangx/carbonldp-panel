@@ -1,0 +1,121 @@
+<form class="ui create accesspoint modal error form" #createAccessPointFormModal #createAccessPointForm="ngForm" (submit)="onSubmitAccessPoint(createAccessPointForm.value, $event, createAccessPointForm )" *ngIf="visible">
+	<div class="header">
+		<h2 class="ui header">
+			<i class="selected radio icon"></i>
+			<span class="content">
+				Creating an Access Point
+				<span class="sub header">Configure an Access Point to list members to this document.</span>
+			</span>
+		</h2>
+	</div>
+	<div class="content">
+		<div class="field"
+		     [ngClass]="{error: !slug.valid}">
+			<label>Slug: The slug of the access point you want to create: (Optional)</label>
+			<div class="ui fluid input">
+				<input type="text" name="slug" tabindex="0"
+				       placeholder="Optional: E.g. &quot;daughters/&quot;"
+
+				       #slug="cpValidation" cpValidation
+
+				       cp-slug
+				       (keyup.esc)="hideForm()"
+				       [ngModel]="createAccessPointFormModel.slug"
+				       (ngModelChange)="createAccessPointFormModel.slug = getSanitizedSlug($event)"
+				       (blur)="slugLostFocus($event)">
+			</div>
+		</div>
+		<br>
+		<div class="field"
+		     [ngClass]="{error: !hasMemberRelation.valid}">
+			<label>
+				<a target="_blank"
+				   tabindex="-1"
+				   href="https://carbonldp.com/documentation/javascript-sdk-getting-started#membership-relation">hasMemberRelation</a>:
+				The name of the property that will hold the array of members (by default member). </label>
+			<div class="ui fluid input">
+				<input type="text" name="hasMemberRelation"
+				       placeholder="E.g: http://example.com/ns#daughter"
+
+				       #hasMemberRelation="cpValidation" cpValidation
+
+				       required cp-uri-fragment
+				       [(ngModel)]="createAccessPointFormModel.hasMemberRelation">
+			</div>
+		</div>
+		<br>
+		<div class="field"
+		     [ngClass]="{error: !isMemberOfRelation.valid}">
+			<label>
+				<a tabindex="-1" target="_blank"
+				   href="https://carbonldp.com/documentation/javascript-sdk-getting-started#membership-relation">isMemberOfRelation</a>:
+				The name of the property that each member will have, which links back to the document they are member of (Optional).
+			</label>
+			<div class="ui fluid input">
+				<input type="text" name="isMemberOfRelation"
+				       placeholder="Optional: E.g: http://example.com/ns#father"
+
+				       #isMemberOfRelation="cpValidation" cpValidation
+
+				       cp-uri-fragment
+				       (keyup.esc)="hideForm()"
+				       [(ngModel)]="createAccessPointFormModel.isMemberOfRelation">
+			</div>
+		</div>
+		<div class="ui error message" *ngIf="! slug.valid || ! hasMemberRelation.valid || ! isMemberOfRelation.valid ">
+			<ul class="ui list" *ngIf="! slug.valid">
+				<!--slug-->
+				<li value="*" *ngIf="slug.control.hasError('invalidSlug')">
+					Please, provide a valid slug/name for the Access Point.<br>(Only numbers and letters with dashes)
+				</li>
+			</ul>
+			<ul class="ui list" *ngIf="! hasMemberRelation.valid ">
+				<!--hasMemberRelation-->
+				<li value="*" *ngIf="! hasMemberRelation.valid && hasMemberRelation.control.hasError('required')">
+					The 'hasMemberRelation' property is required.
+				</li>
+				<li value="*" *ngIf="! hasMemberRelation.valid && hasMemberRelation.control.hasError('invalidURIAddress')">
+					Please, provide a valid URI for the 'hasMemberRelation' property.<br>
+					E.g: http://example.com/ns#daughter
+				</li>
+				<li value="*" *ngIf="! hasMemberRelation.valid && hasMemberRelation.control.hasError('missingFragment')">
+					Please, provide a name/fragment for the 'hasMemberRelation' property.<br>
+					E.g: http://example.com/ns#daughter
+				</li>
+				<li value="*" *ngIf="! hasMemberRelation.valid && hasMemberRelation.control.hasError('multipleFragment')">
+					Please, provide only one name after the hashtag (#) for the 'hasMemberRelation' property.<br>
+					E.g: http://example.com/ns#daughter
+				</li>
+			</ul>
+			<ul class="ui list" *ngIf="! isMemberOfRelation.valid ">
+				<!--isMemberOfRelation-->
+				<li value="*" *ngIf="! isMemberOfRelation.valid && isMemberOfRelation.control.hasError('invalidURIAddress')">
+					Please, provide a valid URI for the 'isMemberOfRelation' property.<br>
+					E.g: http://example.com/ns#father
+				</li>
+				<li value="*" *ngIf="! isMemberOfRelation.valid && isMemberOfRelation.control.hasError('missingFragment')">
+					Please, provide a name/fragment for the 'isMemberOfRelation' property.<br>
+					E.g: http://example.com/ns#father
+				</li>
+				<li value="*" *ngIf="! isMemberOfRelation.valid && isMemberOfRelation.control.hasError('multipleFragment')">
+					Please, provide only one name after the hashtag (#) for the 'isMemberOfRelation' property.<br>
+					E.g: http://example.com/ns#father
+				</li>
+
+
+			</ul>
+		</div>
+
+
+		<cp-error-message [message]="errorMessage" [closable]="true" (onClose)="clearErrorMessage($event)" *ngIf="!!errorMessage"></cp-error-message>
+	</div>
+	<div class="actions">
+		<button type="button" class="ui mini basic button" tabindex="5" title="Cancel creation" (click)="hideForm(createAccessPointForm)">Cancel</button>
+		<button type="submit"
+		        class="ui mini basic right floated button"
+		        [ngClass]="{ 'red': !createAccessPointForm.valid, 'green': createAccessPointForm.valid  }"
+		        (click)="onSubmitAccessPoint(createAccessPointForm.value, $event, createAccessPointForm)"
+		        [disabled]="!createAccessPointForm.valid">Create
+		</button>
+	</div>
+</form>
