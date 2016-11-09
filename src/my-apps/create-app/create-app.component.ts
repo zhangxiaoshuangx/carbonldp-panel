@@ -55,24 +55,16 @@ export class CreateAppComponent implements OnInit {
 
 
 	slugLostControl( evt:any ):void {
-		if( typeof (evt.target) !== "undefined" ) {
-			if( ! evt.target.value.match( /^[a-z0-9]+(?:-[a-z0-9]*)*(?:\/*)$/ ) ) {
-				this.getSanitizedSlug( evt );
-			}
-		}
+		if( typeof evt.target === "undefined" ) return;
+		if( ! evt.target.value.match( /^[a-z0-9]+(?:-[a-z0-9]*)*(?:\/*)$/ ) )
+			this.createAppFormModel.slug = this.getSanitizedSlug( evt.target.value );
+		if( ! this.createAppFormModel.slug.endsWith( "/" ) && this.createAppFormModel.slug.trim() !== "" )  this.createAppFormModel.slug += "/";
 	}
 
-	getSanitizedSlug( evt:any ):void {
-		let slug:string;
-		if( typeof evt.target !== "undefined" ) {
-			slug = evt.target.value;
-			if( slug ) {
-				slug = slug.toLowerCase().replace( / - | -|- /g, "-" ).replace( /[^-\w ]+/g, "" ).replace( / +/g, "-" );
-				if( slug.charAt( slug.length - 1 ) !== "/" ) slug += "/";
-
-				this.createAppFormModel.slug = slug;
-			}
-		}
+	getSanitizedSlug( slug:string ):string {
+		if( typeof slug === "undefined" ) return slug;
+		slug = slug.toLowerCase().replace( / - | -|- /g, "-" ).replace( /[^-\w ]+/g, "" ).replace( / +/g, "-" );
+		return slug;
 	}
 
 	onSubmit( form:any, $event:any ):void {

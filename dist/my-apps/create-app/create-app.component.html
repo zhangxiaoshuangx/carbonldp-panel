@@ -1,54 +1,54 @@
 <form #createAppForm="ngForm"
       [ngClass]="{ loading: submitting }"
       class="ui large form segment createAppForm">
-	<div class="field" [ngClass]="{ error: (!name.pristine && !name.valid) }">
+	<div class="field" [ngClass]="{ error: (!name.valid) }">
 		<label>Name:</label>
 		<input placeholder="e.g. My First App"
 		       type="text"
 		       name="name"
+		       #name="cpValidation" cpValidation required
 		       [(ngModel)]="createAppFormModel.name"
-		       (input)="getSanitizedSlug($event)"
-		       required
-		       #name="ngModel">
+		       (input)="createAppFormModel.slug = getSanitizedSlug($event.target.value)">
 	</div>
-	<div class="field" [ngClass]="{ error: (!slug.pristine && !slug.valid) }">
+	<div class="field" [ngClass]="{ error: (!slug.valid) }">
 		<label>Slug (optional):</label>
 		<input class="slug"
 		       placeholder="e.g. my-first-app (optional)"
 		       type="text"
 		       name="slug"
-		       [(ngModel)]="createAppFormModel.slug"
-		       (blur)="slugLostControl($event)"
-		       #slug="ngModel"
-		       cp-slug>
+		       #slug="cpValidation" cpValidation cp-slug
+		       [ngModel]="createAppFormModel.slug"
+		       (ngModelChange)="createAppFormModel.slug = getSanitizedSlug($event)"
+		       (blur)="slugLostControl($event)">
 	</div>
-	<div class="field" [ngClass]="{ error: (!description.pristine && !description.valid) }">
+	<div class="field" [ngClass]="{ error: (!description.valid) }">
 		<label>Description:</label>
 		<textarea rows="2"
 		          placeholder="Description"
 		          name="description"
-		          [(ngModel)]="createAppFormModel.description"
-		          #description="ngModel" required></textarea>
+		          #description="cpValidation" cpValidation required
+		          [(ngModel)]="createAppFormModel.description"></textarea>
 	</div>
 	<button class="ui submit button"
+	        [disabled]="!createAppForm.valid"
 	        (click)="onSubmit(createAppForm, $event)">
 		Submit
 	</button>
 </form>
 
-<div class="ui bottom attached error message" *ngIf="(!name.pristine && !name.valid) || (!slug.pristine && !slug.valid) || (!description.pristine && !description.valid)">
+<div class="ui bottom attached error message" *ngIf="!name.valid || !slug.valid || !description.valid">
 	<ol class="ui list" *ngIf="!name.valid">
-		<li value="*" *ngIf="!name.pristine && name.errors.required">
+		<li value="*" *ngIf="name.control.hasError('required')">
 			The name is required.
 		</li>
 	</ol>
 	<ol class="ui list" *ngIf="!slug.valid">
-		<li value="*" *ngIf="!slug.pristine && slug.errors.invalidSlug">
+		<li value="*" *ngIf="slug.control.hasError('invalidSlug')">
 			Invalid slug. Please use only alphanumeric characters and/or dashes (-).
 		</li>
 	</ol>
 	<ol class="ui list" *ngIf="!description.valid">
-		<li value="*" *ngIf="!description.pristine && description.errors.required">
+		<li value="*" *ngIf="description.control.hasError('required')">
 			The description is required.
 		</li>
 	</ol>

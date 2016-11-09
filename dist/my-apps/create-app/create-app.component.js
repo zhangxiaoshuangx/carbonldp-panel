@@ -58,23 +58,18 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/App", "carbonld
                     this.slugInput = $("form > :input[name='slug']");
                 };
                 CreateAppComponent.prototype.slugLostControl = function (evt) {
-                    if (typeof (evt.target) !== "undefined") {
-                        if (!evt.target.value.match(/^[a-z0-9]+(?:-[a-z0-9]*)*(?:\/*)$/)) {
-                            this.getSanitizedSlug(evt);
-                        }
-                    }
+                    if (typeof evt.target === "undefined")
+                        return;
+                    if (!evt.target.value.match(/^[a-z0-9]+(?:-[a-z0-9]*)*(?:\/*)$/))
+                        this.createAppFormModel.slug = this.getSanitizedSlug(evt.target.value);
+                    if (!this.createAppFormModel.slug.endsWith("/") && this.createAppFormModel.slug.trim() !== "")
+                        this.createAppFormModel.slug += "/";
                 };
-                CreateAppComponent.prototype.getSanitizedSlug = function (evt) {
-                    var slug;
-                    if (typeof evt.target !== "undefined") {
-                        slug = evt.target.value;
-                        if (slug) {
-                            slug = slug.toLowerCase().replace(/ - | -|- /g, "-").replace(/[^-\w ]+/g, "").replace(/ +/g, "-");
-                            if (slug.charAt(slug.length - 1) !== "/")
-                                slug += "/";
-                            this.createAppFormModel.slug = slug;
-                        }
-                    }
+                CreateAppComponent.prototype.getSanitizedSlug = function (slug) {
+                    if (typeof slug === "undefined")
+                        return slug;
+                    slug = slug.toLowerCase().replace(/ - | -|- /g, "-").replace(/[^-\w ]+/g, "").replace(/ +/g, "-");
+                    return slug;
                 };
                 CreateAppComponent.prototype.onSubmit = function (form, $event) {
                     $event.preventDefault();

@@ -26,7 +26,7 @@ export declare class CreateAppComponent implements OnInit {
     constructor(carbon: Carbon, appContextService: AppContextService);
     ngOnInit(): void;
     slugLostControl(evt: any): void;
-    getSanitizedSlug(evt: any): void;
+    getSanitizedSlug(slug: string): string;
     onSubmit(form: any, $event: any): void;
     createApp(slug: string, appDocument: CarbonApp.Class): Promise<Auth.PersistedACL.Class>;
     private grantAccess(acl);
