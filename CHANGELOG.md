@@ -1,3 +1,16 @@
+# 0.5.0 (2016/11/09)
+
+- Completed #11 - Display twisty icons on TreeView only if a node has children
+- Completed #29 - Create access points in the Document Explorer
+- Completed #13 - Create and delete documents in the Document Explorer
+- Completed #31 - Modify tabs.component to change from tab to dropdown in mobile view
+- Completed #24 - Modify collapsible.directive to make elements inside title clickable
+- Added `cpValidation` directive to ease input validation and error feedback
+- Added shake to form when submit fails
+- Changed remember me checkbox to make it clickable including its text label instead of just the checkbox
+- Fixed #15 - activeApp of AppComponent is not being updated on child components
+- Fixed #25 - Login component not showing SDK errors
+
 # 0.4.0 (2016/10/12)
 
 - Upgraded to angular 2.0.2
