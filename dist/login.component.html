@@ -1,24 +1,26 @@
 <form #loginForm="ngForm" class="ui login form attached segment large" role="form" (submit)="onSubmit(loginForm.value, $event)">
-	<div class="field" [ngClass]="{ error: (!email.valid && email.touched) }">
+	<div class="field" [ngClass]="{ error: email.invalid }">
 		<div class="ui left icon input">
 			<i class="user icon"></i>
 			<input type="text"
 			       placeholder="E-mail address"
 			       name="email"
 			       [(ngModel)]="login.email"
+			       cpValidation
 			       required cp-email
-			       #email="ngModel">
+			       #email="cpValidation">
 		</div>
 	</div>
-	<div class="field" [ngClass]="{ error: (!password.valid && password.touched) }">
+	<div class="field" [ngClass]="{ error: password.invalid }">
 		<div class="ui left icon input">
 			<i class="lock icon"></i>
 			<input type="password"
 			       name="password"
 			       placeholder="password"
 			       [(ngModel)]="login.password"
+			       cpValidation
 			       required
-			       #password="ngModel">
+			       #password="cpValidation">
 		</div>
 	</div>
 	<div class="field">
@@ -34,20 +36,20 @@
 	<button type="submit"
 	        [ngClass]="{ loading: sending }"
 	        class="ui fluid large submit button"
-	        [disabled]="!loginForm.valid || sending"
+	        [disabled]="! loginForm.valid || sending"
 	        (click)="onSubmit(loginForm.value, $event)">
 		Login
 	</button>
 </form>
-<div class="ui bottom attached negative message" *ngIf=" (!loginForm.valid && (email.touched || password.touched)) || !!errorMessage">
-	<ul class="list" *ngIf="!email.valid && email.touched">
-		<li *ngIf="email.errors.required">email is required.</li>
-		<li *ngIf="email.errors.invalidEmailAddress">Enter a valid email address.</li>
+<div class="ui bottom attached negative message" *ngIf=" ( email.invalid || password.invalid ) || errorMessage">
+	<ul class="list" *ngIf="email.invalid">
+		<li *ngIf="email.errors.required">Please enter your email address</li>
+		<li *ngIf="email.errors.invalidEmailAddress">Please enter a valid email address</li>
 	</ul>
-	<ul class="list" *ngIf="!password.valid && password.touched">
-		<li *ngIf="password.errors.required">password is required.</li>
+	<ul class="list" *ngIf="password.invalid">
+		<li *ngIf="password.errors.required">Please enter your password</li>
 	</ul>
-	<ul class="list" *ngIf="!!errorMessage">
-		<li>{{errorMessage}}</li>
+	<ul class="list" *ngIf="errorMessage">
+		<li>{{ errorMessage }}</li>
 	</ul>
 </div>

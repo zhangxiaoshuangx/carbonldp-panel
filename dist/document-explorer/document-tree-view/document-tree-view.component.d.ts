@@ -27,10 +27,10 @@ export declare class DocumentTreeViewComponent implements AfterViewInit, OnInit 
     ngOnInit(): void;
     ngAfterViewInit(): void;
     getDocumentTree(): Promise<PersistedDocument.Class>;
-    buildNode(uri: string, isAccessPoint?: boolean): JSTreeNode;
+    buildNode(uri: string, nodeType?: string, hasChildren?: boolean): JSTreeNode;
     renderTree(): void;
     loadNode(obj: any): void;
-    onBeforeOpenNode(parentId: string, parentNode: any, position: string): void;
+    onBeforeOpenNode(parentId: string, parentNode: any, position: string): Promise<any>;
     onChange(parentId: string, node: any, position: string): void;
     addChild(parentId: string, node: any, position: string): void;
     emptyNode(nodeId: string): void;

@@ -1,0 +1,1 @@
+{"version":3,"sources":["document-deleter.component.css"],"names":[],"mappings":"AAAA;EACE,eAAe,EAAE;;AAEnB;;EAEE,mBAAmB,EAAE","file":"document-deleter.component.css","sourcesContent":[":host {\n  display: block; }\n\n.ui.delete.document.modal,\n.ui.delete.document.modal > .actions {\n  text-align: center; }\n"]}

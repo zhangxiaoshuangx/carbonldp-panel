@@ -5,6 +5,7 @@ import * as PersistedDocument from "carbonldp/PersistedDocument";
 import * as HTTP from "carbonldp/HTTP";
 import * as URI from "carbonldp/RDF/URI";
 import * as SDKContext from "carbonldp/SDKContext";
+import * as SPARQL from "carbonldp/SPARQL";
 
 import $ from "jquery";
 import "semantic-ui/semantic";
@@ -84,7 +85,7 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 		return this.documentContext.documents.get( "" ).then( ( [ resolvedRoot, response ]:[ PersistedDocument.Class, HTTP.Response.Class ] ) => {
 			return resolvedRoot.refresh();
 		} ).then( ( [updatedRoot, updatedResponse]:[PersistedDocument.Class, HTTP.Response.Class] ) => {
-			this.nodeChildren.push( this.buildNode( this.documentContext.getBaseURI() ) );
+			this.nodeChildren.push( this.buildNode( this.documentContext.getBaseURI(), "default", true ) );
 			this.renderTree();
 		} ).catch( ( error:HTTP.Errors.Error ) => {
 			console.error( error );
@@ -92,17 +93,16 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 		} );
 	}
 
-	buildNode( uri:string, isAccessPoint?:boolean ):JSTreeNode {
+	buildNode( uri:string, nodeType?:string, hasChildren?:boolean ):JSTreeNode {
 		let node:JSTreeNode = {
 			id: uri,
 			text: this.getSlug( uri ),
 			state: { "opened": false },
-			children: [
-				{ "text": "Loading...", },
-			],
+			children: [],
 			data: {},
 		};
-		if( isAccessPoint ) node.type = "accesspoint";
+		if( nodeType === "accesspoint" ) node.type = "accesspoint";
+		if( hasChildren ) node.children.push( { "text": "Loading...", } );
 		return node;
 	}
 
@@ -165,10 +165,10 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 		this.onChange( parentId, parentNode, position );
 	}
 
-	onBeforeOpenNode( parentId:string, parentNode:any, position:string ):void {
+	onBeforeOpenNode( parentId:string, parentNode:any, position:string ):Promise<any> {
 		let originalIcon:string = ! ! this.jsTree.settings.types[ parentNode.type ] ? this.jsTree.settings.types[ parentNode.type ].icon : "help icon";
 		this.jsTree.set_icon( parentNode, this.jsTree.settings.types.loading.icon );
-		this.getNodeChildren( parentNode.id ).then( ( children:any[] ):void => {
+		return this.getNodeChildren( parentNode.id ).then( ( children:any[] ):void => {
 			this.emptyNode( parentId );
 			if( children.length > 0 ) {
 				children.forEach( ( childNode:any ) => this.addChild( parentId, childNode, position ) );
@@ -179,12 +179,12 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 	}
 
 	onChange( parentId:string, node:any, position:string ):void {
-		if( this.jsTree.is_open( node ) ) {
-			this.onBeforeOpenNode( parentId, node, position );
-		} else {
-			this.jsTree.open_node( node );
-		}
-		this.onResolveUri.emit( node.id );
+		this.onBeforeOpenNode( parentId, node, position ).then( ()=> {
+			if( ! this.jsTree.is_open( node ) ) {
+				this.jsTree.open_node( node );
+			}
+			this.onResolveUri.emit( node.id );
+		} );
 	}
 
 	addChild( parentId:string, node:any, position:string ):void {
@@ -201,25 +201,48 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 	}
 
 	getNodeChildren( uri:string ):Promise<JSTreeNode[]> {
-		return this.documentContext.documents.get( uri ).then( ( [resolvedRoot, response]:[PersistedDocument.Class, HTTP.Response.Class] ) => {
-			return resolvedRoot.refresh().then( ( [refreshedRoot, response]:[PersistedDocument.Class, HTTP.Response.Class] )=> {
-				if( ! resolvedRoot.accessPoints && ! resolvedRoot.contains ) return [];
-				let accessPoints:JSTreeNode[] = [],
-					children:JSTreeNode[] = [];
-				if( ! ! resolvedRoot.contains ) {
-					children = resolvedRoot.contains.filter( ( pointer:Pointer.Class ):boolean => {
-						return pointer.id.indexOf( "/agents/me/" ) === - 1;
-					} ).map( ( pointer:Pointer.Class ):JSTreeNode => {
-						return this.buildNode( pointer.id );
-					} );
+		let query:string = `SELECT ?p ?o ?p2 ?o2 
+			WHERE{
+				<__URI__> ?p ?o VALUES (?p) 
+				{
+					(<http://www.w3.org/ns/ldp#contains>)
+					(<https://carbonldp.com/ns/v1/platform#accessPoint>)
 				}
-				if( ! ! resolvedRoot.accessPoints ) {
-					accessPoints = resolvedRoot.accessPoints.map( ( pointer:Pointer.Class ):JSTreeNode => {
-						return this.buildNode( pointer.id, true );
-					} );
+				OPTIONAL {
+					?o ?p2 ?o2	VALUES (?p2) 
+					{		
+						(<http://www.w3.org/ns/ldp#contains>)	
+						(<https://carbonldp.com/ns/v1/platform#accessPoint>)	
+					}
 				}
-				return children.concat( accessPoints );
+			}`;
+		query = query.replace( "__URI__", uri );
+
+		return this.documentContext.documents.executeSELECTQuery( uri, query ).then( ( [ results, response ]:[ SPARQL.SELECTResults.Class, HTTP.Response.Class ] )=> {
+			let accessPoints:Map<string, boolean> = new Map<string, boolean>(),
+				children:Map<string, boolean> = new Map<string, boolean>(),
+				nodes:JSTreeNode[] = [];
+
+			results.bindings.forEach(
+				( binding:{p:Pointer.Class, o:Pointer.Class, p2:Pointer.Class, o2:Pointer.Class} )=> {
+					if( binding.p.id !== "http://www.w3.org/ns/ldp#contains" || (! ! binding.o2 && binding.o2.id.indexOf( "/agents/me/" ) !== - 1 ) ) return;
+					children.set( binding.o.id, children.get( binding.o.id ) ? true : ! ! binding.p2 );
+				} );
+			results.bindings.forEach(
+				( binding:{p:Pointer.Class, o:Pointer.Class, p2:Pointer.Class, o2:Pointer.Class} )=> {
+					if( binding.p.id !== "https://carbonldp.com/ns/v1/platform#accessPoint" ) return;
+					accessPoints.set( binding.o.id, accessPoints.get( binding.o.id ) ? true : ! ! binding.p2 );
+				} );
+
+
+			children.forEach( ( hasChildren:boolean, id:string, children:Map<string,boolean> )=> {
+				nodes.push( this.buildNode( id, "default", hasChildren ) );
 			} );
+			accessPoints.forEach( ( hasChildren:boolean, id:string, children:Map<string,boolean> )=> {
+				nodes.push( this.buildNode( id, "accesspoint", hasChildren ) );
+			} );
+
+			return nodes;
 		} ).catch( ( error ) => {
 			console.error( error );
 			return [];
