@@ -24,23 +24,23 @@ import template from "./create-app.component.html!";
 	styles: [ ":host { display: block; }" ],
 } )
 export class CreateAppComponent implements OnInit {
-	carbon:Carbon;
+	private carbon:Carbon;
 	private router:Router;
 
-	appContextService:AppContextService;
+	private appContextService:AppContextService;
 
-	submitting:boolean = false;
-	displaySuccessMessage:boolean = false;
-	displayWarningMessage:boolean = false;
-	errorMessage:Message;
+	private submitting:boolean = false;
+	private displaySuccessMessage:boolean = false;
+	private displayWarningMessage:boolean = false;
+	private errorMessage:Message;
 
-	_name:string = "";
-	_slug:string = "";
-	persistedSlug:string = "";
-	persistedName:string = "";
+	private _name:string = "";
+	private _slug:string = "";
+	private persistedSlug:string = "";
+	private persistedName:string = "";
 
-	slugInput;
-	createAppFormModel:{name:string,slug:string,description:string} = {
+	private slugInput;
+	private createAppFormModel:{name:string,slug:string,description:string} = {
 		name: "",
 		slug: "",
 		description: ""
@@ -57,20 +57,20 @@ export class CreateAppComponent implements OnInit {
 	}
 
 
-	slugLostControl( evt:any ):void {
+	private slugLostControl( evt:any ):void {
 		if( typeof evt.target === "undefined" ) return;
 		if( ! evt.target.value.match( /^[a-z0-9]+(?:-[a-z0-9]*)*(?:\/*)$/ ) )
 			this.createAppFormModel.slug = this.getSanitizedSlug( evt.target.value );
 		if( ! this.createAppFormModel.slug.endsWith( "/" ) && this.createAppFormModel.slug.trim() !== "" )  this.createAppFormModel.slug += "/";
 	}
 
-	getSanitizedSlug( slug:string ):string {
+	private getSanitizedSlug( slug:string ):string {
 		if( typeof slug === "undefined" ) return slug;
 		slug = slug.toLowerCase().replace( / - | -|- /g, "-" ).replace( /[^-\w ]+/g, "" ).replace( / +/g, "-" );
 		return slug;
 	}
 
-	onSubmit( form:any, $event:any ):void {
+	private onSubmit( form:any, $event:any ):void {
 		$event.preventDefault();
 
 		this.submitting = true;
@@ -93,9 +93,8 @@ export class CreateAppComponent implements OnInit {
 		this.createApp( slug, appDocument );
 	}
 
-	createApp( slug:string, appDocument:CarbonApp.Class ):Promise<Auth.PersistedACL.Class> {
+	private createApp( slug:string, appDocument:CarbonApp.Class ):Promise<Auth.PersistedACL.Class> {
 		return this.carbon.apps.create( appDocument, slug ).then( ( [appPointer, appCreationResponse]:[ Pointer.Class, HTTP.Response.Class] ) => {
-			this.submitting = false;
 			this.persistedSlug = this._slug;
 			this.persistedName = this._name;
 			return this.carbon.apps.getContext( appPointer );
@@ -106,6 +105,8 @@ export class CreateAppComponent implements OnInit {
 			return persistedAppDocument.getACL();
 		} ).then( ( [acl,response]:[ Auth.PersistedACL.Class, HTTP.Response.Class ] )=> {
 			return this.grantAccess( acl );
+		} ).then( ()=> {
+			this.submitting = false;
 		} ).catch( ( error:HTTP.Errors.Error ) => {
 			console.error( error );
 			if( error.response ) this.errorMessage = this.getHTTPErrorMessage( error, this.getErrorMessage( error ) );
@@ -144,7 +145,7 @@ export class CreateAppComponent implements OnInit {
 		};
 	}
 
-	getErrorMessage( error:HTTP.Errors.Error ):string {
+	private getErrorMessage( error:HTTP.Errors.Error ):string {
 		let friendlyMessage:string = "";
 		switch( true ) {
 			case error instanceof HTTP.Errors.BadRequestError:
@@ -181,7 +182,7 @@ export class CreateAppComponent implements OnInit {
 		return friendlyMessage;
 	}
 
-	clearMessages( evt:Event ):void {
+	private clearMessages( evt:Event ):void {
 		this.displaySuccessMessage = false;
 		this.displayWarningMessage = false;
 		this.errorMessage = null;

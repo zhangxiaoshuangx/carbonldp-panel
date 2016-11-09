@@ -97,7 +97,6 @@ System.register(["@angular/core", "@angular/router", "carbonldp/Carbon", "carbon
                     var _this = this;
                     return this.carbon.apps.create(appDocument, slug).then(function (_a) {
                         var appPointer = _a[0], appCreationResponse = _a[1];
-                        _this.submitting = false;
                         _this.persistedSlug = _this._slug;
                         _this.persistedName = _this._name;
                         return _this.carbon.apps.getContext(appPointer);
@@ -109,6 +108,8 @@ System.register(["@angular/core", "@angular/router", "carbonldp/Carbon", "carbon
                     }).then(function (_a) {
                         var acl = _a[0], response = _a[1];
                         return _this.grantAccess(acl);
+                    }).then(function () {
+                        _this.submitting = false;
                     }).catch(function (error) {
                         console.error(error);
                         if (error.response)
