@@ -33,8 +33,20 @@ export class InputValidationDirective {
 
 	get valid():boolean {
 		if( ! this.ngModel ) return true;
-		return this.hasFocus || ! this.wasFocused || this.ngModel.valid;
+		return ! this.ngModel.touched || this.hasFocus || ! this.wasFocused || this.ngModel.valid;
 	}
+
+	get invalid():boolean {
+		return ! this.valid;
+	}
+
+	get errors():{ [ key:string ]:any } {
+		if( ! this.ngModel ) return {};
+
+		return this.ngModel.errors;
+	}
+
+	// TODO: Make other ngModel properties accessible
 
 	private hasFocus:boolean = false;
 	private wasFocused:boolean = false;

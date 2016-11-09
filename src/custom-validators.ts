@@ -48,10 +48,7 @@ export class MatchValidator implements Validator,OnChanges {
 		this.control.control.updateValueAndValidity( false, true );
 	}
 
-	validate( control:AbstractControl ):{[key:string]:any;} {
-		// {6,100}           - Assert password is between 6 and 100 characters
-		// (?=.*[0-9])       - Assert a string has at least one number
-		//if( controlGroup.value.match( /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,100}$/ ) ) {
+	validate( control:AbstractControl ):{ [ key:string ]:any; } {
 		if( control.value ) {
 			if( control.value === this.matchTo )
 				return null;
