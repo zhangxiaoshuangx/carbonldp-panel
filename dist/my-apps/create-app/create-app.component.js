@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/App", "carbonldp/HTTP", "carbonldp/NS/CS", "./../app-context.service", "semantic-ui/semantic", "./create-app.component.html!"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "carbonldp/Carbon", "carbonldp/App", "carbonldp/HTTP", "carbonldp/NS/CS", "./../app-context.service", "semantic-ui/semantic", "./create-app.component.html!"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,12 +10,15 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/App", "carbonld
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, Carbon_1, CarbonApp, HTTP, CS, app_context_service_1, create_app_component_html_1;
+    var core_1, router_1, Carbon_1, CarbonApp, HTTP, CS, app_context_service_1, create_app_component_html_1;
     var CreateAppComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (router_1_1) {
+                router_1 = router_1_1;
             },
             function (Carbon_1_1) {
                 Carbon_1 = Carbon_1_1;
@@ -38,7 +41,7 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/App", "carbonld
             }],
         execute: function() {
             CreateAppComponent = (function () {
-                function CreateAppComponent(carbon, appContextService) {
+                function CreateAppComponent(carbon, appContextService, router) {
                     this.submitting = false;
                     this.displaySuccessMessage = false;
                     this.displayWarningMessage = false;
@@ -53,6 +56,7 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/App", "carbonld
                     };
                     this.carbon = carbon;
                     this.appContextService = appContextService;
+                    this.router = router;
                 }
                 CreateAppComponent.prototype.ngOnInit = function () {
                     this.slugInput = $("form > :input[name='slug']");
@@ -124,6 +128,7 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/App", "carbonld
                     acl.grant(subject, subjectClass, permissions);
                     return acl.saveAndRefresh().then(function () {
                         _this.displaySuccessMessage = true;
+                        _this.router.navigate(["my-apps/", _this.persistedSlug]);
                     }).catch(function (error) {
                         _this.displayWarningMessage = true;
                     }).then(function () {
@@ -186,7 +191,7 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/App", "carbonld
                         template: create_app_component_html_1.default,
                         styles: [":host { display: block; }"],
                     }), 
-                    __metadata('design:paramtypes', [Carbon_1.default, app_context_service_1.AppContextService])
+                    __metadata('design:paramtypes', [Carbon_1.default, app_context_service_1.AppContextService, router_1.Router])
                 ], CreateAppComponent);
                 return CreateAppComponent;
             }());

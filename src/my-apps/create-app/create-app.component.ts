@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 
 import Carbon from "carbonldp/Carbon";
 import * as CarbonApp from "carbonldp/App";
@@ -24,6 +25,7 @@ import template from "./create-app.component.html!";
 } )
 export class CreateAppComponent implements OnInit {
 	carbon:Carbon;
+	private router:Router;
 
 	appContextService:AppContextService;
 
@@ -44,9 +46,10 @@ export class CreateAppComponent implements OnInit {
 		description: ""
 	};
 
-	constructor( carbon:Carbon, appContextService:AppContextService ) {
+	constructor( carbon:Carbon, appContextService:AppContextService, router:Router ) {
 		this.carbon = carbon;
 		this.appContextService = appContextService;
+		this.router = router;
 	}
 
 	ngOnInit():void {
@@ -123,6 +126,7 @@ export class CreateAppComponent implements OnInit {
 		acl.grant( subject, subjectClass, permissions );
 		return acl.saveAndRefresh().then( ()=> {
 			this.displaySuccessMessage = true;
+			this.router.navigate( [ "my-apps/", this.persistedSlug ] );
 		} ).catch( ( error:HTTP.Errors.Error ) => {
 			this.displayWarningMessage = true;
 		} ).then( ()=> {

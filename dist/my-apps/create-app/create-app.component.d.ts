@@ -1,4 +1,5 @@
 import { OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import Carbon from "carbonldp/Carbon";
 import * as CarbonApp from "carbonldp/App";
 import * as HTTP from "carbonldp/HTTP";
@@ -8,6 +9,7 @@ import { Message } from "./../../errors-area/error-message.component";
 import "semantic-ui/semantic";
 export declare class CreateAppComponent implements OnInit {
     carbon: Carbon;
+    private router;
     appContextService: AppContextService;
     submitting: boolean;
     displaySuccessMessage: boolean;
@@ -23,7 +25,7 @@ export declare class CreateAppComponent implements OnInit {
         slug: string;
         description: string;
     };
-    constructor(carbon: Carbon, appContextService: AppContextService);
+    constructor(carbon: Carbon, appContextService: AppContextService, router: Router);
     ngOnInit(): void;
     slugLostControl(evt: any): void;
     getSanitizedSlug(slug: string): string;
