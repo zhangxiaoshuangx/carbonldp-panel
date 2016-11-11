@@ -88,6 +88,12 @@ System.register(["@angular/core", "./../sidebar.service"], function(exports_1, c
                                 icon: "settings icon",
                                 route: [this.base, "my-apps", app.slug, "configure"],
                             },
+                            {
+                                type: "link",
+                                name: "Security",
+                                icon: "lock icon",
+                                route: [this.base, "my-apps", app.slug, "security"],
+                            },
                         ]
                     };
                     this.openAppsGroup.children.push(appSubmenu);

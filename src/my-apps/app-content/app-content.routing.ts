@@ -9,6 +9,7 @@ import { SPARQLClientView } from "./sparql-client/sparql-client.view";
 import { EditAppView } from "./edit-app/edit-app.view";
 import { ExplorerView } from "./explorer/explorer.view";
 import { ConfigurationView } from "./configuration/configuration.view";
+import { SecurityView } from "./security/security.view";
 
 const AppContentRoutes:Routes = [
 	{
@@ -56,6 +57,14 @@ const AppContentRoutes:Routes = [
 				component: ConfigurationView,
 				data: {
 					alias: "configure",
+					displayName: "Configuration",
+				},
+			},
+			{
+				path: "security",
+				component: SecurityView,
+				data: {
+					alias: "security",
 					displayName: "Configuration",
 				},
 			},

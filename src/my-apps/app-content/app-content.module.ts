@@ -20,6 +20,10 @@ import { BackupsListComponent } from "./configuration/backup/backups-list/backup
 import { BackupsComponent } from "./configuration/backup/backups.component";
 import { ConfigurationComponent } from "./configuration/configuration.component";
 import { ConfigurationView } from "./configuration/configuration.view";
+// Components -> Security
+import { SecurityView } from "./security/security.view";
+// import { SecurityComponent } from "./security/security.component";
+// import { AgentsManagerComponent } from "./security/agents-manager/agents-manager.component";
 
 //Directives
 import { BackupFileValidator, AtLeastOneValidValidator } from "./configuration/backup/backup-importer/backup-importer-validators";
@@ -59,6 +63,9 @@ import { BackupsService } from "./configuration/backup/backups.service";
 		BackupsComponent,
 		ConfigurationComponent,
 		ConfigurationView,
+		SecurityView,
+		// SecurityComponent,
+		// AgentsManagerComponent,
 		BackupFileValidator,
 		AtLeastOneValidValidator
 	],

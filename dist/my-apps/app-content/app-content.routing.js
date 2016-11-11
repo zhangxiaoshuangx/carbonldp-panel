@@ -1,7 +1,7 @@
-System.register(["@angular/router", "./app-content.resolver", "./app-content.view", "./dashboard/dashboard.view", "./sparql-client/sparql-client.view", "./edit-app/edit-app.view", "./explorer/explorer.view", "./configuration/configuration.view"], function(exports_1, context_1) {
+System.register(["@angular/router", "./app-content.resolver", "./app-content.view", "./dashboard/dashboard.view", "./sparql-client/sparql-client.view", "./edit-app/edit-app.view", "./explorer/explorer.view", "./configuration/configuration.view", "./security/security.view"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var router_1, app_content_resolver_1, app_content_view_1, dashboard_view_1, sparql_client_view_1, edit_app_view_1, explorer_view_1, configuration_view_1;
+    var router_1, app_content_resolver_1, app_content_view_1, dashboard_view_1, sparql_client_view_1, edit_app_view_1, explorer_view_1, configuration_view_1, security_view_1;
     var AppContentRoutes, routing;
     return {
         setters:[
@@ -28,6 +28,9 @@ System.register(["@angular/router", "./app-content.resolver", "./app-content.vie
             },
             function (configuration_view_1_1) {
                 configuration_view_1 = configuration_view_1_1;
+            },
+            function (security_view_1_1) {
+                security_view_1 = security_view_1_1;
             }],
         execute: function() {
             AppContentRoutes = [
@@ -76,6 +79,14 @@ System.register(["@angular/router", "./app-content.resolver", "./app-content.vie
                             component: configuration_view_1.ConfigurationView,
                             data: {
                                 alias: "configure",
+                                displayName: "Configuration",
+                            },
+                        },
+                        {
+                            path: "security",
+                            component: security_view_1.SecurityView,
+                            data: {
+                                alias: "security",
                                 displayName: "Configuration",
                             },
                         },
