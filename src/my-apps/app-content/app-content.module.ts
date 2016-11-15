@@ -25,6 +25,7 @@ import { SecurityView } from "./security/security.view";
 import { SecurityComponent } from "./security/security.component";
 import { AgentsComponent } from "./security/agents/agents.component";
 import { AgentsListComponent } from "./security/agents/agents-list/agents-list.component";
+import { AgentDetailsComponent } from "./security/agents/agent-details/agent-details.component";
 
 //Directives
 import { BackupFileValidator, AtLeastOneValidValidator } from "./configuration/backup/backup-importer/backup-importer-validators";
@@ -68,6 +69,7 @@ import { BackupsService } from "./configuration/backup/backups.service";
 		SecurityComponent,
 		AgentsComponent,
 		AgentsListComponent,
+		AgentDetailsComponent,
 		BackupFileValidator,
 		AtLeastOneValidValidator
 	],
