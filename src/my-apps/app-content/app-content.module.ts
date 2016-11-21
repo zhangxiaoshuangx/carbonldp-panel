@@ -40,6 +40,7 @@ import { DirectivesModule } from "./../../directives.module";
 import { DocumentsResolverService } from "./../../document-explorer/documents-resolver.service";
 import { JobsService } from "./configuration/job/jobs.service";
 import { BackupsService } from "./configuration/backup/backups.service";
+import { RolesService } from "./security/roles/roles.service";
 
 
 @NgModule( {
@@ -80,6 +81,7 @@ import { BackupsService } from "./configuration/backup/backups.service";
 		DocumentsResolverService,
 		JobsService,
 		BackupsService,
+		RolesService,
 	],
 } )
 export class AppContentModule {
