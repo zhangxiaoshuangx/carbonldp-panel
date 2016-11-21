@@ -2,10 +2,9 @@ import { Component, Input } from "@angular/core";
 
 import * as App from "carbonldp/App";
 import * as PersistedAgent from "carbonldp/Auth/PersistedAgent";
-import * as HTTP from "carbonldp/HTTP";
 import * as URI from "carbonldp/RDF/URI";
 
-import "semantic-ui/semantic";
+import { AgentsService } from "../agents.service";
 
 import template from "./agents-list.component.html!";
 import style from "./agents-list.component.css!text";
@@ -18,6 +17,7 @@ import style from "./agents-list.component.css!text";
 
 export class AgentsListComponent {
 
+	private agentService:AgentsService;
 
 	private agents:PersistedAgent.Class[] = [];
 	private loading:boolean = false;
@@ -27,7 +27,9 @@ export class AgentsListComponent {
 	@Input() appContext:App.Context;
 
 
-	constructor() { }
+	constructor( agentService:AgentsService ) {
+		this.agentService = agentService;
+	}
 
 	ngOnInit():void {
 		this.loadAgents();
@@ -35,8 +37,8 @@ export class AgentsListComponent {
 
 	private loadAgents():void {
 		this.loading = true;
-		this.appContext.documents.getChildren<PersistedAgent.Class>( "agents/" ).then( ( [agents, response]:[PersistedAgent.Class[], HTTP.Response.Class] ) => {
-			agents = agents.filter( ( agent:PersistedAgent.Class )=> { return agent.id.indexOf( "/agents/me/" ) === - 1 } );
+		this.agentService.getAll( this.appContext ).then( ( agents:PersistedAgent.Class[] ) => {
+			agents = agents.filter( ( agent:PersistedAgent.Class ) => { return agent.id.indexOf( "/agents/me/" ) === - 1 } );
 			this.loading = false;
 			this.agents = agents;
 			this.inspectingAgent = this.agents[ 0 ];

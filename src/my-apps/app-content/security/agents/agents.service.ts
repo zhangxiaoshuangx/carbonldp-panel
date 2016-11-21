@@ -10,21 +10,21 @@ import * as Utils from "carbonldp/Utils";
 export class AgentsService {
 
 	private carbon:Carbon;
-	public appContextsRoles:Map<string, Map<string, PersistedAgent.Class>>;
+	public appContextsAgents:Map<string, Map<string, PersistedAgent.Class>>;
 
 	constructor( carbon:Carbon ) {
 		this.carbon = carbon;
-		this.appContextsRoles = new Map<string, Map<string, PersistedAgent.Class>>();
+		this.appContextsAgents = new Map<string, Map<string, PersistedAgent.Class>>();
 	}
 
 	public getAll( appContext:App.Context ):Promise<PersistedAgent.Class[]> {
 		let uri:string = appContext.getBaseURI() + "agents/";
-		let existingRoles:Map <string, PersistedAgent.Class> = this.appContextsRoles.get( appContext.getBaseURI() );
-		existingRoles = typeof existingRoles === "undefined" ? new Map<string, PersistedAgent.Class>() : existingRoles;
-		return this.carbon.documents.getChildren<PersistedAgent.Class>( uri ).then( ( [roles, response]:[PersistedAgent.Class[], HTTP.Response.Class] ) => {
-			roles.filter( ( role:PersistedAgent.Class ) => ! existingRoles.has( role.id ) )
-				.forEach( ( role:PersistedAgent.Class ) => existingRoles.set( role.id, role ) );
-			return Utils.A.from( existingRoles.values() );
+		let existingAgents:Map <string, PersistedAgent.Class> = this.appContextsAgents.get( appContext.getBaseURI() );
+		existingAgents = typeof existingAgents === "undefined" ? new Map<string, PersistedAgent.Class>() : existingAgents;
+		return this.carbon.documents.getChildren<PersistedAgent.Class>( uri ).then( ( [agents, response]:[PersistedAgent.Class[], HTTP.Response.Class] ) => {
+			agents.filter( ( agent:PersistedAgent.Class ) => ! existingAgents.has( agent.id ) )
+				.forEach( ( agent:PersistedAgent.Class ) => existingAgents.set( agent.id, agent ) );
+			return Utils.A.from( existingAgents.values() );
 		} );
 	}
 
