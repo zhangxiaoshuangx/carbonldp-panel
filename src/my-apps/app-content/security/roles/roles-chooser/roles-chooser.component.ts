@@ -48,10 +48,6 @@ export class RolesChooserComponent implements AfterViewInit {
 		this.selectRole( role );
 	}
 
-	private onCheckRole( role:PersistedRole.Class, evt:Event ):void {
-		this.selectRole( role );
-	}
-
 	private selectRole( role:PersistedRole.Class ):void {
 		let idx:number = this.selectedRoles.findIndex( ( persistedRole:PersistedRole.Class ) => { return role.id === persistedRole.id } );
 		if( idx === - 1 )
