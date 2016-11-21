@@ -1,0 +1,80 @@
+<div class="ui top attached segment">
+	<h3 class="ui header">
+		{{agent.name}}
+		<span class="sub header">{{agent.id}}</span>
+	</h3>
+</div>
+<div class="ui attached segment">
+	<button *ngIf="mode === Modes.READING"
+	        class="ui mini basic icon button"
+	        (click)="changeMode(Modes.EDITING)">
+		<i class="edit icon"></i>
+		Edit
+	</button>
+	<div class="ui basic label" *ngIf="mode === Modes.EDITING">
+		Editing...
+	</div>
+</div>
+<form class="ui attached segment form" #editAgentForm="ngForm">
+	<div class="ui two column divided grid">
+		<div class="stretched row">
+			<div class="column">
+				<div class="field"
+				     [ngClass]="{error: !name.valid}">
+					<label>Name:</label>
+					<div class="ui fluid input">
+						<input type="text" name="name"
+						       placeholder="E.g: Agent Name"
+						       #name="cpValidation" cpValidation
+						       [(ngModel)]="agentFormModel.name"
+						       [disabled]="mode === Modes.READING">
+					</div>
+				</div>
+				<div class="field"
+				     [ngClass]="{error: !email.valid}">
+					<label>Email:</label>
+					<div class="ui fluid input">
+						<input type="text" name="email"
+						       placeholder="E.g: agent@example.com"
+						       #email="cpValidation" cpValidation
+						       [(ngModel)]="agentFormModel.email"
+						       [disabled]="mode === Modes.READING">
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<div class="field">
+					<label>Roles:</label>
+					<div class="ui fluid input">
+						<select multiple name="roles"
+						        class="roles hidden"
+						        [(ngModel)]="agentFormModel.roles">
+							<option value="">Please Select</option>
+							<option *ngFor="let role of agentFormModel.roles" [ngValue]="country">{{role}}</option>
+						</select>
+						<table class="ui very compact small celled striped roles table" *ngIf="mode === Modes.READING">
+							<tbody>
+								<tr class="bottom aligned role" *ngFor="let role of agentRoles; let i = index;">
+									<td>
+										{{role.name}}<br>
+										{{role.id}}
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<cp-roles-chooser *ngIf="mode === Modes.EDITING"
+						                  [appContext]="appContext"
+						                  [selectedRoles]="agentRoles"
+						                  (onChangeSelection)="changeRoles($event)"></cp-roles-chooser>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+<div class="ui attached segment">
+	{{agentFormModel | json}}
+</div>
+<div class="ui bottom attached segment" *ngIf="mode === Modes.EDITING">
+
+</div>

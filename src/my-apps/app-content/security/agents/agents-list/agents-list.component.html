@@ -9,7 +9,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr *ngFor="let agent of agents; let i = index;">
+			<tr *ngFor="let agent of agents; let i = index;" (click)="openAgent($event, agent)">
 				<td>
 					<span>{{agent.name}}</span>
 					<br>
@@ -35,4 +35,4 @@
 		</tbody>
 	</table>
 </div>
-<!--<cp-agent-details [agent]="inspectingAgent" *ngIf="!!inspectingAgent"></cp-agent-details>-->
+<cp-agent-details [agent]="inspectingAgent" [appContext]="appContext" *ngIf="!!inspectingAgent"></cp-agent-details>

@@ -43,6 +43,11 @@ export class AgentsListComponent {
 		} );
 	}
 
+	private openAgent( event:Event, agent:PersistedAgent.Class ):void {
+		event.stopPropagation();
+		this.inspectingAgent = agent;
+	}
+
 	private edit( event:Event, agent:PersistedAgent.Class ):void {
 		event.stopPropagation();
 		this.inspectingAgent = agent;
