@@ -4,7 +4,9 @@ import * as App from "carbonldp/App";
 import * as Agent from "carbonldp/Auth/Agent";
 import * as PersistedRole from "carbonldp/Auth/PersistedRole";
 import * as PersistedAgent from "carbonldp/Auth/PersistedAgent";
+import * as HTTP from "carbonldp/HTTP";
 
+import { AgentsService } from "carbonldp-panel/my-apps/app-content/security/agents/agents.service";
 import { RolesService } from "carbonldp-panel/my-apps/app-content/security/roles/roles.service";
 
 import template from "./agent-details.component.html!";
@@ -24,21 +26,23 @@ export class AgentDetailsComponent implements OnChanges {
 	private Modes:Modes = Modes;
 	// private availableRoles:PersistedRole.Class[] = [];
 	private agentRoles:PersistedRole.Class[] = [];
+	private agentsService:AgentsService;
 	private rolesService:RolesService;
 	private mode:string = Modes.EDITING;
 
-	@Input() agent:Agent.Class;
+	@Input() agent:PersistedAgent.Class;
 	@Input() appContext:App.Context;
 
-	private agentFormModel:{name:string, email:string, roles:string[]} = {
+	private agentFormModel:AgentFormModel = {
 		name: "",
 		email: "",
 		roles: []
 	};
 
-	constructor( element:ElementRef, rolesService:RolesService ) {
+	constructor( element:ElementRef, agentsService:AgentsService, rolesService:RolesService ) {
 		this.element = element;
 		this.$element = $( element.nativeElement );
+		this.agentsService = agentsService;
 		this.rolesService = rolesService;
 	}
 
@@ -51,7 +55,7 @@ export class AgentDetailsComponent implements OnChanges {
 		}
 	}
 
-	private changeAgent( newAgent:Agent.Class ):void {
+	private changeAgent( newAgent:PersistedAgent.Class ):void {
 		this.agent = newAgent;
 		this.agentFormModel.name = this.agent.name;
 		this.agentFormModel.email = this.agent.email;
@@ -66,7 +70,7 @@ export class AgentDetailsComponent implements OnChanges {
 	}
 
 	private getRoles():Promise<PersistedRole.Class[]>;
-	private getRoles( agent?:Agent.Class ):Promise<PersistedRole.Class[]>;
+	private getRoles( agent?:PersistedAgent.Class ):Promise<PersistedRole.Class[]>;
 	private getRoles( agent?:any ):Promise<PersistedRole.Class[]> {
 		if( typeof agent !== "undefined" ) {
 			return this.rolesService.getAll( this.appContext ).then( ( appRoles:PersistedRole.Class[] ) => {
@@ -94,9 +98,14 @@ export class AgentDetailsComponent implements OnChanges {
 		this.mode = Modes.READING;
 	}
 
-	private onSubmit( data:{name:string, email:string, roles:string[]}, $event:any ):void {
+	private onSubmit( data:AgentFormModel, $event:any ):void {
 		$event.preventDefault();
 		console.log( data );
+		switch( this.mode ) {
+			case Modes.EDITING:
+				this.editAgent( <PersistedAgent.Class>this.agent, data );
+				break;
+		}
 		// let childSlug:string = null;
 		// if( ! ! data.slug )
 		// 	childSlug = data.slug + ((data.slug.endsWith( "/" ) && data.slug.trim() !== "" ) ? "/" : "");
@@ -112,12 +121,30 @@ export class AgentDetailsComponent implements OnChanges {
 		// 	this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
 		// } );
 	}
-}
 
-export default AgentDetailsComponent;
+	private editAgent( agent:PersistedAgent.Class, agentData:AgentFormModel ) {
+		agent.email = agentData.email;
+		agent.name = agentData.name;
+		this.agentsService.saveAndRefreshAgent( this.appContext, agent ).then( ( [updatedAgent, [saveResponse, refreshResponse]]:[PersistedAgent.Class, [HTTP.Response.Class,HTTP.Response.Class]] ) => {
+			console.log( updatedAgent );
+			console.log( saveResponse );
+			console.log( refreshResponse );
+		} ).catch( ( error ) => {
+			console.error( error );
+		} );
+	}
+}
 
 export class Modes {
 	static READING:string = "READING";
 	static EDITING:string = "EDITING";
 	static CREATING:string = "CREATING";
 }
+
+export interface AgentFormModel {
+	name:string,
+	email:string,
+	roles:string[]
+}
+
+export default AgentDetailsComponent;

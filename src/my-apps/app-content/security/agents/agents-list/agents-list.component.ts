@@ -17,7 +17,7 @@ import style from "./agents-list.component.css!text";
 
 export class AgentsListComponent {
 
-	private agentService:AgentsService;
+	private agentsService:AgentsService;
 
 	private agents:PersistedAgent.Class[] = [];
 	private loading:boolean = false;
@@ -27,8 +27,8 @@ export class AgentsListComponent {
 	@Input() appContext:App.Context;
 
 
-	constructor( agentService:AgentsService ) {
-		this.agentService = agentService;
+	constructor( agentsService:AgentsService ) {
+		this.agentsService = agentsService;
 	}
 
 	ngOnInit():void {
@@ -37,7 +37,7 @@ export class AgentsListComponent {
 
 	private loadAgents():void {
 		this.loading = true;
-		this.agentService.getAll( this.appContext ).then( ( agents:PersistedAgent.Class[] ) => {
+		this.agentsService.getAll( this.appContext ).then( ( agents:PersistedAgent.Class[] ) => {
 			agents = agents.filter( ( agent:PersistedAgent.Class ) => { return agent.id.indexOf( "/agents/me/" ) === - 1 } );
 			this.loading = false;
 			this.agents = agents;
