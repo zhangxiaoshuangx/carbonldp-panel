@@ -88,6 +88,30 @@ export class AgentDetailsComponent implements OnChanges {
 			this.agentFormModel.roles.push( role.id );
 		} );
 	}
+
+	private cancelForm():void {
+		this.changeAgent( this.agent );
+		this.mode = Modes.READING;
+	}
+
+	private onSubmit( data:{name:string, email:string, roles:string[]}, $event:any ):void {
+		$event.preventDefault();
+		console.log( data );
+		// let childSlug:string = null;
+		// if( ! ! data.slug )
+		// 	childSlug = data.slug + ((data.slug.endsWith( "/" ) && data.slug.trim() !== "" ) ? "/" : "");
+		// let childContent:any = {
+		// 	hasMemberRelation: data.advancedOptions.hasMemberRelation
+		// };
+		// if( ! ! data.advancedOptions.isMemberOfRelation ) childContent[ "isMemberOfRelation" ] = data.advancedOptions.isMemberOfRelation;
+		// this.documentsResolverService.createChild( this.context, this.parentURI, childContent, childSlug ).then( ( createdChild:PersistedDocument.Class ) => {
+		// 	this.onSuccess.emit( createdChild );
+		// 	this.hide();
+		// } ).catch( ( error:HTTPError )=> {
+		// 	this.onError.emit( error );
+		// 	this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
+		// } );
+	}
 }
 
 export default AgentDetailsComponent;
