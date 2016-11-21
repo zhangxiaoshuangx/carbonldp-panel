@@ -28,6 +28,14 @@ export class AgentsService {
 		} );
 	}
 
+	public saveAgent( appContext:App.Context, agent:PersistedAgent.Class ):Promise<[PersistedAgent.Class, [HTTP.Response.Class,HTTP.Response.Class]]> {
+		return agent.save();
+	}
+
+	public saveAndRefreshAgent( appContext:App.Context, agent:PersistedAgent.Class ):Promise<[PersistedAgent.Class, [HTTP.Response.Class,HTTP.Response.Class]]> {
+		return agent.saveAndRefresh();
+	}
+
 }
 
 export default AgentsService;
