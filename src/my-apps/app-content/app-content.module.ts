@@ -41,6 +41,7 @@ import { DirectivesModule } from "./../../directives.module";
 import { DocumentsResolverService } from "./../../document-explorer/documents-resolver.service";
 import { JobsService } from "./configuration/job/jobs.service";
 import { BackupsService } from "./configuration/backup/backups.service";
+import { AgentsService } from "./security/agents/agents.service";
 import { RolesService } from "./security/roles/roles.service";
 
 
@@ -83,6 +84,7 @@ import { RolesService } from "./security/roles/roles.service";
 		DocumentsResolverService,
 		JobsService,
 		BackupsService,
+		AgentsService,
 		RolesService,
 	],
 } )
