@@ -1,0 +1,19 @@
+<table class="ui very compact small celled striped selectable roles table">
+	<tbody>
+		<tr class="middle aligned role"
+		    *ngFor="let role of availableRoles; let i = index;" (click)="selectRole(role, $event)">
+			<td class="collapsing center aligned">
+				<div class="ui checkbox">
+					<input type="checkbox"
+					       [value]="role.id"
+					       [checked]="hasRole(role.id, selectedRoles)"
+					       (change)="onCheckRole(role, $event)"/>
+				</div>
+			</td>
+			<td>
+				{{role.name}}<br>
+				{{role.id}}
+			</td>
+		</tr>
+	</tbody>
+</table>
