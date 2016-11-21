@@ -1,4 +1,4 @@
-import { ElementRef, Component, Input, Output, AfterViewInit EventEmitter } from "@angular/core";
+import { ElementRef, Component, Input, Output, AfterViewInit, EventEmitter } from "@angular/core";
 
 import * as App from "carbonldp/App";
 import * as PersistedRole from "carbonldp/Auth/PersistedRole";
@@ -43,17 +43,16 @@ export class RolesChooserComponent implements AfterViewInit {
 		return list.findIndex( ( persistedRole:PersistedRole.Class ) => { return role === persistedRole.id } ) !== - 1;
 	}
 
-	private selectRole( role:PersistedRole.Class, evt:Event ) {
+	private onClickRole( role:PersistedRole.Class, evt:Event ):void {
 		evt.stopPropagation();
-		let idx:number = this.selectedRoles.findIndex( ( persistedRole:PersistedRole.Class ) => { return role.id === persistedRole.id } );
-		if( idx === - 1 )
-			this.selectedRoles.push( role );
-		else
-			this.selectedRoles.splice( idx, 1 );
-		this.onChangeSelection.emit( this.selectedRoles );
+		this.selectRole( role );
 	}
 
-	private onCheckRole( role:PersistedRole.Class, evt:Event ) {
+	private onCheckRole( role:PersistedRole.Class, evt:Event ):void {
+		this.selectRole( role );
+	}
+
+	private selectRole( role:PersistedRole.Class ):void {
 		let idx:number = this.selectedRoles.findIndex( ( persistedRole:PersistedRole.Class ) => { return role.id === persistedRole.id } );
 		if( idx === - 1 )
 			this.selectedRoles.push( role );
