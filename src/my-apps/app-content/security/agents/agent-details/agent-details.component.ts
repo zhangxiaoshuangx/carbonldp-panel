@@ -24,8 +24,8 @@ export class AgentDetailsComponent implements OnChanges {
 	private $element:JQuery;
 
 	private Modes:Modes = Modes;
-	// private availableRoles:PersistedRole.Class[] = [];
 	private agentRoles:PersistedRole.Class[] = [];
+	private availableRoles:string[] = [];
 	private agentsService:AgentsService;
 	private rolesService:RolesService;
 	private mode:string = Modes.EDITING;
@@ -47,6 +47,11 @@ export class AgentDetailsComponent implements OnChanges {
 	}
 
 	ngAfterViewInit():void {
+		this.getRoles( this.agent ).then( ( roles:PersistedRole.Class[] ) => {
+			roles.forEach( ( role:PersistedRole.Class ) => {
+				this.availableRoles.push( role.id );
+			} );
+		} );
 	}
 
 	ngOnChanges( changes:SimpleChanges ):void {
@@ -63,33 +68,32 @@ export class AgentDetailsComponent implements OnChanges {
 		this.agentRoles = [];
 		this.getRoles( this.agent ).then( ( roles:PersistedRole.Class[] ) => {
 			roles.forEach( ( role:PersistedRole.Class ) => {
-				this.agentRoles.push( role );
 				this.agentFormModel.roles.push( role.id );
 			} );
+			this.agentRoles = roles;
 		} );
 	}
 
 	private getRoles():Promise<PersistedRole.Class[]>;
 	private getRoles( agent?:PersistedAgent.Class ):Promise<PersistedRole.Class[]>;
 	private getRoles( agent?:any ):Promise<PersistedRole.Class[]> {
-		if( typeof agent !== "undefined" ) {
-			return this.rolesService.getAll( this.appContext ).then( ( appRoles:PersistedRole.Class[] ) => {
-				return appRoles.filter( ( role:any ) => {
-					return role.agents.findIndex( ( listedAgent:Agent.Class ) => {return listedAgent.id === agent.id} ) !== - 1;
-				} );
+		if( typeof agent === "undefined" ) return this.rolesService.getAll( this.appContext );
+		return this.rolesService.getAll( this.appContext ).then( ( appRoles:PersistedRole.Class[] ) => {
+			return appRoles.filter( ( role:any ) => {
+				if( typeof role.agents == "undefined" ) return [];
+				return role.agents.findIndex( ( listedAgent:Agent.Class ) => {return listedAgent.id === agent.id} ) !== - 1;
 			} );
-		}
-		return this.rolesService.getAll( this.appContext );
+		} );
 	}
 
 	private changeMode( mode:string ) {
 		this.mode = mode;
 	}
 
-	private changeRoles( roles:PersistedRole.Class[] ):void {
+	private changeRoles( selectedRoles:PersistedRole.Class[] ):void {
 		this.agentFormModel.roles = [];
-		roles.forEach( ( role:PersistedRole.Class ) => {
-			this.agentFormModel.roles.push( role.id );
+		selectedRoles.forEach( ( selectedRole:PersistedRole.Class ) => {
+			this.agentFormModel.roles.push( selectedRole.id );
 		} );
 	}
 
@@ -122,16 +126,50 @@ export class AgentDetailsComponent implements OnChanges {
 		// } );
 	}
 
-	private editAgent( agent:PersistedAgent.Class, agentData:AgentFormModel ) {
+	private editAgent( agent:PersistedAgent.Class, agentData:AgentFormModel ):void {
 		agent.email = agentData.email;
 		agent.name = agentData.name;
 		this.agentsService.saveAndRefreshAgent( this.appContext, agent ).then( ( [updatedAgent, [saveResponse, refreshResponse]]:[PersistedAgent.Class, [HTTP.Response.Class,HTTP.Response.Class]] ) => {
-			console.log( updatedAgent );
-			console.log( saveResponse );
-			console.log( refreshResponse );
+			return this.editAgentRoles( agent, agentData.roles );
+		} ).then( () => {
+			console.log( "Roles edited successfully!" );
 		} ).catch( ( error ) => {
 			console.error( error );
 		} );
+	}
+
+	private editAgentRoles( agent:PersistedAgent.Class, selectedRoles:string[] ):void {
+		let removedRoles:string[] = this.getRemovedRoles( selectedRoles ),
+			promises:Promise<any>[] = [];
+
+		selectedRoles.forEach( ( roleID:string, idx:number, roles:string[] ) => {
+			promises.push( this.registerAgentToRole( agent.id, roleID ) )
+		} );
+		removedRoles.forEach( ( roleID:string, idx:number, roles:string[] ) => {
+			promises.push( this.removeAgentFromRole( agent.id, roleID ) )
+		} );
+
+		Promise.all( promises ).then( ( values ) => {
+			console.log( values );
+		} );
+	}
+
+	private getRemovedRoles( selectedRoles:string[] ):string[] {
+		return this.agentRoles.filter( ( agentRole:PersistedRole.Class ) => {
+			return ! selectedRoles.some( ( selectedRole:string ) => {
+				return selectedRole === agentRole.id;
+			} );
+		} ).map( ( removedRole:PersistedRole.Class ) => {
+			return removedRole.id
+		} );
+	}
+
+	private registerAgentToRole( agentID:string, roleID:string ):Promise<HTTP.Response.Class> {
+		return this.rolesService.registerAgent( this.appContext, agentID, roleID );
+	}
+
+	private removeAgentFromRole( agentID:string, roleID:string ):Promise<HTTP.Response.Class> {
+		return this.rolesService.removeAgent( this.appContext, agentID, roleID );
 	}
 }
 
