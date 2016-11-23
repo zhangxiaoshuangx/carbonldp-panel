@@ -35,6 +35,8 @@ export class RolesChooserComponent implements AfterViewInit {
 	}
 
 	@Input() appContext:App.Context;
+	@Input() bordered:boolean = true;
+
 	@Output() onChangeSelection:EventEmitter<PersistedRole.Class[]> = new EventEmitter<PersistedRole.Class[]>();
 
 	constructor( element:ElementRef, rolesService:RolesService ) {
