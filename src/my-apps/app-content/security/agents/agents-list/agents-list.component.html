@@ -1,3 +1,11 @@
+<div class="ui equal width grid">
+	<div class="column">
+		<button class="ui icon basic inverted button" title="Refresh my apps"
+		        (click)="refreshAgents()">
+			<i class="refresh icon" [ngClass]="{loading:loading}"></i>
+		</button>
+	</div>
+</div>
 <div class="ui basic segment" [ngClass]="{loading:loading}">
 	<table class="ui selectable sortable celled small very compact table">
 		<thead>

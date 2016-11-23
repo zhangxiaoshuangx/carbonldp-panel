@@ -62,6 +62,10 @@ export class AgentsListComponent {
 		return URI.Util.getSlug( slug );
 	}
 
+	private refreshAgents():void {
+		this.loadAgents();
+	}
+
 	private closeDetails():void {
 		this.inspectingAgent = null;
 	}
