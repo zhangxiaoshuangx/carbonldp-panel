@@ -28,8 +28,8 @@ export class AgentDetailsComponent implements OnChanges {
 	private availableRoles:string[] = [];
 	private agentsService:AgentsService;
 	private rolesService:RolesService;
-	private mode:string = Modes.EDIT;
 
+	@Input() mode:string = Modes.READ;
 	@Input() agent:PersistedAgent.Class;
 	@Input() appContext:App.Context;
 

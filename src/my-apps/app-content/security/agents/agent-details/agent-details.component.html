@@ -85,6 +85,10 @@
 	<button class="ui mini basic right floated button"
 	        [ngClass]="{ 'red': !agentForm.valid, 'green': agentForm.valid  }"
 	        (click)="onSubmit(agentForm.value, $event)"
-	        [disabled]="!agentForm.valid">Create
+	        [disabled]="!agentForm.valid"
+	        [ngSwitch]="mode">
+		<span *ngSwitchCase="Modes.CREATE">Create</span>
+		<span *ngSwitchCase="Modes.EDIT">Save</span>
+		<span *ngSwitchDefault>Save</span>
 	</button>
 </div>
