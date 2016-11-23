@@ -21,7 +21,19 @@ export class RolesChooserComponent implements AfterViewInit {
 	private rolesService:RolesService;
 	private availableRoles:PersistedRole.Class[] = [];
 
-	@Input() selectedRoles:PersistedRole.Class[] = [];
+	private _selectedRoles:PersistedRole.Class[] = [];
+	@Input() set selectedRoles( value:PersistedRole.Class[] ) {
+		let selectedRoles:PersistedRole.Class[] = [];
+		value.forEach( ( selectedRole:PersistedRole.Class ) => {
+			selectedRoles.push( selectedRole );
+		} );
+		this._selectedRoles = selectedRoles;
+	}
+
+	get selectedRoles():PersistedRole.Class[] {
+		return this._selectedRoles;
+	}
+
 	@Input() appContext:App.Context;
 	@Output() onChangeSelection:EventEmitter<PersistedRole.Class[]> = new EventEmitter<PersistedRole.Class[]>();
 
