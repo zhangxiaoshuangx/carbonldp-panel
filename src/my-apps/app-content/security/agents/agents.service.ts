@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core";
 
 import Carbon from "carbonldp/Carbon";
 import * as App from "carbonldp/App";
+import * as Agent from "carbonldp/Auth/Agent";
+import * as Agents from "carbonldp/Auth/Agents";
 import * as PersistedAgent from "carbonldp/Auth/PersistedAgent";
 import * as HTTP from "carbonldp/HTTP";
 import * as Utils from "carbonldp/Utils";
@@ -34,6 +36,12 @@ export class AgentsService {
 
 	public saveAndRefreshAgent( appContext:App.Context, agent:PersistedAgent.Class ):Promise<[PersistedAgent.Class, [HTTP.Response.Class,HTTP.Response.Class]]> {
 		return agent.saveAndRefresh();
+	}
+
+	public createAgent( appContext:App.Context, agent:Agent.Class, slug?:string ):Promise<[PersistedAgent.Class, [HTTP.Response.Class,HTTP.Response.Class]]> {
+		class MockedAgents extends Agents.Class {}
+		let agents:Agents.Class = new MockedAgents( appContext );
+		return agents.register( agent, slug );
 	}
 
 }
