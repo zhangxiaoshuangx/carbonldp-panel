@@ -41,7 +41,6 @@ export class AgentsListComponent {
 			agents = agents.filter( ( agent:PersistedAgent.Class ) => { return agent.id.indexOf( "/agents/me/" ) === - 1 } );
 			this.loading = false;
 			this.agents = agents;
-			this.inspectingAgent = this.agents[ 0 ];
 		} );
 	}
 
@@ -61,6 +60,10 @@ export class AgentsListComponent {
 
 	private getSlug( slug:string ):string {
 		return URI.Util.getSlug( slug );
+	}
+
+	private closeDetails():void {
+		this.inspectingAgent = null;
 	}
 }
 

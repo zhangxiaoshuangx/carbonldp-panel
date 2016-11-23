@@ -6,8 +6,15 @@
 	}
 
 	table.roles {
+		margin-top: 0;
 		tr.role {
 			line-height: 1.5em;
+		}
+	}
+
+	.title.segment {
+		.ui.header {
+			margin-top: 0;
 		}
 	}
 }

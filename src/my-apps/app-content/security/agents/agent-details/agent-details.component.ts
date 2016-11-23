@@ -1,4 +1,4 @@
-import { ElementRef, Component, Input, AfterViewInit, OnChanges, SimpleChanges, SimpleChange } from "@angular/core";
+import { ElementRef, Component, Input, Output, EventEmitter, AfterViewInit, OnChanges, SimpleChanges, SimpleChange } from "@angular/core";
 
 import * as App from "carbonldp/App";
 import * as Agent from "carbonldp/Auth/Agent";
@@ -32,6 +32,8 @@ export class AgentDetailsComponent implements OnChanges {
 	@Input() mode:string = Modes.READ;
 	@Input() agent:PersistedAgent.Class;
 	@Input() appContext:App.Context;
+
+	@Output() onClose:EventEmitter<boolean> = new EventEmitter<boolean>();
 
 	private agentFormModel:AgentFormModel = {
 		name: "",
@@ -170,6 +172,10 @@ export class AgentDetailsComponent implements OnChanges {
 
 	private removeAgentFromRole( agentID:string, roleID:string ):Promise<HTTP.Response.Class> {
 		return this.rolesService.removeAgent( this.appContext, agentID, roleID );
+	}
+
+	private close():void {
+		this.onClose.emit( true );
 	}
 }
 

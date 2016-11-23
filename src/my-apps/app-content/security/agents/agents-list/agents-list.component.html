@@ -35,4 +35,8 @@
 		</tbody>
 	</table>
 </div>
-<cp-agent-details [agent]="inspectingAgent" [appContext]="appContext" *ngIf="!!inspectingAgent"></cp-agent-details>
+<cp-agent-details *ngIf="!!inspectingAgent"
+                  [agent]="inspectingAgent"
+                  [appContext]="appContext"
+                  (onClose)="closeDetails()">
+</cp-agent-details>
