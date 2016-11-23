@@ -5,9 +5,11 @@ import * as Agent from "carbonldp/Auth/Agent";
 import * as PersistedRole from "carbonldp/Auth/PersistedRole";
 import * as PersistedAgent from "carbonldp/Auth/PersistedAgent";
 import * as HTTP from "carbonldp/HTTP";
+import * as RDF from "carbonldp/RDF";
 
 import { AgentsService } from "carbonldp-panel/my-apps/app-content/security/agents/agents.service";
 import { RolesService } from "carbonldp-panel/my-apps/app-content/security/roles/roles.service";
+import { DocumentExplorerLibrary } from "carbonldp-panel/document-explorer/document-explorer-library";
 
 import template from "./agent-details.component.html!";
 import style from "./agent-details.component.css!text";
@@ -36,6 +38,7 @@ export class AgentDetailsComponent implements OnChanges {
 	@Output() onClose:EventEmitter<boolean> = new EventEmitter<boolean>();
 
 	private agentFormModel:AgentFormModel = {
+		slug: "",
 		name: "",
 		email: "",
 		roles: [],
@@ -66,6 +69,9 @@ export class AgentDetailsComponent implements OnChanges {
 
 	private changeAgent( newAgent:PersistedAgent.Class ):void {
 		this.agent = newAgent;
+		let agentSlug:string = RDF.URI.Util.getSlug( this.agent.id );
+		
+		this.agentFormModel.slug = this.getSanitizedSlug( agentSlug );
 		this.agentFormModel.name = this.agent.name;
 		this.agentFormModel.email = this.agent.email;
 		this.agentFormModel.roles = [];
@@ -144,6 +150,14 @@ export class AgentDetailsComponent implements OnChanges {
 		} );
 	}
 
+	private getSanitizedSlug( slug:string ):string {
+		return DocumentExplorerLibrary.getSanitizedSlug( slug );
+	}
+
+	private slugLostFocus( evt:any ):void {
+		evt.target.value = DocumentExplorerLibrary.getAppendedSlashSlug( evt.target.value );
+	}
+
 	private editAgentRoles( agent:PersistedAgent.Class, selectedRoles:string[] ):void {
 		let removedRoles:string[] = this.getRemovedRoles( selectedRoles ),
 			promises:Promise<any>[] = [];
@@ -190,6 +204,7 @@ export class Modes {
 }
 
 export interface AgentFormModel {
+	slug:string
 	name:string,
 	email:string,
 	roles:string[],

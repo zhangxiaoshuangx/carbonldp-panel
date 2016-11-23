@@ -31,7 +31,21 @@
 						       placeholder="E.g: Agent Name"
 						       #name="cpValidation" cpValidation required
 						       [(ngModel)]="agentFormModel.name"
-						       [disabled]="mode === Modes.READ">
+						       [disabled]="mode === Modes.READ"
+						       (input)="mode === Modes.CREATE? agentFormModel.slug = getSanitizedSlug($event.srcElement.value) : agentFormModel.slug = agentFormModel.slug">
+					</div>
+				</div>
+				<div class="field"
+				     [ngClass]="{error: !slug.valid}"
+				     *ngIf="mode === Modes.CREATE">
+					<label>Slug:</label>
+					<div class="ui fluid input">
+						<input type="text" name="slug"
+						       placeholder="E.g: my-agent-slug/"
+						       #slug="cpValidation" cpValidation cp-slug
+						       [ngModel]="agentFormModel.slug"
+						       (ngModelChange)="agentFormModel.slug = getSanitizedSlug($event)"
+						       (blur)="slugLostFocus($event)">
 					</div>
 				</div>
 				<div class="field"
@@ -46,6 +60,7 @@
 						       [disabled]="mode === Modes.READ">
 					</div>
 				</div>
+				<div class="ui divider" *ngIf="mode !== Modes.READ"></div>
 				<div class="field"
 				     [ngClass]="{ error: !password.valid, hidden: mode !== Modes.CREATE }">
 					<label>Password:</label>
@@ -114,7 +129,7 @@
 <div class="ui attached segment">
 	{{agentFormModel | json}}
 </div>
-<div class="ui bottom attached segment" *ngIf="mode === Modes.EDIT">
+<div class="ui bottom attached segment" *ngIf="mode !== Modes.READ">
 	<button class="ui mini basic button" title="Cancel" (click)="cancelForm()">Cancel</button>
 	<button class="ui mini basic right floated button"
 	        [ngClass]="{ 'red': !agentForm.valid, 'green': agentForm.valid  }"
