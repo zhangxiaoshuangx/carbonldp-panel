@@ -49,14 +49,14 @@
 			<div class="column">
 				<div class="field">
 					<label>Roles:</label>
-					<div class="ui fluid input">
+					<div class="ui fluid roles input">
 						<select multiple name="roles"
 						        class="roles hidden"
 						        [(ngModel)]="agentFormModel.roles">
 							<option value="">Please Select</option>
 							<option *ngFor="let role of agentFormModel.roles" [ngValue]="country">{{role}}</option>
 						</select>
-						<table class="ui very compact small celled striped roles table" *ngIf="mode === Modes.READ">
+						<table class="ui very compact very basic small celled striped roles table" *ngIf="mode === Modes.READ">
 							<tbody>
 								<tr class="bottom aligned role" *ngFor="let role of agentRoles; let i = index;">
 									<td>
@@ -74,6 +74,7 @@
 						<cp-roles-chooser *ngIf="mode === Modes.EDIT"
 						                  [appContext]="appContext"
 						                  [selectedRoles]="agentRoles"
+						                  [displayTable]="false"
 						                  (onChangeSelection)="changeRoles($event)"></cp-roles-chooser>
 					</div>
 				</div>
