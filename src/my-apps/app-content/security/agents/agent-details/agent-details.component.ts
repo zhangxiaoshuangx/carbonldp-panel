@@ -28,7 +28,7 @@ export class AgentDetailsComponent implements OnChanges {
 	private availableRoles:string[] = [];
 	private agentsService:AgentsService;
 	private rolesService:RolesService;
-	private mode:string = Modes.EDITING;
+	private mode:string = Modes.EDIT;
 
 	@Input() agent:PersistedAgent.Class;
 	@Input() appContext:App.Context;
@@ -99,14 +99,14 @@ export class AgentDetailsComponent implements OnChanges {
 
 	private cancelForm():void {
 		this.changeAgent( this.agent );
-		this.mode = Modes.READING;
+		this.mode = Modes.READ;
 	}
 
 	private onSubmit( data:AgentFormModel, $event:any ):void {
 		$event.preventDefault();
 		console.log( data );
 		switch( this.mode ) {
-			case Modes.EDITING:
+			case Modes.EDIT:
 				this.editAgent( <PersistedAgent.Class>this.agent, data );
 				break;
 		}
@@ -174,9 +174,9 @@ export class AgentDetailsComponent implements OnChanges {
 }
 
 export class Modes {
-	static READING:string = "READING";
-	static EDITING:string = "EDITING";
-	static CREATING:string = "CREATING";
+	static READ:string = "READ";
+	static EDIT:string = "EDIT";
+	static CREATE:string = "CREATE";
 }
 
 export interface AgentFormModel {

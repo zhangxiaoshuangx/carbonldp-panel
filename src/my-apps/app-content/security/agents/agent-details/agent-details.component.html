@@ -5,13 +5,13 @@
 	</h3>
 </div>
 <div class="ui attached segment">
-	<button *ngIf="mode === Modes.READING"
+	<button *ngIf="mode === Modes.READ"
 	        class="ui mini basic icon button"
-	        (click)="changeMode(Modes.EDITING)">
+	        (click)="changeMode(Modes.EDIT)">
 		<i class="edit icon"></i>
 		Edit
 	</button>
-	<div class="ui basic label" *ngIf="mode === Modes.EDITING">
+	<div class="ui basic label" *ngIf="mode === Modes.EDIT">
 		Editing...
 	</div>
 </div>
@@ -27,7 +27,7 @@
 						       placeholder="E.g: Agent Name"
 						       #name="cpValidation" cpValidation
 						       [(ngModel)]="agentFormModel.name"
-						       [disabled]="mode === Modes.READING">
+						       [disabled]="mode === Modes.READ">
 					</div>
 				</div>
 				<div class="field"
@@ -38,7 +38,7 @@
 						       placeholder="E.g: agent@example.com"
 						       #email="cpValidation" cpValidation
 						       [(ngModel)]="agentFormModel.email"
-						       [disabled]="mode === Modes.READING">
+						       [disabled]="mode === Modes.READ">
 					</div>
 				</div>
 			</div>
@@ -52,7 +52,7 @@
 							<option value="">Please Select</option>
 							<option *ngFor="let role of agentFormModel.roles" [ngValue]="country">{{role}}</option>
 						</select>
-						<table class="ui very compact small celled striped roles table" *ngIf="mode === Modes.READING">
+						<table class="ui very compact small celled striped roles table" *ngIf="mode === Modes.READ">
 							<tbody>
 								<tr class="bottom aligned role" *ngFor="let role of agentRoles; let i = index;">
 									<td>
@@ -67,7 +67,7 @@
 								</tr>
 							</tbody>
 						</table>
-						<cp-roles-chooser *ngIf="mode === Modes.EDITING"
+						<cp-roles-chooser *ngIf="mode === Modes.EDIT"
 						                  [appContext]="appContext"
 						                  [selectedRoles]="agentRoles"
 						                  (onChangeSelection)="changeRoles($event)"></cp-roles-chooser>
@@ -80,7 +80,7 @@
 <div class="ui attached segment">
 	{{agentFormModel | json}}
 </div>
-<div class="ui bottom attached segment" *ngIf="mode === Modes.EDITING">
+<div class="ui bottom attached segment" *ngIf="mode === Modes.EDIT">
 	<button class="ui mini basic button" title="Cancel" (click)="cancelForm()">Cancel</button>
 	<button class="ui mini basic right floated button"
 	        [ngClass]="{ 'red': !agentForm.valid, 'green': agentForm.valid  }"
