@@ -8,7 +8,7 @@
 		<span class="sub header">{{agent.id}}</span>
 	</h3>
 </div>
-<div class="ui attached segment">
+<div class="ui attached segment" *ngIf="mode !== Modes.CREATE">
 	<button *ngIf="mode === Modes.READ"
 	        class="ui mini basic icon button"
 	        (click)="changeMode(Modes.EDIT)">
@@ -29,7 +29,7 @@
 					<div class="ui fluid input">
 						<input type="text" name="name"
 						       placeholder="E.g: Agent Name"
-						       #name="cpValidation" cpValidation
+						       #name="cpValidation" cpValidation required
 						       [(ngModel)]="agentFormModel.name"
 						       [disabled]="mode === Modes.READ">
 					</div>
@@ -37,12 +37,41 @@
 				<div class="field"
 				     [ngClass]="{error: !email.valid}">
 					<label>Email:</label>
-					<div class="ui fluid input">
+					<div class="ui left icon fluid input">
+						<i class="mail icon"></i>
 						<input type="text" name="email"
 						       placeholder="E.g: agent@example.com"
-						       #email="cpValidation" cpValidation
+						       #email="cpValidation" cpValidation required
 						       [(ngModel)]="agentFormModel.email"
 						       [disabled]="mode === Modes.READ">
+					</div>
+				</div>
+				<div class="field"
+				     [ngClass]="{ error: !password.valid, hidden: mode !== Modes.CREATE }">
+					<label>Password:</label>
+					<div class="ui left icon input">
+						<i class="lock icon"></i>
+						<input type="password" name="password"
+						       class="field password"
+						       placeholder="Password"
+						       #password="cpValidation" cpValidation required
+						       [(ngModel)]="agentFormModel.password"
+						       [disabled]="mode === Modes.READ">
+					</div>
+				</div>
+				<div class="field"
+				     [ngClass]="{ error: !repeatPassword.valid, hidden: mode !== Modes.CREATE }">
+					<label>Password Confirmation:</label>
+					<div class="ui left icon input">
+						<i class="lock icon"></i>
+						<input type="password" name="repeatPassword"
+						       class="field repeatPassword"
+						       placeholder="Repeat password"
+						       #repeatPassword="cpValidation" cpValidation required cp-match
+						       [(ngModel)]="agentFormModel.repeatPassword"
+						       [matchTo]="agentFormModel.password"
+						       [control]="repeatPasswordControl"
+						       #repeatPasswordControl="ngModel">
 					</div>
 				</div>
 			</div>
@@ -74,7 +103,7 @@
 						<cp-roles-chooser *ngIf="mode === Modes.EDIT"
 						                  [appContext]="appContext"
 						                  [selectedRoles]="agentRoles"
-						                  [displayTable]="false"
+						                  [bordered]="false"
 						                  (onChangeSelection)="changeRoles($event)"></cp-roles-chooser>
 					</div>
 				</div>

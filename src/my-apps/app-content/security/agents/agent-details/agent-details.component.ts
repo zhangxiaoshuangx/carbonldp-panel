@@ -38,7 +38,9 @@ export class AgentDetailsComponent implements OnChanges {
 	private agentFormModel:AgentFormModel = {
 		name: "",
 		email: "",
-		roles: []
+		roles: [],
+		password: "",
+		repeatPassword: "",
 	};
 
 	constructor( element:ElementRef, agentsService:AgentsService, rolesService:RolesService ) {
@@ -67,6 +69,8 @@ export class AgentDetailsComponent implements OnChanges {
 		this.agentFormModel.name = this.agent.name;
 		this.agentFormModel.email = this.agent.email;
 		this.agentFormModel.roles = [];
+		this.agentFormModel.password = "";
+		this.agentFormModel.repeatPassword = "";
 		this.agentRoles = [];
 		this.getRoles( this.agent ).then( ( roles:PersistedRole.Class[] ) => {
 			roles.forEach( ( role:PersistedRole.Class ) => {
@@ -188,7 +192,9 @@ export class Modes {
 export interface AgentFormModel {
 	name:string,
 	email:string,
-	roles:string[]
+	roles:string[],
+	password:string,
+	repeatPassword:string,
 }
 
 export default AgentDetailsComponent;
