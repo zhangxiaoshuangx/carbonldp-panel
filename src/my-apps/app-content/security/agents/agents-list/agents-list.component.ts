@@ -1,10 +1,12 @@
 import { Component, Input } from "@angular/core";
 
 import * as App from "carbonldp/App";
+import * as Agent from "carbonldp/Auth/Agent";
 import * as PersistedAgent from "carbonldp/Auth/PersistedAgent";
 import * as URI from "carbonldp/RDF/URI";
 
 import { AgentsService } from "../agents.service";
+import { Modes as AgentDetailsModes } from "../agent-details/agent-details.component";
 
 import template from "./agents-list.component.html!";
 import style from "./agents-list.component.css!text";
@@ -22,6 +24,8 @@ export class AgentsListComponent {
 	private agents:PersistedAgent.Class[] = [];
 	private loading:boolean = false;
 	private inspectingAgent:PersistedAgent.Class;
+	private mode:string = AgentDetailsModes.READ;
+	private AgentDetailsModes:AgentDetailsModes = AgentDetailsModes;
 
 
 	@Input() appContext:App.Context;
@@ -68,6 +72,11 @@ export class AgentsListComponent {
 
 	private closeDetails():void {
 		this.inspectingAgent = null;
+		this.mode = AgentDetailsModes.READ;
+	}
+
+	private createAgent():void {
+		this.mode = AgentDetailsModes.CREATE;
 	}
 }
 

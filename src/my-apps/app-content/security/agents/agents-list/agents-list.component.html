@@ -4,6 +4,10 @@
 		        (click)="refreshAgents()">
 			<i class="refresh icon" [ngClass]="{loading:loading}"></i>
 		</button>
+		<button class="ui right labeled icon button" title="Create a new Agent"
+		        (click)="createAgent()">
+			Create Agent <i class="plus icon"></i>
+		</button>
 	</div>
 </div>
 <div class="ui basic segment" [ngClass]="{loading:loading}">
@@ -43,8 +47,9 @@
 		</tbody>
 	</table>
 </div>
-<cp-agent-details *ngIf="!!inspectingAgent"
+<cp-agent-details *ngIf="!!inspectingAgent || mode === AgentDetailsModes.CREATE"
                   [agent]="inspectingAgent"
+                  [mode]="mode"
                   [appContext]="appContext"
                   (onClose)="closeDetails()">
 </cp-agent-details>
