@@ -28,6 +28,7 @@ export class AgentDetailsComponent implements OnChanges {
 	private Modes:Modes = Modes;
 	private agentRoles:PersistedRole.Class[] = [];
 	private availableRoles:string[] = [];
+
 	private agentsService:AgentsService;
 	private rolesService:RolesService;
 
@@ -63,21 +64,26 @@ export class AgentDetailsComponent implements OnChanges {
 
 	ngOnChanges( changes:SimpleChanges ):void {
 		if( ! ! changes[ "agent" ] && changes[ "agent" ].currentValue !== changes[ "agent" ].previousValue ) {
-			this.changeAgent( changes[ "agent" ].currentValue );
+			if( this.mode === Modes.CREATE && ! this.agent ) {
+				this.agent = <Agent.Class & PersistedAgent.Class>Agent.Factory.create( "New Agent Name", "new-agent@mail.com", "password" );
+			}
+			this.changeAgent( this.agent );
 		}
 	}
 
 	private changeAgent( newAgent:PersistedAgent.Class ):void {
 		this.agent = newAgent;
 		let agentSlug:string = RDF.URI.Util.getSlug( this.agent.id );
-		
+		if( this.mode === Modes.CREATE ) {
+			agentSlug = "new-agent-name";
+		}
+
 		this.agentFormModel.slug = this.getSanitizedSlug( agentSlug );
 		this.agentFormModel.name = this.agent.name;
 		this.agentFormModel.email = this.agent.email;
 		this.agentFormModel.roles = [];
-		this.agentFormModel.password = "";
-		this.agentFormModel.repeatPassword = "";
-		this.agentRoles = [];
+		this.agentFormModel.password = this.mode === Modes.CREATE ? "" : this.agent.password;
+		this.agentFormModel.repeatPassword = this.mode === Modes.CREATE ? : this.agent.password;
 		this.getRoles( this.agent ).then( ( roles:PersistedRole.Class[] ) => {
 			roles.forEach( ( role:PersistedRole.Class ) => {
 				this.agentFormModel.roles.push( role.id );
@@ -89,11 +95,10 @@ export class AgentDetailsComponent implements OnChanges {
 	private getRoles():Promise<PersistedRole.Class[]>;
 	private getRoles( agent?:PersistedAgent.Class ):Promise<PersistedRole.Class[]>;
 	private getRoles( agent?:any ):Promise<PersistedRole.Class[]> {
-		if( typeof agent === "undefined" ) return this.rolesService.getAll( this.appContext );
+		if( ! agent ) return this.rolesService.getAll( this.appContext );
 		return this.rolesService.getAll( this.appContext ).then( ( appRoles:PersistedRole.Class[] ) => {
 			return appRoles.filter( ( role:any ) => {
-				if( typeof role.agents == "undefined" ) return [];
-				return role.agents.findIndex( ( listedAgent:Agent.Class ) => {return listedAgent.id === agent.id} ) !== - 1;
+				return ! role.agents ? false : role.agents.some( ( listedAgent:Agent.Class ) => {return listedAgent.id === agent.id } );
 			} );
 		} );
 	}
@@ -121,6 +126,9 @@ export class AgentDetailsComponent implements OnChanges {
 			case Modes.EDIT:
 				this.editAgent( <PersistedAgent.Class>this.agent, data );
 				break;
+			case Modes.CREATE:
+				this.createAgent( this.agent, data );
+				break;
 		}
 		// let childSlug:string = null;
 		// if( ! ! data.slug )
@@ -141,10 +149,24 @@ export class AgentDetailsComponent implements OnChanges {
 	private editAgent( agent:PersistedAgent.Class, agentData:AgentFormModel ):void {
 		agent.email = agentData.email;
 		agent.name = agentData.name;
+		agent.password = agentData.password;
 		this.agentsService.saveAndRefreshAgent( this.appContext, agent ).then( ( [updatedAgent, [saveResponse, refreshResponse]]:[PersistedAgent.Class, [HTTP.Response.Class,HTTP.Response.Class]] ) => {
 			return this.editAgentRoles( agent, agentData.roles );
 		} ).then( () => {
-			console.log( "Roles edited successfully!" );
+			console.log( "Modified Agent: Roles edited successfully!" );
+		} ).catch( ( error ) => {
+			console.error( error );
+		} );
+	}
+
+	private createAgent( agent:PersistedAgent.Class, agentData:AgentFormModel ):void {
+		agent.email = agentData.email;
+		agent.name = agentData.name;
+		agent.password = agentData.password;
+		this.agentsService.createAgent( this.appContext, <any>agent, agentData.slug ).then( ( [updatedAgent, [saveResponse, refreshResponse]]:[PersistedAgent.Class, [HTTP.Response.Class,HTTP.Response.Class]] ) => {
+			return this.editAgentRoles( agent, agentData.roles );
+		} ).then( () => {
+			console.log( "Created Agent: Roles edited successfully!" );
 		} ).catch( ( error ) => {
 			console.error( error );
 		} );

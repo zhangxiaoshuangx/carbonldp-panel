@@ -39,8 +39,7 @@ export class AgentsService {
 	}
 
 	public createAgent( appContext:App.Context, agent:Agent.Class, slug?:string ):Promise<[PersistedAgent.Class, [HTTP.Response.Class,HTTP.Response.Class]]> {
-		class MockedAgents extends Agents.Class {}
-		let agents:Agents.Class = new MockedAgents( appContext );
+		let agents:Agents.Class = appContext.auth.agents;
 		return agents.register( agent, slug );
 	}
 

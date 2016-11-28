@@ -32,7 +32,8 @@
 						       #name="cpValidation" cpValidation required
 						       [(ngModel)]="agentFormModel.name"
 						       [disabled]="mode === Modes.READ"
-						       (input)="mode === Modes.CREATE? agentFormModel.slug = getSanitizedSlug($event.srcElement.value) : agentFormModel.slug = agentFormModel.slug">
+						       (input)="mode === Modes.CREATE? agentFormModel.slug = getSanitizedSlug($event.srcElement.value) : agentFormModel.slug = agentFormModel.slug"
+						       (blur)="agentFormModel.slug = getSanitizedSlug($event.srcElement.value)">
 					</div>
 				</div>
 				<div class="field"
@@ -44,6 +45,7 @@
 						       placeholder="E.g: my-agent-slug/"
 						       #slug="cpValidation" cpValidation cp-slug
 						       [ngModel]="agentFormModel.slug"
+						       [disabled]="mode === Modes.READ"
 						       (ngModelChange)="agentFormModel.slug = getSanitizedSlug($event)"
 						       (blur)="slugLostFocus($event)">
 					</div>
@@ -62,7 +64,7 @@
 				</div>
 				<div class="ui divider" *ngIf="mode !== Modes.READ"></div>
 				<div class="field"
-				     [ngClass]="{ error: !password.valid, hidden: mode !== Modes.CREATE }">
+				     [ngClass]="{ error: !password.valid }">
 					<label>Password:</label>
 					<div class="ui left icon input">
 						<i class="lock icon"></i>
@@ -75,7 +77,7 @@
 					</div>
 				</div>
 				<div class="field"
-				     [ngClass]="{ error: !repeatPassword.valid, hidden: mode !== Modes.CREATE }">
+				     [ngClass]="{ error: !repeatPassword.valid }">
 					<label>Password Confirmation:</label>
 					<div class="ui left icon input">
 						<i class="lock icon"></i>
@@ -86,7 +88,8 @@
 						       [(ngModel)]="agentFormModel.repeatPassword"
 						       [matchTo]="agentFormModel.password"
 						       [control]="repeatPasswordControl"
-						       #repeatPasswordControl="ngModel">
+						       #repeatPasswordControl="ngModel"
+						       [disabled]="mode === Modes.READ">
 					</div>
 				</div>
 			</div>
@@ -115,7 +118,7 @@
 								</tr>
 							</tbody>
 						</table>
-						<cp-roles-chooser *ngIf="mode === Modes.EDIT"
+						<cp-roles-chooser *ngIf="mode !== Modes.READ"
 						                  [appContext]="appContext"
 						                  [selectedRoles]="agentRoles"
 						                  [bordered]="false"
@@ -128,6 +131,11 @@
 </form>
 <div class="ui attached segment">
 	{{agentFormModel | json}}
+	<br>
+	Form:<br>
+	{{agentForm.errors | json}}<br>
+	{{agentForm.value | json}}<br>
+	{{agentForm.valid | json}}
 </div>
 <div class="ui bottom attached segment" *ngIf="mode !== Modes.READ">
 	<button class="ui mini basic button" title="Cancel" (click)="cancelForm()">Cancel</button>
