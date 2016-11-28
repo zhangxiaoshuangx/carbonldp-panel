@@ -45,6 +45,7 @@ export class AgentDetailsComponent implements OnChanges {
 		roles: [],
 		password: "",
 		repeatPassword: "",
+		enabled: false,
 	};
 
 	constructor( element:ElementRef, agentsService:AgentsService, rolesService:RolesService ) {
@@ -60,6 +61,7 @@ export class AgentDetailsComponent implements OnChanges {
 				this.availableRoles.push( role.id );
 			} );
 		} );
+		this.$element.find( ".enabled.checkbox" ).checkbox();
 	}
 
 	ngOnChanges( changes:SimpleChanges ):void {
@@ -83,7 +85,8 @@ export class AgentDetailsComponent implements OnChanges {
 		this.agentFormModel.email = this.agent.email;
 		this.agentFormModel.roles = [];
 		this.agentFormModel.password = this.mode === Modes.CREATE ? "" : this.agent.password;
-		this.agentFormModel.repeatPassword = this.mode === Modes.CREATE ? : this.agent.password;
+		this.agentFormModel.repeatPassword = this.mode === Modes.CREATE ? "" : this.agent.password;
+		this.agentFormModel.enabled = this.mode === Modes.CREATE ? true : this.agent.enabled;
 		this.getRoles( this.agent ).then( ( roles:PersistedRole.Class[] ) => {
 			roles.forEach( ( role:PersistedRole.Class ) => {
 				this.agentFormModel.roles.push( role.id );
@@ -116,7 +119,11 @@ export class AgentDetailsComponent implements OnChanges {
 
 	private cancelForm():void {
 		this.changeAgent( this.agent );
-		this.mode = Modes.READ;
+		if( this.mode === Modes.CREATE ) {
+			this.close();
+		} else {
+			this.mode = Modes.READ;
+		}
 	}
 
 	private onSubmit( data:AgentFormModel, $event:any ):void {
@@ -124,7 +131,7 @@ export class AgentDetailsComponent implements OnChanges {
 		console.log( data );
 		switch( this.mode ) {
 			case Modes.EDIT:
-				this.editAgent( <PersistedAgent.Class>this.agent, data );
+				this.editAgent( this.agent, data );
 				break;
 			case Modes.CREATE:
 				this.createAgent( this.agent, data );
@@ -150,6 +157,7 @@ export class AgentDetailsComponent implements OnChanges {
 		agent.email = agentData.email;
 		agent.name = agentData.name;
 		agent.password = agentData.password;
+		agent.enabled = agentData.enabled;
 		this.agentsService.saveAndRefreshAgent( this.appContext, agent ).then( ( [updatedAgent, [saveResponse, refreshResponse]]:[PersistedAgent.Class, [HTTP.Response.Class,HTTP.Response.Class]] ) => {
 			return this.editAgentRoles( agent, agentData.roles );
 		} ).then( () => {
@@ -163,6 +171,7 @@ export class AgentDetailsComponent implements OnChanges {
 		agent.email = agentData.email;
 		agent.name = agentData.name;
 		agent.password = agentData.password;
+		agent.enabled = agentData.enabled;
 		this.agentsService.createAgent( this.appContext, <any>agent, agentData.slug ).then( ( [updatedAgent, [saveResponse, refreshResponse]]:[PersistedAgent.Class, [HTTP.Response.Class,HTTP.Response.Class]] ) => {
 			return this.editAgentRoles( agent, agentData.roles );
 		} ).then( () => {
@@ -232,6 +241,7 @@ export interface AgentFormModel {
 	roles:string[],
 	password:string,
 	repeatPassword:string,
+	enabled:boolean,
 }
 
 export default AgentDetailsComponent;

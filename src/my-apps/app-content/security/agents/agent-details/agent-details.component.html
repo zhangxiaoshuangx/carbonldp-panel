@@ -125,6 +125,16 @@
 						                  (onChangeSelection)="changeRoles($event)"></cp-roles-chooser>
 					</div>
 				</div>
+				<div class="ui divider" *ngIf="mode !== Modes.READ"></div>
+				<div class="field">
+					<div class="ui enabled checkbox">
+						<input type="checkbox" name="enabled"
+						       #enabled="cpValidation" cpValidation required
+						       [(ngModel)]="agentFormModel.enabled"
+						       [disabled]="mode === Modes.READ">
+						<label>Active User</label>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -132,9 +142,7 @@
 <div class="ui attached segment">
 	{{agentFormModel | json}}
 	<br>
-	Form:<br>
-	{{agentForm.errors | json}}<br>
-	{{agentForm.value | json}}<br>
+	<br>
 	{{agentForm.valid | json}}
 </div>
 <div class="ui bottom attached segment" *ngIf="mode !== Modes.READ">
