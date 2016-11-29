@@ -190,6 +190,10 @@ export class AgentDetailsComponent implements OnChanges {
 
 		Promise.all( promises ).then( ( values ) => {
 			console.log( values );
+		} ).catch( ( error ) => {
+			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
+			this.errorMessage.title = "Agent Saved";
+			this.errorMessage.content = "The agent was saved but an error occurred while trying to persist its roles: " + this.errorMessage.content;
 		} );
 	}
 
