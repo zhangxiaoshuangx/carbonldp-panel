@@ -31,6 +31,7 @@ export class AgentDetailsComponent implements OnChanges {
 	private agentRoles:PersistedRole.Class[] = [];
 	private availableRoles:string[] = [];
 	private errorMessage:Message;
+	private displaySuccessMessage:boolean = false;
 
 	private agentsService:AgentsService;
 	private rolesService:RolesService;
@@ -149,7 +150,7 @@ export class AgentDetailsComponent implements OnChanges {
 		this.agentsService.saveAndRefreshAgent( this.appContext, agent ).then( ( [updatedAgent, [saveResponse, refreshResponse]]:[PersistedAgent.Class, [HTTP.Response.Class,HTTP.Response.Class]] ) => {
 			return this.editAgentRoles( agent, agentData.roles );
 		} ).then( () => {
-			console.log( "Modified Agent: Roles edited successfully!" );
+			this.displaySuccessMessage = true;
 		} ).catch( ( error ) => {
 			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
 		} );
@@ -163,7 +164,7 @@ export class AgentDetailsComponent implements OnChanges {
 		this.agentsService.createAgent( this.appContext, <any>agent, agentData.slug ).then( ( [updatedAgent, [saveResponse, refreshResponse]]:[PersistedAgent.Class, [HTTP.Response.Class,HTTP.Response.Class]] ) => {
 			return this.editAgentRoles( agent, agentData.roles );
 		} ).then( () => {
-			console.log( "Created Agent: Roles edited successfully!" );
+			this.displaySuccessMessage = true;
 		} ).catch( ( error ) => {
 			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
 		} );
@@ -222,6 +223,13 @@ export class AgentDetailsComponent implements OnChanges {
 	private closeError():void {
 		this.errorMessage = null;
 	}
+
+	private closeSuccessMessage( event:Event, messageDiv:HTMLElement ):void {
+		$( messageDiv ).transition( {
+			animation: "fade",
+			onComplete: () => { this.displaySuccessMessage = false; }
+		} );
+	}
 }
 
 export class Modes {
@@ -231,13 +239,13 @@ export class Modes {
 }
 
 export interface AgentFormModel {
-	slug:string
-	name:string,
-	email:string,
-	roles:string[],
-	password:string,
-	repeatPassword:string,
-	enabled:boolean,
+	slug:string;
+	name:string;
+	email:string;
+	roles:string[];
+	password:string;
+	repeatPassword:string;
+	enabled:boolean;
 }
 
 export default AgentDetailsComponent;

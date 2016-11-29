@@ -158,3 +158,12 @@
 		<span *ngSwitchDefault>Save</span>
 	</button>
 </div>
+<div class="ui success message transition" #message *ngIf="!!displaySuccessMessage">
+	<i class="close icon" (click)="closeSuccessMessage($event, message)"></i>
+	<div class="header">
+		Agent Saved
+	</div>
+	<p>
+		The agent was <span *ngIf="mode === Modes.CREATE">created</span> <span *ngIf="mode === Modes.EDIT">modified</span> successfully
+	</p>
+</div>
