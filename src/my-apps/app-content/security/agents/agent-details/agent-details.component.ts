@@ -10,6 +10,8 @@ import * as RDF from "carbonldp/RDF";
 import { AgentsService } from "carbonldp-panel/my-apps/app-content/security/agents/agents.service";
 import { RolesService } from "carbonldp-panel/my-apps/app-content/security/roles/roles.service";
 import { DocumentExplorerLibrary } from "carbonldp-panel/document-explorer/document-explorer-library";
+import { Message } from "carbonldp-panel/errors-area/error-message.component";
+import { ErrorMessageGenerator } from "carbonldp-panel/errors-area/error-message-generator";
 
 import template from "./agent-details.component.html!";
 import style from "./agent-details.component.css!text";
@@ -28,6 +30,7 @@ export class AgentDetailsComponent implements OnChanges {
 	private Modes:Modes = Modes;
 	private agentRoles:PersistedRole.Class[] = [];
 	private availableRoles:string[] = [];
+	private errorMessage:Message;
 
 	private agentsService:AgentsService;
 	private rolesService:RolesService;
@@ -128,7 +131,6 @@ export class AgentDetailsComponent implements OnChanges {
 
 	private onSubmit( data:AgentFormModel, $event:any ):void {
 		$event.preventDefault();
-		console.log( data );
 		switch( this.mode ) {
 			case Modes.EDIT:
 				this.editAgent( this.agent, data );
@@ -137,20 +139,6 @@ export class AgentDetailsComponent implements OnChanges {
 				this.createAgent( this.agent, data );
 				break;
 		}
-		// let childSlug:string = null;
-		// if( ! ! data.slug )
-		// 	childSlug = data.slug + ((data.slug.endsWith( "/" ) && data.slug.trim() !== "" ) ? "/" : "");
-		// let childContent:any = {
-		// 	hasMemberRelation: data.advancedOptions.hasMemberRelation
-		// };
-		// if( ! ! data.advancedOptions.isMemberOfRelation ) childContent[ "isMemberOfRelation" ] = data.advancedOptions.isMemberOfRelation;
-		// this.documentsResolverService.createChild( this.context, this.parentURI, childContent, childSlug ).then( ( createdChild:PersistedDocument.Class ) => {
-		// 	this.onSuccess.emit( createdChild );
-		// 	this.hide();
-		// } ).catch( ( error:HTTPError )=> {
-		// 	this.onError.emit( error );
-		// 	this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
-		// } );
 	}
 
 	private editAgent( agent:PersistedAgent.Class, agentData:AgentFormModel ):void {
@@ -163,7 +151,7 @@ export class AgentDetailsComponent implements OnChanges {
 		} ).then( () => {
 			console.log( "Modified Agent: Roles edited successfully!" );
 		} ).catch( ( error ) => {
-			console.error( error );
+			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
 		} );
 	}
 
@@ -177,7 +165,7 @@ export class AgentDetailsComponent implements OnChanges {
 		} ).then( () => {
 			console.log( "Created Agent: Roles edited successfully!" );
 		} ).catch( ( error ) => {
-			console.error( error );
+			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
 		} );
 	}
 
@@ -225,6 +213,10 @@ export class AgentDetailsComponent implements OnChanges {
 
 	private close():void {
 		this.onClose.emit( true );
+	}
+
+	private closeError():void {
+		this.errorMessage = null;
 	}
 }
 

@@ -145,6 +145,7 @@
 	<br>
 	{{agentForm.valid | json}}
 </div>
+<cp-error-message class="ui attached segment" [message]="errorMessage" [closable]="true" (onClose)="closeError($event)" *ngIf="!!errorMessage"></cp-error-message>
 <div class="ui bottom attached segment" *ngIf="mode !== Modes.READ">
 	<button class="ui mini basic button" title="Cancel" (click)="cancelForm()">Cancel</button>
 	<button class="ui mini basic right floated button"
