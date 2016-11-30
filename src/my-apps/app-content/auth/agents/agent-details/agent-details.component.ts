@@ -7,8 +7,8 @@ import * as PersistedAgent from "carbonldp/Auth/PersistedAgent";
 import * as HTTP from "carbonldp/HTTP";
 import * as RDF from "carbonldp/RDF";
 
-import { AgentsService } from "carbonldp-panel/my-apps/app-content/security/agents/agents.service";
-import { RolesService } from "carbonldp-panel/my-apps/app-content/security/roles/roles.service";
+import { AgentsService } from "../agents.service";
+import { RolesService } from "../../roles/roles.service";
 import { DocumentExplorerLibrary } from "carbonldp-panel/document-explorer/document-explorer-library";
 import { Message } from "carbonldp-panel/errors-area/error-message.component";
 import { ErrorMessageGenerator } from "carbonldp-panel/errors-area/error-message-generator";

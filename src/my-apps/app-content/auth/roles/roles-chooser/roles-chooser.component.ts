@@ -3,7 +3,7 @@ import { ElementRef, Component, Input, Output, AfterViewInit, EventEmitter } fro
 import * as App from "carbonldp/App";
 import * as PersistedRole from "carbonldp/Auth/PersistedRole";
 
-import { RolesService } from "carbonldp-panel/my-apps/app-content/security/roles/roles.service";
+import { RolesService } from "../roles.service";
 
 import template from "./roles-chooser.component.html!";
 import style from "./roles-chooser.component.css!text";

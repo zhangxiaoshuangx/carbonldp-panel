@@ -90,9 +90,9 @@ System.register(["@angular/core", "./../sidebar.service"], function(exports_1, c
                             },
                             {
                                 type: "link",
-                                name: "Security",
+                                name: "Auth",
                                 icon: "lock icon",
-                                route: [this.base, "my-apps", app.slug, "security"],
+                                route: [this.base, "my-apps", app.slug, "auth"],
                             },
                         ]
                     };

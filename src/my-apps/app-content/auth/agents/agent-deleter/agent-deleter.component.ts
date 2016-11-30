@@ -6,7 +6,7 @@ import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
 import { Message } from "carbonldp-panel/errors-area/error-message.component";
 import { ErrorMessageGenerator } from "carbonldp-panel/errors-area/error-message-generator";
-import { AgentsService } from "carbonldp-panel/my-apps/app-content/security/agents/agents.service";
+import { AgentsService } from "../agents.service";
 
 import "semantic-ui/semantic";
 
