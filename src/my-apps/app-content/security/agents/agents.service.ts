@@ -43,6 +43,10 @@ export class AgentsService {
 		return agents.register( agent, slug );
 	}
 
+	public deleteAgent( appContext:App.Context, agent:Agent.Class, slug?:string ):Promise<HTTP.Response.Class> {
+		let agents:Agents.Class = appContext.auth.agents;
+		return agents.delete( agent.id );
+	}
 }
 
 export default AgentsService;
