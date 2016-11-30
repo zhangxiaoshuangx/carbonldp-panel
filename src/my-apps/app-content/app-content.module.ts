@@ -26,6 +26,7 @@ import { SecurityComponent } from "./security/security.component";
 import { AgentsComponent } from "./security/agents/agents.component";
 import { AgentsListComponent } from "./security/agents/agents-list/agents-list.component";
 import { AgentDetailsComponent } from "./security/agents/agent-details/agent-details.component";
+import { AgentDeleterComponent } from "./security/agents/agent-deleter/agent-deleter.component";
 import { RolesChooserComponent } from "./security/roles/roles-chooser/roles-chooser.component";
 
 //Directives
@@ -73,6 +74,7 @@ import { RolesService } from "./security/roles/roles.service";
 		AgentsComponent,
 		AgentsListComponent,
 		AgentDetailsComponent,
+		AgentDeleterComponent,
 		RolesChooserComponent,
 		BackupFileValidator,
 		AtLeastOneValidValidator
