@@ -139,12 +139,6 @@
 		</div>
 	</div>
 </form>
-<div class="ui attached segment">
-	{{agentFormModel | json}}
-	<br>
-	<br>
-	{{agentForm.valid | json}}
-</div>
 <cp-error-message class="ui attached segment" [message]="errorMessage" [closable]="true" (onClose)="closeError($event)" *ngIf="!!errorMessage"></cp-error-message>
 <div class="ui bottom attached segment" *ngIf="mode !== Modes.READ">
 	<button class="ui mini basic button" title="Cancel" (click)="cancelForm()">Cancel</button>
@@ -161,7 +155,7 @@
 <div class="ui success message transition" #message *ngIf="!!displaySuccessMessage">
 	<i class="close icon" (click)="closeSuccessMessage($event, message)"></i>
 	<div class="header">
-		Agent Saved
+		Agent <span *ngIf="mode === Modes.CREATE">Created</span> <span *ngIf="mode === Modes.EDIT">Saved</span>
 	</div>
 	<p>
 		The agent was <span *ngIf="mode === Modes.CREATE">created</span> <span *ngIf="mode === Modes.EDIT">modified</span> successfully

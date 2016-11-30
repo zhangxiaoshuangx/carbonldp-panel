@@ -38,7 +38,7 @@
 						<a class="ui icon button tooltip" (click)="edit($event, agent)" title="Edit Agent">
 							<i class="write icon"></i>
 						</a>
-						<button class="ui icon button tooltip" (click)="avoidRowClick($event)" title="Delete Agent">
+						<button class="ui icon button tooltip" (click)="onClickDeleteAgent($event,agent); agentDeleter.show();" title="Delete Agent">
 							<i class="trash outline icon"></i>
 						</button>
 					</div>
@@ -53,3 +53,5 @@
                   [appContext]="appContext"
                   (onClose)="closeDetails()">
 </cp-agent-details>
+<!--Ask for agent deletion-->
+<cp-agent-deleter #agentDeleter [context]="appContext" [agent]="deletingAgent"></cp-agent-deleter>

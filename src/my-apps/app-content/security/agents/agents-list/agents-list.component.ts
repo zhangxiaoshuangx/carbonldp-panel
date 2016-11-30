@@ -26,6 +26,7 @@ export class AgentsListComponent {
 	private inspectingAgent:PersistedAgent.Class;
 	private mode:string = AgentDetailsModes.READ;
 	private AgentDetailsModes:AgentDetailsModes = AgentDetailsModes;
+	private deletingAgent:Agent.Class;
 
 
 	@Input() appContext:App.Context;
@@ -58,10 +59,6 @@ export class AgentsListComponent {
 		this.inspectingAgent = agent;
 	}
 
-	private avoidRowClick( event:Event ):void {
-		event.stopPropagation();
-	}
-
 	private getSlug( slug:string ):string {
 		return URI.Util.getSlug( slug );
 	}
@@ -77,6 +74,11 @@ export class AgentsListComponent {
 
 	private createAgent():void {
 		this.mode = AgentDetailsModes.CREATE;
+	}
+
+	public onClickDeleteAgent( event:Event, agent:Agent.Class ):void {
+		event.stopPropagation();
+		this.deletingAgent = agent;
 	}
 }
 
