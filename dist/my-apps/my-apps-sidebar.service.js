@@ -92,7 +92,7 @@ System.register(["@angular/core", "./../sidebar.service"], function(exports_1, c
                                 type: "link",
                                 name: "Auth",
                                 icon: "lock icon",
-                                route: [this.base, "my-apps", app.slug, "auth"],
+                                route: [this.base, "my-apps", app.slug, "auth", "agents"],
                             },
                         ]
                     };

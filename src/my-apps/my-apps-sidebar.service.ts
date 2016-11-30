@@ -77,9 +77,9 @@ export class MyAppsSidebarService {
 				},
 				{
 					type: "link",
-					name: "Security",
+					name: "Auth",
 					icon: "lock icon",
-					route: [ this.base, "my-apps", app.slug, "security" ],
+					route: [ this.base, "my-apps", app.slug, "auth", "agents" ],
 				},
 			]
 		};
