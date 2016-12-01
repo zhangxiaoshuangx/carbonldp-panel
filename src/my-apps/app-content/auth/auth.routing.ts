@@ -7,6 +7,7 @@ import { AgentsView } from "./agents/agents.view";
 import { AgentResolver } from "./agents/agent.resolver";
 import { AgentsListView } from "./agents/agents-list/agents-list.view";
 import { AgentDetailsView } from "./agents/agent-details/agent-details.view";
+import { AgentCreatorView } from "./agents/agent-creator/agent-creator.view";
 
 const AuthRoutes:Routes = [
 	{
@@ -37,6 +38,14 @@ const AuthRoutes:Routes = [
 					{
 						path: "list",
 						component: AgentsListView,
+					},
+					{
+						path: "create",
+						data: {
+							alias: "create",
+							displayName: "Create Agent",
+						},
+						component: AgentCreatorView,
 					},
 					{
 						path: ":agent-slug",
