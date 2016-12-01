@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, EventEmitter } from "@angular/core";
 
 import Carbon from "carbonldp/Carbon";
 import * as App from "carbonldp/App";
@@ -7,16 +7,42 @@ import * as Agents from "carbonldp/Auth/Agents";
 import * as PersistedAgent from "carbonldp/Auth/PersistedAgent";
 import * as HTTP from "carbonldp/HTTP";
 import * as Utils from "carbonldp/Utils";
+import * as URI from "carbonldp/RDF/URI";
+import { AppContentService } from "carbonldp-panel/my-apps/app-content/app-content.service";
 
 @Injectable()
 export class AgentsService {
 
 	private carbon:Carbon;
 	public appContextsAgents:Map<string, Map<string, PersistedAgent.Class>>;
+	private appContentService:AppContentService;
+	private _activeAgent:PersistedAgent.Class;
+	public set activeAgent( app:PersistedAgent.Class ) {
+		this._activeAgent = app;
+		this.onAgentHasChanged.emit( this.activeAgent );
+	}
 
-	constructor( carbon:Carbon ) {
+	public get activeAgent():PersistedAgent.Class {
+		return this._activeAgent;
+	}
+
+	public onAgentHasChanged:EventEmitter<PersistedAgent.Class> = new EventEmitter<App.Class>();
+
+	constructor( carbon:Carbon, appContentService:AppContentService ) {
 		this.carbon = carbon;
 		this.appContextsAgents = new Map<string, Map<string, PersistedAgent.Class>>();
+		this.appContentService = appContentService;
+	}
+
+	public get( slugOrURI:string, appContext:App.Context ):Promise<PersistedAgent.Class> {
+		let uri:string = appContext.getBaseURI() + `agents/${slugOrURI}/`;
+		if( URI.Util.isAbsolute( slugOrURI ) ) uri = slugOrURI;
+		let existingAgents:Map <string, PersistedAgent.Class> = this.appContextsAgents.get( appContext.getBaseURI() );
+		existingAgents = typeof existingAgents === "undefined" ? new Map<string, PersistedAgent.Class>() : existingAgents;
+		return appContext.documents.get<PersistedAgent.Class>( uri ).then( ( [agent, response]:[PersistedAgent.Class, HTTP.Response.Class] ) => {
+			existingAgents.set( agent.id, agent );
+			return agent;
+		} );
 	}
 
 	public getAll( appContext:App.Context ):Promise<PersistedAgent.Class[]> {
