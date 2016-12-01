@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/router', "./app", "./../app-context.service"], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/router', "./app", "./../app-context.service", "./app-content.service"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/router', "./app", "./../app-context.
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, App, app_context_service_1;
+    var core_1, router_1, App, app_context_service_1, app_content_service_1;
     var AppContentResolver;
     return {
         setters:[
@@ -25,19 +25,25 @@ System.register(['@angular/core', '@angular/router', "./app", "./../app-context.
             },
             function (app_context_service_1_1) {
                 app_context_service_1 = app_context_service_1_1;
+            },
+            function (app_content_service_1_1) {
+                app_content_service_1 = app_content_service_1_1;
             }],
         execute: function() {
             AppContentResolver = (function () {
-                function AppContentResolver(router, route, appContextService) {
+                function AppContentResolver(router, route, appContextService, appContentService) {
                     this.router = router;
                     this.activatedRoute = route;
                     this.appContextService = appContextService;
+                    this.appContentService = appContentService;
                 }
                 AppContentResolver.prototype.resolve = function (route) {
                     var _this = this;
                     var slug = route.params["slug"];
                     return this.appContextService.get(slug).then(function (appContext) {
-                        return App.Factory.createFrom(appContext);
+                        var app = App.Factory.createFrom(appContext);
+                        _this.appContentService.activeApp = app;
+                        return app;
                     }).catch(function (error) {
                         console.error(error);
                         _this.router.navigate(["my-apps", "app-not-found"]);
@@ -46,7 +52,7 @@ System.register(['@angular/core', '@angular/router', "./app", "./../app-context.
                 };
                 AppContentResolver = __decorate([
                     core_1.Injectable(), 
-                    __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, app_context_service_1.AppContextService])
+                    __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, app_context_service_1.AppContextService, app_content_service_1.AppContentService])
                 ], AppContentResolver);
                 return AppContentResolver;
             }());
