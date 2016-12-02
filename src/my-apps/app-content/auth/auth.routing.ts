@@ -8,6 +8,7 @@ import { AgentResolver } from "./agents/agent.resolver";
 import { AgentsListView } from "./agents/agents-list/agents-list.view";
 import { AgentDetailsView } from "./agents/agent-details/agent-details.view";
 import { AgentCreatorView } from "./agents/agent-creator/agent-creator.view";
+import { AgentNotFoundView } from "./agents/agent-not-found/agent-not-found.view";
 
 const AuthRoutes:Routes = [
 	{
@@ -46,6 +47,14 @@ const AuthRoutes:Routes = [
 							displayName: "Create Agent",
 						},
 						component: AgentCreatorView,
+					},
+					{
+						path: "agent-not-found",
+						component: AgentNotFoundView,
+						data: {
+							alias: "agent-not-found",
+							displayName: "No Agent"
+						}
 					},
 					{
 						path: ":agent-slug",
