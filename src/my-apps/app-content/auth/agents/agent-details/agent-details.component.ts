@@ -39,6 +39,7 @@ export class AgentDetailsComponent implements OnChanges {
 	@Input() mode:string = Modes.READ;
 	@Input() agent:PersistedAgent.Class;
 	@Input() appContext:App.Context;
+	@Input() canClose:boolean = true;
 
 	@Output() onClose:EventEmitter<boolean> = new EventEmitter<boolean>();
 
