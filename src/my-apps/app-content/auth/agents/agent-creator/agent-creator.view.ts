@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { Location } from "@angular/common";
 import { Router, ActivatedRoute } from "@angular/router";
 
 import { PersistedAgent } from "carbonldp/Auth";
@@ -23,7 +24,7 @@ export class AgentCreatorView {
 	private canDisplay:boolean = true;
 	private modes:Modes = Modes;
 
-	constructor( router:Router, route:ActivatedRoute, appContentService:AppContentService ) {
+	constructor( router:Router, route:ActivatedRoute, appContentService:AppContentService, private location:Location ) {
 		this.router = router;
 		this.activatedRoute = route;
 
@@ -33,6 +34,14 @@ export class AgentCreatorView {
 			this.canDisplay = false;
 			setTimeout( () => { this.canDisplay = true;}, 0 );
 		} );
+	}
+
+	// TODO: Change the use of location to the righ way of navigate with an activatedRoute, check if this 'bug' has been resolved on further angular versions
+	goToAgents():void {
+		let url:string = this.location.path(),
+			lastSlashIdx:number = url.lastIndexOf( "/" ),
+			finalURL:string = url.substr( 0, lastSlashIdx );
+		this.router.navigate( [ finalURL ] );
 	}
 
 }
