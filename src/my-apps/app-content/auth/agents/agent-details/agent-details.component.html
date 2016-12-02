@@ -35,6 +35,9 @@
 						       (input)="mode === Modes.CREATE? agentFormModel.slug = getSanitizedSlug($event.srcElement.value) : agentFormModel.slug = agentFormModel.slug"
 						       (blur)="agentFormModel.slug = getSanitizedSlug($event.srcElement.value)">
 					</div>
+					<div class="ui pointing red basic label" *ngIf="!name.valid">
+						<span *ngIf="name.control.hasError('required')">Please enter a name</span>
+					</div>
 				</div>
 				<div class="field"
 				     [ngClass]="{error: !slug.valid}"
@@ -49,6 +52,9 @@
 						       (ngModelChange)="agentFormModel.slug = getSanitizedSlug($event)"
 						       (blur)="slugLostFocus($event)">
 					</div>
+					<div class="ui pointing red basic label" *ngIf="!slug.valid">
+						<span *ngIf="slug.control.hasError('invalidSlug')">Please, provide a valid slug/id for the agent.<br>(Only numbers and letters with dashes)</span>
+					</div>
 				</div>
 				<div class="field"
 				     [ngClass]="{error: !email.valid}">
@@ -57,9 +63,13 @@
 						<i class="mail icon"></i>
 						<input type="text" name="email"
 						       placeholder="E.g: agent@example.com"
-						       #email="cpValidation" cpValidation required
+						       #email="cpValidation" cpValidation required cp-email
 						       [(ngModel)]="agentFormModel.email"
 						       [disabled]="mode === Modes.READ">
+					</div>
+					<div class="ui pointing red basic label" *ngIf="!email.valid">
+						<span *ngIf="email.control.hasError('required')">Please enter an email</span>
+						<span *ngIf="email.control.hasError('invalidEmailAddress')">Please enter a valid email address</span>
 					</div>
 				</div>
 				<div class="ui divider" *ngIf="mode !== Modes.READ"></div>
@@ -74,6 +84,9 @@
 						       #password="cpValidation" cpValidation required
 						       [(ngModel)]="agentFormModel.password"
 						       [disabled]="mode === Modes.READ">
+					</div>
+					<div class="ui pointing red basic label" *ngIf="!password.valid">
+						<span *ngIf="password.control.hasError('required')">Please enter a password</span>
 					</div>
 				</div>
 				<div class="field"
@@ -90,6 +103,10 @@
 						       [control]="repeatPasswordControl"
 						       #repeatPasswordControl="ngModel"
 						       [disabled]="mode === Modes.READ">
+					</div>
+					<div class="ui pointing red basic label" *ngIf="!repeatPassword.valid">
+						<span *ngIf="repeatPassword.control.hasError('required')">Please enter the password confirmation</span>
+						<span *ngIf="repeatPassword.control.hasError('matchError')">The password confirmation doesn't match the password</span>
 					</div>
 				</div>
 			</div>
