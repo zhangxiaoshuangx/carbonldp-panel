@@ -13,7 +13,7 @@ export class PaginatorComponent {
 	private pages:number[] = [];
 
 	private _activePage:number = 0;
-	set activePage( value:number ) {
+	@Input() set activePage( value:number ) {
 		this._activePage = value;
 		this.onPageChange.emit( value );
 	}
@@ -27,8 +27,7 @@ export class PaginatorComponent {
 	private _totalElements:number = 0;
 	@Input() set totalElements( value:number ) {
 		this._totalElements = value;
-		let i = 0,
-			totalPages = this.totalElements === 0 ? 0 : Math.round( this.totalElements / this.elementsPerPage );
+		let totalPages = this.totalElements === 0 ? 0 : Math.round( this.totalElements / this.elementsPerPage );
 		this.pages = [];
 		for( let i = 0; i < totalPages; i ++ ) {
 			this.pages.push( i );
