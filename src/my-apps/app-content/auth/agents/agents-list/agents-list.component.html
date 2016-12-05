@@ -45,6 +45,16 @@
 				</td>
 			</tr>
 		</tbody>
+		<tfoot>
+			<tr>
+				<th colspan="4">
+					<cp-paginator [totalElements]="totalAgents"
+					              [elementsPerPage]="agentsPerPage"
+					              [activePage]="activePage"
+					              (onPageChange)="changePage($event)"></cp-paginator>
+				</th>
+			</tr>
+		</tfoot>
 	</table>
 </div>
 <cp-agent-details *ngIf="!!inspectingAgent || mode === AgentDetailsModes.CREATE"
