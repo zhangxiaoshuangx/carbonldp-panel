@@ -10,7 +10,7 @@
 	</div>
 </div>
 <div class="ui basic segment" [ngClass]="{loading:loading}">
-	<table class="ui selectable sortable celled small very compact table">
+	<table class="ui selectable sortable celled small very compact table" *ngIf="agents.length > 0">
 		<thead>
 			<tr>
 				<th *ngFor="let header of headers" class="center aligned" [ngClass]="{
@@ -52,9 +52,7 @@
 				<th colspan="4">
 					<label>Show: </label>
 					<select class="ui dropdown" [(ngModel)]="agentsPerPage">
-						<option class="item" value="5"
-						        *ngIf="totalAgents > 5">5
-						</option>
+						<option class="item" value="5">5</option>
 						<option class="item" value="10"
 						        *ngIf="totalAgents > 10">10
 						</option>
@@ -74,6 +72,9 @@
 			</tr>
 		</tfoot>
 	</table>
+	<div class="ui warning message" *ngIf="agents.length===0">
+		<i class="attention icon"></i> There are no <strong>Application Agents</strong> to display
+	</div>
 </div>
 <!--Ask for agent deletion-->
-<cp-agent-deleter #agentDeleter [context]="appContext" [agent]="deletingAgent"></cp-agent-deleter>
+<cp-agent-deleter #agentDeleter [context]="appContext" [agent]="deletingAgent" (onSuccess)="refreshAgents()"></cp-agent-deleter>
