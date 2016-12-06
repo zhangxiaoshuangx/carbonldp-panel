@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { PersistedAgent } from "carbonldp/Auth";
 
 import { AppContentService } from "carbonldp-panel/my-apps/app-content/app-content.service";
+import { Modes } from "./agent-details.component";
 
 import template from "./agent-details.view.html!";
 
@@ -20,6 +21,7 @@ export class AgentDetailsView {
 	private app:any;
 	private agent:PersistedAgent.Class;
 	private canDisplay:boolean = true;
+	private mode:string = Modes.READ;
 
 	constructor( router:Router, route:ActivatedRoute, appContentService:AppContentService ) {
 		this.router = router;
@@ -36,6 +38,9 @@ export class AgentDetailsView {
 	ngOnInit() {
 		this.activatedRoute.data.forEach( ( data:{ agent:PersistedAgent.Class } ) => {
 			this.agent = data.agent;
+		} );
+		this.activatedRoute.queryParams.subscribe( ( params ) => {
+			this.mode = params[ "mode" ] ? params[ "mode" ] : Modes.READ;
 		} );
 	}
 
