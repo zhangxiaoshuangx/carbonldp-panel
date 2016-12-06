@@ -27,7 +27,7 @@ export class AgentsListComponent implements OnInit {
 	private mode:string = AgentDetailsModes.READ;
 	private agentDetailsModes:AgentDetailsModes = AgentDetailsModes;
 	private deletingAgent:Agent.Class;
-	private activePage:number = 0;
+	private activePage:number;
 	private totalAgents:number = 0;
 	private _agentsPerPage:number = 5;
 	private set agentsPerPage( value:number ) {
@@ -38,6 +38,10 @@ export class AgentsListComponent implements OnInit {
 	private get agentsPerPage():number {
 		return this._agentsPerPage;
 	};
+
+	private headers:Header[] = [ { name: "Name", value: "name" }, { name: "Created", value: "created" }, { name: "Modified", value: "modified" } ];
+	private sortedColumn:string = "name";
+	private ascending:boolean = false;
 
 
 	@Input() appContext:App.Context;
@@ -69,7 +73,7 @@ export class AgentsListComponent implements OnInit {
 	}
 
 	private getAgents():Promise<PersistedAgent.Class[]> {
-		return this.agentsService.getAll( this.appContext, this.agentsPerPage, this.activePage ).then( ( agents:PersistedAgent.Class[] ) => {
+		return this.agentsService.getAll( this.appContext, this.agentsPerPage, this.activePage, this.sortedColumn, this.ascending ).then( ( agents:PersistedAgent.Class[] ) => {
 			return agents.filter( ( agent:PersistedAgent.Class ) => { return agent.id.indexOf( "/agents/me/" ) === - 1 } );
 		} );
 	}
@@ -114,6 +118,17 @@ export class AgentsListComponent implements OnInit {
 		this.activePage = page;
 		this.updateAgents();
 	}
+
+	private sortColumn( header:Header ):void {
+		if( this.sortedColumn === header.value ) this.ascending = ! this.ascending;
+		this.sortedColumn = header.value;
+		this.updateAgents();
+	}
+}
+
+export interface Header {
+	name:string;
+	value:string;
 }
 
 export default AgentsListComponent;
