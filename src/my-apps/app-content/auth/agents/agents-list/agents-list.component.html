@@ -9,7 +9,7 @@
 		</button>
 	</div>
 </div>
-<div class="ui basic segment" [ngClass]="{loading:loading}">
+<div class="agents list" [ngClass]="{loading:loading}">
 	<table class="ui selectable sortable celled small very compact table" *ngIf="agents.length > 0">
 		<thead>
 			<tr>
@@ -37,7 +37,7 @@
 				</td>
 				<td class="center aligned">
 					<div class="ui small basic icon buttons">
-						<a class="ui icon button tooltip" (click)="edit($event, agent)" title="Edit Agent">
+						<a class="ui icon button tooltip" (click)="onClickEditAgent($event, agent)" title="Edit Agent">
 							<i class="write icon"></i>
 						</a>
 						<button class="ui icon button tooltip" (click)="onClickDeleteAgent($event,agent); agentDeleter.show();" title="Delete Agent">
@@ -72,9 +72,10 @@
 			</tr>
 		</tfoot>
 	</table>
-	<div class="ui warning message" *ngIf="agents.length===0">
-		<i class="attention icon"></i> There are no <strong>Application Agents</strong> to display
+	<div class="ui warning message" *ngIf="agents.length===0 && !errorMessage">
+		<i class="attention icon"></i> There are no <strong>Agents</strong> to display
 	</div>
+	<cp-error-message [message]="errorMessage" *ngIf="!!errorMessage"></cp-error-message>
 </div>
 <!--Ask for agent deletion-->
 <cp-agent-deleter #agentDeleter [context]="appContext" [agent]="deletingAgent" (onSuccess)="refreshAgents()"></cp-agent-deleter>

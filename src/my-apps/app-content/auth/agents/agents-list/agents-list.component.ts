@@ -8,6 +8,8 @@ import * as URI from "carbonldp/RDF/URI";
 
 import { AgentsService } from "../agents.service";
 import { Modes as AgentDetailsModes } from "../agent-details/agent-details.component";
+import { Message } from "carbonldp-panel/errors-area/error-message.component";
+import { ErrorMessageGenerator } from "carbonldp-panel/errors-area/error-message-generator";
 
 import template from "./agents-list.component.html!";
 import style from "./agents-list.component.css!text";
@@ -26,15 +28,13 @@ export class AgentsListComponent implements OnInit {
 
 	private agents:PersistedAgent.Class[] = [];
 	private loading:boolean = false;
-	private mode:string = AgentDetailsModes.READ;
-	private agentDetailsModes:AgentDetailsModes = AgentDetailsModes;
 	private deletingAgent:Agent.Class;
-	private activePage:number;
+	private activePage:number = 0;
 	private totalAgents:number = 0;
 	private _agentsPerPage:number = 5;
 	private set agentsPerPage( value:number ) {
 		this._agentsPerPage = value;
-		this.updateAgents();
+		this.loadAgents();
 	};
 
 	private get agentsPerPage():number {
@@ -44,7 +44,7 @@ export class AgentsListComponent implements OnInit {
 	private headers:Header[] = [ { name: "Name", value: "name" }, { name: "Created", value: "created" }, { name: "Modified", value: "modified" } ];
 	private sortedColumn:string = "name";
 	private ascending:boolean = false;
-
+	private errorMessage:Message;
 
 	@Input() appContext:App.Context;
 
@@ -60,18 +60,16 @@ export class AgentsListComponent implements OnInit {
 	}
 
 	private loadAgents():void {
-		this.activePage = 0;
 		this.loading = true;
 		this.getNumberOfAgents().then( ( amount:number ) => {
 			this.totalAgents = amount;
-		} );
-		this.updateAgents()
-	}
-
-	private updateAgents():void {
-		this.loading = true;
-		this.getAgents().then( ( agents:PersistedAgent.Class[] ) => {
+			return this.getAgents();
+		} ).then( ( agents:PersistedAgent.Class[] ) => {
 			this.agents = agents;
+		} ).catch( ( error ) => {
+			console.error( error );
+			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
+		} ).then( () => {
 			this.loading = false;
 		} );
 	}
@@ -87,7 +85,7 @@ export class AgentsListComponent implements OnInit {
 		this.goToAgent( agent );
 	}
 
-	private edit( event:Event, agent:PersistedAgent.Class ):void {
+	private onClickEditAgent( event:Event, agent:PersistedAgent.Class ):void {
 		event.stopPropagation();
 		this.goToAgent( agent, true );
 	}
@@ -97,10 +95,6 @@ export class AgentsListComponent implements OnInit {
 		let extras:NavigationExtras = { relativeTo: this.route };
 		if( edit ) extras.queryParams = { mode: AgentDetailsModes.EDIT };
 		this.router.navigate( [ slug ], extras );
-	}
-
-	private getSlug( slug:string ):string {
-		return URI.Util.getSlug( slug );
 	}
 
 	private refreshAgents():void {
@@ -118,13 +112,13 @@ export class AgentsListComponent implements OnInit {
 
 	private changePage( page:number ):void {
 		this.activePage = page;
-		this.updateAgents();
+		this.loadAgents();
 	}
 
 	private sortColumn( header:Header ):void {
 		if( this.sortedColumn === header.value ) this.ascending = ! this.ascending;
 		this.sortedColumn = header.value;
-		this.updateAgents();
+		this.loadAgents();
 	}
 }
 
