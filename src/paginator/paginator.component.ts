@@ -62,7 +62,7 @@ export class PaginatorComponent {
 
 	private updatePages():void {
 		this.pages = this.getPages();
-		if( this.activePage >= this.pages.length ) setTimeout( () => {
+		if( this.activePage >= this.pages.length && this.pages.length > 0 ) setTimeout( () => {
 			this.activePage = this.pages[ this.pages.length - 1 ];
 		} );
 	}
