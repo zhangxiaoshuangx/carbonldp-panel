@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
+import { Router, ActivatedRoute, NavigationExtras } from "@angular/router";
 
 import * as App from "carbonldp/App";
 import * as Agent from "carbonldp/Auth/Agent";
@@ -19,11 +20,12 @@ import style from "./agents-list.component.css!text";
 
 export class AgentsListComponent implements OnInit {
 
+	private router:Router;
+	private route:ActivatedRoute;
 	private agentsService:AgentsService;
 
 	private agents:PersistedAgent.Class[] = [];
 	private loading:boolean = false;
-	private inspectingAgent:PersistedAgent.Class;
 	private mode:string = AgentDetailsModes.READ;
 	private agentDetailsModes:AgentDetailsModes = AgentDetailsModes;
 	private deletingAgent:Agent.Class;
@@ -47,7 +49,9 @@ export class AgentsListComponent implements OnInit {
 	@Input() appContext:App.Context;
 
 
-	constructor( agentsService:AgentsService ) {
+	constructor( router:Router, route:ActivatedRoute, agentsService:AgentsService ) {
+		this.router = router;
+		this.route = route;
 		this.agentsService = agentsService;
 	}
 
@@ -80,12 +84,19 @@ export class AgentsListComponent implements OnInit {
 
 	private openAgent( event:Event, agent:PersistedAgent.Class ):void {
 		event.stopPropagation();
-		this.inspectingAgent = agent;
+		this.goToAgent( agent );
 	}
 
 	private edit( event:Event, agent:PersistedAgent.Class ):void {
 		event.stopPropagation();
-		this.inspectingAgent = agent;
+		this.goToAgent( agent, true );
+	}
+
+	private goToAgent( agent:PersistedAgent.Class, edit?:boolean ):void {
+		let slug:string = URI.Util.getSlug( agent.id );
+		let extras:NavigationExtras = { relativeTo: this.route };
+		if( edit ) extras.queryParams = { mode: AgentDetailsModes.EDIT };
+		this.router.navigate( [ slug ], extras );
 	}
 
 	private getSlug( slug:string ):string {
@@ -94,15 +105,6 @@ export class AgentsListComponent implements OnInit {
 
 	private refreshAgents():void {
 		this.loadAgents();
-	}
-
-	private closeDetails():void {
-		this.inspectingAgent = null;
-		this.mode = AgentDetailsModes.READ;
-	}
-
-	private createAgent():void {
-		this.mode = AgentDetailsModes.CREATE;
 	}
 
 	private onClickDeleteAgent( event:Event, agent:Agent.Class ):void {
