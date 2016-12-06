@@ -48,6 +48,22 @@
 		<tfoot>
 			<tr>
 				<th colspan="4">
+					<label>Show: </label>
+					<select class="ui dropdown" [(ngModel)]="agentsPerPage">
+						<option class="item" value="5"
+						        *ngIf="totalAgents > 5">5
+						</option>
+						<option class="item" value="10"
+						        *ngIf="totalAgents > 10">10
+						</option>
+						<option class="item" value="15"
+						        *ngIf="totalAgents > 15">15
+						</option>
+						<option class="item" value="20"
+						        *ngIf="totalAgents > 20">20
+						</option>
+						<option class="item" value="{{totalAgents}}">All</option>
+					</select>
 					<cp-paginator [totalElements]="totalAgents"
 					              [elementsPerPage]="agentsPerPage"
 					              [activePage]="activePage"
@@ -57,7 +73,7 @@
 		</tfoot>
 	</table>
 </div>
-<cp-agent-details *ngIf="!!inspectingAgent || mode === AgentDetailsModes.CREATE"
+<cp-agent-details *ngIf="!!inspectingAgent || mode === agentDetailsModes.CREATE"
                   [agent]="inspectingAgent"
                   [mode]="mode"
                   [appContext]="appContext"

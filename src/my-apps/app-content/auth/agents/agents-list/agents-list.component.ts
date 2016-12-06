@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 
 import * as App from "carbonldp/App";
 import * as Agent from "carbonldp/Auth/Agent";
@@ -17,7 +17,7 @@ import style from "./agents-list.component.css!text";
 	styles: [ style ],
 } )
 
-export class AgentsListComponent {
+export class AgentsListComponent implements OnInit {
 
 	private agentsService:AgentsService;
 
@@ -25,11 +25,19 @@ export class AgentsListComponent {
 	private loading:boolean = false;
 	private inspectingAgent:PersistedAgent.Class;
 	private mode:string = AgentDetailsModes.READ;
-	private AgentDetailsModes:AgentDetailsModes = AgentDetailsModes;
+	private agentDetailsModes:AgentDetailsModes = AgentDetailsModes;
 	private deletingAgent:Agent.Class;
-	private totalAgents:number = 0;
-	private agentsPerPage:number = 2;
 	private activePage:number = 0;
+	private totalAgents:number = 0;
+	private _agentsPerPage:number = 5;
+	private set agentsPerPage( value:number ) {
+		this._agentsPerPage = value;
+		this.updateAgents();
+	};
+
+	private get agentsPerPage():number {
+		return this._agentsPerPage;
+	};
 
 
 	@Input() appContext:App.Context;
@@ -49,14 +57,19 @@ export class AgentsListComponent {
 		this.getNumberOfAgents().then( ( amount:number ) => {
 			this.totalAgents = amount;
 		} );
+		this.updateAgents()
+	}
+
+	private updateAgents():void {
+		this.loading = true;
 		this.getAgents().then( ( agents:PersistedAgent.Class[] ) => {
 			this.agents = agents;
 			this.loading = false;
 		} );
 	}
 
-	private getAgents( activePage?:number ):Promise<PersistedAgent.Class[]> {
-		return this.agentsService.getAll( this.appContext, this.agentsPerPage, activePage ).then( ( agents:PersistedAgent.Class[] ) => {
+	private getAgents():Promise<PersistedAgent.Class[]> {
+		return this.agentsService.getAll( this.appContext, this.agentsPerPage, this.activePage ).then( ( agents:PersistedAgent.Class[] ) => {
 			return agents.filter( ( agent:PersistedAgent.Class ) => { return agent.id.indexOf( "/agents/me/" ) === - 1 } );
 		} );
 	}
@@ -88,7 +101,7 @@ export class AgentsListComponent {
 		this.mode = AgentDetailsModes.CREATE;
 	}
 
-	public onClickDeleteAgent( event:Event, agent:Agent.Class ):void {
+	private onClickDeleteAgent( event:Event, agent:Agent.Class ):void {
 		event.stopPropagation();
 		this.deletingAgent = agent;
 	}
@@ -99,11 +112,7 @@ export class AgentsListComponent {
 
 	private changePage( page:number ):void {
 		this.activePage = page;
-		this.loading = true;
-		this.getAgents( page ).then( ( agents:PersistedAgent.Class[] ) => {
-			this.agents = agents;
-			this.loading = false;
-		} );
+		this.updateAgents();
 	}
 }
 

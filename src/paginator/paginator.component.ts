@@ -23,15 +23,20 @@ export class PaginatorComponent {
 	}
 
 
-	@Input() elementsPerPage:number = 5;
+	private _elementsPerPage:number = 5;
+	@Input() set elementsPerPage( value:number ) {
+		this._elementsPerPage = value;
+		this.updatePages();
+	};
+
+	get elementsPerPage():number {
+		return this._elementsPerPage;
+	}
+
 	private _totalElements:number = 0;
 	@Input() set totalElements( value:number ) {
 		this._totalElements = value;
-		let totalPages = this.totalElements === 0 ? 0 : Math.round( this.totalElements / this.elementsPerPage );
-		this.pages = [];
-		for( let i = 0; i < totalPages; i ++ ) {
-			this.pages.push( i );
-		}
+		this.updatePages();
 	};
 
 	get totalElements():number {
@@ -53,6 +58,22 @@ export class PaginatorComponent {
 
 	private next():void {
 		this.activePage + 1 < this.pages.length ? this.activePage ++ : this.activePage;
+	}
+
+	private updatePages():void {
+		this.pages = this.getPages();
+		if( this.activePage >= this.pages.length ) setTimeout( () => {
+			this.activePage = this.pages[ this.pages.length - 1 ];
+		} );
+	}
+
+	private getPages():number[] {
+		let pages:number[] = [];
+		let totalPages = this.totalElements === 0 ? 0 : Math.ceil( this.totalElements / this.elementsPerPage );
+		for( let i = 0; i < totalPages; i ++ ) {
+			pages.push( i );
+		}
+		return pages;
 	}
 }
 
