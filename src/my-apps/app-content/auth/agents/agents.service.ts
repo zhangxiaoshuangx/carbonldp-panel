@@ -48,18 +48,14 @@ export class AgentsService {
 		} );
 	}
 
-	public getAll( appContext:App.Context, limit?:number, page?:number, orderBy?:string ):Promise<PersistedAgent.Class[]> {
-		let uri:string = appContext.getBaseURI() + "agents/";
-		let existingAgents:Map <string, PersistedAgent.Class> = this.appContextsAgents.get( appContext.getBaseURI() );
+	public getAll( appContext:App.Context, limit?:number, page?:number, orderBy?:string, ascending:boolean = true ):Promise<PersistedAgent.Class[]> {
+		let uri:string = appContext.getBaseURI() + "agents/",
+			existingAgents:Map <string, PersistedAgent.Class> = this.appContextsAgents.get( appContext.getBaseURI() );
 		existingAgents = typeof existingAgents === "undefined" ? new Map<string, PersistedAgent.Class>() : existingAgents;
-		let preferences:RetrievalPreferences = {};
-		if( typeof limit !== "undefined" ) {
-			preferences.limit = limit;
-		}
-		if( typeof page !== "undefined" ) {
-			preferences.offset = page * limit;
-		}
-		let name:OrderByProperty = {
+
+		let preferences:RetrievalPreferences = {},
+			property:OrderByProperty,
+			name:OrderByProperty = {
 				"@id": NS.CS.Predicate.namae,
 				"@type": "string",
 			},
@@ -69,13 +65,12 @@ export class AgentsService {
 			},
 			created:OrderByProperty = {
 				"@id": NS.C.Predicate.created,
-				"@type": "string",
+				"@type": "dateTime",
 			},
 			modified:OrderByProperty = {
 				"@id": NS.C.Predicate.modified,
-				"@type": "string",
-			},
-			property:OrderByProperty;
+				"@type": "dateTime",
+			};
 		switch( orderBy ) {
 			case "name":
 				property = name;
@@ -87,18 +82,23 @@ export class AgentsService {
 				property = created;
 				break;
 			case "modified":
-				property = email;
+				property = modified;
 				break;
-			default:
-				property = name;
 		}
-		preferences.orderBy = [ property ];
+		if( ! orderBy ) preferences.orderBy = [ property ];
+		if( ! ascending ) property[ "@id" ] = "-" + property[ "@id" ];
+		if( typeof limit !== "undefined" ) preferences.limit = limit;
+		if( typeof page !== "undefined" ) preferences.offset = page * limit;
 
 
 		return this.carbon.documents.getMembers<PersistedAgent.Class>( uri, false, preferences ).then( ( [agents, response]:[PersistedAgent.Class[], HTTP.Response.Class] ) => {
 			agents.filter( ( agent:PersistedAgent.Class ) => ! existingAgents.has( agent.id ) )
 				.forEach( ( agent:PersistedAgent.Class ) => existingAgents.set( agent.id, agent ) );
-			return Utils.A.from( existingAgents.values() );
+
+			let agentsArray:PersistedAgent.Class[] = Utils.A.from( existingAgents.values() );
+			if( orderBy ) agentsArray = this.getSortedAgents( agentsArray, orderBy, ascending );
+
+			return agentsArray;
 		} ).catch( ( error ) => {
 			console.error( error );
 		} );
@@ -133,6 +133,14 @@ export class AgentsService {
 	public deleteAgent( appContext:App.Context, agent:Agent.Class, slug?:string ):Promise<HTTP.Response.Class> {
 		let agents:Agents.Class = appContext.auth.agents;
 		return agents.delete( agent.id );
+	}
+
+	private getSortedAgents( agents:PersistedAgent.Class[], orderBy:string, ascending:boolean ):PersistedAgent.Class[] {
+		return agents.sort( ( agentA, agentB ) => {
+			if( agentA[ orderBy ] > agentB[ orderBy ] ) return ascending ? - 1 : 1;
+			if( agentA[ orderBy ] < agentB[ orderBy ] ) return ascending ? 1 : - 1;
+			return 0;
+		} );
 	}
 }
 
