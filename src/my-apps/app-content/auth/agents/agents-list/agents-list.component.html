@@ -4,8 +4,7 @@
 		        (click)="refreshAgents()">
 			<i class="refresh icon" [ngClass]="{loading:loading}"></i>
 		</button>
-		<button class="ui right labeled icon button" title="Create a new Agent"
-		        (click)="createAgent()">
+		<button class="ui right labeled icon button" title="Create a new Agent" [routerLink]="['create']">
 			Create Agent <i class="plus icon"></i>
 		</button>
 	</div>
@@ -76,11 +75,5 @@
 		</tfoot>
 	</table>
 </div>
-<cp-agent-details *ngIf="!!inspectingAgent || mode === agentDetailsModes.CREATE"
-                  [agent]="inspectingAgent"
-                  [mode]="mode"
-                  [appContext]="appContext"
-                  (onClose)="closeDetails()">
-</cp-agent-details>
 <!--Ask for agent deletion-->
 <cp-agent-deleter #agentDeleter [context]="appContext" [agent]="deletingAgent"></cp-agent-deleter>
