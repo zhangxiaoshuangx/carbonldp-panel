@@ -99,8 +99,6 @@ export class AgentsService {
 			if( orderBy ) agentsArray = this.getSortedAgents( agentsArray, orderBy, ascending );
 
 			return agentsArray;
-		} ).catch( ( error ) => {
-			console.error( error );
 		} );
 	}
 
@@ -112,8 +110,6 @@ export class AgentsService {
 		return appContext.documents.executeSELECTQuery( agentsURI, query ).then( ( [results,response]:[SPARQL.SELECTResults.Class,HTTP.Response.Class] ) => {
 			if( typeof results.bindings[ 0 ] === "undefined" ) return 0;
 			return results.bindings[ 0 ][ "count" ];
-		} ).catch( ( error ) => {
-			console.error( error );
 		} );
 	}
 

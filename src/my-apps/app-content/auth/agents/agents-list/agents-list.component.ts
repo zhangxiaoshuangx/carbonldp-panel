@@ -31,15 +31,7 @@ export class AgentsListComponent implements OnInit {
 	private deletingAgent:Agent.Class;
 	private activePage:number = 0;
 	private totalAgents:number = 0;
-	private _agentsPerPage:number = 5;
-	private set agentsPerPage( value:number ) {
-		this._agentsPerPage = value;
-		this.loadAgents();
-	};
-
-	private get agentsPerPage():number {
-		return this._agentsPerPage;
-	};
+	private agentsPerPage:number = 5;
 
 	private headers:Header[] = [ { name: "Name", value: "name" }, { name: "Created", value: "created" }, { name: "Modified", value: "modified" } ];
 	private sortedColumn:string = "name";

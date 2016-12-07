@@ -9,7 +9,8 @@
 		</button>
 	</div>
 </div>
-<div class="agents list" [ngClass]="{loading:loading}">
+<div class="ui active centered large inline text inverted loader" *ngIf="loading">Loading</div>
+<div class="agents list" *ngIf="!loading">
 	<table class="ui selectable sortable celled small very compact table" *ngIf="agents.length > 0">
 		<thead>
 			<tr>
