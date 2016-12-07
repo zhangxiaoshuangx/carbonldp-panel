@@ -133,8 +133,13 @@ export class AgentsService {
 
 	private getSortedAgents( agents:PersistedAgent.Class[], orderBy:string, ascending:boolean ):PersistedAgent.Class[] {
 		return agents.sort( ( agentA, agentB ) => {
-			if( agentA[ orderBy ] > agentB[ orderBy ] ) return ascending ? - 1 : 1;
-			if( agentA[ orderBy ] < agentB[ orderBy ] ) return ascending ? 1 : - 1;
+			if( typeof agentA[ orderBy ] === "string" ) {
+				if( agentA[ orderBy ].toLowerCase() > agentB[ orderBy ].toLowerCase() ) return ascending ? - 1 : 1;
+				if( agentA[ orderBy ].toLowerCase() < agentB[ orderBy ].toLowerCase() ) return ascending ? 1 : - 1;
+			} else {
+				if( agentA[ orderBy ] > agentB[ orderBy ] ) return ascending ? - 1 : 1;
+				if( agentA[ orderBy ] < agentB[ orderBy ] ) return ascending ? 1 : - 1;
+			}
 			return 0;
 		} );
 	}
