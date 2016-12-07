@@ -12,15 +12,7 @@ export class PaginatorComponent {
 
 	private pages:number[] = [];
 
-	private _activePage:number = 0;
-	@Input() set activePage( value:number ) {
-		this._activePage = value;
-		this.onPageChange.emit( value );
-	}
-
-	get activePage():number {
-		return this._activePage;
-	}
+	@Input() activePage:number = 0;
 
 
 	private _elementsPerPage:number = 5;
@@ -50,20 +42,24 @@ export class PaginatorComponent {
 
 	private pageClick( index:number ):void {
 		this.activePage = index;
+		this.onPageChange.emit( this.activePage );
 	}
 
 	private previous():void {
 		this.activePage > 0 ? this.activePage -- : this.activePage;
+		this.onPageChange.emit( this.activePage );
 	}
 
 	private next():void {
 		this.activePage + 1 < this.pages.length ? this.activePage ++ : this.activePage;
+		this.onPageChange.emit( this.activePage );
 	}
 
 	private updatePages():void {
 		this.pages = this.getPages();
 		if( this.activePage >= this.pages.length && this.pages.length > 0 ) setTimeout( () => {
 			this.activePage = this.pages[ this.pages.length - 1 ];
+			this.onPageChange.emit( this.activePage );
 		} );
 	}
 
