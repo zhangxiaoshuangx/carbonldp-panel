@@ -10,6 +10,7 @@ import { AgentDetailsView } from "./agents/agent-details/agent-details.view";
 import { AgentCreatorView } from "./agents/agent-creator/agent-creator.view";
 import { AgentNotFoundView } from "./agents/agent-not-found/agent-not-found.view";
 import { RolesView } from "./roles/roles.view";
+import { RolesListView } from "./roles/roles-list/roles-list.view";
 
 const AuthRoutes:Routes = [
 	{
@@ -78,6 +79,16 @@ const AuthRoutes:Routes = [
 					displayName: "Roles",
 				},
 				component: RolesView,
+				children: [
+					{
+						path: "",
+						component: RolesListView,
+					},
+					{
+						path: "list",
+						component: RolesListView,
+					},
+				]
 			}
 		]
 	}
