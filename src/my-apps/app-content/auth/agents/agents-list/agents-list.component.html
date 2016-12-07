@@ -10,7 +10,7 @@
 	</div>
 </div>
 <div class="ui active centered large inline text inverted loader" *ngIf="loading">Loading</div>
-<div class="agents list" *ngIf="!loading">
+<div class="agents list" [hidden]="loading">
 	<table class="ui selectable sortable celled small very compact table" *ngIf="agents.length > 0">
 		<thead>
 			<tr>
@@ -52,7 +52,9 @@
 			<tr>
 				<th colspan="4">
 					<label>Show: </label>
-					<select class="ui dropdown" [(ngModel)]="agentsPerPage">
+					<select class="ui dropdown"
+					        [ngModel]="agentsPerPage"
+					        (ngModelChange)="agentsPerPage = $event; activePage = paginator.activePage; changeAgentsPerPage($event);">
 						<option class="item" value="5">5</option>
 						<option class="item" value="10"
 						        *ngIf="totalAgents > 10">10
@@ -65,9 +67,9 @@
 						</option>
 						<option class="item" value="{{totalAgents}}">All</option>
 					</select>
-					<cp-paginator [totalElements]="totalAgents"
+					<cp-paginator #paginator
+					              [totalElements]="totalAgents"
 					              [elementsPerPage]="agentsPerPage"
-					              [activePage]="activePage"
 					              (onPageChange)="changePage($event)"></cp-paginator>
 				</th>
 			</tr>
