@@ -16,6 +16,7 @@ import { AgentDetailsComponent } from "./agents/agent-details/agent-details.comp
 import { AgentDeleterComponent } from "./agents/agent-deleter/agent-deleter.component";
 import { AgentCreatorView } from "./agents/agent-creator/agent-creator.view";
 import { AgentNotFoundView } from "./agents/agent-not-found/agent-not-found.view";
+import { RolesView } from "./roles/roles.view";
 import { RolesChooserComponent } from "./roles/roles-chooser/roles-chooser.component";
 
 
@@ -48,6 +49,7 @@ import { AgentResolver } from "./agents/agent.resolver";
 		AgentDeleterComponent,
 		AgentCreatorView,
 		AgentNotFoundView,
+		RolesView,
 		RolesChooserComponent
 	],
 	providers: [

@@ -9,6 +9,7 @@ import { AgentsListView } from "./agents/agents-list/agents-list.view";
 import { AgentDetailsView } from "./agents/agent-details/agent-details.view";
 import { AgentCreatorView } from "./agents/agent-creator/agent-creator.view";
 import { AgentNotFoundView } from "./agents/agent-not-found/agent-not-found.view";
+import { RolesView } from "./roles/roles.view";
 
 const AuthRoutes:Routes = [
 	{
@@ -70,6 +71,14 @@ const AuthRoutes:Routes = [
 					}
 				]
 			},
+			{
+				path: "roles",
+				data: {
+					alias: "roles",
+					displayName: "Roles",
+				},
+				component: RolesView,
+			}
 		]
 	}
 ];
