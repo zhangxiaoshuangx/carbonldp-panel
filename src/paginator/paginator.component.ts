@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChange } from "@angular/core";
 
 import template from "./paginator.component.html!";
 
@@ -8,59 +8,52 @@ import template from "./paginator.component.html!";
 	styles: [ ":host{ display:block; }" ],
 } )
 
-export class PaginatorComponent {
+export class PaginatorComponent implements OnChanges {
 
 	private pages:number[] = [];
 
-	@Input() activePage:number = 0;
-
-
-	private _elementsPerPage:number = 5;
-	@Input() set elementsPerPage( value:number ) {
-		this._elementsPerPage = value;
-		this.updatePages();
+	private _activePage:number = 0;
+	@Input() set activePage( value:number ) {
+		this._activePage = value;
+		this.onPageChange.emit( this.activePage );
 	};
 
-	get elementsPerPage():number {
-		return this._elementsPerPage;
+	get activePage():number {
+		return this._activePage;
 	}
 
-	private _totalElements:number = 0;
-	@Input() set totalElements( value:number ) {
-		this._totalElements = value;
-		this.updatePages();
-	};
-
-	get totalElements():number {
-		return this._totalElements;
-	}
+	@Input() elementsPerPage:number = 5;
+	@Input() totalElements:number = 0;
 
 	@Output() onPageChange:EventEmitter<number> = new EventEmitter<number>();
 
 
 	constructor() {}
 
+	ngOnChanges( changes:{[propName:string]:SimpleChange} ):void {
+		if( ( ! ! changes[ "totalElements" ] && changes[ "totalElements" ].currentValue !== changes[ "totalElements" ].previousValue ) ||
+			( ! ! changes[ "elementsPerPage" ] && changes[ "elementsPerPage" ].currentValue !== changes[ "elementsPerPage" ].previousValue ) ) {
+			this.updatePages();
+		}
+	}
+
 	private pageClick( index:number ):void {
 		this.activePage = index;
-		this.onPageChange.emit( this.activePage );
 	}
 
 	private previous():void {
 		this.activePage > 0 ? this.activePage -- : this.activePage;
-		this.onPageChange.emit( this.activePage );
 	}
 
 	private next():void {
 		this.activePage + 1 < this.pages.length ? this.activePage ++ : this.activePage;
-		this.onPageChange.emit( this.activePage );
 	}
 
 	private updatePages():void {
 		this.pages = this.getPages();
-		if( this.activePage >= this.pages.length && this.pages.length > 0 ) setTimeout( () => {
+		if( this.activePage >= this.pages.length && this.pages.length > 0 ) {
 			this.activePage = this.pages[ this.pages.length - 1 ];
-			this.onPageChange.emit( this.activePage );
-		} );
+		}
 	}
 
 	private getPages():number[] {
