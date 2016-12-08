@@ -19,6 +19,7 @@ import { AgentNotFoundView } from "./agents/agent-not-found/agent-not-found.view
 import { RolesView } from "./roles/roles.view";
 import { RolesListView } from "./roles/roles-list/roles-list.view";
 import { RolesListComponent } from "./roles/roles-list/roles-list.component";
+import { RoleDetailsView } from "./roles/role-details/role-details.view";
 import { RolesChooserComponent } from "./roles/roles-chooser/roles-chooser.component";
 
 
@@ -30,6 +31,7 @@ import { DirectivesModule } from "carbonldp-panel/directives.module";
 import { AgentsService } from "./agents/agents.service";
 import { RolesService } from "./roles/roles.service";
 import { AgentResolver } from "./agents/agent.resolver";
+import { RoleResolver } from "./roles/role.resolver";
 
 
 @NgModule( {
@@ -42,6 +44,7 @@ import { AgentResolver } from "./agents/agent.resolver";
 	],
 	declarations: [
 		AuthView,
+
 		AgentsView,
 		AgentsComponent,
 		AgentsListView,
@@ -51,15 +54,18 @@ import { AgentResolver } from "./agents/agent.resolver";
 		AgentDeleterComponent,
 		AgentCreatorView,
 		AgentNotFoundView,
+
 		RolesView,
 		RolesListView,
 		RolesListComponent,
+		RoleDetailsView,
 		RolesChooserComponent
 	],
 	providers: [
 		AgentsService,
 		RolesService,
 		AgentResolver,
+		RoleResolver,
 	],
 } )
 export class AuthModule {
