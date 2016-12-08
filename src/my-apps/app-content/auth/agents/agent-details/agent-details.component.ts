@@ -42,6 +42,8 @@ export class AgentDetailsComponent implements OnChanges {
 	@Input() canClose:boolean = true;
 
 	@Output() onClose:EventEmitter<boolean> = new EventEmitter<boolean>();
+	@Output() onSuccess:EventEmitter<boolean> = new EventEmitter<boolean>();
+	@Output() onError:EventEmitter<boolean> = new EventEmitter<boolean>();
 
 	private agentFormModel:AgentFormModel = {
 		slug: "",
@@ -152,8 +154,10 @@ export class AgentDetailsComponent implements OnChanges {
 			return this.editAgentRoles( agent, agentData.roles );
 		} ).then( () => {
 			this.displaySuccessMessage = true;
+			this.onSuccess.emit( true );
 		} ).catch( ( error ) => {
 			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
+			this.onError.emit( true );
 		} );
 	}
 
@@ -166,8 +170,10 @@ export class AgentDetailsComponent implements OnChanges {
 			return this.editAgentRoles( agent, agentData.roles );
 		} ).then( () => {
 			this.displaySuccessMessage = true;
+			this.onSuccess.emit( true );
 		} ).catch( ( error ) => {
 			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
+			this.onError.emit( true );
 		} );
 	}
 
