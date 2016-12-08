@@ -1,4 +1,4 @@
-System.register(["@angular/core", "./../sidebar.service"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "./../sidebar.service"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,19 +10,22 @@ System.register(["@angular/core", "./../sidebar.service"], function(exports_1, c
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, sidebar_service_1;
+    var core_1, router_1, sidebar_service_1;
     var MyAppsSidebarService;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
+            function (router_1_1) {
+                router_1 = router_1_1;
+            },
             function (sidebar_service_1_1) {
                 sidebar_service_1 = sidebar_service_1_1;
             }],
         execute: function() {
             MyAppsSidebarService = (function () {
-                function MyAppsSidebarService(sidebarService) {
+                function MyAppsSidebarService(router, sidebarService) {
                     // TODO: Find a more native approach to make this work with different routing levels 'website.com/app-dev/my-apps/slug/...' and 'workbench.com/my-apps/slug/...'
                     this.base = "";
                     this.openApps = new Map();
@@ -32,6 +35,7 @@ System.register(["@angular/core", "./../sidebar.service"], function(exports_1, c
                         icon: "cubes icon",
                         index: 0,
                     };
+                    this.router = router;
                     this.sidebarService = sidebarService;
                     this.base = this.sidebarService.base;
                     this.init();
@@ -119,6 +123,7 @@ System.register(["@angular/core", "./../sidebar.service"], function(exports_1, c
                     this.openApps.delete(app);
                     if (this.openApps.size === 0)
                         this.removeOpenAppsDivider();
+                    this.router.navigate(["my-apps"]);
                 };
                 MyAppsSidebarService.prototype.addOpenAppsDivider = function () {
                     this.openAppsGroup.children.push(this.openAppsDivider);
@@ -128,7 +133,7 @@ System.register(["@angular/core", "./../sidebar.service"], function(exports_1, c
                 };
                 MyAppsSidebarService = __decorate([
                     core_1.Injectable(), 
-                    __metadata('design:paramtypes', [sidebar_service_1.SidebarService])
+                    __metadata('design:paramtypes', [router_1.Router, sidebar_service_1.SidebarService])
                 ], MyAppsSidebarService);
                 return MyAppsSidebarService;
             }());
