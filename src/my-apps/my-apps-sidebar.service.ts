@@ -1,5 +1,6 @@
 import { Injectable, EventEmitter } from "@angular/core";
 import { Router } from "@angular/router";
+import { RouterService } from "carbonldp-panel/router.service";
 
 import { SidebarService, SidebarGroup, SidebarDivider, SidebarSubmenu } from "./../sidebar.service";
 
@@ -11,6 +12,7 @@ export class MyAppsSidebarService {
 	// TODO: Find a more native approach to make this work with different routing levels 'website.com/app-dev/my-apps/slug/...' and 'workbench.com/my-apps/slug/...'
 	private base:string = "";
 	private router:Router;
+	private routerService:RouterService;
 	private sidebarService:SidebarService;
 	private openAppsGroup:SidebarGroup;
 	private openApps:Map<App.Class, SidebarSubmenu> = new Map<App.Class, SidebarSubmenu>();
@@ -21,8 +23,9 @@ export class MyAppsSidebarService {
 		index: 0,
 	};
 
-	constructor( router:Router, sidebarService:SidebarService ) {
+	constructor( router:Router, routerService:RouterService, sidebarService:SidebarService ) {
 		this.router = router;
+		this.routerService = routerService;
 		this.sidebarService = sidebarService;
 		this.base = this.sidebarService.base;
 		this.init();
@@ -112,7 +115,7 @@ export class MyAppsSidebarService {
 		this.openApps.delete( app );
 
 		if( this.openApps.size === 0 ) this.removeOpenAppsDivider();
-		this.router.navigate( [ "my-apps" ] );
+		if( this.routerService.isActive( [ "my-apps", app.slug ], false ) ) this.router.navigate( [ "my-apps" ] );
 	}
 
 	private addOpenAppsDivider():void {
