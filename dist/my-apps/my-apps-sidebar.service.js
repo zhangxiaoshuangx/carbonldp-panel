@@ -84,15 +84,15 @@ System.register(["@angular/core", "./../sidebar.service"], function(exports_1, c
                             },
                             {
                                 type: "link",
-                                name: "Configuration",
-                                icon: "settings icon",
-                                route: [this.base, "my-apps", app.slug, "configure"],
+                                name: "Security",
+                                icon: "lock icon",
+                                route: [this.base, "my-apps", app.slug, "security", "agents"],
                             },
                             {
                                 type: "link",
-                                name: "Auth",
-                                icon: "lock icon",
-                                route: [this.base, "my-apps", app.slug, "auth", "agents"],
+                                name: "Configuration",
+                                icon: "settings icon",
+                                route: [this.base, "my-apps", app.slug, "configure"],
                             },
                         ]
                     };
