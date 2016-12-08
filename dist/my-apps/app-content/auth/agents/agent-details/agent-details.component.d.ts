@@ -18,6 +18,8 @@ export declare class AgentDetailsComponent implements OnChanges {
     appContext: App.Context;
     canClose: boolean;
     onClose: EventEmitter<boolean>;
+    onSuccess: EventEmitter<boolean>;
+    onError: EventEmitter<boolean>;
     private agentFormModel;
     constructor(element: ElementRef, agentsService: AgentsService, rolesService: RolesService);
     ngAfterViewInit(): void;

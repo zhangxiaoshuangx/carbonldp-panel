@@ -57,6 +57,8 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/Auth/Agent", "carb
                     this.mode = Modes.READ;
                     this.canClose = true;
                     this.onClose = new core_1.EventEmitter();
+                    this.onSuccess = new core_1.EventEmitter();
+                    this.onError = new core_1.EventEmitter();
                     this.agentFormModel = {
                         slug: "",
                         name: "",
@@ -159,8 +161,10 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/Auth/Agent", "carb
                         return _this.editAgentRoles(agent, agentData.roles);
                     }).then(function () {
                         _this.displaySuccessMessage = true;
+                        _this.onSuccess.emit(true);
                     }).catch(function (error) {
                         _this.errorMessage = error_message_generator_1.ErrorMessageGenerator.getErrorMessage(error);
+                        _this.onError.emit(true);
                     });
                 };
                 AgentDetailsComponent.prototype.createAgent = function (agent, agentData) {
@@ -174,8 +178,10 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/Auth/Agent", "carb
                         return _this.editAgentRoles(agent, agentData.roles);
                     }).then(function () {
                         _this.displaySuccessMessage = true;
+                        _this.onSuccess.emit(true);
                     }).catch(function (error) {
                         _this.errorMessage = error_message_generator_1.ErrorMessageGenerator.getErrorMessage(error);
+                        _this.onError.emit(true);
                     });
                 };
                 AgentDetailsComponent.prototype.getSanitizedSlug = function (slug) {
@@ -249,6 +255,14 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/Auth/Agent", "carb
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], AgentDetailsComponent.prototype, "onClose", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], AgentDetailsComponent.prototype, "onSuccess", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], AgentDetailsComponent.prototype, "onError", void 0);
                 AgentDetailsComponent = __decorate([
                     core_1.Component({
                         selector: "cp-agent-details",
