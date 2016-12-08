@@ -1,0 +1,17 @@
+:host {
+	display: block;
+	table.selectable {
+		tr {
+			cursor: pointer;
+		}
+	}
+	cp-paginator {
+		display: inline;
+	}
+	.x {
+
+	}
+	.roles.list {
+		padding: 5% 0;
+	}
+}
