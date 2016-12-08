@@ -1,7 +1,7 @@
-System.register(["@angular/router", "./auth.view", "./agents/agents.view", "./agents/agent.resolver", "./agents/agents-list/agents-list.view", "./agents/agent-details/agent-details.view", "./agents/agent-creator/agent-creator.view", "./agents/agent-not-found/agent-not-found.view", "./roles/roles.view", "./roles/roles-list/roles-list.view"], function(exports_1, context_1) {
+System.register(["@angular/router", "./auth.view", "./agents/agents.view", "./agents/agent.resolver", "./agents/agents-list/agents-list.view", "./agents/agent-details/agent-details.view", "./agents/agent-creator/agent-creator.view", "./agents/agent-not-found/agent-not-found.view", "./roles/roles.view", "./roles/role.resolver", "./roles/roles-list/roles-list.view", "./roles/role-details/role-details.view"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var router_1, auth_view_1, agents_view_1, agent_resolver_1, agents_list_view_1, agent_details_view_1, agent_creator_view_1, agent_not_found_view_1, roles_view_1, roles_list_view_1;
+    var router_1, auth_view_1, agents_view_1, agent_resolver_1, agents_list_view_1, agent_details_view_1, agent_creator_view_1, agent_not_found_view_1, roles_view_1, role_resolver_1, roles_list_view_1, role_details_view_1;
     var AuthRoutes, routing;
     return {
         setters:[
@@ -32,8 +32,14 @@ System.register(["@angular/router", "./auth.view", "./agents/agents.view", "./ag
             function (roles_view_1_1) {
                 roles_view_1 = roles_view_1_1;
             },
+            function (role_resolver_1_1) {
+                role_resolver_1 = role_resolver_1_1;
+            },
             function (roles_list_view_1_1) {
                 roles_list_view_1 = roles_list_view_1_1;
+            },
+            function (role_details_view_1_1) {
+                role_details_view_1 = role_details_view_1_1;
             }],
         execute: function() {
             AuthRoutes = [
@@ -111,6 +117,18 @@ System.register(["@angular/router", "./auth.view", "./agents/agents.view", "./ag
                                 {
                                     path: "list",
                                     component: roles_list_view_1.RolesListView,
+                                },
+                                {
+                                    path: ":role-slug",
+                                    resolve: {
+                                        role: role_resolver_1.RoleResolver,
+                                    },
+                                    data: {
+                                        param: "role-slug",
+                                        displayName: "Role",
+                                        title: "Role",
+                                    },
+                                    component: role_details_view_1.RoleDetailsView,
                                 },
                             ]
                         }

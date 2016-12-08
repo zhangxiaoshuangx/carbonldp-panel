@@ -6,6 +6,7 @@ import * as Roles from "carbonldp/Auth/Roles";
 import * as PersistedRole from "carbonldp/Auth/PersistedRole";
 import * as HTTP from "carbonldp/HTTP";
 import * as Utils from "carbonldp/Utils";
+import * as URI from "carbonldp/RDF/URI";
 import * as NS from "carbonldp/NS";
 import * as SPARQL from "carbonldp/SPARQL";
 import { Class as RetrievalPreferences, OrderByProperty } from "carbonldp/RetrievalPreferences";
@@ -21,7 +22,18 @@ export class RolesService {
 		this.appContextsRoles = new Map<string, Map<string, PersistedRole.Class>>();
 	}
 
-	getAll( appContext:App.Context, limit?:number, page?:number, orderBy?:string, ascending:boolean = true ):Promise<PersistedRole.Class[]> {
+	public get( slugOrURI:string, appContext:App.Context ):Promise<PersistedRole.Class> {
+		let uri:string = appContext.getBaseURI() + `roles/${slugOrURI}/`;
+		if( URI.Util.isAbsolute( slugOrURI ) ) uri = slugOrURI;
+		let existingRoles:Map <string, PersistedRole.Class> = this.appContextsRoles.get( appContext.getBaseURI() );
+		existingRoles = typeof existingRoles === "undefined" ? new Map<string, PersistedRole.Class>() : existingRoles;
+		return appContext.documents.get<PersistedRole.Class>( uri ).then( ( [role, response]:[PersistedRole.Class, HTTP.Response.Class] ) => {
+			existingRoles.set( role.id, role );
+			return role;
+		} );
+	}
+
+	public getAll( appContext:App.Context, limit?:number, page?:number, orderBy?:string, ascending:boolean = true ):Promise<PersistedRole.Class[]> {
 		let uri:string = appContext.getBaseURI() + "roles/";
 		let existingRoles:Map <string, PersistedRole.Class> = this.appContextsRoles.get( appContext.getBaseURI() );
 		existingRoles = typeof existingRoles === "undefined" ? new Map<string, PersistedRole.Class>() : existingRoles;

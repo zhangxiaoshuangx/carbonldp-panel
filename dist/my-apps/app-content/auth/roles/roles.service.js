@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/Auth/Roles", "carbonldp/Utils", "carbonldp/NS"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/Auth/Roles", "carbonldp/Utils", "carbonldp/RDF/URI", "carbonldp/NS"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -15,7 +15,7 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/Auth/Roles", "c
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, Carbon_1, Roles, Utils, NS;
+    var core_1, Carbon_1, Roles, Utils, URI, NS;
     var RolesService;
     return {
         setters:[
@@ -31,6 +31,9 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/Auth/Roles", "c
             function (Utils_1) {
                 Utils = Utils_1;
             },
+            function (URI_1) {
+                URI = URI_1;
+            },
             function (NS_1) {
                 NS = NS_1;
             }],
@@ -40,6 +43,18 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/Auth/Roles", "c
                     this.carbon = carbon;
                     this.appContextsRoles = new Map();
                 }
+                RolesService.prototype.get = function (slugOrURI, appContext) {
+                    var uri = appContext.getBaseURI() + ("roles/" + slugOrURI + "/");
+                    if (URI.Util.isAbsolute(slugOrURI))
+                        uri = slugOrURI;
+                    var existingRoles = this.appContextsRoles.get(appContext.getBaseURI());
+                    existingRoles = typeof existingRoles === "undefined" ? new Map() : existingRoles;
+                    return appContext.documents.get(uri).then(function (_a) {
+                        var role = _a[0], response = _a[1];
+                        existingRoles.set(role.id, role);
+                        return role;
+                    });
+                };
                 RolesService.prototype.getAll = function (appContext, limit, page, orderBy, ascending) {
                     var _this = this;
                     if (ascending === void 0) { ascending = true; }
