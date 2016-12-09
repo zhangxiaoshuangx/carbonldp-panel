@@ -129,3 +129,16 @@ export class URIFragmentValidator implements Validator {
 		return null;
 	}
 }
+
+@Directive( {
+	selector: '[cp-required-if]',
+	providers: [ { provide: NG_VALIDATORS, useExisting: RequiredIfValidator, multi: true } ]
+} )
+export class RequiredIfValidator {
+	@Input() condition:boolean;
+
+	validate( control:AbstractControl ):{ [key:string]:any } {
+		if( this.condition && ! control.value ) return { "requiredIf": true };
+		return null;
+	}
+}

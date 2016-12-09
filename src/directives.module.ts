@@ -6,6 +6,7 @@ import { HighlightDirective } from "./directives/highlight.directive";
 import { EmailValidator, MatchValidator } from "./custom-validators";
 import { SlugValidator, DomainValidator } from "./custom-validators";
 import { URIValidator, FragmentValidator, URIFragmentValidator } from "./custom-validators";
+import { RequiredIfValidator } from "./custom-validators";
 import { InputValidationDirective } from "./directives/input-validation.directive";
 
 //TODO: Merge directives module with panel module, after solving components collisions between WebsiteModule and PanelModule
@@ -23,7 +24,8 @@ import { InputValidationDirective } from "./directives/input-validation.directiv
 		FragmentValidator,
 		URIFragmentValidator,
 		HighlightDirective,
-		InputValidationDirective
+		InputValidationDirective,
+		RequiredIfValidator,
 	],
 	exports: [
 		EmailValidator,
@@ -34,7 +36,8 @@ import { InputValidationDirective } from "./directives/input-validation.directiv
 		FragmentValidator,
 		URIFragmentValidator,
 		HighlightDirective,
-		InputValidationDirective
+		InputValidationDirective,
+		RequiredIfValidator,
 	],
 	providers: []
 } )

@@ -38,3 +38,9 @@ export declare class URIFragmentValidator implements Validator {
         [key: string]: any;
     };
 }
+export declare class RequiredIfValidator {
+    condition: boolean;
+    validate(control: AbstractControl): {
+        [key: string]: any;
+    };
+}
