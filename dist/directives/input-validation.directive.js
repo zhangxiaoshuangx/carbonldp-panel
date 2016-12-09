@@ -64,7 +64,7 @@ System.register(["@angular/core", "@angular/forms"], function(exports_1, context
                     get: function () {
                         if (!this.ngModel)
                             return true;
-                        return !this.ngModel.touched || this.hasFocus || !this.wasFocused || this.ngModel.valid;
+                        return !this.ngModel.touched || this.hasFocus || !this.wasFocused || this.ngModel.valid || this.ngModel.isDisabled;
                     },
                     enumerable: true,
                     configurable: true
