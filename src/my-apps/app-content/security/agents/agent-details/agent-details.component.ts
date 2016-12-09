@@ -91,8 +91,8 @@ export class AgentDetailsComponent implements OnChanges {
 		this.agentFormModel.name = this.agent.name;
 		this.agentFormModel.email = this.agent.email;
 		this.agentFormModel.roles = [];
-		this.agentFormModel.password = this.mode === Modes.CREATE ? "" : this.agent.password;
-		this.agentFormModel.repeatPassword = this.mode === Modes.CREATE ? "" : this.agent.password;
+		this.agentFormModel.password = "";
+		this.agentFormModel.repeatPassword = "";
 		this.agentFormModel.enabled = this.mode === Modes.CREATE ? true : this.agent.enabled;
 		this.getRoles( this.agent ).then( ( roles:PersistedRole.Class[] ) => {
 			roles.forEach( ( role:PersistedRole.Class ) => {
@@ -148,13 +148,14 @@ export class AgentDetailsComponent implements OnChanges {
 	private editAgent( agent:PersistedAgent.Class, agentData:AgentFormModel ):void {
 		agent.email = agentData.email;
 		agent.name = agentData.name;
-		agent.password = agentData.password;
+		agent.password = agentData.password.trim().length > 0 ? agentData.password : agent.password;
 		agent.enabled = agentData.enabled;
 		this.agentsService.saveAndRefreshAgent( this.appContext, agent ).then( ( [updatedAgent, [saveResponse, refreshResponse]]:[PersistedAgent.Class, [HTTP.Response.Class,HTTP.Response.Class]] ) => {
 			return this.editAgentRoles( agent, agentData.roles );
 		} ).then( () => {
 			this.displaySuccessMessage = true;
 			this.onSuccess.emit( true );
+			this.cancelForm();
 		} ).catch( ( error ) => {
 			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
 			this.onError.emit( true );
