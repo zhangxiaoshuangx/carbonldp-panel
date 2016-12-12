@@ -20,6 +20,7 @@ import { RolesView } from "./roles/roles.view";
 import { RolesListView } from "./roles/roles-list/roles-list.view";
 import { RolesListComponent } from "./roles/roles-list/roles-list.component";
 import { RoleDetailsView } from "./roles/role-details/role-details.view";
+import { RoleDetailsComponent } from "./roles/role-details/role-details.component";
 import { RolesChooserComponent } from "./roles/roles-chooser/roles-chooser.component";
 
 
@@ -58,6 +59,7 @@ import { RoleResolver } from "./roles/role.resolver";
 		RolesListView,
 		RolesListComponent,
 		RoleDetailsView,
+		RoleDetailsComponent,
 		RolesChooserComponent
 	],
 	providers: [

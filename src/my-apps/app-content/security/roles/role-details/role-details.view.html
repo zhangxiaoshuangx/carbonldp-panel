@@ -1,1 +1,3 @@
-<p>[ Role Details View here ]</p>
+<cp-role-details [role]="role" *ngIf="canDisplay"
+                 [mode]="mode"
+                 [appContext]="app.context"></cp-role-details>
