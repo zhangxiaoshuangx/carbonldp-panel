@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from "@angular/forms";
 
 //Providers
-import { routing } from "./auth.routing";
+import { routing } from "./security.routing";
 
 // Components
-import { AuthView } from "./auth.view";
+import { SecurityView } from "./security.view";
 import { AgentsView } from "./agents/agents.view";
 import { AgentsComponent } from "./agents/agents.component";
 import { AgentsListView } from "./agents/agents-list/agents-list.view";
@@ -43,8 +43,7 @@ import { RoleResolver } from "./roles/role.resolver";
 		DirectivesModule,
 	],
 	declarations: [
-		AuthView,
-
+		SecurityView,
 		AgentsView,
 		AgentsComponent,
 		AgentsListView,
@@ -68,6 +67,6 @@ import { RoleResolver } from "./roles/role.resolver";
 		RoleResolver,
 	],
 } )
-export class AuthModule {
+export class SecurityModule {
 }
-export default AuthModule;
+export default SecurityModule;

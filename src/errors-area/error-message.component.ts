@@ -25,6 +25,7 @@ export class ErrorMessageComponent implements OnChanges, AfterViewInit {
 	@Input() errors:any[];
 	@Input() closable:boolean = false;
 	@Input() stack:string;
+	@Input() showStack:boolean = false;
 	@Output() onClose:EventEmitter<any> = new EventEmitter();
 
 	constructor( element:ElementRef ) {
@@ -55,7 +56,7 @@ export class ErrorMessageComponent implements OnChanges, AfterViewInit {
 	close( event:Event, messageDiv:HTMLElement ):void {
 		$( messageDiv ).transition( {
 			animation: "fade",
-			onComplete: ()=> {this.onClose.emit( true );}
+			onComplete: () => {this.onClose.emit( true );}
 		} );
 	}
 }

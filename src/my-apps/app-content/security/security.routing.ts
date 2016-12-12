@@ -2,7 +2,7 @@ import { ModuleWithProviders } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
 
-import { AuthView } from "./auth.view";
+import { SecurityView } from "./security.view";
 import { AgentsView } from "./agents/agents.view";
 import { AgentResolver } from "./agents/agent.resolver";
 import { AgentsListView } from "./agents/agents-list/agents-list.view";
@@ -14,14 +14,14 @@ import { RoleResolver } from "./roles/role.resolver";
 import { RolesListView } from "./roles/roles-list/roles-list.view";
 import { RoleDetailsView } from "./roles/role-details/role-details.view";
 
-const AuthRoutes:Routes = [
+const SecurityRoutes:Routes = [
 	{
 		path: "",
 		data: {
-			alias: "auth",
-			displayName: "Auth",
+			alias: "security",
+			displayName: "Security",
 		},
-		component: AuthView,
+		component: SecurityView,
 		children: [
 			{
 				path: "",
@@ -108,4 +108,4 @@ const AuthRoutes:Routes = [
 	}
 ];
 
-export const routing:ModuleWithProviders = RouterModule.forChild( AuthRoutes );
+export const routing:ModuleWithProviders = RouterModule.forChild( SecurityRoutes );

@@ -82,12 +82,13 @@
 						<input type="password" name="password"
 						       class="field password"
 						       placeholder="Password"
-						       #password="cpValidation" cpValidation required
+						       #password="cpValidation" cpValidation
+						       cp-required-if [condition]="mode===Modes.CREATE"
 						       [(ngModel)]="agentFormModel.password"
 						       [disabled]="mode === Modes.READ">
 					</div>
 					<div class="ui pointing red basic label" *ngIf="!password.valid">
-						<span *ngIf="password.control.hasError('required')">Please enter a password</span>
+						<span *ngIf="password.control.hasError('requiredIf')">Please enter a password</span>
 					</div>
 				</div>
 				<div class="field"
@@ -98,15 +99,16 @@
 						<input type="password" name="repeatPassword"
 						       class="field repeatPassword"
 						       placeholder="Repeat password"
-						       #repeatPassword="cpValidation" cpValidation required cp-match
+						       #repeatPassword="cpValidation" cpValidation
+						       cp-required-if [condition]="mode===Modes.CREATE"
+						       cp-match [matchTo]="agentFormModel.password"
 						       [(ngModel)]="agentFormModel.repeatPassword"
-						       [matchTo]="agentFormModel.password"
 						       [control]="repeatPasswordControl"
 						       #repeatPasswordControl="ngModel"
 						       [disabled]="mode === Modes.READ">
 					</div>
 					<div class="ui pointing red basic label" *ngIf="!repeatPassword.valid">
-						<span *ngIf="repeatPassword.control.hasError('required')">Please enter the password confirmation</span>
+						<span *ngIf="repeatPassword.control.hasError('requiredIf')">Please enter the password confirmation</span>
 						<span *ngIf="repeatPassword.control.hasError('matchError')">The password confirmation doesn't match the password</span>
 					</div>
 				</div>

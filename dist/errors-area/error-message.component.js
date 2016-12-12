@@ -31,6 +31,7 @@ System.register(["@angular/core", "jquery", "semantic-ui/semantic", "./error-mes
             ErrorMessageComponent = (function () {
                 function ErrorMessageComponent(element) {
                     this.closable = false;
+                    this.showStack = false;
                     this.onClose = new core_1.EventEmitter();
                     this.element = element;
                     this.$element = jquery_1.default(this.element.nativeElement);
@@ -95,6 +96,10 @@ System.register(["@angular/core", "jquery", "semantic-ui/semantic", "./error-mes
                     core_1.Input(), 
                     __metadata('design:type', String)
                 ], ErrorMessageComponent.prototype, "stack", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Boolean)
+                ], ErrorMessageComponent.prototype, "showStack", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)

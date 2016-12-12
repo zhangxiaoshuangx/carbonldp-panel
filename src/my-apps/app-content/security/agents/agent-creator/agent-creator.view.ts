@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { PersistedAgent } from "carbonldp/Auth";
 
 import { AppContentService } from "carbonldp-panel/my-apps/app-content/app-content.service";
-import { Modes } from "carbonldp-panel/my-apps/app-content/auth/agents/agent-details/agent-details.component";
+import { Modes } from "../agent-details/agent-details.component";
 
 import template from "./agent-creator.view.html!";
 

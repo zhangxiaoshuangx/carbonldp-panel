@@ -1,17 +1,17 @@
 import { Component } from "@angular/core";
 
-import template from "./auth.view.html!";
+import template from "./security.view.html!";
 
 @Component( {
-	selector: "cp-auth-view",
+	selector: "cp-security-view",
 	template: template,
 	styles: [ ":host { display: block; }" ],
 } )
 
-export class AuthView {
+export class SecurityView {
 
 	constructor() {}
-	
+
 }
 
-export default AuthView;
+export default SecurityView;

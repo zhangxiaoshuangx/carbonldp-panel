@@ -138,7 +138,7 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/Utils", "carbon
                 };
                 AgentsService.prototype.getSortedAgents = function (agents, orderBy, ascending) {
                     return agents.sort(function (agentA, agentB) {
-                        if (typeof agentA[orderBy] === "string") {
+                        if (typeof agentA[orderBy] === "string" && typeof agentB[orderBy] === "string") {
                             if (agentA[orderBy].toLowerCase() > agentB[orderBy].toLowerCase())
                                 return ascending ? -1 : 1;
                             if (agentA[orderBy].toLowerCase() < agentB[orderBy].toLowerCase())

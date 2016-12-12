@@ -10,7 +10,7 @@ import { EditAppView } from "./edit-app/edit-app.view";
 import { ExplorerView } from "./explorer/explorer.view";
 import { ConfigurationView } from "./configuration/configuration.view";
 
-import { AuthModule } from "./auth/auth.module";
+import { SecurityModule } from "./security/security.module";
 
 const AppContentRoutes:Routes = [
 	{
@@ -62,8 +62,8 @@ const AppContentRoutes:Routes = [
 				},
 			},
 			{
-				path: "auth",
-				loadChildren: () => AuthModule,
+				path: "security",
+				loadChildren: () => SecurityModule,
 			},
 		]
 	}
