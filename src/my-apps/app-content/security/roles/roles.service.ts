@@ -70,8 +70,8 @@ export class RolesService {
 				property = modified;
 				break;
 		}
-		if( ! orderBy ) preferences.orderBy = [ property ];
 		if( ! ascending ) property[ "@id" ] = "-" + property[ "@id" ];
+		if( ! ! orderBy ) preferences.orderBy = [ property ];
 		if( typeof limit !== "undefined" ) preferences.limit = limit;
 		if( typeof page !== "undefined" ) preferences.offset = page * limit;
 
