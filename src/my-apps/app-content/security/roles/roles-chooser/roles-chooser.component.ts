@@ -36,6 +36,7 @@ export class RolesChooserComponent implements AfterViewInit {
 
 	@Input() appContext:App.Context;
 	@Input() bordered:boolean = true;
+	@Input() single:boolean = false;
 
 	@Output() onChangeSelection:EventEmitter<PersistedRole.Class[]> = new EventEmitter<PersistedRole.Class[]>();
 
@@ -63,12 +64,23 @@ export class RolesChooserComponent implements AfterViewInit {
 	}
 
 	private selectRole( role:PersistedRole.Class ):void {
+		if( this.single ) this.addRoleAsSingle( role );
+		else this.addRoleAsMulti( role );
+		this.selectedRoles.forEach( ( persistedRole:PersistedRole.Class ) => { console.log( persistedRole.id ); } );
+		this.onChangeSelection.emit( this.selectedRoles );
+	}
+
+	private addRoleAsMulti( role:PersistedRole.Class ):void {
 		let idx:number = this.selectedRoles.findIndex( ( persistedRole:PersistedRole.Class ) => { return role.id === persistedRole.id } );
 		if( idx === - 1 )
 			this.selectedRoles.push( role );
 		else
 			this.selectedRoles.splice( idx, 1 );
-		this.onChangeSelection.emit( this.selectedRoles );
+	}
+
+	private addRoleAsSingle( role:PersistedRole.Class ):void {
+		this.selectedRoles = [];
+		this.selectedRoles.push( role );
 	}
 }
 
