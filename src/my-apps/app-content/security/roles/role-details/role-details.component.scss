@@ -1,0 +1,18 @@
+:host {
+	.hidden {
+		display: none;
+	}
+
+	table.roles {
+		margin-top: 0;
+		tr.role {
+			line-height: 1.5em;
+		}
+	}
+
+	.ui.roles.input {
+		max-height: 200px;
+		overflow-y: scroll;
+		border: 1px solid lightgray;
+	}
+}
