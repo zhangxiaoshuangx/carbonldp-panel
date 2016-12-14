@@ -66,7 +66,6 @@ export class RolesChooserComponent implements AfterViewInit {
 	private selectRole( role:PersistedRole.Class ):void {
 		if( this.single ) this.addRoleAsSingle( role );
 		else this.addRoleAsMulti( role );
-		this.selectedRoles.forEach( ( persistedRole:PersistedRole.Class ) => { console.log( persistedRole.id ); } );
 		this.onChangeSelection.emit( this.selectedRoles );
 	}
 

@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core"
+import { Component, Input, Output, EventEmitter } from "@angular/core"
 
 import * as App from "carbonldp/App";
 import * as Agent from "carbonldp/Auth/Agent";
@@ -7,31 +7,50 @@ import * as PersistedAgent from "carbonldp/Auth/PersistedAgent";
 import * as HTTP from "carbonldp/HTTP";
 import * as RDF from "carbonldp/RDF";
 
-
+import { RolesService } from "./../roles.service";
 import { DocumentExplorerLibrary } from "carbonldp-panel/document-explorer/document-explorer-library";
 
 import template from "./role-details.component.html!";
+import style from "./role-details.component.css!text";
 
 
 @Component( {
 	selector: "cp-role-details",
-	template: template
+	template: template,
+	styles: [ style ],
 } )
 
 export class RoleDetailsComponent {
+
+	private rolesService:RolesService;
 
 	private Modes:Modes = Modes;
 	private roleFormModel:RoleFormModel = {
 		slug: "",
 		name: "",
 		description: "",
+		parentRole: "",
 	};
+	private availableRoles:PersistedRole.Class[] = [];
 
 	@Input() mode:string = Modes.READ;
 	@Input() role:PersistedRole.Class;
 	@Input() appContext:App.Context;
 
-	constructor() {}
+	@Output() onClose:EventEmitter<boolean> = new EventEmitter<boolean>();
+	@Output() onSuccess:EventEmitter<boolean> = new EventEmitter<boolean>();
+	@Output() onError:EventEmitter<boolean> = new EventEmitter<boolean>();
+
+
+	constructor( rolesService:RolesService ) {
+		this.rolesService = rolesService;
+	}
+
+	ngAfterViewInit():void {
+		this.getAllRoles().then( ( roles:PersistedRole.Class[] ) => {
+			this.availableRoles = roles;
+		} );
+	}
 
 	private changeMode( mode:string ) {
 		this.mode = mode;
@@ -58,6 +77,28 @@ export class RoleDetailsComponent {
 		evt.target.value = DocumentExplorerLibrary.getAppendedSlashSlug( evt.target.value );
 	}
 
+	private getAllRoles():Promise<PersistedRole.Class[]> {
+		return this.rolesService.getAll( this.appContext );
+	}
+
+	private changeRoles( selectedRoles:PersistedRole.Class[] ):void {
+		this.roleFormModel.parentRole = null;
+		selectedRoles.forEach( ( selectedRole:PersistedRole.Class ) => {
+			this.roleFormModel.parentRole = selectedRole.id;
+		} );
+	}
+
+	private cancelForm():void {
+		if( this.mode === Modes.CREATE ) {
+			this.close();
+		} else {
+			this.mode = Modes.READ;
+		}
+	}
+
+	private close():void {
+		this.onClose.emit( true );
+	}
 }
 
 export class Modes {
@@ -70,6 +111,7 @@ export interface RoleFormModel {
 	slug:string;
 	name:string;
 	description?:string;
+	parentRole?:string;
 }
 
 export default RoleDetailsComponent;
