@@ -113,7 +113,7 @@ export class AgentsService {
 		} );
 	}
 
-	public saveAgent( appContext:App.Context, agent:PersistedAgent.Class ):Promise<[PersistedAgent.Class, [HTTP.Response.Class,HTTP.Response.Class]]> {
+	public saveAgent( appContext:App.Context, agent:PersistedAgent.Class ):Promise<[PersistedAgent.Class, HTTP.Response.Class]> {
 		return agent.save();
 	}
 
@@ -121,7 +121,7 @@ export class AgentsService {
 		return agent.saveAndRefresh();
 	}
 
-	public createAgent( appContext:App.Context, agent:Agent.Class, slug?:string ):Promise<[PersistedAgent.Class, [HTTP.Response.Class,HTTP.Response.Class]]> {
+	public createAgent( appContext:App.Context, agent:Agent.Class, slug?:string ):Promise<[PersistedAgent.Class, HTTP.Response.Class]> {
 		let agents:Agents.Class = appContext.auth.agents;
 		return agents.register( agent, slug );
 	}
