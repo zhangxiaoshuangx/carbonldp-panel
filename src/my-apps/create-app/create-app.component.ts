@@ -61,7 +61,7 @@ export class CreateAppComponent implements OnInit {
 		if( typeof evt.target === "undefined" ) return;
 		if( ! evt.target.value.match( /^[a-z0-9]+(?:-[a-z0-9]*)*(?:\/*)$/ ) )
 			this.createAppFormModel.slug = this.getSanitizedSlug( evt.target.value );
-		if( ! this.createAppFormModel.slug.endsWith( "/" ) && this.createAppFormModel.slug.trim() !== "" )  this.createAppFormModel.slug += "/";
+		if( ! this.createAppFormModel.slug.endsWith( "/" ) && this.createAppFormModel.slug.trim() !== "" ) this.createAppFormModel.slug += "/";
 	}
 
 	private getSanitizedSlug( slug:string ):string {
@@ -103,10 +103,8 @@ export class CreateAppComponent implements OnInit {
 			this.persistedName = appContext.app.name;
 			let persistedAppDocument:PersistedProtectedDocument.Class = (<PersistedProtectedDocument.Class>(<PersistedDocument.Class>appContext.app));
 			return persistedAppDocument.getACL();
-		} ).then( ( [acl,response]:[ Auth.PersistedACL.Class, HTTP.Response.Class ] )=> {
+		} ).then( ( [acl,response]:[ Auth.PersistedACL.Class, HTTP.Response.Class ] ) => {
 			return this.grantAccess( acl );
-		} ).then( ()=> {
-			this.submitting = false;
 		} ).catch( ( error:HTTP.Errors.Error ) => {
 			console.error( error );
 			if( error.response ) this.errorMessage = this.getHTTPErrorMessage( error, this.getErrorMessage( error ) );
@@ -116,6 +114,7 @@ export class CreateAppComponent implements OnInit {
 					content: JSON.stringify( error )
 				};
 			}
+		} ).then( () => {
 			this.submitting = false;
 		} );
 	}
@@ -125,12 +124,12 @@ export class CreateAppComponent implements OnInit {
 			subjectClass:string = CS.namespace + "PlatformRole",
 			permissions:string[] = [ CS.namespace + "Read" ];
 		acl.grant( subject, subjectClass, permissions );
-		return acl.saveAndRefresh().then( ()=> {
+		return acl.saveAndRefresh().then( () => {
 			this.displaySuccessMessage = true;
 			this.router.navigate( [ "my-apps/", this.persistedSlug ] );
 		} ).catch( ( error:HTTP.Errors.Error ) => {
 			this.displayWarningMessage = true;
-		} ).then( ()=> {
+		} ).then( () => {
 			return acl;
 		} );
 	}

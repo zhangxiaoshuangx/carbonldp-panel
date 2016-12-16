@@ -108,8 +108,6 @@ System.register(["@angular/core", "@angular/router", "carbonldp/Carbon", "carbon
                     }).then(function (_a) {
                         var acl = _a[0], response = _a[1];
                         return _this.grantAccess(acl);
-                    }).then(function () {
-                        _this.submitting = false;
                     }).catch(function (error) {
                         console.error(error);
                         if (error.response)
@@ -120,6 +118,7 @@ System.register(["@angular/core", "@angular/router", "carbonldp/Carbon", "carbon
                                 content: JSON.stringify(error)
                             };
                         }
+                    }).then(function () {
                         _this.submitting = false;
                     });
                 };
