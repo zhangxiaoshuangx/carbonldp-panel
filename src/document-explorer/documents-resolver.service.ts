@@ -101,7 +101,7 @@ export class DocumentsResolverService {
 		return HTTP.Request.Service.put( uri, body, requestOptions ).then( ( response:HTTP.Response.Class ) => {
 			return this.get( uri, documentContext );
 		} ).then( ( parsedDocument:RDFDocument.Class ) => {
-			if( ! parsedDocument[ 0 ] ) return null;
+			if( ! parsedDocument ) return null;
 			return parsedDocument;
 		} ).catch( ( error ) => {
 			console.error( error );
