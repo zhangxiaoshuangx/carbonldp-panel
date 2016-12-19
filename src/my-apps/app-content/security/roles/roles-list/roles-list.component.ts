@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
 import { Router, ActivatedRoute, NavigationExtras } from "@angular/router";
 
 import * as App from "carbonldp/App";
@@ -27,7 +27,16 @@ export class RolesListComponent implements OnInit {
 	private rolesService:RolesService;
 
 	private roles:PersistedRole.Class[] = [];
-	private loading:boolean = false;
+	private _loading:boolean = false;
+	private set loading( value:boolean ) {
+		this._loading = value;
+		this.onLoading.emit( this.loading );
+	};
+
+	private get loading() {
+		return this._loading;
+	};
+
 	private deletingRole:Role.Class;
 	private activePage:number = 0;
 	private totalRoles:number = 0;
@@ -39,6 +48,9 @@ export class RolesListComponent implements OnInit {
 	private errorMessage:Message;
 
 	@Input() appContext:App.Context;
+	@Input() refresher:EventEmitter<boolean>;
+
+	@Output() onLoading:EventEmitter<boolean> = new EventEmitter();
 
 
 	constructor( router:Router, route:ActivatedRoute, rolesService:RolesService ) {
@@ -48,6 +60,9 @@ export class RolesListComponent implements OnInit {
 	}
 
 	ngOnInit():void {
+		this.refresher.subscribe( ( canRefresh:boolean ) => {
+			if( canRefresh ) this.loadRoles();
+		} );
 		this.loadRoles();
 	}
 

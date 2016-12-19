@@ -1,16 +1,4 @@
-<div class="ui equal width grid">
-	<div class="column">
-		<button class="ui icon basic inverted button" title="Refresh my apps"
-		        (click)="refreshRoles()">
-			<i class="refresh icon" [ngClass]="{loading:loading}"></i>
-		</button>
-		<button class="ui right labeled icon button" title="Create a new Role" [routerLink]="['create']">
-			Create Role <i class="plus icon"></i>
-		</button>
-	</div>
-</div>
-<div class="ui active centered large inline text inverted loader" *ngIf="loading">Loading</div>
-<div class="roles list" [hidden]="loading">
+<div class="roles list">
 	<table class="ui selectable sortable celled small very compact table" *ngIf="roles.length > 0">
 		<thead>
 			<tr>
