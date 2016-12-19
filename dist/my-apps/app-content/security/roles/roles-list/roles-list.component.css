@@ -1,0 +1,10 @@
+:host {
+  display: block; }
+  :host table.selectable tr {
+    cursor: pointer; }
+  :host cp-paginator {
+    display: inline; }
+  :host .roles.list {
+    padding: 5% 0; }
+
+/*# sourceMappingURL=roles-list.component.css.map */

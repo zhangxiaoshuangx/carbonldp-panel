@@ -1,0 +1,10 @@
+:host {
+  display: block;
+  width: 100%; }
+  :host table.roles tr.role {
+    line-height: 1.5em;
+    cursor: pointer; }
+  :host table.roles.borderless {
+    border: none; }
+
+/*# sourceMappingURL=roles-chooser.component.css.map */

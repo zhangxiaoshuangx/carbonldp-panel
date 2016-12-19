@@ -1,0 +1,26 @@
+<div class="ui equal width grid">
+	<div class="column">
+		<div class="ui icon buttons">
+			<button class="ui inverted white icon button" title="View as treeview"
+			        (click)="setView('tree')" [ngClass]="{active: view === 'tree'}">
+				<i class="sitemap icon"></i>
+			</button>
+			<button class="ui inverted white icon button" title="View as list"
+			        (click)="setView('list')" [ngClass]="{active: view === 'list'}">
+				<i class="list layout icon"></i>
+			</button>
+		</div>
+		<button class="ui icon basic inverted button" title="Refresh my apps"
+		        (click)="refreshRoles()">
+			<i class="refresh icon" [ngClass]="{loading:loading}"></i>
+		</button>
+		<button class="ui right labeled icon button" title="Create a new Role" [routerLink]="['./create']">
+			Create Role <i class="plus icon"></i>
+		</button>
+	</div>
+</div>
+<cp-roles-list *ngIf="view === 'list'" [hidden]="loading"
+               [appContext]="appContext"
+               [refresher]="refresher"
+               (onLoading)="changeLoadingState($event)"></cp-roles-list>
+<div class="ui active centered large inline text inverted loader" *ngIf="loading">Loading</div>
