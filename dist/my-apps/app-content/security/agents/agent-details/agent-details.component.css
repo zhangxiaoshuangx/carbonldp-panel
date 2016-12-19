@@ -1,0 +1,16 @@
+:host {
+  display: block; }
+  :host .hidden {
+    display: none; }
+  :host table.roles {
+    margin-top: 0; }
+    :host table.roles tr.role {
+      line-height: 1.5em; }
+  :host .title.segment .ui.header {
+    margin-top: 0; }
+  :host .ui.roles.input {
+    max-height: 200px;
+    overflow-y: scroll;
+    border: 1px solid lightgray; }
+
+/*# sourceMappingURL=agent-details.component.css.map */

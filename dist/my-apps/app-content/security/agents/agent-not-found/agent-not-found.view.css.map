@@ -1,0 +1,1 @@
+{"version":3,"sources":["agent-not-found.view.css"],"names":[],"mappings":"AAAA;EACE,eAAe,EAAE;EACjB;IACE,gBAAgB,EAAE;EACpB;IACE,eAAe;IACf,iBAAiB,EAAE","file":"agent-not-found.view.css","sourcesContent":[":host {\n  display: block; }\n  :host .timer {\n    font-size: 10em; }\n  :host .no-agents.segment {\n    color: #ffffff;\n    font-size: 1.3em; }\n"]}
