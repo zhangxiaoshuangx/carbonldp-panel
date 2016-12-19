@@ -158,6 +158,7 @@ export class AgentDetailsComponent implements OnChanges {
 			this.cancelForm();
 		} ).catch( ( error ) => {
 			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
+			if( typeof error.name !== "undefined" ) this.errorMessage.title = error.name;
 			this.onError.emit( true );
 		} );
 	}
@@ -174,6 +175,7 @@ export class AgentDetailsComponent implements OnChanges {
 			this.onSuccess.emit( true );
 		} ).catch( ( error ) => {
 			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
+			if( typeof error.name !== "undefined" ) this.errorMessage.title = error.name;
 			this.onError.emit( true );
 		} );
 	}
@@ -186,7 +188,7 @@ export class AgentDetailsComponent implements OnChanges {
 		evt.target.value = DocumentExplorerLibrary.getAppendedSlashSlug( evt.target.value );
 	}
 
-	private editAgentRoles( agent:PersistedAgent.Class, selectedRoles:string[] ):void {
+	private editAgentRoles( agent:PersistedAgent.Class, selectedRoles:string[] ):Promise<any> {
 		let removedRoles:string[] = this.getRemovedRoles( selectedRoles ),
 			promises:Promise<any>[] = [];
 
@@ -197,12 +199,11 @@ export class AgentDetailsComponent implements OnChanges {
 			promises.push( this.removeAgentFromRole( agent.id, roleID ) )
 		} );
 
-		Promise.all( promises ).then( ( values ) => {
-			console.log( values );
-		} ).catch( ( error ) => {
-			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
-			this.errorMessage.title = "Agent Saved";
-			this.errorMessage.content = "The agent was saved but an error occurred while trying to persist its roles: " + this.errorMessage.content;
+		return Promise.all( promises ).catch( ( error ) => {
+			let generatedMessage:Message = ErrorMessageGenerator.getErrorMessage( error ),
+				finalError:Error = new Error( "The agent was saved but an error occurred while trying to persist its roles: " + generatedMessage.content );
+			finalError.name = "Agent Saved";
+			throw finalError;
 		} );
 	}
 
