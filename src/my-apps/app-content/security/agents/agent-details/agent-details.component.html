@@ -182,4 +182,5 @@
 	<p [ngSwitch]="mode">
 		The agent was <span *ngSwitchCase="Modes.CREATE">created</span><span *ngSwitchDefault>modified</span> successfully
 	</p>
+	<p *ngIf="timer>0">You will be redirected to your agents list in <strong class="timer">{{timer}}</strong> seconds.</p>
 </div>
