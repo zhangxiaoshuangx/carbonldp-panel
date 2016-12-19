@@ -1,3 +1,5 @@
+/// <reference types="jquery" />
+/// <reference types="jstree" />
 import { ElementRef, EventEmitter, OnInit, AfterViewInit } from "@angular/core";
 import Carbon from "carbonldp/Carbon";
 import Context from "carbonldp/Context";

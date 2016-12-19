@@ -6,7 +6,6 @@ import { RolesService } from "../../roles/roles.service";
 export declare class AgentDetailsComponent implements OnChanges {
     private element;
     private $element;
-    private timer;
     private Modes;
     private agentRoles;
     private availableRoles;
@@ -34,7 +33,6 @@ export declare class AgentDetailsComponent implements OnChanges {
     private onSubmit(data, $event);
     private editAgent(agent, agentData);
     private createAgent(agent, agentData);
-    private emitOnSuccessAfter(seconds);
     private getSanitizedSlug(slug);
     private slugLostFocus(evt);
     private editAgentRoles(agent, selectedRoles);

@@ -165,8 +165,6 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/Auth/Agent", "carb
                         _this.cancelForm();
                     }).catch(function (error) {
                         _this.errorMessage = error_message_generator_1.ErrorMessageGenerator.getErrorMessage(error);
-                        if (typeof error.name !== "undefined")
-                            _this.errorMessage.title = error.name;
                         _this.onError.emit(true);
                     });
                 };
@@ -181,26 +179,11 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/Auth/Agent", "carb
                         return _this.editAgentRoles(agent, agentData.roles);
                     }).then(function () {
                         _this.displaySuccessMessage = true;
-                        _this.emitOnSuccessAfter(5);
+                        _this.onSuccess.emit(true);
                     }).catch(function (error) {
                         _this.errorMessage = error_message_generator_1.ErrorMessageGenerator.getErrorMessage(error);
-                        if (typeof error.name !== "undefined")
-                            _this.errorMessage.title = error.name;
                         _this.onError.emit(true);
                     });
-                };
-                AgentDetailsComponent.prototype.emitOnSuccessAfter = function (seconds) {
-                    var _this = this;
-                    this.timer = seconds;
-                    var countDown = setInterval(function () {
-                        _this.timer--;
-                        if (_this.timer === 0) {
-                            _this.onSuccess.emit(true);
-                            _this.timer = null;
-                            clearInterval(countDown);
-                            return false;
-                        }
-                    }, 1000);
                 };
                 AgentDetailsComponent.prototype.getSanitizedSlug = function (slug) {
                     return document_explorer_library_1.DocumentExplorerLibrary.getSanitizedSlug(slug);
@@ -217,10 +200,12 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/Auth/Agent", "carb
                     removedRoles.forEach(function (roleID, idx, roles) {
                         promises.push(_this.removeAgentFromRole(agent.id, roleID));
                     });
-                    return Promise.all(promises).catch(function (error) {
-                        var generatedMessage = error_message_generator_1.ErrorMessageGenerator.getErrorMessage(error), finalError = new Error("The agent was saved but an error occurred while trying to persist its roles: " + generatedMessage.content);
-                        finalError.name = "Agent Saved";
-                        throw finalError;
+                    Promise.all(promises).then(function (values) {
+                        console.log(values);
+                    }).catch(function (error) {
+                        _this.errorMessage = error_message_generator_1.ErrorMessageGenerator.getErrorMessage(error);
+                        _this.errorMessage.title = "Agent Saved";
+                        _this.errorMessage.content = "The agent was saved but an error occurred while trying to persist its roles: " + _this.errorMessage.content;
                     });
                 };
                 AgentDetailsComponent.prototype.getRemovedRoles = function (selectedRoles) {

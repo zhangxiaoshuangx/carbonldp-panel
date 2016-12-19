@@ -100,17 +100,12 @@ gulp.task( "compile:templates", () => {
 
 gulp.task( "compile:typescript", () => {
 	let tsProject = ts.createProject( "tsconfig.json", {
-		"declaration": true,
-		typescript: require( "typescript" )
+		"declaration": true
 	} );
 
-	let errors = [];
 	let tsResults = gulp.src( config.source.typescript )
 		.pipe( sourcemaps.init() )
-		.pipe( ts( tsProject ) )
-		.on( "error", ( error ) => {
-			errors.push( error );
-		} );
+		.pipe( tsProject() );
 
 	return merge( [
 		tsResults.dts
@@ -119,10 +114,6 @@ gulp.task( "compile:typescript", () => {
 		tsResults.js
 			.pipe( sourcemaps.write( "." ) )
 			.pipe( gulp.dest( config.dist.tsOutput ) )
-			.on( "end", () => {
-				// TODO: Uncomment the following line when all the semantic errors ar
-				// if( errors.length > 0 ) throw new Error();
-			} )
 	] );
 } );
 
