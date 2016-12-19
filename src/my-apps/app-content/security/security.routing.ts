@@ -11,7 +11,7 @@ import { AgentCreatorView } from "./agents/agent-creator/agent-creator.view";
 import { AgentNotFoundView } from "./agents/agent-not-found/agent-not-found.view";
 import { RolesView } from "./roles/roles.view";
 import { RoleResolver } from "./roles/role.resolver";
-import { RolesListView } from "./roles/roles-list/roles-list.view";
+import { RolesCatalogView } from "./roles/roles-catalog/roles-catalog.view";
 import { RoleDetailsView } from "./roles/role-details/role-details.view";
 
 const SecurityRoutes:Routes = [
@@ -84,11 +84,11 @@ const SecurityRoutes:Routes = [
 				children: [
 					{
 						path: "",
-						component: RolesListView,
+						component: RolesCatalogView,
 					},
 					{
 						path: "list",
-						component: RolesListView,
+						component: RolesCatalogView,
 					},
 					{
 						path: ":role-slug",

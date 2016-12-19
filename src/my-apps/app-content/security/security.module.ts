@@ -17,7 +17,8 @@ import { AgentDeleterComponent } from "./agents/agent-deleter/agent-deleter.comp
 import { AgentCreatorView } from "./agents/agent-creator/agent-creator.view";
 import { AgentNotFoundView } from "./agents/agent-not-found/agent-not-found.view";
 import { RolesView } from "./roles/roles.view";
-import { RolesListView } from "./roles/roles-list/roles-list.view";
+import { RolesCatalogView } from "./roles/roles-catalog/roles-catalog.view";
+import { RolesCatalogComponent } from "./roles/roles-catalog/roles-catalog.component";
 import { RolesListComponent } from "./roles/roles-list/roles-list.component";
 import { RoleDetailsView } from "./roles/role-details/role-details.view";
 import { RoleDetailsComponent } from "./roles/role-details/role-details.component";
@@ -56,7 +57,8 @@ import { RoleResolver } from "./roles/role.resolver";
 		AgentNotFoundView,
 
 		RolesView,
-		RolesListView,
+		RolesCatalogView,
+		RolesCatalogComponent,
 		RolesListComponent,
 		RoleDetailsView,
 		RoleDetailsComponent,
