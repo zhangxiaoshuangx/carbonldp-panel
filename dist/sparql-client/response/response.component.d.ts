@@ -1,3 +1,5 @@
+/// <reference types="jquery" />
+/// <reference types="jstree" />
 import { ElementRef, EventEmitter, AfterViewInit, OnInit } from "@angular/core";
 import * as CodeMirrorComponent from "carbonldp-panel/code-mirror/code-mirror.component";
 import "semantic-ui/semantic";

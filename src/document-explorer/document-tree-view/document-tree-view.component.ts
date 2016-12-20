@@ -87,6 +87,8 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 		} ).then( ( [updatedRoot, updatedResponse]:[PersistedDocument.Class, HTTP.Response.Class] ) => {
 			this.nodeChildren.push( this.buildNode( this.documentContext.getBaseURI(), "default", true ) );
 			this.renderTree();
+
+			return updatedRoot;
 		} ).catch( ( error:HTTP.Errors.Error ) => {
 			console.error( error );
 			this.onError.emit( error );

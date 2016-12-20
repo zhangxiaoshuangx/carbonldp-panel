@@ -13,6 +13,7 @@ import { SidebarItemsComponent } from "./sidebar-items.component";
 import { ErrorMessageComponent } from "./errors-area/error-message.component";
 import { ErrorsAreaComponent } from "./errors-area/errors-area.component";
 import { MenuBarComponent } from "./menu-bar.component";
+import { PaginatorComponent } from "./paginator/paginator.component";
 
 // Modules
 import { SemanticModule } from "./semantic/semantic.module";
@@ -43,6 +44,7 @@ import { ErrorsAreaService } from "./errors-area/errors-area.service";
 		ErrorMessageComponent,
 		ErrorsAreaComponent,
 		MenuBarComponent,
+		PaginatorComponent,
 	],
 	exports: [
 		HeaderComponent,
@@ -52,6 +54,7 @@ import { ErrorsAreaService } from "./errors-area/errors-area.service";
 		MenuBarComponent,
 		ErrorMessageComponent,
 		ErrorsAreaComponent,
+		PaginatorComponent,
 	],
 	providers: []
 } )

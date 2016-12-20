@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/common', "./directives/highlight.dir
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, highlight_directive_1, custom_validators_1, custom_validators_2, custom_validators_3, input_validation_directive_1;
+    var core_1, common_1, highlight_directive_1, custom_validators_1, custom_validators_2, custom_validators_3, custom_validators_4, input_validation_directive_1;
     var DirectivesModule;
     return {
         setters:[
@@ -27,6 +27,7 @@ System.register(['@angular/core', '@angular/common', "./directives/highlight.dir
                 custom_validators_1 = custom_validators_1_1;
                 custom_validators_2 = custom_validators_1_1;
                 custom_validators_3 = custom_validators_1_1;
+                custom_validators_4 = custom_validators_1_1;
             },
             function (input_validation_directive_1_1) {
                 input_validation_directive_1 = input_validation_directive_1_1;
@@ -50,7 +51,8 @@ System.register(['@angular/core', '@angular/common', "./directives/highlight.dir
                             custom_validators_3.FragmentValidator,
                             custom_validators_3.URIFragmentValidator,
                             highlight_directive_1.HighlightDirective,
-                            input_validation_directive_1.InputValidationDirective
+                            input_validation_directive_1.InputValidationDirective,
+                            custom_validators_4.RequiredIfValidator,
                         ],
                         exports: [
                             custom_validators_1.EmailValidator,
@@ -61,7 +63,8 @@ System.register(['@angular/core', '@angular/common', "./directives/highlight.dir
                             custom_validators_3.FragmentValidator,
                             custom_validators_3.URIFragmentValidator,
                             highlight_directive_1.HighlightDirective,
-                            input_validation_directive_1.InputValidationDirective
+                            input_validation_directive_1.InputValidationDirective,
+                            custom_validators_4.RequiredIfValidator,
                         ],
                         providers: []
                     }), 

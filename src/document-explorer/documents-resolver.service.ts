@@ -20,21 +20,26 @@ export class DocumentsResolverService {
 		this.carbon = carbon;
 	}
 
-	get( uri:string, documentContext:SDKContext.Class ):Promise<RDFDocument.Class> {
+	get( uri:string, documentContext:SDKContext.Class ):Promise<RDFDocument.Class | null> {
 		if( ! uri || ! documentContext ) return <any> Promise.reject( new Error( "Provide the required parameters" ) );
 		let requestOptions:HTTP.Request.Options = { sendCredentialsOnCORS: true, };
 		if( documentContext && documentContext.auth.isAuthenticated() ) documentContext.auth.addAuthentication( requestOptions );
 
 		HTTP.Request.Util.setAcceptHeader( "application/ld+json", requestOptions );
 		HTTP.Request.Util.setPreferredInteractionModel( NS.LDP.Class.RDFSource, requestOptions );
+
+		let eTag:string;
+
 		return HTTP.Request.Service.get( uri, requestOptions ).then( ( response:HTTP.Response.Class ) => {
-			let eTag:string = HTTP.Response.Util.getETag( response );
-			return this.parser.parse( response.data ).then( ( persistedDocument:RDFDocument.Class )=> {
-				return [ persistedDocument, eTag ];
-			} );
-		} ).then( ( [parsedDocument, eTag]:[RDFDocument.Class, string] ) => {
-			if( ! parsedDocument[ 0 ] ) return null;
+			eTag = HTTP.Response.Util.getETag( response );
+			return this.parser.parse( response.data );
+		} ).then( ( parsedDocuments:any ) => {
+			if( ! parsedDocuments[ 0 ] ) return null;
+
+			let parsedDocument:RDFDocument.Class = parsedDocuments[ 0 ];
+
 			this.documents.set( uri, { document: parsedDocument, ETag: eTag } );
+
 			return parsedDocument;
 		} ).catch( ( error ) => {
 			console.error( error );
@@ -96,7 +101,7 @@ export class DocumentsResolverService {
 		return HTTP.Request.Service.put( uri, body, requestOptions ).then( ( response:HTTP.Response.Class ) => {
 			return this.get( uri, documentContext );
 		} ).then( ( parsedDocument:RDFDocument.Class ) => {
-			if( ! parsedDocument[ 0 ] ) return null;
+			if( ! parsedDocument ) return null;
 			return parsedDocument;
 		} ).catch( ( error ) => {
 			console.error( error );

@@ -1,3 +1,5 @@
+/// <reference types="jquery" />
+/// <reference types="jstree" />
 import { ElementRef, EventEmitter } from "@angular/core";
 import { Modes } from "./../property/property.component";
 import "semantic-ui/semantic";

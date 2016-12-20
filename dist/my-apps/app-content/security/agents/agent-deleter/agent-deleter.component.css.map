@@ -1,0 +1,1 @@
+{"version":3,"sources":["agent-deleter.component.css"],"names":[],"mappings":"AAAA;EACE,eAAe,EAAE;;AAEnB;EACE,mBAAmB,EAAE","file":"agent-deleter.component.css","sourcesContent":[":host {\n  display: block; }\n\n.ui.delete.agent.modal .content .agent.details {\n  text-align: center; }\n"]}

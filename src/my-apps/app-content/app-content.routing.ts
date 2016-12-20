@@ -10,6 +10,8 @@ import { EditAppView } from "./edit-app/edit-app.view";
 import { ExplorerView } from "./explorer/explorer.view";
 import { ConfigurationView } from "./configuration/configuration.view";
 
+import { SecurityModule } from "./security/security.module";
+
 const AppContentRoutes:Routes = [
 	{
 		path: "",
@@ -58,6 +60,10 @@ const AppContentRoutes:Routes = [
 					alias: "configure",
 					displayName: "Configuration",
 				},
+			},
+			{
+				path: "security",
+				loadChildren: () => SecurityModule,
 			},
 		]
 	}

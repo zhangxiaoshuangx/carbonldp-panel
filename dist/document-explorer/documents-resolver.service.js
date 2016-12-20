@@ -45,15 +45,14 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "carbonl
                         documentContext.auth.addAuthentication(requestOptions);
                     HTTP.Request.Util.setAcceptHeader("application/ld+json", requestOptions);
                     HTTP.Request.Util.setPreferredInteractionModel(NS.LDP.Class.RDFSource, requestOptions);
+                    var eTag;
                     return HTTP.Request.Service.get(uri, requestOptions).then(function (response) {
-                        var eTag = HTTP.Response.Util.getETag(response);
-                        return _this.parser.parse(response.data).then(function (persistedDocument) {
-                            return [persistedDocument, eTag];
-                        });
-                    }).then(function (_a) {
-                        var parsedDocument = _a[0], eTag = _a[1];
-                        if (!parsedDocument[0])
+                        eTag = HTTP.Response.Util.getETag(response);
+                        return _this.parser.parse(response.data);
+                    }).then(function (parsedDocuments) {
+                        if (!parsedDocuments[0])
                             return null;
+                        var parsedDocument = parsedDocuments[0];
                         _this.documents.set(uri, { document: parsedDocument, ETag: eTag });
                         return parsedDocument;
                     }).catch(function (error) {

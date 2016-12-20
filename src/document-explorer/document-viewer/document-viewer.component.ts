@@ -263,7 +263,7 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 		let body:string = JSON.stringify( backupDocument, null, "\t" );
 		this.documentsResolverService.update( backupDocument[ "@id" ], body, this.documentContext ).then(
 			( updatedDocument:RDFDocument.Class )=> {
-				this.document = updatedDocument[ 0 ];
+				this.document = updatedDocument;
 				this.showSuccessMessage( "<p>Changes saved successfully</p>", 4500 );
 			}
 		).catch( ( error:HTTPError )=> {

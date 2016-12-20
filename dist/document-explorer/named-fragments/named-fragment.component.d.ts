@@ -1,3 +1,5 @@
+/// <reference types="jquery" />
+/// <reference types="jstree" />
 import { ElementRef, EventEmitter, AfterViewInit } from "@angular/core";
 import * as RDFNode from "carbonldp/RDF/RDFNode";
 import { BlankNodeRow } from "./../blank-nodes/blank-node.component";

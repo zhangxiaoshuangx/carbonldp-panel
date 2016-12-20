@@ -11,7 +11,7 @@ System.register(["@angular/core", "@angular/forms", "carbonldp/RDF/URI"], functi
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, forms_1, URI;
-    var EmailValidator, SlugValidator, MatchValidator, DomainValidator, URIValidator, FragmentValidator, URIFragmentValidator;
+    var EmailValidator, SlugValidator, MatchValidator, DomainValidator, URIValidator, FragmentValidator, URIFragmentValidator, RequiredIfValidator;
     return {
         setters:[
             function (core_1_1) {
@@ -201,6 +201,28 @@ System.register(["@angular/core", "@angular/forms", "carbonldp/RDF/URI"], functi
                 return URIFragmentValidator;
             }());
             exports_1("URIFragmentValidator", URIFragmentValidator);
+            RequiredIfValidator = (function () {
+                function RequiredIfValidator() {
+                }
+                RequiredIfValidator.prototype.validate = function (control) {
+                    if (this.condition && !control.value)
+                        return { "requiredIf": true };
+                    return null;
+                };
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Boolean)
+                ], RequiredIfValidator.prototype, "condition", void 0);
+                RequiredIfValidator = __decorate([
+                    core_1.Directive({
+                        selector: '[cp-required-if]',
+                        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: RequiredIfValidator, multi: true }]
+                    }), 
+                    __metadata('design:paramtypes', [])
+                ], RequiredIfValidator);
+                return RequiredIfValidator;
+            }());
+            exports_1("RequiredIfValidator", RequiredIfValidator);
         }
     }
 });

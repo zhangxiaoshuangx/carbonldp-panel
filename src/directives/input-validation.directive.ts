@@ -33,7 +33,7 @@ export class InputValidationDirective {
 
 	get valid():boolean {
 		if( ! this.ngModel ) return true;
-		return ! this.ngModel.touched || this.hasFocus || ! this.wasFocused || this.ngModel.valid;
+		return ! this.ngModel.touched || this.hasFocus || ! this.wasFocused || this.ngModel.valid || this.ngModel.isDisabled;
 	}
 
 	get invalid():boolean {

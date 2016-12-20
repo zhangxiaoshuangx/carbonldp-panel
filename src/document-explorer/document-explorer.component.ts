@@ -53,7 +53,7 @@ export class DocumentExplorerComponent {
 		this.loadingDocument = true;
 		this.documentsResolverService.get( uri, this.documentContext ).then( ( document:RDFDocument.Class )=> {
 			this.zone.run( () => {
-				this.inspectingDocument = document[ 0 ];
+				this.inspectingDocument = document;
 				this.loadingDocument = false;
 			} );
 		} );

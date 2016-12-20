@@ -12,6 +12,7 @@ export declare class ErrorMessageComponent implements OnChanges, AfterViewInit {
     errors: any[];
     closable: boolean;
     stack: string;
+    showStack: boolean;
     onClose: EventEmitter<any>;
     constructor(element: ElementRef);
     ngOnChanges(changes: {
