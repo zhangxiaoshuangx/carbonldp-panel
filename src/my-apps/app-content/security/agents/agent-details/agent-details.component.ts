@@ -151,7 +151,7 @@ export class AgentDetailsComponent implements OnChanges {
 		agent.name = agentData.name;
 		agent.password = agentData.password.trim().length > 0 ? agentData.password : agent.password;
 		agent.enabled = agentData.enabled;
-		this.agentsService.saveAndRefreshAgent( this.appContext, agent ).then( ( [updatedAgent, [saveResponse, refreshResponse]]:[PersistedAgent.Class, [HTTP.Response.Class,HTTP.Response.Class]] ) => {
+		this.agentsService.saveAndRefreshAgent( this.appContext, agent ).then( ( [ updatedAgent, [ saveResponse, refreshResponse ] ]:[ PersistedAgent.Class, [ HTTP.Response.Class, HTTP.Response.Class ] ] ) => {
 			return this.editAgentRoles( agent, agentData.roles );
 		} ).then( () => {
 			this.displaySuccessMessage = true;
@@ -169,7 +169,7 @@ export class AgentDetailsComponent implements OnChanges {
 		agent.name = agentData.name;
 		agent.password = agentData.password;
 		agent.enabled = agentData.enabled;
-		this.agentsService.createAgent( this.appContext, <any>agent, agentData.slug ).then( ( [updatedAgent, response]:[PersistedAgent.Class, HTTP.Response.Class] ) => {
+		this.agentsService.createAgent( this.appContext, <any>agent, agentData.slug ).then( ( [ updatedAgent, response ]:[ PersistedAgent.Class, HTTP.Response.Class ] ) => {
 			return this.editAgentRoles( agent, agentData.roles );
 		} ).then( () => {
 			this.displaySuccessMessage = true;

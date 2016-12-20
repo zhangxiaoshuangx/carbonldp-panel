@@ -57,7 +57,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "./documents-resolver.
                     this.loadingDocument = true;
                     this.documentsResolverService.get(uri, this.documentContext).then(function (document) {
                         _this.zone.run(function () {
-                            _this.inspectingDocument = document[0];
+                            _this.inspectingDocument = document;
                             _this.loadingDocument = false;
                         });
                     });

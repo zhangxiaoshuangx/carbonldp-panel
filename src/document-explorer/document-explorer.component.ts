@@ -51,7 +51,7 @@ export class DocumentExplorerComponent {
 
 	resolveDocument( uri:string ):void {
 		this.loadingDocument = true;
-		this.documentsResolverService.get( uri, this.documentContext ).then( ( document:RDFDocument.Class )=> {
+		this.documentsResolverService.get( uri, this.documentContext ).then( ( document:RDFDocument.Class ) => {
 			this.zone.run( () => {
 				this.inspectingDocument = document;
 				this.loadingDocument = false;

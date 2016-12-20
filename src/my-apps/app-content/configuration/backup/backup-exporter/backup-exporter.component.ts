@@ -39,7 +39,7 @@ export class BackupExporterComponent implements OnDestroy {
 		this.executingBackup = true;
 		this.exportSuccess = false;
 
-		this.jobsService.runJob( this.backupJob ).then( ( execution:PersistedDocument.Class )=> {
+		this.jobsService.runJob( this.backupJob ).then( ( execution:PersistedDocument.Class ) => {
 			return this.monitorExecution( execution ).catch( ( executionOrError:HTTPError|PersistedDocument.Class ) => {
 				if( executionOrError.hasOwnProperty( "response" ) ) return Promise.reject( executionOrError );
 				let errorMessage:Message = <Message>{
@@ -49,9 +49,9 @@ export class BackupExporterComponent implements OnDestroy {
 				};
 				this.errorMessages.push( errorMessage );
 			} );
-		} ).then( ()=> {
+		} ).then( () => {
 			this.exportSuccess = true;
-		} ).catch( ( error:HTTPError )=> {
+		} ).catch( ( error:HTTPError ) => {
 			let errorMessage:Message = <Message>{
 				title: error.name,
 				content: "Couldn't execute backup.",
@@ -60,7 +60,7 @@ export class BackupExporterComponent implements OnDestroy {
 				statusMessage: (<XMLHttpRequest>error.response.request).statusText
 			};
 			this.errorMessages.push( errorMessage );
-		} ).then( ()=> {
+		} ).then( () => {
 			this.executingBackup = false;
 		} );
 	}
@@ -68,8 +68,8 @@ export class BackupExporterComponent implements OnDestroy {
 	monitorExecution( execution:PersistedDocument.Class ):Promise<PersistedDocument.Class> {
 		return new Promise<PersistedDocument.Class>( ( resolve:( result:any ) => void, reject:( error:HTTPError|PersistedDocument.Class ) => void ) => {
 			// Node typings are overriding setInterval, that's why we need to cast it to any before assigning it to a number variable
-			this.monitorExecutionInterval = <any>setInterval( ()=> {
-				execution.refresh().then( ()=> {
+			this.monitorExecutionInterval = <any>setInterval( () => {
+				execution.refresh().then( () => {
 					switch( execution[ Job.Execution.STATUS ].id ) {
 						case Job.ExecutionStatus.FINISHED:
 							clearInterval( this.monitorExecutionInterval );

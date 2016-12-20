@@ -102,7 +102,7 @@ export class PointerComponent implements OnChanges {
 		this.onDeletePointer.emit( this.pointer );
 	}
 
-	ngOnChanges( changes:{[propName:string]:SimpleChange} ):void {
+	ngOnChanges( changes:{ [propName:string]:SimpleChange } ):void {
 		if( ( ! ! changes[ "bNodes" ] && changes[ "bNodes" ].currentValue !== changes[ "bNodes" ].previousValue ) ||
 			( ! ! changes[ "namedFragments" ] && changes[ "namedFragments" ].currentValue !== changes[ "namedFragments" ].previousValue ) ) {
 			this.checkForChangesOnPointers();
@@ -111,7 +111,7 @@ export class PointerComponent implements OnChanges {
 
 	checkForChangesOnPointers():void {
 		if( typeof this.id === "undefined" ) return;
-		let idx:number = this.bNodes.concat( this.namedFragments ).findIndex( ( nfOrBN )=> {return nfOrBN[ "name" ] === this.id || nfOrBN[ "id" ] === this.id;} );
+		let idx:number = this.bNodes.concat( this.namedFragments ).findIndex( ( nfOrBN ) => {return nfOrBN[ "name" ] === this.id || nfOrBN[ "id" ] === this.id;} );
 		this.isBNode = URI.Util.isBNodeID( <string>this.id );
 		this.isNamedFragment = URI.Util.isFragmentOf( this.id, this.documentURI );
 		this.existsOnPointers = idx !== - 1;
@@ -174,13 +174,13 @@ export class PointerComponent implements OnChanges {
 	}
 
 	goToBNode( id:string ):void {
-		let idx:number = this.bNodes.findIndex( ( blankNode:BlankNodeRow )=> { return blankNode.id === id; } );
+		let idx:number = this.bNodes.findIndex( ( blankNode:BlankNodeRow ) => { return blankNode.id === id; } );
 		this.existsOnPointers = idx !== - 1;
 		if( this.existsOnPointers ) this.onGoToBNode.emit( id );
 	}
 
 	goToNamedFragment( id:string ):void {
-		let idx:number = this.namedFragments.findIndex( ( namedFragment:NamedFragmentRow )=> { return namedFragment.name === id; } );
+		let idx:number = this.namedFragments.findIndex( ( namedFragment:NamedFragmentRow ) => { return namedFragment.name === id; } );
 		this.existsOnPointers = idx !== - 1;
 		if( this.existsOnPointers ) this.onGoToNamedFragment.emit( id );
 	}

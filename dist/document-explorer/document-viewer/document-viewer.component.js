@@ -259,7 +259,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "carbonldp/RDF/Documen
                     this.modifyNamedFragmentsWithChanges(backupDocument);
                     var body = JSON.stringify(backupDocument, null, "\t");
                     this.documentsResolverService.update(backupDocument["@id"], body, this.documentContext).then(function (updatedDocument) {
-                        _this.document = updatedDocument[0];
+                        _this.document = updatedDocument;
                         _this.showSuccessMessage("<p>Changes saved successfully</p>", 4500);
                     }).catch(function (error) {
                         _this.onError.emit(error);

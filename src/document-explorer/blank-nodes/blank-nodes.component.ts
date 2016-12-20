@@ -45,7 +45,7 @@ export class BlankNodesComponent implements AfterViewInit, OnChanges {
 		this.initializeDeletionDimmer();
 	}
 
-	ngOnChanges( changes:{[propName:string]:SimpleChange} ):void {
+	ngOnChanges( changes:{ [propName:string]:SimpleChange } ):void {
 		if( ( changes[ "blankNodes" ].currentValue !== changes[ "blankNodes" ].previousValue ) ) {
 			this.openedBlankNodes = [];
 			this.goToBlankNode( "all" );
@@ -56,7 +56,7 @@ export class BlankNodesComponent implements AfterViewInit, OnChanges {
 	openBlankNode( nodeOrId:RDFNode.Class|string ):void {
 		let node:BlankNodeRow;
 		if( typeof nodeOrId === "string" ) {
-			node = this.blankNodes.find( ( node )=> { return node.id === nodeOrId} );
+			node = this.blankNodes.find( ( node ) => { return node.id === nodeOrId} );
 		} else {
 			node = nodeOrId;
 		}

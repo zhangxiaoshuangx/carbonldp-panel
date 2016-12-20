@@ -43,7 +43,7 @@ export class LiteralComponent {
 	modes:Modes = Modes;
 	dataTypes:any = this.getDataTypes();
 	isStringType:boolean = (! this.type || this.type === NS.XSD.DataType.string);
-	languages:{code:string, name:string}[] = [
+	languages:{ code:string, name:string }[] = [
 		{
 			code: "aa",
 			name: "Afar"

@@ -37,14 +37,14 @@ export class LiteralsComponent implements OnInit {
 
 	ngOnInit():void {
 		this.isLanguagePresent = this.existsToken( "@language" );
-		this.onAddNewLiteral.subscribe( ()=> {
+		this.onAddNewLiteral.subscribe( () => {
 			this.addNewLiteral();
 		} );
 		this.updateCanDisplayLiterals();
 	}
 
 	existsToken( token:string ):boolean {
-		return ! ! this.literals.find( ( literal:any )=> {
+		return ! ! this.literals.find( ( literal:any ) => {
 			return (! ! literal.added && typeof literal.added[ token ] !== "undefined")
 				|| (! ! literal.modified && typeof literal.modified[ token ] !== "undefined")
 				|| (! ! literal.copy && typeof literal.copy[ token ] !== "undefined")
@@ -52,7 +52,7 @@ export class LiteralsComponent implements OnInit {
 	}
 
 	editModeChanged( value:boolean ):void {
-		setTimeout( ()=> {
+		setTimeout( () => {
 			this.isEditingLiteral = value;
 		}, 1 );
 	}

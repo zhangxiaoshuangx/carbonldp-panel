@@ -13,7 +13,7 @@ export class DocumentsResolverService {
 
 	carbon:Carbon;
 
-	documents:Map<string,  {document:RDFDocument.Class, ETag:string}> = new Map<string, {document:RDFDocument.Class, ETag:string}>();
+	documents:Map<string,  { document:RDFDocument.Class, ETag:string }> = new Map<string, { document:RDFDocument.Class, ETag:string }>();
 	private parser:RDFDocument.Parser = new RDFDocument.Parser();
 
 	constructor( carbon:Carbon ) {
@@ -57,7 +57,7 @@ export class DocumentsResolverService {
 
 	createChild( context:SDKContext.Class, parentURI:string, content:any, childSlug?:string ):Promise<PersistedDocument.Class> {
 		return context.documents.createChild( parentURI, content, childSlug ).then(
-			( [createdChild, response]:[PersistedDocument.Class, HTTP.Response.Class] )=> {
+			( [ createdChild, response ]:[ PersistedDocument.Class, HTTP.Response.Class ] ) => {
 				return createdChild;
 			}
 		).catch( ( error ) => {
@@ -68,7 +68,7 @@ export class DocumentsResolverService {
 
 	createAccessPoint( document:PersistedDocument.Class, accessPoint:AccessPoint.Class, slug?:string ):Promise<PersistedDocument.Class> {
 		return document.createAccessPoint( accessPoint, slug ).then(
-			( [createdChild, response]:[PersistedDocument.Class, HTTP.Response.Class] )=> {
+			( [ createdChild, response ]:[ PersistedDocument.Class, HTTP.Response.Class ] ) => {
 				return createdChild;
 			}
 		).catch( ( error ) => {

@@ -22,7 +22,7 @@ export class PropertyNameValidator implements Validator, OnChanges {
 		this.control.control.updateValueAndValidity( false, true );
 	}
 
-	validate( control:AbstractControl ):{[key:string]:any;} {
+	validate( control:AbstractControl ):{ [key:string]:any; } {
 
 		if( ! ! control ) {
 			if( typeof control.value === "undefined" || control.value === null || ! control.value ) return null;
@@ -53,7 +53,7 @@ export class IdValidator implements Validator, OnChanges {
 		this.control.control.updateValueAndValidity( false, true );
 	}
 
-	validate( control:AbstractControl ):{[key:string]:any;} {
+	validate( control:AbstractControl ):{ [key:string]:any; } {
 
 		if( ! ! control ) {
 			if( typeof control.value === "undefined" || control.value === null || ! control.value ) return null;
@@ -79,7 +79,7 @@ export class LiteralValueValidator implements Validator, OnChanges {
 		this.control.control.updateValueAndValidity( false, true );
 	}
 
-	validate( control:AbstractControl ):{[key:string]:any;} {
+	validate( control:AbstractControl ):{ [key:string]:any; } {
 		let valid:boolean;
 		switch( this.type ) {
 			// Boolean
@@ -151,7 +151,7 @@ export class PointerValidator implements Validator {
 	@Input() documentURI;
 	url = new RegExp( "(\b(https?|ftp|file)://)?[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]" );
 
-	validate( control:AbstractControl ):{[key:string]:any;} {
+	validate( control:AbstractControl ):{ [key:string]:any; } {
 		if( ! ! control && typeof control.value === "undefined" ) {
 			return { "emptyControl": true };
 		}

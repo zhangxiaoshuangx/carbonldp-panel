@@ -27,9 +27,9 @@ export class RouterService {
 		if( typeof routes === "string" ) {
 			fullRoute = routes;
 		} else {
-			routes.forEach( ( value:string, idx:number )=> {
+			routes.forEach( ( value:string, idx:number ) => {
 				fullRoute += value;
-				if( idx !== routes.length - 1 )fullRoute += "/";
+				if( idx !== routes.length - 1 ) fullRoute += "/";
 			} );
 		}
 		return this.router.isActive( fullRoute, exact );

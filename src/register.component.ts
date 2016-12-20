@@ -22,7 +22,7 @@ export class RegisterComponent implements OnInit {
 	private authService:AuthService.Class;
 
 	private sending:boolean = false;
-	register:{ name:string, email:string, password:string, repeatPassword:string, profileId:string} = {
+	register:{ name:string, email:string, password:string, repeatPassword:string, profileId:string } = {
 		name: "",
 		email: "",
 		password: "",

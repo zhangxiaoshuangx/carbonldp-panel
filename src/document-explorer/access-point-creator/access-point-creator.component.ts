@@ -60,13 +60,13 @@ export class AccessPointCreatorComponent implements AfterViewInit {
 		};
 		if( ! ! data.isMemberOfRelation ) accessPoint.isMemberOfRelation = data.isMemberOfRelation;
 
-		this.context.documents.get( this.parentURI ).then( ( [document, response]:[PersistedDocument.Class, HTTP.Response.Class] )=> {
+		this.context.documents.get( this.parentURI ).then( ( [ document, response ]:[ PersistedDocument.Class, HTTP.Response.Class ] ) => {
 			return this.documentsResolverService.createAccessPoint( document, accessPoint, slug );
-		} ).then( ( document:PersistedDocument.Class )=> {
+		} ).then( ( document:PersistedDocument.Class ) => {
 			this.onSuccess.emit( document );
 			form.resetForm();
 			this.hide();
-		} ).catch( ( error:HTTPError )=> {
+		} ).catch( ( error:HTTPError ) => {
 			this.onError.emit( error );
 			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
 		} );

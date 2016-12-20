@@ -27,12 +27,12 @@ export class LoginComponent implements OnInit {
 	sending:boolean = false;
 	errorMessage:string = "";
 
-	login:{email:string,password:string, rememberMe:boolean} =
-	{
-		email: "",
-		password: "",
-		rememberMe: false
-	};
+	login:{ email:string, password:string, rememberMe:boolean } =
+		{
+			email: "",
+			password: "",
+			rememberMe: false
+		};
 
 	private authService:AuthService.Class;
 

@@ -111,7 +111,7 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "carbonl
                     return HTTP.Request.Service.put(uri, body, requestOptions).then(function (response) {
                         return _this.get(uri, documentContext);
                     }).then(function (parsedDocument) {
-                        if (!parsedDocument[0])
+                        if (!parsedDocument)
                             return null;
                         return parsedDocument;
                     }).catch(function (error) {

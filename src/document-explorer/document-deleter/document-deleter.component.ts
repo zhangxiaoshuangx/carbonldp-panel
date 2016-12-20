@@ -29,7 +29,7 @@ export class DocumentDeleterComponent implements AfterViewInit {
 	private documentsResolverService:DocumentsResolverService;
 	private errorMessage:Message;
 
-	deleteDocumentFormModel:{ } = {};
+	deleteDocumentFormModel:{} = {};
 	@Input() context:SDKContext.Class;
 	@Input() documentURI:string = "";
 	@Output() onSuccess:EventEmitter<any> = new EventEmitter<any>();
@@ -47,10 +47,10 @@ export class DocumentDeleterComponent implements AfterViewInit {
 	}
 
 	private onSubmitDeleteDocument( data:{}, $event:any ):void {
-		this.documentsResolverService.delete( this.context, this.documentURI ).then( ( result )=> {
+		this.documentsResolverService.delete( this.context, this.documentURI ).then( ( result ) => {
 			this.onSuccess.emit( DocumentExplorerLibrary.getParentURI( this.documentURI ) );
 			this.hide();
-		} ).catch( ( error:HTTPError )=> {
+		} ).catch( ( error:HTTPError ) => {
 			this.onError.emit( error );
 			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
 		} );

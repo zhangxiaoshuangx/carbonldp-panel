@@ -30,7 +30,7 @@ export class PaginatorComponent implements OnChanges {
 
 	constructor() {}
 
-	ngOnChanges( changes:{[propName:string]:SimpleChange} ):void {
+	ngOnChanges( changes:{ [propName:string]:SimpleChange } ):void {
 		if( ( ! ! changes[ "totalElements" ] && changes[ "totalElements" ].currentValue !== changes[ "totalElements" ].previousValue ) ||
 			( ! ! changes[ "elementsPerPage" ] && changes[ "elementsPerPage" ].currentValue !== changes[ "elementsPerPage" ].previousValue ) ) {
 			this.updatePages();

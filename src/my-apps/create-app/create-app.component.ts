@@ -40,7 +40,7 @@ export class CreateAppComponent implements OnInit {
 	private persistedName:string = "";
 
 	private slugInput;
-	private createAppFormModel:{name:string,slug:string,description:string} = {
+	private createAppFormModel:{ name:string, slug:string, description:string } = {
 		name: "",
 		slug: "",
 		description: ""
@@ -94,7 +94,7 @@ export class CreateAppComponent implements OnInit {
 	}
 
 	private createApp( slug:string, appDocument:CarbonApp.Class ):Promise<Auth.PersistedACL.Class> {
-		return this.carbon.apps.create( appDocument, slug ).then( ( [appPointer, appCreationResponse]:[ Pointer.Class, HTTP.Response.Class] ) => {
+		return this.carbon.apps.create( appDocument, slug ).then( ( [ appPointer, appCreationResponse ]:[ Pointer.Class, HTTP.Response.Class ] ) => {
 			this.persistedSlug = this._slug;
 			this.persistedName = this._name;
 			return this.carbon.apps.getContext( appPointer );
@@ -103,7 +103,7 @@ export class CreateAppComponent implements OnInit {
 			this.persistedName = appContext.app.name;
 			let persistedAppDocument:PersistedProtectedDocument.Class = (<PersistedProtectedDocument.Class>(<PersistedDocument.Class>appContext.app));
 			return persistedAppDocument.getACL();
-		} ).then( ( [acl,response]:[ Auth.PersistedACL.Class, HTTP.Response.Class ] ) => {
+		} ).then( ( [ acl, response ]:[ Auth.PersistedACL.Class, HTTP.Response.Class ] ) => {
 			return this.grantAccess( acl );
 		} ).catch( ( error:HTTP.Errors.Error ) => {
 			console.error( error );

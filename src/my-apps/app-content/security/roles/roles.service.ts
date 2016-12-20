@@ -22,7 +22,7 @@ export class RolesService {
 		let uri:string = appContext.getBaseURI() + "roles/";
 		let existingRoles:Map <string, PersistedRole.Class> = this.appContextsRoles.get( appContext.getBaseURI() );
 		existingRoles = typeof existingRoles === "undefined" ? new Map<string, PersistedRole.Class>() : existingRoles;
-		return this.carbon.documents.getChildren<PersistedRole.Class>( uri ).then( ( [roles, response]:[PersistedRole.Class[], HTTP.Response.Class] ) => {
+		return this.carbon.documents.getChildren<PersistedRole.Class>( uri ).then( ( [ roles, response ]:[ PersistedRole.Class[], HTTP.Response.Class ] ) => {
 			roles.filter( ( role:PersistedRole.Class ) => ! existingRoles.has( role.id ) )
 				.forEach( ( role:PersistedRole.Class ) => existingRoles.set( role.id, role ) );
 			return Utils.A.from( existingRoles.values() );

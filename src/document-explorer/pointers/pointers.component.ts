@@ -38,7 +38,7 @@ export class PointersComponent implements OnInit {
 	constructor() { }
 
 	ngOnInit():void {
-		this.onAddNewPointer.subscribe( ()=> {
+		this.onAddNewPointer.subscribe( () => {
 			this.addNewPointer();
 		} );
 		this.updateCanDisplayPointers();

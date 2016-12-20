@@ -74,7 +74,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		this.originalName = this.name;
 		if( Utils.isArray( prop[ this.copyOrAdded ].value ) ) {
 			this.value = [];
-			prop[ this.copyOrAdded ].value.forEach( ( literalOrRDFNode )=> { (<Array<any>>this.value).push( Object.assign( literalOrRDFNode ) ) } )
+			prop[ this.copyOrAdded ].value.forEach( ( literalOrRDFNode ) => { (<Array<any>>this.value).push( Object.assign( literalOrRDFNode ) ) } )
 		} else {
 			this.value = prop[ this.copyOrAdded ].value;
 		}
@@ -249,7 +249,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 			this.literals = this.property.modifiedLiterals;
 			this.tempLiterals = this.property.modifiedLiterals;
 		} else {
-			this.property[ this.copyOrAdded ].value.forEach( ( literalOrRDFNode )=> {
+			this.property[ this.copyOrAdded ].value.forEach( ( literalOrRDFNode ) => {
 				if( SDKLiteral.Factory.is( literalOrRDFNode ) ) {
 					this.literals.push( <LiteralRow>{ copy: literalOrRDFNode } );
 					this.tempLiterals.push( <LiteralRow>{ copy: literalOrRDFNode } );
@@ -260,7 +260,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 			this.pointers = this.property.modifiedPointers;
 			this.tempPointers = this.property.modifiedPointers;
 		} else {
-			this.property[ this.copyOrAdded ].value.forEach( ( literalOrRDFNode )=> {
+			this.property[ this.copyOrAdded ].value.forEach( ( literalOrRDFNode ) => {
 				if( SDKRDFNode.Factory.is( literalOrRDFNode ) ) {
 					this.pointers.push( <PointerRow>{ copy: literalOrRDFNode } );
 					this.tempPointers.push( <PointerRow>{ copy: literalOrRDFNode } );
@@ -271,7 +271,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 			this.lists = this.property.modifiedLists;
 			this.tempLists = this.property.modifiedLists;
 		} else {
-			this.property[ this.copyOrAdded ].value.forEach( ( literalOrRDFNodeOrList )=> {
+			this.property[ this.copyOrAdded ].value.forEach( ( literalOrRDFNodeOrList ) => {
 				if( SDKList.Factory.is( literalOrRDFNodeOrList ) ) {
 					this.lists.push( <ListRow>{ copy: literalOrRDFNodeOrList[ "@list" ].map( ( item ) => { return { copy: item } } ) } );
 					this.tempLists.push( <ListRow>{ copy: literalOrRDFNodeOrList } );
@@ -377,13 +377,13 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 		if( Utils.isArray( this.value ) ) {
 			this.tempProperty.value = [];
 			let tempLists:any[] = this.convertToListRow( this.tempLists );
-			[].concat( this.tempLiterals ).concat( this.tempPointers ).concat( tempLists ).forEach( ( literalOrPointerOrListRow )=> {
+			[].concat( this.tempLiterals ).concat( this.tempPointers ).concat( tempLists ).forEach( ( literalOrPointerOrListRow ) => {
 				if( ! literalOrPointerOrListRow.deleted )
 					this.tempProperty.value.push( ! ! literalOrPointerOrListRow.added ? literalOrPointerOrListRow.added : ! ! literalOrPointerOrListRow.modified ? literalOrPointerOrListRow.modified : literalOrPointerOrListRow.copy );
 			} );
-			this.literalsHaveChanged = ! ! this.tempLiterals.find( ( literalRow )=> {return ! ! literalRow.modified || ! ! literalRow.added || ! ! literalRow.deleted } );
-			this.pointersHaveChanged = ! ! this.tempPointers.find( ( pointerRow )=> {return ! ! pointerRow.modified || ! ! pointerRow.added || ! ! pointerRow.deleted } );
-			this.listsHaveChanged = ! ! tempLists.find( ( listRow )=> {return ! ! listRow.modified || ! ! listRow.added || ! ! listRow.deleted } );
+			this.literalsHaveChanged = ! ! this.tempLiterals.find( ( literalRow ) => {return ! ! literalRow.modified || ! ! literalRow.added || ! ! literalRow.deleted } );
+			this.pointersHaveChanged = ! ! this.tempPointers.find( ( pointerRow ) => {return ! ! pointerRow.modified || ! ! pointerRow.added || ! ! pointerRow.deleted } );
+			this.listsHaveChanged = ! ! tempLists.find( ( listRow ) => {return ! ! listRow.modified || ! ! listRow.added || ! ! listRow.deleted } );
 
 			if( this.literalsHaveChanged ) { this.property.modifiedLiterals = this.tempLiterals; }
 			else { delete this.property.modifiedLiterals; }
