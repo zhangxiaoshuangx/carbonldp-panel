@@ -1,3 +1,5 @@
+/// <reference types="jquery" />
+/// <reference types="jstree" />
 import { ElementRef, EventEmitter } from "@angular/core";
 import "semantic-ui/semantic";
 import * as RDFNode from "carbonldp/RDF/RDFNode";

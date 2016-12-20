@@ -35,7 +35,7 @@ export class ListsComponent implements OnInit {
 	constructor() { }
 
 	ngOnInit():void {
-		this.onAddNewList.subscribe( ()=> {
+		this.onAddNewList.subscribe( () => {
 			this.addNewList();
 		} );
 		this.updateCanDisplayLists();

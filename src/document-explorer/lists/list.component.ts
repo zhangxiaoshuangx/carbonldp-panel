@@ -37,7 +37,7 @@ export class ListComponent {
 	@Input() set list( list:ListRow ) {
 		this.copyOrAddedOrModified = ! ! list.copy ? (! ! list.modified ? "modified" : "copy") : "added";
 		this._list = list;
-		list[ this.copyOrAddedOrModified ].forEach( ( literalOrPointer )=> {
+		list[ this.copyOrAddedOrModified ].forEach( ( literalOrPointer ) => {
 			( <Array<any>>this.tempList ).push( Object.assign( {}, literalOrPointer ) );
 		} );
 	}

@@ -16,10 +16,10 @@ export class EditAppView {
 
 	constructor( appContentService:AppContentService ) {
 		this.app = appContentService.activeApp;
-		appContentService.onAppHasChanged.subscribe( ( app:App.Class )=> {
+		appContentService.onAppHasChanged.subscribe( ( app:App.Class ) => {
 			this.app = app;
 			this.canDisplay = false;
-			setTimeout( ()=> { this.canDisplay = true;}, 0 );
+			setTimeout( () => { this.canDisplay = true;}, 0 );
 		} );
 	}
 

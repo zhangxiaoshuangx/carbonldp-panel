@@ -1,3 +1,4 @@
+/// <reference types="codemirror" />
 import { ElementRef, EventEmitter, AfterContentInit, OnChanges, OnDestroy } from "@angular/core";
 import CodeMirror from "codemirror";
 import "codemirror/mode/css/css";

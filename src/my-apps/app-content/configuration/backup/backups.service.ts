@@ -20,16 +20,16 @@ export class BackupsService {
 
 	upload( file:Blob, appContext:SDKContext.Class ):Promise<[ Pointer.Class, HTTP.Response.Class ]> {
 		let uri:string = (<App.Context>appContext).app.id + "backups/";
-		return this.carbon.documents.upload( uri, file ).then( ( [uploadedBackupPointer, uploadResponse]:[ Pointer.Class, HTTP.Response.Class ] )=> {
-			return this.convertToNonRDFSource( uploadedBackupPointer ).then( ( []:[PersistedDocument.Class[], HTTP.Response.Class] )=> {
+		return this.carbon.documents.upload( uri, file ).then( ( [ uploadedBackupPointer, uploadResponse ]:[ Pointer.Class, HTTP.Response.Class ] ) => {
+			return this.convertToNonRDFSource( uploadedBackupPointer ).then( ( []:[ PersistedDocument.Class, HTTP.Response.Class ] ) => {
 				return [ uploadedBackupPointer, uploadResponse ];
 			} );
 		} );
 	}
 
-	getAll( appContext:SDKContext.Class ):Promise<[PersistedDocument.Class[], HTTP.Response.Class]> {
+	getAll( appContext:SDKContext.Class ):Promise<[ PersistedDocument.Class[], HTTP.Response.Class ]> {
 		let uri:string = (<App.Context>appContext).app.id + "backups/";
-		return this.carbon.documents.getChildren( uri ).then( ( [backups, response]:[PersistedDocument.Class[], HTTP.Response.Class] ) => {
+		return this.carbon.documents.getChildren( uri ).then( ( [ backups, response ]:[ PersistedDocument.Class[], HTTP.Response.Class ] ) => {
 			return [ backups, response ];
 		} );
 	}
@@ -44,10 +44,10 @@ export class BackupsService {
 		return appContext.documents.delete( uri );
 	}
 
-	private convertToNonRDFSource( backupPointer:Pointer.Class ):Promise<[PersistedDocument.Class[], HTTP.Response.Class]> {
-		return (<Pointer.Class>backupPointer).resolve().then( ( [backupDocument, response]:[Pointer.Class, HTTP.Response.Class] )=> {
-			(<PersistedDocument.Class>backupDocument).defaultInteractionModel = Pointer.Factory.create( NS.LDP.Class.NonRDFSource );
-			return (<PersistedDocument.Class>backupDocument).save();
+	private convertToNonRDFSource( backupPointer:Pointer.Class ):Promise<[ PersistedDocument.Class, HTTP.Response.Class ]> {
+		return backupPointer.resolve().then( ( [ backupDocument, response ]:[ PersistedDocument.Class, HTTP.Response.Class ] ) => {
+			backupDocument.defaultInteractionModel = Pointer.Factory.create( NS.LDP.Class.NonRDFSource );
+			return backupDocument.save();
 		} );
 	}
 

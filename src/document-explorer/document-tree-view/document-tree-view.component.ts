@@ -69,14 +69,14 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 		this.$tree = this.$element.find( ".treeview.content" );
 		this.$element.find( ".treeview.options .dropdown.button" ).dropdown( { action: "hide" } );
 		this.onLoadingDocument.emit( true );
-		this.getDocumentTree().then( ()=> {
+		this.getDocumentTree().then( () => {
 			this.onLoadingDocument.emit( false );
 		} );
-		this.refreshNode.subscribe( ( nodeId:string )=> {
+		this.refreshNode.subscribe( ( nodeId:string ) => {
 			this.jsTree.select_node( nodeId );
 			this.loadNode( nodeId );
 		} );
-		this.openNode.subscribe( ( nodeId:string )=> {
+		this.openNode.subscribe( ( nodeId:string ) => {
 			this.jsTree.select_node( nodeId );
 		} );
 	}
@@ -84,9 +84,11 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 	getDocumentTree():Promise<PersistedDocument.Class> {
 		return this.documentContext.documents.get( "" ).then( ( [ resolvedRoot, response ]:[ PersistedDocument.Class, HTTP.Response.Class ] ) => {
 			return resolvedRoot.refresh();
-		} ).then( ( [updatedRoot, updatedResponse]:[PersistedDocument.Class, HTTP.Response.Class] ) => {
+		} ).then( ( [ updatedRoot, updatedResponse ]:[ PersistedDocument.Class, HTTP.Response.Class ] ) => {
 			this.nodeChildren.push( this.buildNode( this.documentContext.getBaseURI(), "default", true ) );
 			this.renderTree();
+
+			return updatedRoot;
 		} ).catch( ( error:HTTP.Errors.Error ) => {
 			console.error( error );
 			this.onError.emit( error );
@@ -140,7 +142,7 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 			let node:any = data.node;
 			this.selectedURI = node.id;
 		} );
-		this.$tree.on( "loaded.jstree", ()=> {
+		this.$tree.on( "loaded.jstree", () => {
 			this.jsTree.select_node( this.nodeChildren[ 0 ].id );
 			this.jsTree.open_node( this.nodeChildren[ 0 ].id );
 			if( this.nodeChildren && this.nodeChildren.length > 0 ) {
@@ -179,7 +181,7 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 	}
 
 	onChange( parentId:string, node:any, position:string ):void {
-		this.onBeforeOpenNode( parentId, node, position ).then( ()=> {
+		this.onBeforeOpenNode( parentId, node, position ).then( () => {
 			if( ! this.jsTree.is_open( node ) ) {
 				this.jsTree.open_node( node );
 			}
@@ -218,27 +220,27 @@ export class DocumentTreeViewComponent implements AfterViewInit, OnInit {
 			}`;
 		query = query.replace( "__URI__", uri );
 
-		return this.documentContext.documents.executeSELECTQuery( uri, query ).then( ( [ results, response ]:[ SPARQL.SELECTResults.Class, HTTP.Response.Class ] )=> {
+		return this.documentContext.documents.executeSELECTQuery( uri, query ).then( ( [ results, response ]:[ SPARQL.SELECTResults.Class, HTTP.Response.Class ] ) => {
 			let accessPoints:Map<string, boolean> = new Map<string, boolean>(),
 				children:Map<string, boolean> = new Map<string, boolean>(),
 				nodes:JSTreeNode[] = [];
 
 			results.bindings.forEach(
-				( binding:{p:Pointer.Class, o:Pointer.Class, p2:Pointer.Class, o2:Pointer.Class} )=> {
+				( binding:{ p:Pointer.Class, o:Pointer.Class, p2:Pointer.Class, o2:Pointer.Class } ) => {
 					if( binding.p.id !== "http://www.w3.org/ns/ldp#contains" || (! ! binding.o2 && binding.o2.id.indexOf( "/agents/me/" ) !== - 1 ) ) return;
 					children.set( binding.o.id, children.get( binding.o.id ) ? true : ! ! binding.p2 );
 				} );
 			results.bindings.forEach(
-				( binding:{p:Pointer.Class, o:Pointer.Class, p2:Pointer.Class, o2:Pointer.Class} )=> {
+				( binding:{ p:Pointer.Class, o:Pointer.Class, p2:Pointer.Class, o2:Pointer.Class } ) => {
 					if( binding.p.id !== "https://carbonldp.com/ns/v1/platform#accessPoint" ) return;
 					accessPoints.set( binding.o.id, accessPoints.get( binding.o.id ) ? true : ! ! binding.p2 );
 				} );
 
 
-			children.forEach( ( hasChildren:boolean, id:string, children:Map<string,boolean> )=> {
+			children.forEach( ( hasChildren:boolean, id:string, children:Map<string,boolean> ) => {
 				nodes.push( this.buildNode( id, "default", hasChildren ) );
 			} );
-			accessPoints.forEach( ( hasChildren:boolean, id:string, children:Map<string,boolean> )=> {
+			accessPoints.forEach( ( hasChildren:boolean, id:string, children:Map<string,boolean> ) => {
 				nodes.push( this.buildNode( id, "accesspoint", hasChildren ) );
 			} );
 

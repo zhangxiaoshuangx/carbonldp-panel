@@ -33,7 +33,7 @@ export class ErrorMessageComponent implements OnChanges, AfterViewInit {
 		this.$element = $( this.element.nativeElement );
 	}
 
-	ngOnChanges( changes:{[propName:string]:SimpleChange} ):void {
+	ngOnChanges( changes:{ [propName:string]:SimpleChange } ):void {
 		if( ! ! changes[ "message" ].currentValue && changes[ "message" ].currentValue !== changes[ "message" ].previousValue ) {
 			this.decomposeMessage();
 		}

@@ -32,7 +32,7 @@ export class BackupsComponent implements OnInit {
 	}
 
 	ngOnInit():void {
-		this.jobsService.getJobOfType( Job.Type.EXPORT_BACKUP, this.appContext ).then( ( job:PersistedDocument.Class )=> {
+		this.jobsService.getJobOfType( Job.Type.EXPORT_BACKUP, this.appContext ).then( ( job:PersistedDocument.Class ) => {
 			if( ! ! job ) this.backupJob = job;
 			else this.jobsService.createExportBackup( this.appContext ).then( ( exportBackupJob:PersistedDocument.Class ) => {
 				this.backupJob = exportBackupJob;

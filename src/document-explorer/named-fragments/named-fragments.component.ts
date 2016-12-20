@@ -45,7 +45,7 @@ export class NamedFragmentsComponent implements AfterViewInit, OnChanges {
 		this.initializeDeletionDimmer();
 	}
 
-	ngOnChanges( changes:{[propName:string]:SimpleChange} ):void {
+	ngOnChanges( changes:{ [propName:string]:SimpleChange } ):void {
 		if( ( changes[ "namedFragments" ].currentValue !== changes[ "namedFragments" ].previousValue ) ) {
 			this.openedNamedFragments = [];
 			this.goToNamedFragment( "all-namedFragments" );
@@ -56,11 +56,11 @@ export class NamedFragmentsComponent implements AfterViewInit, OnChanges {
 	openNamedFragment( nodeOrId:NamedFragmentRow|string ):void {
 		let node:NamedFragmentRow;
 		if( typeof nodeOrId === "string" ) {
-			node = this.namedFragments.find( ( node )=> { return node.name === nodeOrId} );
+			node = this.namedFragments.find( ( node ) => { return node.name === nodeOrId} );
 		} else {
 			node = nodeOrId;
 		}
-		if( this.openedNamedFragments.indexOf( node ) === - 1 )this.openedNamedFragments.push( node );
+		if( this.openedNamedFragments.indexOf( node ) === - 1 ) this.openedNamedFragments.push( node );
 		setTimeout( () => {
 			this.refreshTabs();
 			this.goToNamedFragment( "named-fragment_" + this.getNormalizedUri( node.name ) );

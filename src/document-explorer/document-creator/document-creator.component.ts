@@ -28,7 +28,7 @@ export class DocumentCreatorComponent implements AfterViewInit {
 	private documentsResolverService:DocumentsResolverService;
 	private errorMessage:Message;
 
-	createChildFormModel:{ slug:string, advancedOptions:{hasMemberRelation:string, isMemberOfRelation:string }} = {
+	createChildFormModel:{ slug:string, advancedOptions:{ hasMemberRelation:string, isMemberOfRelation:string } } = {
 		slug: "",
 		advancedOptions: {
 			hasMemberRelation: "http://www.w3.org/ns/ldp#member",
@@ -52,7 +52,7 @@ export class DocumentCreatorComponent implements AfterViewInit {
 		this.$createDocumentModal.find( ".advancedoptions.accordion" ).accordion();
 	}
 
-	private onSubmitCreateChild( data:{ slug:string, advancedOptions:{hasMemberRelation:string, isMemberOfRelation:string }}, $event:any ):void {
+	private onSubmitCreateChild( data:{ slug:string, advancedOptions:{ hasMemberRelation:string, isMemberOfRelation:string } }, $event:any ):void {
 		$event.preventDefault();
 		let childSlug:string = null;
 		if( ! ! data.slug )
@@ -64,7 +64,7 @@ export class DocumentCreatorComponent implements AfterViewInit {
 		this.documentsResolverService.createChild( this.context, this.parentURI, childContent, childSlug ).then( ( createdChild:PersistedDocument.Class ) => {
 			this.onSuccess.emit( createdChild );
 			this.hide();
-		} ).catch( ( error:HTTPError )=> {
+		} ).catch( ( error:HTTPError ) => {
 			this.onError.emit( error );
 			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
 		} );

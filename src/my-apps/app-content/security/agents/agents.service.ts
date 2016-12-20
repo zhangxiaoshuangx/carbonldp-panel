@@ -42,7 +42,7 @@ export class AgentsService {
 		if( URI.Util.isAbsolute( slugOrURI ) ) uri = slugOrURI;
 		let existingAgents:Map <string, PersistedAgent.Class> = this.appContextsAgents.get( appContext.getBaseURI() );
 		existingAgents = typeof existingAgents === "undefined" ? new Map<string, PersistedAgent.Class>() : existingAgents;
-		return appContext.documents.get<PersistedAgent.Class>( uri ).then( ( [agent, response]:[PersistedAgent.Class, HTTP.Response.Class] ) => {
+		return appContext.documents.get<PersistedAgent.Class>( uri ).then( ( [ agent, response ]:[ PersistedAgent.Class, HTTP.Response.Class ] ) => {
 			existingAgents.set( agent.id, agent );
 			return agent;
 		} );
@@ -91,7 +91,7 @@ export class AgentsService {
 		if( typeof page !== "undefined" ) preferences.offset = page * limit;
 
 
-		return this.carbon.documents.getMembers<PersistedAgent.Class>( uri, false, preferences ).then( ( [agents, response]:[PersistedAgent.Class[], HTTP.Response.Class] ) => {
+		return this.carbon.documents.getMembers<PersistedAgent.Class>( uri, false, preferences ).then( ( [ agents, response ]:[ PersistedAgent.Class[], HTTP.Response.Class ] ) => {
 			agents.filter( ( agent:PersistedAgent.Class ) => ! existingAgents.has( agent.id ) )
 				.forEach( ( agent:PersistedAgent.Class ) => existingAgents.set( agent.id, agent ) );
 
@@ -107,21 +107,21 @@ export class AgentsService {
 			query:string = `SELECT DISTINCT (COUNT(?agent) AS ?count) WHERE {
 			?agent a <https://carbonldp.com/ns/v1/security#Agent> . 
 		}`;
-		return appContext.documents.executeSELECTQuery( agentsURI, query ).then( ( [results,response]:[SPARQL.SELECTResults.Class,HTTP.Response.Class] ) => {
+		return appContext.documents.executeSELECTQuery( agentsURI, query ).then( ( [ results, response ]:[ SPARQL.SELECTResults.Class, HTTP.Response.Class ] ) => {
 			if( typeof results.bindings[ 0 ] === "undefined" ) return 0;
 			return results.bindings[ 0 ][ "count" ];
 		} );
 	}
 
-	public saveAgent( appContext:App.Context, agent:PersistedAgent.Class ):Promise<[PersistedAgent.Class, [HTTP.Response.Class,HTTP.Response.Class]]> {
+	public saveAgent( appContext:App.Context, agent:PersistedAgent.Class ):Promise<[ PersistedAgent.Class, HTTP.Response.Class ]> {
 		return agent.save();
 	}
 
-	public saveAndRefreshAgent( appContext:App.Context, agent:PersistedAgent.Class ):Promise<[PersistedAgent.Class, [HTTP.Response.Class,HTTP.Response.Class]]> {
+	public saveAndRefreshAgent( appContext:App.Context, agent:PersistedAgent.Class ):Promise<[ PersistedAgent.Class, [ HTTP.Response.Class, HTTP.Response.Class ] ]> {
 		return agent.saveAndRefresh();
 	}
 
-	public createAgent( appContext:App.Context, agent:Agent.Class, slug?:string ):Promise<[PersistedAgent.Class, [HTTP.Response.Class,HTTP.Response.Class]]> {
+	public createAgent( appContext:App.Context, agent:Agent.Class, slug?:string ):Promise<[ PersistedAgent.Class, HTTP.Response.Class ]> {
 		let agents:Agents.Class = appContext.auth.agents;
 		return agents.register( agent, slug );
 	}

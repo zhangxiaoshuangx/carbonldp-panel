@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 
 import Carbon from "carbonldp/Carbon";
 import * as CarbonApp from "carbonldp/App";
@@ -23,30 +24,32 @@ import template from "./create-app.component.html!";
 	styles: [ ":host { display: block; }" ],
 } )
 export class CreateAppComponent implements OnInit {
-	carbon:Carbon;
+	private carbon:Carbon;
+	private router:Router;
 
-	appContextService:AppContextService;
+	private appContextService:AppContextService;
 
-	submitting:boolean = false;
-	displaySuccessMessage:boolean = false;
-	displayWarningMessage:boolean = false;
-	errorMessage:Message;
+	private submitting:boolean = false;
+	private displaySuccessMessage:boolean = false;
+	private displayWarningMessage:boolean = false;
+	private errorMessage:Message;
 
-	_name:string = "";
-	_slug:string = "";
-	persistedSlug:string = "";
-	persistedName:string = "";
+	private _name:string = "";
+	private _slug:string = "";
+	private persistedSlug:string = "";
+	private persistedName:string = "";
 
-	slugInput;
-	createAppFormModel:{name:string,slug:string,description:string} = {
+	private slugInput;
+	private createAppFormModel:{ name:string, slug:string, description:string } = {
 		name: "",
 		slug: "",
 		description: ""
 	};
 
-	constructor( carbon:Carbon, appContextService:AppContextService ) {
+	constructor( carbon:Carbon, appContextService:AppContextService, router:Router ) {
 		this.carbon = carbon;
 		this.appContextService = appContextService;
+		this.router = router;
 	}
 
 	ngOnInit():void {
@@ -54,28 +57,20 @@ export class CreateAppComponent implements OnInit {
 	}
 
 
-	slugLostControl( evt:any ):void {
-		if( typeof (evt.target) !== "undefined" ) {
-			if( ! evt.target.value.match( /^[a-z0-9]+(?:-[a-z0-9]*)*(?:\/*)$/ ) ) {
-				this.getSanitizedSlug( evt );
-			}
-		}
+	private slugLostControl( evt:any ):void {
+		if( typeof evt.target === "undefined" ) return;
+		if( ! evt.target.value.match( /^[a-z0-9]+(?:-[a-z0-9]*)*(?:\/*)$/ ) )
+			this.createAppFormModel.slug = this.getSanitizedSlug( evt.target.value );
+		if( ! this.createAppFormModel.slug.endsWith( "/" ) && this.createAppFormModel.slug.trim() !== "" ) this.createAppFormModel.slug += "/";
 	}
 
-	getSanitizedSlug( evt:any ):void {
-		let slug:string;
-		if( typeof evt.target !== "undefined" ) {
-			slug = evt.target.value;
-			if( slug ) {
-				slug = slug.toLowerCase().replace( / - | -|- /g, "-" ).replace( /[^-\w ]+/g, "" ).replace( / +/g, "-" );
-				if( slug.charAt( slug.length - 1 ) !== "/" ) slug += "/";
-
-				this.createAppFormModel.slug = slug;
-			}
-		}
+	private getSanitizedSlug( slug:string ):string {
+		if( typeof slug === "undefined" ) return slug;
+		slug = slug.toLowerCase().replace( / - | -|- /g, "-" ).replace( /[^-\w ]+/g, "" ).replace( / +/g, "-" );
+		return slug;
 	}
 
-	onSubmit( form:any, $event:any ):void {
+	private onSubmit( form:any, $event:any ):void {
 		$event.preventDefault();
 
 		this.submitting = true;
@@ -98,9 +93,8 @@ export class CreateAppComponent implements OnInit {
 		this.createApp( slug, appDocument );
 	}
 
-	createApp( slug:string, appDocument:CarbonApp.Class ):Promise<Auth.PersistedACL.Class> {
-		return this.carbon.apps.create( appDocument, slug ).then( ( [appPointer, appCreationResponse]:[ Pointer.Class, HTTP.Response.Class] ) => {
-			this.submitting = false;
+	private createApp( slug:string, appDocument:CarbonApp.Class ):Promise<Auth.PersistedACL.Class> {
+		return this.carbon.apps.create( appDocument, slug ).then( ( [ appPointer, appCreationResponse ]:[ Pointer.Class, HTTP.Response.Class ] ) => {
 			this.persistedSlug = this._slug;
 			this.persistedName = this._name;
 			return this.carbon.apps.getContext( appPointer );
@@ -109,7 +103,7 @@ export class CreateAppComponent implements OnInit {
 			this.persistedName = appContext.app.name;
 			let persistedAppDocument:PersistedProtectedDocument.Class = (<PersistedProtectedDocument.Class>(<PersistedDocument.Class>appContext.app));
 			return persistedAppDocument.getACL();
-		} ).then( ( [acl,response]:[ Auth.PersistedACL.Class, HTTP.Response.Class ] )=> {
+		} ).then( ( [ acl, response ]:[ Auth.PersistedACL.Class, HTTP.Response.Class ] ) => {
 			return this.grantAccess( acl );
 		} ).catch( ( error:HTTP.Errors.Error ) => {
 			console.error( error );
@@ -120,6 +114,7 @@ export class CreateAppComponent implements OnInit {
 					content: JSON.stringify( error )
 				};
 			}
+		} ).then( () => {
 			this.submitting = false;
 		} );
 	}
@@ -129,11 +124,12 @@ export class CreateAppComponent implements OnInit {
 			subjectClass:string = CS.namespace + "PlatformRole",
 			permissions:string[] = [ CS.namespace + "Read" ];
 		acl.grant( subject, subjectClass, permissions );
-		return acl.saveAndRefresh().then( ()=> {
+		return acl.saveAndRefresh().then( () => {
 			this.displaySuccessMessage = true;
+			this.router.navigate( [ "my-apps/", this.persistedSlug ] );
 		} ).catch( ( error:HTTP.Errors.Error ) => {
 			this.displayWarningMessage = true;
-		} ).then( ()=> {
+		} ).then( () => {
 			return acl;
 		} );
 	}
@@ -148,7 +144,7 @@ export class CreateAppComponent implements OnInit {
 		};
 	}
 
-	getErrorMessage( error:HTTP.Errors.Error ):string {
+	private getErrorMessage( error:HTTP.Errors.Error ):string {
 		let friendlyMessage:string = "";
 		switch( true ) {
 			case error instanceof HTTP.Errors.BadRequestError:
@@ -185,7 +181,7 @@ export class CreateAppComponent implements OnInit {
 		return friendlyMessage;
 	}
 
-	clearMessages( evt:Event ):void {
+	private clearMessages( evt:Event ):void {
 		this.displaySuccessMessage = false;
 		this.displayWarningMessage = false;
 		this.errorMessage = null;

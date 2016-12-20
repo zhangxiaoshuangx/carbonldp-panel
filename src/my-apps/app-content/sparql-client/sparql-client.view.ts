@@ -21,10 +21,10 @@ export class SPARQLClientView {
 	constructor( errorsAreaService:ErrorsAreaService, appContentService:AppContentService ) {
 		this.appContext = appContentService.activeApp.context;
 		this.errorsAreaService = errorsAreaService;
-		appContentService.onAppHasChanged.subscribe( ( app:App.Class )=> {
+		appContentService.onAppHasChanged.subscribe( ( app:App.Class ) => {
 			this.appContext = appContentService.activeApp.context;
 			this.canDisplay = false;
-			setTimeout( ()=> { this.canDisplay = true;}, 0 );
+			setTimeout( () => { this.canDisplay = true;}, 0 );
 		} );
 	}
 

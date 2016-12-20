@@ -12,7 +12,7 @@ export declare class DocumentsResolverService {
     }>;
     private parser;
     constructor(carbon: Carbon);
-    get(uri: string, documentContext: SDKContext.Class): Promise<RDFDocument.Class>;
+    get(uri: string, documentContext: SDKContext.Class): Promise<RDFDocument.Class | null>;
     getAll(): Promise<RDFDocument.Class[]>;
     createChild(context: SDKContext.Class, parentURI: string, content: any, childSlug?: string): Promise<PersistedDocument.Class>;
     createAccessPoint(document: PersistedDocument.Class, accessPoint: AccessPoint.Class, slug?: string): Promise<PersistedDocument.Class>;

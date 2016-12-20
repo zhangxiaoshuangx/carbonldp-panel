@@ -97,6 +97,7 @@ System.register(["@angular/core", "carbonldp/RDF/URI", "carbonldp/SDKContext", "
                         var updatedRoot = _a[0], updatedResponse = _a[1];
                         _this.nodeChildren.push(_this.buildNode(_this.documentContext.getBaseURI(), "default", true));
                         _this.renderTree();
+                        return updatedRoot;
                     }).catch(function (error) {
                         console.error(error);
                         _this.onError.emit(error);

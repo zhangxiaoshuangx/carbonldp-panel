@@ -137,7 +137,7 @@ export class NamedFragmentComponent implements AfterViewInit {
 		};
 		this.properties.splice( 1, 0, newProperty );
 		// Animates created property
-		setTimeout( ()=> {
+		setTimeout( () => {
 			let createdPropertyComponent:JQuery = this.$element.find( "cp-property.added-property" ).first();
 			createdPropertyComponent.addClass( "transition hidden" );
 			createdPropertyComponent.transition( { animation: "drop" } );
@@ -151,7 +151,7 @@ export class NamedFragmentComponent implements AfterViewInit {
 	updateExistingProperties():void {
 		this.properties = [];
 		this.existingPropertiesNames = Object.keys( this.rootNode );
-		this.existingPropertiesNames.forEach( ( propName:string )=> {
+		this.existingPropertiesNames.forEach( ( propName:string ) => {
 			this.properties.push( {
 				copy: {
 					id: propName,
@@ -161,24 +161,24 @@ export class NamedFragmentComponent implements AfterViewInit {
 			} );
 		} );
 		if( ! this.records ) return;
-		this.records.additions.forEach( ( value, key )=> {
+		this.records.additions.forEach( ( value, key ) => {
 			this.existingPropertiesNames.push( key );
 			this.properties.splice( 1, 0, value );
 		} );
 		let idx:number;
-		this.records.changes.forEach( ( value, key )=> {
+		this.records.changes.forEach( ( value, key ) => {
 			if( value.modified.id !== value.modified.name ) {
 				idx = this.existingPropertiesNames.indexOf( value.modified.id );
 				if( idx !== - 1 ) this.existingPropertiesNames.splice( idx, 1, value.modified.name );
 			}
-			idx = this.properties.findIndex( ( property:PropertyRow )=> { return ! ! property.copy && property.copy.id === key} );
+			idx = this.properties.findIndex( ( property:PropertyRow ) => { return ! ! property.copy && property.copy.id === key} );
 			if( idx !== - 1 ) this.properties.splice( idx, 1, value );
 		} );
-		this.records.deletions.forEach( ( value, key )=> {
+		this.records.deletions.forEach( ( value, key ) => {
 			idx = this.existingPropertiesNames.indexOf( key );
 			if( idx !== - 1 ) this.existingPropertiesNames.splice( idx, 1 );
 
-			idx = this.properties.findIndex( ( property:PropertyRow )=> { return ! ! property.copy && property.copy.id === key} );
+			idx = this.properties.findIndex( ( property:PropertyRow ) => { return ! ! property.copy && property.copy.id === key} );
 			if( idx !== - 1 ) this.properties.splice( idx, 1 );
 		} );
 		this.namedFragmentHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
@@ -186,10 +186,10 @@ export class NamedFragmentComponent implements AfterViewInit {
 
 	getRawVersion():RDFNode.Class {
 		let rawNode:RDFNode.Class = Object.assign( {}, this.namedFragment.added ? this.namedFragment.added : this.namedFragment.copy );
-		this.records.deletions.forEach( ( property, key )=> {
+		this.records.deletions.forEach( ( property, key ) => {
 			delete rawNode[ key ];
 		} );
-		this.records.changes.forEach( ( property, key )=> {
+		this.records.changes.forEach( ( property, key ) => {
 			if( property.modified.id === "@id" ) this.namedFragment.name = property.modified.value;
 			if( property.modified.id !== property.modified.name ) {
 				delete rawNode[ key ];
@@ -198,7 +198,7 @@ export class NamedFragmentComponent implements AfterViewInit {
 				rawNode[ key ] = property.modified.value;
 			}
 		} );
-		this.records.additions.forEach( ( property, key )=> {
+		this.records.additions.forEach( ( property, key ) => {
 			if( property.added.id === "@id" ) this.namedFragment.name = property.modified.value;
 			rawNode[ key ] = property.added.value;
 		} );

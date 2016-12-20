@@ -27,7 +27,7 @@ export class ErrorMessageGenerator {
 			errorMessage.title = errorMessage.statusMessage;
 			errorMessage.endpoint = ( <any>error.response.request ).responseURL;
 			if( ! ! error.response.data )
-				this.getErrors( error ).then( ( errors )=> { errorMessage[ "errors" ] = errors; } );
+				this.getErrors( error ).then( ( errors ) => { errorMessage[ "errors" ] = errors; } );
 		} else if( error.hasOwnProperty( "stack" ) ) {
 			// If it's an uncaught exception
 			errorMessage.title = error.message;
@@ -40,9 +40,9 @@ export class ErrorMessageGenerator {
 		let parser:JSONLDParser.Class = new JSONLDParser.Class();
 		let mainError = {};
 		let errors:any[] = [];
-		return parser.parse( error.response.data ).then( ( mainErrors )=> {
-			mainError = mainErrors.find( ( error )=> { return error[ "@type" ].indexOf( "https://carbonldp.com/ns/v1/platform#ErrorResponse" ) !== - 1} );
-			errors = mainErrors.filter( ( error )=> { return error[ "@type" ].indexOf( "https://carbonldp.com/ns/v1/platform#Error" ) !== - 1} );
+		return parser.parse( error.response.data ).then( ( mainErrors ) => {
+			mainError = mainErrors.find( ( error ) => { return error[ "@type" ].indexOf( "https://carbonldp.com/ns/v1/platform#ErrorResponse" ) !== - 1} );
+			errors = mainErrors.filter( ( error ) => { return error[ "@type" ].indexOf( "https://carbonldp.com/ns/v1/platform#Error" ) !== - 1} );
 			return errors;
 		} );
 	}

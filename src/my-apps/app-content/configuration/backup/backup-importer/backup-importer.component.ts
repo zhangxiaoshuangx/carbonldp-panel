@@ -60,7 +60,7 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 
 
 	getBackups():void {
-		this.backupsService.getAll( this.appContext ).then( ( [backups, response]:[PersistedDocument.Class[], Response.Class] )=> {
+		this.backupsService.getAll( this.appContext ).then( ( [ backups, response ]:[ PersistedDocument.Class[], Response.Class ] ) => {
 			this.backups = backups.sort( ( a:any, b:any ) => b.modified < a.modified ? - 1 : b.modified > a.modified ? 1 : 0 );
 		} )
 	}
@@ -70,9 +70,9 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 		let backup = form.form.controls.backup;
 		let backupFile = form.form.controls.backupFile;
 		this.running.start();
-		if( uri.valid )this.createBackupImport( uri.value );
-		if( backup.valid )this.createBackupImport( backup.value );
-		if( backupFile.valid )this.uploadBackup( this.backupFileBlob );
+		if( uri.valid ) this.createBackupImport( uri.value );
+		if( backup.valid ) this.createBackupImport( backup.value );
+		if( backupFile.valid ) this.uploadBackup( this.backupFileBlob );
 	}
 
 	executeImport( importJob:PersistedDocument.Class ):Promise<PersistedDocument.Class> {
@@ -82,8 +82,8 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 	monitorExecution( importJobExecution:PersistedDocument.Class ):Promise<PersistedDocument.Class> {
 		return new Promise<PersistedDocument.Class>( ( resolve:( result:any ) => void, reject:( error:HTTPError|PersistedDocument.Class ) => void ) => {
 			// Node typings are overriding setInterval, that's why we need to cast it to any before assigning it to a number variable
-			this.monitorExecutionInterval = <any>setInterval( ()=> {
-				this.checkImportJobExecution( importJobExecution ).then( ()=> {
+			this.monitorExecutionInterval = <any>setInterval( () => {
+				this.checkImportJobExecution( importJobExecution ).then( () => {
 					if( this.executing.done ) {
 						clearInterval( this.monitorExecutionInterval );
 						resolve( importJobExecution );
@@ -98,7 +98,7 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 	}
 
 	private checkImportJobExecution( importJobExecution:PersistedDocument.Class ):Promise<any> {
-		return this.jobsService.checkJobExecution( importJobExecution ).then( ( execution )=> {
+		return this.jobsService.checkJobExecution( importJobExecution ).then( ( execution ) => {
 			if( ! execution[ Job.Execution.STATUS ] ) return Promise.reject( execution );
 			if( execution[ Job.Execution.STATUS ].id === Job.ExecutionStatus.FINISHED ) this.executing.success();
 			if( execution[ Job.Execution.STATUS ].id === Job.ExecutionStatus.ERROR ) {
@@ -110,7 +110,7 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 				};
 				this.errorMessages.push( errorMessage );
 			}
-		} ).catch( ( error:HTTPError )=> {
+		} ).catch( ( error:HTTPError ) => {
 			console.error( error );
 			this.executing.fail();
 			let errorMessage:Message;
@@ -165,11 +165,11 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 	uploadBackup( file:Blob ):void {
 		this.uploading.start();
 		this.backupsService.upload( file, this.appContext ).then(
-			( [pointer, response]:[ Pointer.Class, Response.Class ] )=> {
+			( [ pointer, response ]:[ Pointer.Class, Response.Class ] ) => {
 				this.uploading.success();
 				this.createBackupImport( pointer.id );
 			}
-		).catch( ( error:HTTPError )=> {
+		).catch( ( error:HTTPError ) => {
 			console.error( error );
 			this.uploading.fail();
 			let errorMessage:Message;
@@ -186,11 +186,11 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 
 	createBackupImport( backupURI:string ):Promise<any> {
 		this.creating.start();
-		return this.jobsService.createImportBackup( backupURI, this.appContext ).then( ( importJob:PersistedDocument.Class )=> {
+		return this.jobsService.createImportBackup( backupURI, this.appContext ).then( ( importJob:PersistedDocument.Class ) => {
 			this.creating.success();
 			this.executing.start();
-			return this.executeImport( importJob ).then( ( importJobExecution:PersistedDocument.Class )=> {this.monitorExecution( importJobExecution );}
-			).catch( ( error:HTTPError )=> {
+			return this.executeImport( importJob ).then( ( importJobExecution:PersistedDocument.Class ) => {this.monitorExecution( importJobExecution );}
+			).catch( ( error:HTTPError ) => {
 				console.error( error );
 				this.executing.fail();
 				let errorMessage:Message;
@@ -203,7 +203,7 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 				}
 				this.errorMessages.push( errorMessage );
 			} );
-		} ).catch( ( error:HTTPError )=> {
+		} ).catch( ( error:HTTPError ) => {
 			console.error( error );
 			this.creating.fail();
 			let errorMessage:Message;

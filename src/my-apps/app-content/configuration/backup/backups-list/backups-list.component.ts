@@ -45,9 +45,9 @@ export class BackupsListComponent implements AfterViewInit, OnChanges, OnDestroy
 	constructor( element:ElementRef, backupsService:BackupsService ) {
 		this.element = element;
 		this.backupsService = backupsService;
-		this.fetchBackupsList.subscribe( ( doFetch )=> {
+		this.fetchBackupsList.subscribe( ( doFetch ) => {
 			if( ! doFetch ) return;
-			this.getBackups().then( ( backups:PersistedDocument.Class[] )=> {
+			this.getBackups().then( ( backups:PersistedDocument.Class[] ) => {
 				clearInterval( this.fetchBackupsListInterval );
 				this.monitorBackups();
 			} );
@@ -60,12 +60,12 @@ export class BackupsListComponent implements AfterViewInit, OnChanges, OnDestroy
 		this.initializeModals();
 	}
 
-	ngOnChanges( changes:{[propName:string]:SimpleChange} ):void {
+	ngOnChanges( changes:{ [propName:string]:SimpleChange } ):void {
 		if( changes[ "backupJob" ] && ! ! changes[ "backupJob" ].currentValue && changes[ "backupJob" ].currentValue !== changes[ "backupJob" ].previousValue ) {
 			this.loadingBackups = true;
 			this.getBackups().then( ( backups:PersistedDocument.Class[] ) => {
 				this.loadingBackups = false;
-			} ).catch( ()=>this.loadingBackups = false );
+			} ).catch( () => this.loadingBackups = false );
 			this.monitorBackups();
 		}
 	}
@@ -78,19 +78,19 @@ export class BackupsListComponent implements AfterViewInit, OnChanges, OnDestroy
 		this.$deleteBackupConfirmationModal.modal( {
 			closable: false,
 			blurring: true,
-			onApprove: ()=>false
+			onApprove: () => false
 		} );
 	}
 
 	monitorBackups():void {
 		// Node typings are overriding setInterval, that's why we need to cast it to any before assigning it to a number variable
-		this.fetchBackupsListInterval = <any>setInterval( ()=> this.getBackups(), this.refreshPeriod );
+		this.fetchBackupsListInterval = <any>setInterval( () => this.getBackups(), this.refreshPeriod );
 	}
 
 	getBackups():Promise<PersistedDocument.Class[]> {
 		this.errorMessages = [];
 		return this.backupsService.getAll( this.appContext ).then(
-			( [backups, response]:[PersistedDocument.Class[],Response.Class] ) => {
+			( [ backups, response ]:[ PersistedDocument.Class[], Response.Class ] ) => {
 				backups = backups.sort( ( a:any, b:any ) => b.modified < a.modified ? - 1 : b.modified > a.modified ? 1 : 0 );
 				this.backups = backups;
 				return backups;
@@ -113,7 +113,7 @@ export class BackupsListComponent implements AfterViewInit, OnChanges, OnDestroy
 		this.failedDownloadMessage = null;
 		this.backupsService.getDownloadURL( uri ).then( ( getDownloadURL:string ) => {
 			window.open( getDownloadURL );
-		} ).catch( ( error:HTTPError )=> {
+		} ).catch( ( error:HTTPError ) => {
 			let deleteMessage:Message;
 			deleteMessage = <Message>{
 				title: (<HTTPError>error).name,
@@ -123,7 +123,7 @@ export class BackupsListComponent implements AfterViewInit, OnChanges, OnDestroy
 				statusMessage: (<XMLHttpRequest>(<HTTPError>error).response.request).statusText
 			};
 			this.failedDownloadMessage = deleteMessage;
-		} ).then( ()=> {downLoadButton.classList.remove( "loading" );} );
+		} ).then( () => {downLoadButton.classList.remove( "loading" );} );
 	}
 
 	closeFailedDownloadMessage():void {
@@ -142,7 +142,7 @@ export class BackupsListComponent implements AfterViewInit, OnChanges, OnDestroy
 			this.getBackups();
 			this.closeDeleteModal();
 			return response;
-		} ).catch( ( errorOrResponse:HTTPError|Response.Class )=> {
+		} ).catch( ( errorOrResponse:HTTPError|Response.Class ) => {
 			let deleteMessage:Message;
 			if( errorOrResponse.hasOwnProperty( "response" ) ) {
 				deleteMessage = <Message>{
@@ -162,7 +162,7 @@ export class BackupsListComponent implements AfterViewInit, OnChanges, OnDestroy
 				};
 			}
 			this.deleteMessages.push( deleteMessage );
-		} ).then( ( response:Response.Class )=> {
+		} ).then( ( response:Response.Class ) => {
 			this.deletingBackup = false;
 			return response;
 		} );
@@ -172,7 +172,7 @@ export class BackupsListComponent implements AfterViewInit, OnChanges, OnDestroy
 		this.loadingBackups = true;
 		this.getBackups().then( ( backups:PersistedDocument.Class[] ) => {
 			this.loadingBackups = false;
-		} ).catch( ()=>this.loadingBackups = false );
+		} ).catch( () => this.loadingBackups = false );
 		clearInterval( this.fetchBackupsListInterval );
 		this.monitorBackups();
 	}

@@ -27,6 +27,7 @@ export class AgentDetailsComponent implements OnChanges {
 	private element:ElementRef;
 	private $element:JQuery;
 
+	private timer:number;
 	private Modes:Modes = Modes;
 	private agentRoles:PersistedRole.Class[] = [];
 	private availableRoles:string[] = [];
@@ -150,7 +151,7 @@ export class AgentDetailsComponent implements OnChanges {
 		agent.name = agentData.name;
 		agent.password = agentData.password.trim().length > 0 ? agentData.password : agent.password;
 		agent.enabled = agentData.enabled;
-		this.agentsService.saveAndRefreshAgent( this.appContext, agent ).then( ( [updatedAgent, [saveResponse, refreshResponse]]:[PersistedAgent.Class, [HTTP.Response.Class,HTTP.Response.Class]] ) => {
+		this.agentsService.saveAndRefreshAgent( this.appContext, agent ).then( ( [ updatedAgent, [ saveResponse, refreshResponse ] ]:[ PersistedAgent.Class, [ HTTP.Response.Class, HTTP.Response.Class ] ] ) => {
 			return this.editAgentRoles( agent, agentData.roles );
 		} ).then( () => {
 			this.displaySuccessMessage = true;
@@ -158,6 +159,7 @@ export class AgentDetailsComponent implements OnChanges {
 			this.cancelForm();
 		} ).catch( ( error ) => {
 			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
+			if( typeof error.name !== "undefined" ) this.errorMessage.title = error.name;
 			this.onError.emit( true );
 		} );
 	}
@@ -167,15 +169,29 @@ export class AgentDetailsComponent implements OnChanges {
 		agent.name = agentData.name;
 		agent.password = agentData.password;
 		agent.enabled = agentData.enabled;
-		this.agentsService.createAgent( this.appContext, <any>agent, agentData.slug ).then( ( [updatedAgent, [saveResponse, refreshResponse]]:[PersistedAgent.Class, [HTTP.Response.Class,HTTP.Response.Class]] ) => {
+		this.agentsService.createAgent( this.appContext, <any>agent, agentData.slug ).then( ( [ updatedAgent, response ]:[ PersistedAgent.Class, HTTP.Response.Class ] ) => {
 			return this.editAgentRoles( agent, agentData.roles );
 		} ).then( () => {
 			this.displaySuccessMessage = true;
-			this.onSuccess.emit( true );
+			this.emitOnSuccessAfter( 5 );
 		} ).catch( ( error ) => {
 			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
+			if( typeof error.name !== "undefined" ) this.errorMessage.title = error.name;
 			this.onError.emit( true );
 		} );
+	}
+
+	private emitOnSuccessAfter( seconds:number ):void {
+		this.timer = seconds;
+		let countDown:any = setInterval( ():boolean => {
+			this.timer --;
+			if( this.timer === 0 ) {
+				this.onSuccess.emit( true );
+				this.timer = null;
+				clearInterval( countDown );
+				return false;
+			}
+		}, 1000 );
 	}
 
 	private getSanitizedSlug( slug:string ):string {
@@ -186,7 +202,7 @@ export class AgentDetailsComponent implements OnChanges {
 		evt.target.value = DocumentExplorerLibrary.getAppendedSlashSlug( evt.target.value );
 	}
 
-	private editAgentRoles( agent:PersistedAgent.Class, selectedRoles:string[] ):void {
+	private editAgentRoles( agent:PersistedAgent.Class, selectedRoles:string[] ):Promise<any> {
 		let removedRoles:string[] = this.getRemovedRoles( selectedRoles ),
 			promises:Promise<any>[] = [];
 
@@ -197,12 +213,11 @@ export class AgentDetailsComponent implements OnChanges {
 			promises.push( this.removeAgentFromRole( agent.id, roleID ) )
 		} );
 
-		Promise.all( promises ).then( ( values ) => {
-			console.log( values );
-		} ).catch( ( error ) => {
-			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
-			this.errorMessage.title = "Agent Saved";
-			this.errorMessage.content = "The agent was saved but an error occurred while trying to persist its roles: " + this.errorMessage.content;
+		return Promise.all( promises ).catch( ( error ) => {
+			let generatedMessage:Message = ErrorMessageGenerator.getErrorMessage( error ),
+				finalError:Error = new Error( "The agent was saved but an error occurred while trying to persist its roles: " + generatedMessage.content );
+			finalError.name = "Agent Saved";
+			throw finalError;
 		} );
 	}
 

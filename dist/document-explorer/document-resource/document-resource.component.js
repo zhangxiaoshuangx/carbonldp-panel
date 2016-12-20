@@ -221,8 +221,8 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
                 ], DocumentResourceComponent.prototype, "documentURI", void 0);
                 __decorate([
                     core_1.Input(), 
-                    __metadata('design:type', (typeof (_a = typeof RDFNode !== 'undefined' && RDFNode.Class) === 'function' && _a) || Object), 
-                    __metadata('design:paramtypes', [(typeof (_b = typeof RDFNode !== 'undefined' && RDFNode.Class) === 'function' && _b) || Object])
+                    __metadata('design:type', Object), 
+                    __metadata('design:paramtypes', [Object])
                 ], DocumentResourceComponent.prototype, "rootNode", null);
                 __decorate([
                     core_1.Output(), 
@@ -245,7 +245,6 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "./../property/proper
                     __metadata('design:paramtypes', [core_1.ElementRef])
                 ], DocumentResourceComponent);
                 return DocumentResourceComponent;
-                var _a, _b;
             }());
             exports_1("DocumentResourceComponent", DocumentResourceComponent);
             RootRecords = (function () {

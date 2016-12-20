@@ -29,7 +29,7 @@ export class EditAppComponent implements OnInit {
 	displaySuccessMessage:boolean = false;
 	errorMessage:Message;
 
-	editAppFormModel:{name:string, description:string, allDomains:boolean, domain:string } = {
+	editAppFormModel:{ name:string, description:string, allDomains:boolean, domain:string } = {
 		name: "",
 		description: "",
 		allDomains: true,
@@ -94,7 +94,7 @@ export class EditAppComponent implements OnInit {
 			this.app.allowsOrigins = allowedDomains.length > 0 ? allowedDomains : this.app.allowsOrigins;
 		}
 
-		this.app.saveAndRefresh().then( ( [updatedApp, response]:[PersistedApp.Class, [HTTP.Response.Class, HTTP.Response.Class]] ) => {
+		this.app.saveAndRefresh().then( ( [ updatedApp, response ]:[ PersistedApp.Class, [ HTTP.Response.Class, HTTP.Response.Class ] ] ) => {
 			this.displaySuccessMessage = true;
 			let slug:string = URI.Util.getSlug( updatedApp.id );
 			return this.appContextService.updateContext( slug );
