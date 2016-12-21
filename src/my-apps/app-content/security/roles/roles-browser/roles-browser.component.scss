@@ -1,0 +1,22 @@
+:host {
+	display: block;
+
+	.grid {
+
+		div.tree.column {
+			padding: 1% 0 1% 1%;
+
+			cp-roles-tree-view {
+				border: 1px solid #d3d3d3;
+			}
+		}
+		div.role.details {
+			padding: 1% 1% 1% 0;
+
+			div {
+				border: 1px solid #d3d3d3;
+				color: black;
+			}
+		}
+	}
+}
