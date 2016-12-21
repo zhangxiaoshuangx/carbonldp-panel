@@ -11,11 +11,14 @@ export declare class RolesChooserComponent implements AfterViewInit {
     selectedRoles: PersistedRole.Class[];
     appContext: App.Context;
     bordered: boolean;
+    single: boolean;
     onChangeSelection: EventEmitter<PersistedRole.Class[]>;
     constructor(element: ElementRef, rolesService: RolesService);
     ngAfterViewInit(): void;
     private hasRole(role, list);
     private onClickRole(role, evt);
     private selectRole(role);
+    private addRoleAsMulti(role);
+    private addRoleAsSingle(role);
 }
 export default RolesChooserComponent;

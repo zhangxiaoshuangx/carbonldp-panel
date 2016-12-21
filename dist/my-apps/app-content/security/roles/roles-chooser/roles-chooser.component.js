@@ -35,6 +35,7 @@ System.register(["@angular/core", "carbonldp/App", "../roles.service", "./roles-
                     this.availableRoles = [];
                     this._selectedRoles = [];
                     this.bordered = true;
+                    this.single = false;
                     this.onChangeSelection = new core_1.EventEmitter();
                     this.element = element;
                     this.$element = $(element.nativeElement);
@@ -70,12 +71,22 @@ System.register(["@angular/core", "carbonldp/App", "../roles.service", "./roles-
                     this.selectRole(role);
                 };
                 RolesChooserComponent.prototype.selectRole = function (role) {
+                    if (this.single)
+                        this.addRoleAsSingle(role);
+                    else
+                        this.addRoleAsMulti(role);
+                    this.onChangeSelection.emit(this.selectedRoles);
+                };
+                RolesChooserComponent.prototype.addRoleAsMulti = function (role) {
                     var idx = this.selectedRoles.findIndex(function (persistedRole) { return role.id === persistedRole.id; });
                     if (idx === -1)
                         this.selectedRoles.push(role);
                     else
                         this.selectedRoles.splice(idx, 1);
-                    this.onChangeSelection.emit(this.selectedRoles);
+                };
+                RolesChooserComponent.prototype.addRoleAsSingle = function (role) {
+                    this.selectedRoles = [];
+                    this.selectedRoles.push(role);
                 };
                 __decorate([
                     core_1.Input(), 
@@ -90,6 +101,10 @@ System.register(["@angular/core", "carbonldp/App", "../roles.service", "./roles-
                     core_1.Input(), 
                     __metadata('design:type', Boolean)
                 ], RolesChooserComponent.prototype, "bordered", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Boolean)
+                ], RolesChooserComponent.prototype, "single", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)

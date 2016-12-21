@@ -7,7 +7,7 @@ import * as PersistedRole from "carbonldp/Auth/PersistedRole";
 import * as URI from "carbonldp/RDF/URI";
 
 import { RolesService } from "../roles.service";
-// import { Modes as AgentDetailsModes } from "../agent-details/agent-details.component";
+import { Modes as RoleDetailsModes } from "../role-details/role-details.component";
 import { Message } from "carbonldp-panel/errors-area/error-message.component";
 import { ErrorMessageGenerator } from "carbonldp-panel/errors-area/error-message-generator";
 
@@ -30,7 +30,7 @@ export class RolesListComponent implements OnInit {
 	private _loading:boolean = false;
 	private set loading( value:boolean ) {
 		this._loading = value;
-		this.onLoading.emit( this.loading );
+		this.onLoading.emit( value );
 	};
 
 	private get loading() {
@@ -135,12 +135,6 @@ export class RolesListComponent implements OnInit {
 export interface Header {
 	name:string;
 	value:string;
-}
-
-export class RoleDetailsModes {
-	static READ:string = "READ";
-	static EDIT:string = "EDIT";
-	static CREATE:string = "CREATE";
 }
 
 export default RolesListComponent;

@@ -1,11 +1,7 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core"
 
 import * as App from "carbonldp/App";
-import * as Agent from "carbonldp/Auth/Agent";
 import * as PersistedRole from "carbonldp/Auth/PersistedRole";
-import * as PersistedAgent from "carbonldp/Auth/PersistedAgent";
-import * as HTTP from "carbonldp/HTTP";
-import * as RDF from "carbonldp/RDF";
 
 import { RolesService } from "./../roles.service";
 import { DocumentExplorerLibrary } from "carbonldp-panel/document-explorer/document-explorer-library";
