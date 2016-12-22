@@ -2,12 +2,7 @@ import { Component, Input, EventEmitter } from "@angular/core";
 
 import * as App from "carbonldp/App";
 
-import { Log } from "../roles-list/role.decorator";
-
 import template from "./roles-catalog.component.html!";
-
-
-@Log( "hello" )
 
 
 @Component( {
