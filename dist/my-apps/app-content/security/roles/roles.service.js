@@ -137,6 +137,8 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/Auth/Roles", "c
                         return results.bindings[0]["count"];
                     });
                 };
+                RolesService.prototype.listChildren = function () {
+                };
                 RolesService.prototype.getSortedRoles = function (roles, orderBy, ascending) {
                     return roles.sort(function (roleA, roleB) {
                         if (typeof roleA[orderBy] === "string") {

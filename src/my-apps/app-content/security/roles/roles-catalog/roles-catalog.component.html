@@ -23,4 +23,6 @@
                [appContext]="appContext"
                [refresher]="refresher"
                (onLoading)="changeLoadingState($event)"></cp-roles-list>
+<cp-roles-browser *ngIf="view === 'tree'"
+                  [appContext]="appContext"></cp-roles-browser>
 <div class="ui active centered large inline text inverted loader" *ngIf="loading">Loading</div>
