@@ -1,3 +1,30 @@
+# 0.6.0 (2016/12/19)
+
+- Completed #38 - Add screen to manage agents of an app
+- Added the new module, `SecurityModule`, with the following items:
+    - Navigation routes:
+        - Agents list
+        - Agent details
+    - Services
+        - Agents service
+        - Roles service
+    - Components
+        - Agents list
+        - Agent creator
+        - Agent deleter
+        - Agent details
+        - Agent not found
+        - Roles chooser
+    - Views
+        - Security view
+        - Agents view
+    - Resolvers
+        - Agents resolver
+- Added a new paginator component (`PaginatorComponent`) to `PanelModule`
+- After creating an application the workbench will take the user to the app's dashboard
+
+- Fixed #30 - Create App form is not displaying error messages
+
 # 0.5.0 (2016/11/09)
 
 - Completed #11 - Display twisty icons on TreeView only if a node has children

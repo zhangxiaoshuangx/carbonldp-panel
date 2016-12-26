@@ -1,6 +1,6 @@
 {
   "name": "carbonldp-panel",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Common components, services and utilities shared between different panel projects",
   "contributors": [{
     "name": "Miguel Aragón",
