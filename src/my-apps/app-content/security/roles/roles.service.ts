@@ -109,6 +109,26 @@ export class RolesService {
 		} );
 	}
 
+	public getChildren( appContext:App.Context, roleID?:string ):any {
+		let rolesURI:string = appContext.getBaseURI() + "roles/",
+			filter:string = ! ! roleID ? `EXISTS { ?role <${NS.CS.Predicate.parentRole}> <${roleID}> }` : `EXISTS { ?role <${NS.CS.Predicate.parentRole}> <${rolesURI + "app-admin/"}> } || NOT EXISTS { ?role <${NS.CS.Predicate.parentRole}> ?parentRole } `,
+			query:string = `
+				SELECT ?role ?name ?parentRole ?childRole
+				WHERE{
+				  GRAPH ?role { 
+				    ?role a <https://carbonldp.com/ns/v1/security#AppRole> .
+					?role <https://carbonldp.com/ns/v1/security#name> ?name .
+					OPTIONAL { ?role <https://carbonldp.com/ns/v1/security#parentRole> ?parentRole } .
+				  }
+				  BIND( EXISTS { GRAPH ?role { ?role <https://carbonldp.com/ns/v1/security#childRole> ?childRole } } as ?childRole)
+				  FILTER( ${filter} )
+				}`;
+		return appContext.documents.executeSELECTQuery( rolesURI, query ).then( ( [results,response]:[SPARQL.SELECTResults.Class,HTTP.Response.Class] ) => {
+			if( typeof results.bindings[ 0 ] === "undefined" ) return 0;
+			return results.bindings[ 0 ][ "count" ];
+		} );
+	}
+
 	private getSortedRoles( roles:PersistedRole.Class[], orderBy:string, ascending:boolean ):PersistedRole.Class[] {
 		return roles.sort( ( roleA, roleB ) => {
 			if( typeof roleA[ orderBy ] === "string" ) {
