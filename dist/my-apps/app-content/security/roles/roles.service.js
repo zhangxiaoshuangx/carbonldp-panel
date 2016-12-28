@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/Auth/Roles", "carbonldp/Utils", "carbonldp/RDF/URI", "carbonldp/NS"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/App/Roles", "carbonldp/App/Role", "carbonldp/Utils", "carbonldp/RDF/URI", "carbonldp/NS"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -15,7 +15,7 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/Auth/Roles", "c
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, Carbon_1, Roles, Utils, URI, NS;
+    var core_1, Carbon_1, Roles, Role, Utils, URI, NS;
     var RolesService;
     return {
         setters:[
@@ -27,6 +27,9 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/Auth/Roles", "c
             },
             function (Roles_1) {
                 Roles = Roles_1;
+            },
+            function (Role_1) {
+                Role = Role_1;
             },
             function (Utils_1) {
                 Utils = Utils_1;
@@ -137,7 +140,18 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/Auth/Roles", "c
                         return results.bindings[0]["count"];
                     });
                 };
-                RolesService.prototype.listChildren = function () {
+                RolesService.prototype.getChildren = function (appContext, roleID) {
+                    var rolesURI = appContext.getBaseURI() + "roles/", filter = !!roleID ? "EXISTS { ?role <" + NS.CS.Predicate.parentRole + "> <" + roleID + "> }" : "NOT EXISTS { ?role <" + NS.CS.Predicate.parentRole + "> ?parentRole } ", query = "\n\t\t\t\tSELECT ?role ?name ?parentRole ?childRole\n\t\t\t\tWHERE{\n\t\t\t\t  GRAPH ?role { \n\t\t\t\t    ?role a <https://carbonldp.com/ns/v1/security#AppRole> .\n\t\t\t\t\t?role <https://carbonldp.com/ns/v1/security#name> ?name .\n\t\t\t\t\tOPTIONAL { ?role <https://carbonldp.com/ns/v1/security#parentRole> ?parentRole } .\n\t\t\t\t  }\n\t\t\t\t  BIND( EXISTS { GRAPH ?role { ?role <https://carbonldp.com/ns/v1/security#childRole> ?childRole } } as ?childRole)\n\t\t\t\t  FILTER( " + filter + " )\n\t\t\t\t}";
+                    return appContext.documents.executeSELECTQuery(rolesURI, query).then(function (_a) {
+                        var results = _a[0], response = _a[1];
+                        var roles = [];
+                        results.bindings.forEach(function (rolePointer) {
+                            var role = Role.Factory.createFrom({ id: rolePointer["role"]["id"] }, rolePointer["name"]);
+                            role["hasChildren"] = rolePointer["childRole"];
+                            roles.push(role);
+                        });
+                        return roles;
+                    });
                 };
                 RolesService.prototype.getSortedRoles = function (roles, orderBy, ascending) {
                     return roles.sort(function (roleA, roleB) {
