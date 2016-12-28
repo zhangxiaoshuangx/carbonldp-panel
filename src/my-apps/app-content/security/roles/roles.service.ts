@@ -2,8 +2,9 @@ import { Injectable } from "@angular/core";
 
 import Carbon from "carbonldp/Carbon";
 import * as App from "carbonldp/App";
-import * as Roles from "carbonldp/Auth/Roles";
-import * as PersistedRole from "carbonldp/Auth/PersistedRole";
+import * as Roles from "carbonldp/App/Roles";
+import * as Role from "carbonldp/App/Role";
+import * as PersistedRole from "carbonldp/App/PersistedRole";
 import * as HTTP from "carbonldp/HTTP";
 import * as Utils from "carbonldp/Utils";
 import * as URI from "carbonldp/RDF/URI";
@@ -109,9 +110,9 @@ export class RolesService {
 		} );
 	}
 
-	public getChildren( appContext:App.Context, roleID?:string ):any {
+	public getChildren( appContext:App.Context, roleID?:string ):Promise<PersistedRole.Class[]> {
 		let rolesURI:string = appContext.getBaseURI() + "roles/",
-			filter:string = ! ! roleID ? `EXISTS { ?role <${NS.CS.Predicate.parentRole}> <${roleID}> }` : `EXISTS { ?role <${NS.CS.Predicate.parentRole}> <${rolesURI + "app-admin/"}> } || NOT EXISTS { ?role <${NS.CS.Predicate.parentRole}> ?parentRole } `,
+			filter:string = ! ! roleID ? `EXISTS { ?role <${NS.CS.Predicate.parentRole}> <${roleID}> }` : `NOT EXISTS { ?role <${NS.CS.Predicate.parentRole}> ?parentRole } `,
 			query:string = `
 				SELECT ?role ?name ?parentRole ?childRole
 				WHERE{
@@ -124,8 +125,13 @@ export class RolesService {
 				  FILTER( ${filter} )
 				}`;
 		return appContext.documents.executeSELECTQuery( rolesURI, query ).then( ( [results,response]:[SPARQL.SELECTResults.Class,HTTP.Response.Class] ) => {
-			if( typeof results.bindings[ 0 ] === "undefined" ) return 0;
-			return results.bindings[ 0 ][ "count" ];
+			let roles:Role.Class[] = [];
+			results.bindings.forEach( ( rolePointer:SPARQL.SELECTResults.BindingObject ) => {
+				let role:Role.Class = Role.Factory.createFrom( { id: rolePointer[ "role" ][ "id" ] }, <string>rolePointer[ "name" ] );
+				role[ "hasChildren" ] = rolePointer[ "childRole" ];
+				roles.push( role );
+			} );
+			return roles;
 		} );
 	}
 
