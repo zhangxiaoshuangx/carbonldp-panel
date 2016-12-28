@@ -41,10 +41,10 @@ export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 	@Input() refreshNode:EventEmitter<string> = new EventEmitter<string>();
 	@Input() openNode:EventEmitter<string> = new EventEmitter<string>();
 
-	@Output() onResolveRole:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onError:EventEmitter<HTTP.Errors.Error> = new EventEmitter<HTTP.Errors.Error>();
 	@Output() onLoading:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() onSelectRole:EventEmitter<string> = new EventEmitter<string>();
+	@Output() onDoubleClickRole:EventEmitter<string> = new EventEmitter<string>();
 
 	constructor( element:ElementRef, rolesService:RolesService ) {
 		this.element = element;
@@ -145,7 +145,7 @@ export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 			this.jsTree.select_node( nodes[ 0 ].id );
 			this.jsTree.open_node( nodes[ 0 ].id );
 			if( ! ! nodes && nodes.length > 0 ) {
-				this.onResolveRole.emit( <string>nodes[ 0 ].id );
+				this.onDoubleClickRole.emit( <string>nodes[ 0 ].id );
 			}
 		} );
 		this.$tree.on( "after_close.jstree", ( e:Event, data:any ):void => {
@@ -195,7 +195,7 @@ export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 			if( ! this.jsTree.is_open( node ) ) {
 				this.jsTree.open_node( node );
 			}
-			this.onResolveRole.emit( node.id );
+			this.onDoubleClickRole.emit( node.id );
 		} );
 	}
 
