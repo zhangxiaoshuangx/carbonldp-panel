@@ -2,10 +2,13 @@ import { Component, Input, Output, SimpleChange, EventEmitter } from "@angular/c
 
 import * as App from "carbonldp/App";
 import * as PersistedRole from "carbonldp/Auth/PersistedRole";
+import * as HTTP from "carbonldp/HTTP";
 import * as NS from "carbonldp/NS";
 
 import { RolesService } from "./../roles.service";
 import { DocumentExplorerLibrary } from "carbonldp-panel/document-explorer/document-explorer-library";
+import { Message } from "carbonldp-panel/errors-area/error-message.component";
+import { ErrorMessageGenerator } from "carbonldp-panel/errors-area/error-message-generator";
 
 import template from "./role-details.component.html!";
 import style from "./role-details.component.css!text";
@@ -45,10 +48,19 @@ export class RoleDetailsComponent {
 		this.rolesService = rolesService;
 	}
 
-	ngAfterViewInit():void {
-		// this.getAllRoles().then( ( roles:PersistedRole.Class[] ) => {
-		// 	this.availableRoles = roles;
-		// } );
+	ngAfterViewInit():void { }
+
+	ngOnChanges( changes:{ [propName:string]:SimpleChange } ):void {
+		if( changes[ "role" ] && ! ! changes[ "role" ].currentValue && changes[ "role" ].currentValue !== changes[ "role" ].previousValue ) {
+			console.log( this.role );
+			this.changeRole( this.role );
+		}
+	}
+
+	private changeRole( role:PersistedRole.Class ):void {
+		this.roleFormModel.slug = this.getSanitizedSlug( role.id );
+		this.roleFormModel.name = role.name;
+		this.roleFormModel.description = role[ NS.CS.Predicate.description ];
 	}
 
 	private changeMode( mode:string ):void {
@@ -58,14 +70,28 @@ export class RoleDetailsComponent {
 	private onSubmit( data:RoleFormModel, $event:any ):void {
 		$event.preventDefault();
 		console.log( data );
-		// switch( this.mode ) {
-		// 	case Modes.EDIT:
-		// 		this.editAgent( this.agent, data );
-		// 		break;
-		// 	case Modes.CREATE:
-		// 		this.createAgent( this.agent, data );
-		// 		break;
-		// }
+		switch( this.mode ) {
+			case Modes.EDIT:
+				this.editRole( this.role, data );
+				break;
+			// 	case Modes.CREATE:
+			// 		this.createAgent( this.agent, data );
+			// 		break;
+		}
+	}
+
+	private editRole( role:PersistedRole.Class, roleData:RoleFormModel ):void {
+		role.name = roleData.name;
+		role[ NS.CS.Predicate.description ] = roleData.description;
+		this.rolesService.saveAndRefresh( this.appContext, role ).then( ( [ updatedAgent, [ saveResponse, refreshResponse ] ]:[ PersistedRole.Class, [ HTTP.Response.Class, HTTP.Response.Class ] ] ) => {
+			// this.displaySuccessMessage = true;
+			this.onSuccess.emit( true );
+			this.cancelForm();
+		} ).catch( ( error ) => {
+			// this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
+			// if( typeof error.name !== "undefined" ) this.errorMessage.title = error.name;
+			this.onError.emit( true );
+		} );
 	}
 
 	private getSanitizedSlug( slug:string ):string {
@@ -93,6 +119,7 @@ export class RoleDetailsComponent {
 		} else {
 			this.mode = Modes.READ;
 		}
+		this.changeRole( this.role );
 	}
 
 	private close():void {
