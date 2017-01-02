@@ -1,4 +1,4 @@
-import { Component, Input, Output, SimpleChange, EventEmitter } from "@angular/core"
+import { Component, Input, Output, ElementRef, SimpleChange, EventEmitter } from "@angular/core"
 
 import * as App from "carbonldp/App";
 import * as PersistedRole from "carbonldp/Auth/PersistedRole";
@@ -22,6 +22,8 @@ import style from "./role-details.component.css!text";
 
 export class RoleDetailsComponent {
 
+	private element:ElementRef;
+	private $element:JQuery;
 	private rolesService:RolesService;
 
 	private Modes:Modes = Modes;
@@ -32,6 +34,7 @@ export class RoleDetailsComponent {
 		parentRole: "",
 	};
 	private availableRoles:PersistedRole.Class[] = [];
+	private activeTab:string = "details";
 
 
 	@Input() embedded:boolean = true;
@@ -44,11 +47,21 @@ export class RoleDetailsComponent {
 	@Output() onError:EventEmitter<boolean> = new EventEmitter<boolean>();
 
 
-	constructor( rolesService:RolesService ) {
+	constructor( element:ElementRef, rolesService:RolesService ) {
+		this.element = element;
+		this.$element = $( this.element.nativeElement );
 		this.rolesService = rolesService;
 	}
 
-	ngAfterViewInit():void { }
+	ngAfterViewInit():void {
+		this.initializeTabs();
+	}
+
+	initializeTabs():void {
+		this.$element.find( ">div.menu.tabs > .item" ).tab( {
+			onVisible: ( activeTab ) => { this.activeTab = activeTab; }
+		} );
+	}
 
 	ngOnChanges( changes:{ [propName:string]:SimpleChange } ):void {
 		if( changes[ "role" ] && ! ! changes[ "role" ].currentValue && changes[ "role" ].currentValue !== changes[ "role" ].previousValue ) {

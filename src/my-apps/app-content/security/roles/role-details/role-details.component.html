@@ -20,7 +20,13 @@
 		Editing...
 	</div>
 </div>
-<form class="ui attached segment form" #roleForm="ngForm" (submit)="onSubmit(roleForm.value, $event)">
+<div class="ui attached pointing secondary menu tabs">
+	<a class="item" data-tab="details" [ngClass]="{active: activeTab==='details'}">Description</a>
+	<a class="item" data-tab="agents" [ngClass]="{active: activeTab==='agents'}">Agents</a>
+</div>
+<form class="ui attached tab segment form"
+      #roleForm="ngForm" (submit)="onSubmit(roleForm.value, $event)"
+      data-tab="details" [ngClass]="{active: activeTab==='details'}">
 	<div class="ui one column divided grid">
 		<div class="stretched row">
 			<div class="column">
@@ -72,6 +78,10 @@
 		</div>
 	</div>
 </form>
+<div class="ui attached tab segment"
+     data-tab="agents" [ngClass]="{active: activeTab==='agents'}">
+	<p>Agents</p>
+</div>
 <div class="ui attached inverted segment" *ngIf="mode !== Modes.CREATE">
 	{{roleFormModel | json}}
 </div>

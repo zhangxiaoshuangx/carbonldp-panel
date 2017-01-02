@@ -3,19 +3,6 @@
 		display: none;
 	}
 
-	table.roles {
-		margin-top: 0;
-		tr.role {
-			line-height: 1.5em;
-		}
-	}
-
-	.ui.roles.input {
-		max-height: 200px;
-		overflow-y: scroll;
-		border: 1px solid lightgray;
-	}
-
 	.ui.top.segment.embedded {
 		border-top: none;
 		padding-top: 1.9%;
@@ -24,5 +11,10 @@
 
 	.ui.bottom.segment.embedded {
 		border-bottom: none;
+	}
+
+	.ui.secondary.menu.tabs {
+		border-left: 0;
+		border-right: 0;
 	}
 }
