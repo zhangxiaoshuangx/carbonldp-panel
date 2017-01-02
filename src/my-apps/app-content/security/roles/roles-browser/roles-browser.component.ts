@@ -1,6 +1,9 @@
 import { Component, Input, EventEmitter } from "@angular/core";
 
 import * as App from "carbonldp/App";
+import * as PersistedRole from "carbonldp/Auth/PersistedRole";
+
+import { RolesService } from "../roles.service";
 
 import template from "./roles-browser.component.html!";
 import style from "./roles-browser.component.css!text";
@@ -13,9 +16,21 @@ import style from "./roles-browser.component.css!text";
 } )
 export class RolesBrowserComponent {
 
+	private rolesService:RolesService;
+
+	private activeRole:PersistedRole.Class;
+
 	@Input() appContext:App.Context;
 
-	constructor() {}
+	constructor( rolesService:RolesService ) {
+		this.rolesService = rolesService;
+	}
+
+	private resolveRole( roleID:string ):void {
+		this.rolesService.get( roleID, this.appContext ).then( ( role:PersistedRole.Class ) => {
+			this.activeRole = role;
+		} );
+	}
 }
 
 export default RolesBrowserComponent;

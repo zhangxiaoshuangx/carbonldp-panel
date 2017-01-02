@@ -1,10 +1,17 @@
 <div class="ui grid segment">
-	<div class="six wide column tree">
-		<cp-roles-tree-view [appContext]="appContext"></cp-roles-tree-view>
-	</div>
-	<div class="ten wide column role details">
-		<div>
+	<div class="stretched row">
+
+		<cp-roles-tree-view class="six wide column tree"
+		                    [appContext]="appContext"
+		                    (onDoubleClickRole)="resolveRole($event)"></cp-roles-tree-view>
+		<div *ngIf="!activeRole"
+		     class="ten wide column role details">
 			<p>Role Details in here...</p>
 		</div>
+		<cp-role-details *ngIf="!!activeRole"
+		                 class="ten wide column role details"
+		                 [role]="activeRole"
+		                 [appContext]="appContext">
+		</cp-role-details>
 	</div>
 </div>
