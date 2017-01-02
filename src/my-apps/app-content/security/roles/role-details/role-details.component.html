@@ -1,15 +1,10 @@
 <div class="ui top attached title segment" [ngClass]="{embedded: embedded}">
-	<!--<button class="ui icon right floated circular basic mini button" title="Close"-->
-	<!--*ngIf="canClose"-->
-	<!--(click)="close()">-->
-	<!--<i class="icon remove"></i>-->
-	<!--</button>-->
 	<h3 class="ui header">
 		{{role.name}}
 		<span class="sub header">{{role.id}}</span>
 	</h3>
 </div>
-<div class="ui attached segment" *ngIf="mode !== Modes.CREATE">
+<div class="ui attached options segment" *ngIf="mode !== Modes.CREATE">
 	<button *ngIf="mode === Modes.READ"
 	        class="ui mini basic icon button"
 	        (click)="changeMode(Modes.EDIT)">
@@ -82,9 +77,9 @@
      data-tab="agents" [ngClass]="{active: activeTab==='agents'}">
 	<p>Agents</p>
 </div>
-<div class="ui attached inverted segment" *ngIf="mode !== Modes.CREATE">
-	{{roleFormModel | json}}
-</div>
+<!--<div class="ui attached inverted segment" *ngIf="mode !== Modes.CREATE">-->
+<!--{{roleFormModel | json}}-->
+<!--</div>-->
 <div *ngIf="mode !== Modes.READ"
      class="ui bottom attached segment"
      [ngClass]="{embedded: embedded}">

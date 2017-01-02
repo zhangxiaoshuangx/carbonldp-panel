@@ -7,14 +7,20 @@
 		border-top: none;
 		padding-top: 1.9%;
 		padding-bottom: 1%;
+		max-height: 58px;
+	}
+
+	.ui.attached.segment.options {
+		max-height: 58px;
+	}
+
+	.ui.secondary.menu.tabs {
+		max-height: 40px;
+		border-left: 0;
+		border-right: 0;
 	}
 
 	.ui.bottom.segment.embedded {
 		border-bottom: none;
-	}
-
-	.ui.secondary.menu.tabs {
-		border-left: 0;
-		border-right: 0;
 	}
 }
