@@ -1,7 +1,8 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core"
+import { Component, Input, Output, SimpleChange, EventEmitter } from "@angular/core"
 
 import * as App from "carbonldp/App";
 import * as PersistedRole from "carbonldp/Auth/PersistedRole";
+import * as NS from "carbonldp/NS";
 
 import { RolesService } from "./../roles.service";
 import { DocumentExplorerLibrary } from "carbonldp-panel/document-explorer/document-explorer-library";
@@ -29,6 +30,8 @@ export class RoleDetailsComponent {
 	};
 	private availableRoles:PersistedRole.Class[] = [];
 
+
+	@Input() embedded:boolean = true;
 	@Input() mode:string = Modes.READ;
 	@Input() role:PersistedRole.Class;
 	@Input() appContext:App.Context;
@@ -43,12 +46,12 @@ export class RoleDetailsComponent {
 	}
 
 	ngAfterViewInit():void {
-		this.getAllRoles().then( ( roles:PersistedRole.Class[] ) => {
-			this.availableRoles = roles;
-		} );
+		// this.getAllRoles().then( ( roles:PersistedRole.Class[] ) => {
+		// 	this.availableRoles = roles;
+		// } );
 	}
 
-	private changeMode( mode:string ) {
+	private changeMode( mode:string ):void {
 		this.mode = mode;
 	}
 

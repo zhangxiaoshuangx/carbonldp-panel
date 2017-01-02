@@ -15,4 +15,14 @@
 		overflow-y: scroll;
 		border: 1px solid lightgray;
 	}
+
+	.ui.top.segment.embedded {
+		border-top: none;
+		padding-top: 1.9%;
+		padding-bottom: 1%;
+	}
+
+	.ui.bottom.segment.embedded {
+		border-bottom: none;
+	}
 }
