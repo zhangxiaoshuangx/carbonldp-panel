@@ -109,6 +109,9 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/App/Roles", "ca
                         return rolesArray;
                     });
                 };
+                RolesService.prototype.saveAndRefresh = function (appContext, role) {
+                    return role.saveAndRefresh();
+                };
                 RolesService.prototype.registerAgent = function (appContext, agentID, roleID) {
                     var MockedRoles = (function (_super) {
                         __extends(MockedRoles, _super);

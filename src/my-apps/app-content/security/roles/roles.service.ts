@@ -28,7 +28,7 @@ export class RolesService {
 		if( URI.Util.isAbsolute( slugOrURI ) ) uri = slugOrURI;
 		let existingRoles:Map <string, PersistedRole.Class> = this.appContextsRoles.get( appContext.getBaseURI() );
 		existingRoles = typeof existingRoles === "undefined" ? new Map<string, PersistedRole.Class>() : existingRoles;
-		return appContext.documents.get<PersistedRole.Class>( uri ).then( ( [role, response]:[PersistedRole.Class, HTTP.Response.Class] ) => {
+		return appContext.documents.get<PersistedRole.Class>( uri ).then( ( [ role, response ]:[ PersistedRole.Class, HTTP.Response.Class ] ) => {
 			existingRoles.set( role.id, role );
 			return role;
 		} );
@@ -76,7 +76,7 @@ export class RolesService {
 		if( typeof limit !== "undefined" ) preferences.limit = limit;
 		if( typeof page !== "undefined" ) preferences.offset = page * limit;
 
-		return this.carbon.documents.getChildren<PersistedRole.Class>( uri, preferences ).then( ( [roles, response]:[PersistedRole.Class[], HTTP.Response.Class] ) => {
+		return this.carbon.documents.getChildren<PersistedRole.Class>( uri, preferences ).then( ( [ roles, response ]:[ PersistedRole.Class[], HTTP.Response.Class ] ) => {
 			roles.filter( ( role:PersistedRole.Class ) => ! existingRoles.has( role.id ) )
 				.forEach( ( role:PersistedRole.Class ) => existingRoles.set( role.id, role ) );
 
@@ -85,6 +85,10 @@ export class RolesService {
 
 			return rolesArray;
 		} );
+	}
+
+	public saveAndRefresh( appContext:App.Context, role:PersistedRole.Class ):Promise<[ PersistedRole.Class, [ HTTP.Response.Class, HTTP.Response.Class ] ]> {
+		return role.saveAndRefresh();
 	}
 
 	public registerAgent( appContext:App.Context, agentID:string, roleID:string ):Promise<HTTP.Response.Class> {
@@ -104,7 +108,7 @@ export class RolesService {
 			query:string = `SELECT DISTINCT (COUNT(?role) AS ?count) WHERE {
 			?role a <https://carbonldp.com/ns/v1/security#AppRole> . 
 		}`;
-		return appContext.documents.executeSELECTQuery( agentsURI, query ).then( ( [results,response]:[SPARQL.SELECTResults.Class,HTTP.Response.Class] ) => {
+		return appContext.documents.executeSELECTQuery( agentsURI, query ).then( ( [ results, response ]:[ SPARQL.SELECTResults.Class, HTTP.Response.Class ] ) => {
 			if( typeof results.bindings[ 0 ] === "undefined" ) return 0;
 			return results.bindings[ 0 ][ "count" ];
 		} );
@@ -124,7 +128,7 @@ export class RolesService {
 				  BIND( EXISTS { GRAPH ?role { ?role <https://carbonldp.com/ns/v1/security#childRole> ?childRole } } as ?childRole)
 				  FILTER( ${filter} )
 				}`;
-		return appContext.documents.executeSELECTQuery( rolesURI, query ).then( ( [results,response]:[SPARQL.SELECTResults.Class,HTTP.Response.Class] ) => {
+		return appContext.documents.executeSELECTQuery( rolesURI, query ).then( ( [ results, response ]:[ SPARQL.SELECTResults.Class, HTTP.Response.Class ] ) => {
 			let roles:Role.Class[] = [];
 			results.bindings.forEach( ( rolePointer:SPARQL.SELECTResults.BindingObject ) => {
 				let role:Role.Class = Role.Factory.createFrom( { id: rolePointer[ "role" ][ "id" ] }, <string>rolePointer[ "name" ] );
