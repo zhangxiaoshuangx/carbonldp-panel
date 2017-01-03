@@ -75,7 +75,22 @@
 </form>
 <div class="ui attached tab segment"
      data-tab="agents" [ngClass]="{active: activeTab==='agents'}">
-	<p>Agents</p>
+	<p>List of agents currently subscribed to this role:</p>
+	<table class="ui very compact very basic small celled striped agents table" *ngIf="mode === Modes.READ">
+		<tbody>
+			<tr class="bottom aligned agent" *ngFor="let agent of roleAgents; let i = index;">
+				<td>
+					{{agent.name}}<br>
+					{{agent.id}}
+				</td>
+			</tr>
+			<tr class="warning" *ngIf="roleAgents.length===0">
+				<td>
+					<i class="attention icon"></i>Role without Agents.
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </div>
 <!--<div class="ui attached inverted segment" *ngIf="mode !== Modes.CREATE">-->
 <!--{{roleFormModel | json}}-->

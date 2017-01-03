@@ -1,7 +1,7 @@
 import { Component, Input, EventEmitter } from "@angular/core";
 
 import * as App from "carbonldp/App";
-import * as PersistedRole from "carbonldp/Auth/PersistedRole";
+import * as PersistedRole from "carbonldp/App/PersistedRole";
 
 import { RolesService } from "../roles.service";
 

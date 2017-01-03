@@ -1,9 +1,11 @@
 import { Component, Input, Output, ElementRef, SimpleChange, EventEmitter } from "@angular/core"
 
 import * as App from "carbonldp/App";
-import * as PersistedRole from "carbonldp/Auth/PersistedRole";
+import * as PersistedRole from "carbonldp/App/PersistedRole";
+import * as PersistedAgent from "carbonldp/App/PersistedAgent";
 import * as HTTP from "carbonldp/HTTP";
 import * as NS from "carbonldp/NS";
+import * as Pointer from "carbonldp/Pointer";
 
 import { RolesService } from "./../roles.service";
 import { DocumentExplorerLibrary } from "carbonldp-panel/document-explorer/document-explorer-library";
@@ -35,6 +37,7 @@ export class RoleDetailsComponent {
 	};
 	private availableRoles:PersistedRole.Class[] = [];
 	private activeTab:string = "details";
+	private roleAgents:PersistedAgent.Class[] = [];
 
 
 	@Input() embedded:boolean = true;
@@ -74,6 +77,10 @@ export class RoleDetailsComponent {
 		this.roleFormModel.slug = this.getSanitizedSlug( role.id );
 		this.roleFormModel.name = role.name;
 		this.roleFormModel.description = role[ NS.CS.Predicate.description ];
+		this.getAgents( this.role ).then( ( agents ) => {
+			this.roleAgents = [];
+			this.roleAgents = agents;
+		} );
 	}
 
 	private changeMode( mode:string ):void {
@@ -104,6 +111,23 @@ export class RoleDetailsComponent {
 			// this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
 			// if( typeof error.name !== "undefined" ) this.errorMessage.title = error.name;
 			this.onError.emit( true );
+		} );
+	}
+
+	private getAgents( role:PersistedRole.Class ):Promise<PersistedAgent.Class[]> {
+		let promises:Promise<any>[] = [],
+			agents:PersistedAgent.Class[] = [];
+		if( typeof this.role.agents === "undefined" ) return Promise.resolve( agents );
+
+		(<any>this.role.agents).forEach( ( agentPointer:Pointer.Class ) => {
+			promises.push( agentPointer.resolve() );
+		} );
+		return Promise.all( promises ).then( ( resolvedAgents:[ PersistedAgent.Class, HTTP.Response.Class ][] ) => {
+			resolvedAgents.forEach( ( [ resolvedAgent, response ]:[ PersistedAgent.Class, HTTP.Response.Class ] ) => {
+				if( resolvedAgent.id.indexOf( this.appContext.getBaseURI() ) !== - 1 )
+					agents.push( resolvedAgent );
+			} );
+			return agents;
 		} );
 	}
 
