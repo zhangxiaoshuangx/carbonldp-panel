@@ -13,6 +13,7 @@ import { AgentsListView } from "./agents/agents-list/agents-list.view";
 import { AgentsListComponent } from "./agents/agents-list/agents-list.component";
 import { AgentDetailsView } from "./agents/agent-details/agent-details.view";
 import { AgentDetailsComponent } from "./agents/agent-details/agent-details.component";
+import { AgentsChooserComponent } from "./agents/agents-chooser/agents-chooser.component";
 import { AgentDeleterComponent } from "./agents/agent-deleter/agent-deleter.component";
 import { AgentCreatorView } from "./agents/agent-creator/agent-creator.view";
 import { AgentNotFoundView } from "./agents/agent-not-found/agent-not-found.view";
@@ -54,6 +55,7 @@ import { RoleResolver } from "./roles/role.resolver";
 		AgentsListComponent,
 		AgentDetailsView,
 		AgentDetailsComponent,
+		AgentsChooserComponent,
 		AgentDeleterComponent,
 		AgentCreatorView,
 		AgentNotFoundView,
