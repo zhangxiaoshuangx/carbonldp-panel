@@ -1,7 +1,7 @@
 <div class="ui basic segment agents" [ngClass]="{loading: loading}">
-	<table class="ui selectable sortable celled small very compact agents table" *ngIf="availableAgents.length > 0">
+	<table class="ui selectable sortable celled small very compact agents table">
 		<thead>
-			<tr>
+			<tr *ngIf="availableAgents.length > 0">
 				<th class="center aligned">Assigned</th>
 				<th *ngFor="let header of headers" class="center aligned" [ngClass]="{
 						sorted: sortedColumn === header.value,
@@ -9,6 +9,9 @@
 						descending: sortedColumn === header.value && ! ascending
 					}" (click)="sortColumn( header )">{{ header.name }}
 				</th>
+			</tr>
+			<tr *ngIf="availableAgents.length === 0">
+				<th colspan="2"></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -28,10 +31,16 @@
 					</p>
 				</td>
 			</tr>
+			<tr class="warning">
+				<td colspan="2">
+					<i class="attention icon"></i>There are currently no Agents in this App.<br>
+					You can add agents by going to Security -> Agents -> <strong>Create New Agent</strong>
+				</td>
+			</tr>
 		</tbody>
 		<tfoot>
 			<tr>
-				<th colspan="4">
+				<th colspan="2" *ngIf="availableAgents.length > 0">
 					<label>Show: </label>
 					<select class="ui dropdown"
 					        [ngModel]="agentsPerPage"
@@ -53,6 +62,7 @@
 					              [elementsPerPage]="agentsPerPage"
 					              (onPageChange)="changePage($event)"></cp-paginator>
 				</th>
+				<th colspan="2" *ngIf="availableAgents.length === 0"></th>
 			</tr>
 		</tfoot>
 	</table>
