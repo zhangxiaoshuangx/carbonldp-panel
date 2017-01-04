@@ -95,7 +95,7 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/Utils", "carbon
                             property = modified;
                             break;
                     }
-                    if (!orderBy)
+                    if (!orderBy && !!property)
                         preferences.orderBy = [property];
                     if (!ascending)
                         property["@id"] = "-" + property["@id"];
