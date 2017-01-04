@@ -94,8 +94,11 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/Utils", "carbon
                         case "modified":
                             property = modified;
                             break;
+                        default:
+                            property = name;
+                            break;
                     }
-                    if (!orderBy && !!property)
+                    if (!orderBy)
                         preferences.orderBy = [property];
                     if (!ascending)
                         property["@id"] = "-" + property["@id"];
