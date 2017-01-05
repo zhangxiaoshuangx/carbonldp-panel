@@ -110,12 +110,14 @@
 			</div>
 		</div>
 	</div>
-	<!--<div class="ui attached inverted segment" *ngIf="mode !== Modes.CREATE">-->
-	<!--{{roleFormModel | json}}-->
-	<!--</div>-->
-	<div class="ui attached segment">
-
+	<div class="ui attached success message" *ngIf="displaySuccessMessage">
+		<i class="close icon"></i>
+		<div class="header">
+			The role was saved correctly.
+		</div>
+		<p>The role was saved correctly with the agents subscriptions.</p>
 	</div>
+	<cp-error-message class="ui attached segment" [message]="errorMessage" [closable]="true" (onClose)="closeError($event)" *ngIf="!!errorMessage"></cp-error-message>
 	<div *ngIf="mode !== Modes.READ"
 	     class="ui bottom attached segment"
 	     [ngClass]="{embedded: embedded}">

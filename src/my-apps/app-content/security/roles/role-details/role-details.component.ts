@@ -38,6 +38,8 @@ export class RoleDetailsComponent {
 	};
 	private activeTab:string = "details";
 	private roleAgents:PersistedAgent.Class[] = [];
+	private errorMessage:Message;
+	private displaySuccessMessage:boolean = false;
 
 
 	@Input() embedded:boolean = true;
@@ -80,7 +82,7 @@ export class RoleDetailsComponent {
 		this.getAgents( this.role ).then( ( agents ) => {
 			this.roleAgents = [];
 			this.roleAgents = agents;
-			this.roleFormModel.agents = agents;
+			this.roleFormModel.agents = [ ...agents ];
 		} );
 	}
 
@@ -104,13 +106,17 @@ export class RoleDetailsComponent {
 	private editRole( role:PersistedRole.Class, roleData:RoleFormModel ):void {
 		role.name = roleData.name;
 		role[ NS.CS.Predicate.description ] = roleData.description;
-		this.rolesService.saveAndRefresh( this.appContext, role ).then( ( [ updatedAgent, [ saveResponse, refreshResponse ] ]:[ PersistedRole.Class, [ HTTP.Response.Class, HTTP.Response.Class ] ] ) => {
-			// this.displaySuccessMessage = true;
+		this.rolesService.saveAndRefresh( this.appContext, role ).then( ( [ updatedRole, [ saveResponse, refreshResponse ] ]:[ PersistedRole.Class, [ HTTP.Response.Class, HTTP.Response.Class ] ] ) => {
+			return this.editRoleAgents( role, roleData.agents );
+		} ).then( () => {
+			return role.refresh();
+		} ).then( () => {
+			this.displaySuccessMessage = true;
 			this.onSuccess.emit( true );
 			this.cancelForm();
 		} ).catch( ( error ) => {
-			// this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
-			// if( typeof error.name !== "undefined" ) this.errorMessage.title = error.name;
+			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
+			if( typeof error.name !== "undefined" ) this.errorMessage.title = error.name;
 			this.onError.emit( true );
 		} );
 	}
@@ -130,6 +136,41 @@ export class RoleDetailsComponent {
 			} );
 			return agents;
 		} );
+	}
+
+	private editRoleAgents( role:PersistedRole.Class, selectedAgents:PersistedAgent.Class[] ):Promise<any> {
+		let promises:Promise<any>[] = [],
+			removedAgents:PersistedAgent.Class[] = this.getRemovedAgents( selectedAgents );
+
+		selectedAgents.forEach( ( agent:PersistedAgent.Class ) => {
+			promises.push( this.registerAgentToRole( agent.id, role.id ) )
+		} );
+		removedAgents.forEach( ( agent:PersistedAgent.Class ) => {
+			promises.push( this.removeAgentFromRole( agent.id, role.id ) )
+		} );
+
+		return Promise.all( promises ).catch( ( error ) => {
+			let generatedMessage:Message = ErrorMessageGenerator.getErrorMessage( error ),
+				finalError:Error = new Error( "The role details were saved but an error occurred while trying to persist the agents: " + generatedMessage.content );
+			finalError.name = "Agent Saved";
+			throw finalError;
+		} );
+	}
+
+	private getRemovedAgents( selectedAgents:PersistedAgent.Class[] ):PersistedAgent.Class[] {
+		return this.roleAgents.filter( ( roleAgent:PersistedAgent.Class ) => {
+			return ! selectedAgents.some( ( selectedAgent:PersistedAgent.Class ) => selectedAgent.id === roleAgent.id );
+		} ).map( ( removedAgent:PersistedAgent.Class ) => {
+			return removedAgent
+		} );
+	}
+
+	private registerAgentToRole( agentID:string, roleID:string ):Promise<HTTP.Response.Class> {
+		return this.rolesService.registerAgent( this.appContext, agentID, roleID );
+	}
+
+	private removeAgentFromRole( agentID:string, roleID:string ):Promise<HTTP.Response.Class> {
+		return this.rolesService.removeAgent( this.appContext, agentID, roleID );
 	}
 
 	private getSanitizedSlug( slug:string ):string {
@@ -155,6 +196,10 @@ export class RoleDetailsComponent {
 
 	private close():void {
 		this.onClose.emit( true );
+	}
+
+	private closeError():void {
+		this.errorMessage = null;
 	}
 }
 
