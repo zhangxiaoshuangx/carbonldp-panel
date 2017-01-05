@@ -1,115 +1,133 @@
-<div class="ui top attached title segment" [ngClass]="{embedded: embedded}">
-	<h3 class="ui header">
-		{{role.name}}
-		<span class="sub header">{{role.id}}</span>
-	</h3>
-</div>
-<div class="ui attached options segment" *ngIf="mode !== Modes.CREATE">
-	<button *ngIf="mode === Modes.READ"
-	        class="ui mini basic icon button"
-	        (click)="changeMode(Modes.EDIT)">
-		<i class="edit icon"></i>
-		Edit
-	</button>
-	<div class="ui basic label" *ngIf="mode === Modes.EDIT">
-		Editing...
+<form #roleForm="ngForm" (submit)="onSubmit(roleForm.value, $event)">
+	<div class="ui top attached title segment" [ngClass]="{embedded: embedded}">
+		<h3 class="ui header">
+			{{role.name}}
+			<span class="sub header">{{role.id}}</span>
+		</h3>
 	</div>
-</div>
-<div class="ui attached pointing secondary menu tabs">
-	<a class="item" data-tab="details" [ngClass]="{active: activeTab==='details'}">Description</a>
-	<a class="item" data-tab="agents" [ngClass]="{active: activeTab==='agents'}">Agents</a>
-</div>
-<form class="ui attached tab segment form"
-      #roleForm="ngForm" (submit)="onSubmit(roleForm.value, $event)"
-      data-tab="details" [ngClass]="{active: activeTab==='details'}">
-	<div class="ui one column divided grid">
-		<div class="stretched row">
-			<div class="column">
-				<div class="field"
-				     [ngClass]="{error: !name.valid}">
-					<label>Name:</label>
-					<div class="ui fluid input">
-						<input type="text" name="name"
-						       placeholder="E.g: Role Name"
-						       #name="cpValidation" cpValidation required
-						       [(ngModel)]="roleFormModel.name"
-						       [disabled]="mode === Modes.READ"
-						       (input)="mode === Modes.CREATE? roleFormModel.slug = getSanitizedSlug($event.srcElement.value) : roleFormModel.slug = roleFormModel.slug"
-						       (blur)="roleFormModel.slug = getSanitizedSlug($event.srcElement.value)">
+	<div class="ui attached options segment" *ngIf="mode !== Modes.CREATE">
+		<button *ngIf="mode === Modes.READ"
+		        class="ui mini basic icon button"
+		        (click)="changeMode(Modes.EDIT)">
+			<i class="edit icon"></i>
+			Edit
+		</button>
+		<div class="ui basic label" *ngIf="mode === Modes.EDIT">
+			Editing...
+		</div>
+	</div>
+	<div class="ui attached pointing secondary menu tabs">
+		<a class="item" data-tab="details" [ngClass]="{active: activeTab==='details'}">Description</a>
+		<a class="item" data-tab="agents" [ngClass]="{active: activeTab==='agents'}">Agents</a>
+	</div>
+	<div class="ui attached tab segment form"
+	     data-tab="details" [ngClass]="{active: activeTab==='details'}">
+		<div class="ui one column divided grid">
+			<div class="stretched row">
+				<div class="column">
+					<div class="field"
+					     [ngClass]="{error: !name.valid}">
+						<label>Name:</label>
+						<div class="ui fluid input">
+							<input type="text" name="name"
+							       placeholder="E.g: Role Name"
+							       #name="cpValidation" cpValidation required
+							       [(ngModel)]="roleFormModel.name"
+							       [disabled]="mode === Modes.READ"
+							       (input)="mode === Modes.CREATE? roleFormModel.slug = getSanitizedSlug($event.srcElement.value) : roleFormModel.slug = roleFormModel.slug"
+							       (blur)="roleFormModel.slug = getSanitizedSlug($event.srcElement.value)">
+						</div>
+						<div class="ui pointing red basic label" *ngIf="!name.valid">
+							<span *ngIf="name.control.hasError('required')">Please enter a name</span>
+						</div>
 					</div>
-					<div class="ui pointing red basic label" *ngIf="!name.valid">
-						<span *ngIf="name.control.hasError('required')">Please enter a name</span>
+					<div class="field"
+					     [ngClass]="{error: !slug.valid}"
+					     *ngIf="mode === Modes.CREATE">
+						<label>Slug:</label>
+						<div class="ui fluid input">
+							<input type="text" name="slug"
+							       placeholder="E.g: my-role-slug/"
+							       #slug="cpValidation" cpValidation cp-slug
+							       [ngModel]="roleFormModel.slug"
+							       [disabled]="mode === Modes.READ"
+							       (ngModelChange)="roleFormModel.slug = getSanitizedSlug($event)"
+							       (blur)="slugLostFocus($event)">
+						</div>
+						<div class="ui pointing red basic label" *ngIf="!slug.valid">
+							<span *ngIf="slug.control.hasError('invalidSlug')">Please, provide a valid slug/id for the role.<br>(Only numbers and letters with dashes)</span>
+						</div>
 					</div>
-				</div>
-				<div class="field"
-				     [ngClass]="{error: !slug.valid}"
-				     *ngIf="mode === Modes.CREATE">
-					<label>Slug:</label>
-					<div class="ui fluid input">
-						<input type="text" name="slug"
-						       placeholder="E.g: my-role-slug/"
-						       #slug="cpValidation" cpValidation cp-slug
-						       [ngModel]="roleFormModel.slug"
-						       [disabled]="mode === Modes.READ"
-						       (ngModelChange)="roleFormModel.slug = getSanitizedSlug($event)"
-						       (blur)="slugLostFocus($event)">
-					</div>
-					<div class="ui pointing red basic label" *ngIf="!slug.valid">
-						<span *ngIf="slug.control.hasError('invalidSlug')">Please, provide a valid slug/id for the role.<br>(Only numbers and letters with dashes)</span>
-					</div>
-				</div>
-				<div class="field"
-				     [ngClass]="{error: !description.valid}">
-					<label>Description:</label>
-					<div class="ui fluid input">
-						<textarea type="text" name="description"
-						          placeholder="E.g: Role Description"
-						          #description="cpValidation" cpValidation
-						          [(ngModel)]="roleFormModel.description"
-						          [disabled]="mode === Modes.READ"></textarea>
+					<div class="field"
+					     [ngClass]="{error: !description.valid}">
+						<label>Description:</label>
+						<div class="ui fluid input">
+							<textarea type="text" name="description"
+							          placeholder="E.g: Role Description"
+							          #description="cpValidation" cpValidation
+							          [(ngModel)]="roleFormModel.description"
+							          [disabled]="mode === Modes.READ"></textarea>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<div class="ui attached tab segment"
+	     data-tab="agents" [ngClass]="{active: activeTab==='agents'}">
+		<div class="ui one column divided grid">
+			<div class="stretched row">
+				<div class="column">
+					<div class="field">
+						<label>List of agents currently subscribed to this role:</label>
+						<select multiple name="agents"
+						        class="agents hidden"
+						        [(ngModel)]="roleFormModel.agents">
+							<option value="">Please Select</option>
+							<option *ngFor="let agent of roleFormModel.roles" [ngValue]="agent">{{agent}}</option>
+						</select>
+						<table class="ui very compact very basic small celled striped agents table" *ngIf="mode === Modes.READ">
+							<tbody>
+								<tr class="bottom aligned agent" *ngFor="let agent of roleAgents; let i = index;">
+									<td>
+										{{agent.name}}<br>
+										{{agent.id}}
+									</td>
+								</tr>
+								<tr class="warning" *ngIf="roleAgents.length===0">
+									<td>
+										<i class="attention icon"></i>Role without Agents.
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<cp-agents-chooser *ngIf="mode !== Modes.READ"
+						                   [appContext]="appContext"
+						                   [selectedAgents]="roleFormModel.agents"
+						                   (onChangeSelection)="changeAgents($event)"></cp-agents-chooser>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--<div class="ui attached inverted segment" *ngIf="mode !== Modes.CREATE">-->
+	<!--{{roleFormModel | json}}-->
+	<!--</div>-->
+	<div class="ui attached segment">
+
+	</div>
+	<div *ngIf="mode !== Modes.READ"
+	     class="ui bottom attached segment"
+	     [ngClass]="{embedded: embedded}">
+		<button class="ui mini basic button" title="Cancel" type="button" (click)="cancelForm()">Cancel</button>
+		<button class="ui mini basic right floated button" type="submit"
+		        [ngClass]="{ 'red': !roleForm.valid, 'green': roleForm.valid  }"
+		        (click)="onSubmit(roleForm.value, $event)"
+		        [disabled]="!roleForm.valid"
+		        [ngSwitch]="mode">
+			<span *ngSwitchCase="Modes.CREATE">Create</span>
+			<span *ngSwitchCase="Modes.EDIT">Save</span>
+			<span *ngSwitchDefault>Save</span>
+		</button>
+	</div>
 </form>
-<div class="ui attached tab segment"
-     data-tab="agents" [ngClass]="{active: activeTab==='agents'}">
-	<p>List of agents currently subscribed to this role:</p>
-	<table class="ui very compact very basic small celled striped agents table" *ngIf="mode === Modes.READ">
-		<tbody>
-			<tr class="bottom aligned agent" *ngFor="let agent of roleAgents; let i = index;">
-				<td>
-					{{agent.name}}<br>
-					{{agent.id}}
-				</td>
-			</tr>
-			<tr class="warning" *ngIf="roleAgents.length===0">
-				<td>
-					<i class="attention icon"></i>Role without Agents.
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	<cp-agents-chooser *ngIf="mode !== Modes.READ"
-	                   [appContext]="appContext"
-	                   [selectedAgents]="roleFormModel.agents"
-	                   (onChangeSelection)="changeAgents($event)"></cp-agents-chooser>
-</div>
-<!--<div class="ui attached inverted segment" *ngIf="mode !== Modes.CREATE">-->
-<!--{{roleFormModel | json}}-->
-<!--</div>-->
-<div *ngIf="mode !== Modes.READ"
-     class="ui bottom attached segment"
-     [ngClass]="{embedded: embedded}">
-	<button class="ui mini basic button" title="Cancel" (click)="cancelForm()">Cancel</button>
-	<button class="ui mini basic right floated button"
-	        [ngClass]="{ 'red': !roleForm.valid, 'green': roleForm.valid  }"
-	        (click)="onSubmit(roleForm.value, $event)"
-	        [disabled]="!roleForm.valid"
-	        [ngSwitch]="mode">
-		<span *ngSwitchCase="Modes.CREATE">Create</span>
-		<span *ngSwitchCase="Modes.EDIT">Save</span>
-		<span *ngSwitchDefault>Save</span>
-	</button>
-</div>
