@@ -31,7 +31,7 @@
 					</p>
 				</td>
 			</tr>
-			<tr class="warning">
+			<tr class="warning" *ngIf="availableAgents.length === 0">
 				<td colspan="2">
 					<i class="attention icon"></i>There are currently no Agents in this App.<br>
 					You can add agents by going to Security -> Agents -> <strong>Create New Agent</strong>

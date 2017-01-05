@@ -91,6 +91,10 @@
 			</tr>
 		</tbody>
 	</table>
+	<cp-agents-chooser *ngIf="mode !== Modes.READ"
+	                   [appContext]="appContext"
+	                   [selectedAgents]="roleFormModel.agents"
+	                   (onChangeSelection)="changeAgents($event)"></cp-agents-chooser>
 </div>
 <!--<div class="ui attached inverted segment" *ngIf="mode !== Modes.CREATE">-->
 <!--{{roleFormModel | json}}-->

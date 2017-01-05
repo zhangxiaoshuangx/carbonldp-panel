@@ -34,6 +34,7 @@ export class RoleDetailsComponent {
 		name: "",
 		description: "",
 		parentRole: "",
+		agents: [],
 	};
 	private availableRoles:PersistedRole.Class[] = [];
 	private activeTab:string = "details";
@@ -74,12 +75,14 @@ export class RoleDetailsComponent {
 	}
 
 	private changeRole( role:PersistedRole.Class ):void {
+		this.mode = Modes.READ;
 		this.roleFormModel.slug = this.getSanitizedSlug( role.id );
 		this.roleFormModel.name = role.name;
 		this.roleFormModel.description = role[ NS.CS.Predicate.description ];
 		this.getAgents( this.role ).then( ( agents ) => {
 			this.roleAgents = [];
 			this.roleAgents = agents;
+			this.roleFormModel.agents = agents;
 		} );
 	}
 
@@ -162,6 +165,11 @@ export class RoleDetailsComponent {
 	private close():void {
 		this.onClose.emit( true );
 	}
+
+	private changeAgents( selectedAgents:PersistedAgent.Class[] ):void {
+		console.log( selectedAgents );
+		this.roleFormModel.agents = selectedAgents;
+	}
 }
 
 export class Modes {
@@ -175,6 +183,7 @@ export interface RoleFormModel {
 	name:string;
 	description?:string;
 	parentRole?:string;
+	agents:PersistedAgent.Class[];
 }
 
 export default RoleDetailsComponent;
