@@ -76,6 +76,8 @@ export class RoleDetailsComponent {
 
 	private changeRole( role:PersistedRole.Class ):void {
 		this.mode = Modes.READ;
+		this.displaySuccessMessage = false;
+		this.errorMessage = null;
 		this.roleFormModel.slug = this.getSanitizedSlug( role.id );
 		this.roleFormModel.name = role.name;
 		this.roleFormModel.description = role[ NS.CS.Predicate.description ];
@@ -111,9 +113,9 @@ export class RoleDetailsComponent {
 		} ).then( () => {
 			return role.refresh();
 		} ).then( () => {
-			this.displaySuccessMessage = true;
 			this.onSuccess.emit( true );
 			this.cancelForm();
+			this.displaySuccessMessage = true;
 		} ).catch( ( error ) => {
 			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
 			if( typeof error.name !== "undefined" ) this.errorMessage.title = error.name;
