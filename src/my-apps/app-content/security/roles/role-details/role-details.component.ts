@@ -36,7 +36,6 @@ export class RoleDetailsComponent {
 		parentRole: "",
 		agents: [],
 	};
-	private availableRoles:PersistedRole.Class[] = [];
 	private activeTab:string = "details";
 	private roleAgents:PersistedAgent.Class[] = [];
 
@@ -62,14 +61,13 @@ export class RoleDetailsComponent {
 	}
 
 	initializeTabs():void {
-		this.$element.find( ">div.menu.tabs > .item" ).tab( {
+		this.$element.find( "div.menu.tabs > .item" ).tab( {
 			onVisible: ( activeTab ) => { this.activeTab = activeTab; }
 		} );
 	}
 
 	ngOnChanges( changes:{ [propName:string]:SimpleChange } ):void {
 		if( changes[ "role" ] && ! ! changes[ "role" ].currentValue && changes[ "role" ].currentValue !== changes[ "role" ].previousValue ) {
-			console.log( this.role );
 			this.changeRole( this.role );
 		}
 	}
@@ -120,9 +118,9 @@ export class RoleDetailsComponent {
 	private getAgents( role:PersistedRole.Class ):Promise<PersistedAgent.Class[]> {
 		let promises:Promise<any>[] = [],
 			agents:PersistedAgent.Class[] = [];
-		if( typeof this.role.agents === "undefined" ) return Promise.resolve( agents );
+		if( typeof role.agents === "undefined" ) return Promise.resolve( agents );
 
-		(<any>this.role.agents).forEach( ( agentPointer:Pointer.Class ) => {
+		(<any>role.agents).forEach( ( agentPointer:Pointer.Class ) => {
 			promises.push( agentPointer.resolve() );
 		} );
 		return Promise.all( promises ).then( ( resolvedAgents:[ PersistedAgent.Class, HTTP.Response.Class ][] ) => {
@@ -142,15 +140,8 @@ export class RoleDetailsComponent {
 		evt.target.value = DocumentExplorerLibrary.getAppendedSlashSlug( evt.target.value );
 	}
 
-	private getAllRoles():Promise<PersistedRole.Class[]> {
-		return this.rolesService.getAll( this.appContext );
-	}
-
-	private changeRoles( selectedRoles:PersistedRole.Class[] ):void {
-		this.roleFormModel.parentRole = null;
-		selectedRoles.forEach( ( selectedRole:PersistedRole.Class ) => {
-			this.roleFormModel.parentRole = selectedRole.id;
-		} );
+	private changeAgents( selectedAgents:PersistedAgent.Class[] ):void {
+		this.roleFormModel.agents = selectedAgents;
 	}
 
 	private cancelForm():void {
@@ -164,11 +155,6 @@ export class RoleDetailsComponent {
 
 	private close():void {
 		this.onClose.emit( true );
-	}
-
-	private changeAgents( selectedAgents:PersistedAgent.Class[] ):void {
-		console.log( selectedAgents );
-		this.roleFormModel.agents = selectedAgents;
 	}
 }
 
