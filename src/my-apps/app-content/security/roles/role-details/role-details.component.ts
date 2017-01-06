@@ -1,6 +1,7 @@
 import { Component, Input, Output, ElementRef, SimpleChange, EventEmitter } from "@angular/core"
 
 import * as App from "carbonldp/App";
+import * as Role from "carbonldp/App/Role";
 import * as PersistedRole from "carbonldp/App/PersistedRole";
 import * as PersistedAgent from "carbonldp/App/PersistedAgent";
 import * as HTTP from "carbonldp/HTTP";
@@ -44,7 +45,7 @@ export class RoleDetailsComponent {
 
 	@Input() embedded:boolean = true;
 	@Input() mode:string = Modes.READ;
-	@Input() role:PersistedRole.Class;
+	@Input() role:PersistedRole.Class = <any>Role.Factory.create( "New Role" );
 	@Input() appContext:App.Context;
 
 	@Output() onClose:EventEmitter<boolean> = new EventEmitter<boolean>();

@@ -1,5 +1,5 @@
 <form #roleForm="ngForm" (submit)="onSubmit(roleForm.value, $event)">
-	<div class="ui top attached title segment" [ngClass]="{embedded: embedded}">
+	<div class="ui top attached title segment" [ngClass]="{embedded: embedded}" *ngIf="mode !== Modes.CREATE">
 		<h3 class="ui header">
 			{{role.name}}
 			<span class="sub header">{{role.id}}</span>
@@ -16,7 +16,7 @@
 			Editing...
 		</div>
 	</div>
-	<div class="ui attached pointing secondary menu tabs">
+	<div class="ui attached pointing secondary menu tabs" [ngClass]="{embedded: embedded}">
 		<a class="item" data-tab="details" [ngClass]="{active: activeTab==='details'}">Description</a>
 		<a class="item" data-tab="agents" [ngClass]="{active: activeTab==='agents'}">Agents</a>
 	</div>
