@@ -19,6 +19,7 @@ export class RolesBrowserComponent {
 	private rolesService:RolesService;
 
 	private activeRole:PersistedRole.Class;
+	private selectedRole:string;
 
 	@Input() appContext:App.Context;
 

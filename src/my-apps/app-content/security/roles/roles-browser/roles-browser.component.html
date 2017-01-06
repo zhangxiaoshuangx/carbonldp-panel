@@ -1,9 +1,10 @@
 <div class="ui grid segment">
 	<div class="stretched row">
-
 		<cp-roles-tree-view class="six wide column tree"
 		                    [appContext]="appContext"
-		                    (onDoubleClickRole)="resolveRole($event)"></cp-roles-tree-view>
+		                    (onDoubleClickRole)="resolveRole($event)"
+		                    (onSelectRole)="selectedRole=$event"
+		                    (onShowCreateRoleForm)="roleCreator.show()"></cp-roles-tree-view>
 		<div *ngIf="!activeRole"
 		     class="ten wide column role details">
 			<p>Role Details in here...</p>
@@ -13,5 +14,8 @@
 		                 [role]="activeRole"
 		                 [appContext]="appContext">
 		</cp-role-details>
+		<cp-role-creator #roleCreator
+		                 [parentRole]="selectedRole"
+		                 [appContext]="appContext"></cp-role-creator>
 	</div>
 </div>
