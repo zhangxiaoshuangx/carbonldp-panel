@@ -1,0 +1,19 @@
+<div class="ui create role modal">
+	<div class="header">
+		<h2 class="ui header">
+			<i class="file outline icon"></i>
+			<span class="content">
+				Creating a Role
+				<span class="sub header">Create a new role as a child of <strong>{{parentRole}}</strong>.</span>
+			</span>
+		</h2>
+	</div>
+	<div class="content">
+		<cp-role-details *ngIf="canDisplayCreator"
+		                 [mode]="'CREATE'"
+		                 [embedded]="true"
+		                 [appContext]="appContext"
+		                 [embedded]="false"
+		                 (onClose)="hide()"></cp-role-details>
+	</div>
+</div>

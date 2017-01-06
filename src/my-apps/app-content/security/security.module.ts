@@ -25,6 +25,7 @@ import { RolesBrowserComponent } from "./roles/roles-browser/roles-browser.compo
 import { RolesTreeViewComponent } from "./roles/roles-tree-view/roles-tree-view.component";
 import { RoleDetailsView } from "./roles/role-details/role-details.view";
 import { RoleDetailsComponent } from "./roles/role-details/role-details.component";
+import { RoleCreatorComponent } from "./roles/role-creator/role-creator.component";
 import { RolesChooserComponent } from "./roles/roles-chooser/roles-chooser.component";
 
 
@@ -68,6 +69,7 @@ import { RoleResolver } from "./roles/role.resolver";
 		RolesTreeViewComponent,
 		RoleDetailsView,
 		RoleDetailsComponent,
+		RoleCreatorComponent,
 		RolesChooserComponent
 	],
 	providers: [
