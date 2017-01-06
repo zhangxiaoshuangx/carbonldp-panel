@@ -45,6 +45,7 @@ export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 	@Output() onLoading:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() onSelectRole:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onDoubleClickRole:EventEmitter<string> = new EventEmitter<string>();
+	@Output() onShowCreateRoleForm:EventEmitter<boolean> = new EventEmitter<boolean>();
 
 	constructor( element:ElementRef, rolesService:RolesService ) {
 		this.element = element;
@@ -78,7 +79,7 @@ export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 		} );
 	}
 
-	getTree():Promise<PersistedRole.Class> {
+	private getTree():Promise<PersistedRole.Class> {
 		return this.getChildren().then( ( nodes:JSTreeNode[] ) => {
 			this.renderTree( nodes );
 			return nodes;
@@ -88,7 +89,7 @@ export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 		} );
 	}
 
-	getChildren( roleID?:string ):Promise<JSTreeNode[]> {
+	private getChildren( roleID?:string ):Promise<JSTreeNode[]> {
 		let nodes:JSTreeNode[] = [];
 		return this.rolesService.getChildren( this.appContext, roleID ).then( ( roles:PersistedRole.Class[] ) => {
 			roles.forEach( ( role:PersistedRole.Class ) => {
@@ -99,7 +100,7 @@ export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 		} );
 	}
 
-	buildNode( uri:string, text:string, nodeType?:string, hasChildren?:boolean ):JSTreeNode {
+	private buildNode( uri:string, text:string, nodeType?:string, hasChildren?:boolean ):JSTreeNode {
 		let node:JSTreeNode = {
 			id: uri,
 			text: text,
@@ -111,7 +112,7 @@ export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 		return node;
 	}
 
-	renderTree( nodes:JSTreeNode[] ):void {
+	private renderTree( nodes:JSTreeNode[] ):void {
 		this.jsTree = this.$tree.jstree( {
 			"core": {
 				"data": nodes,
@@ -168,7 +169,7 @@ export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 		} );
 	}
 
-	loadNode( obj:any ):void {
+	private loadNode( obj:any ):void {
 		let node:JSTreeNode = this.jsTree.get_node( obj ),
 			parentId:any = node.id,
 			parentNode:any = node,
@@ -177,7 +178,7 @@ export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 	}
 
 
-	onBeforeOpenNode( parentId:string, parentNode:any, position:string ):Promise<any> {
+	private onBeforeOpenNode( parentId:string, parentNode:any, position:string ):Promise<any> {
 		let originalIcon:string = ! ! this.jsTree.settings.types[ parentNode.type ] ? this.jsTree.settings.types[ parentNode.type ].icon : "help icon";
 		this.jsTree.set_icon( parentNode, this.jsTree.settings.types.loading.icon );
 		return this.getChildren( parentNode.id ).then( ( children:JSTreeNode[] ):void => {
@@ -190,7 +191,7 @@ export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 		} );
 	}
 
-	onChange( parentId:string, node:any, position:string ):void {
+	private onChange( parentId:string, node:any, position:string ):void {
 		this.onBeforeOpenNode( parentId, node, position ).then( () => {
 			if( ! this.jsTree.is_open( node ) ) {
 				this.jsTree.open_node( node );
@@ -199,17 +200,21 @@ export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 		} );
 	}
 
-	addChild( parentId:string, node:any, position:string ):void {
+	private addChild( parentId:string, node:any, position:string ):void {
 		this.jsTree.create_node( parentId, node, position );
 	}
 
-	emptyNode( nodeId:string ):void {
+	private emptyNode( nodeId:string ):void {
 		let $children:JQuery = this.jsTree.get_children_dom( nodeId ),
 			childElements:Element[] = jQuery.makeArray( $children );
 		while( childElements.length > 0 ) {
 			this.jsTree.delete_node( childElements[ 0 ] );
 			childElements.splice( 0, 1 );
 		}
+	}
+
+	private showCreateRoleForm():void {
+		this.onShowCreateRoleForm.emit( true );
 	}
 }
 
