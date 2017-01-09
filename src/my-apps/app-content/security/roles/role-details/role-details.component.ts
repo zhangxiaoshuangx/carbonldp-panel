@@ -28,7 +28,6 @@ export class RoleDetailsComponent {
 	private element:ElementRef;
 	private $element:JQuery;
 	private rolesService:RolesService;
-
 	private Modes:Modes = Modes;
 	private roleFormModel:RoleFormModel = {
 		slug: "",
@@ -47,6 +46,7 @@ export class RoleDetailsComponent {
 	@Input() mode:string = Modes.READ;
 	@Input() role:PersistedRole.Class = <any>Role.Factory.create( "New Role" );
 	@Input() appContext:App.Context;
+	@Input() parentRole:string;
 
 	@Output() onClose:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() onSuccess:EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -59,15 +59,7 @@ export class RoleDetailsComponent {
 		this.rolesService = rolesService;
 	}
 
-	ngAfterViewInit():void {
-		this.initializeTabs();
-	}
-
-	initializeTabs():void {
-		this.$element.find( "div.menu.tabs > .item" ).tab( {
-			onVisible: ( activeTab ) => { this.activeTab = activeTab; }
-		} );
-	}
+	ngAfterViewInit():void { }
 
 	ngOnChanges( changes:{ [propName:string]:SimpleChange } ):void {
 		if( changes[ "role" ] && ! ! changes[ "role" ].currentValue && changes[ "role" ].currentValue !== changes[ "role" ].previousValue ) {
@@ -100,9 +92,9 @@ export class RoleDetailsComponent {
 			case Modes.EDIT:
 				this.editRole( this.role, data );
 				break;
-			// 	case Modes.CREATE:
-			// 		this.createAgent( this.agent, data );
-			// 		break;
+			case Modes.CREATE:
+				this.createRole( this.role, data );
+				break;
 		}
 	}
 
@@ -113,6 +105,24 @@ export class RoleDetailsComponent {
 			return this.editRoleAgents( role, roleData.agents );
 		} ).then( () => {
 			return role.refresh();
+		} ).then( () => {
+			this.onSuccess.emit( true );
+			this.cancelForm();
+			this.displaySuccessMessage = true;
+		} ).catch( ( error ) => {
+			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
+			if( typeof error.name !== "undefined" ) this.errorMessage.title = error.name;
+			this.onError.emit( true );
+		} );
+	}
+
+	private createRole( role:PersistedRole.Class, roleData:RoleFormModel ):void {
+		role.name = roleData.name;
+		role[ NS.CS.Predicate.description ] = roleData.description;
+		this.rolesService.create( this.appContext, this.parentRole, this.role, roleData.slug ).then( ( persistedRole:PersistedRole.Class ) => {
+			return this.editRoleAgents( persistedRole, roleData.agents );
+		} ).then( ( persistedRole:PersistedRole.Class ) => {
+			this.changeRole( persistedRole );
 		} ).then( () => {
 			this.onSuccess.emit( true );
 			this.cancelForm();

@@ -11,9 +11,9 @@
 	<div class="content">
 		<cp-role-details *ngIf="canDisplayCreator"
 		                 [mode]="'CREATE'"
-		                 [embedded]="true"
 		                 [appContext]="appContext"
 		                 [embedded]="false"
+		                 [parentRole]="parentRole"
 		                 (onClose)="hide()"></cp-role-details>
 	</div>
 </div>
