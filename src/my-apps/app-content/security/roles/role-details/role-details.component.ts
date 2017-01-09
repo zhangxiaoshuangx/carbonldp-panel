@@ -122,10 +122,8 @@ export class RoleDetailsComponent {
 		this.rolesService.create( this.appContext, this.parentRole, this.role, roleData.slug ).then( ( persistedRole:PersistedRole.Class ) => {
 			return this.editRoleAgents( persistedRole, roleData.agents );
 		} ).then( ( persistedRole:PersistedRole.Class ) => {
-			this.changeRole( persistedRole );
-		} ).then( () => {
 			this.onSuccess.emit( this.role.id );
-			// this.cancelForm();
+			this.cancelForm();
 			this.displaySuccessMessage = true;
 		} ).catch( ( error ) => {
 			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
