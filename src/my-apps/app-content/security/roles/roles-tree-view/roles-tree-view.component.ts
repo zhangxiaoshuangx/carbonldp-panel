@@ -46,6 +46,7 @@ export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 	@Output() onSelectRole:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onDoubleClickRole:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onShowCreateRoleForm:EventEmitter<boolean> = new EventEmitter<boolean>();
+	@Output() onShowDeleteRoleForm:EventEmitter<boolean> = new EventEmitter<boolean>();
 
 	constructor( element:ElementRef, rolesService:RolesService ) {
 		this.element = element;
@@ -215,6 +216,10 @@ export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 
 	private showCreateRoleForm():void {
 		this.onShowCreateRoleForm.emit( true );
+	}
+
+	private showDeleteRoleForm():void {
+		this.onShowDeleteRoleForm.emit( true );
 	}
 }
 

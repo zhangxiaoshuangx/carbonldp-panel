@@ -123,7 +123,7 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/App/Roles", "ca
                         return role;
                     });
                 };
-                RolesService.prototype.delete = function (appContext, role) {
+                RolesService.prototype.delete = function (appContext, roleID) {
                     var MockedRoles = (function (_super) {
                         __extends(MockedRoles, _super);
                         function MockedRoles() {
@@ -132,8 +132,7 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/App/Roles", "ca
                         return MockedRoles;
                     }(Roles.Class));
                     var roles = new MockedRoles(appContext);
-                    // TODO: implement delete of App/Roles when method is avaialable
-                    return appContext.documents.delete(role.id);
+                    return appContext.documents.delete(roleID);
                 };
                 RolesService.prototype.saveAndRefresh = function (appContext, role) {
                     return role.saveAndRefresh();

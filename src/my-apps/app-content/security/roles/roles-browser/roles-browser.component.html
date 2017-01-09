@@ -4,7 +4,8 @@
 		                    [appContext]="appContext"
 		                    (onDoubleClickRole)="resolveRole($event)"
 		                    (onSelectRole)="selectedRole=$event"
-		                    (onShowCreateRoleForm)="roleCreator.show()"></cp-roles-tree-view>
+		                    (onShowCreateRoleForm)="roleCreator.show()"
+		                    (onShowDeleteRoleForm)="roleDeleter.show()"></cp-roles-tree-view>
 		<div *ngIf="!activeRole"
 		     class="ten wide column role details">
 			<p>Role Details in here...</p>
