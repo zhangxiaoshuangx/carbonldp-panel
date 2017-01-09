@@ -1,9 +1,6 @@
-import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit } from "@angular/core";
+import { Component, ElementRef, Input, AfterViewInit } from "@angular/core";
 
 import * as App from "carbonldp/App";
-import * as Role from "carbonldp/App/Role";
-import * as PersistedRole from "carbonldp/App/PersistedRole";
-import * as Roles from "carbonldp/App/Roles";
 
 import { RolesService } from "../roles.service";
 

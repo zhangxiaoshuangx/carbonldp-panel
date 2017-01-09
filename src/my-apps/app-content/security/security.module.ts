@@ -7,6 +7,7 @@ import { routing } from "./security.routing";
 
 // Components
 import { SecurityView } from "./security.view";
+
 import { AgentsView } from "./agents/agents.view";
 import { AgentsComponent } from "./agents/agents.component";
 import { AgentsListView } from "./agents/agents-list/agents-list.view";
@@ -17,6 +18,7 @@ import { AgentsChooserComponent } from "./agents/agents-chooser/agents-chooser.c
 import { AgentDeleterComponent } from "./agents/agent-deleter/agent-deleter.component";
 import { AgentCreatorView } from "./agents/agent-creator/agent-creator.view";
 import { AgentNotFoundView } from "./agents/agent-not-found/agent-not-found.view";
+
 import { RolesView } from "./roles/roles.view";
 import { RolesCatalogView } from "./roles/roles-catalog/roles-catalog.view";
 import { RolesCatalogComponent } from "./roles/roles-catalog/roles-catalog.component";
@@ -26,6 +28,7 @@ import { RolesTreeViewComponent } from "./roles/roles-tree-view/roles-tree-view.
 import { RoleDetailsView } from "./roles/role-details/role-details.view";
 import { RoleDetailsComponent } from "./roles/role-details/role-details.component";
 import { RoleCreatorComponent } from "./roles/role-creator/role-creator.component";
+import { RoleDeleterComponent } from "./roles/role-deleter/role-deleter.component";
 import { RolesChooserComponent } from "./roles/roles-chooser/roles-chooser.component";
 
 
@@ -70,6 +73,7 @@ import { RoleResolver } from "./roles/role.resolver";
 		RoleDetailsView,
 		RoleDetailsComponent,
 		RoleCreatorComponent,
+		RoleDeleterComponent,
 		RolesChooserComponent
 	],
 	providers: [

@@ -1,0 +1,31 @@
+<form class="ui delete role modal error form" #deleteRoleForm="ngForm" (submit)="onSubmitDeleteRole()">
+	<div class="header">
+		<h2 class="ui header"><i class="trash outline red icon"></i> Are you sure?</h2>
+	</div>
+	<div class="content">
+		<div class="ui description">
+			<p>You are about to delete the following Role:</p>
+			<br>
+			<p>
+				Name: <span *ngIf="!!role">'{{role.name}}'</span><br>
+				ID: <span *ngIf="!!role">'{{role.id}}'</span>
+			</p>
+			<br>
+			<p>
+				<span>If you delete it, every reference made to this role will also be deleted.</span><br>
+				<span>Do you really want to proceed?</span>
+			</p>
+			<cp-error-message [message]="errorMessage" [closable]="true" (onClose)="clearErrorMessage()" *ngIf="!!errorMessage"></cp-error-message>
+		</div>
+	</div>
+	<div class="actions">
+		<button class="ui black deny button" title="Cancel deletion" type="button"
+		        [disabled]="deleting"
+		        (click)="hideDeleteRoleForm()">No
+		</button>
+		<button class="ui red button" title="Confirm deletion" type="submit"
+		        [ngClass]="{loading:deletingRole, disabled:deletingRole}"
+		        [disabled]="deleting">Yes
+		</button>
+	</div>
+</form>
