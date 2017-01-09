@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
 
 import * as App from "carbonldp/App";
 import * as PersistedRole from "carbonldp/App/PersistedRole";
@@ -22,6 +22,7 @@ export class RolesBrowserComponent {
 	private selectedRole:string;
 
 	@Input() appContext:App.Context;
+	@Output() onRefreshTree:EventEmitter<string> = new EventEmitter();
 
 	constructor( rolesService:RolesService ) {
 		this.rolesService = rolesService;
@@ -31,6 +32,10 @@ export class RolesBrowserComponent {
 		this.rolesService.get( roleID, this.appContext ).then( ( role:PersistedRole.Class ) => {
 			this.activeRole = role;
 		} );
+	}
+
+	private onSuccessDelete( roleID:string ):void {
+		this.onRefreshTree.emit( roleID );
 	}
 }
 

@@ -31,7 +31,7 @@ export class RoleDeleterComponent implements AfterViewInit {
 
 	@Input() appContext:App.Context;
 	@Input() role:string;
-	@Output() onSuccess:EventEmitter<any> = new EventEmitter<any>();
+	@Output() onSuccess:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onError:EventEmitter<any> = new EventEmitter<any>();
 
 
@@ -52,7 +52,7 @@ export class RoleDeleterComponent implements AfterViewInit {
 	private onSubmitDeleteRole():void {
 		this.deletingRole = true;
 		this.rolesService.delete( this.appContext, this.role ).then( ( result ) => {
-			this.onSuccess.emit( this.deletingRole );
+			this.onSuccess.emit( this.role );
 			this.hide();
 		} ).catch( ( error:HTTPError ) => {
 			this.onError.emit( error );

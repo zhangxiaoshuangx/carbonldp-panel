@@ -2,6 +2,7 @@
 	<div class="stretched row">
 		<cp-roles-tree-view class="six wide column tree"
 		                    [appContext]="appContext"
+		                    [refreshNode]="onRefreshTree"
 		                    (onDoubleClickRole)="resolveRole($event)"
 		                    (onSelectRole)="selectedRole=$event"
 		                    (onShowCreateRoleForm)="roleCreator.show()"
@@ -20,6 +21,7 @@
 		                 [appContext]="appContext"></cp-role-creator>
 		<cp-role-deleter #roleDeleter
 		                 [role]="selectedRole"
-		                 [appContext]="appContext"></cp-role-deleter>
+		                 [appContext]="appContext"
+		                 (onSuccess)="onSuccessDelete($event)"></cp-role-deleter>
 	</div>
 </div>
