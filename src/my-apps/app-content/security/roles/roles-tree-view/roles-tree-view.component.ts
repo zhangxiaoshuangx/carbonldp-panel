@@ -4,6 +4,7 @@ import * as App from "carbonldp/App";
 import * as Role from "carbonldp/App/Role";
 import * as PersistedRole from "carbonldp/App/PersistedRole";
 import * as HTTP from "carbonldp/HTTP";
+import * as URI from "carbonldp/RDF/URI";
 
 import { RolesService } from "../roles.service";
 
@@ -72,8 +73,9 @@ export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 			this.onLoading.emit( false );
 		} );
 		this.refreshNode.subscribe( ( nodeId:string ) => {
-			this.jsTree.select_node( nodeId );
-			this.loadNode( nodeId );
+			let parentNode:string = this.jsTree.get_parent( nodeId );
+			this.jsTree.select_node( parentNode );
+			this.loadNode( parentNode );
 		} );
 		this.openNode.subscribe( ( nodeId:string ) => {
 			this.jsTree.select_node( nodeId );
@@ -92,6 +94,7 @@ export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 
 	private getChildren( roleID?:string ):Promise<JSTreeNode[]> {
 		let nodes:JSTreeNode[] = [];
+		! ! roleID && URI.Util.isAbsolute( roleID ) ? roleID = roleID : roleID = null;
 		return this.rolesService.getChildren( this.appContext, roleID ).then( ( roles:PersistedRole.Class[] ) => {
 			roles.forEach( ( role:PersistedRole.Class ) => {
 				let node:JSTreeNode = this.buildNode( role.id, role.name, null, role[ "hasChildren" ] );
@@ -194,6 +197,7 @@ export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 
 	private onChange( parentId:string, node:any, position:string ):void {
 		this.onBeforeOpenNode( parentId, node, position ).then( () => {
+			if( ! ! node.id && ! URI.Util.isAbsolute( node.id ) ) node = this.jsTree.get_node( node.children[ 0 ] );
 			if( ! this.jsTree.is_open( node ) ) {
 				this.jsTree.open_node( node );
 			}
