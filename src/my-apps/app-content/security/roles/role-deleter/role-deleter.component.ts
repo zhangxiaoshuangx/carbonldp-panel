@@ -30,7 +30,7 @@ export class RoleDeleterComponent implements AfterViewInit {
 	private deletingRole:boolean = false;
 
 	@Input() appContext:App.Context;
-	@Input() role:PersistedRole.Class;
+	@Input() role:string;
 	@Output() onSuccess:EventEmitter<any> = new EventEmitter<any>();
 	@Output() onError:EventEmitter<any> = new EventEmitter<any>();
 
