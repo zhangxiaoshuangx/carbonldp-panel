@@ -73,9 +73,9 @@ export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 			this.onLoading.emit( false );
 		} );
 		this.refreshNode.subscribe( ( nodeId:string ) => {
-			let parentNode:string = this.jsTree.get_parent( nodeId );
-			this.jsTree.select_node( parentNode );
-			this.loadNode( parentNode );
+			let node:JSTreeNode = this.jsTree.get_node( nodeId );
+			this.jsTree.select_node( nodeId );
+			this.loadNode( nodeId );
 		} );
 		this.openNode.subscribe( ( nodeId:string ) => {
 			this.jsTree.select_node( nodeId );

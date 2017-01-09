@@ -18,7 +18,8 @@
 		</cp-role-details>
 		<cp-role-creator #roleCreator
 		                 [parentRole]="selectedRole"
-		                 [appContext]="appContext"></cp-role-creator>
+		                 [appContext]="appContext"
+		                 (onSuccess)="onSuccessCreate($event)"></cp-role-creator>
 		<cp-role-deleter #roleDeleter
 		                 [role]="selectedRole"
 		                 [appContext]="appContext"

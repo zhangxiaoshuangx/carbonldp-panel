@@ -49,7 +49,7 @@ export class RoleDetailsComponent {
 	@Input() parentRole:string;
 
 	@Output() onClose:EventEmitter<boolean> = new EventEmitter<boolean>();
-	@Output() onSuccess:EventEmitter<boolean> = new EventEmitter<boolean>();
+	@Output() onSuccess:EventEmitter<string> = new EventEmitter<string>();
 	@Output() onError:EventEmitter<boolean> = new EventEmitter<boolean>();
 
 
@@ -106,7 +106,7 @@ export class RoleDetailsComponent {
 		} ).then( () => {
 			return role.refresh();
 		} ).then( () => {
-			this.onSuccess.emit( true );
+			this.onSuccess.emit( this.role.id );
 			this.cancelForm();
 			this.displaySuccessMessage = true;
 		} ).catch( ( error ) => {
@@ -124,8 +124,8 @@ export class RoleDetailsComponent {
 		} ).then( ( persistedRole:PersistedRole.Class ) => {
 			this.changeRole( persistedRole );
 		} ).then( () => {
-			this.onSuccess.emit( true );
-			this.cancelForm();
+			this.onSuccess.emit( this.role.id );
+			// this.cancelForm();
 			this.displaySuccessMessage = true;
 		} ).catch( ( error ) => {
 			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );

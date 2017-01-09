@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, AfterViewInit } from "@angular/core";
+import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit } from "@angular/core";
 
 import * as App from "carbonldp/App";
 
@@ -27,6 +27,8 @@ export class RoleCreatorComponent implements AfterViewInit {
 	@Input() appContext:App.Context;
 	@Input() parentRole:string;
 
+	@Output() onSuccess:EventEmitter<string> = new EventEmitter();
+
 
 	constructor( element:ElementRef, rolesService:RolesService ) {
 		this.element = element;
@@ -51,6 +53,10 @@ export class RoleCreatorComponent implements AfterViewInit {
 	public toggle():void {
 		this.canDisplayCreator = ! this.canDisplayCreator;
 		this.$createRoleModal.modal( "toggle" );
+	}
+
+	private onCreateSuccess( role:string ):void {
+		this.onSuccess.emit( role );
 	}
 }
 

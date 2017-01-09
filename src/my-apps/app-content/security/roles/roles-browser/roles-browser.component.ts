@@ -37,6 +37,10 @@ export class RolesBrowserComponent {
 	private onSuccessDelete( roleID:string ):void {
 		this.onRefreshTree.emit( roleID );
 	}
+
+	private onSuccessCreate( roleID:string ):void {
+		this.onRefreshTree.emit( this.selectedRole );
+	}
 }
 
 export default RolesBrowserComponent;
