@@ -109,6 +109,23 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/App/Roles", "ca
                         return rolesArray;
                     });
                 };
+                RolesService.prototype.create = function (appContext, parentRole, role, slug) {
+                    var MockedRoles = (function (_super) {
+                        __extends(MockedRoles, _super);
+                        function MockedRoles() {
+                            _super.apply(this, arguments);
+                        }
+                        return MockedRoles;
+                    }(Roles.Class));
+                    var roles = new MockedRoles(appContext);
+                    return roles.createChild(parentRole, role, slug).then(function (_a) {
+                        var role = _a[0], response = _a[1];
+                        console.log("Role created successfully: %o", role);
+                        return role;
+                    }).then(function (error) {
+                        console.error(error);
+                    });
+                };
                 RolesService.prototype.saveAndRefresh = function (appContext, role) {
                     return role.saveAndRefresh();
                 };

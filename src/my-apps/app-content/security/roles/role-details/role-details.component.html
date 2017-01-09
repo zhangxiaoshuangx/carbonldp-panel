@@ -20,7 +20,7 @@
 		<a class="item" data-tab="details" [ngClass]="{active: activeTab==='details'}">Description</a>
 		<a class="item" data-tab="agents" [ngClass]="{active: activeTab==='agents'}">Agents</a>
 	</div>
-	<div class="ui attached tab segment form"
+	<div class="ui attached tab segment form details"
 	     data-tab="details" [ngClass]="{active: activeTab==='details'}">
 		<div class="ui one column divided grid">
 			<div class="stretched row">
@@ -73,7 +73,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="ui attached tab segment"
+	<div class="ui attached tab segment list agents"
 	     data-tab="agents" [ngClass]="{active: activeTab==='agents'}">
 		<div class="ui one column divided grid">
 			<div class="stretched row">
@@ -96,7 +96,7 @@
 								</tr>
 								<tr class="warning" *ngIf="roleAgents.length===0">
 									<td>
-										<i class="attention icon"></i>Role without Agents.
+										<i class="attention icon"></i>No agents subscribed to this role yet.
 									</td>
 								</tr>
 							</tbody>

@@ -8,6 +8,7 @@ export declare class RolesService {
     constructor(carbon: Carbon);
     get(slugOrURI: string, appContext: App.Context): Promise<PersistedRole.Class>;
     getAll(appContext: App.Context, limit?: number, page?: number, orderBy?: string, ascending?: boolean): Promise<PersistedRole.Class[]>;
+    create(appContext: App.Context, parentRole: string | PersistedRole.Class, role: PersistedRole.Class, slug?: string): Promise<PersistedRole.Class>;
     saveAndRefresh(appContext: App.Context, role: PersistedRole.Class): Promise<[PersistedRole.Class, [HTTP.Response.Class, HTTP.Response.Class]]>;
     registerAgent(appContext: App.Context, agentID: string, roleID: string): Promise<HTTP.Response.Class>;
     removeAgent(appContext: App.Context, agentID: string, roleID: string): Promise<HTTP.Response.Class>;

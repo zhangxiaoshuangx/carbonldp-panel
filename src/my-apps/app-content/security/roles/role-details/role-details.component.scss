@@ -17,6 +17,15 @@
 		max-height: 58px;
 	}
 
+	.ui.attached.segment.agents.list {
+		max-height: 400px;
+		overflow-y: scroll;
+
+		.stretched.row {
+			min-height: 120px;
+		}
+	}
+
 	.ui.attached.segment.options {
 		max-height: 58px;
 	}
