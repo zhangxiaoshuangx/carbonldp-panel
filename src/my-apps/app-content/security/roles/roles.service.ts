@@ -95,6 +95,12 @@ export class RolesService {
 		} );
 	}
 
+	public delete( appContext:App.Context, role:PersistedRole.Class ):Promise<HTTP.Response.Class> {
+		class MockedRoles extends Roles.Class {}
+		let roles:Roles.Class = new MockedRoles( appContext );
+		return appContext.documents.delete( role.id );
+	}
+
 	public saveAndRefresh( appContext:App.Context, role:PersistedRole.Class ):Promise<[ PersistedRole.Class, [ HTTP.Response.Class, HTTP.Response.Class ] ]> {
 		return role.saveAndRefresh();
 	}
