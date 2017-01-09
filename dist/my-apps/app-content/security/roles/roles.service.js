@@ -120,10 +120,7 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/App/Roles", "ca
                     var roles = new MockedRoles(appContext);
                     return roles.createChild(parentRole, role, slug).then(function (_a) {
                         var role = _a[0], response = _a[1];
-                        console.log("Role created successfully: %o", role);
                         return role;
-                    }).then(function (error) {
-                        console.error(error);
                     });
                 };
                 RolesService.prototype.saveAndRefresh = function (appContext, role) {

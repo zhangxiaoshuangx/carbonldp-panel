@@ -87,6 +87,14 @@ export class RolesService {
 		} );
 	}
 
+	public create( appContext:App.Context, parentRole:string|PersistedRole.Class, role:PersistedRole.Class, slug?:string ):Promise<PersistedRole.Class> {
+		class MockedRoles extends Roles.Class {}
+		let roles:Roles.Class = new MockedRoles( appContext );
+		return roles.createChild( parentRole, <Role.Class & PersistedRole.Class>role, slug ).then( ( [ role, response ]:[ PersistedRole.Class, HTTP.Response.Class ] ) => {
+			return role;
+		} );
+	}
+
 	public saveAndRefresh( appContext:App.Context, role:PersistedRole.Class ):Promise<[ PersistedRole.Class, [ HTTP.Response.Class, HTTP.Response.Class ] ]> {
 		return role.saveAndRefresh();
 	}
