@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Component, Input, Output, EventEmitter, NgZone } from "@angular/core";
 
 import * as App from "carbonldp/App";
 import * as PersistedRole from "carbonldp/App/PersistedRole";
@@ -17,20 +17,27 @@ import style from "./roles-browser.component.css!text";
 export class RolesBrowserComponent {
 
 	private rolesService:RolesService;
+	private zone:NgZone;
 
 	private activeRole:PersistedRole.Class;
 	private selectedRole:string;
+	private loading:boolean = false;
 
 	@Input() appContext:App.Context;
 	@Output() onRefreshTree:EventEmitter<string> = new EventEmitter();
 
-	constructor( rolesService:RolesService ) {
+	constructor( rolesService:RolesService, zone:NgZone ) {
 		this.rolesService = rolesService;
+		this.zone = zone;
 	}
 
 	private resolveRole( roleID:string ):void {
+		this.loading = true;
 		this.rolesService.get( roleID, this.appContext ).then( ( role:PersistedRole.Class ) => {
-			this.activeRole = role;
+			this.zone.run( () => {
+				this.activeRole = role;
+				this.loading = false;
+			} );
 		} );
 	}
 

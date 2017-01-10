@@ -6,10 +6,19 @@
 		                    (onDoubleClickRole)="resolveRole($event)"
 		                    (onSelectRole)="selectedRole=$event"
 		                    (onShowCreateRoleForm)="roleCreator.show()"
-		                    (onShowDeleteRoleForm)="roleDeleter.show()"></cp-roles-tree-view>
-		<div *ngIf="!activeRole"
-		     class="ten wide column role details">
-			<p>Role Details in here...</p>
+		                    (onShowDeleteRoleForm)="roleDeleter.show()"
+		                    (onLoading)="loading=$event"></cp-roles-tree-view>
+		<div *ngIf="loading"
+		     class="ui ten wide column role details basic segment">
+			<div class="ui icon message">
+				<i class="notched circle loading icon"></i>
+				<div class="content">
+					<div class="header">
+						Just one second
+					</div>
+					<p>Please wait while the role is being loaded...</p>
+				</div>
+			</div>
 		</div>
 		<cp-role-details *ngIf="!!activeRole"
 		                 class="ten wide column role details"
