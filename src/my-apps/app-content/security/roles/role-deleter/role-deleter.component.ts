@@ -1,7 +1,6 @@
 import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit } from "@angular/core";
 
 import * as App from "carbonldp/App";
-import * as PersistedRole from "carbonldp/App/PersistedRole";
 import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
 import { Message } from "carbonldp-panel/errors-area/error-message.component";

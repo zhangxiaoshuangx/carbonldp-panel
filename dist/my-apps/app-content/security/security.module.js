@@ -131,8 +131,8 @@ System.register(["@angular/core", '@angular/common', "@angular/forms", "./securi
                             roles_browser_component_1.RolesBrowserComponent,
                             roles_tree_view_component_1.RolesTreeViewComponent,
                             role_details_component_1.RoleDetailsComponent,
-                            role_creator_component_1.RoleCreatorComponent,
                             role_deleter_component_1.RoleDeleterComponent,
+                            role_creator_component_1.RoleCreatorComponent,
                             roles_chooser_component_1.RolesChooserComponent,
                         ],
                         providers: [

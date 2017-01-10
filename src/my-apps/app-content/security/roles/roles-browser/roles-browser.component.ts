@@ -43,7 +43,7 @@ export class RolesBrowserComponent {
 	ngOnInit() {
 		this.activatedRoute.data.forEach( ( data:{ role:PersistedRole.Class } ) => {
 			this.activeRole = data.role;
-			this.hasRoleOnRoute = true;
+			if( ! ! data.role ) this.hasRoleOnRoute = true;
 		} );
 	}
 

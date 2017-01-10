@@ -67,8 +67,8 @@ import { RoleResolver } from "./roles/role.resolver";
 		RolesBrowserComponent,
 		RolesTreeViewComponent,
 		RoleDetailsComponent,
-		RoleCreatorComponent,
 		RoleDeleterComponent,
+		RoleCreatorComponent,
 		RolesChooserComponent,
 	],
 	providers: [
