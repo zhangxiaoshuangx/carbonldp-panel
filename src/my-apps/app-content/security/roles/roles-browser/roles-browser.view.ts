@@ -4,15 +4,15 @@ import * as App from "carbonldp-panel/my-apps/app-content/app";
 
 import { AppContentService } from "carbonldp-panel/my-apps/app-content/app-content.service";
 
-import template from "./roles-catalog.view.html!";
+import template from "./roles-browser.view.html!";
 
 @Component( {
-	selector: "cp-roles-catalog-view",
+	selector: "cp-roles-browser-view",
 	template: template,
 	styles: [ ":host { display: block; }" ]
 } )
 
-export class RolesCatalogView {
+export class RolesBrowserView {
 
 	private app:App.Class;
 	private canDisplay:boolean = true;
@@ -28,4 +28,4 @@ export class RolesCatalogView {
 
 }
 
-export default RolesCatalogView;
+export default RolesBrowserView;

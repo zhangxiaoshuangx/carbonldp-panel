@@ -20,9 +20,7 @@ import { AgentCreatorView } from "./agents/agent-creator/agent-creator.view";
 import { AgentNotFoundView } from "./agents/agent-not-found/agent-not-found.view";
 
 import { RolesView } from "./roles/roles.view";
-import { RolesCatalogView } from "./roles/roles-catalog/roles-catalog.view";
-import { RolesCatalogComponent } from "./roles/roles-catalog/roles-catalog.component";
-import { RolesListComponent } from "./roles/roles-list/roles-list.component";
+import { RolesBrowserView } from "./roles/roles-browser/roles-browser.view";
 import { RolesBrowserComponent } from "./roles/roles-browser/roles-browser.component";
 import { RolesTreeViewComponent } from "./roles/roles-tree-view/roles-tree-view.component";
 import { RoleDetailsComponent } from "./roles/role-details/role-details.component";
@@ -52,6 +50,7 @@ import { RoleResolver } from "./roles/role.resolver";
 	],
 	declarations: [
 		SecurityView,
+
 		AgentsView,
 		AgentsComponent,
 		AgentsListView,
@@ -64,15 +63,13 @@ import { RoleResolver } from "./roles/role.resolver";
 		AgentNotFoundView,
 
 		RolesView,
-		RolesCatalogView,
-		RolesCatalogComponent,
-		RolesListComponent,
+		RolesBrowserView,
 		RolesBrowserComponent,
 		RolesTreeViewComponent,
 		RoleDetailsComponent,
 		RoleCreatorComponent,
 		RoleDeleterComponent,
-		RolesChooserComponent
+		RolesChooserComponent,
 	],
 	providers: [
 		AgentsService,
