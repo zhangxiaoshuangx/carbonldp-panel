@@ -25,7 +25,6 @@ import { RolesCatalogComponent } from "./roles/roles-catalog/roles-catalog.compo
 import { RolesListComponent } from "./roles/roles-list/roles-list.component";
 import { RolesBrowserComponent } from "./roles/roles-browser/roles-browser.component";
 import { RolesTreeViewComponent } from "./roles/roles-tree-view/roles-tree-view.component";
-import { RoleDetailsView } from "./roles/role-details/role-details.view";
 import { RoleDetailsComponent } from "./roles/role-details/role-details.component";
 import { RoleCreatorComponent } from "./roles/role-creator/role-creator.component";
 import { RoleDeleterComponent } from "./roles/role-deleter/role-deleter.component";
@@ -70,7 +69,6 @@ import { RoleResolver } from "./roles/role.resolver";
 		RolesListComponent,
 		RolesBrowserComponent,
 		RolesTreeViewComponent,
-		RoleDetailsView,
 		RoleDetailsComponent,
 		RoleCreatorComponent,
 		RoleDeleterComponent,

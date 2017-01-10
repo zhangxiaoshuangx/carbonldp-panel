@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, NgZone } from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
 
 import * as App from "carbonldp/App";
 import * as PersistedRole from "carbonldp/App/PersistedRole";
@@ -20,25 +21,44 @@ export class RolesBrowserComponent {
 
 	private rolesService:RolesService;
 	private zone:NgZone;
+	private router:Router;
+	private activatedRoute:ActivatedRoute;
 
 	private activeRole:PersistedRole.Class;
 	private selectedRole:string;
 	private loading:boolean = false;
 	private messages:Message[] = [];
+	private hasRoleOnRoute:boolean = false;
 
 	@Input() appContext:App.Context;
 	@Output() onRefreshTree:EventEmitter<string> = new EventEmitter();
 
-	constructor( rolesService:RolesService, zone:NgZone ) {
+	constructor( router:Router, route:ActivatedRoute, rolesService:RolesService, zone:NgZone ) {
 		this.rolesService = rolesService;
 		this.zone = zone;
+		this.router = router;
+		this.activatedRoute = route;
+	}
+
+	ngOnInit() {
+		this.activatedRoute.data.forEach( ( data:{ role:PersistedRole.Class } ) => {
+			this.activeRole = data.role;
+			this.hasRoleOnRoute = true;
+		} );
 	}
 
 	private resolveRole( roleID:string ):void {
 		this.loading = true;
-		this.rolesService.get( roleID, this.appContext ).then( ( role:PersistedRole.Class ) => {
+		new Promise( ( resolve, reject ) => {
+			if( this.hasRoleOnRoute ) {
+				this.hasRoleOnRoute = false;
+				resolve( this.activeRole );
+			}
+			resolve( this.rolesService.get( roleID, this.appContext ) );
+		} ).then( ( role:PersistedRole.Class ) => {
 			this.zone.run( () => {
 				this.activeRole = role;
+				this.loading = false;
 			} );
 		} ).catch( ( error ) => {
 			this.handleError( error );

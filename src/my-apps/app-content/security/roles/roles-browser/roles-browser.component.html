@@ -26,11 +26,10 @@
 				</div>
 			</div>
 		</div>
-		<cp-role-details *ngIf="!!activeRole"
+		<cp-role-details *ngIf="!!activeRole && !loading"
 		                 class="ten wide column role details"
 		                 [role]="activeRole"
-		                 [appContext]="appContext"
-		                 (onError)="handleError($event)">
+		                 [appContext]="appContext">
 		</cp-role-details>
 		<cp-role-creator #roleCreator
 		                 [parentRole]="selectedRole"

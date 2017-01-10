@@ -12,7 +12,6 @@ import { AgentNotFoundView } from "./agents/agent-not-found/agent-not-found.view
 import { RolesView } from "./roles/roles.view";
 import { RoleResolver } from "./roles/role.resolver";
 import { RolesCatalogView } from "./roles/roles-catalog/roles-catalog.view";
-import { RoleDetailsView } from "./roles/role-details/role-details.view";
 
 const SecurityRoutes:Routes = [
 	{
@@ -87,10 +86,6 @@ const SecurityRoutes:Routes = [
 						component: RolesCatalogView,
 					},
 					{
-						path: "list",
-						component: RolesCatalogView,
-					},
-					{
 						path: ":role-slug",
 						resolve: {
 							role: RoleResolver,
@@ -100,7 +95,7 @@ const SecurityRoutes:Routes = [
 							displayName: "Role",
 							title: "Role",
 						},
-						component: RoleDetailsView,
+						component: RolesCatalogView,
 					},
 				]
 			}
