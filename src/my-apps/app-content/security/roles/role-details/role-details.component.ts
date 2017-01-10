@@ -87,7 +87,6 @@ export class RoleDetailsComponent {
 
 	private onSubmit( data:RoleFormModel, $event:any ):void {
 		$event.preventDefault();
-		console.log( data );
 		switch( this.mode ) {
 			case Modes.EDIT:
 				this.editRole( this.role, data );

@@ -4,6 +4,8 @@ import * as App from "carbonldp/App";
 import * as PersistedRole from "carbonldp/App/PersistedRole";
 
 import { RolesService } from "../roles.service";
+import { Message } from "carbonldp-panel/errors-area/error-message.component";
+import { ErrorMessageGenerator } from "carbonldp-panel/errors-area/error-message-generator";
 
 import template from "./roles-browser.component.html!";
 import style from "./roles-browser.component.css!text";
@@ -22,6 +24,7 @@ export class RolesBrowserComponent {
 	private activeRole:PersistedRole.Class;
 	private selectedRole:string;
 	private loading:boolean = false;
+	private messages:Message[] = [];
 
 	@Input() appContext:App.Context;
 	@Output() onRefreshTree:EventEmitter<string> = new EventEmitter();
@@ -36,8 +39,11 @@ export class RolesBrowserComponent {
 		this.rolesService.get( roleID, this.appContext ).then( ( role:PersistedRole.Class ) => {
 			this.zone.run( () => {
 				this.activeRole = role;
-				this.loading = false;
 			} );
+		} ).catch( ( error ) => {
+			this.handleError( error );
+		} ).then( () => {
+			this.loading = false;
 		} );
 	}
 
@@ -47,6 +53,10 @@ export class RolesBrowserComponent {
 
 	private onSuccessCreate( roleID:string ):void {
 		this.onRefreshTree.emit( this.selectedRole );
+	}
+
+	private handleError( error:any ):void {
+		this.messages.push( ErrorMessageGenerator.getErrorMessage( error ) );
 	}
 }
 
