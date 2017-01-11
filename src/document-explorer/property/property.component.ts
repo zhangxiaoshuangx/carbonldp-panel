@@ -1,10 +1,9 @@
 import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit, OnInit, ViewChild } from "@angular/core";
 
-import * as SDKRDFNode from "carbonldp/RDF/RDFNode";
 import * as SDKLiteral from "carbonldp/RDF/Literal";
 import * as SDKList from "carbonldp/RDF/List";
 import * as URI from "carbonldp/RDF/URI";
-import * as RDFNode from "carbonldp/RDF/RDFNode";
+import * as RDFNode from "carbonldp/RDF/Node";
 import * as Utils from "carbonldp/Utils";
 
 import { Literal, LiteralRow } from "./../literals/literal.component";
@@ -261,7 +260,7 @@ export class PropertyComponent implements AfterViewInit, OnInit {
 			this.tempPointers = this.property.modifiedPointers;
 		} else {
 			this.property[ this.copyOrAdded ].value.forEach( ( literalOrRDFNode ) => {
-				if( SDKRDFNode.Factory.is( literalOrRDFNode ) ) {
+				if( RDFNode.Factory.is( literalOrRDFNode ) ) {
 					this.pointers.push( <PointerRow>{ copy: literalOrRDFNode } );
 					this.tempPointers.push( <PointerRow>{ copy: literalOrRDFNode } );
 				}

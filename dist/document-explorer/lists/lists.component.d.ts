@@ -1,5 +1,5 @@
 import { EventEmitter, OnInit } from "@angular/core";
-import * as RDFNode from "carbonldp/RDF/RDFNode";
+import * as RDFNode from "carbonldp/RDF/Node";
 import { Modes } from "./../property/property.component";
 import { List, ListRow } from "./list.component";
 import "semantic-ui/semantic";

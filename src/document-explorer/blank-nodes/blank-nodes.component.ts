@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, Output, EventEmitter, SimpleChange, AfterViewInit, OnChanges } from "@angular/core";
 
-import * as RDFNode from "carbonldp/RDF/RDFNode";
+import * as RDFNode from "carbonldp/RDF/Node";
 import * as Utils from "carbonldp/Utils";
 
 import { BlankNodeRow } from "./blank-node.component"

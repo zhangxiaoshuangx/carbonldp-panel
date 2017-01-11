@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, Output, EventEmitter, AfterViewInit } from "@angular/core";
 
-import * as RDFNode from "carbonldp/RDF/RDFNode";
+import * as RDFNode from "carbonldp/RDF/Node";
 
 import { BlankNodeRow } from "./../blank-nodes/blank-node.component";
 import { Property, PropertyRow, Modes } from "./../property/property.component";

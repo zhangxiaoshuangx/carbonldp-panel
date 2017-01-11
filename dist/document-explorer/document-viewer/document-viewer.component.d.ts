@@ -1,7 +1,7 @@
 /// <reference types="jquery" />
 /// <reference types="jstree" />
 import { ElementRef, EventEmitter, SimpleChange, AfterViewInit, OnChanges } from "@angular/core";
-import * as RDFNode from "carbonldp/RDF/RDFNode";
+import * as RDFNode from "carbonldp/RDF/Node";
 import * as SDKContext from "carbonldp/SDKContext";
 import * as RDFDocument from "carbonldp/RDF/Document";
 import { Error as HTTPError } from "carbonldp/HTTP/Errors";
