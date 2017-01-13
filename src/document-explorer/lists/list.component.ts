@@ -1,15 +1,13 @@
-import { ElementRef, Component, Input, Output, EventEmitter, AfterViewInit } from "@angular/core";
+import { ElementRef, Component, Input, Output, EventEmitter } from "@angular/core";
 
 import "semantic-ui/semantic";
 
-import * as SDKRDFNode from "carbonldp/RDF/RDFNode";
 import * as SDKLiteral from "carbonldp/RDF/Literal";
-import * as RDFNode from "carbonldp/RDF/RDFNode";
+import * as RDFNode from "carbonldp/RDF/Node";
 import * as Utils from "carbonldp/Utils";
 
 import { Literal, LiteralRow } from "./../literals/literal.component";
 import { Pointer, PointerRow } from "./../pointers/pointer.component";
-import { Modes } from "./../property/property.component";
 
 import template from "./list.component.html!";
 import style from "./list.component.css!text";
@@ -68,7 +66,7 @@ export class ListComponent {
 	}
 
 	isPointer( item:any ):boolean {
-		return SDKRDFNode.Factory.is( item[ ! ! item.copy ? (! ! item.modified ? "modified" : "copy") : "added" ] );
+		return RDFNode.Factory.is( item[ ! ! item.copy ? (! ! item.modified ? "modified" : "copy") : "added" ] );
 	}
 
 	moveUp( pointerOrLiteral:PointerRow | LiteralRow, index:number ):void {
