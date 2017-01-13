@@ -1,7 +1,7 @@
 /// <reference types="jquery" />
 /// <reference types="jstree" />
 import { ElementRef, EventEmitter, AfterViewInit } from "@angular/core";
-import * as RDFNode from "carbonldp/RDF/RDFNode";
+import * as RDFNode from "carbonldp/RDF/Node";
 import { BlankNodeRow } from "./../blank-nodes/blank-node.component";
 import { Property, PropertyRow, Modes } from "./../property/property.component";
 import "semantic-ui/semantic";

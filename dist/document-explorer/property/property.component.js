@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Literal", "carbonldp/RDF/List", "carbonldp/RDF/URI", "carbonldp/Utils", "jquery", "semantic-ui/semantic", "./property.component.html!", "./property.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/RDF/Literal", "carbonldp/RDF/List", "carbonldp/RDF/URI", "carbonldp/RDF/Node", "carbonldp/Utils", "jquery", "semantic-ui/semantic", "./property.component.html!", "./property.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,15 +10,12 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, SDKRDFNode, SDKLiteral, SDKList, URI, Utils, jquery_1, property_component_html_1, property_component_css_text_1;
+    var core_1, SDKLiteral, SDKList, URI, RDFNode, Utils, jquery_1, property_component_html_1, property_component_css_text_1;
     var PropertyComponent, Modes;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (SDKRDFNode_1) {
-                SDKRDFNode = SDKRDFNode_1;
             },
             function (SDKLiteral_1) {
                 SDKLiteral = SDKLiteral_1;
@@ -28,6 +25,9 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
             },
             function (URI_1) {
                 URI = URI_1;
+            },
+            function (RDFNode_1) {
+                RDFNode = RDFNode_1;
             },
             function (Utils_1) {
                 Utils = Utils_1;
@@ -249,7 +249,7 @@ System.register(["@angular/core", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Litera
                     }
                     else {
                         this.property[this.copyOrAdded].value.forEach(function (literalOrRDFNode) {
-                            if (SDKRDFNode.Factory.is(literalOrRDFNode)) {
+                            if (RDFNode.Factory.is(literalOrRDFNode)) {
                                 _this.pointers.push({ copy: literalOrRDFNode });
                                 _this.tempPointers.push({ copy: literalOrRDFNode });
                             }

@@ -1,7 +1,7 @@
 /// <reference types="jquery" />
 /// <reference types="jstree" />
 import { ElementRef, EventEmitter, SimpleChange, AfterViewInit, OnChanges } from "@angular/core";
-import * as RDFNode from "carbonldp/RDF/RDFNode";
+import * as RDFNode from "carbonldp/RDF/Node";
 import { BlankNodeRow } from "./blank-node.component";
 import "semantic-ui/semantic";
 export declare class BlankNodesComponent implements AfterViewInit, OnChanges {

@@ -1,4 +1,4 @@
-System.register(["@angular/core", "semantic-ui/semantic", "carbonldp/RDF/RDFNode", "carbonldp/RDF/Literal", "carbonldp/Utils", "./list.component.html!", "./list.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "semantic-ui/semantic", "carbonldp/RDF/Literal", "carbonldp/RDF/Node", "carbonldp/Utils", "./list.component.html!", "./list.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "semantic-ui/semantic", "carbonldp/RDF/RDFNode
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, SDKRDFNode, SDKLiteral, Utils, list_component_html_1, list_component_css_text_1;
+    var core_1, SDKLiteral, RDFNode, Utils, list_component_html_1, list_component_css_text_1;
     var ListComponent;
     return {
         setters:[
@@ -18,11 +18,11 @@ System.register(["@angular/core", "semantic-ui/semantic", "carbonldp/RDF/RDFNode
                 core_1 = core_1_1;
             },
             function (_1) {},
-            function (SDKRDFNode_1) {
-                SDKRDFNode = SDKRDFNode_1;
-            },
             function (SDKLiteral_1) {
                 SDKLiteral = SDKLiteral_1;
+            },
+            function (RDFNode_1) {
+                RDFNode = RDFNode_1;
             },
             function (Utils_1) {
                 Utils = Utils_1;
@@ -70,7 +70,7 @@ System.register(["@angular/core", "semantic-ui/semantic", "carbonldp/RDF/RDFNode
                     return SDKLiteral.Factory.is(item[!!item.copy ? (!!item.modified ? "modified" : "copy") : "added"]);
                 };
                 ListComponent.prototype.isPointer = function (item) {
-                    return SDKRDFNode.Factory.is(item[!!item.copy ? (!!item.modified ? "modified" : "copy") : "added"]);
+                    return RDFNode.Factory.is(item[!!item.copy ? (!!item.modified ? "modified" : "copy") : "added"]);
                 };
                 ListComponent.prototype.moveUp = function (pointerOrLiteral, index) {
                     this.tempList.splice(index, 1);
