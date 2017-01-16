@@ -1,4 +1,4 @@
-System.register(['@angular/core', "@angular/common", "@angular/forms", "@angular/router", "./header.component", "./header-item.component", "./login.component", "./register.component", "./sidebar.component", "./sidebar-items.component", "./errors-area/error-message.component", "./errors-area/errors-area.component", "./menu-bar.component", "./paginator/paginator.component", "./semantic/semantic.module", "./directives.module", "./router.service", "./header.service", "./sidebar.service", "./my-apps/my-apps-sidebar.service", "./errors-area/errors-area.service"], function(exports_1, context_1) {
+System.register(['@angular/core', "@angular/common", "@angular/forms", "@angular/router", "./header.component", "./header-item.component", "./login.component", "./register.component", "./sidebar.component", "./sidebar-items.component", "./errors-area/error-message.component", "./errors-area/errors-area.component", "./menu-bar.component", "./paginator/paginator.component", "./errors-area/error-label.component", "./semantic/semantic.module", "./directives.module", "./router.service", "./header.service", "./sidebar.service", "./my-apps/my-apps-sidebar.service", "./errors-area/errors-area.service"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', "@angular/common", "@angular/forms", "@angular
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, forms_1, router_1, header_component_1, header_item_component_1, login_component_1, register_component_1, sidebar_component_1, sidebar_items_component_1, error_message_component_1, errors_area_component_1, menu_bar_component_1, paginator_component_1, semantic_module_1, directives_module_1, router_service_1, header_service_1, sidebar_service_1, my_apps_sidebar_service_1, errors_area_service_1;
+    var core_1, common_1, forms_1, router_1, header_component_1, header_item_component_1, login_component_1, register_component_1, sidebar_component_1, sidebar_items_component_1, error_message_component_1, errors_area_component_1, menu_bar_component_1, paginator_component_1, error_label_component_1, semantic_module_1, directives_module_1, router_service_1, header_service_1, sidebar_service_1, my_apps_sidebar_service_1, errors_area_service_1;
     var PanelModule;
     return {
         setters:[
@@ -55,6 +55,9 @@ System.register(['@angular/core', "@angular/common", "@angular/forms", "@angular
             },
             function (paginator_component_1_1) {
                 paginator_component_1 = paginator_component_1_1;
+            },
+            function (error_label_component_1_1) {
+                error_label_component_1 = error_label_component_1_1;
             },
             function (semantic_module_1_1) {
                 semantic_module_1 = semantic_module_1_1;
@@ -107,6 +110,7 @@ System.register(['@angular/core', "@angular/common", "@angular/forms", "@angular
                             errors_area_component_1.ErrorsAreaComponent,
                             menu_bar_component_1.MenuBarComponent,
                             paginator_component_1.PaginatorComponent,
+                            error_label_component_1.ErrorLabelComponent,
                         ],
                         exports: [
                             header_component_1.HeaderComponent,
@@ -117,6 +121,7 @@ System.register(['@angular/core', "@angular/common", "@angular/forms", "@angular
                             error_message_component_1.ErrorMessageComponent,
                             errors_area_component_1.ErrorsAreaComponent,
                             paginator_component_1.PaginatorComponent,
+                            error_label_component_1.ErrorLabelComponent,
                         ],
                         providers: []
                     }), 
