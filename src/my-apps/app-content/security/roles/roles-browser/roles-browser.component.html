@@ -8,9 +8,9 @@
 		<cp-roles-tree-view class="six wide column tree"
 		                    [appContext]="appContext"
 		                    [refreshNode]="onRefreshTree"
-		                    (onDoubleClickRole)="resolveRole($event)"
+		                    (onDoubleClickRole)="resolveRole($event); mode = Modes.READ;"
 		                    (onSelectRole)="selectedRole=$event"
-		                    (onShowCreateRoleForm)="roleCreator.show()"
+		                    (onShowCreateRoleForm)="mode = Modes.CREATE"
 		                    (onShowDeleteRoleForm)="roleDeleter.show()"
 		                    (onLoading)="loading=$event"
 		                    (onError)="handleError($event)"></cp-roles-tree-view>
@@ -26,15 +26,19 @@
 				</div>
 			</div>
 		</div>
-		<cp-role-details *ngIf="!!activeRole && !loading"
+		<cp-role-details *ngIf="!!activeRole && !loading && mode!==Modes.CREATE"
 		                 class="ten wide column role details"
 		                 [role]="activeRole"
 		                 [appContext]="appContext">
 		</cp-role-details>
-		<cp-role-creator #roleCreator
-		                 [parentRole]="selectedRole"
+		<cp-role-details *ngIf="!!activeRole && !loading && mode===Modes.CREATE"
+		                 class="ten wide column role details"
+		                 [mode]="'CREATE'"
 		                 [appContext]="appContext"
-		                 (onSuccess)="onSuccessCreate($event)"></cp-role-creator>
+		                 [embedded]="false"
+		                 [parentRole]="selectedRole"
+		                 (onClose)="mode=Modes.READ;"
+		                 (onSuccess)="onSuccessCreate($event)"></cp-role-details>
 		<cp-role-deleter #roleDeleter
 		                 [role]="selectedRole"
 		                 [appContext]="appContext"

@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import * as App from "carbonldp/App";
 import * as PersistedRole from "carbonldp/App/PersistedRole";
 
+import { Modes } from "../role-details/role-details.component";
 import { RolesService } from "../roles.service";
 import { Message } from "carbonldp-panel/errors-area/error-message.component";
 import { ErrorMessageGenerator } from "carbonldp-panel/errors-area/error-message-generator";
@@ -29,6 +30,8 @@ export class RolesBrowserComponent {
 	private loading:boolean = false;
 	private messages:Message[] = [];
 	private hasRoleOnRoute:boolean = false;
+	private Modes:Modes = Modes;
+	private mode:string = Modes.READ;
 
 	@Input() appContext:App.Context;
 	@Output() onRefreshTree:EventEmitter<string> = new EventEmitter();
