@@ -69,7 +69,7 @@
 	<div class="field" [ngClass]="{ error: profileId.invalid }" title="A short way to identify your profile">
 		<div class="ui left icon input">
 			<i class="user icon"></i>
-			<input type="text" name="profileId" placeholder="Profile ID, E.g. my-agent-name (Optional)"
+			<input type="text" name="profileId" placeholder="Optional: Profile ID, E.g. my-agent-name"
 			       [(ngModel)]="register.profileId"
 			       cpValidation
 			       (blur)="sanitize( $event )"

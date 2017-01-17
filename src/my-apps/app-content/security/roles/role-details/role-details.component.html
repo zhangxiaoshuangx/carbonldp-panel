@@ -60,7 +60,7 @@
 					</div>
 					<div class="field"
 					     [ngClass]="{error: !description.valid}">
-						<label>Description:</label>
+						<label>Description: <span cp-grayed-out>(Optional)</span></label>
 						<div class="ui fluid input">
 							<textarea type="text" name="description"
 							          placeholder="E.g: Role Description"
@@ -121,7 +121,7 @@
 	     [ngClass]="{embedded: embedded}">
 		<button class="ui mini basic button" title="Cancel" type="button" (click)="cancelForm()">Cancel</button>
 		<button class="ui mini basic right floated button" type="submit"
-		        [ngClass]="{ 'red': !roleForm.valid, 'green': roleForm.valid  }"
+		        [ngClass]="{ 'disabled': !roleForm.valid, 'green': roleForm.valid  }"
 		        (click)="onSubmit(roleForm.value, $event)"
 		        [disabled]="!roleForm.valid"
 		        [ngSwitch]="mode">

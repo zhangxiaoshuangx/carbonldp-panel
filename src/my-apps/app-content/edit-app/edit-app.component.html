@@ -76,7 +76,8 @@
 			</div>
 		</div>
 	</div>
-	<button class="ui submit button" type="submit"
+	<button class="ui basic button" type="submit"
+	        [ngClass]="{ 'disabled': !editAppForm.valid, 'green': editAppForm.valid  }"
 	        (click)="onSubmit(editAppForm, $event)"
 	        [disabled]="(!editAppForm.valid || (editAppForm.valid && (!allDomains.value && allowedDomains.length===0)))">
 		Submit
