@@ -24,6 +24,9 @@
 				       (ngModelChange)="createAccessPointFormModel.slug = getSanitizedSlug($event)"
 				       (blur)="slugLostFocus($event)">
 			</div>
+			<cp-error-label *ngIf="!slug.valid">
+				<span *ngIf="slug.control.hasError( 'invalidSlug' )">Please, provide a valid slug/name for the Access Point. (Only numbers and letters with dashes)</span>
+			</cp-error-label>
 		</div>
 		<br>
 		<div class="field"
@@ -42,6 +45,12 @@
 				       required cp-uri-fragment
 				       [(ngModel)]="createAccessPointFormModel.hasMemberRelation">
 			</div>
+			<cp-error-label *ngIf="!hasMemberRelation.valid">
+				<span *ngIf="hasMemberRelation.control.hasError('required')">The 'hasMemberRelation' property is required.</span>
+				<span *ngIf="hasMemberRelation.control.hasError('invalidURIAddress')">Please, provide a valid URI for the 'hasMemberRelation' property. E.g: http://example.com/ns#daughter</span>
+				<span *ngIf="hasMemberRelation.control.hasError('missingFragment')">Please, provide a name/fragment for the 'hasMemberRelation' property. E.g: http://example.com/ns#daughter</span>
+				<span *ngIf="hasMemberRelation.control.hasError('multipleFragment')">Please, provide only one name after the hashtag (#) for the 'hasMemberRelation' property. E.g: http://example.com/ns#daughter</span>
+			</cp-error-label>
 		</div>
 		<br>
 		<div class="field"
@@ -61,49 +70,11 @@
 				       (keyup.esc)="hideForm()"
 				       [(ngModel)]="createAccessPointFormModel.isMemberOfRelation">
 			</div>
-		</div>
-		<div class="ui error message" *ngIf="! slug.valid || ! hasMemberRelation.valid || ! isMemberOfRelation.valid ">
-			<ul class="ui list" *ngIf="! slug.valid">
-				<!--slug-->
-				<li value="*" *ngIf="slug.control.hasError('invalidSlug')">
-					Please, provide a valid slug/name for the Access Point.<br>(Only numbers and letters with dashes)
-				</li>
-			</ul>
-			<ul class="ui list" *ngIf="! hasMemberRelation.valid ">
-				<!--hasMemberRelation-->
-				<li value="*" *ngIf="! hasMemberRelation.valid && hasMemberRelation.control.hasError('required')">
-					The 'hasMemberRelation' property is required.
-				</li>
-				<li value="*" *ngIf="! hasMemberRelation.valid && hasMemberRelation.control.hasError('invalidURIAddress')">
-					Please, provide a valid URI for the 'hasMemberRelation' property.<br>
-					E.g: http://example.com/ns#daughter
-				</li>
-				<li value="*" *ngIf="! hasMemberRelation.valid && hasMemberRelation.control.hasError('missingFragment')">
-					Please, provide a name/fragment for the 'hasMemberRelation' property.<br>
-					E.g: http://example.com/ns#daughter
-				</li>
-				<li value="*" *ngIf="! hasMemberRelation.valid && hasMemberRelation.control.hasError('multipleFragment')">
-					Please, provide only one name after the hashtag (#) for the 'hasMemberRelation' property.<br>
-					E.g: http://example.com/ns#daughter
-				</li>
-			</ul>
-			<ul class="ui list" *ngIf="! isMemberOfRelation.valid ">
-				<!--isMemberOfRelation-->
-				<li value="*" *ngIf="! isMemberOfRelation.valid && isMemberOfRelation.control.hasError('invalidURIAddress')">
-					Please, provide a valid URI for the 'isMemberOfRelation' property.<br>
-					E.g: http://example.com/ns#father
-				</li>
-				<li value="*" *ngIf="! isMemberOfRelation.valid && isMemberOfRelation.control.hasError('missingFragment')">
-					Please, provide a name/fragment for the 'isMemberOfRelation' property.<br>
-					E.g: http://example.com/ns#father
-				</li>
-				<li value="*" *ngIf="! isMemberOfRelation.valid && isMemberOfRelation.control.hasError('multipleFragment')">
-					Please, provide only one name after the hashtag (#) for the 'isMemberOfRelation' property.<br>
-					E.g: http://example.com/ns#father
-				</li>
-
-
-			</ul>
+			<cp-error-label *ngIf="!isMemberOfRelation.valid">
+				<span *ngIf="isMemberOfRelation.control.hasError('invalidURIAddress')">Please, provide a valid URI for the 'isMemberOfRelation' property. E.g: http://example.com/ns#father</span>
+				<span *ngIf="isMemberOfRelation.control.hasError('missingFragment')">Please, provide a name/fragment for the 'isMemberOfRelation' property. E.g: http://example.com/ns#father</span>
+				<span *ngIf="isMemberOfRelation.control.hasError('multipleFragment')">Please, provide only one name after the hashtag (#) for the 'isMemberOfRelation' property. E.g: http://example.com/ns#father</span>
+			</cp-error-label>
 		</div>
 
 

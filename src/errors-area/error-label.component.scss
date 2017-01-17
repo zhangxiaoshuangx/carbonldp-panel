@@ -1,8 +1,8 @@
 :host {
-	display: inline-block;
 }
 
 :host.ui.basic.error.label {
-	padding: 0;
+	display: block;
 	border: none;
+	padding: 6px 0 0;
 }

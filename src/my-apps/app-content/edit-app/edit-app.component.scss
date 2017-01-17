@@ -2,7 +2,8 @@
 	display: block;
 }
 
-.list {
+.list.allowedDomains {
+	margin: 0;
 	.item {
 		.content {
 			color: #000000;
