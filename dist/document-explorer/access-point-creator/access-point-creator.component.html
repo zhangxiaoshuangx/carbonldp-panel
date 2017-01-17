@@ -11,10 +11,10 @@
 	<div class="content">
 		<div class="field"
 		     [ngClass]="{error: !slug.valid}">
-			<label>Slug: The slug of the access point you want to create: (Optional)</label>
+			<label>Slug: The slug of the access point you want to create. <span cp-grayed-out>(Optional)</span></label>
 			<div class="ui fluid input">
 				<input type="text" name="slug" tabindex="0"
-				       placeholder="Optional: E.g. &quot;daughters/&quot;"
+				       placeholder="E.g. &quot;daughters/&quot;"
 
 				       #slug="cpValidation" cpValidation
 
@@ -58,11 +58,11 @@
 			<label>
 				<a tabindex="-1" target="_blank"
 				   href="https://carbonldp.com/documentation/javascript-sdk-getting-started#membership-relation">isMemberOfRelation</a>:
-				The name of the property that each member will have, which links back to the document they are member of (Optional).
+				The name of the property that each member will have, which links back to the document they are member of. <span cp-grayed-out>(Optional)</span>
 			</label>
 			<div class="ui fluid input">
 				<input type="text" name="isMemberOfRelation"
-				       placeholder="Optional: E.g: http://example.com/ns#father"
+				       placeholder="E.g: http://example.com/ns#father"
 
 				       #isMemberOfRelation="cpValidation" cpValidation
 
@@ -84,7 +84,7 @@
 		<button type="button" class="ui mini basic button" tabindex="5" title="Cancel creation" (click)="hideForm(createAccessPointForm)">Cancel</button>
 		<button type="submit"
 		        class="ui mini basic right floated button"
-		        [ngClass]="{ 'red': !createAccessPointForm.valid, 'green': createAccessPointForm.valid  }"
+		        [ngClass]="{ 'disabled': !createAccessPointForm.valid, 'green': createAccessPointForm.valid  }"
 		        (click)="onSubmitAccessPoint(createAccessPointForm.value, $event, createAccessPointForm)"
 		        [disabled]="!createAccessPointForm.valid">Create
 		</button>

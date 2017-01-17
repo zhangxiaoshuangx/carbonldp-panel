@@ -44,7 +44,7 @@
 					<div class="field"
 					     [ngClass]="{error: !slug.valid}"
 					     *ngIf="mode === Modes.CREATE">
-						<label>Slug:</label>
+						<label>Slug: <span cp-grayed-out>(Optional)</span></label>
 						<div class="ui fluid input">
 							<input type="text" name="slug"
 							       placeholder="E.g: my-agent-slug/"
@@ -116,7 +116,7 @@
 				</div>
 				<div class="column">
 					<div class="field">
-						<label>Roles:</label>
+						<label>Roles: <span cp-grayed-out>(Optional)</span></label>
 						<div class="ui fluid roles input">
 							<select multiple name="roles"
 							        class="roles hidden"
@@ -163,7 +163,7 @@
 	<cp-error-message class="ui attached segment" [message]="errorMessage" [closable]="true" (onClose)="closeError($event)" *ngIf="!!errorMessage"></cp-error-message>
 	<div class="ui bottom attached segment" *ngIf="mode !== Modes.READ">
 		<button class="ui mini basic right floated button" type="submit"
-		        [ngClass]="{ 'red': !agentForm.valid, 'green': agentForm.valid  }"
+		        [ngClass]="{ 'disabled': !agentForm.valid, 'green': agentForm.valid  }"
 		        (click)="onSubmit(agentForm.value, $event)"
 		        [disabled]="!agentForm.valid"
 		        [ngSwitch]="mode">

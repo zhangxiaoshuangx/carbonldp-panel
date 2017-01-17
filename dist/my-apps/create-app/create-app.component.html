@@ -15,9 +15,9 @@
 		</cp-error-label>
 	</div>
 	<div class="field" [ngClass]="{ error: (!slug.valid) }">
-		<label>Slug (optional):</label>
+		<label>Slug: <span cp-grayed-out>(Optional)</span></label>
 		<input class="slug"
-		       placeholder="e.g. my-first-app (optional)"
+		       placeholder="e.g. my-first-app"
 		       type="text"
 		       name="slug"
 		       #slug="cpValidation" cpValidation cp-slug
@@ -39,7 +39,8 @@
 			<span *ngIf="description.control.hasError('required')">The description is required.</span>
 		</cp-error-label>
 	</div>
-	<button class="ui submit button" type="submit"
+	<button class="ui basic button" type="submit"
+	        [ngClass]="{ 'disabled': !createAppForm.valid, 'green': createAppForm.valid  }"
 	        [disabled]="!createAppForm.valid"
 	        (click)="onSubmit(createAppForm, $event)">
 		Submit
