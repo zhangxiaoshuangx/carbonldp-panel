@@ -1,8 +1,14 @@
 <form #roleForm="ngForm" (submit)="onSubmit(roleForm.value, $event)">
-	<div class="ui top attached title segment" [ngClass]="{embedded: embedded}" *ngIf="mode !== Modes.CREATE">
-		<h3 class="ui header">
+	<div class="ui top attached title segment" [ngClass]="{embedded: embedded}">
+		<h3 class="ui header" *ngIf="mode !== Modes.CREATE">
 			{{role.name}}
 			<span class="sub header">{{role.id}}</span>
+		</h3>
+		<h3 class="ui header" *ngIf="mode === Modes.CREATE">
+			<span class="content">
+				Creating a Role
+				<span class="sub header">Create a new role as a child of <strong>{{parentRole}}</strong></span>
+			</span>
 		</h3>
 	</div>
 	<div class="ui attached options segment" *ngIf="mode !== Modes.CREATE">
