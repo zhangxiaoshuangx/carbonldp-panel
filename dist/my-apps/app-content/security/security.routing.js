@@ -63,6 +63,10 @@ System.register(["@angular/router", "./security.view", "./agents/agents.view", "
                             children: [
                                 {
                                     path: "",
+                                    data: {
+                                        // TODO: Remove hide property when Angular's Router bug is fixed
+                                        hide: true
+                                    },
                                     component: agents_list_view_1.AgentsListView,
                                 },
                                 {
@@ -109,6 +113,10 @@ System.register(["@angular/router", "./security.view", "./agents/agents.view", "
                             children: [
                                 {
                                     path: "",
+                                    data: {
+                                        // TODO: Remove hide property when Angular's Router bug is fixed
+                                        hide: true
+                                    },
                                     component: roles_browser_view_1.RolesBrowserView,
                                 },
                                 {

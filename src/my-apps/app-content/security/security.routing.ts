@@ -37,6 +37,10 @@ const SecurityRoutes:Routes = [
 				children: [
 					{
 						path: "",
+						data: {
+							// TODO: Remove hide property when Angular's Router bug is fixed
+							hide: true
+						},
 						component: AgentsListView,
 					},
 					{
@@ -83,6 +87,10 @@ const SecurityRoutes:Routes = [
 				children: [
 					{
 						path: "",
+						data: {
+							// TODO: Remove hide property when Angular's Router bug is fixed
+							hide: true
+						},
 						component: RolesBrowserView,
 					},
 					{
