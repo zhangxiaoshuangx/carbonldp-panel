@@ -40,13 +40,15 @@ export class RoleDetailsComponent {
 	private roleAgents:PersistedAgent.Class[] = [];
 	private errorMessage:Message;
 	private displaySuccessMessage:boolean = false;
+	private parentRole:PersistedRole.Class;
+	private mustAddParent:boolean = false;
 
 
 	@Input() embedded:boolean = true;
 	@Input() mode:string = Modes.READ;
 	@Input() role:PersistedRole.Class = <any>Role.Factory.create( "New Role" );
 	@Input() appContext:App.Context;
-	@Input() parentRole:string;
+	@Input() selectedRole:string|PersistedRole.Class;
 
 	@Output() onClose:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() onSuccess:EventEmitter<string> = new EventEmitter<string>();
@@ -74,11 +76,18 @@ export class RoleDetailsComponent {
 		this.roleFormModel.slug = this.getSanitizedSlug( role.id );
 		this.roleFormModel.name = role.name;
 		this.roleFormModel.description = role[ NS.CS.Predicate.description ];
+		this.roleFormModel.parentRole = ! ! role.parentRole ? role.parentRole.id : null;
+		this.mustAddParent = (! this.role.id.endsWith( "roles/app-admin/" ) && ! this.role.parentRole);
 		this.getAgents( this.role ).then( ( agents ) => {
 			this.roleAgents = [];
 			this.roleAgents = agents;
 			this.roleFormModel.agents = [ ...agents ];
 		} );
+		if( ! ! this.role.parentRole ) {
+			this.getRole( this.role.parentRole.id ).then( ( parentRole:PersistedRole.Class ) => {
+				this.parentRole = parentRole;
+			} );
+		}
 	}
 
 	private changeMode( mode:string ):void {
@@ -103,6 +112,8 @@ export class RoleDetailsComponent {
 		this.rolesService.saveAndRefresh( this.appContext, role ).then( ( [ updatedRole, [ saveResponse, refreshResponse ] ]:[ PersistedRole.Class, [ HTTP.Response.Class, HTTP.Response.Class ] ] ) => {
 			return this.editRoleAgents( role, roleData.agents );
 		} ).then( () => {
+			return ! role.parentRole ? this.parentRole.addMember( role ) : new Promise( ( resolve, reject ) => { resolve( this.parentRole )} );
+		} ).then( () => {
 			return role.refresh();
 		} ).then( () => {
 			this.onSuccess.emit( this.role.id );
@@ -118,7 +129,7 @@ export class RoleDetailsComponent {
 	private createRole( role:PersistedRole.Class, roleData:RoleFormModel ):void {
 		role.name = roleData.name;
 		role[ NS.CS.Predicate.description ] = roleData.description;
-		this.rolesService.create( this.appContext, this.parentRole, this.role, roleData.slug ).then( ( persistedRole:PersistedRole.Class ) => {
+		this.rolesService.create( this.appContext, this.selectedRole, this.role, roleData.slug ).then( ( persistedRole:PersistedRole.Class ) => {
 			return this.editRoleAgents( persistedRole, roleData.agents );
 		} ).then( ( persistedRole:PersistedRole.Class ) => {
 			this.onSuccess.emit( this.role.id );
@@ -146,6 +157,10 @@ export class RoleDetailsComponent {
 			} );
 			return agents;
 		} );
+	}
+
+	private getRole( roleID:string ):Promise<PersistedRole.Class> {
+		return this.rolesService.get( roleID, this.appContext );
 	}
 
 	private editRoleAgents( role:PersistedRole.Class, selectedAgents:PersistedAgent.Class[] ):Promise<any> {
@@ -193,6 +208,12 @@ export class RoleDetailsComponent {
 
 	private changeAgents( selectedAgents:PersistedAgent.Class[] ):void {
 		this.roleFormModel.agents = selectedAgents;
+	}
+
+	private changeParentRole( parentRoles:PersistedRole.Class[] ):void {
+		let parentRole:PersistedRole.Class = parentRoles.length > 0 ? parentRoles[ 0 ] : null;
+		this.roleFormModel.parentRole = ! ! parentRole ? parentRole.id : null;
+		this.parentRole = parentRole;
 	}
 
 	private cancelForm():void {

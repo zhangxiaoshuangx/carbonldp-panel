@@ -36,6 +36,7 @@ System.register(["@angular/core", "carbonldp/App", "../roles.service", "./roles-
                     this._selectedRoles = [];
                     this.bordered = true;
                     this.single = false;
+                    this.excluded = [];
                     this.onChangeSelection = new core_1.EventEmitter();
                     this.element = element;
                     this.$element = $(element.nativeElement);
@@ -58,6 +59,9 @@ System.register(["@angular/core", "carbonldp/App", "../roles.service", "./roles-
                 RolesChooserComponent.prototype.ngAfterViewInit = function () {
                     var _this = this;
                     this.rolesService.getAll(this.appContext).then(function (roles) {
+                        roles = roles.filter(function (role) {
+                            return !_this.excluded.some(function (excludedID) { return role.id === excludedID; });
+                        });
                         _this.availableRoles = roles;
                     }).then(function () {
                         setTimeout(function () { _this.$element.find(".ui.checkbox").checkbox(); });
@@ -105,6 +109,10 @@ System.register(["@angular/core", "carbonldp/App", "../roles.service", "./roles-
                     core_1.Input(), 
                     __metadata('design:type', Boolean)
                 ], RolesChooserComponent.prototype, "single", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Array)
+                ], RolesChooserComponent.prototype, "excluded", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)

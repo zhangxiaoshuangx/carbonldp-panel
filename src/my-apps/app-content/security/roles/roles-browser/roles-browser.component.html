@@ -36,7 +36,7 @@
 		                 [mode]="'CREATE'"
 		                 [appContext]="appContext"
 		                 [embedded]="false"
-		                 [parentRole]="selectedRole"
+		                 [selectedRole]="selectedRole"
 		                 (onClose)="mode=Modes.READ;"
 		                 (onSuccess)="onSuccessCreate($event)"></cp-role-details>
 		<cp-role-deleter #roleDeleter

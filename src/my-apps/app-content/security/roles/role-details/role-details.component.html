@@ -1,4 +1,4 @@
-<form #roleForm="ngForm" (submit)="onSubmit(roleForm.value, $event)">
+<form class="ui error warning form" #roleForm="ngForm" (submit)="onSubmit(roleForm.value, $event)">
 	<div class="ui top attached title segment" [ngClass]="{embedded: embedded}">
 		<h3 class="ui header" *ngIf="mode !== Modes.CREATE">
 			{{role.name}}
@@ -7,7 +7,7 @@
 		<h3 class="ui header" *ngIf="mode === Modes.CREATE">
 			<span class="content">
 				Creating a Role
-				<span class="sub header">Create a new role as a child of <strong>{{parentRole}}</strong></span>
+				<span class="sub header">Create a new role as a child of <strong>{{selectedRole}}</strong></span>
 			</span>
 		</h3>
 	</div>
@@ -50,7 +50,7 @@
 					<div class="field"
 					     [ngClass]="{error: !slug.valid}"
 					     *ngIf="mode === Modes.CREATE">
-						<label>Slug:</label>
+						<label>Slug: <span cp-grayed-out>(Optional)</span></label>
 						<div class="ui fluid input">
 							<input type="text" name="slug"
 							       placeholder="E.g: my-role-slug/"
@@ -73,6 +73,25 @@
 							          #description="cpValidation" cpValidation
 							          [(ngModel)]="roleFormModel.description"
 							          [disabled]="mode === Modes.READ"></textarea>
+						</div>
+					</div>
+					<div class="field" *ngIf="mustAddParent">
+						<div class="ui info message">
+							<i class="warning icon"></i> This role has no parent, you MUST <a class="add parent" (click)="mode=Modes.EDIT">assign</a> a parent to this role.
+						</div>
+						<div *ngIf="mode !== Modes.READ">
+							<label>Select a parent role:</label>
+							<div class="ui fluid parent role input">
+								<input type="text" name="parentRole" class="hidden"
+								       placeholder="E.g: parent role"
+								       #parentRole="cpValidation" cpValidation required
+								       [(ngModel)]="roleFormModel.parentRole"/>
+								<cp-roles-chooser [single]="true"
+								                  [bordered]="false"
+								                  [appContext]="appContext"
+								                  [excluded]="[role.id]"
+								                  (onChangeSelection)="changeParentRole($event)"></cp-roles-chooser>
+							</div>
 						</div>
 					</div>
 				</div>
