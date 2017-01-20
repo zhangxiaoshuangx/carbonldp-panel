@@ -34,7 +34,8 @@ export class RolesBrowserComponent {
 	private mode:string = Modes.READ;
 
 	@Input() appContext:App.Context;
-	@Output() onRefreshTree:EventEmitter<string> = new EventEmitter();
+	@Output() onRefresh:EventEmitter<string> = new EventEmitter();
+	@Output() onDelete:EventEmitter<string> = new EventEmitter();
 
 	constructor( router:Router, route:ActivatedRoute, rolesService:RolesService, zone:NgZone ) {
 		this.rolesService = rolesService;
@@ -71,11 +72,15 @@ export class RolesBrowserComponent {
 	}
 
 	private onSuccessDelete( roleID:string ):void {
-		this.onRefreshTree.emit( roleID );
+		this.onDelete.emit( roleID );
 	}
 
 	private onSuccessCreate( roleID:string ):void {
-		this.onRefreshTree.emit( this.selectedRole );
+		this.onRefresh.emit( this.selectedRole );
+	}
+
+	private onSuccessEdit( roleID:string ):void {
+		this.onRefresh.emit( roleID );
 	}
 
 	private handleError( error:any ):void {

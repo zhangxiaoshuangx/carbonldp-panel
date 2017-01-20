@@ -7,7 +7,8 @@
 		</div>
 		<cp-roles-tree-view class="six wide column tree"
 		                    [appContext]="appContext"
-		                    [refreshNode]="onRefreshTree"
+		                    [refreshNode]="onRefresh"
+		                    [deletedNode]="onDelete"
 		                    (onDoubleClickRole)="resolveRole($event); mode = Modes.READ;"
 		                    (onSelectRole)="selectedRole=$event"
 		                    (onShowCreateRoleForm)="mode = Modes.CREATE"
@@ -29,7 +30,8 @@
 		<cp-role-details *ngIf="!!activeRole && !loading && mode!==Modes.CREATE"
 		                 class="ten wide column role details"
 		                 [role]="activeRole"
-		                 [appContext]="appContext">
+		                 [appContext]="appContext"
+		                 (onSuccess)="onSuccessEdit($event)">
 		</cp-role-details>
 		<cp-role-details *ngIf="!!activeRole && !loading && mode===Modes.CREATE"
 		                 class="ten wide column role details"

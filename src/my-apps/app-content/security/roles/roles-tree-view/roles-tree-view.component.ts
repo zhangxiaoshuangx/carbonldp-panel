@@ -1,7 +1,6 @@
 import { Component, Input, Output, ElementRef, AfterViewInit, OnInit, EventEmitter } from "@angular/core";
 
 import * as App from "carbonldp/App";
-import * as Role from "carbonldp/App/Role";
 import * as PersistedRole from "carbonldp/App/PersistedRole";
 import * as HTTP from "carbonldp/HTTP";
 import * as URI from "carbonldp/RDF/URI";
@@ -41,6 +40,7 @@ export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 	@Input() appContext:App.Context;
 	@Input() refreshNode:EventEmitter<string> = new EventEmitter<string>();
 	@Input() openNode:EventEmitter<string> = new EventEmitter<string>();
+	@Input() deletedNode:EventEmitter<string> = new EventEmitter<string>();
 
 	@Output() onError:EventEmitter<HTTP.Errors.Error> = new EventEmitter<HTTP.Errors.Error>();
 	@Output() onLoading:EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -73,13 +73,21 @@ export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 			this.onLoading.emit( false );
 		} );
 		this.refreshNode.subscribe( ( nodeId:string ) => {
+			let node:JSTreeNode = this.jsTree.get_node( nodeId );
+			if( node[ "parent" ] === "#" ) this.jsTree.move_node( node, this.appContext.getBaseURI() + "roles/app-admin/" );
+			this.jsTree.close_node( node[ "parent" ] );
+			this.jsTree.open_node( node[ "parent" ] );
+			this.loadNode( node );
+			this.jsTree.select_node( node.id );
+		} );
+		this.openNode.subscribe( ( nodeId:string ) => {
+			this.jsTree.select_node( nodeId );
+		} );
+		this.deletedNode.subscribe( ( nodeId:string ) => {
 			let node:string = this.jsTree.get_node( nodeId );
 			nodeId = node[ "parent" ];
 			this.jsTree.select_node( nodeId );
 			this.loadNode( nodeId );
-		} );
-		this.openNode.subscribe( ( nodeId:string ) => {
-			this.jsTree.select_node( nodeId );
 		} );
 	}
 
