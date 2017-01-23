@@ -14,7 +14,7 @@
 				<span>If you delete it, every reference made to this role will also be deleted.</span><br>
 				<span>Do you really want to proceed?</span>
 			</p>
-			<cp-error-message [message]="errorMessage" [closable]="true" (onClose)="clearErrorMessage()" *ngIf="!!errorMessage"></cp-error-message>
+			<cp-error-message *ngFor="let errorMessage of errorMessages; let i = index;" [message]="errorMessage" [closable]="true" (onClose)="removeErrorMessage(i)"></cp-error-message>
 		</div>
 	</div>
 	<div class="actions">
