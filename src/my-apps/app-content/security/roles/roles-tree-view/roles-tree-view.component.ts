@@ -164,7 +164,7 @@ export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 		} );
 		this.$tree.on( "after_close.jstree", ( e:Event, data:any ):void => {
 			let node:any = data.node,
-				selectedNodes:string[] = this.jsTree.get_selected( node ),
+				selectedNodes:JSTreeNode[] = this.jsTree.get_selected( node ),
 				selectedNode:string = selectedNodes.length > 0 ? selectedNodes[ 0 ].id : null;
 
 			if( node.children.findIndex( ( nodeId:string ) => { return nodeId === selectedNode; } ) !== - 1 ) {
@@ -199,6 +199,9 @@ export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 			if( children.length > 0 ) {
 				children.forEach( ( childNode:any ) => this.addChild( parentId, childNode, position ) );
 			}
+		} ).catch( ( error:HTTP.Errors.Error ) => {
+			console.error( error );
+			this.onError.emit( error );
 		} ).then( () => {
 			this.jsTree.set_icon( parentNode, originalIcon );
 		} );
