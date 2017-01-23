@@ -128,6 +128,29 @@ export class RolesService {
 		} );
 	}
 
+
+	public getDescendants( appContext:App.Context, roleID?:string ):Promise<PersistedRole.Class[]> {
+		let rolesURI:string = appContext.getBaseURI() + "roles/",
+			query:string = `
+				SELECT ?parentRole ?childRole ?name
+				WHERE{
+					<${roleID}> <https://carbonldp.com/ns/v1/security#childRole>* ?childRole.
+					?childRole <https://carbonldp.com/ns/v1/security#name> ?name.
+					?childRole <https://carbonldp.com/ns/v1/security#parentRole> ?parentRole.
+				}
+			`;
+
+		return appContext.documents.executeSELECTQuery( rolesURI, query ).then( ( [ results, response ]:[ SPARQL.SELECTResults.Class, HTTP.Response.Class ] ) => {
+			let roles:Role.Class[] = [];
+			results.bindings.forEach( ( rolePointer:SPARQL.SELECTResults.BindingObject ) => {
+				let role:Role.Class = Role.Factory.createFrom( { id: rolePointer[ "childRole" ][ "id" ] }, <string>rolePointer[ "name" ] );
+				role[ "parentRole" ] = rolePointer[ "parentRole" ];
+				roles.push( role );
+			} );
+			return roles;
+		} );
+	}
+
 	public getChildren( appContext:App.Context, roleID?:string ):Promise<PersistedRole.Class[]> {
 		let rolesURI:string = appContext.getBaseURI() + "roles/",
 			filter:string = ! ! roleID ? `EXISTS { ?role <${NS.CS.Predicate.parentRole}> <${roleID}> }` : `NOT EXISTS { ?role <${NS.CS.Predicate.parentRole}> ?parentRole } `,
