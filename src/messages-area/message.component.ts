@@ -7,15 +7,20 @@ import template from "./error-message.component.html!";
 import style from "./error-message.component.css!text";
 
 @Component( {
-	selector: "cp-error-message",
+	selector: "cp-message",
 	template: template,
 	styles: [ style ],
+	host: {
+		"[class]": "'ui message transition'" + "type",
+	},
 } )
 
-export class ErrorMessageComponent implements OnChanges, AfterViewInit {
+export class MessageComponent implements OnChanges, AfterViewInit {
 
 	private element:ElementRef;
 	private $element:JQuery;
+
+	@Input() type:string = Types.NORMAL;
 	@Input() title:string;
 	@Input() content:string;
 	@Input() statusCode:string;
@@ -53,7 +58,7 @@ export class ErrorMessageComponent implements OnChanges, AfterViewInit {
 		this.stack = this.message.stack;
 	}
 
-	close( event:Event, messageDiv:HTMLElement ):void {
+	public close( event:Event, messageDiv:HTMLElement ):void {
 		$( messageDiv ).transition( {
 			animation: "fade",
 			onComplete: () => {this.onClose.emit( true );}
@@ -71,4 +76,14 @@ export interface Message {
 	stack?:string;
 }
 
-export default ErrorMessageComponent;
+export class Types {
+	public static NORMAL = "";
+	public static INFO = "info";
+	public static WARNING = "warning";
+	public static POSITIVE = "positive";
+	public static SUCCESS = "success";
+	public static NEGATIVE = "negative";
+	public static ERROR = "error";
+}
+
+export default MessageComponent;
