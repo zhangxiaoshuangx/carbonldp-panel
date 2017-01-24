@@ -48,9 +48,10 @@ System.register(["@angular/core", "./errors-area.service", "semantic-ui/semantic
                         template: errors_area_component_html_1.default,
                         styles: [errors_area_component_css_text_1.default],
                     }), 
-                    __metadata('design:paramtypes', [errors_area_service_1.ErrorsAreaService])
+                    __metadata('design:paramtypes', [(typeof (_a = typeof errors_area_service_1.ErrorsAreaService !== 'undefined' && errors_area_service_1.ErrorsAreaService) === 'function' && _a) || Object])
                 ], ErrorsAreaComponent);
                 return ErrorsAreaComponent;
+                var _a;
             }());
             exports_1("ErrorsAreaComponent", ErrorsAreaComponent);
             exports_1("default",ErrorsAreaComponent);

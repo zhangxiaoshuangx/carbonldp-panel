@@ -14,6 +14,7 @@ export declare class RolesService {
     registerAgent(appContext: App.Context, agentID: string, roleID: string): Promise<HTTP.Response.Class>;
     removeAgent(appContext: App.Context, agentID: string, roleID: string): Promise<HTTP.Response.Class>;
     getNumberOfRoles(appContext: App.Context): Promise<number>;
+    getDescendants(appContext: App.Context, roleID?: string): Promise<PersistedRole.Class[]>;
     getChildren(appContext: App.Context, roleID?: string): Promise<PersistedRole.Class[]>;
     private getSortedRoles(roles, orderBy, ascending);
 }

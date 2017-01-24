@@ -1,4 +1,4 @@
-System.register(['@angular/core', "@angular/common", "@angular/forms", "@angular/router", "./header.component", "./header-item.component", "./login.component", "./register.component", "./sidebar.component", "./sidebar-items.component", "./errors-area/error-message.component", "./errors-area/errors-area.component", "./menu-bar.component", "./paginator/paginator.component", "./errors-area/error-label.component", "./semantic/semantic.module", "./directives.module", "./router.service", "./header.service", "./sidebar.service", "./my-apps/my-apps-sidebar.service", "./errors-area/errors-area.service"], function(exports_1, context_1) {
+System.register(['@angular/core', "@angular/common", "@angular/forms", "@angular/router", "./header.component", "./header-item.component", "./login.component", "./register.component", "./sidebar.component", "./sidebar-items.component", "./messages-area/message.component", "./messages-area/messages-area.component", "./menu-bar.component", "./paginator/paginator.component", "./messages-area/error/error-label.component", "./semantic/semantic.module", "./directives.module", "./router.service", "./header.service", "./sidebar.service", "./my-apps/my-apps-sidebar.service", "./messages-area/messages-area.service"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', "@angular/common", "@angular/forms", "@angular
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, forms_1, router_1, header_component_1, header_item_component_1, login_component_1, register_component_1, sidebar_component_1, sidebar_items_component_1, error_message_component_1, errors_area_component_1, menu_bar_component_1, paginator_component_1, error_label_component_1, semantic_module_1, directives_module_1, router_service_1, header_service_1, sidebar_service_1, my_apps_sidebar_service_1, errors_area_service_1;
+    var core_1, common_1, forms_1, router_1, header_component_1, header_item_component_1, login_component_1, register_component_1, sidebar_component_1, sidebar_items_component_1, message_component_1, messages_area_component_1, menu_bar_component_1, paginator_component_1, error_label_component_1, semantic_module_1, directives_module_1, router_service_1, header_service_1, sidebar_service_1, my_apps_sidebar_service_1, messages_area_service_1;
     var PanelModule;
     return {
         setters:[
@@ -44,11 +44,11 @@ System.register(['@angular/core', "@angular/common", "@angular/forms", "@angular
             function (sidebar_items_component_1_1) {
                 sidebar_items_component_1 = sidebar_items_component_1_1;
             },
-            function (error_message_component_1_1) {
-                error_message_component_1 = error_message_component_1_1;
+            function (message_component_1_1) {
+                message_component_1 = message_component_1_1;
             },
-            function (errors_area_component_1_1) {
-                errors_area_component_1 = errors_area_component_1_1;
+            function (messages_area_component_1_1) {
+                messages_area_component_1 = messages_area_component_1_1;
             },
             function (menu_bar_component_1_1) {
                 menu_bar_component_1 = menu_bar_component_1_1;
@@ -77,8 +77,8 @@ System.register(['@angular/core', "@angular/common", "@angular/forms", "@angular
             function (my_apps_sidebar_service_1_1) {
                 my_apps_sidebar_service_1 = my_apps_sidebar_service_1_1;
             },
-            function (errors_area_service_1_1) {
-                errors_area_service_1 = errors_area_service_1_1;
+            function (messages_area_service_1_1) {
+                messages_area_service_1 = messages_area_service_1_1;
             }],
         execute: function() {
             PanelModule = (function () {
@@ -87,7 +87,7 @@ System.register(['@angular/core', "@angular/common", "@angular/forms", "@angular
                 PanelModule.forRoot = function () {
                     return {
                         ngModule: PanelModule,
-                        providers: [header_service_1.HeaderService, sidebar_service_1.SidebarService, router_service_1.RouterService, my_apps_sidebar_service_1.MyAppsSidebarService, errors_area_service_1.ErrorsAreaService]
+                        providers: [header_service_1.HeaderService, sidebar_service_1.SidebarService, router_service_1.RouterService, my_apps_sidebar_service_1.MyAppsSidebarService, messages_area_service_1.MessagesAreaService]
                     };
                 };
                 PanelModule = __decorate([
@@ -106,8 +106,8 @@ System.register(['@angular/core', "@angular/common", "@angular/forms", "@angular
                             register_component_1.RegisterComponent,
                             sidebar_component_1.SidebarComponent,
                             sidebar_items_component_1.SidebarItemsComponent,
-                            error_message_component_1.ErrorMessageComponent,
-                            errors_area_component_1.ErrorsAreaComponent,
+                            message_component_1.MessageComponent,
+                            messages_area_component_1.MessagesAreaComponent,
                             menu_bar_component_1.MenuBarComponent,
                             paginator_component_1.PaginatorComponent,
                             error_label_component_1.ErrorLabelComponent,
@@ -118,8 +118,8 @@ System.register(['@angular/core', "@angular/common", "@angular/forms", "@angular
                             register_component_1.RegisterComponent,
                             sidebar_component_1.SidebarComponent,
                             menu_bar_component_1.MenuBarComponent,
-                            error_message_component_1.ErrorMessageComponent,
-                            errors_area_component_1.ErrorsAreaComponent,
+                            message_component_1.MessageComponent,
+                            messages_area_component_1.MessagesAreaComponent,
                             paginator_component_1.PaginatorComponent,
                             error_label_component_1.ErrorLabelComponent,
                         ],

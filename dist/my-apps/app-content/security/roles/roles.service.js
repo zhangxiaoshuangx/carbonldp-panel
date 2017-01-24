@@ -168,6 +168,19 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/App/Roles", "ca
                         return results.bindings[0]["count"];
                     });
                 };
+                RolesService.prototype.getDescendants = function (appContext, roleID) {
+                    var rolesURI = appContext.getBaseURI() + "roles/", query = "\n\t\t\t\tSELECT ?parentRole ?childRole ?name\n\t\t\t\tWHERE{\n\t\t\t\t\t<" + roleID + "> <https://carbonldp.com/ns/v1/security#childRole>* ?childRole.\n\t\t\t\t\t?childRole <https://carbonldp.com/ns/v1/security#name> ?name.\n\t\t\t\t\t?childRole <https://carbonldp.com/ns/v1/security#parentRole> ?parentRole.\n\t\t\t\t}\n\t\t\t";
+                    return appContext.documents.executeSELECTQuery(rolesURI, query).then(function (_a) {
+                        var results = _a[0], response = _a[1];
+                        var roles = [];
+                        results.bindings.forEach(function (rolePointer) {
+                            var role = Role.Factory.createFrom({ id: rolePointer["childRole"]["id"] }, rolePointer["name"]);
+                            role["parentRole"] = rolePointer["parentRole"];
+                            roles.push(role);
+                        });
+                        return roles;
+                    });
+                };
                 RolesService.prototype.getChildren = function (appContext, roleID) {
                     var rolesURI = appContext.getBaseURI() + "roles/", filter = !!roleID ? "EXISTS { ?role <" + NS.CS.Predicate.parentRole + "> <" + roleID + "> }" : "NOT EXISTS { ?role <" + NS.CS.Predicate.parentRole + "> ?parentRole } ", query = "\n\t\t\t\tSELECT ?role ?name ?parentRole ?childRole\n\t\t\t\tWHERE{\n\t\t\t\t  GRAPH ?role { \n\t\t\t\t    ?role a <https://carbonldp.com/ns/v1/security#AppRole> .\n\t\t\t\t\t?role <https://carbonldp.com/ns/v1/security#name> ?name .\n\t\t\t\t\tOPTIONAL { ?role <https://carbonldp.com/ns/v1/security#parentRole> ?parentRole } .\n\t\t\t\t  }\n\t\t\t\t  BIND( EXISTS { GRAPH ?role { ?role <https://carbonldp.com/ns/v1/security#childRole> ?childRole } } as ?childRole)\n\t\t\t\t  FILTER( " + filter + " )\n\t\t\t\t}";
                     return appContext.documents.executeSELECTQuery(rolesURI, query).then(function (_a) {

@@ -48,9 +48,10 @@ System.register(["@angular/core", "./../../app-content/app-content.service", "ca
                         template: sparql_client_view_html_1.default,
                         styles: [":host { display: block; }"],
                     }), 
-                    __metadata('design:paramtypes', [errors_area_service_1.ErrorsAreaService, app_content_service_1.AppContentService])
+                    __metadata('design:paramtypes', [(typeof (_a = typeof errors_area_service_1.ErrorsAreaService !== 'undefined' && errors_area_service_1.ErrorsAreaService) === 'function' && _a) || Object, app_content_service_1.AppContentService])
                 ], SPARQLClientView);
                 return SPARQLClientView;
+                var _a;
             }());
             exports_1("SPARQLClientView", SPARQLClientView);
             exports_1("default",SPARQLClientView);

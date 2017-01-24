@@ -1,7 +1,7 @@
 import * as HTTP from "carbonldp/HTTP";
 import * as JSONLDParser from "carbonldp/JSONLD/Parser";
 
-import { Message } from "./error-message.component";
+import { Message } from "../message.component";
 import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
 
