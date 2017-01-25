@@ -29,7 +29,7 @@ export class MessagesAreaComponent implements AfterViewInit {
 		);
 	}
 
-	removeMessage( event:boolean, message:Message, index:number ):void {
+	removeMessage( index:number ):void {
 		this.messages.splice( index, 1 );
 	}
 

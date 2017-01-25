@@ -1,4 +1,4 @@
-import { Component, Input, Output, ElementRef, SimpleChange, EventEmitter, OnChanges, AfterViewInit } from "@angular/core";
+import { Component, Input, Output, ViewChild, ElementRef, SimpleChange, EventEmitter, OnChanges, AfterViewInit } from "@angular/core";
 
 import $ from "jquery";
 import "semantic-ui/semantic";
@@ -17,6 +17,7 @@ export class MessageComponent implements OnChanges, AfterViewInit {
 	private element:ElementRef;
 	private $element:JQuery;
 
+	@ViewChild( "messageElement" ) messageElement:ElementRef;
 	@Input() type:string = Types.NORMAL;
 	@Input() title:string;
 	@Input() content:string;
@@ -54,6 +55,9 @@ export class MessageComponent implements OnChanges, AfterViewInit {
 		this.errors = this.message.errors;
 		this.stack = this.message.stack;
 		this.type = this.message.type;
+		if( typeof this.message.duration !== "undefined" && typeof this.message.duration === "number" ) {
+			setTimeout( () => this.close( null, this.messageElement.nativeElement ), this.message.duration );
+		}
 	}
 
 	public close( event:Event, messageDiv:HTMLElement ):void {
@@ -73,6 +77,7 @@ export interface Message {
 	errors?:any[];
 	stack?:string;
 	type?:string;
+	duration?:number;
 }
 
 export class Types {

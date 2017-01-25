@@ -10,8 +10,9 @@ import * as Pointer from "carbonldp/Pointer";
 
 import { RolesService } from "./../roles.service";
 import { DocumentExplorerLibrary } from "carbonldp-panel/document-explorer/document-explorer-library";
-import { Message } from "carbonldp-panel/messages-area/message.component";
+import { Message, Types } from "carbonldp-panel/messages-area/message.component";
 import { ErrorMessageGenerator } from "carbonldp-panel/messages-area/error/error-message-generator";
+import { MessagesAreaService } from "carbonldp-panel/messages-area/messages-area.service";
 
 import template from "./role-details.component.html!";
 import style from "./role-details.component.css!text";
@@ -28,6 +29,7 @@ export class RoleDetailsComponent {
 	private element:ElementRef;
 	private $element:JQuery;
 	private rolesService:RolesService;
+	private messagesAreaService:MessagesAreaService;
 	private Modes:Modes = Modes;
 	private roleFormModel:RoleFormModel = {
 		slug: "",
@@ -55,10 +57,11 @@ export class RoleDetailsComponent {
 	@Output() onError:EventEmitter<boolean> = new EventEmitter<boolean>();
 
 
-	constructor( element:ElementRef, rolesService:RolesService ) {
+	constructor( element:ElementRef, rolesService:RolesService, messagesAreaService:MessagesAreaService ) {
 		this.element = element;
 		this.$element = $( this.element.nativeElement );
 		this.rolesService = rolesService;
+		this.messagesAreaService = messagesAreaService;
 	}
 
 	ngAfterViewInit():void { }
@@ -134,7 +137,13 @@ export class RoleDetailsComponent {
 		} ).then( ( persistedRole:PersistedRole.Class ) => {
 			this.onSuccess.emit( this.role.id );
 			this.cancelForm();
-			this.displaySuccessMessage = true;
+			let successMessage:Message = {
+				title: "The role was created correctly.",
+				content: "The role was create correctly.",
+				type: Types.SUCCESS,
+				duration: 4000,
+			};
+			this.messagesAreaService.addMessage( successMessage );
 		} ).catch( ( error ) => {
 			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
 			if( typeof error.name !== "undefined" ) this.errorMessage.title = error.name;

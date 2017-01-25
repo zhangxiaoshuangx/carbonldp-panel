@@ -1,5 +1,5 @@
-<div class="ui message transition {{type}}" #message>
-	<i class="close icon" *ngIf="closable" (click)="close($event, message)"></i>
+<div class="ui message transition {{type}}" #messageElement>
+	<i class="close icon" *ngIf="closable" (click)="close($event, messageElement)"></i>
 	<div class="header">
 		{{title}}
 	</div>
