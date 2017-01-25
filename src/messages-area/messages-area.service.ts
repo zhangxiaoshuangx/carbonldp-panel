@@ -9,15 +9,21 @@ export class MessagesAreaService {
 
 	constructor() { }
 
-	addMessage( title?:string, content?:string, type?:string, statusCode?:string, statusMessage?:string, endpoint?:string ):void {
-		let message:Message = {
-			title: title,
-			content: content,
-			type: type,
-			statusCode: statusCode,
-			statusMessage: statusMessage,
-			endpoint: endpoint,
-		};
+	addMessage( message:Message ):void;
+	addMessage( title:string, content?:string, type?:string, statusCode?:string, statusMessage?:string, endpoint?:string, duration?:number ):void;
+	addMessage( titleOrMessage?:string|Message, content?:string, type?:string, statusCode?:string, statusMessage?:string, endpoint?:string, duration?:number ):void {
+		let message:Message = {};
+		if( typeof titleOrMessage === "string" ) {
+			message.title = titleOrMessage;
+			message.content = content;
+			message.type = type;
+			message.statusCode = statusCode;
+			message.statusMessage = statusMessage;
+			message.endpoint = endpoint;
+			message.duration = duration;
+		} else {
+			message = titleOrMessage;
+		}
 		this.addMessageEmitter.emit( message );
 	}
 }
