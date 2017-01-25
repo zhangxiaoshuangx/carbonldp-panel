@@ -1,7 +1,7 @@
 import * as HTTP from "carbonldp/HTTP";
 import * as JSONLDParser from "carbonldp/JSONLD/Parser";
 
-import { Message } from "../message.component";
+import { Message, Types } from "../message.component";
 import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
 
@@ -13,7 +13,8 @@ export class ErrorMessageGenerator {
 			content: "",
 			statusCode: "",
 			statusMessage: "",
-			endpoint: ""
+			endpoint: "",
+			type: Types.ERROR,
 		};
 
 		errorMessage.title = error.hasOwnProperty( "name" ) ? error.name : "";

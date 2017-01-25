@@ -9,10 +9,11 @@ export class MessagesAreaService {
 
 	constructor() { }
 
-	addMessage( title?:string, content?:string, statusCode?:string, statusMessage?:string, endpoint?:string ):void {
+	addMessage( title?:string, content?:string, type?:string, statusCode?:string, statusMessage?:string, endpoint?:string ):void {
 		let message:Message = {
 			title: title,
 			content: content,
+			type: type,
 			statusCode: statusCode,
 			statusMessage: statusMessage,
 			endpoint: endpoint,
