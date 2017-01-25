@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/SDKContext", "../documents-resolver.service", "carbonldp-panel/errors-area/error-message-generator", "carbonldp-panel/document-explorer/document-explorer-library", "semantic-ui/semantic", "./document-deleter.component.html!", "./document-deleter.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/SDKContext", "../documents-resolver.service", "carbonldp-panel/document-explorer/document-explorer-library", "carbonldp-panel/messages-area/error/error-message-generator", "semantic-ui/semantic", "./document-deleter.component.html!", "./document-deleter.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/SDKContext", "../documents-resolver
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, SDKContext, documents_resolver_service_1, error_message_generator_1, document_explorer_library_1, document_deleter_component_html_1, document_deleter_component_css_text_1;
+    var core_1, SDKContext, documents_resolver_service_1, document_explorer_library_1, error_message_generator_1, document_deleter_component_html_1, document_deleter_component_css_text_1;
     var DocumentDeleterComponent;
     return {
         setters:[
@@ -23,11 +23,11 @@ System.register(["@angular/core", "carbonldp/SDKContext", "../documents-resolver
             function (documents_resolver_service_1_1) {
                 documents_resolver_service_1 = documents_resolver_service_1_1;
             },
-            function (error_message_generator_1_1) {
-                error_message_generator_1 = error_message_generator_1_1;
-            },
             function (document_explorer_library_1_1) {
                 document_explorer_library_1 = document_explorer_library_1_1;
+            },
+            function (error_message_generator_1_1) {
+                error_message_generator_1 = error_message_generator_1_1;
             },
             function (_1) {},
             function (document_deleter_component_html_1_1) {

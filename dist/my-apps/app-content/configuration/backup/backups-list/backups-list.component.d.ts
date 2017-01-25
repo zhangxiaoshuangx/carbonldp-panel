@@ -5,7 +5,7 @@ import * as App from "carbonldp/App";
 import * as Response from "carbonldp/HTTP/Response";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
 import { BackupsService } from "../backups.service";
-import { Message } from "./../../../../../errors-area/error-message.component";
+import { Message } from "carbonldp-panel/messages-area/message.component";
 import "semantic-ui/semantic";
 export declare class BackupsListComponent implements AfterViewInit, OnChanges, OnDestroy {
     element: ElementRef;

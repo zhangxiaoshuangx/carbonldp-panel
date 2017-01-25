@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/App", "carbonldp/Auth/Agent", "carbonldp-panel/errors-area/error-message-generator", "../agents.service", "semantic-ui/semantic", "./agent-deleter.component.html!", "./agent-deleter.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/App", "carbonldp/Auth/Agent", "carbonldp-panel/messages-area/error/error-message-generator", "../agents.service", "semantic-ui/semantic", "./agent-deleter.component.html!", "./agent-deleter.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {

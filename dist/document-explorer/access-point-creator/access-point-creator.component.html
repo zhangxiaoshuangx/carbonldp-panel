@@ -78,7 +78,7 @@
 		</div>
 
 
-		<cp-error-message [message]="errorMessage" [closable]="true" (onClose)="clearErrorMessage($event)" *ngIf="!!errorMessage"></cp-error-message>
+		<cp-message [message]="errorMessage" [type]="'error'" [closable]="true" (onClose)="clearErrorMessage($event)" *ngIf="!!errorMessage"></cp-message>
 	</div>
 	<div class="actions">
 		<button type="button" class="ui mini basic button" tabindex="5" title="Cancel creation" (click)="hideForm(createAccessPointForm)">Cancel</button>

@@ -3,16 +3,13 @@ import { Component, Input, Output, ElementRef, SimpleChange, EventEmitter, OnCha
 import $ from "jquery";
 import "semantic-ui/semantic";
 
-import template from "./error-message.component.html!";
-import style from "./error-message.component.css!text";
+import template from "./message.component.html!";
+import style from "./message.component.css!text";
 
 @Component( {
 	selector: "cp-message",
 	template: template,
 	styles: [ style ],
-	host: {
-		"[class]": "'ui message transition'" + "type",
-	},
 } )
 
 export class MessageComponent implements OnChanges, AfterViewInit {
@@ -56,6 +53,7 @@ export class MessageComponent implements OnChanges, AfterViewInit {
 		this.endpoint = this.message.endpoint;
 		this.errors = this.message.errors;
 		this.stack = this.message.stack;
+		this.type = this.message.type;
 	}
 
 	public close( event:Event, messageDiv:HTMLElement ):void {
@@ -74,6 +72,7 @@ export interface Message {
 	endpoint?:string;
 	errors?:any[];
 	stack?:string;
+	type?:string;
 }
 
 export class Types {

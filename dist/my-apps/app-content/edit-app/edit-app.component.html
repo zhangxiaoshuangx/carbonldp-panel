@@ -83,10 +83,11 @@
 		Submit
 	</button>
 </form>
-<cp-error-message *ngIf="!!errorMessage"
-                  [message]="errorMessage"
-                  [closable]="true"
-                  (onClose)="clearMessages($event)"></cp-error-message>
+<cp-message *ngIf="!!errorMessage"
+            [message]="errorMessage"
+            [type]="'error'"
+            [closable]="true"
+            (onClose)="clearMessages($event)"></cp-message>
 <div class="ui bottom attached success message" *ngIf="!!displaySuccessMessage">
 	<i class="close icon" (click)="clearMessages($event)"></i>
 	The app "{{app.name}}" was edited successfully.
