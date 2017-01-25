@@ -11,7 +11,7 @@ import * as PersistedProtectedDocument from "carbonldp/PersistedProtectedDocumen
 import * as PersistedDocument from "carbonldp/PersistedDocument";
 
 import { AppContextService } from "./../app-context.service";
-import { Message } from "./../../errors-area/error-message.component";
+import { Message } from "carbonldp-panel/messages-area/message.component";
 
 
 import "semantic-ui/semantic";

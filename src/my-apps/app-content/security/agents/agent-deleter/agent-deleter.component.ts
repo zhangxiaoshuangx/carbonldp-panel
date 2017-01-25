@@ -4,8 +4,8 @@ import * as App from "carbonldp/App";
 import * as Agent from "carbonldp/Auth/Agent";
 import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
-import { Message } from "carbonldp-panel/errors-area/error-message.component";
-import { ErrorMessageGenerator } from "carbonldp-panel/errors-area/error-message-generator";
+import { Message } from "carbonldp-panel/messages-area/message.component";
+import { ErrorMessageGenerator } from "carbonldp-panel/messages-area/error/error-message-generator";
 import { AgentsService } from "../agents.service";
 
 import "semantic-ui/semantic";

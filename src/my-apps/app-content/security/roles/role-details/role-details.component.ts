@@ -10,8 +10,8 @@ import * as Pointer from "carbonldp/Pointer";
 
 import { RolesService } from "./../roles.service";
 import { DocumentExplorerLibrary } from "carbonldp-panel/document-explorer/document-explorer-library";
-import { Message } from "carbonldp-panel/errors-area/error-message.component";
-import { ErrorMessageGenerator } from "carbonldp-panel/errors-area/error-message-generator";
+import { Message } from "carbonldp-panel/messages-area/message.component";
+import { ErrorMessageGenerator } from "carbonldp-panel/messages-area/error/error-message-generator";
 
 import template from "./role-details.component.html!";
 import style from "./role-details.component.css!text";

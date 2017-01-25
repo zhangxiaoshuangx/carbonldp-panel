@@ -10,8 +10,8 @@ import * as RDF from "carbonldp/RDF";
 import { AgentsService } from "../agents.service";
 import { RolesService } from "../../roles/roles.service";
 import { DocumentExplorerLibrary } from "carbonldp-panel/document-explorer/document-explorer-library";
-import { Message } from "carbonldp-panel/errors-area/error-message.component";
-import { ErrorMessageGenerator } from "carbonldp-panel/errors-area/error-message-generator";
+import { Message } from "carbonldp-panel/messages-area/message.component";
+import { ErrorMessageGenerator } from "carbonldp-panel/messages-area/error/error-message-generator";
 
 import template from "./agent-details.component.html!";
 import style from "./agent-details.component.css!text";

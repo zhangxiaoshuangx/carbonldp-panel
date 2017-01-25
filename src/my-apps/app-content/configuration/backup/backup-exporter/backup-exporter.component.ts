@@ -4,7 +4,7 @@ import * as App from "carbonldp/App";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
 import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
-import { Message } from "carbonldp-panel/errors-area/error-message.component";
+import { Message } from "carbonldp-panel/messages-area/message.component";
 import { JobsService } from "../../job/jobs.service";
 import * as Job from "../../job/job";
 

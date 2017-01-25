@@ -6,8 +6,8 @@ import * as PersistedRole from "carbonldp/App/PersistedRole";
 
 import { Modes } from "../role-details/role-details.component";
 import { RolesService } from "../roles.service";
-import { Message } from "carbonldp-panel/errors-area/error-message.component";
-import { ErrorMessageGenerator } from "carbonldp-panel/errors-area/error-message-generator";
+import { Message } from "carbonldp-panel/messages-area/message.component";
+import { ErrorMessageGenerator } from "carbonldp-panel/messages-area/error/error-message-generator";
 
 import template from "./roles-browser.component.html!";
 import style from "./roles-browser.component.css!text";

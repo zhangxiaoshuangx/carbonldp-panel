@@ -3,7 +3,7 @@ import { Component } from "@angular/core";
 import * as App from "carbonldp/App";
 
 import { AppContentService } from "./../../app-content/app-content.service";
-import { ErrorsAreaService } from "carbonldp-panel/errors-area/errors-area.service";
+import { MessagesAreaService } from "carbonldp-panel/messages-area/messages-area.service";
 
 import template from "./sparql-client.view.html!";
 
@@ -16,11 +16,11 @@ export class SPARQLClientView {
 	$element:JQuery;
 	appContext:App.Context;
 	canDisplay:boolean = true;
-	private errorsAreaService:ErrorsAreaService;
+	private messagesAreaService:MessagesAreaService;
 
-	constructor( errorsAreaService:ErrorsAreaService, appContentService:AppContentService ) {
+	constructor( messagesAreaService:MessagesAreaService, appContentService:AppContentService ) {
 		this.appContext = appContentService.activeApp.context;
-		this.errorsAreaService = errorsAreaService;
+		this.messagesAreaService = messagesAreaService;
 		appContentService.onAppHasChanged.subscribe( ( app:App.Class ) => {
 			this.appContext = appContentService.activeApp.context;
 			this.canDisplay = false;
@@ -29,9 +29,10 @@ export class SPARQLClientView {
 	}
 
 	notifyErrorAreaService( error:any ):void {
-		this.errorsAreaService.addError(
+		this.messagesAreaService.addMessage(
 			error.title,
 			error.content,
+			error.type,
 			error.statusCode,
 			error.statusMessage,
 			error.endpoint

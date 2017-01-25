@@ -4,8 +4,6 @@ import * as App from "carbonldp/App";
 import * as PersistedAgent from "carbonldp/App/PersistedAgent";
 
 import { AgentsService } from "../agents.service";
-import { Message } from "carbonldp-panel/errors-area/error-message.component";
-import { ErrorMessageGenerator } from "carbonldp-panel/errors-area/error-message-generator";
 
 import template from "./agents-chooser.component.html!";
 import style from "./agents-chooser.component.css!text";

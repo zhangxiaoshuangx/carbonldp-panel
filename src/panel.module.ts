@@ -11,7 +11,7 @@ import { RegisterComponent } from "./register.component";
 import { SidebarComponent } from "./sidebar.component";
 import { SidebarItemsComponent } from "./sidebar-items.component";
 import { MessageComponent } from "./messages-area/message.component";
-import { MessagesAreaComponent } from "./messages-area/messages-area2.component";
+import { MessagesAreaComponent } from "./messages-area/messages-area.component";
 import { MenuBarComponent } from "./menu-bar.component";
 import { PaginatorComponent } from "./paginator/paginator.component";
 import { ErrorLabelComponent } from "./messages-area/error/error-label.component";

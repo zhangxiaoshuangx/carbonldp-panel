@@ -7,7 +7,7 @@ import { StatusCode as HTTPStatusCode } from "carbonldp/HTTP";
 import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
 import { BackupsService } from "../backups.service";
-import { Message } from "./../../../../../errors-area/error-message.component";
+import { Message } from "carbonldp-panel/messages-area/message.component";
 
 import $ from "jquery";
 import "semantic-ui/semantic";

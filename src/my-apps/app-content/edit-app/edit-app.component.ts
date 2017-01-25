@@ -8,7 +8,7 @@ import * as PersistedApp from "carbonldp/PersistedApp";
 import { AppContextService } from "../../app-context.service";
 import * as App from "../app";
 
-import { Message } from "../../../errors-area/error-message.component";
+import { Message } from "carbonldp-panel/messages-area/message.component";
 
 import "semantic-ui/semantic";
 

@@ -8,8 +8,8 @@ import * as URI from "carbonldp/RDF/URI";
 
 import { AgentsService } from "../agents.service";
 import { Modes as AgentDetailsModes } from "../agent-details/agent-details.component";
-import { Message } from "carbonldp-panel/errors-area/error-message.component";
-import { ErrorMessageGenerator } from "carbonldp-panel/errors-area/error-message-generator";
+import { Message } from "carbonldp-panel/messages-area/message.component";
+import { ErrorMessageGenerator } from "carbonldp-panel/messages-area/error/error-message-generator";
 
 import template from "./agents-list.component.html!";
 import style from "./agents-list.component.css!text";

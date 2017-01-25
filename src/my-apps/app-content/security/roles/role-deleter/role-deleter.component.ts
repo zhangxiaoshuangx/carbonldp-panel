@@ -4,8 +4,8 @@ import * as App from "carbonldp/App";
 import * as PersistedRole from "carbonldp/App/PersistedRole";
 import * as HTTP from "carbonldp/HTTP";
 
-import { Message } from "carbonldp-panel/errors-area/error-message.component";
-import { ErrorMessageGenerator } from "carbonldp-panel/errors-area/error-message-generator";
+import { Message } from "carbonldp-panel/messages-area/message.component";
+import { ErrorMessageGenerator } from "carbonldp-panel/messages-area/error/error-message-generator";
 import { RolesService } from "../roles.service";
 
 import "semantic-ui/semantic";

@@ -9,7 +9,7 @@ import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 import { BackupsService } from "../backups.service";
 import { JobsService } from "../../job/jobs.service";
 import * as Job from "../../job/job";
-import { Message } from "./../../../../../errors-area/error-message.component";
+import { Message } from "carbonldp-panel/messages-area/message.component";
 
 import "semantic-ui/semantic";
 
