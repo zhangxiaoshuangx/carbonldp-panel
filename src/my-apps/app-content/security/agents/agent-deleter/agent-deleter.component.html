@@ -16,7 +16,7 @@
 				<span>If you delete it, every reference made to this agent will also be deleted.</span><br>
 				<span>Do you really want to proceed?</span>
 			</p>
-			<cp-error-message [message]="errorMessage" [closable]="true" (onClose)="clearErrorMessage()" *ngIf="!!errorMessage"></cp-error-message>
+			<cp-message [message]="errorMessage" [type]="'error'" [closable]="true" (onClose)="clearErrorMessage()" *ngIf="!!errorMessage"></cp-message>
 		</div>
 	</div>
 	<div class="actions">

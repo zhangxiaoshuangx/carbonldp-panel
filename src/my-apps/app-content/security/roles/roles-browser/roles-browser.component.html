@@ -2,7 +2,7 @@
 	<div class="stretched row">
 		<div class="error messages" *ngIf="messages.length > 0">
 			<template ngFor let-message="$implicit" [ngForOf]="messages" let-i="index">
-				<cp-error-message [message]="message" [closable]="true"></cp-error-message>
+				<cp-message [message]="message" [type]="'error'"  [closable]="true"></cp-message>
 			</template>
 		</div>
 		<cp-roles-tree-view class="six wide column tree"

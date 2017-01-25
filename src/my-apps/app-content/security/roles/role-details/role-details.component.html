@@ -140,7 +140,7 @@
 			<p>The role was saved correctly with the agents subscriptions.</p>
 		</div>
 	</div>
-	<cp-error-message class="ui attached segment" [message]="errorMessage" [closable]="true" (onClose)="closeError($event)" *ngIf="!!errorMessage"></cp-error-message>
+	<cp-message class="ui attached segment" [message]="errorMessage" [type]="'error'"  [closable]="true" (onClose)="closeError($event)" *ngIf="!!errorMessage"></cp-message>
 	<div *ngIf="mode !== Modes.READ"
 	     class="ui bottom attached segment"
 	     [ngClass]="{embedded: embedded}">

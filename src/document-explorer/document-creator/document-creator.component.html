@@ -79,7 +79,7 @@
 				</div>
 			</div>
 		</div>
-		<cp-error-message [message]="errorMessage" [closable]="true" *ngIf="!!errorMessage"></cp-error-message>
+		<cp-message [message]="errorMessage" [type]="'error'" [closable]="true" (onClose)="clearErrorMessage($event)" *ngIf="!!errorMessage"></cp-message>
 	</div>
 	<div class="actions">
 		<button type="button" class="ui mini basic button" title="Cancel creation" (click)="hideForm()">Cancel</button>

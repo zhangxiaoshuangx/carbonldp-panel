@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument", "carbonldp/HTTP", "../backups.service", "jquery", "semantic-ui/semantic", "./backups-list.component.html!", "./backups-list.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument", "carbonldp/HTTP", "../backups.service", "carbonldp-panel/messages-area/message.component", "jquery", "semantic-ui/semantic", "./backups-list.component.html!", "./backups-list.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, App, PersistedDocument, HTTP_1, backups_service_1, jquery_1, backups_list_component_html_1, backups_list_component_css_text_1;
+    var core_1, App, PersistedDocument, HTTP_1, backups_service_1, message_component_1, jquery_1, backups_list_component_html_1, backups_list_component_css_text_1;
     var BackupsListComponent;
     return {
         setters:[
@@ -28,6 +28,9 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
             },
             function (backups_service_1_1) {
                 backups_service_1 = backups_service_1_1;
+            },
+            function (message_component_1_1) {
+                message_component_1 = message_component_1_1;
             },
             function (jquery_1_1) {
                 jquery_1 = jquery_1_1;
@@ -101,6 +104,7 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
                     }).catch(function (error) {
                         var errorMessage = {
                             title: error.name,
+                            type: message_component_1.Types.ERROR,
                             content: "Couldn't fetch backups. I'll try again in " + (_this.refreshPeriod / 1000) + " seconds.",
                             endpoint: error.response.request.responseURL,
                             statusCode: "" + error.response.request.status,
@@ -120,6 +124,7 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
                         var deleteMessage;
                         deleteMessage = {
                             title: error.name,
+                            type: message_component_1.Types.ERROR,
                             content: "Couldn't generate download link.",
                             endpoint: error.response.request.responseURL,
                             statusCode: "" + error.response.request.status,
@@ -149,6 +154,7 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
                         if (errorOrResponse.hasOwnProperty("response")) {
                             deleteMessage = {
                                 title: errorOrResponse.name,
+                                type: message_component_1.Types.ERROR,
                                 content: "Couldn't delete the backup.",
                                 endpoint: errorOrResponse.response.request.responseURL,
                                 statusCode: "" + errorOrResponse.response.request.status,
@@ -158,6 +164,7 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
                         else {
                             deleteMessage = {
                                 title: errorOrResponse.request.statusText,
+                                type: message_component_1.Types.ERROR,
                                 content: "Couldn't delete the backup.",
                                 endpoint: errorOrResponse.request.responseURL,
                                 statusCode: "" + errorOrResponse.status,

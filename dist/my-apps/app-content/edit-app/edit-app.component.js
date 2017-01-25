@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "carbonldp/RDF/URI", "../../app-context.service", "../app", "semantic-ui/semantic", "./edit-app.component.html!", "./edit-app.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "carbonldp/RDF/URI", "../../app-context.service", "../app", "carbonldp-panel/messages-area/error/error-message-generator", "semantic-ui/semantic", "./edit-app.component.html!", "./edit-app.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "carbonl
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, Carbon_1, HTTP, URI, app_context_service_1, App, edit_app_component_html_1, edit_app_component_css_text_1;
+    var core_1, Carbon_1, HTTP, URI, app_context_service_1, App, error_message_generator_1, edit_app_component_html_1, edit_app_component_css_text_1;
     var EditAppComponent;
     return {
         setters:[
@@ -31,6 +31,9 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "carbonl
             },
             function (App_1) {
                 App = App_1;
+            },
+            function (error_message_generator_1_1) {
+                error_message_generator_1 = error_message_generator_1_1;
             },
             function (_1) {},
             function (edit_app_component_html_1_1) {
@@ -104,13 +107,8 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "carbonl
                         var slug = URI.Util.getSlug(updatedApp.id);
                         return _this.appContextService.updateContext(slug);
                     }).catch(function (error) {
-                        _this.errorMessage = {
-                            title: error.name,
-                            content: _this.getErrorMessage(error),
-                            statusCode: "" + error.response.status,
-                            statusMessage: error.response.request.statusText,
-                            endpoint: error.response.request.responseURL,
-                        };
+                        _this.errorMessage = error_message_generator_1.ErrorMessageGenerator.getErrorMessage(error);
+                        _this.errorMessage.content = _this.getErrorMessage(error);
                     }).then(function () {
                         _this.submitting = false;
                     });

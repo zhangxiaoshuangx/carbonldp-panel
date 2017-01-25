@@ -641,29 +641,20 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "./respo
                     jquery_1.default(evt.srcElement).closest(".ui.message").transition("fade");
                 };
                 SPARQLClientComponent.prototype.getMessage = function (error) {
-                    // switch( typeof error ) {
-                    // 	case "string":
-                    // 		return <Message>{
-                    // 			title: error,
-                    // 			content: "",
-                    // 			statusCode: "",
-                    // 			statusMessage: "",
-                    // 			endpoint: "",
-                    // 		};
-                    // 	case "object":
-                    // 		return <Message>{
-                    // 			title: error.name,
-                    // 			content: error.message,
-                    // 			statusCode: error.response.status,
-                    // 			statusMessage: error.response.request.statusText,
-                    // 			endpoint: error.response.request.responseURL,
-                    // 		};
-                    // 	default:
-                    // 		return <Message>{
-                    // 			title: error.toString(),
-                    // 		};
-                    // }
-                    return error_message_generator_1.ErrorMessageGenerator.getErrorMessage(error);
+                    switch (typeof error) {
+                        case "string":
+                            return {
+                                title: error,
+                                content: "",
+                                statusCode: "",
+                                statusMessage: "",
+                                endpoint: "",
+                                type: "error",
+                            };
+                        default:
+                            return error_message_generator_1.ErrorMessageGenerator.getErrorMessage(error);
+                            ;
+                    }
                 };
                 SPARQLClientComponent.prototype.buildResponse = function (duration, resultset, responseType, query) {
                     var clientResponse = new response_component_1.SPARQLClientResponse();

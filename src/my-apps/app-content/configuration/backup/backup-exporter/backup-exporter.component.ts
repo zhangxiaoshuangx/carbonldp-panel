@@ -4,7 +4,7 @@ import * as App from "carbonldp/App";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
 import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
-import { Message } from "carbonldp-panel/messages-area/message.component";
+import { Message, Types } from "carbonldp-panel/messages-area/message.component";
 import { JobsService } from "../../job/jobs.service";
 import * as Job from "../../job/job";
 
@@ -44,6 +44,7 @@ export class BackupExporterComponent implements OnDestroy {
 				if( executionOrError.hasOwnProperty( "response" ) ) return Promise.reject( executionOrError );
 				let errorMessage:Message = <Message>{
 					title: "Couldn't execute backup.",
+					type: Types.ERROR,
 					content: "An error occurred while executing your export backup job. This may be caused due to a bad configuration during the creation of your job.",
 					statusMessage: execution[ Job.Execution.ERROR_DESCRIPTION ]
 				};
@@ -54,6 +55,7 @@ export class BackupExporterComponent implements OnDestroy {
 		} ).catch( ( error:HTTPError ) => {
 			let errorMessage:Message = <Message>{
 				title: error.name,
+				type: Types.ERROR,
 				content: "Couldn't execute backup.",
 				endpoint: (<any>error.response.request).responseURL,
 				statusCode: "" + (<XMLHttpRequest>error.response.request).status,
@@ -84,6 +86,7 @@ export class BackupExporterComponent implements OnDestroy {
 				} ).catch( ( error:HTTPError ) => {
 					let errorMessage:Message = <Message>{
 						title: error.name,
+						type: Types.ERROR,
 						content: "Couldn't monitor the exporting backup status.",
 						endpoint: (<any>error.response.request).responseURL,
 						statusCode: "" + (<XMLHttpRequest>error.response.request).status,

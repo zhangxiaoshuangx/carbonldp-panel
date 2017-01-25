@@ -11,7 +11,8 @@ import * as PersistedProtectedDocument from "carbonldp/PersistedProtectedDocumen
 import * as PersistedDocument from "carbonldp/PersistedDocument";
 
 import { AppContextService } from "./../app-context.service";
-import { Message } from "carbonldp-panel/messages-area/message.component";
+import { Message, Types } from "carbonldp-panel/messages-area/message.component";
+import { ErrorMessageGenerator } from "carbonldp-panel/messages-area/error/error-message-generator";
 
 
 import "semantic-ui/semantic";
@@ -107,10 +108,13 @@ export class CreateAppComponent implements OnInit {
 			return this.grantAccess( acl );
 		} ).catch( ( error:HTTP.Errors.Error ) => {
 			console.error( error );
-			if( error.response ) this.errorMessage = this.getHTTPErrorMessage( error, this.getErrorMessage( error ) );
-			else {
+			if( error.response ) {
+				this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
+				this.errorMessage.content = this.getErrorMessage( error );
+			} else {
 				this.errorMessage = <Message>{
 					title: error.name,
+					type: Types.ERROR,
 					content: JSON.stringify( error )
 				};
 			}

@@ -160,7 +160,7 @@
 			</div>
 		</div>
 	</div>
-	<cp-error-message class="ui attached segment" [message]="errorMessage" [closable]="true" (onClose)="closeError($event)" *ngIf="!!errorMessage"></cp-error-message>
+	<cp-message class="ui attached segment" [message]="errorMessage" [type]="'error'"  [closable]="true" (onClose)="closeError($event)" *ngIf="!!errorMessage"></cp-message>
 	<div class="ui bottom attached segment" *ngIf="mode !== Modes.READ">
 		<button class="ui mini basic right floated button" type="submit"
 		        [ngClass]="{ 'disabled': !agentForm.valid, 'green': agentForm.valid  }"

@@ -9,6 +9,7 @@ import { AppContextService } from "../../app-context.service";
 import * as App from "../app";
 
 import { Message } from "carbonldp-panel/messages-area/message.component";
+import { ErrorMessageGenerator } from "carbonldp-panel/messages-area/error/error-message-generator";
 
 import "semantic-ui/semantic";
 
@@ -99,13 +100,8 @@ export class EditAppComponent implements OnInit {
 			let slug:string = URI.Util.getSlug( updatedApp.id );
 			return this.appContextService.updateContext( slug );
 		} ).catch( ( error:HTTP.Errors.Error ):void => {
-			this.errorMessage = {
-				title: error.name,
-				content: this.getErrorMessage( error ),
-				statusCode: "" + error.response.status,
-				statusMessage: (<XMLHttpRequest>error.response.request).statusText,
-				endpoint: (<any>error.response.request).responseURL,
-			};
+			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error )
+			this.errorMessage.content = this.getErrorMessage( error );
 		} ).then( ():void => {
 			this.submitting = false;
 		} );

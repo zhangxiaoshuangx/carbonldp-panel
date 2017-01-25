@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument", "../../job/jobs.service", "../../job/job", "semantic-ui/semantic", "./backup-exporter.component.html!", "./backup-exporter.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument", "carbonldp-panel/messages-area/message.component", "../../job/jobs.service", "../../job/job", "semantic-ui/semantic", "./backup-exporter.component.html!", "./backup-exporter.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, App, PersistedDocument, jobs_service_1, Job, backup_exporter_component_html_1, backup_exporter_component_css_text_1;
+    var core_1, App, PersistedDocument, message_component_1, jobs_service_1, Job, backup_exporter_component_html_1, backup_exporter_component_css_text_1;
     var BackupExporterComponent;
     return {
         setters:[
@@ -22,6 +22,9 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
             },
             function (PersistedDocument_1) {
                 PersistedDocument = PersistedDocument_1;
+            },
+            function (message_component_1_1) {
+                message_component_1 = message_component_1_1;
             },
             function (jobs_service_1_1) {
                 jobs_service_1 = jobs_service_1_1;
@@ -54,6 +57,7 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
                                 return Promise.reject(executionOrError);
                             var errorMessage = {
                                 title: "Couldn't execute backup.",
+                                type: message_component_1.Types.ERROR,
                                 content: "An error occurred while executing your export backup job. This may be caused due to a bad configuration during the creation of your job.",
                                 statusMessage: execution[Job.Execution.ERROR_DESCRIPTION]
                             };
@@ -64,6 +68,7 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
                     }).catch(function (error) {
                         var errorMessage = {
                             title: error.name,
+                            type: message_component_1.Types.ERROR,
                             content: "Couldn't execute backup.",
                             endpoint: error.response.request.responseURL,
                             statusCode: "" + error.response.request.status,
@@ -94,6 +99,7 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/PersistedDocument"
                             }).catch(function (error) {
                                 var errorMessage = {
                                     title: error.name,
+                                    type: message_component_1.Types.ERROR,
                                     content: "Couldn't monitor the exporting backup status.",
                                     endpoint: error.response.request.responseURL,
                                     statusCode: "" + error.response.request.status,

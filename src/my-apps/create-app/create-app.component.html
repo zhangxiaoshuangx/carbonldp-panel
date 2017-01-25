@@ -48,10 +48,11 @@
 </form>
 
 
-<cp-error-message *ngIf="!!errorMessage"
-                  [message]="errorMessage"
-                  [closable]="true"
-                  (onClose)="clearMessages($event)"></cp-error-message>
+<cp-message *ngIf="!!errorMessage"
+            [message]="errorMessage"
+            [type]="'error'"
+            [closable]="true"
+            (onClose)="clearMessages($event)"></cp-message>
 <div class="ui bottom attached warning icon message" *ngIf="!!displayWarningMessage">
 	<i class="warning sign icon"></i>
 	<i class="close icon" (click)="clearMessages($event)"></i>

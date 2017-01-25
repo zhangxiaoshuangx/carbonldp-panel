@@ -1,1 +1,1 @@
-<cp-error-message *ngFor="let message of messages; let i=index;" [message]="message" [closable]="true" (onClose)="removeMessage($event, message, i)"></cp-error-message>
+<cp-message *ngFor="let message of messages; let i=index;" [message]="message" [type]="message.type" [closable]="true" (onClose)="removeMessage($event, message, i)"></cp-message>
