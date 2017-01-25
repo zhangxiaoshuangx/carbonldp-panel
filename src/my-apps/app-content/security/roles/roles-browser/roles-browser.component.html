@@ -1,8 +1,11 @@
 <div class="ui grid segment">
 	<div class="stretched row">
+		<div class="ui active inverted dimmer" *ngIf="loading">
+			<div class="ui text loader">Loading...</div>
+		</div>
 		<div class="error messages" *ngIf="messages.length > 0">
 			<template ngFor let-message="$implicit" [ngForOf]="messages" let-i="index">
-				<cp-message [message]="message" [type]="'error'"  [closable]="true"></cp-message>
+				<cp-message [message]="message" [type]="'error'" [closable]="true"></cp-message>
 			</template>
 		</div>
 		<cp-roles-tree-view class="six wide column tree"
@@ -17,8 +20,7 @@
 		                    (onError)="handleError($event)"></cp-roles-tree-view>
 		<div *ngIf="loading"
 		     class="ui ten wide column role details basic segment">
-			<div class="ui icon message">
-				<i class="notched circle loading icon"></i>
+			<div class="ui message">
 				<div class="content">
 					<div class="header">
 						Just one second
