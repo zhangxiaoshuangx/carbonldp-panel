@@ -1,97 +1,69 @@
-System.register(["@angular/router", "./app-content.resolver", "./app-content.view", "./dashboard/dashboard.view", "./sparql-client/sparql-client.view", "./edit-app/edit-app.view", "./explorer/explorer.view", "./configuration/configuration.view", "./security/security.module"], function(exports_1, context_1) {
-    "use strict";
-    var __moduleName = context_1 && context_1.id;
-    var router_1, app_content_resolver_1, app_content_view_1, dashboard_view_1, sparql_client_view_1, edit_app_view_1, explorer_view_1, configuration_view_1, security_module_1;
-    var AppContentRoutes, routing;
-    return {
-        setters:[
-            function (router_1_1) {
-                router_1 = router_1_1;
+"use strict";
+var router_1 = require("@angular/router");
+var app_content_resolver_1 = require("./app-content.resolver");
+var app_content_view_1 = require("./app-content.view");
+var dashboard_view_1 = require("./dashboard/dashboard.view");
+var sparql_client_view_1 = require("./sparql-client/sparql-client.view");
+var edit_app_view_1 = require("./edit-app/edit-app.view");
+var explorer_view_1 = require("./explorer/explorer.view");
+var configuration_view_1 = require("./configuration/configuration.view");
+var security_module_1 = require("./security/security.module");
+var AppContentRoutes = [
+    {
+        path: "",
+        component: app_content_view_1.AppContentView,
+        resolve: {
+            app: app_content_resolver_1.AppContentResolver,
+        },
+        data: {
+            param: "slug",
+            displayName: "App",
+            title: "App",
+        },
+        children: [
+            {
+                path: "",
+                component: dashboard_view_1.DashboardView,
             },
-            function (app_content_resolver_1_1) {
-                app_content_resolver_1 = app_content_resolver_1_1;
+            {
+                path: "edit",
+                component: edit_app_view_1.EditAppView,
+                data: {
+                    alias: "edit",
+                    displayName: "Edit",
+                },
             },
-            function (app_content_view_1_1) {
-                app_content_view_1 = app_content_view_1_1;
+            {
+                path: "sparql-client",
+                component: sparql_client_view_1.SPARQLClientView,
+                data: {
+                    alias: "sparql-client",
+                    displayName: "SPARQL Client",
+                },
             },
-            function (dashboard_view_1_1) {
-                dashboard_view_1 = dashboard_view_1_1;
+            {
+                path: "explore",
+                component: explorer_view_1.ExplorerView,
+                data: {
+                    alias: "explore",
+                    displayName: "Explorer",
+                },
             },
-            function (sparql_client_view_1_1) {
-                sparql_client_view_1 = sparql_client_view_1_1;
+            {
+                path: "configure",
+                component: configuration_view_1.ConfigurationView,
+                data: {
+                    alias: "configure",
+                    displayName: "Configuration",
+                },
             },
-            function (edit_app_view_1_1) {
-                edit_app_view_1 = edit_app_view_1_1;
+            {
+                path: "security",
+                loadChildren: function () { return security_module_1.SecurityModule; },
             },
-            function (explorer_view_1_1) {
-                explorer_view_1 = explorer_view_1_1;
-            },
-            function (configuration_view_1_1) {
-                configuration_view_1 = configuration_view_1_1;
-            },
-            function (security_module_1_1) {
-                security_module_1 = security_module_1_1;
-            }],
-        execute: function() {
-            AppContentRoutes = [
-                {
-                    path: "",
-                    component: app_content_view_1.AppContentView,
-                    resolve: {
-                        app: app_content_resolver_1.AppContentResolver,
-                    },
-                    data: {
-                        param: "slug",
-                        displayName: "App",
-                        title: "App",
-                    },
-                    children: [
-                        {
-                            path: "",
-                            component: dashboard_view_1.DashboardView,
-                        },
-                        {
-                            path: "edit",
-                            component: edit_app_view_1.EditAppView,
-                            data: {
-                                alias: "edit",
-                                displayName: "Edit",
-                            },
-                        },
-                        {
-                            path: "sparql-client",
-                            component: sparql_client_view_1.SPARQLClientView,
-                            data: {
-                                alias: "sparql-client",
-                                displayName: "SPARQL Client",
-                            },
-                        },
-                        {
-                            path: "explore",
-                            component: explorer_view_1.ExplorerView,
-                            data: {
-                                alias: "explore",
-                                displayName: "Explorer",
-                            },
-                        },
-                        {
-                            path: "configure",
-                            component: configuration_view_1.ConfigurationView,
-                            data: {
-                                alias: "configure",
-                                displayName: "Configuration",
-                            },
-                        },
-                        {
-                            path: "security",
-                            loadChildren: function () { return security_module_1.SecurityModule; },
-                        },
-                    ]
-                }
-            ];
-            exports_1("routing", routing = router_1.RouterModule.forChild(AppContentRoutes));
-        }
+        ]
     }
-});
+];
+exports.routing = router_1.RouterModule.forChild(AppContentRoutes);
 
 //# sourceMappingURL=app-content.routing.js.map

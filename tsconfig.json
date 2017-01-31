@@ -1,11 +1,12 @@
 {
 	"compilerOptions": {
 		"target": "es5",
-		"module": "system",
+		"module": "commonjs",
 		"noImplicitAny": false,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"moduleResolution": "node",
+		"allowSyntheticDefaultImports": true,
 		"baseUrl": ".",
 		"paths": {
 			"angular2-carbonldp/*": [ "../angular2-carbonldp/dist/*" ],

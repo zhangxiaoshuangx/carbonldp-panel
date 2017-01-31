@@ -1,47 +1,38 @@
-System.register([], function(exports_1, context_1) {
-    "use strict";
-    var __moduleName = context_1 && context_1.id;
-    var namespace, Class, Type, ExecutionStatus, Execution;
-    return {
-        setters:[],
-        execute: function() {
-            exports_1("namespace", namespace = "https://carbonldp.com/ns/v1/platform#");
-            Class = (function () {
-                function Class() {
-                }
-                return Class;
-            }());
-            exports_1("Class", Class);
-            Type = (function () {
-                function Type() {
-                }
-                Type.EXPORT_BACKUP = namespace + "ExportBackupJob";
-                Type.IMPORT_BACKUP = namespace + "ImportBackupJob";
-                return Type;
-            }());
-            exports_1("Type", Type);
-            ExecutionStatus = (function () {
-                function ExecutionStatus() {
-                }
-                ExecutionStatus.QUEUED = namespace + "Queued";
-                ExecutionStatus.FINISHED = namespace + "Finished";
-                ExecutionStatus.ABORTED = namespace + "Aborted";
-                ExecutionStatus.ERROR = namespace + "Error";
-                ExecutionStatus.RUNNING = namespace + "Running";
-                ExecutionStatus.UNKNOWN = namespace + "Unknown";
-                return ExecutionStatus;
-            }());
-            exports_1("ExecutionStatus", ExecutionStatus);
-            Execution = (function () {
-                function Execution() {
-                }
-                Execution.STATUS = namespace + "status";
-                Execution.ERROR_DESCRIPTION = namespace + "errorDescription";
-                return Execution;
-            }());
-            exports_1("Execution", Execution);
-        }
+"use strict";
+exports.namespace = "https://carbonldp.com/ns/v1/platform#";
+var Class = (function () {
+    function Class() {
     }
-});
+    return Class;
+}());
+exports.Class = Class;
+var Type = (function () {
+    function Type() {
+    }
+    Type.EXPORT_BACKUP = exports.namespace + "ExportBackupJob";
+    Type.IMPORT_BACKUP = exports.namespace + "ImportBackupJob";
+    return Type;
+}());
+exports.Type = Type;
+var ExecutionStatus = (function () {
+    function ExecutionStatus() {
+    }
+    ExecutionStatus.QUEUED = exports.namespace + "Queued";
+    ExecutionStatus.FINISHED = exports.namespace + "Finished";
+    ExecutionStatus.ABORTED = exports.namespace + "Aborted";
+    ExecutionStatus.ERROR = exports.namespace + "Error";
+    ExecutionStatus.RUNNING = exports.namespace + "Running";
+    ExecutionStatus.UNKNOWN = exports.namespace + "Unknown";
+    return ExecutionStatus;
+}());
+exports.ExecutionStatus = ExecutionStatus;
+var Execution = (function () {
+    function Execution() {
+    }
+    Execution.STATUS = exports.namespace + "status";
+    Execution.ERROR_DESCRIPTION = exports.namespace + "errorDescription";
+    return Execution;
+}());
+exports.Execution = Execution;
 
 //# sourceMappingURL=job.js.map
