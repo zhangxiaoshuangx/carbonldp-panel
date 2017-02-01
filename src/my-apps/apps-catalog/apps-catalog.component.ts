@@ -16,11 +16,9 @@ import { AppContextService } from "./../app-context.service";
 import $ from "jquery";
 import "semantic-ui/semantic";
 
-import template from "./apps-catalog.component.html!";
-
 @Component( {
 	selector: "cp-apps-catalog",
-	template: template,
+	templateUrl: "./apps-catalog.component.html",
 	styles: [ ":host { display: block; }" ],
 } )
 export class AppsCatalogComponent implements OnInit {

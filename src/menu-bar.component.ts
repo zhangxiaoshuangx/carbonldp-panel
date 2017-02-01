@@ -6,13 +6,10 @@ import { SidebarService } from "carbonldp-panel/sidebar.service";
 
 import "semantic-ui/semantic";
 
-import template from "./menu-bar.component.html!";
-import style from "./menu-bar.component.css!text";
-
 @Component( {
 	selector: "cp-menu-bar",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./menu-bar.component.html",
+	styleUrls: [ "./menu-bar.component.scss" ],
 } )
 export class MenuBarComponent {
 	breadCrumbs:Array<any> = [];

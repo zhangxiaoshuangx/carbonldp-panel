@@ -3,13 +3,10 @@ import { Component, Input } from "@angular/core";
 import { RouterService } from "carbonldp-panel/router.service";
 import { SidebarItem } from "carbonldp-panel/sidebar.service";
 
-import template from "./sidebar-items.component.html!";
-import style from "./sidebar-items.component.css!text";
-
 @Component( {
 	selector: "cp-sidebar-items",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./sidebar-items.component.html",
+	styleUrls: [ "./sidebar-items.component.scss" ],
 } )
 export class SidebarItemsComponent {
 	@Input( "items" ) items:SidebarItem[];

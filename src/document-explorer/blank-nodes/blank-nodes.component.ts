@@ -8,13 +8,10 @@ import { BlankNodeRow } from "./blank-node.component"
 import $ from "jquery";
 import "semantic-ui/semantic";
 
-import template from "./blank-nodes.component.html!";
-import style from "./blank-nodes.component.css!text";
-
 @Component( {
 	selector: "cp-blank-nodes",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./blank-nodes.component.html",
+	styleUrls: [ "./blank-nodes.component.scss" ],
 } )
 
 export class BlankNodesComponent implements AfterViewInit, OnChanges {

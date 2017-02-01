@@ -12,13 +12,10 @@ import "semantic-ui/semantic";
 
 import "jstree/dist/jstree.min";
 
-import template from "./document-tree-view.component.html!";
-import style from "./document-tree-view.component.css!text";
-
 @Component( {
 	selector: "cp-document-treeview",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./document-tree-view.component.html",
+	styleUrls: [ "./document-tree-view.component.scss" ],
 } )
 
 export class DocumentTreeViewComponent implements AfterViewInit, OnInit {

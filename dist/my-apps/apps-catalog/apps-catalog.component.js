@@ -18,7 +18,6 @@ var App = require("./../app-content/app");
 var app_context_service_1 = require("./../app-context.service");
 var jquery_1 = require("jquery");
 require("semantic-ui/semantic");
-var apps_catalog_component_html_1 = require("./apps-catalog.component.html!");
 var AppsCatalogComponent = (function () {
     function AppsCatalogComponent(element, router, route, appContextService, carbon, myAppsSidebarService) {
         this.apps = [];
@@ -179,7 +178,7 @@ var AppsCatalogComponent = (function () {
     AppsCatalogComponent = __decorate([
         core_1.Component({
             selector: "cp-apps-catalog",
-            template: apps_catalog_component_html_1.default,
+            templateUrl: "./apps-catalog.component.html",
             styles: [":host { display: block; }"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, router_1.Router, router_1.ActivatedRoute, app_context_service_1.AppContextService, Carbon_1.default, my_apps_sidebar_service_1.MyAppsSidebarService])

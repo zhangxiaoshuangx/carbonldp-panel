@@ -8,13 +8,10 @@ import { BlankNodeRow } from "./../blank-nodes/blank-node.component";
 import $ from "jquery";
 import "semantic-ui/semantic";
 
-import template from "./named-fragments.component.html!";
-import style from "./named-fragments.component.css!text";
-
 @Component( {
 	selector: "cp-named-fragments",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./named-fragments.component.html",
+	styleUrls: [ "./named-fragments.component.scss" ],
 } )
 
 export class NamedFragmentsComponent implements AfterViewInit, OnChanges {

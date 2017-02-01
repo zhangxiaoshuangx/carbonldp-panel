@@ -11,11 +11,9 @@ import { ErrorMessageGenerator } from "carbonldp-panel/errors-area/error-message
 
 import "semantic-ui/semantic";
 
-import template from "./document-creator.component.html!";
-
 @Component( {
 	selector: "cp-document-creator",
-	template: template,
+	templateUrl: "./document-creator.component.html",
 } )
 
 export class DocumentCreatorComponent implements AfterViewInit {

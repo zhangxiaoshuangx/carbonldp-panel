@@ -18,8 +18,6 @@ var blank_nodes_component_1 = require("./../blank-nodes/blank-nodes.component");
 var named_fragments_component_1 = require("./../named-fragments/named-fragments.component");
 var jquery_1 = require("jquery");
 require("semantic-ui/semantic");
-var document_viewer_component_html_1 = require("./document-viewer.component.html!");
-var document_viewer_component_css_text_1 = require("./document-viewer.component.css!text");
 var DocumentViewerComponent = (function () {
     function DocumentViewerComponent(element, documentsResolverService) {
         this.successMessageContent = "";
@@ -341,8 +339,8 @@ var DocumentViewerComponent = (function () {
         core_1.Component({
             selector: "cp-document-viewer",
             host: { "[class.ui]": "true", "[class.basic]": "true", "[class.segment]": "true", },
-            template: document_viewer_component_html_1.default,
-            styles: [document_viewer_component_css_text_1.default],
+            templateUrl: "./document-viewer.component.html",
+            styleUrls: ["./document-viewer.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, documents_resolver_service_1.DocumentsResolverService])
     ], DocumentViewerComponent);

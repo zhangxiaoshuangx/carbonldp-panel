@@ -9,14 +9,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var security_view_html_1 = require("./security.view.html!");
 var SecurityView = (function () {
     function SecurityView() {
     }
     SecurityView = __decorate([
         core_1.Component({
             selector: "cp-security-view",
-            template: security_view_html_1.default,
+            templateUrl: "./security.view.html",
             styles: [":host { display: block; }"],
         }), 
         __metadata('design:paramtypes', [])

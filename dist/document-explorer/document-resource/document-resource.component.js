@@ -13,7 +13,6 @@ var RDFNode = require("carbonldp/RDF/Node");
 var property_component_1 = require("./../property/property.component");
 var jquery_1 = require("jquery");
 require("semantic-ui/semantic");
-var document_resource_component_html_1 = require("./document-resource.component.html!");
 var DocumentResourceComponent = (function () {
     function DocumentResourceComponent(element) {
         this.modes = property_component_1.Modes;
@@ -222,7 +221,7 @@ var DocumentResourceComponent = (function () {
     DocumentResourceComponent = __decorate([
         core_1.Component({
             selector: "cp-document-resource",
-            template: document_resource_component_html_1.default,
+            templateUrl: "./document-resource.component.html",
             styles: [":host { display:block; }"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef])

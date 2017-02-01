@@ -15,8 +15,6 @@ var URI = require("carbonldp/RDF/URI");
 var property_component_1 = require("./../property/property.component");
 var jquery_1 = require("jquery");
 require("semantic-ui/semantic");
-var literal_component_html_1 = require("./literal.component.html!");
-var literal_component_css_text_1 = require("./literal.component.css!text");
 var LiteralComponent = (function () {
     function LiteralComponent(element) {
         this._mode = property_component_1.Modes.READ;
@@ -1052,8 +1050,8 @@ var LiteralComponent = (function () {
     LiteralComponent = __decorate([
         core_1.Component({
             selector: "tr.cp-literal",
-            template: literal_component_html_1.default,
-            styles: [literal_component_css_text_1.default],
+            templateUrl: "./literal.component.html",
+            styleUrls: ["./literal.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef])
     ], LiteralComponent);

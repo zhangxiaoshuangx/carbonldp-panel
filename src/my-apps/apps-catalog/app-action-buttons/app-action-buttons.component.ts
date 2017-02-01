@@ -4,11 +4,9 @@ import * as App from "../../app-content/app";
 
 import "semantic-ui/semantic";
 
-import template from "./app-action-buttons.component.html!";
-
 @Component( {
 	selector: "cp-app-action-buttons",
-	template: template,
+	templateUrl: "./app-action-buttons.component.html",
 	styles: [ ":host { display:block; }" ],
 } )
 export class AppActionButtonsComponent {

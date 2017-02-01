@@ -15,8 +15,6 @@ var response_component_1 = require("./response/response.component");
 var CodeMirrorComponent = require("carbonldp-panel/code-mirror/code-mirror.component");
 var jquery_1 = require("jquery");
 require("semantic-ui/semantic");
-var sparql_client_component_html_1 = require("./sparql-client.component.html!");
-var sparql_client_component_css_text_1 = require("./sparql-client.component.css!text");
 var SPARQLClientComponent = (function () {
     function SPARQLClientComponent(element, carbon) {
         this.sparqlTypes = {
@@ -682,8 +680,8 @@ var SPARQLClientComponent = (function () {
     SPARQLClientComponent = __decorate([
         core_1.Component({
             selector: "cp-sparql-client",
-            template: sparql_client_component_html_1.default,
-            styles: [sparql_client_component_css_text_1.default],
+            templateUrl: "./sparql-client.component.html",
+            styleUrls: ["./sparql-client.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, Carbon_1.default])
     ], SPARQLClientComponent);

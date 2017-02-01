@@ -5,13 +5,10 @@ import { HeaderService } from "carbonldp-panel/header.service";
 import $ from "jquery";
 import "semantic-ui/semantic";
 
-import template from "./header.component.html!";
-import style from "./header.component.css!text";
-
 @Component( {
 	selector: "cp-header",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./header.component.html",
+	styleUrls: [ "./header.component.scss" ],
 	host: {
 		class: "ui navigation inverted menu"
 	}

@@ -16,14 +16,11 @@ import { NamedFragmentRow } from "./../named-fragments/named-fragment.component"
 import $ from "jquery";
 import "semantic-ui/semantic";
 
-import template from "./document-viewer.component.html!";
-import style from "./document-viewer.component.css!text";
-
 @Component( {
 	selector: "cp-document-viewer",
 	host: { "[class.ui]": "true", "[class.basic]": "true", "[class.segment]": "true", },
-	template: template,
-	styles: [ style ],
+	templateUrl: "./document-viewer.component.html",
+	styleUrls: [ "./document-viewer.component.scss" ],
 } )
 
 export class DocumentViewerComponent implements AfterViewInit, OnChanges {

@@ -7,11 +7,9 @@ import { PersistedAgent } from "carbonldp/Auth";
 import { AppContentService } from "carbonldp-panel/my-apps/app-content/app-content.service";
 import { Modes } from "../agent-details/agent-details.component";
 
-import template from "./agent-creator.view.html!";
-
 @Component( {
 	selector: "cp-agent-creator-view",
-	template: template,
+	templateUrl: "./agent-creator.view.html",
 	styles: [ ":host { display: block; }" ]
 } )
 export class AgentCreatorView {

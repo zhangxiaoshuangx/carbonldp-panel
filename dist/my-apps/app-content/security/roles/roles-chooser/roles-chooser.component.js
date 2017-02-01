@@ -11,8 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var App = require("carbonldp/App");
 var roles_service_1 = require("../roles.service");
-var roles_chooser_component_html_1 = require("./roles-chooser.component.html!");
-var roles_chooser_component_css_text_1 = require("./roles-chooser.component.css!text");
 var RolesChooserComponent = (function () {
     function RolesChooserComponent(element, rolesService) {
         this.availableRoles = [];
@@ -80,8 +78,8 @@ var RolesChooserComponent = (function () {
     RolesChooserComponent = __decorate([
         core_1.Component({
             selector: "cp-roles-chooser",
-            template: roles_chooser_component_html_1.default,
-            styles: [roles_chooser_component_css_text_1.default],
+            templateUrl: "./roles-chooser.component.html",
+            styleUrls: ["./roles-chooser.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, roles_service_1.RolesService])
     ], RolesChooserComponent);

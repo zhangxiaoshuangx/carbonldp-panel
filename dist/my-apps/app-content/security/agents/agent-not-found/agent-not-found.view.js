@@ -11,8 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var common_1 = require("@angular/common");
 var router_1 = require("@angular/router");
-var agent_not_found_view_html_1 = require("./agent-not-found.view.html!");
-var agent_not_found_view_css_text_1 = require("./agent-not-found.view.css!text");
 var AgentNotFoundView = (function () {
     function AgentNotFoundView(router, location) {
         this.location = location;
@@ -35,8 +33,8 @@ var AgentNotFoundView = (function () {
     AgentNotFoundView = __decorate([
         core_1.Component({
             selector: "cp-agent-not-found",
-            template: agent_not_found_view_html_1.default,
-            styles: [agent_not_found_view_css_text_1.default],
+            templateUrl: "./agent-not-found.component.html",
+            styleUrls: ["./agent-not-found.component.scss"],
         }), 
         __metadata('design:paramtypes', [router_1.Router, common_1.Location])
     ], AgentNotFoundView);

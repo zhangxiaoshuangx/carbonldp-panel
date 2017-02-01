@@ -14,8 +14,6 @@ var jobs_service_1 = require("../job/jobs.service");
 var Job = require("../job/job");
 var backups_list_component_1 = require("./backups-list/backups-list.component");
 require("semantic-ui/semantic");
-var backups_component_html_1 = require("./backups.component.html!");
-var backups_component_css_text_1 = require("./backups.component.css!text");
 var BackupsComponent = (function () {
     function BackupsComponent(jobsService) {
         this.jobsService = jobsService;
@@ -45,8 +43,8 @@ var BackupsComponent = (function () {
     BackupsComponent = __decorate([
         core_1.Component({
             selector: "cp-backup",
-            template: backups_component_html_1.default,
-            styles: [backups_component_css_text_1.default],
+            templateUrl: "./backups.component.html",
+            styleUrls: ["./backups.component.scss"],
         }), 
         __metadata('design:paramtypes', [jobs_service_1.JobsService])
     ], BackupsComponent);

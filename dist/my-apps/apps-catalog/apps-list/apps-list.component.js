@@ -10,8 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 require("semantic-ui/semantic");
-var apps_list_component_html_1 = require("./apps-list.component.html!");
-var apps_list_component_css_text_1 = require("./apps-list.component.css!text");
 var AppsListComponent = (function () {
     function AppsListComponent() {
         this.openApp = new core_1.EventEmitter();
@@ -54,8 +52,8 @@ var AppsListComponent = (function () {
     AppsListComponent = __decorate([
         core_1.Component({
             selector: "cp-apps-list",
-            template: apps_list_component_html_1.default,
-            styles: [apps_list_component_css_text_1.default],
+            templateUrl: "./apps-list.component.html",
+            styleUrls: ["./apps-list.component.scss"],
         }), 
         __metadata('design:paramtypes', [])
     ], AppsListComponent);

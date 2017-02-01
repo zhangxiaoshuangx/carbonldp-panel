@@ -8,11 +8,9 @@ import * as HTTP from "carbonldp/HTTP";
 import $ from "jquery";
 import "semantic-ui/semantic";
 
-import template from "./login.component.html!";
-
 @Component( {
 	selector: "cp-login",
-	template: template,
+	templateUrl: "./login.component.html",
 	styles: [ ":host { display:block; } " ],
 } )
 export class LoginComponent implements OnInit {

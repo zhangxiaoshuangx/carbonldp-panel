@@ -11,13 +11,11 @@ import { Modes as AgentDetailsModes } from "../agent-details/agent-details.compo
 import { Message } from "carbonldp-panel/errors-area/error-message.component";
 import { ErrorMessageGenerator } from "carbonldp-panel/errors-area/error-message-generator";
 
-import template from "./agents-list.component.html!";
-import style from "./agents-list.component.css!text";
 
 @Component( {
 	selector: "cp-agents-list",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./agents-list.component.html",
+	styleUrls: [ "./agents-list.component.scss" ],
 } )
 
 export class AgentsListComponent implements OnInit {

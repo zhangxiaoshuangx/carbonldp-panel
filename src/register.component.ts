@@ -7,11 +7,9 @@ import { AuthService } from "angular2-carbonldp/services";
 import $ from "jquery";
 import "semantic-ui/semantic";
 
-import template from "./register.component.html!"
-
 @Component( {
 	selector: "cp-register",
-	template: template,
+	templateUrl: "./register.component.html",
 	styles: [],
 } )
 export class RegisterComponent implements OnInit {

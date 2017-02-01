@@ -13,13 +13,10 @@ import { DocumentExplorerLibrary } from "carbonldp-panel/document-explorer/docum
 import { Message } from "carbonldp-panel/errors-area/error-message.component";
 import { ErrorMessageGenerator } from "carbonldp-panel/errors-area/error-message-generator";
 
-import template from "./agent-details.component.html!";
-import style from "./agent-details.component.css!text";
-
 @Component( {
 	selector: "cp-agent-details",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./agent-details.component.html",
+	styleUrls: [ "./agent-details.component.scss" ],
 } )
 
 export class AgentDetailsComponent implements OnChanges {

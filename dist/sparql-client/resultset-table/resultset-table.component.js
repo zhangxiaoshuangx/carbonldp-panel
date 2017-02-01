@@ -10,8 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 require("semantic-ui/semantic");
-var resultset_table_component_html_1 = require("./resultset-table.component.html!");
-var resultset_table_component_css_text_1 = require("./resultset-table.component.css!text");
 var ResultsetTableComponent = (function () {
     function ResultsetTableComponent() {
         this.resultsetChange = new core_1.EventEmitter();
@@ -73,8 +71,8 @@ var ResultsetTableComponent = (function () {
     ResultsetTableComponent = __decorate([
         core_1.Component({
             selector: "cp-resultset-table",
-            template: resultset_table_component_html_1.default,
-            styles: [resultset_table_component_css_text_1.default],
+            templateUrl: "./resultset-table.component.html",
+            styleUrls: ["./resultset-table.component.scss"],
         }), 
         __metadata('design:paramtypes', [])
     ], ResultsetTableComponent);

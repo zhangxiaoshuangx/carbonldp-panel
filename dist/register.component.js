@@ -16,7 +16,6 @@ var HTTP = require("carbonldp/HTTP");
 var services_1 = require("angular2-carbonldp/services");
 var jquery_1 = require("jquery");
 require("semantic-ui/semantic");
-var register_component_html_1 = require("./register.component.html!");
 var RegisterComponent = (function () {
     function RegisterComponent(element, authService) {
         this.onRegister = new core_1.EventEmitter();
@@ -123,7 +122,7 @@ var RegisterComponent = (function () {
     RegisterComponent = __decorate([
         core_1.Component({
             selector: "cp-register",
-            template: register_component_html_1.default,
+            templateUrl: "./register.component.html",
             styles: [],
         }),
         __param(1, core_1.Inject(services_1.AuthService.Token)), 

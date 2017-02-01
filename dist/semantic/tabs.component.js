@@ -10,8 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var tab_component_1 = require("./tab.component");
-var tabs_component_html_1 = require("./tabs.component.html!");
-var tabs_component_css_text_1 = require("./tabs.component.css!text");
 var TabsComponent = (function () {
     function TabsComponent() {
         this.activeTab = 0;
@@ -70,8 +68,8 @@ var TabsComponent = (function () {
     TabsComponent = __decorate([
         core_1.Component({
             selector: "sui-tabs",
-            template: tabs_component_html_1.default,
-            styles: [tabs_component_css_text_1.default],
+            templateUrl: "./tabs.component.html",
+            styleUrls: ["./tabs.component.scss"],
         }), 
         __metadata('design:paramtypes', [])
     ], TabsComponent);

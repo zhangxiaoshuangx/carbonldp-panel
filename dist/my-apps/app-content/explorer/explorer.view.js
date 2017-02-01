@@ -10,7 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var app_content_service_1 = require("./../../app-content/app-content.service");
-var explorer_view_html_1 = require("./explorer.view.html!");
 var ExplorerView = (function () {
     function ExplorerView(appContentService) {
         var _this = this;
@@ -25,7 +24,7 @@ var ExplorerView = (function () {
     ExplorerView = __decorate([
         core_1.Component({
             selector: "cp-explorer-view",
-            template: explorer_view_html_1.default,
+            templateUrl: "./explorer.view.html",
             styles: [":host { display: block; }"],
         }), 
         __metadata('design:paramtypes', [app_content_service_1.AppContentService])

@@ -11,8 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var jquery_1 = require("jquery");
 require("semantic-ui/semantic");
-var error_message_component_html_1 = require("./error-message.component.html!");
-var error_message_component_css_text_1 = require("./error-message.component.css!text");
 var ErrorMessageComponent = (function () {
     function ErrorMessageComponent(element) {
         this.closable = false;
@@ -92,8 +90,8 @@ var ErrorMessageComponent = (function () {
     ErrorMessageComponent = __decorate([
         core_1.Component({
             selector: "cp-error-message",
-            template: error_message_component_html_1.default,
-            styles: [error_message_component_css_text_1.default],
+            templateUrl: "./error-message.component.html",
+            styleUrls: ["./error-message.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef])
     ], ErrorMessageComponent);

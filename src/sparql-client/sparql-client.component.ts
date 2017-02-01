@@ -11,14 +11,11 @@ import * as CodeMirrorComponent from "carbonldp-panel/code-mirror/code-mirror.co
 import $ from "jquery";
 import "semantic-ui/semantic";
 
-import template from "./sparql-client.component.html!";
-import style from "./sparql-client.component.css!text";
-
 
 @Component( {
 	selector: "cp-sparql-client",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./sparql-client.component.html",
+	styleUrls: [ "./sparql-client.component.scss" ],
 } )
 export class SPARQLClientComponent implements OnInit, AfterViewInit {
 

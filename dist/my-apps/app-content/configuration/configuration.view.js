@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var app_content_service_1 = require("./../../app-content/app-content.service");
 require("semantic-ui/semantic");
-var configuration_view_html_1 = require("./configuration.view.html!");
 var ConfigurationView = (function () {
     function ConfigurationView(appContentService) {
         var _this = this;
@@ -26,7 +25,7 @@ var ConfigurationView = (function () {
     ConfigurationView = __decorate([
         core_1.Component({
             selector: "cp-configuration-view",
-            template: configuration_view_html_1.default,
+            templateUrl: "./configuration.view.html",
             styles: [":host { display: block; }"],
         }), 
         __metadata('design:paramtypes', [app_content_service_1.AppContentService])

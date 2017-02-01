@@ -16,8 +16,6 @@ var RDFNode = require("carbonldp/RDF/Node");
 var Utils = require("carbonldp/Utils");
 var jquery_1 = require("jquery");
 require("semantic-ui/semantic");
-var property_component_html_1 = require("./property.component.html!");
-var property_component_css_text_1 = require("./property.component.css!text");
 var PropertyComponent = (function () {
     // TODO: Add @lists and @sets support
     function PropertyComponent(element) {
@@ -471,8 +469,8 @@ var PropertyComponent = (function () {
     PropertyComponent = __decorate([
         core_1.Component({
             selector: "cp-property",
-            template: property_component_html_1.default,
-            styles: [property_component_css_text_1.default],
+            templateUrl: "./property.component.html",
+            styleUrls: ["./property.component.scss"],
             host: { "[class.has-changed]": "property.modified", "[class.deleted-property]": "property.deleted", "[class.added-property]": "property.added" },
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef])

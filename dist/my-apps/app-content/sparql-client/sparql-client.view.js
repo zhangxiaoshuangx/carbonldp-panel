@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var app_content_service_1 = require("./../../app-content/app-content.service");
 var errors_area_service_1 = require("carbonldp-panel/errors-area/errors-area.service");
-var sparql_client_view_html_1 = require("./sparql-client.view.html!");
 var SPARQLClientView = (function () {
     function SPARQLClientView(errorsAreaService, appContentService) {
         var _this = this;
@@ -30,7 +29,7 @@ var SPARQLClientView = (function () {
     SPARQLClientView = __decorate([
         core_1.Component({
             selector: "cp-sparql-client-view",
-            template: sparql_client_view_html_1.default,
+            templateUrl: "./sparql-client.view.html",
             styles: [":host { display: block; }"],
         }), 
         __metadata('design:paramtypes', [errors_area_service_1.ErrorsAreaService, app_content_service_1.AppContentService])

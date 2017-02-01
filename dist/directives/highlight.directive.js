@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var highlight_js_1 = require("highlight.js");
-require("highlight.js/styles/tomorrow-night.css!");
+// import "highlight.js/styles/tomorrow-night.css";
 var HighlightDirective = (function () {
     function HighlightDirective(element) {
         this.element = element;

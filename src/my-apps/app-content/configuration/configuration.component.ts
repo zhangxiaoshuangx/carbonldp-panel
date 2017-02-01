@@ -4,13 +4,10 @@ import * as App from "carbonldp/App";
 
 import "semantic-ui/semantic";
 
-import template from "./configuration.component.html!";
-import style from "./configuration.component.css!text";
-
 @Component( {
 	selector: "cp-configuration",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./configuration.component.html",
+	styleUrls: [ "./configuration.component.scss" ],
 } )
 
 export class ConfigurationComponent {

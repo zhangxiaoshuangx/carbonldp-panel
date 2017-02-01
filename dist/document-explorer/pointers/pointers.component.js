@@ -11,8 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var property_component_1 = require("./../property/property.component");
 require("semantic-ui/semantic");
-var pointers_component_html_1 = require("./pointers.component.html!");
-var pointers_component_css_text_1 = require("./pointers.component.css!text");
 var PointersComponent = (function () {
     function PointersComponent() {
         this.modes = property_component_1.Modes;
@@ -116,8 +114,8 @@ var PointersComponent = (function () {
     PointersComponent = __decorate([
         core_1.Component({
             selector: "cp-pointers",
-            template: pointers_component_html_1.default,
-            styles: [pointers_component_css_text_1.default],
+            templateUrl: "./pointers.component.html",
+            styleUrls: ["./pointers.component.scss"],
         }), 
         __metadata('design:paramtypes', [])
     ], PointersComponent);

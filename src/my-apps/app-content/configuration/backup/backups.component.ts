@@ -10,13 +10,10 @@ import { BackupsListComponent } from "./backups-list/backups-list.component"
 
 import "semantic-ui/semantic";
 
-import template from "./backups.component.html!";
-import style from "./backups.component.css!text";
-
 @Component( {
 	selector: "cp-backup",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./backups.component.html",
+	styleUrls: [ "./backups.component.scss" ],
 } )
 
 export class BackupsComponent implements OnInit {

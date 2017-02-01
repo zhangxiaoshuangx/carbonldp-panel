@@ -13,8 +13,6 @@ require("semantic-ui/semantic");
 var SDKLiteral = require("carbonldp/RDF/Literal");
 var RDFNode = require("carbonldp/RDF/Node");
 var Utils = require("carbonldp/Utils");
-var list_component_html_1 = require("./list.component.html!");
-var list_component_css_text_1 = require("./list.component.css!text");
 var ListComponent = (function () {
     function ListComponent(element) {
         this.tempList = [];
@@ -186,8 +184,8 @@ var ListComponent = (function () {
     ListComponent = __decorate([
         core_1.Component({
             selector: "cp-list",
-            template: list_component_html_1.default,
-            styles: [list_component_css_text_1.default],
+            templateUrl: "./list.component.html",
+            styleUrls: ["./list.component.scss"],
             host: { "[class.modified]": "list.modified", "[class.deleted]": "list.deleted", "[class.added]": "list.added" },
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef])

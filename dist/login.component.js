@@ -16,7 +16,6 @@ var services_1 = require("angular2-carbonldp/services");
 var HTTP = require("carbonldp/HTTP");
 var jquery_1 = require("jquery");
 require("semantic-ui/semantic");
-var login_component_html_1 = require("./login.component.html!");
 var LoginComponent = (function () {
     function LoginComponent(element, authService) {
         this.onLogin = new core_1.EventEmitter();
@@ -106,7 +105,7 @@ var LoginComponent = (function () {
     LoginComponent = __decorate([
         core_1.Component({
             selector: "cp-login",
-            template: login_component_html_1.default,
+            templateUrl: "./login.component.html",
             styles: [":host { display:block; } "],
         }),
         __param(1, core_1.Inject(services_1.AuthService.Token)), 

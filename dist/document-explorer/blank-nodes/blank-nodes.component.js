@@ -12,8 +12,6 @@ var core_1 = require("@angular/core");
 var Utils = require("carbonldp/Utils");
 var jquery_1 = require("jquery");
 require("semantic-ui/semantic");
-var blank_nodes_component_html_1 = require("./blank-nodes.component.html!");
-var blank_nodes_component_css_text_1 = require("./blank-nodes.component.css!text");
 var BlankNodesComponent = (function () {
     function BlankNodesComponent(element) {
         this.openedBlankNodes = [];
@@ -170,8 +168,8 @@ var BlankNodesComponent = (function () {
     BlankNodesComponent = __decorate([
         core_1.Component({
             selector: "cp-blank-nodes",
-            template: blank_nodes_component_html_1.default,
-            styles: [blank_nodes_component_css_text_1.default],
+            templateUrl: "./blank-nodes.component.html",
+            styleUrls: ["./blank-nodes.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef])
     ], BlankNodesComponent);

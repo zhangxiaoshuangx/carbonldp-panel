@@ -12,8 +12,6 @@ var core_1 = require("@angular/core");
 var router_service_1 = require("carbonldp-panel/router.service");
 var jquery_1 = require("jquery");
 require("semantic-ui/semantic");
-var header_item_component_html_1 = require("./header-item.component.html!");
-var header_item_component_css_text_1 = require("./header-item.component.css!text");
 var HeaderItemComponent = (function () {
     function HeaderItemComponent(element, routerService) {
         this.element = element;
@@ -37,8 +35,8 @@ var HeaderItemComponent = (function () {
     HeaderItemComponent = __decorate([
         core_1.Component({
             selector: "cp-header-item",
-            template: header_item_component_html_1.default,
-            styles: [header_item_component_css_text_1.default],
+            templateUrl: "./header-item.component.html",
+            styleUrls: ["./header-item.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, router_service_1.RouterService])
     ], HeaderItemComponent);

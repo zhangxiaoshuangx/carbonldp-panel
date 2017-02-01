@@ -15,8 +15,6 @@ var HTTP_1 = require("carbonldp/HTTP");
 var backups_service_1 = require("../backups.service");
 var jquery_1 = require("jquery");
 require("semantic-ui/semantic");
-var backups_list_component_html_1 = require("./backups-list.component.html!");
-var backups_list_component_css_text_1 = require("./backups-list.component.css!text");
 var BackupsListComponent = (function () {
     function BackupsListComponent(element, backupsService) {
         var _this = this;
@@ -173,8 +171,8 @@ var BackupsListComponent = (function () {
     BackupsListComponent = __decorate([
         core_1.Component({
             selector: "cp-backups-list",
-            template: backups_list_component_html_1.default,
-            styles: [backups_list_component_css_text_1.default],
+            templateUrl: "./backups-list.component.html",
+            styleUrls: ["./backups-list.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, backups_service_1.BackupsService])
     ], BackupsListComponent);

@@ -12,8 +12,6 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var my_apps_sidebar_service_1 = require("./../my-apps-sidebar.service");
 var app_content_service_1 = require("./app-content.service");
-var app_content_view_html_1 = require("./app-content.view.html!");
-var app_content_view_css_text_1 = require("./app-content.view.css!text");
 var AppContentView = (function () {
     function AppContentView(router, route, myAppsSidebarService, appContentService) {
         this.router = router;
@@ -33,8 +31,8 @@ var AppContentView = (function () {
     AppContentView = __decorate([
         core_1.Component({
             selector: "cp-app-content",
-            template: app_content_view_html_1.default,
-            styles: [app_content_view_css_text_1.default],
+            templateUrl: "./app-content.component.html",
+            styleUrls: ["./app-content.component.scss"],
         }), 
         __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, my_apps_sidebar_service_1.MyAppsSidebarService, app_content_service_1.AppContentService])
     ], AppContentView);

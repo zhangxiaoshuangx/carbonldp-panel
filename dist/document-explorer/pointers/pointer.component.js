@@ -13,8 +13,6 @@ var URI = require("carbonldp/RDF/URI");
 var property_component_1 = require("./../property/property.component");
 var jquery_1 = require("jquery");
 require("semantic-ui/semantic");
-var pointer_component_html_1 = require("./pointer.component.html!");
-var pointer_component_css_text_1 = require("./pointer.component.css!text");
 var PointerComponent = (function () {
     function PointerComponent(element) {
         this.tempPointer = {};
@@ -246,8 +244,8 @@ var PointerComponent = (function () {
     PointerComponent = __decorate([
         core_1.Component({
             selector: "tr.cp-pointer",
-            template: pointer_component_html_1.default,
-            styles: [pointer_component_css_text_1.default],
+            templateUrl: "./pointer.component.html",
+            styleUrls: ["./pointer.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef])
     ], PointerComponent);

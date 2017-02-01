@@ -12,7 +12,7 @@ import template from "./named-fragment.component.html!";
 
 @Component( {
 	selector: "cp-named-fragment",
-	template: template,
+	templateUrl: "./named-fragment.view.html",
 	styles: [ ":host { display:block; }" ],
 } )
 

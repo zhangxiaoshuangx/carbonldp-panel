@@ -13,8 +13,6 @@ var SDKContext = require("carbonldp/SDKContext");
 var documents_resolver_service_1 = require("./documents-resolver.service");
 var error_message_generator_1 = require("carbonldp-panel/errors-area/error-message-generator");
 require("semantic-ui/semantic");
-var document_explorer_component_html_1 = require("./document-explorer.component.html!");
-var document_explorer_component_css_text_1 = require("./document-explorer.component.css!text");
 var DocumentExplorerComponent = (function () {
     function DocumentExplorerComponent(documentsResolverService, zone) {
         this.selectedDocumentURI = "";
@@ -88,8 +86,8 @@ var DocumentExplorerComponent = (function () {
     DocumentExplorerComponent = __decorate([
         core_1.Component({
             selector: "cp-document-explorer",
-            template: document_explorer_component_html_1.default,
-            styles: [document_explorer_component_css_text_1.default],
+            templateUrl: "./document-explorer.component.html",
+            styleUrls: ["./document-explorer.component.scss"],
         }), 
         __metadata('design:paramtypes', [documents_resolver_service_1.DocumentsResolverService, core_1.NgZone])
     ], DocumentExplorerComponent);

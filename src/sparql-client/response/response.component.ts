@@ -5,13 +5,11 @@ import * as CodeMirrorComponent from "carbonldp-panel/code-mirror/code-mirror.co
 import $ from "jquery";
 import "semantic-ui/semantic";
 
-import template from "./response.component.html!";
-import style from "./response.component.css!text";
 
 @Component( {
 	selector: "cp-sparql-response",
-	styles: [ style ],
-	template: template,
+	templateUrl: "./response.component.html",
+	styleUrls: [ "./response.component.scss" ],
 } )
 export class ResponseComponent implements AfterViewInit, OnInit {
 	element:ElementRef;

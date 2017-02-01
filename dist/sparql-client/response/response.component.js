@@ -12,8 +12,6 @@ var core_1 = require("@angular/core");
 var CodeMirrorComponent = require("carbonldp-panel/code-mirror/code-mirror.component");
 var jquery_1 = require("jquery");
 require("semantic-ui/semantic");
-var response_component_html_1 = require("./response.component.html!");
-var response_component_css_text_1 = require("./response.component.css!text");
 var ResponseComponent = (function () {
     function ResponseComponent(element) {
         this.onRemove = new core_1.EventEmitter();
@@ -137,8 +135,8 @@ var ResponseComponent = (function () {
     ResponseComponent = __decorate([
         core_1.Component({
             selector: "cp-sparql-response",
-            styles: [response_component_css_text_1.default],
-            template: response_component_html_1.default,
+            templateUrl: "./response.component.html",
+            styleUrls: ["./response.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef])
     ], ResponseComponent);

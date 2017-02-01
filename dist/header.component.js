@@ -12,8 +12,6 @@ var core_1 = require("@angular/core");
 var header_service_1 = require("carbonldp-panel/header.service");
 var jquery_1 = require("jquery");
 require("semantic-ui/semantic");
-var header_component_html_1 = require("./header.component.html!");
-var header_component_css_text_1 = require("./header.component.css!text");
 var HeaderComponent = (function () {
     function HeaderComponent(element, headerService) {
         this.element = element;
@@ -34,8 +32,8 @@ var HeaderComponent = (function () {
     HeaderComponent = __decorate([
         core_1.Component({
             selector: "cp-header",
-            template: header_component_html_1.default,
-            styles: [header_component_css_text_1.default],
+            templateUrl: "./header.component.html",
+            styleUrls: ["./header.component.scss"],
             host: {
                 class: "ui navigation inverted menu"
             }

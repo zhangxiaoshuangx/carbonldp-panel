@@ -16,11 +16,9 @@ import { Message } from "./../../errors-area/error-message.component";
 
 import "semantic-ui/semantic";
 
-import template from "./create-app.component.html!";
-
 @Component( {
 	selector: "cp-create-app",
-	template: template,
+	templateUrl: "./create-app.component.html",
 	styles: [ ":host { display: block; }" ],
 } )
 export class CreateAppComponent implements OnInit {

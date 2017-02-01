@@ -16,9 +16,8 @@ require("codemirror/mode/javascript/javascript");
 require("codemirror/mode/sparql/sparql");
 require("codemirror/mode/xml/xml");
 require("codemirror/mode/turtle/turtle");
-require("codemirror/lib/codemirror.css!");
-require("codemirror/theme/mbo.css!");
-var code_mirror_component_css_text_1 = require("./code-mirror.component.css!text");
+// import "codemirror/lib/codemirror.css";
+// import "codemirror/theme/mbo.css";
 var Class = (function () {
     function Class(element) {
         this.mode = Mode.JAVASCRIPT;
@@ -186,7 +185,7 @@ var Class = (function () {
         core_1.Component({
             selector: "cp-code-mirror",
             template: "<ng-content></ng-content>",
-            styles: [code_mirror_component_css_text_1.default],
+            styleUrls: ["./code-mirror.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef])
     ], Class);

@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var App = require("../../app-content/app");
 require("semantic-ui/semantic");
-var app_action_buttons_component_html_1 = require("./app-action-buttons.component.html!");
 var AppActionButtonsComponent = (function () {
     function AppActionButtonsComponent() {
         this.deleteApp = new core_1.EventEmitter();
@@ -34,7 +33,7 @@ var AppActionButtonsComponent = (function () {
     AppActionButtonsComponent = __decorate([
         core_1.Component({
             selector: "cp-app-action-buttons",
-            template: app_action_buttons_component_html_1.default,
+            templateUrl: "./app-action-buttons.component.html",
             styles: [":host { display:block; }"],
         }), 
         __metadata('design:paramtypes', [])

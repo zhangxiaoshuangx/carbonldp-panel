@@ -9,13 +9,11 @@ import * as Utils from "carbonldp/Utils";
 import { Literal, LiteralRow } from "./../literals/literal.component";
 import { Pointer, PointerRow } from "./../pointers/pointer.component";
 
-import template from "./list.component.html!";
-import style from "./list.component.css!text";
 
 @Component( {
 	selector: "cp-list",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./list.component.html",
+	styleUrls: [ "./list.component.scss" ],
 	host: { "[class.modified]": "list.modified", "[class.deleted]": "list.deleted", "[class.added]": "list.added" },
 } )
 

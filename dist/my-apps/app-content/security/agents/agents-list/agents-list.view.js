@@ -10,7 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var app_content_service_1 = require("carbonldp-panel/my-apps/app-content/app-content.service");
-var agents_list_view_html_1 = require("./agents-list.view.html!");
 var AgentsListView = (function () {
     function AgentsListView(appContentService) {
         var _this = this;
@@ -25,7 +24,7 @@ var AgentsListView = (function () {
     AgentsListView = __decorate([
         core_1.Component({
             selector: "cp-agents-list-view",
-            template: agents_list_view_html_1.default,
+            templateUrl: "./agents-list.view.html",
             styles: [":host { display: block; }"]
         }), 
         __metadata('design:paramtypes', [app_content_service_1.AppContentService])

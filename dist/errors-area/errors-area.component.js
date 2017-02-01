@@ -11,8 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var errors_area_service_1 = require("./errors-area.service");
 require("semantic-ui/semantic");
-var errors_area_component_html_1 = require("./errors-area.component.html!");
-var errors_area_component_css_text_1 = require("./errors-area.component.css!text");
 var ErrorsAreaComponent = (function () {
     function ErrorsAreaComponent(errorsAreaService) {
         this.messages = [];
@@ -30,8 +28,8 @@ var ErrorsAreaComponent = (function () {
     ErrorsAreaComponent = __decorate([
         core_1.Component({
             selector: "cp-errors-area",
-            template: errors_area_component_html_1.default,
-            styles: [errors_area_component_css_text_1.default],
+            templateUrl: "./errors-area.component.html",
+            styleUrls: ["./errors-area.component.scss"],
         }), 
         __metadata('design:paramtypes', [errors_area_service_1.ErrorsAreaService])
     ], ErrorsAreaComponent);

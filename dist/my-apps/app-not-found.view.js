@@ -10,8 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var app_not_found_view_html_1 = require("./app-not-found.view.html!");
-var app_not_found_view_css_text_1 = require("./app-not-found.view.css!text");
 var AppNotFoundView = (function () {
     function AppNotFoundView(router) {
         this.router = router;
@@ -31,8 +29,8 @@ var AppNotFoundView = (function () {
     AppNotFoundView = __decorate([
         core_1.Component({
             selector: "cp-app-content",
-            template: app_not_found_view_html_1.default,
-            styles: [app_not_found_view_css_text_1.default],
+            templateUrl: "./app-not-found.component.html",
+            styleUrls: ["./app-not-found.component.scss"],
         }), 
         __metadata('design:paramtypes', [router_1.Router])
     ], AppNotFoundView);

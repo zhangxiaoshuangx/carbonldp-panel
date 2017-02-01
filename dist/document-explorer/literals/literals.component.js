@@ -11,8 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var property_component_1 = require("./../property/property.component");
 require("semantic-ui/semantic");
-var literals_component_html_1 = require("./literals.component.html!");
-var literals_component_css_text_1 = require("./literals.component.css!text");
 var LiteralsComponent = (function () {
     function LiteralsComponent() {
         this.modes = property_component_1.Modes;
@@ -109,8 +107,8 @@ var LiteralsComponent = (function () {
     LiteralsComponent = __decorate([
         core_1.Component({
             selector: "cp-literals",
-            template: literals_component_html_1.default,
-            styles: [literals_component_css_text_1.default],
+            templateUrl: "./literals.component.html",
+            styleUrls: ["./literals.component.scss"],
         }), 
         __metadata('design:paramtypes', [])
     ], LiteralsComponent);

@@ -14,8 +14,6 @@ var SDKContext = require("carbonldp/SDKContext");
 var jquery_1 = require("jquery");
 require("semantic-ui/semantic");
 require("jstree/dist/jstree.min");
-var document_tree_view_component_html_1 = require("./document-tree-view.component.html!");
-var document_tree_view_component_css_text_1 = require("./document-tree-view.component.css!text");
 var DocumentTreeViewComponent = (function () {
     function DocumentTreeViewComponent(element) {
         this.nodeChildren = [];
@@ -275,8 +273,8 @@ var DocumentTreeViewComponent = (function () {
     DocumentTreeViewComponent = __decorate([
         core_1.Component({
             selector: "cp-document-treeview",
-            template: document_tree_view_component_html_1.default,
-            styles: [document_tree_view_component_css_text_1.default],
+            templateUrl: "./document-tree-view.component.html",
+            styleUrls: ["./document-tree-view.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef])
     ], DocumentTreeViewComponent);

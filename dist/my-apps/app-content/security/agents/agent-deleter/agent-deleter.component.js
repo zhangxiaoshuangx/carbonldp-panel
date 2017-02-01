@@ -14,8 +14,6 @@ var Agent = require("carbonldp/Auth/Agent");
 var error_message_generator_1 = require("carbonldp-panel/errors-area/error-message-generator");
 var agents_service_1 = require("../agents.service");
 require("semantic-ui/semantic");
-var agent_deleter_component_html_1 = require("./agent-deleter.component.html!");
-var agent_deleter_component_css_text_1 = require("./agent-deleter.component.css!text");
 var AgentDeleterComponent = (function () {
     function AgentDeleterComponent(element, agentsService) {
         this.deletingAgent = false;
@@ -80,8 +78,8 @@ var AgentDeleterComponent = (function () {
     AgentDeleterComponent = __decorate([
         core_1.Component({
             selector: "cp-agent-deleter",
-            template: agent_deleter_component_html_1.default,
-            styles: [agent_deleter_component_css_text_1.default],
+            templateUrl: "./agent-deleter.component.html",
+            styleUrls: ["./agent-deleter.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, agents_service_1.AgentsService])
     ], AgentDeleterComponent);

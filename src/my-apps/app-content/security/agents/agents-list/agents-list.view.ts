@@ -3,11 +3,9 @@ import { Component } from "@angular/core";
 import { AppContentService } from "carbonldp-panel/my-apps/app-content/app-content.service";
 import * as App from "carbonldp-panel/my-apps/app-content/app";
 
-import template from "./agents-list.view.html!";
-
 @Component( {
 	selector: "cp-agents-list-view",
-	template: template,
+	templateUrl: "./agents-list.view.html",
 	styles: [ ":host { display: block; }" ]
 } )
 export class AgentsListView {

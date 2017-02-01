@@ -17,8 +17,6 @@ var agents_service_1 = require("../agents.service");
 var roles_service_1 = require("../../roles/roles.service");
 var document_explorer_library_1 = require("carbonldp-panel/document-explorer/document-explorer-library");
 var error_message_generator_1 = require("carbonldp-panel/errors-area/error-message-generator");
-var agent_details_component_html_1 = require("./agent-details.component.html!");
-var agent_details_component_css_text_1 = require("./agent-details.component.css!text");
 var AgentDetailsComponent = (function () {
     function AgentDetailsComponent(element, agentsService, rolesService) {
         this.Modes = Modes;
@@ -253,8 +251,8 @@ var AgentDetailsComponent = (function () {
     AgentDetailsComponent = __decorate([
         core_1.Component({
             selector: "cp-agent-details",
-            template: agent_details_component_html_1.default,
-            styles: [agent_details_component_css_text_1.default],
+            templateUrl: "./agent-details.component.html",
+            styleUrls: ["./agent-details.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, agents_service_1.AgentsService, roles_service_1.RolesService])
     ], AgentDetailsComponent);

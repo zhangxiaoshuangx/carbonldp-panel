@@ -15,8 +15,6 @@ var URI = require("carbonldp/RDF/URI");
 var app_context_service_1 = require("../../app-context.service");
 var App = require("../app");
 require("semantic-ui/semantic");
-var edit_app_component_html_1 = require("./edit-app.component.html!");
-var edit_app_component_css_text_1 = require("./edit-app.component.css!text");
 var EditAppComponent = (function () {
     function EditAppComponent(appContextService) {
         this.submitting = false;
@@ -139,8 +137,8 @@ var EditAppComponent = (function () {
     EditAppComponent = __decorate([
         core_1.Component({
             selector: "cp-edit-app",
-            template: edit_app_component_html_1.default,
-            styles: [edit_app_component_css_text_1.default],
+            templateUrl: "./edit-app.component.html",
+            styleUrls: ["./edit-app.component.scss"],
         }), 
         __metadata('design:paramtypes', [app_context_service_1.AppContextService])
     ], EditAppComponent);

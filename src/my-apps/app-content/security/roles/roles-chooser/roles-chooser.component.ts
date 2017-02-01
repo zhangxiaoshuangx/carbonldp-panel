@@ -5,13 +5,10 @@ import * as PersistedRole from "carbonldp/Auth/PersistedRole";
 
 import { RolesService } from "../roles.service";
 
-import template from "./roles-chooser.component.html!";
-import style from "./roles-chooser.component.css!text";
-
 @Component( {
 	selector: "cp-roles-chooser",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./roles-chooser.component.html",
+	styleUrls: [ "./roles-chooser.component.scss" ],
 } )
 
 export class RolesChooserComponent implements AfterViewInit {

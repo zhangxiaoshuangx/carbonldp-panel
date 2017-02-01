@@ -7,8 +7,6 @@ import "codemirror/mode/javascript/javascript";
 import "codemirror/mode/sparql/sparql";
 import "codemirror/mode/xml/xml";
 import "codemirror/mode/turtle/turtle";
-import "codemirror/lib/codemirror.css!";
-import "codemirror/theme/mbo.css!";
 export declare class Class implements AfterContentInit, OnChanges, OnDestroy {
     element: ElementRef;
     mode: string;

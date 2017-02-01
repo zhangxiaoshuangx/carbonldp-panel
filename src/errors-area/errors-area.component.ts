@@ -5,13 +5,10 @@ import { Message } from "./error-message.component";
 
 import "semantic-ui/semantic";
 
-import template from "./errors-area.component.html!";
-import style from "./errors-area.component.css!text";
-
 @Component( {
 	selector: "cp-errors-area",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./errors-area.component.html",
+	styleUrls: [ "./errors-area.component.scss" ],
 } )
 export class ErrorsAreaComponent implements AfterViewInit {
 	messages:Message[] = [];

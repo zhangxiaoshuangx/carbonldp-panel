@@ -12,8 +12,6 @@ var core_1 = require("@angular/core");
 var URI = require("carbonldp/RDF/URI");
 var jquery_1 = require("jquery");
 require("semantic-ui/semantic");
-var named_fragments_component_html_1 = require("./named-fragments.component.html!");
-var named_fragments_component_css_text_1 = require("./named-fragments.component.css!text");
 var NamedFragmentsComponent = (function () {
     function NamedFragmentsComponent(element) {
         this.openedNamedFragments = [];
@@ -173,8 +171,8 @@ var NamedFragmentsComponent = (function () {
     NamedFragmentsComponent = __decorate([
         core_1.Component({
             selector: "cp-named-fragments",
-            template: named_fragments_component_html_1.default,
-            styles: [named_fragments_component_css_text_1.default],
+            templateUrl: "./named-fragments.component.html",
+            styleUrls: ["./named-fragments.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef])
     ], NamedFragmentsComponent);

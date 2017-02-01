@@ -10,8 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var router_service_1 = require("carbonldp-panel/router.service");
-var sidebar_items_component_html_1 = require("./sidebar-items.component.html!");
-var sidebar_items_component_css_text_1 = require("./sidebar-items.component.css!text");
 var SidebarItemsComponent = (function () {
     function SidebarItemsComponent(routerService) {
         this.routerService = routerService;
@@ -23,8 +21,8 @@ var SidebarItemsComponent = (function () {
     SidebarItemsComponent = __decorate([
         core_1.Component({
             selector: "cp-sidebar-items",
-            template: sidebar_items_component_html_1.default,
-            styles: [sidebar_items_component_css_text_1.default],
+            templateUrl: "./sidebar-items.component.html",
+            styleUrls: ["./sidebar-items.component.scss"],
         }), 
         __metadata('design:paramtypes', [router_service_1.RouterService])
     ], SidebarItemsComponent);

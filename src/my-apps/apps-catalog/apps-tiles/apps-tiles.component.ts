@@ -4,10 +4,9 @@ import * as App from "../../app-content/app";
 
 import "semantic-ui/semantic";
 
-import template from "./apps-tiles.component.html!";
 @Component( {
 	selector: "cp-apps-tiles",
-	template: template,
+	templateUrl: "./apps-tiles.component.html",
 	styles: [ ":host { display: block; }" ],
 } )
 export class AppsTilesComponent {

@@ -12,13 +12,10 @@ import { Message } from "./../../../../../errors-area/error-message.component";
 import $ from "jquery";
 import "semantic-ui/semantic";
 
-import template from "./backups-list.component.html!";
-import style from "./backups-list.component.css!text";
-
 @Component( {
 	selector: "cp-backups-list",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./backups-list.component.html",
+	styleUrls: [ "./backups-list.component.scss" ],
 } )
 
 export class BackupsListComponent implements AfterViewInit, OnChanges, OnDestroy {

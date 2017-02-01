@@ -2,13 +2,11 @@ import { Component, Input, Output, SimpleChange, EventEmitter, OnChanges } from 
 
 import "semantic-ui/semantic";
 
-import template from "./resultset-table.component.html!";
-import style from "./resultset-table.component.css!text";
 
 @Component( {
 	selector: "cp-resultset-table",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./resultset-table.component.html",
+	styleUrls: [ "./resultset-table.component.scss" ],
 } )
 
 export class ResultsetTableComponent implements OnChanges {

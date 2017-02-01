@@ -14,8 +14,6 @@ var PersistedDocument = require("carbonldp/PersistedDocument");
 var jobs_service_1 = require("../../job/jobs.service");
 var Job = require("../../job/job");
 require("semantic-ui/semantic");
-var backup_exporter_component_html_1 = require("./backup-exporter.component.html!");
-var backup_exporter_component_css_text_1 = require("./backup-exporter.component.css!text");
 var BackupExporterComponent = (function () {
     function BackupExporterComponent(jobsService) {
         this.executingBackup = false;
@@ -113,8 +111,8 @@ var BackupExporterComponent = (function () {
     BackupExporterComponent = __decorate([
         core_1.Component({
             selector: "cp-backup-exporter",
-            template: backup_exporter_component_html_1.default,
-            styles: [backup_exporter_component_css_text_1.default],
+            templateUrl: "./backup-exporter.component.html",
+            styleUrls: ["./backup-exporter.component.scss"],
         }), 
         __metadata('design:paramtypes', [jobs_service_1.JobsService])
     ], BackupExporterComponent);

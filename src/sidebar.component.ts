@@ -7,13 +7,10 @@ import "semantic-ui/semantic";
 
 import { SidebarService } from "carbonldp-panel/sidebar.service"
 
-import template from "./sidebar.component.html!";
-import style from "./sidebar.component.css!text";
-
 @Component( {
 	selector: "cp-sidebar",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./sidebar.component.html",
+	styleUrls: [ "./sidebar.component.scss" ],
 	host: {
 		class: "ui inverted vertical menu accordion"
 	}

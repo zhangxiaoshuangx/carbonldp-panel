@@ -1,13 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
-import template from "./app-not-found.view.html!";
-import style from "./app-not-found.view.css!text";
-
 @Component( {
 	selector: "cp-app-content",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./app-not-found.component.html",
+	styleUrls: [ "./app-not-found.component.scss" ],
 } )
 export class AppNotFoundView implements OnInit {
 	private timer:number;

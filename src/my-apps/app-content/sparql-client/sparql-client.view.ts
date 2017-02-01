@@ -5,11 +5,9 @@ import * as App from "carbonldp/App";
 import { AppContentService } from "./../../app-content/app-content.service";
 import { ErrorsAreaService } from "carbonldp-panel/errors-area/errors-area.service";
 
-import template from "./sparql-client.view.html!";
-
 @Component( {
 	selector: "cp-sparql-client-view",
-	template: template,
+	templateUrl: "./sparql-client.view.html",
 	styles: [ ":host { display: block; }" ],
 } )
 export class SPARQLClientView {

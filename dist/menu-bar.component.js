@@ -13,8 +13,6 @@ var router_1 = require("@angular/router");
 var router_service_1 = require("carbonldp-panel/router.service");
 var sidebar_service_1 = require("carbonldp-panel/sidebar.service");
 require("semantic-ui/semantic");
-var menu_bar_component_html_1 = require("./menu-bar.component.html!");
-var menu_bar_component_css_text_1 = require("./menu-bar.component.css!text");
 var MenuBarComponent = (function () {
     function MenuBarComponent(router, routerService, sidebarService, route) {
         this.breadCrumbs = [];
@@ -65,8 +63,8 @@ var MenuBarComponent = (function () {
     MenuBarComponent = __decorate([
         core_1.Component({
             selector: "cp-menu-bar",
-            template: menu_bar_component_html_1.default,
-            styles: [menu_bar_component_css_text_1.default],
+            templateUrl: "./menu-bar.component.html",
+            styleUrls: ["./menu-bar.component.scss"],
         }), 
         __metadata('design:paramtypes', [router_1.Router, router_service_1.RouterService, sidebar_service_1.SidebarService, router_1.ActivatedRoute])
     ], MenuBarComponent);

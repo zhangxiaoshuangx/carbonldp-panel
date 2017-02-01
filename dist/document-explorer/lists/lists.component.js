@@ -11,8 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var property_component_1 = require("./../property/property.component");
 require("semantic-ui/semantic");
-var lists_component_html_1 = require("./lists.component.html!");
-var lists_component_css_text_1 = require("./lists.component.css!text");
 var ListsComponent = (function () {
     function ListsComponent() {
         this.modes = property_component_1.Modes;
@@ -113,8 +111,8 @@ var ListsComponent = (function () {
     ListsComponent = __decorate([
         core_1.Component({
             selector: "cp-lists",
-            template: lists_component_html_1.default,
-            styles: [lists_component_css_text_1.default],
+            templateUrl: "./lists.component.html",
+            styleUrls: ["./lists.component.scss"],
         }), 
         __metadata('design:paramtypes', [])
     ], ListsComponent);

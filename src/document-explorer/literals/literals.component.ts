@@ -5,13 +5,10 @@ import { Literal, LiteralRow } from "./literal.component";
 
 import "semantic-ui/semantic";
 
-import template from "./literals.component.html!";
-import style from "./literals.component.css!text";
-
 @Component( {
 	selector: "cp-literals",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./literals.component.html",
+	styleUrls: [ "./literals.component.scss" ],
 } )
 
 export class LiteralsComponent implements OnInit {

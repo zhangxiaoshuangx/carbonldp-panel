@@ -2,13 +2,10 @@ import { Component, Input, Output, EventEmitter, ContentChildren, QueryList, Aft
 
 import { TabComponent } from "./tab.component";
 
-import template from "./tabs.component.html!";
-import style from "./tabs.component.css!text";
-
 @Component( {
 	selector: "sui-tabs",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./tabs.component.html",
+	styleUrls: [ "./tabs.component.scss" ],
 } )
 export class TabsComponent implements AfterContentInit, OnChanges {
 	@ContentChildren( TabComponent ) tabs:QueryList<TabComponent>;

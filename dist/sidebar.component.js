@@ -14,8 +14,6 @@ var router_1 = require("@angular/router");
 var jquery_1 = require("jquery");
 require("semantic-ui/semantic");
 var sidebar_service_1 = require("carbonldp-panel/sidebar.service");
-var sidebar_component_html_1 = require("./sidebar.component.html!");
-var sidebar_component_css_text_1 = require("./sidebar.component.css!text");
 var SidebarComponent = (function () {
     function SidebarComponent(router, element, location, sidebarService) {
         var _this = this;
@@ -58,8 +56,8 @@ var SidebarComponent = (function () {
     SidebarComponent = __decorate([
         core_1.Component({
             selector: "cp-sidebar",
-            template: sidebar_component_html_1.default,
-            styles: [sidebar_component_css_text_1.default],
+            templateUrl: "./sidebar.component.html",
+            styleUrls: ["./sidebar.component.scss"],
             host: {
                 class: "ui inverted vertical menu accordion"
             }

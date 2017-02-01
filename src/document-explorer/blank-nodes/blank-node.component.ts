@@ -7,11 +7,9 @@ import { Property, PropertyRow, Modes } from "./../property/property.component";
 import $ from "jquery";
 import "semantic-ui/semantic";
 
-import template from "./blank-node.component.html!";
-
 @Component( {
 	selector: "cp-blank-node",
-	template: template,
+	templateUrl: "./blank-node.component.html",
 	styles: [ ":host { display:block; }" ],
 } )
 

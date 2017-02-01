@@ -14,8 +14,6 @@ var backups_service_1 = require("../backups.service");
 var jobs_service_1 = require("../../job/jobs.service");
 var Job = require("../../job/job");
 require("semantic-ui/semantic");
-var backup_importer_component_html_1 = require("./backup-importer.component.html!");
-var backup_importer_component_css_text_1 = require("./backup-importer.component.css!text");
 var BackupImporterComponent = (function () {
     function BackupImporterComponent(element, backupsService, jobsService) {
         this.importFormModel = {
@@ -237,8 +235,8 @@ var BackupImporterComponent = (function () {
     BackupImporterComponent = __decorate([
         core_1.Component({
             selector: "cp-backup-importer",
-            template: backup_importer_component_html_1.default,
-            styles: [backup_importer_component_css_text_1.default],
+            templateUrl: "./backup-importer.component.html",
+            styleUrls: ["./backup-importer.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, backups_service_1.BackupsService, jobs_service_1.JobsService])
     ], BackupImporterComponent);

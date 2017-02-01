@@ -10,14 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 require("semantic-ui/semantic");
-var create_app_view_html_1 = require("./create-app.view.html!");
 var CreateAppView = (function () {
     function CreateAppView() {
     }
     CreateAppView = __decorate([
         core_1.Component({
             selector: "cp-create-app-view",
-            template: create_app_view_html_1.default,
+            templateUrl: "./create-app.view.html",
             styles: [":host { display: block; }"],
         }), 
         __metadata('design:paramtypes', [])

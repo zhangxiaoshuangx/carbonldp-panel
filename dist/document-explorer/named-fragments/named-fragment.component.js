@@ -12,7 +12,6 @@ var core_1 = require("@angular/core");
 var property_component_1 = require("./../property/property.component");
 var jquery_1 = require("jquery");
 require("semantic-ui/semantic");
-var named_fragment_component_html_1 = require("./named-fragment.component.html!");
 var NamedFragmentComponent = (function () {
     function NamedFragmentComponent(element) {
         this.modes = property_component_1.Modes;
@@ -237,7 +236,7 @@ var NamedFragmentComponent = (function () {
     NamedFragmentComponent = __decorate([
         core_1.Component({
             selector: "cp-named-fragment",
-            template: named_fragment_component_html_1.default,
+            templateUrl: "./named-fragment.view.html",
             styles: [":host { display:block; }"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef])

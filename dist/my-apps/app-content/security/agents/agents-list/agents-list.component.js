@@ -15,8 +15,6 @@ var URI = require("carbonldp/RDF/URI");
 var agents_service_1 = require("../agents.service");
 var agent_details_component_1 = require("../agent-details/agent-details.component");
 var error_message_generator_1 = require("carbonldp-panel/errors-area/error-message-generator");
-var agents_list_component_html_1 = require("./agents-list.component.html!");
-var agents_list_component_css_text_1 = require("./agents-list.component.css!text");
 var AgentsListComponent = (function () {
     function AgentsListComponent(router, route, agentsService) {
         this.agents = [];
@@ -100,8 +98,8 @@ var AgentsListComponent = (function () {
     AgentsListComponent = __decorate([
         core_1.Component({
             selector: "cp-agents-list",
-            template: agents_list_component_html_1.default,
-            styles: [agents_list_component_css_text_1.default],
+            templateUrl: "./agents-list.component.html",
+            styleUrls: ["./agents-list.component.scss"],
         }), 
         __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, agents_service_1.AgentsService])
     ], AgentsListComponent);

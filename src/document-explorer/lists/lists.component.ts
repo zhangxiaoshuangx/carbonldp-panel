@@ -7,13 +7,10 @@ import { List, ListRow } from "./list.component";
 
 import "semantic-ui/semantic";
 
-import template from "./lists.component.html!";
-import style from "./lists.component.css!text";
-
 @Component( {
 	selector: "cp-lists",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./lists.component.html",
+	styleUrls: [ "./lists.component.scss" ],
 } )
 
 export class ListsComponent implements OnInit {

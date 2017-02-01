@@ -14,11 +14,9 @@ import { ErrorMessageGenerator } from "carbonldp-panel/errors-area/error-message
 
 import "semantic-ui/semantic";
 
-import template from "./access-point-creator.component.html!";
-
 @Component( {
 	selector: "cp-access-point-creator",
-	template: template,
+	templateUrl: "./access-point-creator.component.html",
 } )
 
 export class AccessPointCreatorComponent implements AfterViewInit {

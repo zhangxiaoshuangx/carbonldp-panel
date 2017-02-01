@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var App = require("../../app-content/app");
 require("semantic-ui/semantic");
-var app_tile_component_html_1 = require("./app-tile.component.html!");
 var AppTileComponent = (function () {
     function AppTileComponent() {
         this.deleteApp = new core_1.EventEmitter();
@@ -30,7 +29,7 @@ var AppTileComponent = (function () {
     AppTileComponent = __decorate([
         core_1.Component({
             selector: "cp-app-tile",
-            template: app_tile_component_html_1.default,
+            templateUrl: "./app-tile.component.html",
             styles: [":host { display: block; }"],
         }), 
         __metadata('design:paramtypes', [])

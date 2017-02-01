@@ -10,14 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 require("semantic-ui/semantic");
-var apps_catalog_view_html_1 = require("./apps-catalog.view.html!");
 var AppsCatalogView = (function () {
     function AppsCatalogView() {
     }
     AppsCatalogView = __decorate([
         core_1.Component({
             selector: "cp-apps-catalog-view",
-            template: apps_catalog_view_html_1.default,
+            templateUrl: "./apps-catalog.view.html",
             styles: [":host { display: block; }"],
         }), 
         __metadata('design:paramtypes', [])

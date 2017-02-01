@@ -5,11 +5,9 @@ import * as App from "./../app";
 
 import "semantic-ui/semantic";
 
-import template from "./configuration.view.html!";
-
 @Component( {
 	selector: "cp-configuration-view",
-	template: template,
+	templateUrl: "./configuration.view.html",
 	styles: [ ":host { display: block; }" ],
 } )
 export class ConfigurationView {

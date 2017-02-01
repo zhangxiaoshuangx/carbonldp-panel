@@ -5,13 +5,10 @@ import { MyAppsSidebarService } from "./../my-apps-sidebar.service";
 import { AppContentService } from "./app-content.service";
 import * as App from "./app";
 
-import template from "./app-content.view.html!";
-import style from "./app-content.view.css!text";
-
 @Component( {
 	selector: "cp-app-content",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./app-content.component.html",
+	styleUrls: [ "./app-content.component.scss" ],
 } )
 export class AppContentView {
 

@@ -9,13 +9,10 @@ import { NamedFragmentRow } from "./../named-fragments/named-fragment.component"
 import $ from "jquery";
 import "semantic-ui/semantic";
 
-import template from "./pointer.component.html!";
-import style from "./pointer.component.css!text";
-
 @Component( {
 	selector: "tr.cp-pointer",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./pointer.component.html",
+	styleUrls: [ "./pointer.component.scss" ],
 } )
 
 export class PointerComponent implements OnChanges {

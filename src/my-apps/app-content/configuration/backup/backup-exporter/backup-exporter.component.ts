@@ -10,13 +10,10 @@ import * as Job from "../../job/job";
 
 import "semantic-ui/semantic";
 
-import template from "./backup-exporter.component.html!";
-import style from "./backup-exporter.component.css!text";
-
 @Component( {
 	selector: "cp-backup-exporter",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./backup-exporter.component.html",
+	styleUrls: [ "./backup-exporter.component.scss" ],
 } )
 
 export class BackupExporterComponent implements OnDestroy {

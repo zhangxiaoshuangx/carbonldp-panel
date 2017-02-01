@@ -14,8 +14,6 @@ var documents_resolver_service_1 = require("../documents-resolver.service");
 var error_message_generator_1 = require("carbonldp-panel/errors-area/error-message-generator");
 var document_explorer_library_1 = require("carbonldp-panel/document-explorer/document-explorer-library");
 require("semantic-ui/semantic");
-var document_deleter_component_html_1 = require("./document-deleter.component.html!");
-var document_deleter_component_css_text_1 = require("./document-deleter.component.css!text");
 var DocumentDeleterComponent = (function () {
     function DocumentDeleterComponent(element, documentsResolverService) {
         this.deleteDocumentFormModel = {};
@@ -74,8 +72,8 @@ var DocumentDeleterComponent = (function () {
     DocumentDeleterComponent = __decorate([
         core_1.Component({
             selector: "cp-document-deleter",
-            template: document_deleter_component_html_1.default,
-            styles: [document_deleter_component_css_text_1.default],
+            templateUrl: "./document-deleter.component.html",
+            styleUrls: ["./document-deleter.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, documents_resolver_service_1.DocumentsResolverService])
     ], DocumentDeleterComponent);

@@ -13,14 +13,10 @@ import { Message } from "./../../../../../errors-area/error-message.component";
 
 import "semantic-ui/semantic";
 
-import template from "./backup-importer.component.html!";
-import style from "./backup-importer.component.css!text";
-
-
 @Component( {
 	selector: "cp-backup-importer",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./backup-importer.component.html",
+	styleUrls: [ "./backup-importer.component.scss" ],
 } )
 
 export class BackupImporterComponent implements OnInit, OnDestroy {

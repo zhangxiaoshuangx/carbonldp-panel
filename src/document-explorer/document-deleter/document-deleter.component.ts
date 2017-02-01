@@ -10,13 +10,10 @@ import { DocumentExplorerLibrary } from "carbonldp-panel/document-explorer/docum
 
 import "semantic-ui/semantic";
 
-import template from "./document-deleter.component.html!";
-import style from "./document-deleter.component.css!text";
-
 @Component( {
 	selector: "cp-document-deleter",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./document-deleter.component.html",
+	styleUrls: [ "./document-deleter.component.scss" ],
 } )
 
 export class DocumentDeleterComponent implements AfterViewInit {

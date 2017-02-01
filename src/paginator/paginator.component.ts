@@ -1,10 +1,8 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChange } from "@angular/core";
 
-import template from "./paginator.component.html!";
-
 @Component( {
 	selector: "cp-paginator",
-	template: template,
+	templateUrl: "./paginator.component.html",
 	styles: [ ":host{ display:block; }" ],
 } )
 

@@ -6,13 +6,10 @@ import { HeaderItem } from "carbonldp-panel/header.service";
 import $ from "jquery";
 import "semantic-ui/semantic";
 
-import template from "./header-item.component.html!";
-import style from "./header-item.component.css!text";
-
 @Component( {
 	selector: "cp-header-item",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./header-item.component.html",
+	styleUrls: [ "./header-item.component.scss" ],
 } )
 export class HeaderItemComponent implements AfterViewInit {
 	@Input( "item" ) item:HeaderItem;

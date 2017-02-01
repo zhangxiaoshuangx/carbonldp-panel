@@ -16,7 +16,6 @@ var HTTP = require("carbonldp/HTTP");
 var CS = require("carbonldp/NS/CS");
 var app_context_service_1 = require("./../app-context.service");
 require("semantic-ui/semantic");
-var create_app_component_html_1 = require("./create-app.component.html!");
 var CreateAppComponent = (function () {
     function CreateAppComponent(carbon, appContextService, router) {
         this.submitting = false;
@@ -165,7 +164,7 @@ var CreateAppComponent = (function () {
     CreateAppComponent = __decorate([
         core_1.Component({
             selector: "cp-create-app",
-            template: create_app_component_html_1.default,
+            templateUrl: "./create-app.component.html",
             styles: [":host { display: block; }"],
         }), 
         __metadata('design:paramtypes', [Carbon_1.default, app_context_service_1.AppContextService, router_1.Router])

@@ -10,8 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var App = require("carbonldp/App");
-var agents_component_html_1 = require("./agents.component.html!");
-var agents_component_css_text_1 = require("./agents.component.css!text");
 var AgentsComponent = (function () {
     function AgentsComponent() {
     }
@@ -22,8 +20,8 @@ var AgentsComponent = (function () {
     AgentsComponent = __decorate([
         core_1.Component({
             selector: "cp-agents",
-            template: agents_component_html_1.default,
-            styles: [agents_component_css_text_1.default],
+            templateUrl: "./agents.component.html",
+            styleUrls: ["./agents.component.scss"],
         }), 
         __metadata('design:paramtypes', [])
     ], AgentsComponent);

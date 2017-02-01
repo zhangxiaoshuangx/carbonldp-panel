@@ -14,7 +14,6 @@ var documents_resolver_service_1 = require("../documents-resolver.service");
 var document_explorer_library_1 = require("carbonldp-panel/document-explorer/document-explorer-library");
 var error_message_generator_1 = require("carbonldp-panel/errors-area/error-message-generator");
 require("semantic-ui/semantic");
-var document_creator_component_html_1 = require("./document-creator.component.html!");
 var DocumentCreatorComponent = (function () {
     function DocumentCreatorComponent(element, documentsResolverService) {
         this.createChildFormModel = {
@@ -98,7 +97,7 @@ var DocumentCreatorComponent = (function () {
     DocumentCreatorComponent = __decorate([
         core_1.Component({
             selector: "cp-document-creator",
-            template: document_creator_component_html_1.default,
+            templateUrl: "./document-creator.component.html",
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, documents_resolver_service_1.DocumentsResolverService])
     ], DocumentCreatorComponent);

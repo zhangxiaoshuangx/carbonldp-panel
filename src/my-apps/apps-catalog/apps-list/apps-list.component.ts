@@ -4,13 +4,10 @@ import * as App from "../../app-content/app";
 
 import "semantic-ui/semantic";
 
-import template from "./apps-list.component.html!";
-import style from "./apps-list.component.css!text";
-
 @Component( {
 	selector: "cp-apps-list",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./apps-list.component.html",
+	styleUrls: [ "./apps-list.component.scss" ],
 } )
 export class AppsListComponent {
 	@Input() apps:App.Class[];

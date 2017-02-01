@@ -9,7 +9,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var paginator_component_html_1 = require("./paginator.component.html!");
 var PaginatorComponent = (function () {
     function PaginatorComponent() {
         this.pages = [];
@@ -79,7 +78,7 @@ var PaginatorComponent = (function () {
     PaginatorComponent = __decorate([
         core_1.Component({
             selector: "cp-paginator",
-            template: paginator_component_html_1.default,
+            templateUrl: "./paginator.component.html",
             styles: [":host{ display:block; }"],
         }), 
         __metadata('design:paramtypes', [])

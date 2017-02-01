@@ -10,13 +10,10 @@ import { Modes } from "./../property/property.component"
 import $ from "jquery";
 import "semantic-ui/semantic";
 
-import template from "./literal.component.html!";
-import style from "./literal.component.css!text";
-
 @Component( {
 	selector: "tr.cp-literal",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./literal.component.html",
+	styleUrls: [ "./literal.component.scss" ],
 } )
 
 export class LiteralComponent {

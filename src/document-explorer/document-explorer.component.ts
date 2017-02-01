@@ -10,13 +10,11 @@ import { Message } from "carbonldp-panel/errors-area/error-message.component";
 
 import "semantic-ui/semantic";
 
-import template from "./document-explorer.component.html!";
-import style from "./document-explorer.component.css!text";
 
 @Component( {
 	selector: "cp-document-explorer",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./document-explorer.component.html",
+	styleUrls: [ "./document-explorer.component.scss" ],
 } )
 
 export class DocumentExplorerComponent {

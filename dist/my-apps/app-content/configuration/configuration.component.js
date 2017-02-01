@@ -11,8 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var App = require("carbonldp/App");
 require("semantic-ui/semantic");
-var configuration_component_html_1 = require("./configuration.component.html!");
-var configuration_component_css_text_1 = require("./configuration.component.css!text");
 var ConfigurationComponent = (function () {
     function ConfigurationComponent() {
     }
@@ -23,8 +21,8 @@ var ConfigurationComponent = (function () {
     ConfigurationComponent = __decorate([
         core_1.Component({
             selector: "cp-configuration",
-            template: configuration_component_html_1.default,
-            styles: [configuration_component_css_text_1.default],
+            templateUrl: "./configuration.component.html",
+            styleUrls: ["./configuration.component.scss"],
         }), 
         __metadata('design:paramtypes', [])
     ], ConfigurationComponent);

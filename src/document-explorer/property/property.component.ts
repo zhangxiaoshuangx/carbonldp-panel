@@ -14,13 +14,10 @@ import { NamedFragmentRow } from "./../named-fragments/named-fragment.component"
 import $ from "jquery";
 import "semantic-ui/semantic";
 
-import template from "./property.component.html!";
-import style from "./property.component.css!text";
-
 @Component( {
 	selector: "cp-property",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./property.component.html",
+	styleUrls: [ "./property.component.scss" ],
 	host: { "[class.has-changed]": "property.modified", "[class.deleted-property]": "property.deleted", "[class.added-property]": "property.added" },
 } )
 

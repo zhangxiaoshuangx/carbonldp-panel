@@ -14,7 +14,6 @@ var documents_resolver_service_1 = require("../documents-resolver.service");
 var document_explorer_library_1 = require("carbonldp-panel/document-explorer/document-explorer-library");
 var error_message_generator_1 = require("carbonldp-panel/errors-area/error-message-generator");
 require("semantic-ui/semantic");
-var access_point_creator_component_html_1 = require("./access-point-creator.component.html!");
 var AccessPointCreatorComponent = (function () {
     function AccessPointCreatorComponent(element, documentsResolverService) {
         this.visible = true;
@@ -98,7 +97,7 @@ var AccessPointCreatorComponent = (function () {
     AccessPointCreatorComponent = __decorate([
         core_1.Component({
             selector: "cp-access-point-creator",
-            template: access_point_creator_component_html_1.default,
+            templateUrl: "./access-point-creator.component.html",
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, documents_resolver_service_1.DocumentsResolverService])
     ], AccessPointCreatorComponent);

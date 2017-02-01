@@ -2,11 +2,9 @@ import { Component } from "@angular/core";
 
 import "semantic-ui/semantic";
 
-import template from "./create-app.view.html!";
-
 @Component( {
 	selector: "cp-create-app-view",
-	template: template,
+	templateUrl: "./create-app.view.html",
 	styles: [ ":host { display: block; }" ],
 } )
 

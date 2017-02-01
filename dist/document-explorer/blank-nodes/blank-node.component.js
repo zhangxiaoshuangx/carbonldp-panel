@@ -12,7 +12,6 @@ var core_1 = require("@angular/core");
 var property_component_1 = require("./../property/property.component");
 var jquery_1 = require("jquery");
 require("semantic-ui/semantic");
-var blank_node_component_html_1 = require("./blank-node.component.html!");
 var BlankNodeComponent = (function () {
     function BlankNodeComponent(element) {
         this.modes = property_component_1.Modes;
@@ -248,7 +247,7 @@ var BlankNodeComponent = (function () {
     BlankNodeComponent = __decorate([
         core_1.Component({
             selector: "cp-blank-node",
-            template: blank_node_component_html_1.default,
+            templateUrl: "./blank-node.component.html",
             styles: [":host { display:block; }"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef])

@@ -12,13 +12,10 @@ import { Message } from "../../../errors-area/error-message.component";
 
 import "semantic-ui/semantic";
 
-import template from "./edit-app.component.html!";
-import style from "./edit-app.component.css!text";
-
 @Component( {
 	selector: "cp-edit-app",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./edit-app.component.html",
+	styleUrls: [ "./edit-app.component.scss" ],
 } )
 
 export class EditAppComponent implements OnInit {

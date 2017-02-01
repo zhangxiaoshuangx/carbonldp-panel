@@ -9,15 +9,13 @@ import "codemirror/mode/sparql/sparql";
 import "codemirror/mode/xml/xml";
 import "codemirror/mode/turtle/turtle";
 
-import "codemirror/lib/codemirror.css!";
-import "codemirror/theme/mbo.css!";
-
-import style from "./code-mirror.component.css!text";
+// import "codemirror/lib/codemirror.css";
+// import "codemirror/theme/mbo.css";
 
 @Component( {
 	selector: "cp-code-mirror",
 	template: "<ng-content></ng-content>",
-	styles: [ style ],
+	styleUrls: [ "./code-mirror.component.scss" ],
 } )
 export class Class implements AfterContentInit, OnChanges, OnDestroy {
 	element:ElementRef;

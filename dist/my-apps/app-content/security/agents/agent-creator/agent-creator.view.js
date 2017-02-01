@@ -13,7 +13,6 @@ var common_1 = require("@angular/common");
 var router_1 = require("@angular/router");
 var app_content_service_1 = require("carbonldp-panel/my-apps/app-content/app-content.service");
 var agent_details_component_1 = require("../agent-details/agent-details.component");
-var agent_creator_view_html_1 = require("./agent-creator.view.html!");
 var AgentCreatorView = (function () {
     function AgentCreatorView(router, route, appContentService, location) {
         var _this = this;
@@ -37,7 +36,7 @@ var AgentCreatorView = (function () {
     AgentCreatorView = __decorate([
         core_1.Component({
             selector: "cp-agent-creator-view",
-            template: agent_creator_view_html_1.default,
+            templateUrl: "./agent-creator.view.html",
             styles: [":host { display: block; }"]
         }), 
         __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, app_content_service_1.AppContentService, common_1.Location])

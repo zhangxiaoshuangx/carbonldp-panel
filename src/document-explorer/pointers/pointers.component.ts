@@ -7,13 +7,11 @@ import { Pointer, PointerRow } from "./pointer.component";
 
 import "semantic-ui/semantic";
 
-import template from "./pointers.component.html!";
-import style from "./pointers.component.css!text";
 
 @Component( {
 	selector: "cp-pointers",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./pointers.component.html",
+	styleUrls: [ "./pointers.component.scss" ],
 } )
 
 export class PointersComponent implements OnInit {

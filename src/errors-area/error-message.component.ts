@@ -3,13 +3,10 @@ import { Component, Input, Output, ElementRef, SimpleChange, EventEmitter, OnCha
 import $ from "jquery";
 import "semantic-ui/semantic";
 
-import template from "./error-message.component.html!";
-import style from "./error-message.component.css!text";
-
 @Component( {
 	selector: "cp-error-message",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./error-message.component.html",
+	styleUrls: [ "./error-message.component.scss" ],
 } )
 
 export class ErrorMessageComponent implements OnChanges, AfterViewInit {
