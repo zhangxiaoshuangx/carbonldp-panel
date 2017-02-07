@@ -56,8 +56,8 @@ var SidebarComponent = (function () {
     SidebarComponent = __decorate([
         core_1.Component({
             selector: "cp-sidebar",
-            templateUrl: "./sidebar.component.html",
-            styleUrls: ["./sidebar.component.scss"],
+            template: require("./sidebar.component.html"),
+            styles: [require("./sidebar.component.css")],
             host: {
                 class: "ui inverted vertical menu accordion"
             }

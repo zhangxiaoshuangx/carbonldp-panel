@@ -28,7 +28,7 @@ var AppsTilesComponent = (function () {
     AppsTilesComponent = __decorate([
         core_1.Component({
             selector: "cp-apps-tiles",
-            templateUrl: "./apps-tiles.component.html",
+            template: require("./apps-tiles.component.html"),
             styles: [":host { display: block; }"],
         }), 
         __metadata('design:paramtypes', [])

@@ -18,7 +18,7 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-create-app",
-	templateUrl: "./create-app.component.html",
+	template: require( "./create-app.component.html" ),
 	styles: [ ":host { display: block; }" ],
 } )
 export class CreateAppComponent implements OnInit {

@@ -19,8 +19,8 @@ import "semantic-ui/semantic";
 @Component( {
 	selector: "cp-document-viewer",
 	host: { "[class.ui]": "true", "[class.basic]": "true", "[class.segment]": "true", },
-	templateUrl: "./document-viewer.component.html",
-	styleUrls: [ "./document-viewer.component.scss" ],
+	template: require( "./document-viewer.component.html" ),
+	styles: [ require( "./document-viewer.component.css" ) ],
 } )
 
 export class DocumentViewerComponent implements AfterViewInit, OnChanges {

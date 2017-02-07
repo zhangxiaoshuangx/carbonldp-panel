@@ -86,8 +86,8 @@ var DocumentExplorerComponent = (function () {
     DocumentExplorerComponent = __decorate([
         core_1.Component({
             selector: "cp-document-explorer",
-            templateUrl: "./document-explorer.component.html",
-            styleUrls: ["./document-explorer.component.scss"],
+            template: require("./document-explorer.component.html"),
+            styles: [require("./document-explorer.component.css")],
         }), 
         __metadata('design:paramtypes', [documents_resolver_service_1.DocumentsResolverService, core_1.NgZone])
     ], DocumentExplorerComponent);

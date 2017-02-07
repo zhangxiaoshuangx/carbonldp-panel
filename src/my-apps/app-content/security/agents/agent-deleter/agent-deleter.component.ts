@@ -12,8 +12,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-agent-deleter",
-	templateUrl: "./agent-deleter.component.html",
-	styleUrls: [ "./agent-deleter.component.scss" ],
+	template: require( "./agent-deleter.component.html" ),
+	styles: [ require( "./agent-deleter.component.css" ) ],
 } )
 
 export class AgentDeleterComponent implements AfterViewInit {

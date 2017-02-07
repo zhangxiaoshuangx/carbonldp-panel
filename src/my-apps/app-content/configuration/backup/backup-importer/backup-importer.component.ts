@@ -15,8 +15,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-backup-importer",
-	templateUrl: "./backup-importer.component.html",
-	styleUrls: [ "./backup-importer.component.scss" ],
+	template: require( "./backup-importer.component.html" ),
+	styles: [ require( "./backup-importer.component.css" ) ],
 } )
 
 export class BackupImporterComponent implements OnInit, OnDestroy {

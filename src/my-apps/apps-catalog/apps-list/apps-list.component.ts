@@ -6,8 +6,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-apps-list",
-	templateUrl: "./apps-list.component.html",
-	styleUrls: [ "./apps-list.component.scss" ],
+	template: require( "./apps-list.component.html" ),
+	styles: [ require( "./apps-list.component.css" ) ],
 } )
 export class AppsListComponent {
 	@Input() apps:App.Class[];

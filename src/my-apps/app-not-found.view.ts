@@ -3,8 +3,8 @@ import { Router } from "@angular/router";
 
 @Component( {
 	selector: "cp-app-content",
-	templateUrl: "./app-not-found.component.html",
-	styleUrls: [ "./app-not-found.component.scss" ],
+	template: require( "./app-not-found.view.html" ),
+	styles: [ require( "./app-not-found.view.css" ) ],
 } )
 export class AppNotFoundView implements OnInit {
 	private timer:number;

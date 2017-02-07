@@ -236,7 +236,7 @@ var NamedFragmentComponent = (function () {
     NamedFragmentComponent = __decorate([
         core_1.Component({
             selector: "cp-named-fragment",
-            templateUrl: "./named-fragment.view.html",
+            template: require("./named-fragment.component.html"),
             styles: [":host { display:block; }"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef])

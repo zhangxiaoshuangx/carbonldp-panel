@@ -16,7 +16,7 @@ var AppsCatalogView = (function () {
     AppsCatalogView = __decorate([
         core_1.Component({
             selector: "cp-apps-catalog-view",
-            templateUrl: "./apps-catalog.view.html",
+            template: require("./apps-catalog.view.html"),
             styles: [":host { display: block; }"],
         }), 
         __metadata('design:paramtypes', [])

@@ -24,7 +24,7 @@ var EditAppView = (function () {
     EditAppView = __decorate([
         core_1.Component({
             selector: "cp-edit-app-view",
-            templateUrl: "./edit-app.view.html",
+            template: require("./edit-app.view.html"),
             styles: [":host { display: block; }"]
         }), 
         __metadata('design:paramtypes', [app_content_service_1.AppContentService])

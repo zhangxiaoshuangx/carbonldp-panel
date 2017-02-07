@@ -8,11 +8,9 @@ import { Property, PropertyRow, Modes } from "./../property/property.component";
 import $ from "jquery";
 import "semantic-ui/semantic";
 
-import template from "./named-fragment.component.html!";
-
 @Component( {
 	selector: "cp-named-fragment",
-	templateUrl: "./named-fragment.view.html",
+	template: require( "./named-fragment.component.html" ),
 	styles: [ ":host { display:block; }" ],
 } )
 

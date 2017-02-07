@@ -33,7 +33,7 @@ var AppActionButtonsComponent = (function () {
     AppActionButtonsComponent = __decorate([
         core_1.Component({
             selector: "cp-app-action-buttons",
-            templateUrl: "./app-action-buttons.component.html",
+            template: require("./app-action-buttons.component.html"),
             styles: [":host { display:block; }"],
         }), 
         __metadata('design:paramtypes', [])

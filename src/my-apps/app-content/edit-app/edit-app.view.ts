@@ -7,7 +7,7 @@ import template from "./edit-app.view.html!";
 
 @Component( {
 	selector: "cp-edit-app-view",
-	templateUrl: "./edit-app.view.html",
+	template: require( "./edit-app.view.html" ),
 	styles: [ ":host { display: block; }" ]
 } )
 export class EditAppView {

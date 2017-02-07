@@ -7,8 +7,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-errors-area",
-	templateUrl: "./errors-area.component.html",
-	styleUrls: [ "./errors-area.component.scss" ],
+	template: require( "./errors-area.component.html" ),
+	styles: [ require( "./errors-area.component.css" ) ],
 } )
 export class ErrorsAreaComponent implements AfterViewInit {
 	messages:Message[] = [];

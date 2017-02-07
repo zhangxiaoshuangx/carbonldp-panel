@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChange } from 
 
 @Component( {
 	selector: "cp-paginator",
-	templateUrl: "./paginator.component.html",
+	template: require( "./paginator.component.html" ),
 	styles: [ ":host{ display:block; }" ],
 } )
 

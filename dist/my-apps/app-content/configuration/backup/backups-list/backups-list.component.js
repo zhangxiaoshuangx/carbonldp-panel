@@ -171,8 +171,8 @@ var BackupsListComponent = (function () {
     BackupsListComponent = __decorate([
         core_1.Component({
             selector: "cp-backups-list",
-            templateUrl: "./backups-list.component.html",
-            styleUrls: ["./backups-list.component.scss"],
+            template: require("./backups-list.component.html"),
+            styles: [require("./backups-list.component.css")],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, backups_service_1.BackupsService])
     ], BackupsListComponent);

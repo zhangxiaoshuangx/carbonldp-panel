@@ -122,7 +122,7 @@ var RegisterComponent = (function () {
     RegisterComponent = __decorate([
         core_1.Component({
             selector: "cp-register",
-            templateUrl: "./register.component.html",
+            template: require("./register.component.html"),
             styles: [],
         }),
         __param(1, core_1.Inject(services_1.AuthService.Token)), 

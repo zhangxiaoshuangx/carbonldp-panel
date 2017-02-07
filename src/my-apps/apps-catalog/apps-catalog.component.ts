@@ -18,7 +18,7 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-apps-catalog",
-	templateUrl: "./apps-catalog.component.html",
+	template: require( "./apps-catalog.component.html"),
 	styles: [ ":host { display: block; }" ],
 } )
 export class AppsCatalogComponent implements OnInit {

@@ -13,8 +13,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-document-explorer",
-	templateUrl: "./document-explorer.component.html",
-	styleUrls: [ "./document-explorer.component.scss" ],
+	template: require( "./document-explorer.component.html" ),
+	styles: [ require( "./document-explorer.component.css" ) ],
 } )
 
 export class DocumentExplorerComponent {

@@ -29,8 +29,8 @@ var AppNotFoundView = (function () {
     AppNotFoundView = __decorate([
         core_1.Component({
             selector: "cp-app-content",
-            templateUrl: "./app-not-found.component.html",
-            styleUrls: ["./app-not-found.component.scss"],
+            template: require("./app-not-found.view.html"),
+            styles: [require("./app-not-found.view.css")],
         }), 
         __metadata('design:paramtypes', [router_1.Router])
     ], AppNotFoundView);

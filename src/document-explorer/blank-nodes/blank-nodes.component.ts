@@ -10,8 +10,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-blank-nodes",
-	templateUrl: "./blank-nodes.component.html",
-	styleUrls: [ "./blank-nodes.component.scss" ],
+	template: require( "./blank-nodes.component.html" ),
+	styles: [ require( "./blank-nodes.component.css" ) ],
 } )
 
 export class BlankNodesComponent implements AfterViewInit, OnChanges {

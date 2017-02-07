@@ -71,8 +71,8 @@ var ResultsetTableComponent = (function () {
     ResultsetTableComponent = __decorate([
         core_1.Component({
             selector: "cp-resultset-table",
-            templateUrl: "./resultset-table.component.html",
-            styleUrls: ["./resultset-table.component.scss"],
+            template: require("./resultset-table.component.html"),
+            styles: [require("./resultset-table.component.css")],
         }), 
         __metadata('design:paramtypes', [])
     ], ResultsetTableComponent);

@@ -9,7 +9,7 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-blank-node",
-	templateUrl: "./blank-node.component.html",
+	template: require( "./blank-node.component.html" ),
 	styles: [ ":host { display:block; }" ],
 } )
 

@@ -273,8 +273,8 @@ var DocumentTreeViewComponent = (function () {
     DocumentTreeViewComponent = __decorate([
         core_1.Component({
             selector: "cp-document-treeview",
-            templateUrl: "./document-tree-view.component.html",
-            styleUrls: ["./document-tree-view.component.scss"],
+            template: require("./document-tree-view.component.html"),
+            styles: [require("./document-tree-view.component.css")],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef])
     ], DocumentTreeViewComponent);

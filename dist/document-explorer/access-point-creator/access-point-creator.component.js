@@ -97,7 +97,7 @@ var AccessPointCreatorComponent = (function () {
     AccessPointCreatorComponent = __decorate([
         core_1.Component({
             selector: "cp-access-point-creator",
-            templateUrl: "./access-point-creator.component.html",
+            template: require("./access-point-creator.component.html"),
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, documents_resolver_service_1.DocumentsResolverService])
     ], AccessPointCreatorComponent);

@@ -8,8 +8,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-header-item",
-	templateUrl: "./header-item.component.html",
-	styleUrls: [ "./header-item.component.scss" ],
+	template: require( "./header-item.component.html" ),
+	styles: [ require( "./header-item.component.css" ) ],
 } )
 export class HeaderItemComponent implements AfterViewInit {
 	@Input( "item" ) item:HeaderItem;

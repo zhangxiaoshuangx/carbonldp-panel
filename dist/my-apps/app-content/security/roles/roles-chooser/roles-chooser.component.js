@@ -78,8 +78,8 @@ var RolesChooserComponent = (function () {
     RolesChooserComponent = __decorate([
         core_1.Component({
             selector: "cp-roles-chooser",
-            templateUrl: "./roles-chooser.component.html",
-            styleUrls: ["./roles-chooser.component.scss"],
+            template: require("./roles-chooser.component.html"),
+            styles: [require("./roles-chooser.component.css")],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, roles_service_1.RolesService])
     ], RolesChooserComponent);

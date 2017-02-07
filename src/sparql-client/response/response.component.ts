@@ -8,8 +8,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-sparql-response",
-	templateUrl: "./response.component.html",
-	styleUrls: [ "./response.component.scss" ],
+	template: require( "./response.component.html" ),
+	styles: [ require( "./response.component.css" ) ],
 } )
 export class ResponseComponent implements AfterViewInit, OnInit {
 	element:ElementRef;

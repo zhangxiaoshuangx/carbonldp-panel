@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 
 @Component( {
 	selector: "cp-security-view",
-	templateUrl: "./security.view.html",
+	template: require( "./security.view.html" ),
 	styles: [ ":host { display: block; }" ],
 } )
 

@@ -137,8 +137,8 @@ var EditAppComponent = (function () {
     EditAppComponent = __decorate([
         core_1.Component({
             selector: "cp-edit-app",
-            templateUrl: "./edit-app.component.html",
-            styleUrls: ["./edit-app.component.scss"],
+            template: require("./edit-app.component.html"),
+            styles: [require("./edit-app.component.css")],
         }), 
         __metadata('design:paramtypes', [app_context_service_1.AppContextService])
     ], EditAppComponent);

@@ -9,7 +9,7 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-document-resource",
-	templateUrl: "./document-resource.component.html",
+	template: require( "./document-resource.component.html" ),
 	styles: [ ":host { display:block; }" ],
 } )
 

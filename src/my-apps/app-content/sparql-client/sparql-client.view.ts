@@ -7,7 +7,7 @@ import { ErrorsAreaService } from "carbonldp-panel/errors-area/errors-area.servi
 
 @Component( {
 	selector: "cp-sparql-client-view",
-	templateUrl: "./sparql-client.view.html",
+	template: require( "./sparql-client.view.html"),
 	styles: [ ":host { display: block; }" ],
 } )
 export class SPARQLClientView {

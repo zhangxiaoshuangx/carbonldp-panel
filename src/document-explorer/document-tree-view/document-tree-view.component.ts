@@ -14,8 +14,8 @@ import "jstree/dist/jstree.min";
 
 @Component( {
 	selector: "cp-document-treeview",
-	templateUrl: "./document-tree-view.component.html",
-	styleUrls: [ "./document-tree-view.component.scss" ],
+	template: require("./document-tree-view.component.html"),
+	styles: [ require("./document-tree-view.component.css") ],
 } )
 
 export class DocumentTreeViewComponent implements AfterViewInit, OnInit {

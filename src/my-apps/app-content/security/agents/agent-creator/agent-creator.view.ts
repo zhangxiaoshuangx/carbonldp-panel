@@ -9,7 +9,7 @@ import { Modes } from "../agent-details/agent-details.component";
 
 @Component( {
 	selector: "cp-agent-creator-view",
-	templateUrl: "./agent-creator.view.html",
+	template: require( "./agent-creator.view.html" ),
 	styles: [ ":host { display: block; }" ]
 } )
 export class AgentCreatorView {

@@ -105,7 +105,7 @@ var LoginComponent = (function () {
     LoginComponent = __decorate([
         core_1.Component({
             selector: "cp-login",
-            templateUrl: "./login.component.html",
+            template: require("./login.component.html"),
             styles: [":host { display:block; } "],
         }),
         __param(1, core_1.Inject(services_1.AuthService.Token)), 

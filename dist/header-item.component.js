@@ -35,8 +35,8 @@ var HeaderItemComponent = (function () {
     HeaderItemComponent = __decorate([
         core_1.Component({
             selector: "cp-header-item",
-            templateUrl: "./header-item.component.html",
-            styleUrls: ["./header-item.component.scss"],
+            template: require("./header-item.component.html"),
+            styles: [require("./header-item.component.css")],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, router_service_1.RouterService])
     ], HeaderItemComponent);

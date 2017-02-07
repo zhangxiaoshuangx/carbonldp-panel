@@ -9,8 +9,8 @@ import { SidebarService } from "carbonldp-panel/sidebar.service"
 
 @Component( {
 	selector: "cp-sidebar",
-	templateUrl: "./sidebar.component.html",
-	styleUrls: [ "./sidebar.component.scss" ],
+	template: require( "./sidebar.component.html" ),
+	styles: [ require( "./sidebar.component.css" ) ],
 	host: {
 		class: "ui inverted vertical menu accordion"
 	}

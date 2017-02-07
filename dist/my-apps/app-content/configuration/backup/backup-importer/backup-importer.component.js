@@ -235,8 +235,8 @@ var BackupImporterComponent = (function () {
     BackupImporterComponent = __decorate([
         core_1.Component({
             selector: "cp-backup-importer",
-            templateUrl: "./backup-importer.component.html",
-            styleUrls: ["./backup-importer.component.scss"],
+            template: require("./backup-importer.component.html"),
+            styles: [require("./backup-importer.component.css")],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, backups_service_1.BackupsService, jobs_service_1.JobsService])
     ], BackupImporterComponent);

@@ -7,8 +7,8 @@ import * as App from "./app";
 
 @Component( {
 	selector: "cp-app-content",
-	templateUrl: "./app-content.component.html",
-	styleUrls: [ "./app-content.component.scss" ],
+	template: require( "./app-content.view.html" ),
+	styles: [ require( "./app-content.view.css" ) ],
 } )
 export class AppContentView {
 

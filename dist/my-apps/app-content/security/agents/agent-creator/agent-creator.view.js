@@ -36,7 +36,7 @@ var AgentCreatorView = (function () {
     AgentCreatorView = __decorate([
         core_1.Component({
             selector: "cp-agent-creator-view",
-            templateUrl: "./agent-creator.view.html",
+            template: require("./agent-creator.view.html"),
             styles: [":host { display: block; }"]
         }), 
         __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, app_content_service_1.AppContentService, common_1.Location])

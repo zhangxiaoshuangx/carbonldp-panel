@@ -4,7 +4,7 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-create-app-view",
-	templateUrl: "./create-app.view.html",
+	template: require( "./create-app.view.html" ),
 	styles: [ ":host { display: block; }" ],
 } )
 

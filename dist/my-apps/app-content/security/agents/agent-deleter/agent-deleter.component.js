@@ -78,8 +78,8 @@ var AgentDeleterComponent = (function () {
     AgentDeleterComponent = __decorate([
         core_1.Component({
             selector: "cp-agent-deleter",
-            templateUrl: "./agent-deleter.component.html",
-            styleUrls: ["./agent-deleter.component.scss"],
+            template: require("./agent-deleter.component.html"),
+            styles: [require("./agent-deleter.component.css")],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, agents_service_1.AgentsService])
     ], AgentDeleterComponent);

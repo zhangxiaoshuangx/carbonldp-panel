@@ -90,8 +90,8 @@ var ErrorMessageComponent = (function () {
     ErrorMessageComponent = __decorate([
         core_1.Component({
             selector: "cp-error-message",
-            templateUrl: "./error-message.component.html",
-            styleUrls: ["./error-message.component.scss"],
+            template: require("./error-message.component.html"),
+            styles: [require("./error-message.component.css")],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef])
     ], ErrorMessageComponent);

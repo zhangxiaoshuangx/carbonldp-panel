@@ -12,8 +12,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "tr.cp-literal",
-	templateUrl: "./literal.component.html",
-	styleUrls: [ "./literal.component.scss" ],
+	template: require( "./literal.component.html" ),
+	styles: [ require( "./literal.component.css" ) ],
 } )
 
 export class LiteralComponent {

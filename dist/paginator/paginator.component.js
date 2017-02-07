@@ -78,7 +78,7 @@ var PaginatorComponent = (function () {
     PaginatorComponent = __decorate([
         core_1.Component({
             selector: "cp-paginator",
-            templateUrl: "./paginator.component.html",
+            template: require("./paginator.component.html"),
             styles: [":host{ display:block; }"],
         }), 
         __metadata('design:paramtypes', [])

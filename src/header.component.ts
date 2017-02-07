@@ -7,8 +7,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-header",
-	templateUrl: "./header.component.html",
-	styleUrls: [ "./header.component.scss" ],
+	template: require( "./header.component.html" ),
+	styles: [ require( "./header.component.css" ) ],
 	host: {
 		class: "ui navigation inverted menu"
 	}

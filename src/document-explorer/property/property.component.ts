@@ -16,8 +16,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-property",
-	templateUrl: "./property.component.html",
-	styleUrls: [ "./property.component.scss" ],
+	template: require( "./property.component.html" ),
+	styles: [ require( "./property.component.css" ) ],
 	host: { "[class.has-changed]": "property.modified", "[class.deleted-property]": "property.deleted", "[class.added-property]": "property.added" },
 } )
 

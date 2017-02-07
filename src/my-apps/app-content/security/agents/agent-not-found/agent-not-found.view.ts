@@ -5,8 +5,8 @@ import { Router } from "@angular/router";
 
 @Component( {
 	selector: "cp-agent-not-found",
-	templateUrl: "./agent-not-found.component.html",
-	styleUrls: [ "./agent-not-found.component.scss" ],
+	template: require( "./agent-not-found.view.html" ),
+	styles: [ require( "./agent-not-found.view.css" ) ],
 } )
 export class AgentNotFoundView implements OnInit {
 	private timer:number;

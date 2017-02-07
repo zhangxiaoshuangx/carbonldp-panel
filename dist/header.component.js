@@ -32,8 +32,8 @@ var HeaderComponent = (function () {
     HeaderComponent = __decorate([
         core_1.Component({
             selector: "cp-header",
-            templateUrl: "./header.component.html",
-            styleUrls: ["./header.component.scss"],
+            template: require("./header.component.html"),
+            styles: [require("./header.component.css")],
             host: {
                 class: "ui navigation inverted menu"
             }

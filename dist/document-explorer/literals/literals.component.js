@@ -107,8 +107,8 @@ var LiteralsComponent = (function () {
     LiteralsComponent = __decorate([
         core_1.Component({
             selector: "cp-literals",
-            templateUrl: "./literals.component.html",
-            styleUrls: ["./literals.component.scss"],
+            template: require("./literals.component.html"),
+            styles: [require("./literals.component.css")],
         }), 
         __metadata('design:paramtypes', [])
     ], LiteralsComponent);

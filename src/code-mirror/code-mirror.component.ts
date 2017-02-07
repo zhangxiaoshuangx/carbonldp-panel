@@ -15,7 +15,7 @@ import "codemirror/mode/turtle/turtle";
 @Component( {
 	selector: "cp-code-mirror",
 	template: "<ng-content></ng-content>",
-	styleUrls: [ "./code-mirror.component.scss" ],
+	styles: [ require( "./code-mirror.component.css" ) ],
 } )
 export class Class implements AfterContentInit, OnChanges, OnDestroy {
 	element:ElementRef;
