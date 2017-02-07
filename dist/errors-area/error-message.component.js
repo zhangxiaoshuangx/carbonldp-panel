@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var jquery_1 = require("jquery");
+var $ = require("jquery");
 require("semantic-ui/semantic");
 var ErrorMessageComponent = (function () {
     function ErrorMessageComponent(element) {
@@ -17,7 +17,7 @@ var ErrorMessageComponent = (function () {
         this.showStack = false;
         this.onClose = new core_1.EventEmitter();
         this.element = element;
-        this.$element = jquery_1.default(this.element.nativeElement);
+        this.$element = $(this.element.nativeElement);
     }
     ErrorMessageComponent.prototype.ngOnChanges = function (changes) {
         if (!!changes["message"].currentValue && changes["message"].currentValue !== changes["message"].previousValue) {
@@ -38,7 +38,7 @@ var ErrorMessageComponent = (function () {
     };
     ErrorMessageComponent.prototype.close = function (event, messageDiv) {
         var _this = this;
-        jquery_1.default(messageDiv).transition({
+        $(messageDiv).transition({
             animation: "fade",
             onComplete: function () { _this.onClose.emit(true); }
         });

@@ -13,7 +13,7 @@ import { NamedFragmentsComponent, NamedFragmentsRecords }from "./../named-fragme
 import { BlankNodeRow } from "./../blank-nodes/blank-node.component";
 import { NamedFragmentRow } from "./../named-fragments/named-fragment.component";
 
-import $ from "jquery";
+import * as $ from "jquery";
 import "semantic-ui/semantic";
 
 @Component( {

@@ -13,7 +13,7 @@ var Carbon_1 = require("carbonldp/Carbon");
 var HTTP = require("carbonldp/HTTP");
 var response_component_1 = require("./response/response.component");
 var CodeMirrorComponent = require("carbonldp-panel/code-mirror/code-mirror.component");
-var jquery_1 = require("jquery");
+var $ = require("jquery");
 require("semantic-ui/semantic");
 var SPARQLClientComponent = (function () {
     function SPARQLClientComponent(element, carbon) {
@@ -219,7 +219,7 @@ var SPARQLClientComponent = (function () {
         }
     };
     SPARQLClientComponent.prototype.ngAfterViewInit = function () {
-        this.$element = jquery_1.default(this.element.nativeElement);
+        this.$element = $(this.element.nativeElement);
         this.btnSaveQuery = this.$element.find(".btnSaveQuery");
         this.btnsGroupSaveQuery = this.$element.find(".btnsGroupSaveQuery");
         this.btnSave = this.btnsGroupSaveQuery.find(".btnSave");
@@ -610,7 +610,7 @@ var SPARQLClientComponent = (function () {
         this.sidebar.sidebar("hide");
     };
     SPARQLClientComponent.prototype.closeMessage = function (evt) {
-        jquery_1.default(evt.srcElement).closest(".ui.message").transition("fade");
+        $(evt.srcElement).closest(".ui.message").transition("fade");
     };
     SPARQLClientComponent.prototype.getMessage = function (error) {
         switch (typeof error) {

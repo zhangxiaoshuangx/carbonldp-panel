@@ -3,7 +3,7 @@ import { Component, ElementRef, Input, AfterViewInit } from "@angular/core";
 import { RouterService } from "carbonldp-panel/router.service";
 import { HeaderItem } from "carbonldp-panel/header.service";
 
-import $ from "jquery";
+import * as $ from "jquery";
 import "semantic-ui/semantic";
 
 @Component( {

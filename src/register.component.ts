@@ -4,7 +4,7 @@ import * as HTTP from "carbonldp/HTTP";
 
 import { AuthService } from "angular2-carbonldp/services";
 
-import $ from "jquery";
+import * as $ from "jquery";
 import "semantic-ui/semantic";
 
 @Component( {

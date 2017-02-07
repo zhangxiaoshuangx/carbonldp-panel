@@ -13,7 +13,7 @@ import * as App from "./../app-content/app";
 import { Message } from "./../../errors-area/error-message.component";
 import { AppContextService } from "./../app-context.service";
 
-import $ from "jquery";
+import * as $ from "jquery";
 import "semantic-ui/semantic";
 
 @Component( {

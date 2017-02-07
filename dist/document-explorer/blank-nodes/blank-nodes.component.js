@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var Utils = require("carbonldp/Utils");
-var jquery_1 = require("jquery");
+var $ = require("jquery");
 require("semantic-ui/semantic");
 var BlankNodesComponent = (function () {
     function BlankNodesComponent(element) {
@@ -25,7 +25,7 @@ var BlankNodesComponent = (function () {
         this.element = element;
     }
     BlankNodesComponent.prototype.ngAfterViewInit = function () {
-        this.$element = jquery_1.default(this.element.nativeElement);
+        this.$element = $(this.element.nativeElement);
         this.nodesTab = this.$element.find(".tabular.blank-nodes.menu").tab();
         this.initializeDeletionDimmer();
     };

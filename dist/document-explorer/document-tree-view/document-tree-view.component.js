@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var URI = require("carbonldp/RDF/URI");
 var SDKContext = require("carbonldp/SDKContext");
-var jquery_1 = require("jquery");
+var $ = require("jquery");
 require("semantic-ui/semantic");
 require("jstree/dist/jstree.min");
 var DocumentTreeViewComponent = (function () {
@@ -52,7 +52,7 @@ var DocumentTreeViewComponent = (function () {
     };
     DocumentTreeViewComponent.prototype.ngAfterViewInit = function () {
         var _this = this;
-        this.$element = jquery_1.default(this.element.nativeElement);
+        this.$element = $(this.element.nativeElement);
         this.$tree = this.$element.find(".treeview.content");
         this.$element.find(".treeview.options .dropdown.button").dropdown({ action: "hide" });
         this.onLoadingDocument.emit(true);
@@ -143,8 +143,8 @@ var DocumentTreeViewComponent = (function () {
         });
         this.$tree.on("dblclick.jstree", ".jstree-wholerow", function (e) {
             e.stopImmediatePropagation();
-            var tmpEvt = jquery_1.default.Event("dblclick");
-            jquery_1.default(e.currentTarget).closest(".jstree-node").children(".jstree-anchor").first().trigger(tmpEvt).focus();
+            var tmpEvt = $.Event("dblclick");
+            $(e.currentTarget).closest(".jstree-node").children(".jstree-anchor").first().trigger(tmpEvt).focus();
         });
     };
     DocumentTreeViewComponent.prototype.loadNode = function (obj) {

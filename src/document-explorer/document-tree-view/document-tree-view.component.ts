@@ -7,7 +7,7 @@ import * as URI from "carbonldp/RDF/URI";
 import * as SDKContext from "carbonldp/SDKContext";
 import * as SPARQL from "carbonldp/SPARQL";
 
-import $ from "jquery";
+import * as $ from "jquery";
 import "semantic-ui/semantic";
 
 import "jstree/dist/jstree.min";

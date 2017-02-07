@@ -16,7 +16,7 @@ var HTTP = require("carbonldp/HTTP");
 var my_apps_sidebar_service_1 = require("./../my-apps-sidebar.service");
 var App = require("./../app-content/app");
 var app_context_service_1 = require("./../app-context.service");
-var jquery_1 = require("jquery");
+var $ = require("jquery");
 require("semantic-ui/semantic");
 var AppsCatalogComponent = (function () {
     function AppsCatalogComponent(element, router, route, appContextService, carbon, myAppsSidebarService) {
@@ -36,7 +36,7 @@ var AppsCatalogComponent = (function () {
     }
     AppsCatalogComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.$element = jquery_1.default(this.element.nativeElement);
+        this.$element = $(this.element.nativeElement);
         this.deleteAppConfirmationModal = this.$element.find(".delete-app-confirmation.modal");
         this.searchBox = this.$element.find("input.search");
         var terms = Rx_1.Observable.fromEvent(this.searchBox, "input");
@@ -138,7 +138,7 @@ var AppsCatalogComponent = (function () {
         };
     };
     AppsCatalogComponent.prototype.closeErrorMessage = function (evt) {
-        jquery_1.default(evt.srcElement).closest(".ui.message").transition("fade");
+        $(evt.srcElement).closest(".ui.message").transition("fade");
         this.deleteError = null;
     };
     AppsCatalogComponent.prototype.initializeModal = function () {

@@ -9,7 +9,7 @@ import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 import { BackupsService } from "../backups.service";
 import { Message } from "./../../../../../errors-area/error-message.component";
 
-import $ from "jquery";
+import * as $ from "jquery";
 import "semantic-ui/semantic";
 
 @Component( {

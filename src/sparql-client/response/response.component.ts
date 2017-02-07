@@ -2,7 +2,7 @@ import { Component, Input, Output, ElementRef, EventEmitter, AfterViewInit, OnIn
 
 import * as CodeMirrorComponent from "carbonldp-panel/code-mirror/code-mirror.component";
 
-import $ from "jquery";
+import * as $ from "jquery";
 import "semantic-ui/semantic";
 
 

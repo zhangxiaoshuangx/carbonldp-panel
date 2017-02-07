@@ -13,7 +13,7 @@ var NS = require("carbonldp/NS");
 var Utils = require("carbonldp/Utils");
 var URI = require("carbonldp/RDF/URI");
 var property_component_1 = require("./../property/property.component");
-var jquery_1 = require("jquery");
+var $ = require("jquery");
 require("semantic-ui/semantic");
 var LiteralComponent = (function () {
     function LiteralComponent(element) {
@@ -954,7 +954,7 @@ var LiteralComponent = (function () {
         this.language = language;
     };
     LiteralComponent.prototype.initializeLanguageDropdown = function () {
-        this.languageDropdown = jquery_1.default(this.element.nativeElement.querySelector(".dropdown.languages"));
+        this.languageDropdown = $(this.element.nativeElement.querySelector(".dropdown.languages"));
         this.languageDropdown.dropdown({
             allowAdditions: false,
             onChange: this.changeLanguage.bind(this)
@@ -962,7 +962,7 @@ var LiteralComponent = (function () {
         this.languageDropdown.dropdown("set selected", this.language);
     };
     LiteralComponent.prototype.initializeTypesDropdown = function () {
-        this.searchDropdown = jquery_1.default(this.element.nativeElement.querySelector(".dropdown.types"));
+        this.searchDropdown = $(this.element.nativeElement.querySelector(".dropdown.types"));
         this.searchDropdown.dropdown({
             allowAdditions: true,
             onChange: this.changeType.bind(this)

@@ -5,7 +5,7 @@ import * as URI from "carbonldp/RDF/URI";
 import { NamedFragmentRow } from "./named-fragment.component";
 import { BlankNodeRow } from "./../blank-nodes/blank-node.component";
 
-import $ from "jquery";
+import * as $ from "jquery";
 import "semantic-ui/semantic";
 
 @Component( {

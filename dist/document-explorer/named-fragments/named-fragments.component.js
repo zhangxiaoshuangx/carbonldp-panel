@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var URI = require("carbonldp/RDF/URI");
-var jquery_1 = require("jquery");
+var $ = require("jquery");
 require("semantic-ui/semantic");
 var NamedFragmentsComponent = (function () {
     function NamedFragmentsComponent(element) {
@@ -25,7 +25,7 @@ var NamedFragmentsComponent = (function () {
         this.element = element;
     }
     NamedFragmentsComponent.prototype.ngAfterViewInit = function () {
-        this.$element = jquery_1.default(this.element.nativeElement);
+        this.$element = $(this.element.nativeElement);
         this.nodesTab = this.$element.find(".tabular.named-fragments.menu");
         this.initializeDeletionDimmer();
     };

@@ -1,6 +1,6 @@
 import { Component, Input, Output, ElementRef, SimpleChange, EventEmitter, OnChanges, AfterViewInit } from "@angular/core";
 
-import $ from "jquery";
+import * as $ from "jquery";
 import "semantic-ui/semantic";
 
 @Component( {

@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var URI = require("carbonldp/RDF/URI");
 var property_component_1 = require("./../property/property.component");
-var jquery_1 = require("jquery");
+var $ = require("jquery");
 require("semantic-ui/semantic");
 var PointerComponent = (function () {
     function PointerComponent(element) {
@@ -139,7 +139,7 @@ var PointerComponent = (function () {
         this.mode = property_component_1.Modes.READ;
     };
     PointerComponent.prototype.initializePointersDropdown = function () {
-        this.pointersDropdown = jquery_1.default(this.element.nativeElement.querySelector(".fragments.search.dropdown"));
+        this.pointersDropdown = $(this.element.nativeElement.querySelector(".fragments.search.dropdown"));
         if (!!this.pointersDropdown) {
             this.pointersDropdown.dropdown({
                 allowAdditions: true,

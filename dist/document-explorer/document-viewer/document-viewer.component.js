@@ -16,7 +16,7 @@ var documents_resolver_service_1 = require("./../documents-resolver.service");
 var document_resource_component_1 = require("./../document-resource/document-resource.component");
 var blank_nodes_component_1 = require("./../blank-nodes/blank-nodes.component");
 var named_fragments_component_1 = require("./../named-fragments/named-fragments.component");
-var jquery_1 = require("jquery");
+var $ = require("jquery");
 require("semantic-ui/semantic");
 var DocumentViewerComponent = (function () {
     function DocumentViewerComponent(element, documentsResolverService) {
@@ -76,7 +76,7 @@ var DocumentViewerComponent = (function () {
     });
     DocumentViewerComponent.prototype.ngAfterViewInit = function () {
         var _this = this;
-        this.$element = jquery_1.default(this.element.nativeElement);
+        this.$element = $(this.element.nativeElement);
         this.$successMessage = this.$element.find(".success.message");
         this.displaySuccessMessage.subscribe(function (content) {
             _this.showSuccessMessage(content, 2500);
@@ -250,7 +250,7 @@ var DocumentViewerComponent = (function () {
         });
     };
     DocumentViewerComponent.prototype.closeMessage = function (message) {
-        jquery_1.default(message).transition("fade");
+        $(message).transition("fade");
     };
     DocumentViewerComponent.prototype.showSuccessMessage = function (content, timeout) {
         var _this = this;

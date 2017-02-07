@@ -4,7 +4,7 @@ import * as RDFNode from "carbonldp/RDF/Node";
 
 import { Property, PropertyRow, Modes } from "./../property/property.component";
 
-import $ from "jquery";
+import * as $ from "jquery";
 import "semantic-ui/semantic";
 
 @Component( {

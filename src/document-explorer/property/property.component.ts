@@ -11,7 +11,7 @@ import { Pointer, PointerRow } from "./../pointers/pointer.component";
 import { List, ListRow } from "./../lists/list.component";
 import { NamedFragmentRow } from "./../named-fragments/named-fragment.component";
 
-import $ from "jquery";
+import * as $ from "jquery";
 import "semantic-ui/semantic";
 
 @Component( {

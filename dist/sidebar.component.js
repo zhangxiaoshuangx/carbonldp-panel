@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var common_1 = require("@angular/common");
 var router_1 = require("@angular/router");
-var jquery_1 = require("jquery");
+var $ = require("jquery");
 require("semantic-ui/semantic");
 var sidebar_service_1 = require("carbonldp-panel/sidebar.service");
 var SidebarComponent = (function () {
@@ -27,7 +27,7 @@ var SidebarComponent = (function () {
         this.sidebarService.toggledEmitter.emit(true);
     }
     SidebarComponent.prototype.ngAfterViewInit = function () {
-        this.$element = jquery_1.default(this.element.nativeElement);
+        this.$element = $(this.element.nativeElement);
         this.refreshAccordion();
     };
     SidebarComponent.prototype.toggle = function () {

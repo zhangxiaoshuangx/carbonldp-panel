@@ -13,7 +13,7 @@ var App = require("carbonldp/App");
 var PersistedDocument = require("carbonldp/PersistedDocument");
 var HTTP_1 = require("carbonldp/HTTP");
 var backups_service_1 = require("../backups.service");
-var jquery_1 = require("jquery");
+var $ = require("jquery");
 require("semantic-ui/semantic");
 var BackupsListComponent = (function () {
     function BackupsListComponent(element, backupsService) {
@@ -36,7 +36,7 @@ var BackupsListComponent = (function () {
         });
     }
     BackupsListComponent.prototype.ngAfterViewInit = function () {
-        this.$element = jquery_1.default(this.element.nativeElement);
+        this.$element = $(this.element.nativeElement);
         this.$deleteBackupConfirmationModal = this.$element.find(".delete.backup.modal");
         this.initializeModals();
     };

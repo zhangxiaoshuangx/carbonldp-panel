@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var router_service_1 = require("carbonldp-panel/router.service");
-var jquery_1 = require("jquery");
+var $ = require("jquery");
 require("semantic-ui/semantic");
 var HeaderItemComponent = (function () {
     function HeaderItemComponent(element, routerService) {
@@ -18,7 +18,7 @@ var HeaderItemComponent = (function () {
         this.routerService = routerService;
     }
     HeaderItemComponent.prototype.ngAfterViewInit = function () {
-        this.$element = jquery_1.default(this.element.nativeElement);
+        this.$element = $(this.element.nativeElement);
         this.createDropdownMenus();
     };
     HeaderItemComponent.prototype.createDropdownMenus = function () {

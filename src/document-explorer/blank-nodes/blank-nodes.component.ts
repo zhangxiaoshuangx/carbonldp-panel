@@ -5,7 +5,7 @@ import * as Utils from "carbonldp/Utils";
 
 import { BlankNodeRow } from "./blank-node.component"
 
-import $ from "jquery";
+import * as $ from "jquery";
 import "semantic-ui/semantic";
 
 @Component( {

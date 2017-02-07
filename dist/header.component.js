@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var header_service_1 = require("carbonldp-panel/header.service");
-var jquery_1 = require("jquery");
+var $ = require("jquery");
 require("semantic-ui/semantic");
 var HeaderComponent = (function () {
     function HeaderComponent(element, headerService) {
@@ -18,7 +18,7 @@ var HeaderComponent = (function () {
         this.headerService = headerService;
     }
     HeaderComponent.prototype.ngAfterContentInit = function () {
-        this.$element = jquery_1.default(this.element.nativeElement);
+        this.$element = $(this.element.nativeElement);
         this.createCollapsableMenus();
     };
     HeaderComponent.prototype.createCollapsableMenus = function () {

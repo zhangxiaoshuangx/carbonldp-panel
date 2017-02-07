@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var property_component_1 = require("./../property/property.component");
-var jquery_1 = require("jquery");
+var $ = require("jquery");
 require("semantic-ui/semantic");
 var NamedFragmentComponent = (function () {
     function NamedFragmentComponent(element) {
@@ -61,7 +61,7 @@ var NamedFragmentComponent = (function () {
         configurable: true
     });
     NamedFragmentComponent.prototype.ngAfterViewInit = function () {
-        this.$element = jquery_1.default(this.element.nativeElement);
+        this.$element = $(this.element.nativeElement);
     };
     NamedFragmentComponent.prototype.openBlankNode = function (id) {
         this.onOpenBlankNode.emit(id);

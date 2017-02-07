@@ -2,7 +2,7 @@ import { Component, ElementRef } from "@angular/core";
 import { Location } from "@angular/common";
 import { Router } from "@angular/router";
 
-import $ from "jquery";
+import * as $ from "jquery";
 import "semantic-ui/semantic";
 
 import { SidebarService } from "carbonldp-panel/sidebar.service"

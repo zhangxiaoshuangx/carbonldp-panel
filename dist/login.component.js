@@ -14,7 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 var core_1 = require("@angular/core");
 var services_1 = require("angular2-carbonldp/services");
 var HTTP = require("carbonldp/HTTP");
-var jquery_1 = require("jquery");
+var $ = require("jquery");
 require("semantic-ui/semantic");
 var LoginComponent = (function () {
     function LoginComponent(element, authService) {
@@ -30,7 +30,7 @@ var LoginComponent = (function () {
         this.authService = authService;
     }
     LoginComponent.prototype.ngOnInit = function () {
-        this.$element = jquery_1.default(this.element.nativeElement);
+        this.$element = $(this.element.nativeElement);
         this.$loginForm = this.$element.find("form.login");
         this.$loginForm.find(".ui.checkbox").checkbox();
     };
@@ -87,7 +87,7 @@ var LoginComponent = (function () {
         }
     };
     LoginComponent.prototype.shakeForm = function () {
-        var target = this.container ? jquery_1.default(this.container) : this.$element;
+        var target = this.container ? $(this.container) : this.$element;
         if (!target)
             return;
         target.transition({

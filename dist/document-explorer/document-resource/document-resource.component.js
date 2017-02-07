@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var RDFNode = require("carbonldp/RDF/Node");
 var property_component_1 = require("./../property/property.component");
-var jquery_1 = require("jquery");
+var $ = require("jquery");
 require("semantic-ui/semantic");
 var DocumentResourceComponent = (function () {
     function DocumentResourceComponent(element) {
@@ -53,7 +53,7 @@ var DocumentResourceComponent = (function () {
         configurable: true
     });
     DocumentResourceComponent.prototype.ngAfterViewInit = function () {
-        this.$element = jquery_1.default(this.element.nativeElement);
+        this.$element = $(this.element.nativeElement);
     };
     DocumentResourceComponent.prototype.openBlankNode = function (id) {
         this.onOpenBlankNode.emit(id);

@@ -14,7 +14,7 @@ var SDKList = require("carbonldp/RDF/List");
 var URI = require("carbonldp/RDF/URI");
 var RDFNode = require("carbonldp/RDF/Node");
 var Utils = require("carbonldp/Utils");
-var jquery_1 = require("jquery");
+var $ = require("jquery");
 require("semantic-ui/semantic");
 var PropertyComponent = (function () {
     // TODO: Add @lists and @sets support
@@ -84,7 +84,7 @@ var PropertyComponent = (function () {
             this.fillLiteralsAndPointers();
     };
     PropertyComponent.prototype.ngAfterViewInit = function () {
-        this.$element = jquery_1.default(this.element.nativeElement);
+        this.$element = $(this.element.nativeElement);
         this.initializeAccordions();
         this.initializePropertyButtons();
         this.initializeDeletionDimmer();
