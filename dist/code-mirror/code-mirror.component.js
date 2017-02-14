@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var codemirror_1 = require("codemirror");
+var CodeMirror = require("codemirror");
 require("codemirror/mode/css/css");
 require("codemirror/mode/htmlmixed/htmlmixed");
 require("codemirror/mode/javascript/javascript");
@@ -44,31 +44,37 @@ var Class = (function () {
         else
             this.value = "";
         this.element.nativeElement.innerHTML = "";
-        this.codeMirror = codemirror_1.default(this.element.nativeElement, {
-            lineNumbers: this.showLineNumbers,
-            indentWithTabs: true,
-            smartIndent: false,
-            electricChars: false,
-            mode: this.mode,
-            theme: "mbo",
-            value: this.value,
-            readOnly: this.readOnly
-        });
-        this.codeMirrorChange.emit(this.codeMirror);
-        if (!this.scroll) {
-            this.element.nativeElement.children[0].style.height = "auto";
-        }
-        this.codeMirror.on("change", function (changeObject) {
-            if (_this.internallyChanged) {
-                _this.internallyChanged = false;
-                return;
+        // TODO: Remove this to use only the import statements
+        var promises = [];
+        promises.push(this.appendLink("assets/node_modules/codemirror/lib/codemirror.css"));
+        promises.push(this.appendLink("assets/node_modules/codemirror/theme/mbo.css"));
+        Promise.all(promises).then(function () {
+            _this.codeMirror = CodeMirror(_this.element.nativeElement, {
+                lineNumbers: _this.showLineNumbers,
+                indentWithTabs: true,
+                smartIndent: false,
+                electricChars: false,
+                mode: _this.mode,
+                theme: "mbo",
+                value: _this.value,
+                readOnly: _this.readOnly
+            });
+            _this.codeMirrorChange.emit(_this.codeMirror);
+            if (!_this.scroll) {
+                _this.element.nativeElement.children[0].style.height = "auto";
             }
-            var lastUpdate = _this.codeMirror.getValue();
-            if (lastUpdate === _this.value)
-                return;
-            _this.value = lastUpdate;
-            _this.lastUpdates.push(lastUpdate);
-            _this.valueChange.emit(lastUpdate);
+            _this.codeMirror.on("change", function (changeObject) {
+                if (_this.internallyChanged) {
+                    _this.internallyChanged = false;
+                    return;
+                }
+                var lastUpdate = _this.codeMirror.getValue();
+                if (lastUpdate === _this.value)
+                    return;
+                _this.value = lastUpdate;
+                _this.lastUpdates.push(lastUpdate);
+                _this.valueChange.emit(lastUpdate);
+            });
         });
     };
     Class.prototype.ngOnChanges = function (changeRecord) {
@@ -92,6 +98,21 @@ var Class = (function () {
                 this.codeMirror.setValue(changeRecord.value.currentValue);
             }
         }
+    };
+    Class.prototype.appendLink = function (url) {
+        return new Promise(function (resolve, reject) {
+            var alreadyImported = document.querySelectorAll("head [href='" + url + "']").length > 0;
+            if (alreadyImported)
+                resolve(true);
+            var link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.href = url;
+            link.onload = function () {
+                resolve(true);
+            };
+            var head = document.querySelector("head");
+            head.appendChild(link);
+        });
     };
     Class.prototype.normalizeTabs = function (value) {
         var lines = value.split(/\n/gm);

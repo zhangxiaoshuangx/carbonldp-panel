@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, Output, SimpleChange, EventEmitter, AfterContentInit, OnChanges, OnDestroy } from "@angular/core";
 
-import CodeMirror from "codemirror";
+import * as CodeMirror from "codemirror";
 
 import "codemirror/mode/css/css";
 import "codemirror/mode/htmlmixed/htmlmixed";
@@ -49,34 +49,40 @@ export class Class implements AfterContentInit, OnChanges, OnDestroy {
 		else this.value = "";
 
 		this.element.nativeElement.innerHTML = "";
-		this.codeMirror = CodeMirror( this.element.nativeElement, {
-			lineNumbers: this.showLineNumbers,
-			indentWithTabs: true,
-			smartIndent: false,
-			electricChars: false,
-			mode: this.mode,
-			theme: "mbo",
-			value: this.value,
-			readOnly: this.readOnly
-		} );
-		this.codeMirrorChange.emit( this.codeMirror );
+		// TODO: Remove this to use only the import statements
+		let promises:Promise<any>[] = [];
+		promises.push( this.appendLink( "assets/node_modules/codemirror/lib/codemirror.css" ) );
+		promises.push( this.appendLink( "assets/node_modules/codemirror/theme/mbo.css" ) );
+		Promise.all( promises ).then( () => {
+			this.codeMirror = CodeMirror( this.element.nativeElement, {
+				lineNumbers: this.showLineNumbers,
+				indentWithTabs: true,
+				smartIndent: false,
+				electricChars: false,
+				mode: this.mode,
+				theme: "mbo",
+				value: this.value,
+				readOnly: this.readOnly
+			} );
+			this.codeMirrorChange.emit( this.codeMirror );
 
-		if( ! this.scroll ) {
-			this.element.nativeElement.children[ 0 ].style.height = "auto";
-		}
-
-		this.codeMirror.on( "change", ( changeObject ) => {
-			if( this.internallyChanged ) {
-				this.internallyChanged = false;
-				return;
+			if( ! this.scroll ) {
+				this.element.nativeElement.children[ 0 ].style.height = "auto";
 			}
 
-			let lastUpdate:string = this.codeMirror.getValue();
-			if( lastUpdate === this.value ) return;
+			this.codeMirror.on( "change", ( changeObject ) => {
+				if( this.internallyChanged ) {
+					this.internallyChanged = false;
+					return;
+				}
 
-			this.value = lastUpdate;
-			this.lastUpdates.push( lastUpdate );
-			this.valueChange.emit( lastUpdate );
+				let lastUpdate:string = this.codeMirror.getValue();
+				if( lastUpdate === this.value ) return;
+
+				this.value = lastUpdate;
+				this.lastUpdates.push( lastUpdate );
+				this.valueChange.emit( lastUpdate );
+			} );
 		} );
 	}
 
@@ -103,6 +109,21 @@ export class Class implements AfterContentInit, OnChanges, OnDestroy {
 			}
 		}
 
+	}
+
+	private appendLink( url:string ):Promise<boolean> {
+		return new Promise( ( resolve, reject ) => {
+			let alreadyImported:boolean = document.querySelectorAll( "head [href='" + url + "']" ).length > 0;
+			if( alreadyImported ) resolve( true );
+			let link:HTMLLinkElement = document.createElement( "link" );
+			link.rel = "stylesheet";
+			link.href = url;
+			link.onload = () => {
+				resolve( true )
+			};
+			let head:Element = document.querySelector( "head" );
+			head.appendChild( link );
+		} );
 	}
 
 	private normalizeTabs( value:string ):string {

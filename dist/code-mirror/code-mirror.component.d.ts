@@ -1,6 +1,6 @@
 /// <reference types="codemirror" />
 import { ElementRef, EventEmitter, AfterContentInit, OnChanges, OnDestroy } from "@angular/core";
-import CodeMirror from "codemirror";
+import * as CodeMirror from "codemirror";
 import "codemirror/mode/css/css";
 import "codemirror/mode/htmlmixed/htmlmixed";
 import "codemirror/mode/javascript/javascript";
@@ -24,6 +24,7 @@ export declare class Class implements AfterContentInit, OnChanges, OnDestroy {
     ngOnDestroy(): void;
     ngAfterContentInit(): void;
     ngOnChanges(changeRecord: any): void;
+    private appendLink(url);
     private normalizeTabs(value);
     private getIndentation(line, tabs?);
     private removeIndentation(lines, indentation, tabs?);
