@@ -206,7 +206,7 @@ var Class = (function () {
         core_1.Component({
             selector: "cp-code-mirror",
             template: "<ng-content></ng-content>",
-            styles: [require("./code-mirror.component.css")],
+            styleUrls: ["./code-mirror.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef])
     ], Class);

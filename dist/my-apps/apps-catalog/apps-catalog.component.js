@@ -178,7 +178,7 @@ var AppsCatalogComponent = (function () {
     AppsCatalogComponent = __decorate([
         core_1.Component({
             selector: "cp-apps-catalog",
-            template: require("./apps-catalog.component.html"),
+            templateUrl: "./apps-catalog.component.html",
             styles: [":host { display: block; }"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, router_1.Router, router_1.ActivatedRoute, app_context_service_1.AppContextService, Carbon_1.default, my_apps_sidebar_service_1.MyAppsSidebarService])

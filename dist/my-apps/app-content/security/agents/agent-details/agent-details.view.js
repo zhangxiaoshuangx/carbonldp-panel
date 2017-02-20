@@ -41,7 +41,7 @@ var AgentDetailsView = (function () {
     AgentDetailsView = __decorate([
         core_1.Component({
             selector: "cp-agent-details-view",
-            template: require("./agent-details.view.html"),
+            templateUrl: "./agent-details.view.html",
             styles: [":host { display: block; }"]
         }), 
         __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, app_content_service_1.AppContentService])

@@ -24,7 +24,7 @@ var ExplorerView = (function () {
     ExplorerView = __decorate([
         core_1.Component({
             selector: "cp-explorer-view",
-            template: require("./explorer.view.html"),
+            templateUrl: "./explorer.view.html",
             styles: [":host { display: block; }"],
         }), 
         __metadata('design:paramtypes', [app_content_service_1.AppContentService])

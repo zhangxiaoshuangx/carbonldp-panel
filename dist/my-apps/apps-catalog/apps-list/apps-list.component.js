@@ -52,8 +52,8 @@ var AppsListComponent = (function () {
     AppsListComponent = __decorate([
         core_1.Component({
             selector: "cp-apps-list",
-            template: require("./apps-list.component.html"),
-            styles: [require("./apps-list.component.css")],
+            templateUrl: "./apps-list.component.html",
+            styleUrls: ["./apps-list.component.scss"],
         }), 
         __metadata('design:paramtypes', [])
     ], AppsListComponent);

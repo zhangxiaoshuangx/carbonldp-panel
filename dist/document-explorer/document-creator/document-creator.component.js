@@ -97,7 +97,7 @@ var DocumentCreatorComponent = (function () {
     DocumentCreatorComponent = __decorate([
         core_1.Component({
             selector: "cp-document-creator",
-            template: require("./document-creator.component.html"),
+            templateUrl: "./document-creator.component.html",
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, documents_resolver_service_1.DocumentsResolverService])
     ], DocumentCreatorComponent);

@@ -164,7 +164,7 @@ var CreateAppComponent = (function () {
     CreateAppComponent = __decorate([
         core_1.Component({
             selector: "cp-create-app",
-            template: require("./create-app.component.html"),
+            templateUrl: "./create-app.component.html",
             styles: [":host { display: block; }"],
         }), 
         __metadata('design:paramtypes', [Carbon_1.default, app_context_service_1.AppContextService, router_1.Router])

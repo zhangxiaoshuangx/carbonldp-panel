@@ -16,7 +16,7 @@ var CreateAppView = (function () {
     CreateAppView = __decorate([
         core_1.Component({
             selector: "cp-create-app-view",
-            template: require("./create-app.view.html"),
+            templateUrl: "./create-app.view.html",
             styles: [":host { display: block; }"],
         }), 
         __metadata('design:paramtypes', [])

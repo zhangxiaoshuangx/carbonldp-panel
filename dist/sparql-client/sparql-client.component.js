@@ -680,8 +680,8 @@ var SPARQLClientComponent = (function () {
     SPARQLClientComponent = __decorate([
         core_1.Component({
             selector: "cp-sparql-client",
-            template: require("./sparql-client.component.html"),
-            styles: [require("./sparql-client.component.css")],
+            templateUrl: "./sparql-client.component.html",
+            styleUrls: ["./sparql-client.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, Carbon_1.default])
     ], SPARQLClientComponent);

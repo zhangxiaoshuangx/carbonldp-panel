@@ -63,8 +63,8 @@ var MenuBarComponent = (function () {
     MenuBarComponent = __decorate([
         core_1.Component({
             selector: "cp-menu-bar",
-            template: require("./menu-bar.component.html"),
-            styles: [require("./menu-bar.component.css")],
+            templateUrl: "./menu-bar.component.html",
+            styleUrls: ["./menu-bar.component.scss"],
         }), 
         __metadata('design:paramtypes', [router_1.Router, router_service_1.RouterService, sidebar_service_1.SidebarService, router_1.ActivatedRoute])
     ], MenuBarComponent);

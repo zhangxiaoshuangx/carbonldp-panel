@@ -33,8 +33,8 @@ var AgentNotFoundView = (function () {
     AgentNotFoundView = __decorate([
         core_1.Component({
             selector: "cp-agent-not-found",
-            template: require("./agent-not-found.view.html"),
-            styles: [require("./agent-not-found.view.css")],
+            templateUrl: "./agent-not-found.view.html",
+            styleUrls: ["./agent-not-found.view.scss"],
         }), 
         __metadata('design:paramtypes', [router_1.Router, common_1.Location])
     ], AgentNotFoundView);

@@ -114,8 +114,8 @@ var PointersComponent = (function () {
     PointersComponent = __decorate([
         core_1.Component({
             selector: "cp-pointers",
-            template: require("./pointers.component.html"),
-            styles: [require("./pointers.component.css")],
+            templateUrl: "./pointers.component.html",
+            styleUrls: ["./pointers.component.scss"],
         }), 
         __metadata('design:paramtypes', [])
     ], PointersComponent);

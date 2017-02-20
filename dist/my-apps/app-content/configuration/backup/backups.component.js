@@ -43,8 +43,8 @@ var BackupsComponent = (function () {
     BackupsComponent = __decorate([
         core_1.Component({
             selector: "cp-backup",
-            template: require("./backups.component.html"),
-            styles: [require("./backups.component.css")],
+            templateUrl: "./backups.component.html",
+            styleUrls: ["./backups.component.scss"],
         }), 
         __metadata('design:paramtypes', [jobs_service_1.JobsService])
     ], BackupsComponent);

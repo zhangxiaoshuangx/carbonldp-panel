@@ -28,8 +28,8 @@ var ErrorsAreaComponent = (function () {
     ErrorsAreaComponent = __decorate([
         core_1.Component({
             selector: "cp-errors-area",
-            template: require("./errors-area.component.html"),
-            styles: [require("./errors-area.component.css")],
+            templateUrl: "./errors-area.component.html",
+            styleUrls: ["./errors-area.component.scss"],
         }), 
         __metadata('design:paramtypes', [errors_area_service_1.ErrorsAreaService])
     ], ErrorsAreaComponent);

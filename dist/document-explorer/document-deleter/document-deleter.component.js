@@ -72,8 +72,8 @@ var DocumentDeleterComponent = (function () {
     DocumentDeleterComponent = __decorate([
         core_1.Component({
             selector: "cp-document-deleter",
-            template: require("./document-deleter.component.html"),
-            styles: [require("./document-deleter.component.css")],
+            templateUrl: "./document-deleter.component.html",
+            styleUrls: ["./document-deleter.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, documents_resolver_service_1.DocumentsResolverService])
     ], DocumentDeleterComponent);

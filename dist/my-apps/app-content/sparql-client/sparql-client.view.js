@@ -29,7 +29,7 @@ var SPARQLClientView = (function () {
     SPARQLClientView = __decorate([
         core_1.Component({
             selector: "cp-sparql-client-view",
-            template: require("./sparql-client.view.html"),
+            templateUrl: "./sparql-client.view.html",
             styles: [":host { display: block; }"],
         }), 
         __metadata('design:paramtypes', [errors_area_service_1.ErrorsAreaService, app_content_service_1.AppContentService])

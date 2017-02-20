@@ -135,8 +135,8 @@ var ResponseComponent = (function () {
     ResponseComponent = __decorate([
         core_1.Component({
             selector: "cp-sparql-response",
-            template: require("./response.component.html"),
-            styles: [require("./response.component.css")],
+            templateUrl: "./response.component.html",
+            styleUrls: ["./response.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef])
     ], ResponseComponent);

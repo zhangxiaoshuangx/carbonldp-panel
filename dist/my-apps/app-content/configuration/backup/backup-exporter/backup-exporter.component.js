@@ -111,8 +111,8 @@ var BackupExporterComponent = (function () {
     BackupExporterComponent = __decorate([
         core_1.Component({
             selector: "cp-backup-exporter",
-            template: require("./backup-exporter.component.html"),
-            styles: [require("./backup-exporter.component.css")],
+            templateUrl: "./backup-exporter.component.html",
+            styleUrls: ["./backup-exporter.component.scss"],
         }), 
         __metadata('design:paramtypes', [jobs_service_1.JobsService])
     ], BackupExporterComponent);

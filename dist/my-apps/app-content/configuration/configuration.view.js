@@ -25,7 +25,7 @@ var ConfigurationView = (function () {
     ConfigurationView = __decorate([
         core_1.Component({
             selector: "cp-configuration-view",
-            template: require("./configuration.view.html"),
+            templateUrl: "./configuration.view.html",
             styles: [":host { display: block; }"],
         }), 
         __metadata('design:paramtypes', [app_content_service_1.AppContentService])

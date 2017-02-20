@@ -339,8 +339,8 @@ var DocumentViewerComponent = (function () {
         core_1.Component({
             selector: "cp-document-viewer",
             host: { "[class.ui]": "true", "[class.basic]": "true", "[class.segment]": "true", },
-            template: require("./document-viewer.component.html"),
-            styles: [require("./document-viewer.component.css")],
+            templateUrl: "./document-viewer.component.html",
+            styleUrls: ["./document-viewer.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, documents_resolver_service_1.DocumentsResolverService])
     ], DocumentViewerComponent);

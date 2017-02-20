@@ -7,7 +7,6 @@ var sparql_client_view_1 = require("./sparql-client/sparql-client.view");
 var edit_app_view_1 = require("./edit-app/edit-app.view");
 var explorer_view_1 = require("./explorer/explorer.view");
 var configuration_view_1 = require("./configuration/configuration.view");
-var security_module_1 = require("./security/security.module");
 var AppContentRoutes = [
     {
         path: "",
@@ -59,7 +58,7 @@ var AppContentRoutes = [
             },
             {
                 path: "security",
-                loadChildren: function () { return security_module_1.SecurityModule; },
+                loadChildren: "./security/security.module#SecurityModule",
             },
         ]
     }

@@ -251,8 +251,8 @@ var AgentDetailsComponent = (function () {
     AgentDetailsComponent = __decorate([
         core_1.Component({
             selector: "cp-agent-details",
-            template: require("./agent-details.component.html"),
-            styles: [require("./agent-details.component.css")],
+            templateUrl: "./agent-details.component.html",
+            styleUrls: ["./agent-details.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef, agents_service_1.AgentsService, roles_service_1.RolesService])
     ], AgentDetailsComponent);

@@ -221,7 +221,7 @@ var DocumentResourceComponent = (function () {
     DocumentResourceComponent = __decorate([
         core_1.Component({
             selector: "cp-document-resource",
-            template: require("./document-resource.component.html"),
+            templateUrl: "./document-resource.component.html",
             styles: [":host { display:block; }"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef])

@@ -24,7 +24,7 @@ var AgentsListView = (function () {
     AgentsListView = __decorate([
         core_1.Component({
             selector: "cp-agents-list-view",
-            template: require("./agents-list.view.html"),
+            templateUrl: "./agents-list.view.html",
             styles: [":host { display: block; }"]
         }), 
         __metadata('design:paramtypes', [app_content_service_1.AppContentService])

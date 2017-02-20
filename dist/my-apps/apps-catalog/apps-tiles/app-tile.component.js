@@ -29,7 +29,7 @@ var AppTileComponent = (function () {
     AppTileComponent = __decorate([
         core_1.Component({
             selector: "cp-app-tile",
-            template: require("./app-tile.component.html"),
+            templateUrl: "./app-tile.component.html",
             styles: [":host { display: block; }"],
         }), 
         __metadata('design:paramtypes', [])

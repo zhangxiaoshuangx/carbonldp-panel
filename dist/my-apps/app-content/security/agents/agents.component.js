@@ -20,8 +20,8 @@ var AgentsComponent = (function () {
     AgentsComponent = __decorate([
         core_1.Component({
             selector: "cp-agents",
-            template: require("./agents.component.html"),
-            styles: [require("./agents.component.css")],
+            templateUrl: "./agents.component.html",
+            styleUrls: ["./agents.component.scss"],
         }), 
         __metadata('design:paramtypes', [])
     ], AgentsComponent);

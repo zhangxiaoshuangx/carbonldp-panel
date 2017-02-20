@@ -21,8 +21,8 @@ var SidebarItemsComponent = (function () {
     SidebarItemsComponent = __decorate([
         core_1.Component({
             selector: "cp-sidebar-items",
-            template: require("./sidebar-items.component.html"),
-            styles: [require("./sidebar-items.component.css")],
+            templateUrl: "./sidebar-items.component.html",
+            styleUrls: ["./sidebar-items.component.scss"],
         }), 
         __metadata('design:paramtypes', [router_service_1.RouterService])
     ], SidebarItemsComponent);

@@ -15,7 +15,7 @@ var SecurityView = (function () {
     SecurityView = __decorate([
         core_1.Component({
             selector: "cp-security-view",
-            template: require("./security.view.html"),
+            templateUrl: "./security.view.html",
             styles: [":host { display: block; }"],
         }), 
         __metadata('design:paramtypes', [])

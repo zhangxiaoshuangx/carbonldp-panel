@@ -247,7 +247,7 @@ var BlankNodeComponent = (function () {
     BlankNodeComponent = __decorate([
         core_1.Component({
             selector: "cp-blank-node",
-            template: require("./blank-node.component.html"),
+            templateUrl: "./blank-node.component.html",
             styles: [":host { display:block; }"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef])

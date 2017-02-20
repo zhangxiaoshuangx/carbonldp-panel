@@ -21,8 +21,8 @@ var ConfigurationComponent = (function () {
     ConfigurationComponent = __decorate([
         core_1.Component({
             selector: "cp-configuration",
-            template: require("./configuration.component.html"),
-            styles: [require("./configuration.component.css")],
+            templateUrl: "./configuration.component.html",
+            styleUrls: ["./configuration.component.scss"],
         }), 
         __metadata('design:paramtypes', [])
     ], ConfigurationComponent);

@@ -1050,8 +1050,8 @@ var LiteralComponent = (function () {
     LiteralComponent = __decorate([
         core_1.Component({
             selector: "tr.cp-literal",
-            template: require("./literal.component.html"),
-            styles: [require("./literal.component.css")],
+            templateUrl: "./literal.component.html",
+            styleUrls: ["./literal.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef])
     ], LiteralComponent);

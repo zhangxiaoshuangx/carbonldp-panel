@@ -111,8 +111,8 @@ var ListsComponent = (function () {
     ListsComponent = __decorate([
         core_1.Component({
             selector: "cp-lists",
-            template: require("./lists.component.html"),
-            styles: [require("./lists.component.css")],
+            templateUrl: "./lists.component.html",
+            styleUrls: ["./lists.component.scss"],
         }), 
         __metadata('design:paramtypes', [])
     ], ListsComponent);

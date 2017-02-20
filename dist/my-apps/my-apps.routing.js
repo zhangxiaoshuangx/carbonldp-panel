@@ -4,7 +4,6 @@ var my_apps_view_1 = require("./my-apps.view");
 var apps_catalog_view_1 = require("./apps-catalog/apps-catalog.view");
 var create_app_view_1 = require("./create-app/create-app.view");
 var app_not_found_view_1 = require("./app-not-found.view");
-var app_content_module_1 = require("./app-content/app-content.module");
 var MyAppsRoutes = [
     {
         path: "",
@@ -39,7 +38,7 @@ var MyAppsRoutes = [
             },
             {
                 path: ":slug",
-                loadChildren: function () { return app_content_module_1.AppContentModule; },
+                loadChildren: "./app-content/app-content.module#AppContentModule",
             }
         ]
     },

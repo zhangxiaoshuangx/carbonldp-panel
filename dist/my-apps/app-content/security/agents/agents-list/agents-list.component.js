@@ -98,8 +98,8 @@ var AgentsListComponent = (function () {
     AgentsListComponent = __decorate([
         core_1.Component({
             selector: "cp-agents-list",
-            template: require("./agents-list.component.html"),
-            styles: [require("./agents-list.component.css")],
+            templateUrl: "./agents-list.component.html",
+            styleUrls: ["./agents-list.component.scss"],
         }), 
         __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, agents_service_1.AgentsService])
     ], AgentsListComponent);

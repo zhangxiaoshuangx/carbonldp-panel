@@ -68,8 +68,8 @@ var TabsComponent = (function () {
     TabsComponent = __decorate([
         core_1.Component({
             selector: "sui-tabs",
-            template: require("./tabs.component.html"),
-            styles: [require("./tabs.component.css")],
+            templateUrl: "./tabs.component.html",
+            styleUrls: ["./tabs.component.scss"],
         }), 
         __metadata('design:paramtypes', [])
     ], TabsComponent);

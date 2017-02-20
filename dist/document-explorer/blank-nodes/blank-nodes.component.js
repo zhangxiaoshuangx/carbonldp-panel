@@ -168,8 +168,8 @@ var BlankNodesComponent = (function () {
     BlankNodesComponent = __decorate([
         core_1.Component({
             selector: "cp-blank-nodes",
-            template: require("./blank-nodes.component.html"),
-            styles: [require("./blank-nodes.component.css")],
+            templateUrl: "./blank-nodes.component.html",
+            styleUrls: ["./blank-nodes.component.scss"],
         }), 
         __metadata('design:paramtypes', [core_1.ElementRef])
     ], BlankNodesComponent);
