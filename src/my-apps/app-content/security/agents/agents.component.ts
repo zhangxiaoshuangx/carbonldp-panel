@@ -4,8 +4,8 @@ import * as App from "carbonldp/App";
 
 @Component( {
 	selector: "cp-agents",
-	template: require( "./agents.component.html" ),
-	styles: [ require( "./agents.component.css" ) ],
+	templateUrl: "./agents.component.html",
+	styleUrls: [  "./agents.component.scss"  ],
 } )
 
 export class AgentsComponent {

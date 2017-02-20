@@ -13,7 +13,7 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-document-creator",
-	template: require( "./document-creator.component.html" ),
+	templateUrl: "./document-creator.component.html",
 } )
 
 export class DocumentCreatorComponent implements AfterViewInit {

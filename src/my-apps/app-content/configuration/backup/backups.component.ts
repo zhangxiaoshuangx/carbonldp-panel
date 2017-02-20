@@ -12,8 +12,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-backup",
-	template: require( "./backups.component.html" ),
-	styles: [ require( "./backups.component.css" ) ],
+	templateUrl: "./backups.component.html",
+	styleUrls: [  "./backups.component.scss"  ],
 } )
 
 export class BackupsComponent implements OnInit {

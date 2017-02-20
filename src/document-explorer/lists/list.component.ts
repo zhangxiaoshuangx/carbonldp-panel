@@ -12,8 +12,8 @@ import { Pointer, PointerRow } from "./../pointers/pointer.component";
 
 @Component( {
 	selector: "cp-list",
-	template: require( "./list.component.html" ),
-	styles: [ require( "./list.component.css" ) ],
+	templateUrl: "./list.component.html",
+	styleUrls: [  "./list.component.scss"  ],
 	host: { "[class.modified]": "list.modified", "[class.deleted]": "list.deleted", "[class.added]": "list.added" },
 } )
 

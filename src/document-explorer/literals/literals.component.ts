@@ -7,8 +7,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-literals",
-	template: require( "./literals.component.html" ),
-	styles: [ require( "./literals.component.css" ) ],
+	templateUrl: "./literals.component.html",
+	styleUrls: [  "./literals.component.scss"  ],
 } )
 
 export class LiteralsComponent implements OnInit {

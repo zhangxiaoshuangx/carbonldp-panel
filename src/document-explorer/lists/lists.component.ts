@@ -9,8 +9,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-lists",
-	template: require( "./lists.component.html" ),
-	styles: [ require( "./lists.component.css" ) ],
+	templateUrl: "./lists.component.html",
+	styleUrls: [  "./lists.component.scss"  ],
 } )
 
 export class ListsComponent implements OnInit {

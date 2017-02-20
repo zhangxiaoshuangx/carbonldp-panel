@@ -6,7 +6,7 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-app-tile",
-	template: require( "./app-tile.component.html" ),
+	templateUrl: "./app-tile.component.html",
 	styles: [ ":host { display: block; }" ],
 } )
 export class AppTileComponent {

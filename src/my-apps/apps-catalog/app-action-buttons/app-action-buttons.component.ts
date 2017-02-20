@@ -6,7 +6,7 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-app-action-buttons",
-	template: require( "./app-action-buttons.component.html" ),
+	templateUrl: "./app-action-buttons.component.html",
 	styles: [ ":host { display:block; }" ],
 } )
 export class AppActionButtonsComponent {

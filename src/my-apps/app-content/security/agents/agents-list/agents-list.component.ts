@@ -14,8 +14,8 @@ import { ErrorMessageGenerator } from "carbonldp-panel/errors-area/error-message
 
 @Component( {
 	selector: "cp-agents-list",
-	template: require( "./agents-list.component.html" ),
-	styles: [ require( "./agents-list.component.css" ) ],
+	templateUrl: "./agents-list.component.html",
+	styleUrls: [  "./agents-list.component.scss"  ],
 } )
 
 export class AgentsListComponent implements OnInit {

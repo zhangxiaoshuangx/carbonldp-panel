@@ -6,8 +6,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-configuration",
-	template: require( "./configuration.component.html" ),
-	styles: [ require( "./configuration.component.css" ) ],
+	templateUrl: "./configuration.component.html",
+	styleUrls: [  "./configuration.component.scss"  ],
 } )
 
 export class ConfigurationComponent {

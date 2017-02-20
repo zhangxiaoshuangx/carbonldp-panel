@@ -7,7 +7,7 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-configuration-view",
-	template: require( "./configuration.view.html" ),
+	templateUrl: "./configuration.view.html",
 	styles: [ ":host { display: block; }" ],
 } )
 export class ConfigurationView {

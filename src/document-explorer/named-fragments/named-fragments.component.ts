@@ -10,8 +10,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-named-fragments",
-	template: require( "./named-fragments.component.html" ),
-	styles: [ require( "./named-fragments.component.css" ) ],
+	templateUrl: "./named-fragments.component.html",
+	styleUrls: [  "./named-fragments.component.scss"  ],
 } )
 
 export class NamedFragmentsComponent implements AfterViewInit, OnChanges {

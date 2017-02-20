@@ -5,8 +5,8 @@ import { SidebarItem } from "carbonldp-panel/sidebar.service";
 
 @Component( {
 	selector: "cp-sidebar-items",
-	template: require( "./sidebar-items.component.html" ),
-	styles: [ require( "./sidebar-items.component.css" ) ],
+	templateUrl: "./sidebar-items.component.html",
+	styleUrls: [  "./sidebar-items.component.scss"  ],
 } )
 export class SidebarItemsComponent {
 	@Input( "items" ) items:SidebarItem[];

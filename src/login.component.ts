@@ -10,7 +10,7 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-login",
-	template: require( "./login.component.html" ),
+	templateUrl: "./login.component.html",
 	styles: [ ":host { display:block; } " ],
 } )
 export class LoginComponent implements OnInit {

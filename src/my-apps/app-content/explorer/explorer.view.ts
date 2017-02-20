@@ -5,7 +5,7 @@ import * as App from "./../app";
 
 @Component( {
 	selector: "cp-explorer-view",
-	template: require( "./explorer.view.html" ),
+	templateUrl: "./explorer.view.html",
 	styles: [ ":host { display: block; }" ],
 } )
 export class ExplorerView {

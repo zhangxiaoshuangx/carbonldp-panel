@@ -5,7 +5,7 @@ import * as App from "carbonldp-panel/my-apps/app-content/app";
 
 @Component( {
 	selector: "cp-agents-list-view",
-	template: require( "./agents-list.view.html" ),
+	templateUrl: "./agents-list.view.html",
 	styles: [ ":host { display: block; }" ]
 } )
 export class AgentsListView {

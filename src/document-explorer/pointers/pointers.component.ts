@@ -10,8 +10,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-pointers",
-	template: require( "./pointers.component.html" ),
-	styles: [ require( "./pointers.component.css" ) ],
+	templateUrl: "./pointers.component.html",
+	styleUrls: [  "./pointers.component.scss"  ],
 } )
 
 export class PointersComponent implements OnInit {

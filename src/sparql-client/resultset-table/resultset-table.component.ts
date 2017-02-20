@@ -5,8 +5,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-resultset-table",
-	template: require( "./resultset-table.component.html" ),
-	styles: [ require( "./resultset-table.component.css" ) ],
+	templateUrl: "./resultset-table.component.html",
+	styleUrls: [  "./resultset-table.component.scss"  ],
 } )
 
 export class ResultsetTableComponent implements OnChanges {

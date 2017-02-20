@@ -7,8 +7,8 @@ import { RolesService } from "../roles.service";
 
 @Component( {
 	selector: "cp-roles-chooser",
-	template: require( "./roles-chooser.component.html" ),
-	styles: [ require( "./roles-chooser.component.css" ) ],
+	templateUrl: "./roles-chooser.component.html",
+	styleUrls: [  "./roles-chooser.component.scss"  ],
 } )
 
 export class RolesChooserComponent implements AfterViewInit {

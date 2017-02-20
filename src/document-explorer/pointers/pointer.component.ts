@@ -11,8 +11,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "tr.cp-pointer",
-	template: require( "./pointer.component.html" ),
-	styles: [ require( "./pointer.component.css" ) ],
+	templateUrl: "./pointer.component.html",
+	styleUrls: [  "./pointer.component.scss"  ],
 } )
 
 export class PointerComponent implements OnChanges {

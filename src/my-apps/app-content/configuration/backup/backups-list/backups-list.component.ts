@@ -14,8 +14,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-backups-list",
-	template: require( "./backups-list.component.html" ),
-	styles: [ require( "./backups-list.component.css" ) ],
+	templateUrl: "./backups-list.component.html",
+	styleUrls: [  "./backups-list.component.scss"  ],
 } )
 
 export class BackupsListComponent implements AfterViewInit, OnChanges, OnDestroy {

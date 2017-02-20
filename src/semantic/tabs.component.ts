@@ -4,8 +4,8 @@ import { TabComponent } from "./tab.component";
 
 @Component( {
 	selector: "sui-tabs",
-	template: require( "./tabs.component.html" ),
-	styles: [ require( "./tabs.component.css" ) ],
+	templateUrl: "./tabs.component.html",
+	styleUrls: [  "./tabs.component.scss"  ],
 } )
 export class TabsComponent implements AfterContentInit, OnChanges {
 	@ContentChildren( TabComponent ) tabs:QueryList<TabComponent>;

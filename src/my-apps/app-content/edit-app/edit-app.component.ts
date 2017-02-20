@@ -14,8 +14,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-edit-app",
-	template: require( "./edit-app.component.html" ),
-	styles: [ require( "./edit-app.component.css" ) ],
+	templateUrl: "./edit-app.component.html",
+	styleUrls: [  "./edit-app.component.scss"  ],
 } )
 
 export class EditAppComponent implements OnInit {

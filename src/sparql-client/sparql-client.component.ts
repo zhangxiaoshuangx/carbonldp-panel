@@ -14,8 +14,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-sparql-client",
-	template: require( "./sparql-client.component.html" ),
-	styles: [ require( "./sparql-client.component.css" ) ],
+	templateUrl: "./sparql-client.component.html",
+	styleUrls: [  "./sparql-client.component.scss"  ],
 } )
 export class SPARQLClientComponent implements OnInit, AfterViewInit {
 

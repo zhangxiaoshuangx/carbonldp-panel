@@ -16,7 +16,7 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-access-point-creator",
-	template: require( "./access-point-creator.component.html" ),
+	templateUrl: "./access-point-creator.component.html",
 } )
 
 export class AccessPointCreatorComponent implements AfterViewInit {

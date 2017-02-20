@@ -10,7 +10,7 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-named-fragment",
-	template: require( "./named-fragment.component.html" ),
+	templateUrl: "./named-fragment.component.html",
 	styles: [ ":host { display:block; }" ],
 } )
 

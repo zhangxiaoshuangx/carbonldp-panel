@@ -8,7 +8,7 @@ import { Modes } from "./agent-details.component";
 
 @Component( {
 	selector: "cp-agent-details-view",
-	template: require( "./agent-details.view.html" ),
+	templateUrl: "./agent-details.view.html",
 	styles: [ ":host { display: block; }" ]
 } )
 export class AgentDetailsView {

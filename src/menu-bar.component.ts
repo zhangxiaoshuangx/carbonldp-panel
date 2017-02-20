@@ -8,8 +8,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-menu-bar",
-	template: require( "./menu-bar.component.html" ),
-	styles: [ require( "./menu-bar.component.css" ) ],
+	templateUrl: "./menu-bar.component.html",
+	styleUrls: [  "./menu-bar.component.scss"  ],
 } )
 export class MenuBarComponent {
 	breadCrumbs:Array<any> = [];

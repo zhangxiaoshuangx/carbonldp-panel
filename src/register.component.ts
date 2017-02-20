@@ -9,7 +9,7 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-register",
-	template: require( "./register.component.html" ),
+	templateUrl: "./register.component.html",
 	styles: [],
 } )
 export class RegisterComponent implements OnInit {

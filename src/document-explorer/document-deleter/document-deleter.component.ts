@@ -12,8 +12,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-document-deleter",
-	template: require( "./document-deleter.component.html" ),
-	styles: [ require( "./document-deleter.component.css" ) ],
+	templateUrl: "./document-deleter.component.html",
+	styleUrls: [  "./document-deleter.component.scss"  ],
 } )
 
 export class DocumentDeleterComponent implements AfterViewInit {
