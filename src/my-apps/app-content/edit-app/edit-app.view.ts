@@ -3,8 +3,6 @@ import { Component } from "@angular/core";
 import { AppContentService } from "./../../app-content/app-content.service";
 import * as App from "./../app";
 
-import template from "./edit-app.view.html!";
-
 @Component( {
 	selector: "cp-edit-app-view",
 	templateUrl: "./edit-app.view.html",
