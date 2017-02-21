@@ -38,7 +38,7 @@
     "@angular/router": "3.4.2",
     "@types/codemirror": "0.0.34",
     "@types/jquery": "^2.0.40",
-    "@types/jstree": "^3.3.32",
+    "@types/jstree": "^3.3.34",
     "@types/node": "^6.0.46",
     "angular2-carbonldp": "0.4.1",
     "carbonldp": "0.40.0",
