@@ -1,3 +1,47 @@
+# 0.7.0 (2017/02/23)
+
+- Completed #39 - Add screen to manage roles of an app
+- Added to **SecurityModule** the following items:
+	- Navigation routes:
+		- Roles browser
+		- Role details
+    - Components
+		- Roles browser
+		- Roles tree view
+		- Role details
+		- Role deleter
+    - Views
+		- Roles view
+		- Roles browser view
+    - Resolvers
+        - Roles resolver
+- Added to **PanelModule** the following items:
+	- ErrorLabelComponent
+- Added to **DirectivesModule** the following items:
+	- GrayedOutDirective
+- Added to **Message interface** the following attributes :
+	- Type
+	- Duration
+- Changed all forms error messages to use the ErrorLabelComponent instead
+- Changed all forms optional inputs to use the GrayedOutDirective
+- Changed usage of `cp-error-message` selector to `cp-message`
+- Changed MessageAreaService to accept a Message object or params to build a Message instead
+- Changed onSuccess messages of the following forms (they now use the MessagesAreaComponent instead):
+	- AgentDetails
+	- CreateApp
+- Changed Security pages link to use a new navigation menu instead
+- Fixed duplicated final breadcrumb route of MenuBarComponent
+- Updated `carbonldp` to `0.40.0`
+
+### Breaking Changes
+- Moved ErrorLabelComponent to messages-area/error folder
+- Moved ErrorMessageGenerator to messages-area/error folder
+- Renamed the following components:
+  - Rename ErrorsAreaComponent to MessagesAreaComponent 
+  - Rename ErrorMessageComponent to MessageComponent 
+  - Rename ErrorsAreaService to MessagesAreaService 
+
+
 # 0.6.0 (2016/12/19)
 
 - Completed #38 - Add screen to manage agents of an app
