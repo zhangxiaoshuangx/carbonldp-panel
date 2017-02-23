@@ -3,8 +3,9 @@
 		<tr class="middle aligned role"
 		    *ngFor="let role of availableRoles; let i = index;" (click)="onClickRole(role, $event)">
 			<td class="collapsing center aligned">
-				<div class="ui checkbox">
-					<input type="checkbox"
+				<div class="ui checkbox" [ngClass]="{'radio': single}">
+					<input name="role_checkbox"
+					       [type]="single? 'radio' : 'checkbox'"
 					       [value]="role.id"
 					       [checked]="hasRole(role.id, selectedRoles)">
 				</div>

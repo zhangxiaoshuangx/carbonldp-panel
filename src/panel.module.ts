@@ -10,10 +10,11 @@ import { LoginComponent } from "./login.component";
 import { RegisterComponent } from "./register.component";
 import { SidebarComponent } from "./sidebar.component";
 import { SidebarItemsComponent } from "./sidebar-items.component";
-import { ErrorMessageComponent } from "./errors-area/error-message.component";
-import { ErrorsAreaComponent } from "./errors-area/errors-area.component";
+import { MessageComponent } from "./messages-area/message.component";
+import { MessagesAreaComponent } from "./messages-area/messages-area.component";
 import { MenuBarComponent } from "./menu-bar.component";
 import { PaginatorComponent } from "./paginator/paginator.component";
+import { ErrorLabelComponent } from "./messages-area/error/error-label.component";
 
 // Modules
 import { SemanticModule } from "./semantic/semantic.module";
@@ -24,7 +25,7 @@ import { RouterService } from "./router.service";
 import { HeaderService } from "./header.service";
 import { SidebarService } from "./sidebar.service";
 import { MyAppsSidebarService } from "./my-apps/my-apps-sidebar.service";
-import { ErrorsAreaService } from "./errors-area/errors-area.service";
+import { MessagesAreaService } from "./messages-area/messages-area.service";
 
 @NgModule( {
 	imports: [
@@ -41,10 +42,11 @@ import { ErrorsAreaService } from "./errors-area/errors-area.service";
 		RegisterComponent,
 		SidebarComponent,
 		SidebarItemsComponent,
-		ErrorMessageComponent,
-		ErrorsAreaComponent,
+		MessageComponent,
+		MessagesAreaComponent,
 		MenuBarComponent,
 		PaginatorComponent,
+		ErrorLabelComponent,
 	],
 	exports: [
 		HeaderComponent,
@@ -52,9 +54,10 @@ import { ErrorsAreaService } from "./errors-area/errors-area.service";
 		RegisterComponent,
 		SidebarComponent,
 		MenuBarComponent,
-		ErrorMessageComponent,
-		ErrorsAreaComponent,
+		MessageComponent,
+		MessagesAreaComponent,
 		PaginatorComponent,
+		ErrorLabelComponent,
 	],
 	providers: []
 } )
@@ -64,7 +67,7 @@ export class PanelModule {
 	static forRoot():ModuleWithProviders {
 		return {
 			ngModule: PanelModule,
-			providers: [ HeaderService, SidebarService, RouterService, MyAppsSidebarService, ErrorsAreaService ]
+			providers: [ HeaderService, SidebarService, RouterService, MyAppsSidebarService, MessagesAreaService ]
 		};
 	}
 }

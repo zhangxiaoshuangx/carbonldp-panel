@@ -1,6 +1,7 @@
 <form #createAppForm="ngForm"
       [ngClass]="{ loading: submitting }"
-      class="ui large form segment createAppForm">
+      class="ui large form segment createAppForm"
+      (submit)="onSubmit(createAppForm, $event)">
 	<div class="field" [ngClass]="{ error: (!name.valid) }">
 		<label>Name:</label>
 		<input placeholder="e.g. My First App"
@@ -9,17 +10,23 @@
 		       #name="cpValidation" cpValidation required
 		       [(ngModel)]="createAppFormModel.name"
 		       (input)="createAppFormModel.slug = getSanitizedSlug($event.target.value)">
+		<cp-error-label *ngIf="!name.valid">
+			<span *ngIf="name.control.hasError('required')">The name is required.</span>
+		</cp-error-label>
 	</div>
 	<div class="field" [ngClass]="{ error: (!slug.valid) }">
-		<label>Slug (optional):</label>
+		<label>Slug: <span cp-grayed-out>(Optional)</span></label>
 		<input class="slug"
-		       placeholder="e.g. my-first-app (optional)"
+		       placeholder="e.g. my-first-app"
 		       type="text"
 		       name="slug"
 		       #slug="cpValidation" cpValidation cp-slug
 		       [ngModel]="createAppFormModel.slug"
 		       (ngModelChange)="createAppFormModel.slug = getSanitizedSlug($event)"
 		       (blur)="slugLostControl($event)">
+		<cp-error-label *ngIf="!slug.valid">
+			<span *ngIf="slug.control.hasError('invalidSlug')">Invalid slug. Please use only alphanumeric characters and/or dashes (-).</span>
+		</cp-error-label>
 	</div>
 	<div class="field" [ngClass]="{ error: (!description.valid) }">
 		<label>Description:</label>
@@ -28,37 +35,24 @@
 		          name="description"
 		          #description="cpValidation" cpValidation required
 		          [(ngModel)]="createAppFormModel.description"></textarea>
+		<cp-error-label *ngIf="!description.valid">
+			<span *ngIf="description.control.hasError('required')">The description is required.</span>
+		</cp-error-label>
 	</div>
-	<button class="ui submit button"
+	<button class="ui basic button" type="submit"
+	        [ngClass]="{ 'disabled': !createAppForm.valid, 'green': createAppForm.valid  }"
 	        [disabled]="!createAppForm.valid"
 	        (click)="onSubmit(createAppForm, $event)">
 		Submit
 	</button>
 </form>
 
-<div class="ui bottom attached error message" *ngIf="!name.valid || !slug.valid || !description.valid">
-	<ol class="ui list" *ngIf="!name.valid">
-		<li value="*" *ngIf="name.control.hasError('required')">
-			The name is required.
-		</li>
-	</ol>
-	<ol class="ui list" *ngIf="!slug.valid">
-		<li value="*" *ngIf="slug.control.hasError('invalidSlug')">
-			Invalid slug. Please use only alphanumeric characters and/or dashes (-).
-		</li>
-	</ol>
-	<ol class="ui list" *ngIf="!description.valid">
-		<li value="*" *ngIf="description.control.hasError('required')">
-			The description is required.
-		</li>
-	</ol>
-</div>
 
-
-<cp-error-message *ngIf="!!errorMessage"
-                  [message]="errorMessage"
-                  [closable]="true"
-                  (onClose)="clearMessages($event)"></cp-error-message>
+<cp-message *ngIf="!!errorMessage"
+            [message]="errorMessage"
+            [type]="'error'"
+            [closable]="true"
+            (onClose)="clearMessages($event)"></cp-message>
 <div class="ui bottom attached warning icon message" *ngIf="!!displayWarningMessage">
 	<i class="warning sign icon"></i>
 	<i class="close icon" (click)="clearMessages($event)"></i>

@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "./response/response.component", "carbonldp-panel/code-mirror/code-mirror.component", "jquery", "semantic-ui/semantic", "./sparql-client.component.html!", "./sparql-client.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "./response/response.component", "carbonldp-panel/code-mirror/code-mirror.component", "carbonldp-panel/messages-area/error/error-message-generator", "jquery", "semantic-ui/semantic", "./sparql-client.component.html!", "./sparql-client.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "./respo
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, Carbon_1, HTTP, response_component_1, CodeMirrorComponent, jquery_1, sparql_client_component_html_1, sparql_client_component_css_text_1;
+    var core_1, Carbon_1, HTTP, response_component_1, CodeMirrorComponent, error_message_generator_1, jquery_1, sparql_client_component_html_1, sparql_client_component_css_text_1;
     var SPARQLClientComponent;
     return {
         setters:[
@@ -28,6 +28,9 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "./respo
             },
             function (CodeMirrorComponent_1) {
                 CodeMirrorComponent = CodeMirrorComponent_1;
+            },
+            function (error_message_generator_1_1) {
+                error_message_generator_1 = error_message_generator_1_1;
             },
             function (jquery_1_1) {
                 jquery_1 = jquery_1_1;
@@ -646,19 +649,11 @@ System.register(["@angular/core", "carbonldp/Carbon", "carbonldp/HTTP", "./respo
                                 statusCode: "",
                                 statusMessage: "",
                                 endpoint: "",
-                            };
-                        case "object":
-                            return {
-                                title: error.name,
-                                content: error.message,
-                                statusCode: error.response.status,
-                                statusMessage: error.response.request.statusText,
-                                endpoint: error.response.request.responseURL,
+                                type: "error",
                             };
                         default:
-                            return {
-                                title: error.toString(),
-                            };
+                            return error_message_generator_1.ErrorMessageGenerator.getErrorMessage(error);
+                            ;
                     }
                 };
                 SPARQLClientComponent.prototype.buildResponse = function (duration, resultset, responseType, query) {

@@ -1,11 +1,13 @@
-import { ElementRef, EventEmitter, OnChanges, SimpleChanges } from "@angular/core";
+import { ElementRef, EventEmitter, AfterViewInit, OnChanges, SimpleChanges } from "@angular/core";
 import * as App from "carbonldp/App";
 import * as PersistedAgent from "carbonldp/Auth/PersistedAgent";
 import { AgentsService } from "../agents.service";
 import { RolesService } from "../../roles/roles.service";
-export declare class AgentDetailsComponent implements OnChanges {
+import { MessagesAreaService } from "carbonldp-panel/messages-area/messages-area.service";
+export declare class AgentDetailsComponent implements OnChanges, AfterViewInit {
     private element;
     private $element;
+    private messagesAreaService;
     private timer;
     private Modes;
     private agentRoles;
@@ -22,7 +24,7 @@ export declare class AgentDetailsComponent implements OnChanges {
     onSuccess: EventEmitter<boolean>;
     onError: EventEmitter<boolean>;
     private agentFormModel;
-    constructor(element: ElementRef, agentsService: AgentsService, rolesService: RolesService);
+    constructor(element: ElementRef, agentsService: AgentsService, rolesService: RolesService, messagesAreaService: MessagesAreaService);
     ngAfterViewInit(): void;
     ngOnChanges(changes: SimpleChanges): void;
     private changeAgent(newAgent);

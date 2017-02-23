@@ -1,4 +1,4 @@
-import { ElementRef, Component, Input, Output, EventEmitter, AfterViewInit, OnChanges, SimpleChanges, SimpleChange } from "@angular/core";
+import { ElementRef, Component, Input, Output, EventEmitter, AfterViewInit, OnChanges, SimpleChanges } from "@angular/core";
 
 import * as App from "carbonldp/App";
 import * as Agent from "carbonldp/Auth/Agent";
@@ -10,8 +10,9 @@ import * as RDF from "carbonldp/RDF";
 import { AgentsService } from "../agents.service";
 import { RolesService } from "../../roles/roles.service";
 import { DocumentExplorerLibrary } from "carbonldp-panel/document-explorer/document-explorer-library";
-import { Message } from "carbonldp-panel/errors-area/error-message.component";
-import { ErrorMessageGenerator } from "carbonldp-panel/errors-area/error-message-generator";
+import { Message, Types } from "carbonldp-panel/messages-area/message.component";
+import { MessagesAreaService } from "carbonldp-panel/messages-area/messages-area.service";
+import { ErrorMessageGenerator } from "carbonldp-panel/messages-area/error/error-message-generator";
 
 import template from "./agent-details.component.html!";
 import style from "./agent-details.component.css!text";
@@ -22,10 +23,11 @@ import style from "./agent-details.component.css!text";
 	styles: [ style ],
 } )
 
-export class AgentDetailsComponent implements OnChanges {
+export class AgentDetailsComponent implements OnChanges, AfterViewInit {
 
 	private element:ElementRef;
 	private $element:JQuery;
+	private messagesAreaService:MessagesAreaService;
 
 	private timer:number;
 	private Modes:Modes = Modes;
@@ -56,11 +58,12 @@ export class AgentDetailsComponent implements OnChanges {
 		enabled: false,
 	};
 
-	constructor( element:ElementRef, agentsService:AgentsService, rolesService:RolesService ) {
+	constructor( element:ElementRef, agentsService:AgentsService, rolesService:RolesService, messagesAreaService:MessagesAreaService ) {
 		this.element = element;
 		this.$element = $( element.nativeElement );
 		this.agentsService = agentsService;
 		this.rolesService = rolesService;
+		this.messagesAreaService = messagesAreaService;
 	}
 
 	ngAfterViewInit():void {
@@ -172,8 +175,14 @@ export class AgentDetailsComponent implements OnChanges {
 		this.agentsService.createAgent( this.appContext, <any>agent, agentData.slug ).then( ( [ updatedAgent, response ]:[ PersistedAgent.Class, HTTP.Response.Class ] ) => {
 			return this.editAgentRoles( agent, agentData.roles );
 		} ).then( () => {
-			this.displaySuccessMessage = true;
-			this.emitOnSuccessAfter( 5 );
+			let successMessage:Message = {
+				title: "Agent Created",
+				content: "The agent was created successfully.",
+				type: Types.SUCCESS,
+				duration: 4000,
+			};
+			this.messagesAreaService.addMessage( successMessage );
+			this.onSuccess.emit( true );
 		} ).catch( ( error ) => {
 			this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
 			if( typeof error.name !== "undefined" ) this.errorMessage.title = error.name;

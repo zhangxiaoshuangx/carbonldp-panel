@@ -6,7 +6,7 @@ import Carbon from "carbonldp/Carbon";
 import * as HTTP from "carbonldp/HTTP";
 import { MyAppsSidebarService } from "./../my-apps-sidebar.service";
 import * as App from "./../app-content/app";
-import { Message } from "./../../errors-area/error-message.component";
+import { Message } from "carbonldp-panel/messages-area/message.component";
 import { AppContextService } from "./../app-context.service";
 import "semantic-ui/semantic";
 export declare class AppsCatalogComponent implements OnInit {

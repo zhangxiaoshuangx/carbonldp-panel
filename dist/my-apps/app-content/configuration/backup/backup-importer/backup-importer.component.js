@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/App", "../backups.service", "../../job/jobs.service", "../../job/job", "semantic-ui/semantic", "./backup-importer.component.html!", "./backup-importer.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/App", "../backups.service", "../../job/jobs.service", "../../job/job", "carbonldp-panel/messages-area/message.component", "semantic-ui/semantic", "./backup-importer.component.html!", "./backup-importer.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/App", "../backups.service", "../../
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, App, backups_service_1, jobs_service_1, Job, backup_importer_component_html_1, backup_importer_component_css_text_1;
+    var core_1, App, backups_service_1, jobs_service_1, Job, message_component_1, backup_importer_component_html_1, backup_importer_component_css_text_1;
     var BackupImporterComponent, ImportStatus;
     return {
         setters:[
@@ -28,6 +28,9 @@ System.register(["@angular/core", "carbonldp/App", "../backups.service", "../../
             },
             function (Job_1) {
                 Job = Job_1;
+            },
+            function (message_component_1_1) {
+                message_component_1 = message_component_1_1;
             },
             function (_1) {},
             function (backup_importer_component_html_1_1) {
@@ -109,6 +112,7 @@ System.register(["@angular/core", "carbonldp/App", "../backups.service", "../../
                             _this.executing.fail();
                             var errorMessage = {
                                 title: "Error while executing import",
+                                type: message_component_1.Types.ERROR,
                                 content: "An error occurred while executing your import backup job. Please, fix your job configuration.",
                                 statusMessage: execution[Job.Execution.ERROR_DESCRIPTION]
                             };
@@ -123,6 +127,7 @@ System.register(["@angular/core", "carbonldp/App", "../backups.service", "../../
                         else {
                             errorMessage = {
                                 title: error.name,
+                                type: message_component_1.Types.ERROR,
                                 content: JSON.stringify(error)
                             };
                         }
@@ -187,6 +192,7 @@ System.register(["@angular/core", "carbonldp/App", "../backups.service", "../../
                         else {
                             errorMessage = {
                                 title: error.name,
+                                type: message_component_1.Types.ERROR,
                                 content: JSON.stringify(error)
                             };
                         }
@@ -208,6 +214,7 @@ System.register(["@angular/core", "carbonldp/App", "../backups.service", "../../
                             else {
                                 errorMessage = {
                                     title: error.name,
+                                    type: message_component_1.Types.ERROR,
                                     content: JSON.stringify(error)
                                 };
                             }
@@ -222,6 +229,7 @@ System.register(["@angular/core", "carbonldp/App", "../backups.service", "../../
                         else {
                             errorMessage = {
                                 title: error.name,
+                                type: message_component_1.Types.ERROR,
                                 content: JSON.stringify(error)
                             };
                         }

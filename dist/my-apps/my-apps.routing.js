@@ -38,6 +38,8 @@ System.register(["@angular/router", "./my-apps.view", "./apps-catalog/apps-catal
                             component: apps_catalog_view_1.AppsCatalogView,
                             data: {
                                 title: "My Apps",
+                                // TODO: Remove hide property when Angular's Router bug is fixed
+                                hide: true
                             }
                         },
                         {

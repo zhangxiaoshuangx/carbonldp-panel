@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/router", "carbonldp/Carbon", "carbonldp/App", "carbonldp/HTTP", "carbonldp/NS/CS", "./../app-context.service", "semantic-ui/semantic", "./create-app.component.html!"], function(exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "carbonldp/Carbon", "carbonldp/App", "carbonldp/HTTP", "carbonldp/NS/CS", "./../app-context.service", "carbonldp-panel/messages-area/message.component", "carbonldp-panel/messages-area/error/error-message-generator", "carbonldp-panel/messages-area/messages-area.service", "semantic-ui/semantic", "./create-app.component.html!"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/router", "carbonldp/Carbon", "carbon
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, Carbon_1, CarbonApp, HTTP, CS, app_context_service_1, create_app_component_html_1;
+    var core_1, router_1, Carbon_1, CarbonApp, HTTP, CS, app_context_service_1, message_component_1, error_message_generator_1, messages_area_service_1, create_app_component_html_1;
     var CreateAppComponent;
     return {
         setters:[
@@ -35,13 +35,22 @@ System.register(["@angular/core", "@angular/router", "carbonldp/Carbon", "carbon
             function (app_context_service_1_1) {
                 app_context_service_1 = app_context_service_1_1;
             },
+            function (message_component_1_1) {
+                message_component_1 = message_component_1_1;
+            },
+            function (error_message_generator_1_1) {
+                error_message_generator_1 = error_message_generator_1_1;
+            },
+            function (messages_area_service_1_1) {
+                messages_area_service_1 = messages_area_service_1_1;
+            },
             function (_1) {},
             function (create_app_component_html_1_1) {
                 create_app_component_html_1 = create_app_component_html_1_1;
             }],
         execute: function() {
             CreateAppComponent = (function () {
-                function CreateAppComponent(carbon, appContextService, router) {
+                function CreateAppComponent(carbon, appContextService, router, messagesAreaService) {
                     this.submitting = false;
                     this.displaySuccessMessage = false;
                     this.displayWarningMessage = false;
@@ -56,6 +65,7 @@ System.register(["@angular/core", "@angular/router", "carbonldp/Carbon", "carbon
                     };
                     this.carbon = carbon;
                     this.appContextService = appContextService;
+                    this.messagesAreaService = messagesAreaService;
                     this.router = router;
                 }
                 CreateAppComponent.prototype.ngOnInit = function () {
@@ -110,11 +120,14 @@ System.register(["@angular/core", "@angular/router", "carbonldp/Carbon", "carbon
                         return _this.grantAccess(acl);
                     }).catch(function (error) {
                         console.error(error);
-                        if (error.response)
-                            _this.errorMessage = _this.getHTTPErrorMessage(error, _this.getErrorMessage(error));
+                        if (error.response) {
+                            _this.errorMessage = error_message_generator_1.ErrorMessageGenerator.getErrorMessage(error);
+                            _this.errorMessage.content = _this.getErrorMessage(error);
+                        }
                         else {
                             _this.errorMessage = {
                                 title: error.name,
+                                type: message_component_1.Types.ERROR,
                                 content: JSON.stringify(error)
                             };
                         }
@@ -128,6 +141,13 @@ System.register(["@angular/core", "@angular/router", "carbonldp/Carbon", "carbon
                     acl.grant(subject, subjectClass, permissions);
                     return acl.saveAndRefresh().then(function () {
                         _this.displaySuccessMessage = true;
+                        var successMessage = {
+                            title: "App Created",
+                            content: "The app " + _this.persistedName + " was created successfully.",
+                            type: message_component_1.Types.SUCCESS,
+                            duration: 3000,
+                        };
+                        _this.messagesAreaService.addMessage(successMessage);
                         _this.router.navigate(["my-apps/", _this.persistedSlug]);
                     }).catch(function (error) {
                         _this.displayWarningMessage = true;
@@ -191,7 +211,7 @@ System.register(["@angular/core", "@angular/router", "carbonldp/Carbon", "carbon
                         template: create_app_component_html_1.default,
                         styles: [":host { display: block; }"],
                     }), 
-                    __metadata('design:paramtypes', [Carbon_1.default, app_context_service_1.AppContextService, router_1.Router])
+                    __metadata('design:paramtypes', [Carbon_1.default, app_context_service_1.AppContextService, router_1.Router, messages_area_service_1.MessagesAreaService])
                 ], CreateAppComponent);
                 return CreateAppComponent;
             }());

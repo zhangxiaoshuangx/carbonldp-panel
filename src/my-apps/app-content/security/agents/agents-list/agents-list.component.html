@@ -78,7 +78,7 @@
 	<div class="ui warning message" *ngIf="agents.length===0 && !errorMessage">
 		<i class="attention icon"></i> There are no <strong>Agents</strong> to display
 	</div>
-	<cp-error-message [message]="errorMessage" *ngIf="!!errorMessage"></cp-error-message>
+	<cp-message [message]="errorMessage" [type]="'error'" *ngIf="!!errorMessage"></cp-message>
 </div>
 <!--Ask for agent deletion-->
 <cp-agent-deleter #agentDeleter [context]="appContext" [agent]="deletingAgent" (onSuccess)="refreshAgents()"></cp-agent-deleter>

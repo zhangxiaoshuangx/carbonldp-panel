@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/SDKContext", "../documents-resolver.service", "carbonldp-panel/document-explorer/document-explorer-library", "carbonldp-panel/errors-area/error-message-generator", "semantic-ui/semantic", "./access-point-creator.component.html!"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/SDKContext", "../documents-resolver.service", "carbonldp-panel/document-explorer/document-explorer-library", "carbonldp-panel/messages-area/error/error-message-generator", "semantic-ui/semantic", "./access-point-creator.component.html!"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {

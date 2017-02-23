@@ -3,7 +3,7 @@ import * as App from "carbonldp/App";
 import * as PersistedDocument from "carbonldp/PersistedDocument";
 import { BackupsService } from "../backups.service";
 import { JobsService } from "../../job/jobs.service";
-import { Message } from "./../../../../../errors-area/error-message.component";
+import { Message } from "carbonldp-panel/messages-area/message.component";
 import "semantic-ui/semantic";
 export declare class BackupImporterComponent implements OnInit, OnDestroy {
     appContext: App.Context;

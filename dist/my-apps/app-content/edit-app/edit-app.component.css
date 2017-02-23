@@ -1,8 +1,10 @@
 :host {
   display: block; }
 
-.list .item .content {
-  color: #000000; }
+.list.allowedDomains {
+  margin: 0; }
+  .list.allowedDomains .item .content {
+    color: #000000; }
 
 p.noAllowedOrigins {
   color: #808080;

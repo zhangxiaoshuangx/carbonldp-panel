@@ -1,4 +1,4 @@
-System.register(["@angular/core", "carbonldp/App", "carbonldp/Auth/Agent", "carbonldp/Auth/PersistedAgent", "carbonldp/RDF", "../agents.service", "../../roles/roles.service", "carbonldp-panel/document-explorer/document-explorer-library", "carbonldp-panel/errors-area/error-message-generator", "./agent-details.component.html!", "./agent-details.component.css!text"], function(exports_1, context_1) {
+System.register(["@angular/core", "carbonldp/App", "carbonldp/Auth/Agent", "carbonldp/Auth/PersistedAgent", "carbonldp/RDF", "../agents.service", "../../roles/roles.service", "carbonldp-panel/document-explorer/document-explorer-library", "carbonldp-panel/messages-area/message.component", "carbonldp-panel/messages-area/messages-area.service", "carbonldp-panel/messages-area/error/error-message-generator", "./agent-details.component.html!", "./agent-details.component.css!text"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/Auth/Agent", "carb
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, App, Agent, PersistedAgent, RDF, agents_service_1, roles_service_1, document_explorer_library_1, error_message_generator_1, agent_details_component_html_1, agent_details_component_css_text_1;
+    var core_1, App, Agent, PersistedAgent, RDF, agents_service_1, roles_service_1, document_explorer_library_1, message_component_1, messages_area_service_1, error_message_generator_1, agent_details_component_html_1, agent_details_component_css_text_1;
     var AgentDetailsComponent, Modes;
     return {
         setters:[
@@ -38,6 +38,12 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/Auth/Agent", "carb
             function (document_explorer_library_1_1) {
                 document_explorer_library_1 = document_explorer_library_1_1;
             },
+            function (message_component_1_1) {
+                message_component_1 = message_component_1_1;
+            },
+            function (messages_area_service_1_1) {
+                messages_area_service_1 = messages_area_service_1_1;
+            },
             function (error_message_generator_1_1) {
                 error_message_generator_1 = error_message_generator_1_1;
             },
@@ -49,7 +55,7 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/Auth/Agent", "carb
             }],
         execute: function() {
             AgentDetailsComponent = (function () {
-                function AgentDetailsComponent(element, agentsService, rolesService) {
+                function AgentDetailsComponent(element, agentsService, rolesService, messagesAreaService) {
                     this.Modes = Modes;
                     this.agentRoles = [];
                     this.availableRoles = [];
@@ -72,6 +78,7 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/Auth/Agent", "carb
                     this.$element = $(element.nativeElement);
                     this.agentsService = agentsService;
                     this.rolesService = rolesService;
+                    this.messagesAreaService = messagesAreaService;
                 }
                 AgentDetailsComponent.prototype.ngAfterViewInit = function () {
                     var _this = this;
@@ -180,8 +187,14 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/Auth/Agent", "carb
                         var updatedAgent = _a[0], response = _a[1];
                         return _this.editAgentRoles(agent, agentData.roles);
                     }).then(function () {
-                        _this.displaySuccessMessage = true;
-                        _this.emitOnSuccessAfter(5);
+                        var successMessage = {
+                            title: "Agent Created",
+                            content: "The agent was created successfully.",
+                            type: message_component_1.Types.SUCCESS,
+                            duration: 4000,
+                        };
+                        _this.messagesAreaService.addMessage(successMessage);
+                        _this.onSuccess.emit(true);
                     }).catch(function (error) {
                         _this.errorMessage = error_message_generator_1.ErrorMessageGenerator.getErrorMessage(error);
                         if (typeof error.name !== "undefined")
@@ -285,7 +298,7 @@ System.register(["@angular/core", "carbonldp/App", "carbonldp/Auth/Agent", "carb
                         template: agent_details_component_html_1.default,
                         styles: [agent_details_component_css_text_1.default],
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, agents_service_1.AgentsService, roles_service_1.RolesService])
+                    __metadata('design:paramtypes', [core_1.ElementRef, agents_service_1.AgentsService, roles_service_1.RolesService, messages_area_service_1.MessagesAreaService])
                 ], AgentDetailsComponent);
                 return AgentDetailsComponent;
             }());

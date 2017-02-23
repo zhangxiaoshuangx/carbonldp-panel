@@ -58,7 +58,7 @@ System.register(["@angular/core", "@angular/router", "carbonldp-panel/router.ser
                                     if (typeof routeSnapshot === "undefined")
                                         return;
                                     url += _this.getURL(routeSnapshot);
-                                    if (!!routeSnapshot.data["displayName"]) {
+                                    if (!!routeSnapshot.data["displayName"] && !routeSnapshot.data["hide"]) {
                                         _this.breadCrumbs.push({
                                             alias: url,
                                             displayName: routeSnapshot.data["displayName"],

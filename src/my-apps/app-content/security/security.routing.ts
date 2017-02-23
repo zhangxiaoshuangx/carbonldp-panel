@@ -9,6 +9,9 @@ import { AgentsListView } from "./agents/agents-list/agents-list.view";
 import { AgentDetailsView } from "./agents/agent-details/agent-details.view";
 import { AgentCreatorView } from "./agents/agent-creator/agent-creator.view";
 import { AgentNotFoundView } from "./agents/agent-not-found/agent-not-found.view";
+import { RolesView } from "./roles/roles.view";
+import { RoleResolver } from "./roles/role.resolver";
+import { RolesBrowserView } from "./roles/roles-browser/roles-browser.view";
 
 const SecurityRoutes:Routes = [
 	{
@@ -34,6 +37,10 @@ const SecurityRoutes:Routes = [
 				children: [
 					{
 						path: "",
+						data: {
+							// TODO: Remove hide property when Angular's Router bug is fixed
+							hide: true
+						},
 						component: AgentsListView,
 					},
 					{
@@ -70,6 +77,36 @@ const SecurityRoutes:Routes = [
 					}
 				]
 			},
+			{
+				path: "roles",
+				data: {
+					alias: "roles",
+					displayName: "Roles",
+				},
+				component: RolesView,
+				children: [
+					{
+						path: "",
+						data: {
+							// TODO: Remove hide property when Angular's Router bug is fixed
+							hide: true
+						},
+						component: RolesBrowserView,
+					},
+					{
+						path: ":role-slug",
+						resolve: {
+							role: RoleResolver,
+						},
+						data: {
+							param: "role-slug",
+							displayName: "Role",
+							title: "Role",
+						},
+						component: RolesBrowserView,
+					},
+				]
+			}
 		]
 	}
 ];

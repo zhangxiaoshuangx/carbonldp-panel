@@ -1,7 +1,7 @@
-System.register(["@angular/router", "./security.view", "./agents/agents.view", "./agents/agent.resolver", "./agents/agents-list/agents-list.view", "./agents/agent-details/agent-details.view", "./agents/agent-creator/agent-creator.view", "./agents/agent-not-found/agent-not-found.view"], function(exports_1, context_1) {
+System.register(["@angular/router", "./security.view", "./agents/agents.view", "./agents/agent.resolver", "./agents/agents-list/agents-list.view", "./agents/agent-details/agent-details.view", "./agents/agent-creator/agent-creator.view", "./agents/agent-not-found/agent-not-found.view", "./roles/roles.view", "./roles/role.resolver", "./roles/roles-browser/roles-browser.view"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var router_1, security_view_1, agents_view_1, agent_resolver_1, agents_list_view_1, agent_details_view_1, agent_creator_view_1, agent_not_found_view_1;
+    var router_1, security_view_1, agents_view_1, agent_resolver_1, agents_list_view_1, agent_details_view_1, agent_creator_view_1, agent_not_found_view_1, roles_view_1, role_resolver_1, roles_browser_view_1;
     var SecurityRoutes, routing;
     return {
         setters:[
@@ -28,6 +28,15 @@ System.register(["@angular/router", "./security.view", "./agents/agents.view", "
             },
             function (agent_not_found_view_1_1) {
                 agent_not_found_view_1 = agent_not_found_view_1_1;
+            },
+            function (roles_view_1_1) {
+                roles_view_1 = roles_view_1_1;
+            },
+            function (role_resolver_1_1) {
+                role_resolver_1 = role_resolver_1_1;
+            },
+            function (roles_browser_view_1_1) {
+                roles_browser_view_1 = roles_browser_view_1_1;
             }],
         execute: function() {
             SecurityRoutes = [
@@ -54,6 +63,10 @@ System.register(["@angular/router", "./security.view", "./agents/agents.view", "
                             children: [
                                 {
                                     path: "",
+                                    data: {
+                                        // TODO: Remove hide property when Angular's Router bug is fixed
+                                        hide: true
+                                    },
                                     component: agents_list_view_1.AgentsListView,
                                 },
                                 {
@@ -90,6 +103,36 @@ System.register(["@angular/router", "./security.view", "./agents/agents.view", "
                                 }
                             ]
                         },
+                        {
+                            path: "roles",
+                            data: {
+                                alias: "roles",
+                                displayName: "Roles",
+                            },
+                            component: roles_view_1.RolesView,
+                            children: [
+                                {
+                                    path: "",
+                                    data: {
+                                        // TODO: Remove hide property when Angular's Router bug is fixed
+                                        hide: true
+                                    },
+                                    component: roles_browser_view_1.RolesBrowserView,
+                                },
+                                {
+                                    path: ":role-slug",
+                                    resolve: {
+                                        role: role_resolver_1.RoleResolver,
+                                    },
+                                    data: {
+                                        param: "role-slug",
+                                        displayName: "Role",
+                                        title: "Role",
+                                    },
+                                    component: roles_browser_view_1.RolesBrowserView,
+                                },
+                            ]
+                        }
                     ]
                 }
             ];
