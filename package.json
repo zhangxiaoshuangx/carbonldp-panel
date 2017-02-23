@@ -1,6 +1,6 @@
 {
   "name": "carbonldp-panel",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Common components, services and utilities shared between different panel projects",
   "contributors": [
     {
@@ -40,7 +40,7 @@
     "@types/jquery": "^2.0.33",
     "@types/jstree": "^3.3.32",
     "@types/node": "^6.0.46",
-    "angular2-carbonldp": "0.4.1",
+    "angular2-carbonldp": "0.4.2",
     "carbonldp": "0.40.0",
     "codemirror": "^5.16.0",
     "del": "^2.2.1",
@@ -72,7 +72,7 @@
     "@angular/platform-browser": "2.4.2",
     "@angular/platform-browser-dynamic": "2.4.2",
     "@angular/router": "3.4.2",
-    "angular2-carbonldp": "0.4.1",
+    "angular2-carbonldp": "0.4.2",
     "carbonldp": "0.40.0",
     "jquery": "^2.2.4"
   },

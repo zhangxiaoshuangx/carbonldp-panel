@@ -1,3 +1,7 @@
+# 0.7.1 (2017/02/23)
+
+- Updated `angular2-carbonldp` to `v0.4.2`
+
 # 0.7.0 (2017/02/23)
 
 - Completed #39 - Add screen to manage roles of an app
