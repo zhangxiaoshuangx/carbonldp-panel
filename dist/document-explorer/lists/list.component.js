@@ -145,53 +145,54 @@ var ListComponent = (function () {
             this.updateTempList();
         }
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], ListComponent.prototype, "list", null);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
-    ], ListComponent.prototype, "documentURI", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], ListComponent.prototype, "pointers", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], ListComponent.prototype, "blankNodes", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], ListComponent.prototype, "namedFragments", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], ListComponent.prototype, "onSave", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], ListComponent.prototype, "onDeleteList", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], ListComponent.prototype, "onGoToBlankNode", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], ListComponent.prototype, "onGoToNamedFragment", void 0);
-    ListComponent = __decorate([
-        core_1.Component({
-            selector: "cp-list",
-            templateUrl: "./list.component.html",
-            styleUrls: ["./list.component.scss"],
-            host: { "[class.modified]": "list.modified", "[class.deleted]": "list.deleted", "[class.added]": "list.added" },
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef])
-    ], ListComponent);
     return ListComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object),
+    __metadata("design:paramtypes", [Object])
+], ListComponent.prototype, "list", null);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], ListComponent.prototype, "documentURI", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], ListComponent.prototype, "pointers", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], ListComponent.prototype, "blankNodes", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], ListComponent.prototype, "namedFragments", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], ListComponent.prototype, "onSave", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], ListComponent.prototype, "onDeleteList", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], ListComponent.prototype, "onGoToBlankNode", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], ListComponent.prototype, "onGoToNamedFragment", void 0);
+ListComponent = __decorate([
+    core_1.Component({
+        selector: "cp-list",
+        templateUrl: "./list.component.html",
+        styleUrls: ["./list.component.scss"],
+        host: { "[class.modified]": "list.modified", "[class.deleted]": "list.deleted", "[class.added]": "list.added" },
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef])
+], ListComponent);
 exports.ListComponent = ListComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ListComponent;

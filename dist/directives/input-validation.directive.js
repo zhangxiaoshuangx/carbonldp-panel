@@ -81,29 +81,28 @@ var InputValidationDirective = (function () {
     InputValidationDirective.prototype.onBlur = function () {
         this.hasFocus = false;
     };
-    __decorate([
-        core_1.HostListener("focus", ["$event"]), 
-        __metadata('design:type', Function), 
-        __metadata('design:paramtypes', []), 
-        __metadata('design:returntype', void 0)
-    ], InputValidationDirective.prototype, "onFocus", null);
-    __decorate([
-        core_1.HostListener("blur", ["$event"]), 
-        __metadata('design:type', Function), 
-        __metadata('design:paramtypes', []), 
-        __metadata('design:returntype', void 0)
-    ], InputValidationDirective.prototype, "onBlur", null);
-    InputValidationDirective = __decorate([
-        core_1.Directive({
-            selector: "[cpValidation][ngModel]",
-            exportAs: "cpValidation",
-        }),
-        __param(0, core_1.Optional()),
-        __param(0, core_1.Host()), 
-        __metadata('design:paramtypes', [forms_1.NgModel])
-    ], InputValidationDirective);
     return InputValidationDirective;
 }());
+__decorate([
+    core_1.HostListener("focus", ["$event"]),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], InputValidationDirective.prototype, "onFocus", null);
+__decorate([
+    core_1.HostListener("blur", ["$event"]),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], InputValidationDirective.prototype, "onBlur", null);
+InputValidationDirective = __decorate([
+    core_1.Directive({
+        selector: "[cpValidation][ngModel]",
+        exportAs: "cpValidation",
+    }),
+    __param(0, core_1.Optional()), __param(0, core_1.Host()),
+    __metadata("design:paramtypes", [forms_1.NgModel])
+], InputValidationDirective);
 exports.InputValidationDirective = InputValidationDirective;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = InputValidationDirective;

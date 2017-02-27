@@ -994,69 +994,70 @@ var LiteralComponent = (function () {
     LiteralComponent.prototype.moveDown = function () {
         this.onMoveDown.emit(this.literal);
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String), 
-        __metadata('design:paramtypes', [String])
-    ], LiteralComponent.prototype, "mode", null);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], LiteralComponent.prototype, "literal", null);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Boolean)
-    ], LiteralComponent.prototype, "canEdit", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Boolean)
-    ], LiteralComponent.prototype, "canDisplayLanguage", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Boolean)
-    ], LiteralComponent.prototype, "partOfList", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Boolean)
-    ], LiteralComponent.prototype, "isFirstItem", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Boolean)
-    ], LiteralComponent.prototype, "isLastItem", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], LiteralComponent.prototype, "onEditMode", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], LiteralComponent.prototype, "onSave", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], LiteralComponent.prototype, "onDeleteLiteral", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], LiteralComponent.prototype, "onMoveUp", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], LiteralComponent.prototype, "onMoveDown", void 0);
-    __decorate([
-        core_1.ViewChild("valueInput"), 
-        __metadata('design:type', Object)
-    ], LiteralComponent.prototype, "valueInputControl", void 0);
-    LiteralComponent = __decorate([
-        core_1.Component({
-            selector: "tr.cp-literal",
-            templateUrl: "./literal.component.html",
-            styleUrls: ["./literal.component.scss"],
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef])
-    ], LiteralComponent);
     return LiteralComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String),
+    __metadata("design:paramtypes", [String])
+], LiteralComponent.prototype, "mode", null);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object),
+    __metadata("design:paramtypes", [Object])
+], LiteralComponent.prototype, "literal", null);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], LiteralComponent.prototype, "canEdit", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], LiteralComponent.prototype, "canDisplayLanguage", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], LiteralComponent.prototype, "partOfList", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], LiteralComponent.prototype, "isFirstItem", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], LiteralComponent.prototype, "isLastItem", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], LiteralComponent.prototype, "onEditMode", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], LiteralComponent.prototype, "onSave", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], LiteralComponent.prototype, "onDeleteLiteral", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], LiteralComponent.prototype, "onMoveUp", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], LiteralComponent.prototype, "onMoveDown", void 0);
+__decorate([
+    core_1.ViewChild("valueInput"),
+    __metadata("design:type", Object)
+], LiteralComponent.prototype, "valueInputControl", void 0);
+LiteralComponent = __decorate([
+    core_1.Component({
+        selector: "tr.cp-literal",
+        templateUrl: "./literal.component.html",
+        styleUrls: ["./literal.component.scss"],
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef])
+], LiteralComponent);
 exports.LiteralComponent = LiteralComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = LiteralComponent;

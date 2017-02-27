@@ -85,12 +85,12 @@ var SidebarService = (function () {
     SidebarService.prototype.clear = function () {
         this.items.splice(0, this.items.length);
     };
-    SidebarService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
-    ], SidebarService);
     return SidebarService;
 }());
+SidebarService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [])
+], SidebarService);
 exports.SidebarService = SidebarService;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = SidebarService;

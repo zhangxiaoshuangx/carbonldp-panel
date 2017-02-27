@@ -65,12 +65,12 @@ var AppContextService = (function () {
             return slug;
         }
     };
-    AppContextService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [Carbon_1.default])
-    ], AppContextService);
     return AppContextService;
 }());
+AppContextService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [Carbon_1.default])
+], AppContextService);
 exports.AppContextService = AppContextService;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = AppContextService;

@@ -48,12 +48,12 @@ var HeaderService = (function () {
     HeaderService.prototype.clear = function () {
         this.items.splice(0, this.items.length);
     };
-    HeaderService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
-    ], HeaderService);
     return HeaderService;
 }());
+HeaderService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [])
+], HeaderService);
 exports.HeaderService = HeaderService;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = HeaderService;

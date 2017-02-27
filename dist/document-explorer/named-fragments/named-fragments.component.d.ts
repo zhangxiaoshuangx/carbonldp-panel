@@ -1,5 +1,3 @@
-/// <reference types="jquery" />
-/// <reference types="jstree" />
 import { ElementRef, EventEmitter, SimpleChange, OnChanges, AfterViewInit } from "@angular/core";
 import { NamedFragmentRow } from "./named-fragment.component";
 import { BlankNodeRow } from "./../blank-nodes/blank-node.component";

@@ -53,28 +53,27 @@ var TabsComponent = (function () {
     TabsComponent.prototype.onTitleClick = function (titleIndex) {
         this.activateTab(titleIndex);
     };
-    __decorate([
-        core_1.ContentChildren(tab_component_1.TabComponent), 
-        __metadata('design:type', core_1.QueryList)
-    ], TabsComponent.prototype, "tabs", void 0);
-    __decorate([
-        core_1.Input("activeTab"), 
-        __metadata('design:type', Number)
-    ], TabsComponent.prototype, "activeTab", void 0);
-    __decorate([
-        core_1.Output("activeTabChange"), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], TabsComponent.prototype, "activeTabChange", void 0);
-    TabsComponent = __decorate([
-        core_1.Component({
-            selector: "sui-tabs",
-            templateUrl: "./tabs.component.html",
-            styleUrls: ["./tabs.component.scss"],
-        }), 
-        __metadata('design:paramtypes', [])
-    ], TabsComponent);
     return TabsComponent;
 }());
+__decorate([
+    core_1.ContentChildren(tab_component_1.TabComponent),
+    __metadata("design:type", core_1.QueryList)
+], TabsComponent.prototype, "tabs", void 0);
+__decorate([
+    core_1.Input("activeTab"),
+    __metadata("design:type", Number)
+], TabsComponent.prototype, "activeTab", void 0);
+__decorate([
+    core_1.Output("activeTabChange"),
+    __metadata("design:type", core_1.EventEmitter)
+], TabsComponent.prototype, "activeTabChange", void 0);
+TabsComponent = __decorate([
+    core_1.Component({
+        selector: "sui-tabs",
+        templateUrl: "./tabs.component.html",
+        styleUrls: ["./tabs.component.scss"],
+    })
+], TabsComponent);
 exports.TabsComponent = TabsComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TabsComponent;

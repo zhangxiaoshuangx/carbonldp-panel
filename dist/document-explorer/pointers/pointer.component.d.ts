@@ -1,5 +1,3 @@
-/// <reference types="jquery" />
-/// <reference types="jstree" />
 import { ElementRef, SimpleChange, EventEmitter, OnChanges } from "@angular/core";
 import { Modes } from "./../property/property.component";
 import { BlankNodeRow } from "./../blank-nodes/blank-node.component";

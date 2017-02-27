@@ -66,14 +66,14 @@ var HighlightDirective = (function () {
         }
         return lines;
     };
-    HighlightDirective = __decorate([
-        core_1.Directive({
-            selector: "[cpHighlight]",
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef])
-    ], HighlightDirective);
     return HighlightDirective;
 }());
+HighlightDirective = __decorate([
+    core_1.Directive({
+        selector: "[cpHighlight]",
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef])
+], HighlightDirective);
 exports.HighlightDirective = HighlightDirective;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = HighlightDirective;

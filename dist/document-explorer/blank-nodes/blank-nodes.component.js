@@ -141,40 +141,40 @@ var BlankNodesComponent = (function () {
         this.askingDeletionBlankNode = null;
         this.$element.find(".confirm-deletion.dimmer").dimmer("hide");
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], BlankNodesComponent.prototype, "blankNodes", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], BlankNodesComponent.prototype, "namedFragments", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
-    ], BlankNodesComponent.prototype, "documentURI", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], BlankNodesComponent.prototype, "onChanges", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], BlankNodesComponent.prototype, "onOpenBlankNode", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], BlankNodesComponent.prototype, "onOpenNamedFragment", void 0);
-    BlankNodesComponent = __decorate([
-        core_1.Component({
-            selector: "cp-blank-nodes",
-            templateUrl: "./blank-nodes.component.html",
-            styleUrls: ["./blank-nodes.component.scss"],
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef])
-    ], BlankNodesComponent);
     return BlankNodesComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], BlankNodesComponent.prototype, "blankNodes", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], BlankNodesComponent.prototype, "namedFragments", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], BlankNodesComponent.prototype, "documentURI", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], BlankNodesComponent.prototype, "onChanges", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], BlankNodesComponent.prototype, "onOpenBlankNode", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], BlankNodesComponent.prototype, "onOpenNamedFragment", void 0);
+BlankNodesComponent = __decorate([
+    core_1.Component({
+        selector: "cp-blank-nodes",
+        templateUrl: "./blank-nodes.component.html",
+        styleUrls: ["./blank-nodes.component.scss"],
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef])
+], BlankNodesComponent);
 exports.BlankNodesComponent = BlankNodesComponent;
 var BlankNodesRecords = (function () {
     function BlankNodesRecords() {

@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var URI = require("carbonldp/RDF/URI");
-var EmailValidator = (function () {
+var EmailValidator = EmailValidator_1 = (function () {
     function EmailValidator() {
     }
     EmailValidator.prototype.validate = function (control) {
@@ -25,17 +25,16 @@ var EmailValidator = (function () {
             }
         }
     };
-    EmailValidator = __decorate([
-        core_1.Directive({
-            selector: "[cp-email]",
-            providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: EmailValidator, multi: true }]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], EmailValidator);
     return EmailValidator;
 }());
+EmailValidator = EmailValidator_1 = __decorate([
+    core_1.Directive({
+        selector: "[cp-email]",
+        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: EmailValidator_1, multi: true }]
+    })
+], EmailValidator);
 exports.EmailValidator = EmailValidator;
-var SlugValidator = (function () {
+var SlugValidator = SlugValidator_1 = (function () {
     function SlugValidator() {
     }
     SlugValidator.prototype.validate = function (control) {
@@ -46,17 +45,16 @@ var SlugValidator = (function () {
             return { "invalidSlug": true };
         }
     };
-    SlugValidator = __decorate([
-        core_1.Directive({
-            selector: "[cp-slug]",
-            providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: SlugValidator, multi: true }]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], SlugValidator);
     return SlugValidator;
 }());
+SlugValidator = SlugValidator_1 = __decorate([
+    core_1.Directive({
+        selector: "[cp-slug]",
+        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: SlugValidator_1, multi: true }]
+    })
+], SlugValidator);
 exports.SlugValidator = SlugValidator;
-var MatchValidator = (function () {
+var MatchValidator = MatchValidator_1 = (function () {
     function MatchValidator() {
     }
     MatchValidator.prototype.ngOnChanges = function (changes) {
@@ -71,25 +69,24 @@ var MatchValidator = (function () {
             }
         }
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], MatchValidator.prototype, "matchTo", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], MatchValidator.prototype, "control", void 0);
-    MatchValidator = __decorate([
-        core_1.Directive({
-            selector: "[cp-match]",
-            providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: MatchValidator, multi: true }]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], MatchValidator);
     return MatchValidator;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], MatchValidator.prototype, "matchTo", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], MatchValidator.prototype, "control", void 0);
+MatchValidator = MatchValidator_1 = __decorate([
+    core_1.Directive({
+        selector: "[cp-match]",
+        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: MatchValidator_1, multi: true }]
+    })
+], MatchValidator);
 exports.MatchValidator = MatchValidator;
-var DomainValidator = (function () {
+var DomainValidator = DomainValidator_1 = (function () {
     function DomainValidator() {
     }
     DomainValidator.prototype.validate = function (control) {
@@ -101,17 +98,16 @@ var DomainValidator = (function () {
             }
         }
     };
-    DomainValidator = __decorate([
-        core_1.Directive({
-            selector: "[cp-domain]",
-            providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: DomainValidator, multi: true }]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], DomainValidator);
     return DomainValidator;
 }());
+DomainValidator = DomainValidator_1 = __decorate([
+    core_1.Directive({
+        selector: "[cp-domain]",
+        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: DomainValidator_1, multi: true }]
+    })
+], DomainValidator);
 exports.DomainValidator = DomainValidator;
-var URIValidator = (function () {
+var URIValidator = URIValidator_1 = (function () {
     function URIValidator() {
     }
     URIValidator.prototype.validate = function (control) {
@@ -126,17 +122,16 @@ var URIValidator = (function () {
         }
         return { "emptyURIAddress": true };
     };
-    URIValidator = __decorate([
-        core_1.Directive({
-            selector: "[cp-uri]",
-            providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: URIValidator, multi: true }]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], URIValidator);
     return URIValidator;
 }());
+URIValidator = URIValidator_1 = __decorate([
+    core_1.Directive({
+        selector: "[cp-uri]",
+        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: URIValidator_1, multi: true }]
+    })
+], URIValidator);
 exports.URIValidator = URIValidator;
-var FragmentValidator = (function () {
+var FragmentValidator = FragmentValidator_1 = (function () {
     function FragmentValidator() {
     }
     FragmentValidator.prototype.validate = function (control) {
@@ -152,17 +147,16 @@ var FragmentValidator = (function () {
             return { "missingFragment": true };
         return null;
     };
-    FragmentValidator = __decorate([
-        core_1.Directive({
-            selector: "[cp-fragment]",
-            providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: FragmentValidator, multi: true }]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], FragmentValidator);
     return FragmentValidator;
 }());
+FragmentValidator = FragmentValidator_1 = __decorate([
+    core_1.Directive({
+        selector: "[cp-fragment]",
+        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: FragmentValidator_1, multi: true }]
+    })
+], FragmentValidator);
 exports.FragmentValidator = FragmentValidator;
-var URIFragmentValidator = (function () {
+var URIFragmentValidator = URIFragmentValidator_1 = (function () {
     function URIFragmentValidator() {
     }
     URIFragmentValidator.prototype.validate = function (control) {
@@ -178,17 +172,16 @@ var URIFragmentValidator = (function () {
             return { "missingFragment": true };
         return null;
     };
-    URIFragmentValidator = __decorate([
-        core_1.Directive({
-            selector: "[cp-uri-fragment]",
-            providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: URIFragmentValidator, multi: true }]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], URIFragmentValidator);
     return URIFragmentValidator;
 }());
+URIFragmentValidator = URIFragmentValidator_1 = __decorate([
+    core_1.Directive({
+        selector: "[cp-uri-fragment]",
+        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: URIFragmentValidator_1, multi: true }]
+    })
+], URIFragmentValidator);
 exports.URIFragmentValidator = URIFragmentValidator;
-var RequiredIfValidator = (function () {
+var RequiredIfValidator = RequiredIfValidator_1 = (function () {
     function RequiredIfValidator() {
     }
     RequiredIfValidator.prototype.validate = function (control) {
@@ -196,19 +189,19 @@ var RequiredIfValidator = (function () {
             return { "requiredIf": true };
         return null;
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Boolean)
-    ], RequiredIfValidator.prototype, "condition", void 0);
-    RequiredIfValidator = __decorate([
-        core_1.Directive({
-            selector: '[cp-required-if]',
-            providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: RequiredIfValidator, multi: true }]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], RequiredIfValidator);
     return RequiredIfValidator;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], RequiredIfValidator.prototype, "condition", void 0);
+RequiredIfValidator = RequiredIfValidator_1 = __decorate([
+    core_1.Directive({
+        selector: '[cp-required-if]',
+        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: RequiredIfValidator_1, multi: true }]
+    })
+], RequiredIfValidator);
 exports.RequiredIfValidator = RequiredIfValidator;
+var EmailValidator_1, SlugValidator_1, MatchValidator_1, DomainValidator_1, URIValidator_1, FragmentValidator_1, URIFragmentValidator_1, RequiredIfValidator_1;
 
 //# sourceMappingURL=custom-validators.js.map

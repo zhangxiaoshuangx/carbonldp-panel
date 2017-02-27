@@ -58,33 +58,33 @@ var PaginatorComponent = (function () {
         }
         return pages;
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Number), 
-        __metadata('design:paramtypes', [Number])
-    ], PaginatorComponent.prototype, "activePage", null);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Number)
-    ], PaginatorComponent.prototype, "elementsPerPage", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Number)
-    ], PaginatorComponent.prototype, "totalElements", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], PaginatorComponent.prototype, "onPageChange", void 0);
-    PaginatorComponent = __decorate([
-        core_1.Component({
-            selector: "cp-paginator",
-            templateUrl: "./paginator.component.html",
-            styles: [":host{ display:block; }"],
-        }), 
-        __metadata('design:paramtypes', [])
-    ], PaginatorComponent);
     return PaginatorComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Number),
+    __metadata("design:paramtypes", [Number])
+], PaginatorComponent.prototype, "activePage", null);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Number)
+], PaginatorComponent.prototype, "elementsPerPage", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Number)
+], PaginatorComponent.prototype, "totalElements", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], PaginatorComponent.prototype, "onPageChange", void 0);
+PaginatorComponent = __decorate([
+    core_1.Component({
+        selector: "cp-paginator",
+        templateUrl: "./paginator.component.html",
+        styles: [":host{ display:block; }"],
+    }),
+    __metadata("design:paramtypes", [])
+], PaginatorComponent);
 exports.PaginatorComponent = PaginatorComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = PaginatorComponent;

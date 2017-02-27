@@ -28,20 +28,20 @@ var HeaderItemComponent = (function () {
             on: "hover",
         });
     };
-    __decorate([
-        core_1.Input("item"), 
-        __metadata('design:type', Object)
-    ], HeaderItemComponent.prototype, "item", void 0);
-    HeaderItemComponent = __decorate([
-        core_1.Component({
-            selector: "cp-header-item",
-            templateUrl: "./header-item.component.html",
-            styleUrls: ["./header-item.component.scss"],
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef, router_service_1.RouterService])
-    ], HeaderItemComponent);
     return HeaderItemComponent;
 }());
+__decorate([
+    core_1.Input("item"),
+    __metadata("design:type", Object)
+], HeaderItemComponent.prototype, "item", void 0);
+HeaderItemComponent = __decorate([
+    core_1.Component({
+        selector: "cp-header-item",
+        templateUrl: "./header-item.component.html",
+        styleUrls: ["./header-item.component.scss"],
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef, router_service_1.RouterService])
+], HeaderItemComponent);
 exports.HeaderItemComponent = HeaderItemComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = HeaderItemComponent;

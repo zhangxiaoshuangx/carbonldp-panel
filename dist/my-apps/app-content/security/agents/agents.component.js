@@ -13,20 +13,20 @@ var App = require("carbonldp/App");
 var AgentsComponent = (function () {
     function AgentsComponent() {
     }
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', App.Context)
-    ], AgentsComponent.prototype, "appContext", void 0);
-    AgentsComponent = __decorate([
-        core_1.Component({
-            selector: "cp-agents",
-            templateUrl: "./agents.component.html",
-            styleUrls: ["./agents.component.scss"],
-        }), 
-        __metadata('design:paramtypes', [])
-    ], AgentsComponent);
     return AgentsComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", App.Context)
+], AgentsComponent.prototype, "appContext", void 0);
+AgentsComponent = __decorate([
+    core_1.Component({
+        selector: "cp-agents",
+        templateUrl: "./agents.component.html",
+        styleUrls: ["./agents.component.scss"],
+    }),
+    __metadata("design:paramtypes", [])
+], AgentsComponent);
 exports.AgentsComponent = AgentsComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = AgentsComponent;

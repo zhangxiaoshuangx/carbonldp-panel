@@ -52,32 +52,32 @@ var ResultsetTableComponent = (function () {
             return bindingArray;
         });
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], ResultsetTableComponent.prototype, "query", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], ResultsetTableComponent.prototype, "resultset", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], ResultsetTableComponent.prototype, "prefixes", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], ResultsetTableComponent.prototype, "resultsetChange", void 0);
-    ResultsetTableComponent = __decorate([
-        core_1.Component({
-            selector: "cp-resultset-table",
-            templateUrl: "./resultset-table.component.html",
-            styleUrls: ["./resultset-table.component.scss"],
-        }), 
-        __metadata('design:paramtypes', [])
-    ], ResultsetTableComponent);
     return ResultsetTableComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], ResultsetTableComponent.prototype, "query", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], ResultsetTableComponent.prototype, "resultset", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], ResultsetTableComponent.prototype, "prefixes", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], ResultsetTableComponent.prototype, "resultsetChange", void 0);
+ResultsetTableComponent = __decorate([
+    core_1.Component({
+        selector: "cp-resultset-table",
+        templateUrl: "./resultset-table.component.html",
+        styleUrls: ["./resultset-table.component.scss"],
+    }),
+    __metadata("design:paramtypes", [])
+], ResultsetTableComponent);
 exports.ResultsetTableComponent = ResultsetTableComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ResultsetTableComponent;

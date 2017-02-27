@@ -8,9 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var common_1 = require('@angular/common');
-var router_1 = require('@angular/router');
+var core_1 = require("@angular/core");
+var common_1 = require("@angular/common");
+var router_1 = require("@angular/router");
 var agents_service_1 = require("./agents.service");
 var app_content_service_1 = require("carbonldp-panel/my-apps/app-content/app-content.service");
 var AgentResolver = (function () {
@@ -33,12 +33,12 @@ var AgentResolver = (function () {
             return false;
         });
     };
-    AgentResolver = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, agents_service_1.AgentsService, app_content_service_1.AppContentService, common_1.Location])
-    ], AgentResolver);
     return AgentResolver;
 }());
+AgentResolver = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [router_1.Router, router_1.ActivatedRoute, agents_service_1.AgentsService, app_content_service_1.AppContentService, common_1.Location])
+], AgentResolver);
 exports.AgentResolver = AgentResolver;
 
 //# sourceMappingURL=agent.resolver.js.map

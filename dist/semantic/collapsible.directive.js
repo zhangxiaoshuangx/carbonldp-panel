@@ -14,35 +14,34 @@ var CollapsibleTitleDirective = (function () {
         this.active = false;
         this.element = element;
     }
-    __decorate([
-        core_1.HostBinding("class.active"), 
-        __metadata('design:type', Boolean)
-    ], CollapsibleTitleDirective.prototype, "active", void 0);
-    CollapsibleTitleDirective = __decorate([
-        core_1.Directive({
-            selector: ".title"
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef])
-    ], CollapsibleTitleDirective);
     return CollapsibleTitleDirective;
 }());
+__decorate([
+    core_1.HostBinding("class.active"),
+    __metadata("design:type", Boolean)
+], CollapsibleTitleDirective.prototype, "active", void 0);
+CollapsibleTitleDirective = __decorate([
+    core_1.Directive({
+        selector: ".title"
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef])
+], CollapsibleTitleDirective);
 exports.CollapsibleTitleDirective = CollapsibleTitleDirective;
 var CollapsibleContentDirective = (function () {
     function CollapsibleContentDirective() {
         this.active = false;
     }
-    __decorate([
-        core_1.HostBinding("class.active"), 
-        __metadata('design:type', Boolean)
-    ], CollapsibleContentDirective.prototype, "active", void 0);
-    CollapsibleContentDirective = __decorate([
-        core_1.Directive({
-            selector: ".content"
-        }), 
-        __metadata('design:paramtypes', [])
-    ], CollapsibleContentDirective);
     return CollapsibleContentDirective;
 }());
+__decorate([
+    core_1.HostBinding("class.active"),
+    __metadata("design:type", Boolean)
+], CollapsibleContentDirective.prototype, "active", void 0);
+CollapsibleContentDirective = __decorate([
+    core_1.Directive({
+        selector: ".content"
+    })
+], CollapsibleContentDirective);
 exports.CollapsibleContentDirective = CollapsibleContentDirective;
 var CollapsibleDirective = (function () {
     function CollapsibleDirective(element) {
@@ -81,36 +80,37 @@ var CollapsibleDirective = (function () {
     CollapsibleDirective.prototype.toggleContent = function () {
         this.active = !this.active;
     };
-    __decorate([
-        core_1.ContentChild(CollapsibleContentDirective), 
-        __metadata('design:type', CollapsibleContentDirective)
-    ], CollapsibleDirective.prototype, "content", void 0);
-    __decorate([
-        core_1.ContentChild(CollapsibleTitleDirective), 
-        __metadata('design:type', CollapsibleTitleDirective)
-    ], CollapsibleDirective.prototype, "title", void 0);
-    __decorate([
-        core_1.Output("suiActiveChange"), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], CollapsibleDirective.prototype, "activeChange", void 0);
-    __decorate([
-        core_1.Input("suiActive"), 
-        __metadata('design:type', Boolean)
-    ], CollapsibleDirective.prototype, "active", null);
-    __decorate([
-        core_1.HostListener("click", ["$event"]), 
-        __metadata('design:type', Function), 
-        __metadata('design:paramtypes', [MouseEvent]), 
-        __metadata('design:returntype', void 0)
-    ], CollapsibleDirective.prototype, "onClick", null);
-    CollapsibleDirective = __decorate([
-        core_1.Directive({
-            selector: "[suiCollapsible]"
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef])
-    ], CollapsibleDirective);
     return CollapsibleDirective;
 }());
+__decorate([
+    core_1.ContentChild(CollapsibleContentDirective),
+    __metadata("design:type", CollapsibleContentDirective)
+], CollapsibleDirective.prototype, "content", void 0);
+__decorate([
+    core_1.ContentChild(CollapsibleTitleDirective),
+    __metadata("design:type", CollapsibleTitleDirective)
+], CollapsibleDirective.prototype, "title", void 0);
+__decorate([
+    core_1.Output("suiActiveChange"),
+    __metadata("design:type", core_1.EventEmitter)
+], CollapsibleDirective.prototype, "activeChange", void 0);
+__decorate([
+    core_1.Input("suiActive"),
+    __metadata("design:type", Boolean),
+    __metadata("design:paramtypes", [Boolean])
+], CollapsibleDirective.prototype, "active", null);
+__decorate([
+    core_1.HostListener("click", ["$event"]),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [MouseEvent]),
+    __metadata("design:returntype", void 0)
+], CollapsibleDirective.prototype, "onClick", null);
+CollapsibleDirective = __decorate([
+    core_1.Directive({
+        selector: "[suiCollapsible]"
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef])
+], CollapsibleDirective);
 exports.CollapsibleDirective = CollapsibleDirective;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = CollapsibleDirective;

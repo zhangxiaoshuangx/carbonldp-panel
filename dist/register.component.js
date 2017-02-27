@@ -115,21 +115,21 @@ var RegisterComponent = (function () {
                     break;
             }
     };
-    __decorate([
-        core_1.Output("onRegister"), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], RegisterComponent.prototype, "onRegister", void 0);
-    RegisterComponent = __decorate([
-        core_1.Component({
-            selector: "cp-register",
-            templateUrl: "./register.component.html",
-            styles: [],
-        }),
-        __param(1, core_1.Inject(services_1.AuthService.Token)), 
-        __metadata('design:paramtypes', [core_1.ElementRef, Object])
-    ], RegisterComponent);
     return RegisterComponent;
 }());
+__decorate([
+    core_1.Output("onRegister"),
+    __metadata("design:type", core_1.EventEmitter)
+], RegisterComponent.prototype, "onRegister", void 0);
+RegisterComponent = __decorate([
+    core_1.Component({
+        selector: "cp-register",
+        templateUrl: "./register.component.html",
+        styles: [],
+    }),
+    __param(1, core_1.Inject(services_1.AuthService.Token)),
+    __metadata("design:paramtypes", [core_1.ElementRef, Object])
+], RegisterComponent);
 exports.RegisterComponent = RegisterComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = RegisterComponent;

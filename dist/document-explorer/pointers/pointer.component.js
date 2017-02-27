@@ -176,81 +176,82 @@ var PointerComponent = (function () {
     PointerComponent.prototype.moveDown = function () {
         this.onMoveDown.emit(this.pointer);
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String), 
-        __metadata('design:paramtypes', [String])
-    ], PointerComponent.prototype, "mode", null);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], PointerComponent.prototype, "pointer", null);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
-    ], PointerComponent.prototype, "documentURI", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], PointerComponent.prototype, "bNodes", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], PointerComponent.prototype, "namedFragments", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Boolean)
-    ], PointerComponent.prototype, "canEdit", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Boolean)
-    ], PointerComponent.prototype, "partOfList", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Boolean)
-    ], PointerComponent.prototype, "isFirstItem", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Boolean)
-    ], PointerComponent.prototype, "isLastItem", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], PointerComponent.prototype, "onEditMode", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], PointerComponent.prototype, "onSave", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], PointerComponent.prototype, "onDeletePointer", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], PointerComponent.prototype, "onGoToBNode", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], PointerComponent.prototype, "onGoToNamedFragment", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], PointerComponent.prototype, "onMoveUp", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], PointerComponent.prototype, "onMoveDown", void 0);
-    PointerComponent = __decorate([
-        core_1.Component({
-            selector: "tr.cp-pointer",
-            templateUrl: "./pointer.component.html",
-            styleUrls: ["./pointer.component.scss"],
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef])
-    ], PointerComponent);
     return PointerComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String),
+    __metadata("design:paramtypes", [String])
+], PointerComponent.prototype, "mode", null);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object),
+    __metadata("design:paramtypes", [Object])
+], PointerComponent.prototype, "pointer", null);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], PointerComponent.prototype, "documentURI", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], PointerComponent.prototype, "bNodes", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], PointerComponent.prototype, "namedFragments", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], PointerComponent.prototype, "canEdit", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], PointerComponent.prototype, "partOfList", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], PointerComponent.prototype, "isFirstItem", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], PointerComponent.prototype, "isLastItem", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], PointerComponent.prototype, "onEditMode", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], PointerComponent.prototype, "onSave", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], PointerComponent.prototype, "onDeletePointer", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], PointerComponent.prototype, "onGoToBNode", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], PointerComponent.prototype, "onGoToNamedFragment", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], PointerComponent.prototype, "onMoveUp", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], PointerComponent.prototype, "onMoveDown", void 0);
+PointerComponent = __decorate([
+    core_1.Component({
+        selector: "tr.cp-pointer",
+        templateUrl: "./pointer.component.html",
+        styleUrls: ["./pointer.component.scss"],
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef])
+], PointerComponent);
 exports.PointerComponent = PointerComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = PointerComponent;

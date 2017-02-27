@@ -397,94 +397,94 @@ var PropertyComponent = (function () {
     PropertyComponent.prototype.unescape = function (uri) {
         return decodeURI(uri);
     };
-    __decorate([
-        core_1.ViewChild("nameInput"), 
-        __metadata('design:type', Object)
-    ], PropertyComponent.prototype, "nameInputControl", void 0);
-    __decorate([
-        core_1.ViewChild("idInput"), 
-        __metadata('design:type', Object)
-    ], PropertyComponent.prototype, "idInputControl", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
-    ], PropertyComponent.prototype, "mode", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
-    ], PropertyComponent.prototype, "documentURI", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], PropertyComponent.prototype, "bNodes", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], PropertyComponent.prototype, "namedFragments", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Boolean)
-    ], PropertyComponent.prototype, "isPartOfNamedFragment", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Boolean)
-    ], PropertyComponent.prototype, "canEdit", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], PropertyComponent.prototype, "existingProperties", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object), 
-        __metadata('design:paramtypes', [Object])
-    ], PropertyComponent.prototype, "property", null);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], PropertyComponent.prototype, "onGoToBlankNode", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], PropertyComponent.prototype, "onGoToNamedFragment", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], PropertyComponent.prototype, "onChangeProperty", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], PropertyComponent.prototype, "onDeleteProperty", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], PropertyComponent.prototype, "onDeleteNewProperty", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], PropertyComponent.prototype, "onSaveNewProperty", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], PropertyComponent.prototype, "onChangeNewProperty", void 0);
-    PropertyComponent = __decorate([
-        core_1.Component({
-            selector: "cp-property",
-            templateUrl: "./property.component.html",
-            styleUrls: ["./property.component.scss"],
-            host: { "[class.has-changed]": "property.modified", "[class.deleted-property]": "property.deleted", "[class.added-property]": "property.added" },
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef])
-    ], PropertyComponent);
     return PropertyComponent;
 }());
+__decorate([
+    core_1.ViewChild("nameInput"),
+    __metadata("design:type", Object)
+], PropertyComponent.prototype, "nameInputControl", void 0);
+__decorate([
+    core_1.ViewChild("idInput"),
+    __metadata("design:type", Object)
+], PropertyComponent.prototype, "idInputControl", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], PropertyComponent.prototype, "mode", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], PropertyComponent.prototype, "documentURI", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], PropertyComponent.prototype, "bNodes", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], PropertyComponent.prototype, "namedFragments", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], PropertyComponent.prototype, "isPartOfNamedFragment", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], PropertyComponent.prototype, "canEdit", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], PropertyComponent.prototype, "existingProperties", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object),
+    __metadata("design:paramtypes", [Object])
+], PropertyComponent.prototype, "property", null);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], PropertyComponent.prototype, "onGoToBlankNode", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], PropertyComponent.prototype, "onGoToNamedFragment", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], PropertyComponent.prototype, "onChangeProperty", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], PropertyComponent.prototype, "onDeleteProperty", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], PropertyComponent.prototype, "onDeleteNewProperty", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], PropertyComponent.prototype, "onSaveNewProperty", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], PropertyComponent.prototype, "onChangeNewProperty", void 0);
+PropertyComponent = __decorate([
+    core_1.Component({
+        selector: "cp-property",
+        templateUrl: "./property.component.html",
+        styleUrls: ["./property.component.scss"],
+        host: { "[class.has-changed]": "property.modified", "[class.deleted-property]": "property.deleted", "[class.added-property]": "property.added" },
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef])
+], PropertyComponent);
 exports.PropertyComponent = PropertyComponent;
 var Modes = (function () {
     function Modes() {
     }
-    Modes.EDIT = "EDIT";
-    Modes.READ = "READ";
     return Modes;
 }());
+Modes.EDIT = "EDIT";
+Modes.READ = "READ";
 exports.Modes = Modes;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = PropertyComponent;

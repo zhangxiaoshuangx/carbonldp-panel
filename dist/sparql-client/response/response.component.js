@@ -108,72 +108,72 @@ var ResponseComponent = (function () {
                 return null;
         }
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
-    ], ResponseComponent.prototype, "outputformat", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', SPARQLClientResponse)
-    ], ResponseComponent.prototype, "response", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], ResponseComponent.prototype, "prefixes", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], ResponseComponent.prototype, "onRemove", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], ResponseComponent.prototype, "onConfigure", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], ResponseComponent.prototype, "onReExecute", void 0);
-    ResponseComponent = __decorate([
-        core_1.Component({
-            selector: "cp-sparql-response",
-            templateUrl: "./response.component.html",
-            styleUrls: ["./response.component.scss"],
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef])
-    ], ResponseComponent);
     return ResponseComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], ResponseComponent.prototype, "outputformat", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", SPARQLClientResponse)
+], ResponseComponent.prototype, "response", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], ResponseComponent.prototype, "prefixes", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], ResponseComponent.prototype, "onRemove", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], ResponseComponent.prototype, "onConfigure", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], ResponseComponent.prototype, "onReExecute", void 0);
+ResponseComponent = __decorate([
+    core_1.Component({
+        selector: "cp-sparql-response",
+        templateUrl: "./response.component.html",
+        styleUrls: ["./response.component.scss"],
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef])
+], ResponseComponent);
 exports.ResponseComponent = ResponseComponent;
 var SPARQLResponseType = (function () {
     function SPARQLResponseType() {
     }
-    SPARQLResponseType.success = "success";
-    SPARQLResponseType.default = "default";
-    SPARQLResponseType.error = "error";
     return SPARQLResponseType;
 }());
+SPARQLResponseType.success = "success";
+SPARQLResponseType.default = "default";
+SPARQLResponseType.error = "error";
 exports.SPARQLResponseType = SPARQLResponseType;
 var SPARQLFormats = (function () {
     function SPARQLFormats() {
     }
-    SPARQLFormats.table = "table";
-    SPARQLFormats.xml = "application/xml";
-    SPARQLFormats.csv = "text/csv";
-    SPARQLFormats.tsv = "text/tsv";
-    SPARQLFormats.jsonLD = "application/ld+json";
-    SPARQLFormats.turtle = "text/turtle";
-    SPARQLFormats.jsonRDF = "application/rdf+json";
-    SPARQLFormats.rdfXML = "application/rdf+xml";
-    SPARQLFormats.n3 = "text/n3";
-    SPARQLFormats.ntriples = "text/plain";
-    SPARQLFormats.trix = "application/trix";
-    SPARQLFormats.trig = "application/x-trig";
-    SPARQLFormats.binary = "application/x-binary-rdf.";
-    SPARQLFormats.nquads = "text/x-nquads";
-    SPARQLFormats.rdfa = "application/xhtml+xml";
-    SPARQLFormats.boolean = "boolean";
-    SPARQLFormats.text = "text/plain";
     return SPARQLFormats;
 }());
+SPARQLFormats.table = "table";
+SPARQLFormats.xml = "application/xml";
+SPARQLFormats.csv = "text/csv";
+SPARQLFormats.tsv = "text/tsv";
+SPARQLFormats.jsonLD = "application/ld+json";
+SPARQLFormats.turtle = "text/turtle";
+SPARQLFormats.jsonRDF = "application/rdf+json";
+SPARQLFormats.rdfXML = "application/rdf+xml";
+SPARQLFormats.n3 = "text/n3";
+SPARQLFormats.ntriples = "text/plain";
+SPARQLFormats.trix = "application/trix";
+SPARQLFormats.trig = "application/x-trig";
+SPARQLFormats.binary = "application/x-binary-rdf.";
+SPARQLFormats.nquads = "text/x-nquads";
+SPARQLFormats.rdfa = "application/xhtml+xml";
+SPARQLFormats.boolean = "boolean";
+SPARQLFormats.text = "text/plain";
 exports.SPARQLFormats = SPARQLFormats;
 var SPARQLClientResponse = (function () {
     function SPARQLClientResponse() {

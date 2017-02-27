@@ -34,23 +34,22 @@ var AccordionComponent = (function () {
             block.active = false;
         });
     };
-    __decorate([
-        core_1.ContentChildren(collapsible_directive_1.CollapsibleDirective), 
-        __metadata('design:type', core_1.QueryList)
-    ], AccordionComponent.prototype, "blocks", void 0);
-    AccordionComponent = __decorate([
-        core_1.Component({
-            selector: "sui-accordion",
-            template: "<ng-content></ng-content>",
-            styles: [":host { display:block; } "],
-            host: {
-                class: "ui accordion"
-            },
-        }), 
-        __metadata('design:paramtypes', [])
-    ], AccordionComponent);
     return AccordionComponent;
 }());
+__decorate([
+    core_1.ContentChildren(collapsible_directive_1.CollapsibleDirective),
+    __metadata("design:type", core_1.QueryList)
+], AccordionComponent.prototype, "blocks", void 0);
+AccordionComponent = __decorate([
+    core_1.Component({
+        selector: "sui-accordion",
+        template: "<ng-content></ng-content>",
+        styles: [":host { display:block; } "],
+        host: {
+            class: "ui accordion"
+        },
+    })
+], AccordionComponent);
 exports.AccordionComponent = AccordionComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = AccordionComponent;

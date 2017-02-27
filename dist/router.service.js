@@ -42,12 +42,12 @@ var RouterService = (function () {
         }
         return this.router.isActive(fullRoute, exact);
     };
-    RouterService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [router_1.Router])
-    ], RouterService);
     return RouterService;
 }());
+RouterService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [router_1.Router])
+], RouterService);
 exports.RouterService = RouterService;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = RouterService;

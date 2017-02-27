@@ -286,66 +286,66 @@ var DocumentViewerComponent = (function () {
             return;
         this.$element.animate({ scrollTop: divPosition.top }, "fast");
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
-    ], DocumentViewerComponent.prototype, "uri", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', SDKContext.Class)
-    ], DocumentViewerComponent.prototype, "documentContext", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], DocumentViewerComponent.prototype, "displaySuccessMessage", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object), 
-        __metadata('design:paramtypes', [Object])
-    ], DocumentViewerComponent.prototype, "document", null);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], DocumentViewerComponent.prototype, "onError", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], DocumentViewerComponent.prototype, "onOpenNode", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], DocumentViewerComponent.prototype, "onRefreshNode", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], DocumentViewerComponent.prototype, "onLoadingDocument", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], DocumentViewerComponent.prototype, "onSavingDocument", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], DocumentViewerComponent.prototype, "onRefreshDocument", void 0);
-    __decorate([
-        core_1.ViewChild(blank_nodes_component_1.BlankNodesComponent), 
-        __metadata('design:type', blank_nodes_component_1.BlankNodesComponent)
-    ], DocumentViewerComponent.prototype, "documentBNodes", void 0);
-    __decorate([
-        core_1.ViewChild(named_fragments_component_1.NamedFragmentsComponent), 
-        __metadata('design:type', named_fragments_component_1.NamedFragmentsComponent)
-    ], DocumentViewerComponent.prototype, "documentNamedFragments", void 0);
-    DocumentViewerComponent = __decorate([
-        core_1.Component({
-            selector: "cp-document-viewer",
-            host: { "[class.ui]": "true", "[class.basic]": "true", "[class.segment]": "true", },
-            templateUrl: "./document-viewer.component.html",
-            styleUrls: ["./document-viewer.component.scss"],
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef, documents_resolver_service_1.DocumentsResolverService])
-    ], DocumentViewerComponent);
     return DocumentViewerComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], DocumentViewerComponent.prototype, "uri", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", SDKContext.Class)
+], DocumentViewerComponent.prototype, "documentContext", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", core_1.EventEmitter)
+], DocumentViewerComponent.prototype, "displaySuccessMessage", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object),
+    __metadata("design:paramtypes", [Object])
+], DocumentViewerComponent.prototype, "document", null);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], DocumentViewerComponent.prototype, "onError", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], DocumentViewerComponent.prototype, "onOpenNode", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], DocumentViewerComponent.prototype, "onRefreshNode", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], DocumentViewerComponent.prototype, "onLoadingDocument", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], DocumentViewerComponent.prototype, "onSavingDocument", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], DocumentViewerComponent.prototype, "onRefreshDocument", void 0);
+__decorate([
+    core_1.ViewChild(blank_nodes_component_1.BlankNodesComponent),
+    __metadata("design:type", blank_nodes_component_1.BlankNodesComponent)
+], DocumentViewerComponent.prototype, "documentBNodes", void 0);
+__decorate([
+    core_1.ViewChild(named_fragments_component_1.NamedFragmentsComponent),
+    __metadata("design:type", named_fragments_component_1.NamedFragmentsComponent)
+], DocumentViewerComponent.prototype, "documentNamedFragments", void 0);
+DocumentViewerComponent = __decorate([
+    core_1.Component({
+        selector: "cp-document-viewer",
+        host: { "[class.ui]": "true", "[class.basic]": "true", "[class.segment]": "true", },
+        templateUrl: "./document-viewer.component.html",
+        styleUrls: ["./document-viewer.component.scss"],
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef, documents_resolver_service_1.DocumentsResolverService])
+], DocumentViewerComponent);
 exports.DocumentViewerComponent = DocumentViewerComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = DocumentViewerComponent;

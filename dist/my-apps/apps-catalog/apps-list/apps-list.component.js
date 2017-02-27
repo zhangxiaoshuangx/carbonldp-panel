@@ -37,28 +37,28 @@ var AppsListComponent = (function () {
     AppsListComponent.prototype.onDeleteApp = function (appContext) {
         this.deleteApp.emit(appContext);
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], AppsListComponent.prototype, "apps", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], AppsListComponent.prototype, "openApp", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], AppsListComponent.prototype, "deleteApp", void 0);
-    AppsListComponent = __decorate([
-        core_1.Component({
-            selector: "cp-apps-list",
-            templateUrl: "./apps-list.component.html",
-            styleUrls: ["./apps-list.component.scss"],
-        }), 
-        __metadata('design:paramtypes', [])
-    ], AppsListComponent);
     return AppsListComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], AppsListComponent.prototype, "apps", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], AppsListComponent.prototype, "openApp", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], AppsListComponent.prototype, "deleteApp", void 0);
+AppsListComponent = __decorate([
+    core_1.Component({
+        selector: "cp-apps-list",
+        templateUrl: "./apps-list.component.html",
+        styleUrls: ["./apps-list.component.scss"],
+    }),
+    __metadata("design:paramtypes", [])
+], AppsListComponent);
 exports.AppsListComponent = AppsListComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = AppsListComponent;

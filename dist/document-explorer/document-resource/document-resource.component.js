@@ -177,57 +177,57 @@ var DocumentResourceComponent = (function () {
         });
         this.rootHasChanged = this.records.changes.size > 0 || this.records.additions.size > 0 || this.records.deletions.size > 0;
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], DocumentResourceComponent.prototype, "displayOnly", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], DocumentResourceComponent.prototype, "hiddenProperties", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], DocumentResourceComponent.prototype, "blankNodes", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], DocumentResourceComponent.prototype, "namedFragments", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Boolean)
-    ], DocumentResourceComponent.prototype, "canEdit", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
-    ], DocumentResourceComponent.prototype, "documentURI", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object), 
-        __metadata('design:paramtypes', [Object])
-    ], DocumentResourceComponent.prototype, "rootNode", null);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], DocumentResourceComponent.prototype, "onOpenBlankNode", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], DocumentResourceComponent.prototype, "onOpenNamedFragment", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], DocumentResourceComponent.prototype, "onChanges", void 0);
-    DocumentResourceComponent = __decorate([
-        core_1.Component({
-            selector: "cp-document-resource",
-            templateUrl: "./document-resource.component.html",
-            styles: [":host { display:block; }"],
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef])
-    ], DocumentResourceComponent);
     return DocumentResourceComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], DocumentResourceComponent.prototype, "displayOnly", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], DocumentResourceComponent.prototype, "hiddenProperties", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], DocumentResourceComponent.prototype, "blankNodes", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], DocumentResourceComponent.prototype, "namedFragments", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], DocumentResourceComponent.prototype, "canEdit", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], DocumentResourceComponent.prototype, "documentURI", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object),
+    __metadata("design:paramtypes", [Object])
+], DocumentResourceComponent.prototype, "rootNode", null);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], DocumentResourceComponent.prototype, "onOpenBlankNode", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], DocumentResourceComponent.prototype, "onOpenNamedFragment", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], DocumentResourceComponent.prototype, "onChanges", void 0);
+DocumentResourceComponent = __decorate([
+    core_1.Component({
+        selector: "cp-document-resource",
+        templateUrl: "./document-resource.component.html",
+        styles: [":host { display:block; }"],
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef])
+], DocumentResourceComponent);
 exports.DocumentResourceComponent = DocumentResourceComponent;
 var RootRecords = (function () {
     function RootRecords() {

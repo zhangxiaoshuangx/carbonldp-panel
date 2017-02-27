@@ -12,16 +12,16 @@ var core_1 = require("@angular/core");
 var SecurityView = (function () {
     function SecurityView() {
     }
-    SecurityView = __decorate([
-        core_1.Component({
-            selector: "cp-security-view",
-            templateUrl: "./security.view.html",
-            styles: [":host { display: block; }"],
-        }), 
-        __metadata('design:paramtypes', [])
-    ], SecurityView);
     return SecurityView;
 }());
+SecurityView = __decorate([
+    core_1.Component({
+        selector: "cp-security-view",
+        templateUrl: "./security.view.html",
+        styles: [":host { display: block; }"],
+    }),
+    __metadata("design:paramtypes", [])
+], SecurityView);
 exports.SecurityView = SecurityView;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = SecurityView;

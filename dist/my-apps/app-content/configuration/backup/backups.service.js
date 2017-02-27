@@ -58,12 +58,12 @@ var BackupsService = (function () {
             },
         });
     };
-    BackupsService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [Carbon_1.default])
-    ], BackupsService);
     return BackupsService;
 }());
+BackupsService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [Carbon_1.default])
+], BackupsService);
 exports.BackupsService = BackupsService;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = BackupsService;

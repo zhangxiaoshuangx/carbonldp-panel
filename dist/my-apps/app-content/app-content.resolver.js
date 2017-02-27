@@ -8,8 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 var App = require("./app");
 var app_context_service_1 = require("./../app-context.service");
 var app_content_service_1 = require("./app-content.service");
@@ -33,12 +33,12 @@ var AppContentResolver = (function () {
             return false;
         });
     };
-    AppContentResolver = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, app_context_service_1.AppContextService, app_content_service_1.AppContentService])
-    ], AppContentResolver);
     return AppContentResolver;
 }());
+AppContentResolver = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [router_1.Router, router_1.ActivatedRoute, app_context_service_1.AppContextService, app_content_service_1.AppContentService])
+], AppContentResolver);
 exports.AppContentResolver = AppContentResolver;
 
 //# sourceMappingURL=app-content.resolver.js.map

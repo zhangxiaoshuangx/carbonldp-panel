@@ -1,5 +1,3 @@
-/// <reference types="jquery" />
-/// <reference types="jstree" />
 import * as App from "carbonldp/App";
 import { AppContentService } from "./../../app-content/app-content.service";
 import { MessagesAreaService } from "carbonldp-panel/messages-area/messages-area.service";

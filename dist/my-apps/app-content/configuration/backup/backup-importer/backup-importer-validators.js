@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
-var BackupFileValidator = (function () {
+var BackupFileValidator = BackupFileValidator_1 = (function () {
     function BackupFileValidator() {
     }
     BackupFileValidator.prototype.ngOnChanges = function (changes) {
@@ -24,26 +24,25 @@ var BackupFileValidator = (function () {
             return { "emptyBackupFile": true };
         return { "invalidBackupFileFormat": true };
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], BackupFileValidator.prototype, "backupFileBlob", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], BackupFileValidator.prototype, "control", void 0);
-    BackupFileValidator = __decorate([
-        core_1.Directive({
-            selector: "[cp-backup-file]",
-            providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: BackupFileValidator, multi: true }]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], BackupFileValidator);
     return BackupFileValidator;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], BackupFileValidator.prototype, "backupFileBlob", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], BackupFileValidator.prototype, "control", void 0);
+BackupFileValidator = BackupFileValidator_1 = __decorate([
+    core_1.Directive({
+        selector: "[cp-backup-file]",
+        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: BackupFileValidator_1, multi: true }]
+    })
+], BackupFileValidator);
 exports.BackupFileValidator = BackupFileValidator;
 // Checks all controls. If at least one is valid, then no errors are found, if none are valid then "invalidForm" error is added.
-var AtLeastOneValidValidator = (function () {
+var AtLeastOneValidValidator = AtLeastOneValidValidator_1 = (function () {
     function AtLeastOneValidValidator() {
     }
     AtLeastOneValidValidator.prototype.validate = function (formGroup) {
@@ -53,15 +52,15 @@ var AtLeastOneValidValidator = (function () {
         }
         return { "invalidForm": true };
     };
-    AtLeastOneValidValidator = __decorate([
-        core_1.Directive({
-            selector: "[cp-import-form-valid]",
-            providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: AtLeastOneValidValidator, multi: true }]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], AtLeastOneValidValidator);
     return AtLeastOneValidValidator;
 }());
+AtLeastOneValidValidator = AtLeastOneValidValidator_1 = __decorate([
+    core_1.Directive({
+        selector: "[cp-import-form-valid]",
+        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: AtLeastOneValidValidator_1, multi: true }]
+    })
+], AtLeastOneValidValidator);
 exports.AtLeastOneValidValidator = AtLeastOneValidValidator;
+var BackupFileValidator_1, AtLeastOneValidValidator_1;
 
 //# sourceMappingURL=backup-importer-validators.js.map

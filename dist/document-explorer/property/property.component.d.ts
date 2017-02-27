@@ -1,5 +1,3 @@
-/// <reference types="jquery" />
-/// <reference types="jstree" />
 import { ElementRef, EventEmitter, AfterViewInit, OnInit } from "@angular/core";
 import * as RDFNode from "carbonldp/RDF/Node";
 import { LiteralRow } from "./../literals/literal.component";

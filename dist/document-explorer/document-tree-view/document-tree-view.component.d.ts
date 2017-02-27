@@ -1,5 +1,3 @@
-/// <reference types="jquery" />
-/// <reference types="jstree" />
 import { ElementRef, EventEmitter, AfterViewInit, OnInit } from "@angular/core";
 import * as Pointer from "carbonldp/Pointer";
 import * as PersistedDocument from "carbonldp/PersistedDocument";

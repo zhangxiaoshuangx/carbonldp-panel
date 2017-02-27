@@ -230,56 +230,56 @@ var DocumentTreeViewComponent = (function () {
     DocumentTreeViewComponent.prototype.showDeleteChildForm = function () {
         this.onShowDeleteChildForm.emit(true);
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', SDKContext.Class)
-    ], DocumentTreeViewComponent.prototype, "documentContext", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], DocumentTreeViewComponent.prototype, "refreshNode", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], DocumentTreeViewComponent.prototype, "openNode", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], DocumentTreeViewComponent.prototype, "onResolveUri", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], DocumentTreeViewComponent.prototype, "onError", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], DocumentTreeViewComponent.prototype, "onLoadingDocument", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], DocumentTreeViewComponent.prototype, "onShowCreateChildForm", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], DocumentTreeViewComponent.prototype, "onShowDeleteChildForm", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], DocumentTreeViewComponent.prototype, "onShowCreateAccessPointForm", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], DocumentTreeViewComponent.prototype, "onSelectDocument", void 0);
-    DocumentTreeViewComponent = __decorate([
-        core_1.Component({
-            selector: "cp-document-treeview",
-            templateUrl: "./document-tree-view.component.html",
-            styleUrls: ["./document-tree-view.component.scss"],
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef])
-    ], DocumentTreeViewComponent);
     return DocumentTreeViewComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", SDKContext.Class)
+], DocumentTreeViewComponent.prototype, "documentContext", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", core_1.EventEmitter)
+], DocumentTreeViewComponent.prototype, "refreshNode", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", core_1.EventEmitter)
+], DocumentTreeViewComponent.prototype, "openNode", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], DocumentTreeViewComponent.prototype, "onResolveUri", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], DocumentTreeViewComponent.prototype, "onError", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], DocumentTreeViewComponent.prototype, "onLoadingDocument", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], DocumentTreeViewComponent.prototype, "onShowCreateChildForm", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], DocumentTreeViewComponent.prototype, "onShowDeleteChildForm", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], DocumentTreeViewComponent.prototype, "onShowCreateAccessPointForm", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], DocumentTreeViewComponent.prototype, "onSelectDocument", void 0);
+DocumentTreeViewComponent = __decorate([
+    core_1.Component({
+        selector: "cp-document-treeview",
+        templateUrl: "./document-tree-view.component.html",
+        styleUrls: ["./document-tree-view.component.scss"],
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef])
+], DocumentTreeViewComponent);
 exports.DocumentTreeViewComponent = DocumentTreeViewComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = DocumentTreeViewComponent;

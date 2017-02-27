@@ -28,16 +28,16 @@ var AppContentView = (function () {
             _this.myAppsSidebarService.openApp(_this.app);
         });
     };
-    AppContentView = __decorate([
-        core_1.Component({
-            selector: "cp-app-content",
-            templateUrl: "./app-content.view.html",
-            styleUrls: ["./app-content.view.scss"],
-        }), 
-        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, my_apps_sidebar_service_1.MyAppsSidebarService, app_content_service_1.AppContentService])
-    ], AppContentView);
     return AppContentView;
 }());
+AppContentView = __decorate([
+    core_1.Component({
+        selector: "cp-app-content",
+        templateUrl: "./app-content.view.html",
+        styleUrls: ["./app-content.view.scss"],
+    }),
+    __metadata("design:paramtypes", [router_1.Router, router_1.ActivatedRoute, my_apps_sidebar_service_1.MyAppsSidebarService, app_content_service_1.AppContentService])
+], AppContentView);
 exports.AppContentView = AppContentView;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = AppContentView;

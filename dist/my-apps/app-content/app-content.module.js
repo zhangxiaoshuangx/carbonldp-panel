@@ -5,11 +5,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 var core_1 = require("@angular/core");
-var common_1 = require('@angular/common');
+var common_1 = require("@angular/common");
 var forms_1 = require("@angular/forms");
 var app_content_routing_1 = require("./app-content.routing");
 var app_content_resolver_1 = require("./app-content.resolver");
@@ -42,46 +39,45 @@ var backups_service_1 = require("./configuration/backup/backups.service");
 var AppContentModule = (function () {
     function AppContentModule() {
     }
-    AppContentModule = __decorate([
-        core_1.NgModule({
-            imports: [
-                common_1.CommonModule,
-                forms_1.FormsModule,
-                app_content_routing_1.routing,
-                panel_module_1.PanelModule,
-                sparql_client_module_1.SPARQLClientModule,
-                document_explorer_module_1.DocumentExplorerModule,
-                directives_module_1.DirectivesModule,
-            ],
-            declarations: [
-                app_content_view_1.AppContentView,
-                dashboard_view_1.DashboardView,
-                sparql_client_view_1.SPARQLClientView,
-                edit_app_view_1.EditAppView,
-                edit_app_component_1.EditAppComponent,
-                explorer_view_1.ExplorerView,
-                backup_exporter_component_1.BackupExporterComponent,
-                backup_importer_component_1.BackupImporterComponent,
-                backups_list_component_1.BackupsListComponent,
-                backups_component_1.BackupsComponent,
-                configuration_component_1.ConfigurationComponent,
-                configuration_view_1.ConfigurationView,
-                backup_importer_validators_1.BackupFileValidator,
-                backup_importer_validators_1.AtLeastOneValidValidator
-            ],
-            exports: [],
-            providers: [
-                app_content_service_1.AppContentService,
-                app_content_resolver_1.AppContentResolver,
-                documents_resolver_service_1.DocumentsResolverService,
-                jobs_service_1.JobsService,
-                backups_service_1.BackupsService,
-            ],
-        }), 
-        __metadata('design:paramtypes', [])
-    ], AppContentModule);
     return AppContentModule;
 }());
+AppContentModule = __decorate([
+    core_1.NgModule({
+        imports: [
+            common_1.CommonModule,
+            forms_1.FormsModule,
+            app_content_routing_1.routing,
+            panel_module_1.PanelModule,
+            sparql_client_module_1.SPARQLClientModule,
+            document_explorer_module_1.DocumentExplorerModule,
+            directives_module_1.DirectivesModule,
+        ],
+        declarations: [
+            app_content_view_1.AppContentView,
+            dashboard_view_1.DashboardView,
+            sparql_client_view_1.SPARQLClientView,
+            edit_app_view_1.EditAppView,
+            edit_app_component_1.EditAppComponent,
+            explorer_view_1.ExplorerView,
+            backup_exporter_component_1.BackupExporterComponent,
+            backup_importer_component_1.BackupImporterComponent,
+            backups_list_component_1.BackupsListComponent,
+            backups_component_1.BackupsComponent,
+            configuration_component_1.ConfigurationComponent,
+            configuration_view_1.ConfigurationView,
+            backup_importer_validators_1.BackupFileValidator,
+            backup_importer_validators_1.AtLeastOneValidValidator
+        ],
+        exports: [],
+        providers: [
+            app_content_service_1.AppContentService,
+            app_content_resolver_1.AppContentResolver,
+            documents_resolver_service_1.DocumentsResolverService,
+            jobs_service_1.JobsService,
+            backups_service_1.BackupsService,
+        ],
+    })
+], AppContentModule);
 exports.AppContentModule = AppContentModule;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = AppContentModule;

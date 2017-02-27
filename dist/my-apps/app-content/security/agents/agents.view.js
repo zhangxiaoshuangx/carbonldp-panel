@@ -12,16 +12,16 @@ var core_1 = require("@angular/core");
 var AgentsView = (function () {
     function AgentsView() {
     }
-    AgentsView = __decorate([
-        core_1.Component({
-            selector: "cp-agents-view",
-            template: "<router-outlet></router-outlet>",
-            styles: [":host { display: block; }"]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], AgentsView);
     return AgentsView;
 }());
+AgentsView = __decorate([
+    core_1.Component({
+        selector: "cp-agents-view",
+        template: "<router-outlet></router-outlet>",
+        styles: [":host { display: block; }"]
+    }),
+    __metadata("design:paramtypes", [])
+], AgentsView);
 exports.AgentsView = AgentsView;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = AgentsView;

@@ -17,24 +17,24 @@ var AppsTilesComponent = (function () {
     AppsTilesComponent.prototype.onDeleteApp = function (app) {
         this.deleteApp.emit(app);
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], AppsTilesComponent.prototype, "apps", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], AppsTilesComponent.prototype, "deleteApp", void 0);
-    AppsTilesComponent = __decorate([
-        core_1.Component({
-            selector: "cp-apps-tiles",
-            templateUrl: "./apps-tiles.component.html",
-            styles: [":host { display: block; }"],
-        }), 
-        __metadata('design:paramtypes', [])
-    ], AppsTilesComponent);
     return AppsTilesComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], AppsTilesComponent.prototype, "apps", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], AppsTilesComponent.prototype, "deleteApp", void 0);
+AppsTilesComponent = __decorate([
+    core_1.Component({
+        selector: "cp-apps-tiles",
+        templateUrl: "./apps-tiles.component.html",
+        styles: [":host { display: block; }"],
+    }),
+    __metadata("design:paramtypes", [])
+], AppsTilesComponent);
 exports.AppsTilesComponent = AppsTilesComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = AppsTilesComponent;

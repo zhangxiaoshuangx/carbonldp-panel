@@ -72,52 +72,52 @@ var ListsComponent = (function () {
     ListsComponent.prototype.goToNamedFragment = function (id) {
         this.onGoToNamedFragment.emit(id);
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
-    ], ListsComponent.prototype, "documentURI", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], ListsComponent.prototype, "lists", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], ListsComponent.prototype, "onAddNewList", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], ListsComponent.prototype, "blankNodes", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], ListsComponent.prototype, "namedFragments", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Boolean)
-    ], ListsComponent.prototype, "canEdit", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], ListsComponent.prototype, "onListsChanges", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], ListsComponent.prototype, "onGoToBlankNode", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], ListsComponent.prototype, "onGoToNamedFragment", void 0);
-    ListsComponent = __decorate([
-        core_1.Component({
-            selector: "cp-lists",
-            templateUrl: "./lists.component.html",
-            styleUrls: ["./lists.component.scss"],
-        }), 
-        __metadata('design:paramtypes', [])
-    ], ListsComponent);
     return ListsComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], ListsComponent.prototype, "documentURI", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], ListsComponent.prototype, "lists", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", core_1.EventEmitter)
+], ListsComponent.prototype, "onAddNewList", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], ListsComponent.prototype, "blankNodes", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], ListsComponent.prototype, "namedFragments", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], ListsComponent.prototype, "canEdit", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], ListsComponent.prototype, "onListsChanges", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], ListsComponent.prototype, "onGoToBlankNode", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], ListsComponent.prototype, "onGoToNamedFragment", void 0);
+ListsComponent = __decorate([
+    core_1.Component({
+        selector: "cp-lists",
+        templateUrl: "./lists.component.html",
+        styleUrls: ["./lists.component.scss"],
+    }),
+    __metadata("design:paramtypes", [])
+], ListsComponent);
 exports.ListsComponent = ListsComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ListsComponent;

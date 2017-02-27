@@ -22,24 +22,24 @@ var AppActionButtonsComponent = (function () {
     AppActionButtonsComponent.prototype.avoidRowClick = function (event) {
         event.stopPropagation();
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], AppActionButtonsComponent.prototype, "app", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], AppActionButtonsComponent.prototype, "deleteApp", void 0);
-    AppActionButtonsComponent = __decorate([
-        core_1.Component({
-            selector: "cp-app-action-buttons",
-            templateUrl: "./app-action-buttons.component.html",
-            styles: [":host { display:block; }"],
-        }), 
-        __metadata('design:paramtypes', [])
-    ], AppActionButtonsComponent);
     return AppActionButtonsComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], AppActionButtonsComponent.prototype, "app", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], AppActionButtonsComponent.prototype, "deleteApp", void 0);
+AppActionButtonsComponent = __decorate([
+    core_1.Component({
+        selector: "cp-app-action-buttons",
+        templateUrl: "./app-action-buttons.component.html",
+        styles: [":host { display:block; }"],
+    }),
+    __metadata("design:paramtypes", [])
+], AppActionButtonsComponent);
 exports.AppActionButtonsComponent = AppActionButtonsComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = AppActionButtonsComponent;

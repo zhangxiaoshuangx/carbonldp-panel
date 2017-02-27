@@ -18,24 +18,24 @@ var AppTileComponent = (function () {
     AppTileComponent.prototype.onDeleteApp = function (app) {
         this.deleteApp.emit(app);
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], AppTileComponent.prototype, "app", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], AppTileComponent.prototype, "deleteApp", void 0);
-    AppTileComponent = __decorate([
-        core_1.Component({
-            selector: "cp-app-tile",
-            templateUrl: "./app-tile.component.html",
-            styles: [":host { display: block; }"],
-        }), 
-        __metadata('design:paramtypes', [])
-    ], AppTileComponent);
     return AppTileComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], AppTileComponent.prototype, "app", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], AppTileComponent.prototype, "deleteApp", void 0);
+AppTileComponent = __decorate([
+    core_1.Component({
+        selector: "cp-app-tile",
+        templateUrl: "./app-tile.component.html",
+        styles: [":host { display: block; }"],
+    }),
+    __metadata("design:paramtypes", [])
+], AppTileComponent);
 exports.AppTileComponent = AppTileComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = AppTileComponent;

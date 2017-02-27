@@ -88,32 +88,32 @@ var LiteralsComponent = (function () {
     LiteralsComponent.prototype.getUntouchedLiterals = function () {
         return this.literals.filter(function (literal) { return typeof literal.modified === "undefined" && typeof literal.deleted === "undefined"; });
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], LiteralsComponent.prototype, "literals", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], LiteralsComponent.prototype, "onAddNewLiteral", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Boolean)
-    ], LiteralsComponent.prototype, "canEdit", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], LiteralsComponent.prototype, "onLiteralsChanges", void 0);
-    LiteralsComponent = __decorate([
-        core_1.Component({
-            selector: "cp-literals",
-            templateUrl: "./literals.component.html",
-            styleUrls: ["./literals.component.scss"],
-        }), 
-        __metadata('design:paramtypes', [])
-    ], LiteralsComponent);
     return LiteralsComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], LiteralsComponent.prototype, "literals", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", core_1.EventEmitter)
+], LiteralsComponent.prototype, "onAddNewLiteral", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], LiteralsComponent.prototype, "canEdit", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], LiteralsComponent.prototype, "onLiteralsChanges", void 0);
+LiteralsComponent = __decorate([
+    core_1.Component({
+        selector: "cp-literals",
+        templateUrl: "./literals.component.html",
+        styleUrls: ["./literals.component.scss"],
+    }),
+    __metadata("design:paramtypes", [])
+], LiteralsComponent);
 exports.LiteralsComponent = LiteralsComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = LiteralsComponent;

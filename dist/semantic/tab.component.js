@@ -15,27 +15,26 @@ var TabComponent = (function () {
         this.active = false;
         this.title = "";
     }
-    __decorate([
-        core_1.HostBinding("class.active"), 
-        __metadata('design:type', Boolean)
-    ], TabComponent.prototype, "active", void 0);
-    __decorate([
-        core_1.Input("title"), 
-        __metadata('design:type', String)
-    ], TabComponent.prototype, "title", void 0);
-    TabComponent = __decorate([
-        core_1.Component({
-            selector: "sui-tab",
-            template: "<ng-content></ng-content>",
-            styles: [":host { display:block; } "],
-            host: {
-                class: "ui bottom attached tab segment"
-            }
-        }), 
-        __metadata('design:paramtypes', [])
-    ], TabComponent);
     return TabComponent;
 }());
+__decorate([
+    core_1.HostBinding("class.active"),
+    __metadata("design:type", Boolean)
+], TabComponent.prototype, "active", void 0);
+__decorate([
+    core_1.Input("title"),
+    __metadata("design:type", String)
+], TabComponent.prototype, "title", void 0);
+TabComponent = __decorate([
+    core_1.Component({
+        selector: "sui-tab",
+        template: "<ng-content></ng-content>",
+        styles: [":host { display:block; } "],
+        host: {
+            class: "ui bottom attached tab segment"
+        }
+    })
+], TabComponent);
 exports.TabComponent = TabComponent;
 
 //# sourceMappingURL=tab.component.js.map

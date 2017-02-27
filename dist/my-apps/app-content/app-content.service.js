@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
+var core_1 = require("@angular/core");
 var AppContentService = (function () {
     function AppContentService() {
         this.onAppHasChanged = new core_1.EventEmitter();
@@ -24,12 +24,12 @@ var AppContentService = (function () {
         enumerable: true,
         configurable: true
     });
-    AppContentService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
-    ], AppContentService);
     return AppContentService;
 }());
+AppContentService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [])
+], AppContentService);
 exports.AppContentService = AppContentService;
 
 //# sourceMappingURL=app-content.service.js.map

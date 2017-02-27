@@ -121,12 +121,12 @@ var MyAppsSidebarService = (function () {
     MyAppsSidebarService.prototype.removeOpenAppsDivider = function () {
         this.openAppsGroup.children.splice(this.openAppsGroup.children.indexOf(this.openAppsDivider), 1);
     };
-    MyAppsSidebarService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [router_1.Router, router_service_1.RouterService, sidebar_service_1.SidebarService])
-    ], MyAppsSidebarService);
     return MyAppsSidebarService;
 }());
+MyAppsSidebarService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [router_1.Router, router_service_1.RouterService, sidebar_service_1.SidebarService])
+], MyAppsSidebarService);
 exports.MyAppsSidebarService = MyAppsSidebarService;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = MyAppsSidebarService;

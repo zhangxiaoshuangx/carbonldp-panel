@@ -38,16 +38,16 @@ var AgentDetailsView = (function () {
     AgentDetailsView.prototype.goToAgent = function () {
         this.router.navigate(["../"]);
     };
-    AgentDetailsView = __decorate([
-        core_1.Component({
-            selector: "cp-agent-details-view",
-            templateUrl: "./agent-details.view.html",
-            styles: [":host { display: block; }"]
-        }), 
-        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, app_content_service_1.AppContentService])
-    ], AgentDetailsView);
     return AgentDetailsView;
 }());
+AgentDetailsView = __decorate([
+    core_1.Component({
+        selector: "cp-agent-details-view",
+        templateUrl: "./agent-details.view.html",
+        styles: [":host { display: block; }"]
+    }),
+    __metadata("design:paramtypes", [router_1.Router, router_1.ActivatedRoute, app_content_service_1.AppContentService])
+], AgentDetailsView);
 exports.AgentDetailsView = AgentDetailsView;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = AgentDetailsView;

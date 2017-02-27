@@ -102,12 +102,12 @@ var DocumentsResolverService = (function () {
             return Promise.reject(error);
         });
     };
-    DocumentsResolverService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [Carbon_1.default])
-    ], DocumentsResolverService);
     return DocumentsResolverService;
 }());
+DocumentsResolverService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [Carbon_1.default])
+], DocumentsResolverService);
 exports.DocumentsResolverService = DocumentsResolverService;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = DocumentsResolverService;

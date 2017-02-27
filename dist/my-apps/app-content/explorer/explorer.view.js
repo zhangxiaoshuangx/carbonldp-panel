@@ -21,16 +21,16 @@ var ExplorerView = (function () {
             setTimeout(function () { _this.canDisplay = true; }, 0);
         });
     }
-    ExplorerView = __decorate([
-        core_1.Component({
-            selector: "cp-explorer-view",
-            templateUrl: "./explorer.view.html",
-            styles: [":host { display: block; }"],
-        }), 
-        __metadata('design:paramtypes', [app_content_service_1.AppContentService])
-    ], ExplorerView);
     return ExplorerView;
 }());
+ExplorerView = __decorate([
+    core_1.Component({
+        selector: "cp-explorer-view",
+        templateUrl: "./explorer.view.html",
+        styles: [":host { display: block; }"],
+    }),
+    __metadata("design:paramtypes", [app_content_service_1.AppContentService])
+], ExplorerView);
 exports.ExplorerView = ExplorerView;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ExplorerView;

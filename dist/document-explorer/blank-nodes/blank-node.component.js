@@ -211,49 +211,49 @@ var BlankNodeComponent = (function () {
             }
         });
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], BlankNodeComponent.prototype, "blankNodes", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], BlankNodeComponent.prototype, "namedFragments", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Boolean)
-    ], BlankNodeComponent.prototype, "canEdit", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
-    ], BlankNodeComponent.prototype, "documentURI", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object), 
-        __metadata('design:paramtypes', [Object])
-    ], BlankNodeComponent.prototype, "blankNode", null);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], BlankNodeComponent.prototype, "onOpenBlankNode", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], BlankNodeComponent.prototype, "onOpenNamedFragment", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], BlankNodeComponent.prototype, "onChanges", void 0);
-    BlankNodeComponent = __decorate([
-        core_1.Component({
-            selector: "cp-blank-node",
-            templateUrl: "./blank-node.component.html",
-            styles: [":host { display:block; }"],
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef])
-    ], BlankNodeComponent);
     return BlankNodeComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], BlankNodeComponent.prototype, "blankNodes", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], BlankNodeComponent.prototype, "namedFragments", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], BlankNodeComponent.prototype, "canEdit", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], BlankNodeComponent.prototype, "documentURI", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object),
+    __metadata("design:paramtypes", [Object])
+], BlankNodeComponent.prototype, "blankNode", null);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], BlankNodeComponent.prototype, "onOpenBlankNode", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], BlankNodeComponent.prototype, "onOpenNamedFragment", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], BlankNodeComponent.prototype, "onChanges", void 0);
+BlankNodeComponent = __decorate([
+    core_1.Component({
+        selector: "cp-blank-node",
+        templateUrl: "./blank-node.component.html",
+        styles: [":host { display:block; }"],
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef])
+], BlankNodeComponent);
 exports.BlankNodeComponent = BlankNodeComponent;
 var BlankNodeRecords = (function () {
     function BlankNodeRecords() {

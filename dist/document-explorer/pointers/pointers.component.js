@@ -75,52 +75,52 @@ var PointersComponent = (function () {
     PointersComponent.prototype.goToNamedFragment = function (id) {
         this.onGoToNamedFragment.emit(id);
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
-    ], PointersComponent.prototype, "documentURI", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], PointersComponent.prototype, "pointers", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], PointersComponent.prototype, "onAddNewPointer", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], PointersComponent.prototype, "bNodes", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], PointersComponent.prototype, "namedFragments", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Boolean)
-    ], PointersComponent.prototype, "canEdit", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], PointersComponent.prototype, "onPointersChanges", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], PointersComponent.prototype, "onGoToBNode", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], PointersComponent.prototype, "onGoToNamedFragment", void 0);
-    PointersComponent = __decorate([
-        core_1.Component({
-            selector: "cp-pointers",
-            templateUrl: "./pointers.component.html",
-            styleUrls: ["./pointers.component.scss"],
-        }), 
-        __metadata('design:paramtypes', [])
-    ], PointersComponent);
     return PointersComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], PointersComponent.prototype, "documentURI", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], PointersComponent.prototype, "pointers", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", core_1.EventEmitter)
+], PointersComponent.prototype, "onAddNewPointer", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], PointersComponent.prototype, "bNodes", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], PointersComponent.prototype, "namedFragments", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], PointersComponent.prototype, "canEdit", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], PointersComponent.prototype, "onPointersChanges", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], PointersComponent.prototype, "onGoToBNode", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], PointersComponent.prototype, "onGoToNamedFragment", void 0);
+PointersComponent = __decorate([
+    core_1.Component({
+        selector: "cp-pointers",
+        templateUrl: "./pointers.component.html",
+        styleUrls: ["./pointers.component.scss"],
+    }),
+    __metadata("design:paramtypes", [])
+], PointersComponent);
 exports.PointersComponent = PointersComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = PointersComponent;

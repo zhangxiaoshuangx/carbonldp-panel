@@ -144,40 +144,40 @@ var NamedFragmentsComponent = (function () {
         this.askingDeletionNamedFragment = null;
         this.$element.find(".confirm-deletion.dimmer").dimmer("hide");
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], NamedFragmentsComponent.prototype, "blankNodes", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], NamedFragmentsComponent.prototype, "namedFragments", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
-    ], NamedFragmentsComponent.prototype, "documentURI", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], NamedFragmentsComponent.prototype, "onChanges", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], NamedFragmentsComponent.prototype, "onOpenBlankNode", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], NamedFragmentsComponent.prototype, "onOpenNamedFragment", void 0);
-    NamedFragmentsComponent = __decorate([
-        core_1.Component({
-            selector: "cp-named-fragments",
-            templateUrl: "./named-fragments.component.html",
-            styleUrls: ["./named-fragments.component.scss"],
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef])
-    ], NamedFragmentsComponent);
     return NamedFragmentsComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], NamedFragmentsComponent.prototype, "blankNodes", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], NamedFragmentsComponent.prototype, "namedFragments", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], NamedFragmentsComponent.prototype, "documentURI", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], NamedFragmentsComponent.prototype, "onChanges", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], NamedFragmentsComponent.prototype, "onOpenBlankNode", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], NamedFragmentsComponent.prototype, "onOpenNamedFragment", void 0);
+NamedFragmentsComponent = __decorate([
+    core_1.Component({
+        selector: "cp-named-fragments",
+        templateUrl: "./named-fragments.component.html",
+        styleUrls: ["./named-fragments.component.scss"],
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef])
+], NamedFragmentsComponent);
 exports.NamedFragmentsComponent = NamedFragmentsComponent;
 var NamedFragmentsRecords = (function () {
     function NamedFragmentsRecords() {

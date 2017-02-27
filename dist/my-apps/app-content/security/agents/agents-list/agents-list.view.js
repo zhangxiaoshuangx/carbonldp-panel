@@ -21,16 +21,16 @@ var AgentsListView = (function () {
             setTimeout(function () { _this.canDisplay = true; }, 0);
         });
     }
-    AgentsListView = __decorate([
-        core_1.Component({
-            selector: "cp-agents-list-view",
-            templateUrl: "./agents-list.view.html",
-            styles: [":host { display: block; }"]
-        }), 
-        __metadata('design:paramtypes', [app_content_service_1.AppContentService])
-    ], AgentsListView);
     return AgentsListView;
 }());
+AgentsListView = __decorate([
+    core_1.Component({
+        selector: "cp-agents-list-view",
+        templateUrl: "./agents-list.view.html",
+        styles: [":host { display: block; }"]
+    }),
+    __metadata("design:paramtypes", [app_content_service_1.AppContentService])
+], AgentsListView);
 exports.AgentsListView = AgentsListView;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = AgentsListView;

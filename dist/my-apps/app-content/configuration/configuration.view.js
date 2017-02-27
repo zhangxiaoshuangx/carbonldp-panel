@@ -22,16 +22,16 @@ var ConfigurationView = (function () {
             setTimeout(function () { _this.canDisplay = true; }, 0);
         });
     }
-    ConfigurationView = __decorate([
-        core_1.Component({
-            selector: "cp-configuration-view",
-            templateUrl: "./configuration.view.html",
-            styles: [":host { display: block; }"],
-        }), 
-        __metadata('design:paramtypes', [app_content_service_1.AppContentService])
-    ], ConfigurationView);
     return ConfigurationView;
 }());
+ConfigurationView = __decorate([
+    core_1.Component({
+        selector: "cp-configuration-view",
+        templateUrl: "./configuration.view.html",
+        styles: [":host { display: block; }"],
+    }),
+    __metadata("design:paramtypes", [app_content_service_1.AppContentService])
+], ConfigurationView);
 exports.ConfigurationView = ConfigurationView;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ConfigurationView;

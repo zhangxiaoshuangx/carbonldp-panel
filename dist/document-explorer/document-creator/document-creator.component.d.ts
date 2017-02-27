@@ -1,5 +1,3 @@
-/// <reference types="jquery" />
-/// <reference types="jstree" />
 import { ElementRef, EventEmitter, AfterViewInit } from "@angular/core";
 import * as SDKContext from "carbonldp/SDKContext";
 import { DocumentsResolverService } from "../documents-resolver.service";

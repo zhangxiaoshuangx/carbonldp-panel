@@ -30,16 +30,16 @@ var AgentNotFoundView = (function () {
             }
         }, 1000);
     };
-    AgentNotFoundView = __decorate([
-        core_1.Component({
-            selector: "cp-agent-not-found",
-            templateUrl: "./agent-not-found.view.html",
-            styleUrls: ["./agent-not-found.view.scss"],
-        }), 
-        __metadata('design:paramtypes', [router_1.Router, common_1.Location])
-    ], AgentNotFoundView);
     return AgentNotFoundView;
 }());
+AgentNotFoundView = __decorate([
+    core_1.Component({
+        selector: "cp-agent-not-found",
+        templateUrl: "./agent-not-found.view.html",
+        styleUrls: ["./agent-not-found.view.scss"],
+    }),
+    __metadata("design:paramtypes", [router_1.Router, common_1.Location])
+], AgentNotFoundView);
 exports.AgentNotFoundView = AgentNotFoundView;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = AgentNotFoundView;

@@ -166,52 +166,52 @@ var Class = (function () {
         else
             this.setReadOnly(this.readOnly);
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
-    ], Class.prototype, "mode", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Boolean)
-    ], Class.prototype, "readOnly", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Boolean)
-    ], Class.prototype, "noCursor", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Boolean)
-    ], Class.prototype, "showLineNumbers", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Boolean)
-    ], Class.prototype, "scroll", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
-    ], Class.prototype, "value", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], Class.prototype, "valueChange", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], Class.prototype, "codeMirror", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], Class.prototype, "codeMirrorChange", void 0);
-    Class = __decorate([
-        core_1.Component({
-            selector: "cp-code-mirror",
-            template: "<ng-content></ng-content>",
-            styleUrls: ["./code-mirror.component.scss"],
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef])
-    ], Class);
     return Class;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], Class.prototype, "mode", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], Class.prototype, "readOnly", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], Class.prototype, "noCursor", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], Class.prototype, "showLineNumbers", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], Class.prototype, "scroll", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], Class.prototype, "value", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], Class.prototype, "valueChange", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], Class.prototype, "codeMirror", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], Class.prototype, "codeMirrorChange", void 0);
+Class = __decorate([
+    core_1.Component({
+        selector: "cp-code-mirror",
+        template: "<ng-content></ng-content>",
+        styleUrls: ["./code-mirror.component.scss"],
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef])
+], Class);
 exports.Class = Class;
 var Mode = (function () {
     function Mode() {

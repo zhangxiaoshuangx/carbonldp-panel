@@ -21,16 +21,16 @@ var EditAppView = (function () {
             setTimeout(function () { _this.canDisplay = true; }, 0);
         });
     }
-    EditAppView = __decorate([
-        core_1.Component({
-            selector: "cp-edit-app-view",
-            templateUrl: "./edit-app.view.html",
-            styles: [":host { display: block; }"]
-        }), 
-        __metadata('design:paramtypes', [app_content_service_1.AppContentService])
-    ], EditAppView);
     return EditAppView;
 }());
+EditAppView = __decorate([
+    core_1.Component({
+        selector: "cp-edit-app-view",
+        templateUrl: "./edit-app.view.html",
+        styles: [":host { display: block; }"]
+    }),
+    __metadata("design:paramtypes", [app_content_service_1.AppContentService])
+], EditAppView);
 exports.EditAppView = EditAppView;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = EditAppView;

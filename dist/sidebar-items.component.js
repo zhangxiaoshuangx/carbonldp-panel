@@ -14,20 +14,20 @@ var SidebarItemsComponent = (function () {
     function SidebarItemsComponent(routerService) {
         this.routerService = routerService;
     }
-    __decorate([
-        core_1.Input("items"), 
-        __metadata('design:type', Array)
-    ], SidebarItemsComponent.prototype, "items", void 0);
-    SidebarItemsComponent = __decorate([
-        core_1.Component({
-            selector: "cp-sidebar-items",
-            templateUrl: "./sidebar-items.component.html",
-            styleUrls: ["./sidebar-items.component.scss"],
-        }), 
-        __metadata('design:paramtypes', [router_service_1.RouterService])
-    ], SidebarItemsComponent);
     return SidebarItemsComponent;
 }());
+__decorate([
+    core_1.Input("items"),
+    __metadata("design:type", Array)
+], SidebarItemsComponent.prototype, "items", void 0);
+SidebarItemsComponent = __decorate([
+    core_1.Component({
+        selector: "cp-sidebar-items",
+        templateUrl: "./sidebar-items.component.html",
+        styleUrls: ["./sidebar-items.component.scss"],
+    }),
+    __metadata("design:paramtypes", [router_service_1.RouterService])
+], SidebarItemsComponent);
 exports.SidebarItemsComponent = SidebarItemsComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = SidebarItemsComponent;

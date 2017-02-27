@@ -1,5 +1,3 @@
-/// <reference types="jquery" />
-/// <reference types="jstree" />
 import { ElementRef, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import Carbon from "carbonldp/Carbon";

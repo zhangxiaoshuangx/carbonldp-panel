@@ -5,9 +5,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 var core_1 = require("@angular/core");
 var common_1 = require("@angular/common");
 var forms_1 = require("@angular/forms");
@@ -37,58 +34,58 @@ var directives_module_1 = require("./../directives.module");
 var documents_resolver_service_1 = require("./documents-resolver.service");
 // Directives
 var document_explorer_validators_1 = require("./document-explorer-validators");
-var DocumentExplorerModule = (function () {
+var DocumentExplorerModule = DocumentExplorerModule_1 = (function () {
     function DocumentExplorerModule() {
     }
     DocumentExplorerModule.forChild = function () {
         return {
-            ngModule: DocumentExplorerModule,
+            ngModule: DocumentExplorerModule_1,
             providers: [documents_resolver_service_1.DocumentsResolverService]
         };
     };
-    DocumentExplorerModule = __decorate([
-        core_1.NgModule({
-            imports: [
-                common_1.CommonModule,
-                forms_1.FormsModule,
-                panel_module_1.PanelModule,
-                directives_module_1.DirectivesModule
-            ],
-            declarations: [
-                literal_component_1.LiteralComponent,
-                literals_component_1.LiteralsComponent,
-                pointer_component_1.PointerComponent,
-                pointers_component_1.PointersComponent,
-                list_component_1.ListComponent,
-                lists_component_1.ListsComponent,
-                property_component_1.PropertyComponent,
-                document_resource_component_1.DocumentResourceComponent,
-                blank_node_component_1.BlankNodeComponent,
-                blank_nodes_component_1.BlankNodesComponent,
-                named_fragment_component_1.NamedFragmentComponent,
-                named_fragments_component_1.NamedFragmentsComponent,
-                document_viewer_component_1.DocumentViewerComponent,
-                document_tree_view_component_1.DocumentTreeViewComponent,
-                document_explorer_component_1.DocumentExplorerComponent,
-                access_point_creator_component_1.AccessPointCreatorComponent,
-                document_creator_component_1.DocumentCreatorComponent,
-                document_deleter_component_1.DocumentDeleterComponent,
-                document_explorer_validators_1.IdValidator,
-                document_explorer_validators_1.PropertyNameValidator,
-                document_explorer_validators_1.LiteralValueValidator,
-                document_explorer_validators_1.PointerValidator,
-            ],
-            exports: [
-                document_explorer_component_1.DocumentExplorerComponent,
-            ],
-            providers: [],
-        }), 
-        __metadata('design:paramtypes', [])
-    ], DocumentExplorerModule);
     return DocumentExplorerModule;
 }());
+DocumentExplorerModule = DocumentExplorerModule_1 = __decorate([
+    core_1.NgModule({
+        imports: [
+            common_1.CommonModule,
+            forms_1.FormsModule,
+            panel_module_1.PanelModule,
+            directives_module_1.DirectivesModule
+        ],
+        declarations: [
+            literal_component_1.LiteralComponent,
+            literals_component_1.LiteralsComponent,
+            pointer_component_1.PointerComponent,
+            pointers_component_1.PointersComponent,
+            list_component_1.ListComponent,
+            lists_component_1.ListsComponent,
+            property_component_1.PropertyComponent,
+            document_resource_component_1.DocumentResourceComponent,
+            blank_node_component_1.BlankNodeComponent,
+            blank_nodes_component_1.BlankNodesComponent,
+            named_fragment_component_1.NamedFragmentComponent,
+            named_fragments_component_1.NamedFragmentsComponent,
+            document_viewer_component_1.DocumentViewerComponent,
+            document_tree_view_component_1.DocumentTreeViewComponent,
+            document_explorer_component_1.DocumentExplorerComponent,
+            access_point_creator_component_1.AccessPointCreatorComponent,
+            document_creator_component_1.DocumentCreatorComponent,
+            document_deleter_component_1.DocumentDeleterComponent,
+            document_explorer_validators_1.IdValidator,
+            document_explorer_validators_1.PropertyNameValidator,
+            document_explorer_validators_1.LiteralValueValidator,
+            document_explorer_validators_1.PointerValidator,
+        ],
+        exports: [
+            document_explorer_component_1.DocumentExplorerComponent,
+        ],
+        providers: [],
+    })
+], DocumentExplorerModule);
 exports.DocumentExplorerModule = DocumentExplorerModule;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = DocumentExplorerModule;
+var DocumentExplorerModule_1;
 
 //# sourceMappingURL=document-explorer.module.js.map

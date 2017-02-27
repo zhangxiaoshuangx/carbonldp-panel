@@ -14,20 +14,20 @@ require("semantic-ui/semantic");
 var ConfigurationComponent = (function () {
     function ConfigurationComponent() {
     }
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', App.Context)
-    ], ConfigurationComponent.prototype, "appContext", void 0);
-    ConfigurationComponent = __decorate([
-        core_1.Component({
-            selector: "cp-configuration",
-            templateUrl: "./configuration.component.html",
-            styleUrls: ["./configuration.component.scss"],
-        }), 
-        __metadata('design:paramtypes', [])
-    ], ConfigurationComponent);
     return ConfigurationComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", App.Context)
+], ConfigurationComponent.prototype, "appContext", void 0);
+ConfigurationComponent = __decorate([
+    core_1.Component({
+        selector: "cp-configuration",
+        templateUrl: "./configuration.component.html",
+        styleUrls: ["./configuration.component.scss"],
+    }),
+    __metadata("design:paramtypes", [])
+], ConfigurationComponent);
 exports.ConfigurationComponent = ConfigurationComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ConfigurationComponent;

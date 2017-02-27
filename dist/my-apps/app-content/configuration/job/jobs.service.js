@@ -100,12 +100,12 @@ var JobsService = (function () {
             }).catch(function (error) { return Promise.reject(error); });
         }
     };
-    JobsService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [Carbon_1.default])
-    ], JobsService);
     return JobsService;
 }());
+JobsService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [Carbon_1.default])
+], JobsService);
 exports.JobsService = JobsService;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = JobsService;

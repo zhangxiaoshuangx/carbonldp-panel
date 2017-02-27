@@ -26,16 +26,16 @@ var AppNotFoundView = (function () {
             }
         }, 1000);
     };
-    AppNotFoundView = __decorate([
-        core_1.Component({
-            selector: "cp-app-content",
-            templateUrl: "./app-not-found.view.html",
-            styleUrls: ["./app-not-found.view.scss"],
-        }), 
-        __metadata('design:paramtypes', [router_1.Router])
-    ], AppNotFoundView);
     return AppNotFoundView;
 }());
+AppNotFoundView = __decorate([
+    core_1.Component({
+        selector: "cp-app-content",
+        templateUrl: "./app-not-found.view.html",
+        styleUrls: ["./app-not-found.view.scss"],
+    }),
+    __metadata("design:paramtypes", [router_1.Router])
+], AppNotFoundView);
 exports.AppNotFoundView = AppNotFoundView;
 
 //# sourceMappingURL=app-not-found.view.js.map

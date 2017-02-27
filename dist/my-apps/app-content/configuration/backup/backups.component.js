@@ -32,24 +32,24 @@ var BackupsComponent = (function () {
     BackupsComponent.prototype.invokeRefreshBackupsList = function () {
         this.backupsListComponent.fetchBackupsList.emit(true);
     };
-    __decorate([
-        core_1.ViewChild(backups_list_component_1.BackupsListComponent), 
-        __metadata('design:type', backups_list_component_1.BackupsListComponent)
-    ], BackupsComponent.prototype, "backupsListComponent", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', App.Context)
-    ], BackupsComponent.prototype, "appContext", void 0);
-    BackupsComponent = __decorate([
-        core_1.Component({
-            selector: "cp-backup",
-            templateUrl: "./backups.component.html",
-            styleUrls: ["./backups.component.scss"],
-        }), 
-        __metadata('design:paramtypes', [jobs_service_1.JobsService])
-    ], BackupsComponent);
     return BackupsComponent;
 }());
+__decorate([
+    core_1.ViewChild(backups_list_component_1.BackupsListComponent),
+    __metadata("design:type", backups_list_component_1.BackupsListComponent)
+], BackupsComponent.prototype, "backupsListComponent", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", App.Context)
+], BackupsComponent.prototype, "appContext", void 0);
+BackupsComponent = __decorate([
+    core_1.Component({
+        selector: "cp-backup",
+        templateUrl: "./backups.component.html",
+        styleUrls: ["./backups.component.scss"],
+    }),
+    __metadata("design:paramtypes", [jobs_service_1.JobsService])
+], BackupsComponent);
 exports.BackupsComponent = BackupsComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = BackupsComponent;

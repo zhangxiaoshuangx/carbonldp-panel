@@ -94,25 +94,25 @@ var LoginComponent = (function () {
             animation: "shake",
         });
     };
-    __decorate([
-        core_1.Input("container"), 
-        __metadata('design:type', Object)
-    ], LoginComponent.prototype, "container", void 0);
-    __decorate([
-        core_1.Output("onLogin"), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], LoginComponent.prototype, "onLogin", void 0);
-    LoginComponent = __decorate([
-        core_1.Component({
-            selector: "cp-login",
-            templateUrl: "./login.component.html",
-            styles: [":host { display:block; } "],
-        }),
-        __param(1, core_1.Inject(services_1.AuthService.Token)), 
-        __metadata('design:paramtypes', [core_1.ElementRef, Object])
-    ], LoginComponent);
     return LoginComponent;
 }());
+__decorate([
+    core_1.Input("container"),
+    __metadata("design:type", Object)
+], LoginComponent.prototype, "container", void 0);
+__decorate([
+    core_1.Output("onLogin"),
+    __metadata("design:type", core_1.EventEmitter)
+], LoginComponent.prototype, "onLogin", void 0);
+LoginComponent = __decorate([
+    core_1.Component({
+        selector: "cp-login",
+        templateUrl: "./login.component.html",
+        styles: [":host { display:block; } "],
+    }),
+    __param(1, core_1.Inject(services_1.AuthService.Token)),
+    __metadata("design:paramtypes", [core_1.ElementRef, Object])
+], LoginComponent);
 exports.LoginComponent = LoginComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = LoginComponent;

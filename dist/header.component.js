@@ -29,19 +29,19 @@ var HeaderComponent = (function () {
         });
         verticalMenu.toggle();
     };
-    HeaderComponent = __decorate([
-        core_1.Component({
-            selector: "cp-header",
-            templateUrl: "./header.component.html",
-            styleUrls: ["./header.component.scss"],
-            host: {
-                class: "ui navigation inverted menu"
-            }
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef, header_service_1.HeaderService])
-    ], HeaderComponent);
     return HeaderComponent;
 }());
+HeaderComponent = __decorate([
+    core_1.Component({
+        selector: "cp-header",
+        templateUrl: "./header.component.html",
+        styleUrls: ["./header.component.scss"],
+        host: {
+            class: "ui navigation inverted menu"
+        }
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef, header_service_1.HeaderService])
+], HeaderComponent);
 exports.HeaderComponent = HeaderComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = HeaderComponent;

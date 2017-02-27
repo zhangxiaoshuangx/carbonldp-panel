@@ -200,49 +200,49 @@ var NamedFragmentComponent = (function () {
         });
         return rawNode;
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], NamedFragmentComponent.prototype, "blankNodes", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], NamedFragmentComponent.prototype, "namedFragments", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Boolean)
-    ], NamedFragmentComponent.prototype, "canEdit", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
-    ], NamedFragmentComponent.prototype, "documentURI", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object), 
-        __metadata('design:paramtypes', [Object])
-    ], NamedFragmentComponent.prototype, "namedFragment", null);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], NamedFragmentComponent.prototype, "onOpenBlankNode", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], NamedFragmentComponent.prototype, "onOpenNamedFragment", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], NamedFragmentComponent.prototype, "onChanges", void 0);
-    NamedFragmentComponent = __decorate([
-        core_1.Component({
-            selector: "cp-named-fragment",
-            templateUrl: "./named-fragment.component.html",
-            styles: [":host { display:block; }"],
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef])
-    ], NamedFragmentComponent);
     return NamedFragmentComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], NamedFragmentComponent.prototype, "blankNodes", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Array)
+], NamedFragmentComponent.prototype, "namedFragments", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], NamedFragmentComponent.prototype, "canEdit", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], NamedFragmentComponent.prototype, "documentURI", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object),
+    __metadata("design:paramtypes", [Object])
+], NamedFragmentComponent.prototype, "namedFragment", null);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], NamedFragmentComponent.prototype, "onOpenBlankNode", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], NamedFragmentComponent.prototype, "onOpenNamedFragment", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], NamedFragmentComponent.prototype, "onChanges", void 0);
+NamedFragmentComponent = __decorate([
+    core_1.Component({
+        selector: "cp-named-fragment",
+        templateUrl: "./named-fragment.component.html",
+        styles: [":host { display:block; }"],
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef])
+], NamedFragmentComponent);
 exports.NamedFragmentComponent = NamedFragmentComponent;
 var NamedFragmentRecords = (function () {
     function NamedFragmentRecords() {

@@ -53,19 +53,19 @@ var SidebarComponent = (function () {
             exclusive: false
         });
     };
-    SidebarComponent = __decorate([
-        core_1.Component({
-            selector: "cp-sidebar",
-            templateUrl: "./sidebar.component.html",
-            styleUrls: ["./sidebar.component.scss"],
-            host: {
-                class: "ui inverted vertical menu accordion"
-            }
-        }), 
-        __metadata('design:paramtypes', [router_1.Router, core_1.ElementRef, common_1.Location, sidebar_service_1.SidebarService])
-    ], SidebarComponent);
     return SidebarComponent;
 }());
+SidebarComponent = __decorate([
+    core_1.Component({
+        selector: "cp-sidebar",
+        templateUrl: "./sidebar.component.html",
+        styleUrls: ["./sidebar.component.scss"],
+        host: {
+            class: "ui inverted vertical menu accordion"
+        }
+    }),
+    __metadata("design:paramtypes", [router_1.Router, core_1.ElementRef, common_1.Location, sidebar_service_1.SidebarService])
+], SidebarComponent);
 exports.SidebarComponent = SidebarComponent;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = SidebarComponent;

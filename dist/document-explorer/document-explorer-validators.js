@@ -14,7 +14,7 @@ var SDKLiteral = require("carbonldp/RDF/Literal");
 var URI = require("carbonldp/RDF/URI");
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
-var PropertyNameValidator = (function () {
+var PropertyNameValidator = PropertyNameValidator_1 = (function () {
     function PropertyNameValidator() {
         this.url = new RegExp("(\b(https?|ftp|file)://)?[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]");
     }
@@ -34,37 +34,36 @@ var PropertyNameValidator = (function () {
         }
         return null;
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], PropertyNameValidator.prototype, "existingProperties", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], PropertyNameValidator.prototype, "property", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], PropertyNameValidator.prototype, "id", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], PropertyNameValidator.prototype, "originalName", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], PropertyNameValidator.prototype, "control", void 0);
-    PropertyNameValidator = __decorate([
-        core_1.Directive({
-            selector: "[cp-property-name]",
-            providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: PropertyNameValidator, multi: true }]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], PropertyNameValidator);
     return PropertyNameValidator;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], PropertyNameValidator.prototype, "existingProperties", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], PropertyNameValidator.prototype, "property", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], PropertyNameValidator.prototype, "id", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], PropertyNameValidator.prototype, "originalName", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], PropertyNameValidator.prototype, "control", void 0);
+PropertyNameValidator = PropertyNameValidator_1 = __decorate([
+    core_1.Directive({
+        selector: "[cp-property-name]",
+        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: PropertyNameValidator_1, multi: true }]
+    })
+], PropertyNameValidator);
 exports.PropertyNameValidator = PropertyNameValidator;
-var IdValidator = (function () {
+var IdValidator = IdValidator_1 = (function () {
     function IdValidator() {
         // url = new RegExp( "(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})", "g" );
         this.url = new RegExp("(\b(https?|ftp|file)://)?[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]");
@@ -85,41 +84,40 @@ var IdValidator = (function () {
         }
         return null;
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], IdValidator.prototype, "existingFragments", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], IdValidator.prototype, "property", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], IdValidator.prototype, "documentURI", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], IdValidator.prototype, "id", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], IdValidator.prototype, "originalId", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], IdValidator.prototype, "control", void 0);
-    IdValidator = __decorate([
-        core_1.Directive({
-            selector: "[cp-property-id]",
-            providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: IdValidator, multi: true }]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], IdValidator);
     return IdValidator;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], IdValidator.prototype, "existingFragments", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], IdValidator.prototype, "property", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], IdValidator.prototype, "documentURI", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], IdValidator.prototype, "id", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], IdValidator.prototype, "originalId", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], IdValidator.prototype, "control", void 0);
+IdValidator = IdValidator_1 = __decorate([
+    core_1.Directive({
+        selector: "[cp-property-id]",
+        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: IdValidator_1, multi: true }]
+    })
+], IdValidator);
 exports.IdValidator = IdValidator;
-var LiteralValueValidator = (function () {
+var LiteralValueValidator = LiteralValueValidator_1 = (function () {
     function LiteralValueValidator() {
     }
     LiteralValueValidator.prototype.ngOnChanges = function (changes) {
@@ -181,25 +179,24 @@ var LiteralValueValidator = (function () {
         }
         return null;
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], LiteralValueValidator.prototype, "type", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], LiteralValueValidator.prototype, "control", void 0);
-    LiteralValueValidator = __decorate([
-        core_1.Directive({
-            selector: "[cp-literal-value]",
-            providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: LiteralValueValidator, multi: true }]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], LiteralValueValidator);
     return LiteralValueValidator;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], LiteralValueValidator.prototype, "type", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], LiteralValueValidator.prototype, "control", void 0);
+LiteralValueValidator = LiteralValueValidator_1 = __decorate([
+    core_1.Directive({
+        selector: "[cp-literal-value]",
+        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: LiteralValueValidator_1, multi: true }]
+    })
+], LiteralValueValidator);
 exports.LiteralValueValidator = LiteralValueValidator;
-var PointerValidator = (function () {
+var PointerValidator = PointerValidator_1 = (function () {
     function PointerValidator() {
         this.url = new RegExp("(\b(https?|ftp|file)://)?[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]");
     }
@@ -214,19 +211,19 @@ var PointerValidator = (function () {
         }
         return null;
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], PointerValidator.prototype, "documentURI", void 0);
-    PointerValidator = __decorate([
-        core_1.Directive({
-            selector: "[cp-pointer-id]",
-            providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: PointerValidator, multi: true }]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], PointerValidator);
     return PointerValidator;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], PointerValidator.prototype, "documentURI", void 0);
+PointerValidator = PointerValidator_1 = __decorate([
+    core_1.Directive({
+        selector: "[cp-pointer-id]",
+        providers: [{ provide: forms_1.NG_VALIDATORS, useExisting: PointerValidator_1, multi: true }]
+    })
+], PointerValidator);
 exports.PointerValidator = PointerValidator;
+var PropertyNameValidator_1, IdValidator_1, LiteralValueValidator_1, PointerValidator_1;
 
 //# sourceMappingURL=document-explorer-validators.js.map

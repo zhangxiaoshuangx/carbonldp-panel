@@ -33,16 +33,16 @@ var AgentCreatorView = (function () {
         var url = this.location.path(), lastSlashIdx = url.lastIndexOf("/"), finalURL = url.substr(0, lastSlashIdx);
         this.router.navigate([finalURL]);
     };
-    AgentCreatorView = __decorate([
-        core_1.Component({
-            selector: "cp-agent-creator-view",
-            templateUrl: "./agent-creator.view.html",
-            styles: [":host { display: block; }"]
-        }), 
-        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, app_content_service_1.AppContentService, common_1.Location])
-    ], AgentCreatorView);
     return AgentCreatorView;
 }());
+AgentCreatorView = __decorate([
+    core_1.Component({
+        selector: "cp-agent-creator-view",
+        templateUrl: "./agent-creator.view.html",
+        styles: [":host { display: block; }"]
+    }),
+    __metadata("design:paramtypes", [router_1.Router, router_1.ActivatedRoute, app_content_service_1.AppContentService, common_1.Location])
+], AgentCreatorView);
 exports.AgentCreatorView = AgentCreatorView;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = AgentCreatorView;
