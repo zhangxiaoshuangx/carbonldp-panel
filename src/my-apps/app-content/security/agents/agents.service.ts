@@ -84,6 +84,9 @@ export class AgentsService {
 			case "modified":
 				property = modified;
 				break;
+			default:
+				property = name;
+				break;
 		}
 		if( ! orderBy ) preferences.orderBy = [ property ];
 		if( ! ascending ) property[ "@id" ] = "-" + property[ "@id" ];

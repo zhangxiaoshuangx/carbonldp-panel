@@ -2,11 +2,13 @@ import { OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import Carbon from "carbonldp/Carbon";
 import { AppContextService } from "./../app-context.service";
+import { MessagesAreaService } from "carbonldp-panel/messages-area/messages-area.service";
 import "semantic-ui/semantic";
 export declare class CreateAppComponent implements OnInit {
     private carbon;
     private router;
     private appContextService;
+    private messagesAreaService;
     private submitting;
     private displaySuccessMessage;
     private displayWarningMessage;
@@ -17,7 +19,7 @@ export declare class CreateAppComponent implements OnInit {
     private persistedName;
     private slugInput;
     private createAppFormModel;
-    constructor(carbon: Carbon, appContextService: AppContextService, router: Router);
+    constructor(carbon: Carbon, appContextService: AppContextService, router: Router, messagesAreaService: MessagesAreaService);
     ngOnInit(): void;
     private slugLostControl(evt);
     private getSanitizedSlug(slug);

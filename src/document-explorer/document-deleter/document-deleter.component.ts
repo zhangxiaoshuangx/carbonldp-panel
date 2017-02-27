@@ -4,9 +4,9 @@ import * as SDKContext from "carbonldp/SDKContext";
 import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
 import { DocumentsResolverService } from "../documents-resolver.service"
-import { Message } from "carbonldp-panel/errors-area/error-message.component";
-import { ErrorMessageGenerator } from "carbonldp-panel/errors-area/error-message-generator";
+import { Message } from "carbonldp-panel/messages-area/message.component";
 import { DocumentExplorerLibrary } from "carbonldp-panel/document-explorer/document-explorer-library";
+import { ErrorMessageGenerator } from "carbonldp-panel/messages-area/error/error-message-generator";
 
 import "semantic-ui/semantic";
 

@@ -7,7 +7,7 @@ import { StatusCode as HTTPStatusCode } from "carbonldp/HTTP";
 import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 
 import { BackupsService } from "../backups.service";
-import { Message } from "./../../../../../errors-area/error-message.component";
+import { Message, Types } from "carbonldp-panel/messages-area/message.component";
 
 import * as $ from "jquery";
 import "semantic-ui/semantic";
@@ -95,6 +95,7 @@ export class BackupsListComponent implements AfterViewInit, OnChanges, OnDestroy
 		).catch( ( error:HTTPError ) => {
 			let errorMessage:Message = <Message>{
 				title: error.name,
+				type: Types.ERROR,
 				content: `Couldn't fetch backups. I'll try again in ${(this.refreshPeriod / 1000)} seconds.`,
 				endpoint: (<any>error.response.request).responseURL,
 				statusCode: "" + (<XMLHttpRequest>error.response.request).status,
@@ -114,6 +115,7 @@ export class BackupsListComponent implements AfterViewInit, OnChanges, OnDestroy
 			let deleteMessage:Message;
 			deleteMessage = <Message>{
 				title: (<HTTPError>error).name,
+				type: Types.ERROR,
 				content: "Couldn't generate download link.",
 				endpoint: (<any>(<HTTPError>error).response.request).responseURL,
 				statusCode: "" + (<XMLHttpRequest>(<HTTPError>error).response.request).status,
@@ -144,6 +146,7 @@ export class BackupsListComponent implements AfterViewInit, OnChanges, OnDestroy
 			if( errorOrResponse.hasOwnProperty( "response" ) ) {
 				deleteMessage = <Message>{
 					title: (<HTTPError>errorOrResponse).name,
+					type: Types.ERROR,
 					content: "Couldn't delete the backup.",
 					endpoint: (<any>(<HTTPError>errorOrResponse).response.request).responseURL,
 					statusCode: "" + (<XMLHttpRequest>(<HTTPError>errorOrResponse).response.request).status,
@@ -152,6 +155,7 @@ export class BackupsListComponent implements AfterViewInit, OnChanges, OnDestroy
 			} else {
 				deleteMessage = <Message>{
 					title: (<XMLHttpRequest>(<Response.Class>errorOrResponse).request).statusText,
+					type: Types.ERROR,
 					content: "Couldn't delete the backup.",
 					endpoint: (<any>(<Response.Class>errorOrResponse).request).responseURL,
 					statusCode: "" + (<Response.Class>errorOrResponse).status,

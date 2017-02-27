@@ -40,7 +40,7 @@ export class MenuBarComponent {
 						let routeSnapshot:ActivatedRouteSnapshot = route.snapshot;
 						if( typeof routeSnapshot === "undefined" ) return;
 						url += this.getURL( routeSnapshot );
-						if( ! ! routeSnapshot.data[ "displayName" ] ) {
+						if( ! ! routeSnapshot.data[ "displayName" ] && ! routeSnapshot.data[ "hide" ] ) {
 							this.breadCrumbs.push( {
 								alias: url,
 								displayName: routeSnapshot.data[ "displayName" ],

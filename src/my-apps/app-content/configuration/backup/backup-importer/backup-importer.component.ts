@@ -9,7 +9,7 @@ import { Error as HTTPError } from "carbonldp/HTTP/Errors";
 import { BackupsService } from "../backups.service";
 import { JobsService } from "../../job/jobs.service";
 import * as Job from "../../job/job";
-import { Message } from "./../../../../../errors-area/error-message.component";
+import { Message, Types } from "carbonldp-panel/messages-area/message.component";
 
 import "semantic-ui/semantic";
 
@@ -101,6 +101,7 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 				this.executing.fail();
 				let errorMessage:Message = <Message>{
 					title: "Error while executing import",
+					type: Types.ERROR,
 					content: "An error occurred while executing your import backup job. Please, fix your job configuration.",
 					statusMessage: execution[ Job.Execution.ERROR_DESCRIPTION ]
 				};
@@ -114,6 +115,7 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 			else {
 				errorMessage = <Message>{
 					title: error.name,
+					type: Types.ERROR,
 					content: JSON.stringify( error )
 				};
 			}
@@ -173,6 +175,7 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 			else {
 				errorMessage = <Message>{
 					title: error.name,
+					type: Types.ERROR,
 					content: JSON.stringify( error )
 				};
 			}
@@ -194,6 +197,7 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 				else {
 					errorMessage = <Message>{
 						title: error.name,
+						type: Types.ERROR,
 						content: JSON.stringify( error )
 					};
 				}
@@ -207,6 +211,7 @@ export class BackupImporterComponent implements OnInit, OnDestroy {
 			else {
 				errorMessage = <Message>{
 					title: error.name,
+					type: Types.ERROR,
 					content: JSON.stringify( error )
 				};
 			}

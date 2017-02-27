@@ -7,6 +7,7 @@ import * as SPARQL from "carbonldp/SPARQL";
 import * as HTTP from "carbonldp/HTTP";
 import { SPARQLClientResponse, SPARQLQuery } from "./response/response.component";
 import * as CodeMirrorComponent from "carbonldp-panel/code-mirror/code-mirror.component";
+import { Message } from "carbonldp-panel/messages-area/message.component";
 import "semantic-ui/semantic";
 export declare class SPARQLClientComponent implements OnInit, AfterViewInit {
     sparqlTypes: SPARQLTypes;
@@ -133,12 +134,5 @@ export interface SPARQLQueryOperations {
 export interface SPARQLTypes {
     query: string;
     update: string;
-}
-export interface Message {
-    title: string;
-    content: string;
-    statusCode: string;
-    statusMessage: string;
-    endpoint: string;
 }
 export default SPARQLClientComponent;

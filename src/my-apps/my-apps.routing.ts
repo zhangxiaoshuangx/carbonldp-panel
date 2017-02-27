@@ -20,6 +20,8 @@ const MyAppsRoutes:Routes = [
 				component: AppsCatalogView,
 				data: {
 					title: "My Apps",
+					// TODO: Remove hide property when Angular's Router bug is fixed
+					hide: true
 				}
 			},
 			{

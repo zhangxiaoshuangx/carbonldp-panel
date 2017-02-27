@@ -11,7 +11,9 @@ import * as PersistedProtectedDocument from "carbonldp/PersistedProtectedDocumen
 import * as PersistedDocument from "carbonldp/PersistedDocument";
 
 import { AppContextService } from "./../app-context.service";
-import { Message } from "./../../errors-area/error-message.component";
+import { Message, Types } from "carbonldp-panel/messages-area/message.component";
+import { ErrorMessageGenerator } from "carbonldp-panel/messages-area/error/error-message-generator";
+import { MessagesAreaService } from "carbonldp-panel/messages-area/messages-area.service";
 
 
 import "semantic-ui/semantic";
@@ -26,6 +28,7 @@ export class CreateAppComponent implements OnInit {
 	private router:Router;
 
 	private appContextService:AppContextService;
+	private messagesAreaService:MessagesAreaService;
 
 	private submitting:boolean = false;
 	private displaySuccessMessage:boolean = false;
@@ -44,9 +47,10 @@ export class CreateAppComponent implements OnInit {
 		description: ""
 	};
 
-	constructor( carbon:Carbon, appContextService:AppContextService, router:Router ) {
+	constructor( carbon:Carbon, appContextService:AppContextService, router:Router, messagesAreaService:MessagesAreaService ) {
 		this.carbon = carbon;
 		this.appContextService = appContextService;
+		this.messagesAreaService = messagesAreaService;
 		this.router = router;
 	}
 
@@ -105,10 +109,13 @@ export class CreateAppComponent implements OnInit {
 			return this.grantAccess( acl );
 		} ).catch( ( error:HTTP.Errors.Error ) => {
 			console.error( error );
-			if( error.response ) this.errorMessage = this.getHTTPErrorMessage( error, this.getErrorMessage( error ) );
-			else {
+			if( error.response ) {
+				this.errorMessage = ErrorMessageGenerator.getErrorMessage( error );
+				this.errorMessage.content = this.getErrorMessage( error );
+			} else {
 				this.errorMessage = <Message>{
 					title: error.name,
+					type: Types.ERROR,
 					content: JSON.stringify( error )
 				};
 			}
@@ -124,6 +131,13 @@ export class CreateAppComponent implements OnInit {
 		acl.grant( subject, subjectClass, permissions );
 		return acl.saveAndRefresh().then( () => {
 			this.displaySuccessMessage = true;
+			let successMessage:Message = {
+				title: "App Created",
+				content: `The app ${this.persistedName} was created successfully.`,
+				type: Types.SUCCESS,
+				duration: 3000,
+			};
+			this.messagesAreaService.addMessage( successMessage );
 			this.router.navigate( [ "my-apps/", this.persistedSlug ] );
 		} ).catch( ( error:HTTP.Errors.Error ) => {
 			this.displayWarningMessage = true;

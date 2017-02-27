@@ -7,6 +7,8 @@ import * as HTTP from "carbonldp/HTTP";
 
 import { SPARQLResponseType, SPARQLFormats, SPARQLClientResponse, SPARQLQuery } from "./response/response.component";
 import * as CodeMirrorComponent from "carbonldp-panel/code-mirror/code-mirror.component";
+import { Message } from "carbonldp-panel/messages-area/message.component";
+import { ErrorMessageGenerator } from "carbonldp-panel/messages-area/error/error-message-generator";
 
 import * as $ from "jquery";
 import "semantic-ui/semantic";
@@ -683,19 +685,10 @@ export class SPARQLClientComponent implements OnInit, AfterViewInit {
 					statusCode: "",
 					statusMessage: "",
 					endpoint: "",
-				};
-			case "object":
-				return <Message>{
-					title: error.name,
-					content: error.message,
-					statusCode: error.response.status,
-					statusMessage: error.response.request.statusText,
-					endpoint: error.response.request.responseURL,
+					type:"error",
 				};
 			default:
-				return <Message>{
-					title: error.toString(),
-				};
+				return ErrorMessageGenerator.getErrorMessage( error );;
 		}
 	}
 
@@ -757,12 +750,5 @@ export interface SPARQLQueryOperations {
 export interface SPARQLTypes {
 	query:string;
 	update:string;
-}
-export interface Message {
-	title:string;
-	content:string;
-	statusCode:string;
-	statusMessage:string;
-	endpoint:string;
 }
 export default SPARQLClientComponent;

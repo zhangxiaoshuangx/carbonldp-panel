@@ -37,14 +37,14 @@
 							       (input)="agentFormModel.slug = (mode === Modes.CREATE)? getSanitizedSlug($event.srcElement.value) : agentFormModel.slug"
 							       (blur)="agentFormModel.slug = getSanitizedSlug($event.srcElement.value)">
 						</div>
-						<div class="ui pointing red basic label" *ngIf="!name.valid">
+						<cp-error-label *ngIf="!name.valid">
 							<span *ngIf="name.control.hasError('required')">Please enter a name</span>
-						</div>
+						</cp-error-label>
 					</div>
 					<div class="field"
 					     [ngClass]="{error: !slug.valid}"
 					     *ngIf="mode === Modes.CREATE">
-						<label>Slug:</label>
+						<label>Slug: <span cp-grayed-out>(Optional)</span></label>
 						<div class="ui fluid input">
 							<input type="text" name="slug"
 							       placeholder="E.g: my-agent-slug/"
@@ -54,9 +54,9 @@
 							       (ngModelChange)="agentFormModel.slug = getSanitizedSlug($event)"
 							       (blur)="slugLostFocus($event)">
 						</div>
-						<div class="ui pointing red basic label" *ngIf="!slug.valid">
-							<span *ngIf="slug.control.hasError('invalidSlug')">Please, provide a valid slug/id for the agent.<br>(Only numbers and letters with dashes)</span>
-						</div>
+						<cp-error-label *ngIf="!slug.valid">
+							<span *ngIf="slug.control.hasError('invalidSlug')">Please, provide a valid slug/id for the agent. (Only numbers and letters with dashes)</span>
+						</cp-error-label>
 					</div>
 					<div class="field"
 					     [ngClass]="{error: !email.valid}">
@@ -69,10 +69,10 @@
 							       [(ngModel)]="agentFormModel.email"
 							       [disabled]="mode === Modes.READ">
 						</div>
-						<div class="ui pointing red basic label" *ngIf="!email.valid">
+						<cp-error-label *ngIf="!email.valid">
 							<span *ngIf="email.control.hasError('required')">Please enter an email</span>
 							<span *ngIf="email.control.hasError('invalidEmailAddress')">Please enter a valid email address</span>
-						</div>
+						</cp-error-label>
 					</div>
 					<div class="ui divider" *ngIf="mode !== Modes.READ"></div>
 					<div class="field"
@@ -88,9 +88,9 @@
 							       [(ngModel)]="agentFormModel.password"
 							       [disabled]="mode === Modes.READ">
 						</div>
-						<div class="ui pointing red basic label" *ngIf="!password.valid">
+						<cp-error-label *ngIf="!password.valid">
 							<span *ngIf="password.control.hasError('requiredIf')">Please enter a password</span>
-						</div>
+						</cp-error-label>
 					</div>
 					<div class="field"
 					     [ngClass]="{ error: !repeatPassword.valid }">
@@ -108,15 +108,15 @@
 							       #repeatPasswordControl="ngModel"
 							       [disabled]="mode === Modes.READ">
 						</div>
-						<div class="ui pointing red basic label" *ngIf="!repeatPassword.valid">
+						<cp-error-label *ngIf="!repeatPassword.valid">
 							<span *ngIf="repeatPassword.control.hasError('requiredIf')">Please enter the password confirmation</span>
 							<span *ngIf="repeatPassword.control.hasError('matchError')">The password confirmation doesn't match the password</span>
-						</div>
+						</cp-error-label>
 					</div>
 				</div>
 				<div class="column">
 					<div class="field">
-						<label>Roles:</label>
+						<label>Roles: <span cp-grayed-out>(Optional)</span></label>
 						<div class="ui fluid roles input">
 							<select multiple name="roles"
 							        class="roles hidden"
@@ -160,10 +160,10 @@
 			</div>
 		</div>
 	</div>
-	<cp-error-message class="ui attached segment" [message]="errorMessage" [closable]="true" (onClose)="closeError($event)" *ngIf="!!errorMessage"></cp-error-message>
+	<cp-message class="ui attached segment" [message]="errorMessage" [type]="'error'"  [closable]="true" (onClose)="closeError($event)" *ngIf="!!errorMessage"></cp-message>
 	<div class="ui bottom attached segment" *ngIf="mode !== Modes.READ">
 		<button class="ui mini basic right floated button" type="submit"
-		        [ngClass]="{ 'red': !agentForm.valid, 'green': agentForm.valid  }"
+		        [ngClass]="{ 'disabled': !agentForm.valid, 'green': agentForm.valid  }"
 		        (click)="onSubmit(agentForm.value, $event)"
 		        [disabled]="!agentForm.valid"
 		        [ngSwitch]="mode">
