@@ -1,12 +1,9 @@
 import { Component, Input, ElementRef } from "@angular/core";
 
-import template from "./error-label.component.html!";
-import style from "./error-label.component.css!text";
-
 @Component( {
 	selector: "cp-error-label",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./error-label.component.html",
+	styleUrls: [ "./error-label.component.scss" ],
 	host: {
 		class: "ui red basic error label"
 	}

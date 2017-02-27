@@ -9,14 +9,11 @@ import { RolesService } from "../roles.service";
 
 import "jstree/dist/jstree.min";
 
-import template from "./roles-tree-view.component.html!";
-import style from "./roles-tree-view.component.css!text";
-
 
 @Component( {
 	selector: "cp-roles-tree-view",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./roles-tree-view.component.html",
+	styleUrls: [ "./roles-tree-view.component.scss" ],
 } )
 export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 
@@ -91,7 +88,7 @@ export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 		} );
 	}
 
-	private getTree():Promise<PersistedRole.Class> {
+	private getTree():Promise<JSTreeNode[]> {
 		return this.getChildren().then( ( nodes:JSTreeNode[] ) => {
 			this.renderTree( nodes );
 			return nodes;

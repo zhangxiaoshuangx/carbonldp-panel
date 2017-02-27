@@ -5,13 +5,10 @@ import * as PersistedAgent from "carbonldp/App/PersistedAgent";
 
 import { AgentsService } from "../agents.service";
 
-import template from "./agents-chooser.component.html!";
-import style from "./agents-chooser.component.css!text";
-
 @Component( {
 	selector: "cp-agents-chooser",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./agents-chooser.component.html",
+	styleUrls: [ "./agents-chooser.component.scss" ],
 } )
 
 export class AgentsChooserComponent implements AfterViewInit {

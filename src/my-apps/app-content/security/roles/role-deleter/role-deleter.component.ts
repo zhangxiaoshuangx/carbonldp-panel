@@ -10,13 +10,10 @@ import { RolesService } from "../roles.service";
 
 import "semantic-ui/semantic";
 
-import template from "./role-deleter.component.html!";
-import style from "./role-deleter.component.css!text";
-
 @Component( {
 	selector: "cp-role-deleter",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./role-deleter.component.html",
+	styleUrls: [ "./role-deleter.component.scss" ],
 } )
 
 export class RoleDeleterComponent implements AfterViewInit {

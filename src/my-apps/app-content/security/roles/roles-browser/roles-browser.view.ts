@@ -4,11 +4,9 @@ import * as App from "carbonldp-panel/my-apps/app-content/app";
 
 import { AppContentService } from "carbonldp-panel/my-apps/app-content/app-content.service";
 
-import template from "./roles-browser.view.html!";
-
 @Component( {
 	selector: "cp-roles-browser-view",
-	template: template,
+	templateUrl: "./roles-browser.view.html",
 	styles: [ ":host { display: block; }" ]
 } )
 

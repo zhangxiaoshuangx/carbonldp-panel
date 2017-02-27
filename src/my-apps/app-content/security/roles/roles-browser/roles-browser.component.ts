@@ -9,14 +9,11 @@ import { RolesService } from "../roles.service";
 import { Message } from "carbonldp-panel/messages-area/message.component";
 import { ErrorMessageGenerator } from "carbonldp-panel/messages-area/error/error-message-generator";
 
-import template from "./roles-browser.component.html!";
-import style from "./roles-browser.component.css!text";
-
 
 @Component( {
 	selector: "cp-roles-browser",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./roles-browser.component.html",
+	styleUrls: [ "./roles-browser.component.scss" ],
 } )
 export class RolesBrowserComponent {
 

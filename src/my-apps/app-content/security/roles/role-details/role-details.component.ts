@@ -14,14 +14,11 @@ import { Message, Types } from "carbonldp-panel/messages-area/message.component"
 import { ErrorMessageGenerator } from "carbonldp-panel/messages-area/error/error-message-generator";
 import { MessagesAreaService } from "carbonldp-panel/messages-area/messages-area.service";
 
-import template from "./role-details.component.html!";
-import style from "./role-details.component.css!text";
-
 
 @Component( {
 	selector: "cp-role-details",
-	template: template,
-	styles: [ style ],
+	templateUrl: "./role-details.component.html",
+	styleUrls: [ "./role-details.component.scss" ],
 } )
 
 export class RoleDetailsComponent {

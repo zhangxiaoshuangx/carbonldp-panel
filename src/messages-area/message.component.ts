@@ -5,9 +5,8 @@ import "semantic-ui/semantic";
 
 @Component( {
 	selector: "cp-message",
-	selector: "cp-error-message",
 	templateUrl: "./message.component.html",
-	styleUrls: [  "./message.component.scss"  ],
+	styleUrls: [ "./message.component.scss" ],
 } )
 
 export class MessageComponent implements OnChanges, AfterViewInit {
