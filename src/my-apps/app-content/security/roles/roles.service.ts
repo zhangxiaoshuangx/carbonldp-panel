@@ -141,11 +141,11 @@ export class RolesService {
 			`;
 
 		return appContext.documents.executeSELECTQuery( rolesURI, query ).then( ( [ results, response ]:[ SPARQL.SELECTResults.Class, HTTP.Response.Class ] ) => {
-			let roles:Role.Class[] = [];
+			let roles:PersistedRole.Class[] = [];
 			results.bindings.forEach( ( rolePointer:SPARQL.SELECTResults.BindingObject ) => {
 				let role:Role.Class = Role.Factory.createFrom( { id: rolePointer[ "childRole" ][ "id" ] }, <string>rolePointer[ "name" ] );
 				role[ "parentRole" ] = rolePointer[ "parentRole" ];
-				roles.push( role );
+				roles.push( <PersistedRole.Class>role );
 			} );
 			return roles;
 		} );
@@ -166,11 +166,11 @@ export class RolesService {
 				  FILTER( ${filter} )
 				}`;
 		return appContext.documents.executeSELECTQuery( rolesURI, query ).then( ( [ results, response ]:[ SPARQL.SELECTResults.Class, HTTP.Response.Class ] ) => {
-			let roles:Role.Class[] = [];
+			let roles:PersistedRole.Class[] = [];
 			results.bindings.forEach( ( rolePointer:SPARQL.SELECTResults.BindingObject ) => {
 				let role:Role.Class = Role.Factory.createFrom( { id: rolePointer[ "role" ][ "id" ] }, <string>rolePointer[ "name" ] );
 				role[ "hasChildren" ] = rolePointer[ "childRole" ];
-				roles.push( role );
+				roles.push( <PersistedRole.Class>role );
 			} );
 			return roles;
 		} );
