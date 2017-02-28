@@ -1,0 +1,1 @@
+<cp-message *ngFor="let message of messages; let i=index;" [message]="message" [type]="message.type" [closable]="true" (onClose)="removeMessage(i)"></cp-message>
