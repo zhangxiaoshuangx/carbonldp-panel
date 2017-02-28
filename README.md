@@ -19,7 +19,7 @@ Common components, services and utilities shared between different panel project
 
 ### File Structure
 
-- `dist`: Compiled files. Ready to be served or published
+- `dist`: Package's source files. Ready to be packages or published
 - `node_modules`: npm dependencies (don't touch them)
 - `src`: All source files
 - `typings`: TypeScript description files (partly managed by [typings](https://github.com/typings/typings))
@@ -44,12 +44,15 @@ Common components, services and utilities shared between different panel project
 - `compile:styles`: Compiles style files (sass/scss) and copies them to the `dist` directory
 - `compile:templates`: Compiles template files (html) and copies them to the `dist` directory
 - `compile:typescript`: Compiles typescript files and copies them to the `dist` directory
+- `copy:styles`: Copies style files (scss) and copies them to the `dist` directory
+- `copy:templates`: Copies template files (html) to the `dist` directory
+- `copy:typescript`: Copies typescript files (ts) to the `dist` directory
 - `lint`: Lints the project
 - `lint:typescript`: Lints typescript files
 - `watch`: Sets up a service to watch for any change to any source file and run the associated tasks to them. Really useful for development
 - `watch:styles`: Watches for changes in style files (sass/scss)
 - `watch:templates`: Watches for changes in template files (html)
-- `watch:typescript`: Watches for changes in typescript files
+- `watch:typescript`: Watches for changes in typescript files (ts)
 
 ### Publishing the project
 
