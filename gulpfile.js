@@ -40,7 +40,7 @@ gulp.task( "default", [ "build" ] );
 gulp.task( "build", [ "clean:dist" ], ( done ) => {
 	runSequence(
 		"clean:dist",
-		[ "compile:typescript", "compile:templates", "compile:styles", "build:prepare-npm-package" ],
+		[ "copy:typescript", "copy:templates", "copy:styles", "build:prepare-npm-package" ],
 		done
 	);
 } );
@@ -117,6 +117,22 @@ gulp.task( "compile:typescript", () => {
 	] );
 } );
 
+gulp.task( "copy:typescript", () => {
+	return gulp.src( "src/**/*.ts", {
+		base: "src"
+	} ).pipe( gulp.dest( "dist" ) );
+} );
+gulp.task( "copy:styles", () => {
+	return gulp.src( "src/**/*.scss", {
+		base: "src"
+	} ).pipe( gulp.dest( "dist" ) );
+} );
+gulp.task( "copy:templates", () => {
+	return gulp.src( "src/**/*.html", {
+		base: "src"
+	} ).pipe( gulp.dest( "dist" ) );
+} );
+
 gulp.task( "lint", [ "lint:typescript" ] );
 
 gulp.task( "lint:typescript", () => {
@@ -130,20 +146,20 @@ gulp.task( "lint:typescript", () => {
 
 gulp.task( "watch", ( done ) => {
 	runSequence(
-		[ "compile:styles", "compile:templates", "compile:typescript" ],
+		[ "copy:styles", "copy:templates", "copy:typescript" ],
 		[ "watch:styles", "watch:templates", "watch:typescript" ],
 		done
 	);
 } );
 
 gulp.task( "watch:styles", () => {
-	return gulp.watch( config.source.styles, [ "compile:styles" ] );
+	return gulp.watch( config.source.styles, [ "copy:styles" ] );
 } );
 
 gulp.task( "watch:templates", () => {
-	return gulp.watch( config.source.templates, [ "compile:templates" ] );
+	return gulp.watch( config.source.templates, [ "copy:templates" ] );
 } );
 
 gulp.task( "watch:typescript", () => {
-	return gulp.watch( config.source.typescript, [ "compile:typescript" ] );
+	return gulp.watch( config.source.typescript, [ "copy:typescript" ] );
 } );
