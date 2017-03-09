@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, Output, Inject, EventEmitter, OnInit } fr
 
 import { AuthService } from "angular2-carbonldp/services";
 
-import Credentials from "carbonldp/Auth/Credentials";
+import { Class as Credentials } from "carbonldp/Auth/Credentials";
 import * as HTTP from "carbonldp/HTTP";
 
 import * as $ from "jquery";

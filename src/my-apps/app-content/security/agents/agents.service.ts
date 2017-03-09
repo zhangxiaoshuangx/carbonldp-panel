@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter } from "@angular/core";
 
-import Carbon from "carbonldp/Carbon";
+import { Carbon } from "carbonldp/Carbon";
 import * as App from "carbonldp/App";
 import * as Agent from "carbonldp/Auth/Agent";
 import * as Agents from "carbonldp/Auth/Agents";
