@@ -21,7 +21,7 @@ import { AppNotFoundView } from "./app-not-found.view";
 
 // Modules
 import { PanelModule } from "./../panel.module";
-import { DirectivesModule } from "./../directives.module";
+import { DirectivesModule } from "../directives/directives.module";
 
 // Services
 import { AppContextService } from "./app-context.service";
