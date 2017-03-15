@@ -19,8 +19,9 @@ export class AgentCreatorView {
 
 	private app:any;
 	private agent:PersistedAgent.Class;
-	private canDisplay:boolean = true;
-	private modes:Modes = Modes;
+	
+	public Modes:typeof Modes = Modes;
+	public canDisplay:boolean = true;
 
 	constructor( router:Router, route:ActivatedRoute, appContentService:AppContentService, private location:Location ) {
 		this.router = router;

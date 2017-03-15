@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 
-import Carbon from "carbonldp/Carbon";
+import { Carbon } from "carbonldp/Carbon";
 import * as App from "carbonldp/App";
 import * as URI from "carbonldp/RDF/URI";
 import * as Utils from "carbonldp/Utils";

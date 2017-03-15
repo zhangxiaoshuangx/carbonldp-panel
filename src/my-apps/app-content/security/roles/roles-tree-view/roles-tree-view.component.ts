@@ -227,11 +227,11 @@ export class RolesTreeViewComponent implements AfterViewInit, OnInit {
 		}
 	}
 
-	private showCreateRoleForm():void {
+	public showCreateRoleForm():void {
 		this.onShowCreateRoleForm.emit( true );
 	}
 
-	private showDeleteRoleForm():void {
+	public showDeleteRoleForm():void {
 		this.onShowDeleteRoleForm.emit( true );
 	}
 }

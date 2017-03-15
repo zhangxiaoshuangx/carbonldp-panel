@@ -12,7 +12,7 @@ import "semantic-ui/semantic";
 @Component( {
 	selector: "tr.cp-pointer",
 	templateUrl: "./pointer.component.html",
-	styleUrls: [  "./pointer.component.scss"  ],
+	styleUrls: [ "./pointer.component.scss" ],
 } )
 
 export class PointerComponent implements OnChanges {
@@ -38,7 +38,7 @@ export class PointerComponent implements OnChanges {
 		return this._mode;
 	}
 
-	modes:Modes = Modes;
+	modes:typeof Modes = Modes;
 
 
 	// Inputs and Outputs

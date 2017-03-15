@@ -21,14 +21,14 @@ export class RolesBrowserComponent {
 	private zone:NgZone;
 	private router:Router;
 	private activatedRoute:ActivatedRoute;
-
-	private activeRole:PersistedRole.Class;
-	private selectedRole:string;
-	private loading:boolean = false;
-	private messages:Message[] = [];
 	private hasRoleOnRoute:boolean = false;
-	private Modes:Modes = Modes;
-	private mode:string = Modes.READ;
+
+	public activeRole:PersistedRole.Class;
+	public selectedRole:string;
+	public loading:boolean = false;
+	public messages:Message[] = [];
+	public Modes:typeof Modes = Modes;
+	public mode:string = Modes.READ;
 
 	@Input() appContext:App.Context;
 	@Output() onRefresh:EventEmitter<string> = new EventEmitter();
@@ -48,7 +48,7 @@ export class RolesBrowserComponent {
 		} );
 	}
 
-	private resolveRole( roleID:string ):void {
+	public resolveRole( roleID:string ):void {
 		this.loading = true;
 		new Promise( ( resolve, reject ) => {
 			if( this.hasRoleOnRoute ) {
@@ -68,19 +68,19 @@ export class RolesBrowserComponent {
 		} );
 	}
 
-	private onSuccessDelete( roleID:string ):void {
+	public onSuccessDelete( roleID:string ):void {
 		this.onDelete.emit( roleID );
 	}
 
-	private onSuccessCreate( roleID:string ):void {
+	public onSuccessCreate( roleID:string ):void {
 		this.onRefresh.emit( this.selectedRole );
 	}
 
-	private onSuccessEdit( roleID:string ):void {
+	public onSuccessEdit( roleID:string ):void {
 		this.onRefresh.emit( roleID );
 	}
 
-	private handleError( error:any ):void {
+	public handleError( error:any ):void {
 		this.messages.push( ErrorMessageGenerator.getErrorMessage( error ) );
 	}
 }

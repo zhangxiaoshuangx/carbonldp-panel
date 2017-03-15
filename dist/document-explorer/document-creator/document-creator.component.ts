@@ -21,12 +21,12 @@ export class DocumentCreatorComponent implements AfterViewInit {
 	private element:ElementRef;
 	private $element:JQuery;
 
-	$createDocumentModal:JQuery;
+	private $createDocumentModal:JQuery;
 
 	private documentsResolverService:DocumentsResolverService;
-	private errorMessage:Message;
 
-	createChildFormModel:{ slug:string, advancedOptions:{ hasMemberRelation:string, isMemberOfRelation:string } } = {
+	public errorMessage:Message;
+	public createChildFormModel:{ slug:string, advancedOptions:{ hasMemberRelation:string, isMemberOfRelation:string } } = {
 		slug: "",
 		advancedOptions: {
 			hasMemberRelation: "http://www.w3.org/ns/ldp#member",
@@ -50,7 +50,7 @@ export class DocumentCreatorComponent implements AfterViewInit {
 		this.$createDocumentModal.find( ".advancedoptions.accordion" ).accordion();
 	}
 
-	private onSubmitCreateChild( data:{ slug:string, advancedOptions:{ hasMemberRelation:string, isMemberOfRelation:string } }, $event:any ):void {
+	public onSubmitCreateChild( data:{ slug:string, advancedOptions:{ hasMemberRelation:string, isMemberOfRelation:string } }, $event:any ):void {
 		$event.preventDefault();
 		let childSlug:string = null;
 		if( ! ! data.slug )
@@ -72,11 +72,11 @@ export class DocumentCreatorComponent implements AfterViewInit {
 		this.errorMessage = null;
 	}
 
-	private getSanitizedSlug( slug:string ):string {
+	public getSanitizedSlug( slug:string ):string {
 		return DocumentExplorerLibrary.getSanitizedSlug( slug );
 	}
 
-	private slugLostFocus( evt:any ):void {
+	public slugLostFocus( evt:any ):void {
 		evt.target.value = DocumentExplorerLibrary.getAppendedSlashSlug( evt.target.value );
 	}
 
@@ -88,7 +88,7 @@ export class DocumentCreatorComponent implements AfterViewInit {
 		this.hideForm();
 	}
 
-	private hideForm():void {
+	public hideForm():void {
 		this.$createDocumentModal.modal( "hide" );
 		this.clearErrorMessage();
 		this.createChildFormModel.slug = "";

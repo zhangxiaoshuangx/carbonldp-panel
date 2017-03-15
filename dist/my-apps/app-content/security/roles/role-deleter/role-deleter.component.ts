@@ -23,8 +23,8 @@ export class RoleDeleterComponent implements AfterViewInit {
 	private rolesService:RolesService;
 
 	private $deleteRoleModal:JQuery;
-	private errorMessages:Message[] = [];
-	private deletingRole:boolean = false;
+	public errorMessages:Message[] = [];
+	public deletingRole:boolean = false;
 
 	@Input() appContext:App.Context;
 	@Input() role:string;
@@ -46,7 +46,7 @@ export class RoleDeleterComponent implements AfterViewInit {
 		} );
 	}
 
-	private onSubmitDeleteRole():void {
+	public onSubmitDeleteRole():void {
 		this.deletingRole = true;
 		this.rolesService.getDescendants( this.appContext, this.role ).then( ( rolesToDelete:PersistedRole.Class[] ) => {
 			return rolesToDelete;
@@ -81,11 +81,11 @@ export class RoleDeleterComponent implements AfterViewInit {
 		} );
 	}
 
-	private clearErrorMessage():void {
+	public clearErrorMessage():void {
 		this.errorMessages = [];
 	}
 
-	private removeErrorMessage( index:number ):void {
+	public removeErrorMessage( index:number ):void {
 		this.errorMessages.splice( index, 1 );
 	}
 
@@ -97,7 +97,7 @@ export class RoleDeleterComponent implements AfterViewInit {
 		this.hideDeleteRoleForm();
 	}
 
-	private hideDeleteRoleForm():void {
+	public hideDeleteRoleForm():void {
 		this.$deleteRoleModal.modal( "hide" );
 		this.clearErrorMessage();
 	}

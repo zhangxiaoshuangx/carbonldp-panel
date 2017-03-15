@@ -10,7 +10,7 @@ import { EditAppView } from "./edit-app/edit-app.view";
 import { ExplorerView } from "./explorer/explorer.view";
 import { ConfigurationView } from "./configuration/configuration.view";
 
-const AppContentRoutes:Routes = [
+export const AppContentRoutes:Routes = [
 	{
 		path: "",
 		component: AppContentView,

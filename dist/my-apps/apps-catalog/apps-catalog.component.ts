@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Observable } from "rxjs/Rx";
 
-import Carbon from "carbonldp/Carbon";
+import { Carbon } from "carbonldp/Carbon";
 import * as CarbonApp from "carbonldp/App";
 import * as HTTP from "carbonldp/HTTP";
 

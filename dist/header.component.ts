@@ -16,7 +16,7 @@ import "semantic-ui/semantic";
 export class HeaderComponent implements AfterContentInit {
 	private element:ElementRef;
 	private $element:JQuery;
-	private headerService:HeaderService;
+	public headerService:HeaderService;
 
 	constructor( element:ElementRef, headerService:HeaderService ) {
 		this.element = element;

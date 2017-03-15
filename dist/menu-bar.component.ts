@@ -9,14 +9,14 @@ import "semantic-ui/semantic";
 @Component( {
 	selector: "cp-menu-bar",
 	templateUrl: "./menu-bar.component.html",
-	styleUrls: [  "./menu-bar.component.scss"  ],
+	styleUrls: [ "./menu-bar.component.scss" ],
 } )
 export class MenuBarComponent {
 	breadCrumbs:Array<any> = [];
 
 	private router:Router;
 	private routerService:RouterService;
-	private sidebarService:SidebarService;
+	sidebarService:SidebarService;
 	private route:ActivatedRoute;
 
 	constructor( router:Router, routerService:RouterService, sidebarService:SidebarService, route:ActivatedRoute ) {

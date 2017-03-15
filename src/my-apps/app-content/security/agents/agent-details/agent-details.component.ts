@@ -17,7 +17,7 @@ import { ErrorMessageGenerator } from "carbonldp-panel/messages-area/error/error
 @Component( {
 	selector: "cp-agent-details",
 	templateUrl: "./agent-details.component.html",
-	styleUrls: [  "./agent-details.component.scss"  ],
+	styleUrls: [ "./agent-details.component.scss" ],
 } )
 
 export class AgentDetailsComponent implements OnChanges, AfterViewInit {
@@ -27,14 +27,24 @@ export class AgentDetailsComponent implements OnChanges, AfterViewInit {
 	private messagesAreaService:MessagesAreaService;
 
 	private timer:number;
-	private Modes:Modes = Modes;
 	private agentRoles:PersistedRole.Class[] = [];
 	private availableRoles:string[] = [];
-	private errorMessage:Message;
-	private displaySuccessMessage:boolean = false;
+	public errorMessage:Message;
+	public displaySuccessMessage:boolean = false;
 
 	private agentsService:AgentsService;
 	private rolesService:RolesService;
+
+	public Modes:typeof Modes = Modes;
+	public agentFormModel:AgentFormModel = {
+		slug: "",
+		name: "",
+		email: "",
+		roles: [],
+		password: "",
+		repeatPassword: "",
+		enabled: false,
+	};
 
 	@Input() mode:string = Modes.READ;
 	@Input() agent:PersistedAgent.Class;
@@ -44,16 +54,6 @@ export class AgentDetailsComponent implements OnChanges, AfterViewInit {
 	@Output() onClose:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() onSuccess:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() onError:EventEmitter<boolean> = new EventEmitter<boolean>();
-
-	private agentFormModel:AgentFormModel = {
-		slug: "",
-		name: "",
-		email: "",
-		roles: [],
-		password: "",
-		repeatPassword: "",
-		enabled: false,
-	};
 
 	constructor( element:ElementRef, agentsService:AgentsService, rolesService:RolesService, messagesAreaService:MessagesAreaService ) {
 		this.element = element;
@@ -134,7 +134,7 @@ export class AgentDetailsComponent implements OnChanges, AfterViewInit {
 		}
 	}
 
-	private onSubmit( data:AgentFormModel, $event:any ):void {
+	public onSubmit( data:AgentFormModel, $event:any ):void {
 		$event.preventDefault();
 		switch( this.mode ) {
 			case Modes.EDIT:
@@ -200,7 +200,7 @@ export class AgentDetailsComponent implements OnChanges, AfterViewInit {
 		}, 1000 );
 	}
 
-	private getSanitizedSlug( slug:string ):string {
+	public getSanitizedSlug( slug:string ):string {
 		return DocumentExplorerLibrary.getSanitizedSlug( slug );
 	}
 

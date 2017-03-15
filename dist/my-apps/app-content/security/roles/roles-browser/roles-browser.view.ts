@@ -13,7 +13,7 @@ import { AppContentService } from "carbonldp-panel/my-apps/app-content/app-conte
 export class RolesBrowserView {
 
 	private app:App.Class;
-	private canDisplay:boolean = true;
+	public canDisplay:boolean = true;
 
 	constructor( appContentService:AppContentService ) {
 		this.app = appContentService.activeApp;

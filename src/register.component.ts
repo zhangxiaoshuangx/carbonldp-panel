@@ -19,7 +19,8 @@ export class RegisterComponent implements OnInit {
 	private $element:JQuery;
 	private authService:AuthService.Class;
 
-	private sending:boolean = false;
+	sending:boolean = false;
+	errorMessage:string = "";
 	register:{ name:string, email:string, password:string, repeatPassword:string, profileId:string } = {
 		name: "",
 		email: "",
@@ -27,8 +28,6 @@ export class RegisterComponent implements OnInit {
 		repeatPassword: "",
 		profileId: ""
 	};
-
-	private errorMessage:string = "";
 
 	constructor( element:ElementRef, @Inject( AuthService.Token ) authService:AuthService.Class ) {
 		this.element = element;

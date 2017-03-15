@@ -15,7 +15,7 @@ import { ErrorMessageGenerator } from "carbonldp-panel/messages-area/error/error
 @Component( {
 	selector: "cp-agents-list",
 	templateUrl: "./agents-list.component.html",
-	styleUrls: [  "./agents-list.component.scss"  ],
+	styleUrls: [ "./agents-list.component.scss" ],
 } )
 
 export class AgentsListComponent implements OnInit {
@@ -24,17 +24,17 @@ export class AgentsListComponent implements OnInit {
 	private route:ActivatedRoute;
 	private agentsService:AgentsService;
 
-	private agents:PersistedAgent.Class[] = [];
-	private loading:boolean = false;
-	private deletingAgent:Agent.Class;
 	private activePage:number = 0;
 	private totalAgents:number = 0;
 	private agentsPerPage:number = 5;
-
 	private headers:Header[] = [ { name: "Name", value: "name" }, { name: "Created", value: "created" }, { name: "Modified", value: "modified" } ];
 	private sortedColumn:string = "name";
 	private ascending:boolean = false;
-	private errorMessage:Message;
+
+	public errorMessage:Message;
+	public agents:PersistedAgent.Class[] = [];
+	public loading:boolean = false;
+	public deletingAgent:Agent.Class;
 
 	@Input() appContext:App.Context;
 
@@ -87,7 +87,7 @@ export class AgentsListComponent implements OnInit {
 		this.router.navigate( [ slug ], extras );
 	}
 
-	private refreshAgents():void {
+	public refreshAgents():void {
 		this.loadAgents();
 	}
 

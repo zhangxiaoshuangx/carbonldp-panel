@@ -27,13 +27,14 @@ export class AccessPointCreatorComponent implements AfterViewInit {
 
 	private documentsResolverService:DocumentsResolverService;
 	private errorMessage:Message;
-	private visible:boolean = true;
-
 	private createAccessPointFormModel:{ slug:string, hasMemberRelation:string, isMemberOfRelation:string } = {
 		slug: "",
 		hasMemberRelation: "",
 		isMemberOfRelation: ""
 	};
+
+	public visible:boolean = true;
+	
 	@Input() context:SDKContext.Class;
 	@Input() parentURI:string = "";
 	@Output() onSuccess:EventEmitter<any> = new EventEmitter<any>();

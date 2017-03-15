@@ -6,10 +6,10 @@ import { Router } from "@angular/router";
 @Component( {
 	selector: "cp-agent-not-found",
 	templateUrl: "./agent-not-found.view.html",
-	styleUrls: [  "./agent-not-found.view.scss"  ],
+	styleUrls: [ "./agent-not-found.view.scss" ],
 } )
 export class AgentNotFoundView implements OnInit {
-	private timer:number;
+	public timer:number;
 	private router:Router;
 
 	constructor( router:Router, private location:Location ) {

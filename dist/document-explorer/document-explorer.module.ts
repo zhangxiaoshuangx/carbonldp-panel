@@ -23,7 +23,7 @@ import { DocumentDeleterComponent } from "./document-deleter/document-deleter.co
 
 // Modules
 import { PanelModule } from "./../panel.module";
-import { DirectivesModule } from "./../directives.module";
+import { DirectivesModule } from "../directives/directives.module";
 
 // Services
 import { DocumentsResolverService } from "./documents-resolver.service";

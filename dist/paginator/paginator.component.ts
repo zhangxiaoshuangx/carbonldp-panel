@@ -8,7 +8,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChange } from 
 
 export class PaginatorComponent implements OnChanges {
 
-	private pages:number[] = [];
+	public pages:number[] = [];
 
 	private _activePage:number = 0;
 	@Input() set activePage( value:number ) {

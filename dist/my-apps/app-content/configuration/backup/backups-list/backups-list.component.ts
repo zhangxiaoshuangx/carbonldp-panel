@@ -15,7 +15,7 @@ import "semantic-ui/semantic";
 @Component( {
 	selector: "cp-backups-list",
 	templateUrl: "./backups-list.component.html",
-	styleUrls: [  "./backups-list.component.scss"  ],
+	styleUrls: [ "./backups-list.component.scss" ],
 } )
 
 export class BackupsListComponent implements AfterViewInit, OnChanges, OnDestroy {
@@ -26,8 +26,8 @@ export class BackupsListComponent implements AfterViewInit, OnChanges, OnDestroy
 	fetchBackupsListInterval:number;
 
 	backupsService:BackupsService;
-	backups:PersistedDocument.Class[];
-	askingBackupToRemove:PersistedDocument.Class;
+	backups:MockBackup[];
+	askingBackupToRemove:MockBackup;
 	loadingBackups:boolean = false;
 	deletingBackup:boolean = false;
 	errorMessages:Message[] = [];
@@ -186,6 +186,10 @@ export class BackupsListComponent implements AfterViewInit, OnChanges, OnDestroy
 		this.$deleteBackupConfirmationModal.modal( "hide" );
 	}
 
+}
+
+export interface MockBackup extends PersistedDocument.Class {
+	fileIdentifier?:string;
 }
 
 export default BackupsListComponent;

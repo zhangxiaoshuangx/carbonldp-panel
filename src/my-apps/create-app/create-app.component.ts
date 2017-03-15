@@ -30,18 +30,17 @@ export class CreateAppComponent implements OnInit {
 	private appContextService:AppContextService;
 	private messagesAreaService:MessagesAreaService;
 
-	private submitting:boolean = false;
-	private displaySuccessMessage:boolean = false;
-	private displayWarningMessage:boolean = false;
-	private errorMessage:Message;
-
 	private _name:string = "";
 	private _slug:string = "";
 	private persistedSlug:string = "";
 	private persistedName:string = "";
-
 	private slugInput;
-	private createAppFormModel:{ name:string, slug:string, description:string } = {
+	
+	public submitting:boolean = false;
+	public displaySuccessMessage:boolean = false;
+	public displayWarningMessage:boolean = false;
+	public errorMessage:Message;
+	public createAppFormModel:{ name:string, slug:string, description:string } = {
 		name: "",
 		slug: "",
 		description: ""
@@ -59,20 +58,20 @@ export class CreateAppComponent implements OnInit {
 	}
 
 
-	private slugLostControl( evt:any ):void {
+	public slugLostControl( evt:any ):void {
 		if( typeof evt.target === "undefined" ) return;
 		if( ! evt.target.value.match( /^[a-z0-9]+(?:-[a-z0-9]*)*(?:\/*)$/ ) )
 			this.createAppFormModel.slug = this.getSanitizedSlug( evt.target.value );
 		if( ! this.createAppFormModel.slug.endsWith( "/" ) && this.createAppFormModel.slug.trim() !== "" ) this.createAppFormModel.slug += "/";
 	}
 
-	private getSanitizedSlug( slug:string ):string {
+	public getSanitizedSlug( slug:string ):string {
 		if( typeof slug === "undefined" ) return slug;
 		slug = slug.toLowerCase().replace( / - | -|- /g, "-" ).replace( /[^-\w ]+/g, "" ).replace( / +/g, "-" );
 		return slug;
 	}
 
-	private onSubmit( form:any, $event:any ):void {
+	public onSubmit( form:any, $event:any ):void {
 		$event.preventDefault();
 
 		this.submitting = true;

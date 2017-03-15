@@ -17,17 +17,16 @@ export class AgentsChooserComponent implements AfterViewInit {
 	private $element:JQuery;
 	private agentsService:AgentsService;
 
-
-	private availableAgents:PersistedAgent.Class[] = [];
-	private loading:boolean = false;
 	private activePage:number = 0;
 	private totalAgents:number = 0;
 	private agentsPerPage:number = 5;
 
-
 	private headers:Header[] = [ { name: "Name", value: "name" } ];
 	private sortedColumn:string = "name";
 	private ascending:boolean = false;
+
+	public loading:boolean = false;
+	public availableAgents:PersistedAgent.Class[] = [];
 
 
 	@Input() appContext:App.Context;

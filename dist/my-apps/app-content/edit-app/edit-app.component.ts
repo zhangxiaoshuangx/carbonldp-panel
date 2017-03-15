@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 
-import Carbon from "carbonldp/Carbon";
+import { Carbon } from "carbonldp/Carbon";
 import * as HTTP from "carbonldp/HTTP";
 import * as URI from "carbonldp/RDF/URI";
 import * as PersistedApp from "carbonldp/PersistedApp";

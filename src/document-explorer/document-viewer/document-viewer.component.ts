@@ -20,7 +20,7 @@ import "semantic-ui/semantic";
 	selector: "cp-document-viewer",
 	host: { "[class.ui]": "true", "[class.basic]": "true", "[class.segment]": "true", },
 	templateUrl: "./document-viewer.component.html",
-	styleUrls: [  "./document-viewer.component.scss"  ],
+	styleUrls: [ "./document-viewer.component.scss" ],
 } )
 
 export class DocumentViewerComponent implements AfterViewInit, OnChanges {
@@ -305,12 +305,12 @@ export class DocumentViewerComponent implements AfterViewInit, OnChanges {
 		else this.refreshDocument( documentURI );
 	}
 
-	private refreshDocument( documentURI:string ):void {
+	public refreshDocument( documentURI:string ):void {
 		this.onRefreshDocument.emit( documentURI );
 		this.$element.find( ".unsaved.prompt.message" ).transition( { animation: "fade" } ).transition( "hide" );
 	}
 
-	private toggleConfirmRefresh():void {
+	public toggleConfirmRefresh():void {
 		this.$element.find( ".unsaved.prompt.message" ).transition( { animation: "fade" } );
 	}
 

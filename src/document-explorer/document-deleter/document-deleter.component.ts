@@ -13,7 +13,7 @@ import "semantic-ui/semantic";
 @Component( {
 	selector: "cp-document-deleter",
 	templateUrl: "./document-deleter.component.html",
-	styleUrls: [  "./document-deleter.component.scss"  ],
+	styleUrls: [ "./document-deleter.component.scss" ],
 } )
 
 export class DocumentDeleterComponent implements AfterViewInit {
@@ -24,9 +24,9 @@ export class DocumentDeleterComponent implements AfterViewInit {
 	$deleteDocumentModal:JQuery;
 
 	private documentsResolverService:DocumentsResolverService;
-	private errorMessage:Message;
+	public errorMessage:Message;
 
-	deleteDocumentFormModel:{} = {};
+	public deleteDocumentFormModel:{ value?:any } = {};
 	@Input() context:SDKContext.Class;
 	@Input() documentURI:string = "";
 	@Output() onSuccess:EventEmitter<any> = new EventEmitter<any>();
@@ -43,7 +43,7 @@ export class DocumentDeleterComponent implements AfterViewInit {
 		this.$deleteDocumentModal = this.$element.find( ".delete.document.modal" ).modal( { closable: false } );
 	}
 
-	private onSubmitDeleteDocument( data:{}, $event:any ):void {
+	public onSubmitDeleteDocument( data:{}, $event:any ):void {
 		this.documentsResolverService.delete( this.context, this.documentURI ).then( ( result ) => {
 			this.onSuccess.emit( DocumentExplorerLibrary.getParentURI( this.documentURI ) );
 			this.hide();
@@ -65,7 +65,7 @@ export class DocumentDeleterComponent implements AfterViewInit {
 		this.hideDeleteDocumentForm();
 	}
 
-	private hideDeleteDocumentForm():void {
+	public hideDeleteDocumentForm():void {
 		this.$deleteDocumentModal.modal( "hide" );
 		this.clearErrorMessage();
 	}

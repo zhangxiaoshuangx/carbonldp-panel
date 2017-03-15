@@ -18,8 +18,9 @@ export class AgentDetailsView {
 
 	private app:any;
 	private agent:PersistedAgent.Class;
-	private canDisplay:boolean = true;
 	private mode:string = Modes.READ;
+	
+	public canDisplay:boolean = true;
 
 	constructor( router:Router, route:ActivatedRoute, appContentService:AppContentService ) {
 		this.router = router;

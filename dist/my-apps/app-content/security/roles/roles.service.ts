@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 
-import Carbon from "carbonldp/Carbon";
+import { Carbon } from "carbonldp/Carbon";
 import * as App from "carbonldp/App";
 import * as Roles from "carbonldp/App/Roles";
 import * as Role from "carbonldp/App/Role";
@@ -145,7 +145,7 @@ export class RolesService {
 			results.bindings.forEach( ( rolePointer:SPARQL.SELECTResults.BindingObject ) => {
 				let role:Role.Class = Role.Factory.createFrom( { id: rolePointer[ "childRole" ][ "id" ] }, <string>rolePointer[ "name" ] );
 				role[ "parentRole" ] = rolePointer[ "parentRole" ];
-				roles.push( <PersistedRole.Class>role );
+				roles.push( <Role.Class & PersistedRole.Class>role );
 			} );
 			return roles;
 		} );
@@ -170,7 +170,7 @@ export class RolesService {
 			results.bindings.forEach( ( rolePointer:SPARQL.SELECTResults.BindingObject ) => {
 				let role:Role.Class = Role.Factory.createFrom( { id: rolePointer[ "role" ][ "id" ] }, <string>rolePointer[ "name" ] );
 				role[ "hasChildren" ] = rolePointer[ "childRole" ];
-				roles.push( <PersistedRole.Class>role );
+				roles.push( <Role.Class & PersistedRole.Class>role );
 			} );
 			return roles;
 		} );

@@ -46,20 +46,28 @@ export class InputValidationDirective {
 		return this.ngModel.errors;
 	}
 
+	get touched():boolean {
+		return this.ngModel.touched;
+	}
+
+	get pristine():boolean {
+		return this.ngModel.pristine;
+	}
+
 	// TODO: Make other ngModel properties accessible
 
 	private hasFocus:boolean = false;
 	private wasFocused:boolean = false;
 
-	constructor( @Optional() @Host() private ngModel:NgModel ) {}
+	constructor( @Optional() @Host() public ngModel:NgModel ) {}
 
-	@HostListener( "focus", [ "$event" ] )
+	@HostListener( "focus" )
 	onFocus():void {
 		this.hasFocus = true;
 		this.wasFocused = true;
 	}
 
-	@HostListener( "blur", [ "$event" ] )
+	@HostListener( "blur" )
 	onBlur():void {
 		this.hasFocus = false;
 	}

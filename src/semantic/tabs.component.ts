@@ -5,7 +5,7 @@ import { TabComponent } from "./tab.component";
 @Component( {
 	selector: "sui-tabs",
 	templateUrl: "./tabs.component.html",
-	styleUrls: [  "./tabs.component.scss"  ],
+	styleUrls: [ "./tabs.component.scss" ],
 } )
 export class TabsComponent implements AfterContentInit, OnChanges {
 	@ContentChildren( TabComponent ) tabs:QueryList<TabComponent>;
@@ -14,7 +14,7 @@ export class TabsComponent implements AfterContentInit, OnChanges {
 	@Output( "activeTabChange" ) activeTabChange:EventEmitter<number> = new EventEmitter<number>();
 
 	private justChanged:boolean = false;
-	private titles:string[] = [];
+	titles:string[] = [];
 
 	ngAfterContentInit():void {
 		this.reloadTitles();

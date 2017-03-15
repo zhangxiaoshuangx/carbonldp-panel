@@ -13,7 +13,7 @@ import "semantic-ui/semantic";
 @Component( {
 	selector: "cp-agent-deleter",
 	templateUrl: "./agent-deleter.component.html",
-	styleUrls: [  "./agent-deleter.component.scss"  ],
+	styleUrls: [ "./agent-deleter.component.scss" ],
 } )
 
 export class AgentDeleterComponent implements AfterViewInit {
@@ -23,8 +23,9 @@ export class AgentDeleterComponent implements AfterViewInit {
 	private agentsService:AgentsService;
 
 	private $deleteAgentModal:JQuery;
-	private errorMessage:Message;
-	private deletingAgent:boolean = false;
+
+	public errorMessage:Message;
+	public deletingAgent:boolean = false;
 
 	@Input() context:App.Context;
 	@Input() agent:Agent.Class;
@@ -46,7 +47,7 @@ export class AgentDeleterComponent implements AfterViewInit {
 		} );
 	}
 
-	private onSubmitDeleteAgent():void {
+	public onSubmitDeleteAgent():void {
 		this.deletingAgent = true;
 		this.agentsService.deleteAgent( this.context, this.agent ).then( ( result ) => {
 			this.onSuccess.emit( this.deletingAgent );
@@ -71,7 +72,7 @@ export class AgentDeleterComponent implements AfterViewInit {
 		this.hideDeleteAgentForm();
 	}
 
-	private hideDeleteAgentForm():void {
+	public hideDeleteAgentForm():void {
 		this.$deleteAgentModal.modal( "hide" );
 		this.clearErrorMessage();
 	}

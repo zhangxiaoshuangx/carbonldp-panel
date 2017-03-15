@@ -4,11 +4,11 @@ import { Router } from "@angular/router";
 @Component( {
 	selector: "cp-app-content",
 	templateUrl: "./app-not-found.view.html",
-	styleUrls: [  "./app-not-found.view.scss"  ],
+	styleUrls: [ "./app-not-found.view.scss" ],
 } )
 export class AppNotFoundView implements OnInit {
-	private timer:number;
 	private router:Router;
+	public timer:number;
 
 	constructor( router:Router ) {
 		this.router = router;

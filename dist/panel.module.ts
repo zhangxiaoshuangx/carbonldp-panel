@@ -18,7 +18,7 @@ import { ErrorLabelComponent } from "./messages-area/error/error-label.component
 
 // Modules
 import { SemanticModule } from "./semantic/semantic.module";
-import { DirectivesModule } from "./directives.module";
+import { DirectivesModule } from "./directives/directives.module";
 
 // Services
 import { RouterService } from "./router.service";

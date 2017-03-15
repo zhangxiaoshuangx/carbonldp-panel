@@ -8,7 +8,7 @@ import { RolesService } from "../roles.service";
 @Component( {
 	selector: "cp-roles-chooser",
 	templateUrl: "./roles-chooser.component.html",
-	styleUrls: [  "./roles-chooser.component.scss"  ],
+	styleUrls: [ "./roles-chooser.component.scss" ],
 } )
 
 export class RolesChooserComponent implements AfterViewInit {
@@ -16,7 +16,8 @@ export class RolesChooserComponent implements AfterViewInit {
 	private element:ElementRef;
 	private $element:JQuery;
 	private rolesService:RolesService;
-	private availableRoles:PersistedRole.Class[] = [];
+
+	public availableRoles:PersistedRole.Class[] = [];
 
 	private _selectedRoles:PersistedRole.Class[] = [];
 	@Input() set selectedRoles( value:PersistedRole.Class[] ) {

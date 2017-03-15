@@ -28,7 +28,7 @@ import { BackupFileValidator, AtLeastOneValidValidator } from "./configuration/b
 import { PanelModule } from "./../../panel.module";
 import { SPARQLClientModule } from "./../../sparql-client/sparql-client.module";
 import { DocumentExplorerModule } from "./../../document-explorer/document-explorer.module";
-import { DirectivesModule } from "./../../directives.module";
+import { DirectivesModule } from "../../directives/directives.module";
 
 // Services
 import { DocumentsResolverService } from "./../../document-explorer/documents-resolver.service";

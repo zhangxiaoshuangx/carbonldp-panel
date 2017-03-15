@@ -19,12 +19,12 @@
 	</div>
 	<div class="actions">
 		<button class="ui black deny button" title="Cancel deletion" type="button"
-		        [disabled]="deleting"
+		        [disabled]="deletingRole"
 		        (click)="hideDeleteRoleForm()">No
 		</button>
 		<button class="ui red button" title="Confirm deletion" type="submit"
 		        [ngClass]="{loading:deletingRole, disabled:deletingRole}"
-		        [disabled]="deleting">Yes
+		        [disabled]="deletingRole">Yes
 		</button>
 	</div>
 </form>

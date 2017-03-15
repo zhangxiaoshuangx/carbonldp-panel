@@ -6,7 +6,7 @@ import { AppsCatalogView } from "./apps-catalog/apps-catalog.view";
 import { CreateAppView } from "./create-app/create-app.view";
 import { AppNotFoundView } from "./app-not-found.view";
 
-const MyAppsRoutes:Routes = [
+export const MyAppsRoutes:Routes = [
 	{
 		path: "",
 		component: MyAppsView,

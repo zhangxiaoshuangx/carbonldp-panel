@@ -30,7 +30,7 @@ import { RolesChooserComponent } from "./roles/roles-chooser/roles-chooser.compo
 
 // Modules
 import { PanelModule } from "carbonldp-panel/panel.module";
-import { DirectivesModule } from "carbonldp-panel/directives.module";
+import { DirectivesModule } from "carbonldp-panel/directives/directives.module";
 
 // Services
 import { AgentsService } from "./agents/agents.service";

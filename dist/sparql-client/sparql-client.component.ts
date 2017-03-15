@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, Output, EventEmitter, OnInit, AfterViewInit } from "@angular/core";
 
-import Carbon from "carbonldp/Carbon";
-import Context from "carbonldp/Context";
+import { Carbon } from "carbonldp/Carbon";
+import { Class as Context } from "carbonldp/Context";
 import * as SPARQL from "carbonldp/SPARQL";
 import * as HTTP from "carbonldp/HTTP";
 
@@ -17,7 +17,7 @@ import "semantic-ui/semantic";
 @Component( {
 	selector: "cp-sparql-client",
 	templateUrl: "./sparql-client.component.html",
-	styleUrls: [  "./sparql-client.component.scss"  ],
+	styleUrls: [ "./sparql-client.component.scss" ],
 } )
 export class SPARQLClientComponent implements OnInit, AfterViewInit {
 
@@ -685,10 +685,10 @@ export class SPARQLClientComponent implements OnInit, AfterViewInit {
 					statusCode: "",
 					statusMessage: "",
 					endpoint: "",
-					type:"error",
+					type: "error",
 				};
 			default:
-				return ErrorMessageGenerator.getErrorMessage( error );;
+				return ErrorMessageGenerator.getErrorMessage( error );
 		}
 	}
 

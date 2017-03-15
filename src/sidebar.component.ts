@@ -10,7 +10,7 @@ import { SidebarService } from "carbonldp-panel/sidebar.service"
 @Component( {
 	selector: "cp-sidebar",
 	templateUrl: "./sidebar.component.html",
-	styleUrls: [  "./sidebar.component.scss"  ],
+	styleUrls: [ "./sidebar.component.scss" ],
 	host: {
 		class: "ui inverted vertical menu accordion"
 	}
@@ -20,7 +20,7 @@ export class SidebarComponent {
 	private $element:JQuery;
 	private router:Router;
 	private location:Location;
-	private sidebarService:SidebarService;
+	public sidebarService:SidebarService;
 
 	constructor( router:Router, element:ElementRef, location:Location, sidebarService:SidebarService ) {
 		this.element = element;

@@ -2,7 +2,6 @@ import { Component, ElementRef, Input, Output, EventEmitter, ViewChild } from "@
 
 import * as NS from "carbonldp/NS";
 import * as Utils from "carbonldp/Utils";
-import * as SDKLiteral from "carbonldp/RDF/Literal";
 import * as URI from "carbonldp/RDF/URI";
 
 import { Modes } from "./../property/property.component"
@@ -13,7 +12,7 @@ import "semantic-ui/semantic";
 @Component( {
 	selector: "tr.cp-literal",
 	templateUrl: "./literal.component.html",
-	styleUrls: [  "./literal.component.scss"  ],
+	styleUrls: [ "./literal.component.scss" ],
 } )
 
 export class LiteralComponent {
@@ -37,7 +36,7 @@ export class LiteralComponent {
 		return this._mode;
 	}
 
-	modes:Modes = Modes;
+	modes:typeof Modes = Modes;
 	dataTypes:any = this.getDataTypes();
 	isStringType:boolean = (! this.type || this.type === NS.XSD.DataType.string);
 	languages:{ code:string, name:string }[] = [

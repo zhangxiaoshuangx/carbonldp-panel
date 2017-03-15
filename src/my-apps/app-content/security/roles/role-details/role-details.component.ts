@@ -27,20 +27,21 @@ export class RoleDetailsComponent {
 	private $element:JQuery;
 	private rolesService:RolesService;
 	private messagesAreaService:MessagesAreaService;
-	private Modes:Modes = Modes;
-	private roleFormModel:RoleFormModel = {
+	private roleAgents:PersistedAgent.Class[] = [];
+	private parentRole:PersistedRole.Class;
+
+	public Modes:typeof Modes = Modes;
+	public roleFormModel:RoleFormModel = {
 		slug: "",
 		name: "",
 		description: "",
 		parentRole: "",
 		agents: [],
 	};
-	private activeTab:string = "details";
-	private roleAgents:PersistedAgent.Class[] = [];
-	private errorMessage:Message;
-	private displaySuccessMessage:boolean = false;
-	private parentRole:PersistedRole.Class;
-	private mustAddParent:boolean = false;
+	public activeTab:string = "details";
+	public errorMessage:Message;
+	public displaySuccessMessage:boolean = false;
+	public mustAddParent:boolean = false;
 
 
 	@Input() embedded:boolean = true;
@@ -94,7 +95,7 @@ export class RoleDetailsComponent {
 		this.mode = mode;
 	}
 
-	private onSubmit( data:RoleFormModel, $event:any ):void {
+	public onSubmit( data:RoleFormModel, $event:any ):void {
 		$event.preventDefault();
 		switch( this.mode ) {
 			case Modes.EDIT:
@@ -204,7 +205,7 @@ export class RoleDetailsComponent {
 		return this.rolesService.removeAgent( this.appContext, agentID, roleID );
 	}
 
-	private getSanitizedSlug( slug:string ):string {
+	public getSanitizedSlug( slug:string ):string {
 		return DocumentExplorerLibrary.getSanitizedSlug( slug );
 	}
 

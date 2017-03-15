@@ -13,7 +13,7 @@ import { RolesView } from "./roles/roles.view";
 import { RoleResolver } from "./roles/role.resolver";
 import { RolesBrowserView } from "./roles/roles-browser/roles-browser.view";
 
-const SecurityRoutes:Routes = [
+export const SecurityRoutes:Routes = [
 	{
 		path: "",
 		data: {
