@@ -20,5 +20,3 @@ export class DocumentExplorerLibrary {
 		return documentURI.substr( 0, slugIdx );
 	}
 }
-
-export default DocumentExplorerLibrary;

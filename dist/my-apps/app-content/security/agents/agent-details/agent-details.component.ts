@@ -276,5 +276,3 @@ export interface AgentFormModel {
 	repeatPassword:string;
 	enabled:boolean;
 }
-
-export default AgentDetailsComponent;

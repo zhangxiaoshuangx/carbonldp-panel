@@ -147,4 +147,3 @@ export class EditAppComponent implements OnInit {
 	}
 }
 
-export default EditAppComponent;

@@ -64,4 +64,3 @@ export class PaginatorComponent implements OnChanges {
 	}
 }
 
-export default PaginatorComponent;

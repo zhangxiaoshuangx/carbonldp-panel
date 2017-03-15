@@ -57,4 +57,3 @@ export class TabsComponent implements AfterContentInit, OnChanges {
 }
 
 
-export default TabsComponent;

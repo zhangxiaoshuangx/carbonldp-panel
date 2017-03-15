@@ -184,4 +184,3 @@ export class RootRecords {
 	additions:Map<string,PropertyRow> = new Map<string, PropertyRow>();
 }
 
-export default DocumentResourceComponent;

@@ -56,4 +56,3 @@ export class ResultsetTableComponent implements OnChanges {
 	}
 }
 
-export default ResultsetTableComponent;

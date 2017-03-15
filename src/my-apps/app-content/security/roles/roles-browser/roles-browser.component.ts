@@ -84,5 +84,3 @@ export class RolesBrowserComponent {
 		this.messages.push( ErrorMessageGenerator.getErrorMessage( error ) );
 	}
 }
-
-export default RolesBrowserComponent;

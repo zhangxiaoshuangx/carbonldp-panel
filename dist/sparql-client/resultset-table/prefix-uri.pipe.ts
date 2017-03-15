@@ -21,4 +21,3 @@ export class PrefixURIPipe implements PipeTransform {
 	}
 }
 
-export default PrefixURIPipe;

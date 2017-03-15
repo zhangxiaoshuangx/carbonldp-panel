@@ -43,4 +43,3 @@ export class BackupsComponent implements OnInit {
 
 }
 
-export default BackupsComponent;

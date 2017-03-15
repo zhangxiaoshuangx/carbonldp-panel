@@ -73,4 +73,3 @@ import { BackupsService } from "./configuration/backup/backups.service";
 } )
 export class AppContentModule {
 }
-export default AppContentModule;

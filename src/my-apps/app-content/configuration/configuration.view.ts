@@ -25,4 +25,3 @@ export class ConfigurationView {
 
 }
 
-export default ConfigurationView;

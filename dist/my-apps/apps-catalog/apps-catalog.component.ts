@@ -203,4 +203,3 @@ export class AppsCatalogComponent implements OnInit {
 	}
 }
 
-export default AppsCatalogComponent;

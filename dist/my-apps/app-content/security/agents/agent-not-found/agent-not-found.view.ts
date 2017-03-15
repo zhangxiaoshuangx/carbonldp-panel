@@ -32,4 +32,3 @@ export class AgentNotFoundView implements OnInit {
 		}, 1000 );
 	}
 }
-export default AgentNotFoundView;

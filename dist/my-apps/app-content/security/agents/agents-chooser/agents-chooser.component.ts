@@ -128,5 +128,3 @@ export interface Header {
 	name:string;
 	value:string;
 }
-
-export default AgentsChooserComponent;

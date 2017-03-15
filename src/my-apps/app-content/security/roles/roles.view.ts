@@ -11,4 +11,3 @@ export class RolesView {
 
 }
 
-export default RolesView;

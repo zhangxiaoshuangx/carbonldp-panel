@@ -254,5 +254,3 @@ export interface RoleFormModel {
 	parentRole?:string;
 	agents:PersistedAgent.Class[];
 }
-
-export default RoleDetailsComponent;

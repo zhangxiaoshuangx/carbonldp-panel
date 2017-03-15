@@ -27,5 +27,3 @@ export class MessagesAreaService {
 		this.addMessageEmitter.emit( message );
 	}
 }
-
-export default MessagesAreaService;

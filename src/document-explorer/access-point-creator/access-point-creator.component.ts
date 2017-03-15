@@ -104,5 +104,3 @@ export class AccessPointCreatorComponent implements AfterViewInit {
 	}
 
 }
-
-export default AccessPointCreatorComponent;

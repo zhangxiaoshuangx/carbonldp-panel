@@ -31,5 +31,3 @@ export class MessagesAreaComponent implements AfterViewInit {
 	}
 
 }
-
-export default MessagesAreaComponent;

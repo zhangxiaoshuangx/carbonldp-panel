@@ -105,4 +105,3 @@ export interface SidebarGroup extends SidebarItem {
 	children:(SidebarLink | SidebarSubmenu | SidebarDivider | SidebarGroup)[];
 }
 
-export default SidebarService;

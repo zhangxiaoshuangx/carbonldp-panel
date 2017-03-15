@@ -127,4 +127,3 @@ export class MyAppsSidebarService {
 	}
 }
 
-export default MyAppsSidebarService;

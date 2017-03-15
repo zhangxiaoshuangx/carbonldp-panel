@@ -39,5 +39,3 @@ export class AccordionComponent implements AfterContentInit {
 	}
 }
 
-
-export default AccordionComponent;

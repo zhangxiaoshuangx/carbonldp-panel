@@ -23,4 +23,3 @@ export class EditAppView {
 
 }
 
-export default EditAppView;

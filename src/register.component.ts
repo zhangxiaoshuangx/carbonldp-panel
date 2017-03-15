@@ -123,4 +123,3 @@ export class RegisterComponent implements OnInit {
 	}
 }
 
-export default RegisterComponent;

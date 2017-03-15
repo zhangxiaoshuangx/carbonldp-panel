@@ -10,4 +10,3 @@ import "semantic-ui/semantic";
 export class AppsCatalogView {
 }
 
-export default AppsCatalogView;

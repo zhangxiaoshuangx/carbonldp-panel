@@ -453,4 +453,3 @@ export class Modes {
 	static READ:string = "READ";
 }
 
-export default PropertyComponent;

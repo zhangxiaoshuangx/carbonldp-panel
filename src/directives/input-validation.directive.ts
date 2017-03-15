@@ -72,5 +72,3 @@ export class InputValidationDirective {
 		this.hasFocus = false;
 	}
 }
-
-export default InputValidationDirective;

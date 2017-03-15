@@ -83,4 +83,3 @@ export class AgentDeleterComponent implements AfterViewInit {
 
 }
 
-export default AgentDeleterComponent;

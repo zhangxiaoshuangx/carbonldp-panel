@@ -187,5 +187,3 @@ export interface ListRow {
 export interface List {
 	"@list":any[];
 }
-
-export default ListComponent;

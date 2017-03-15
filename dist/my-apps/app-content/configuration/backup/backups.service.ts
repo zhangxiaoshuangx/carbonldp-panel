@@ -61,5 +61,3 @@ export class BackupsService {
 		} );
 	}
 }
-
-export default BackupsService;

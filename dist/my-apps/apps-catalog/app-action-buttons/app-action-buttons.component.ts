@@ -25,4 +25,3 @@ export class AppActionButtonsComponent {
 	}
 }
 
-export default AppActionButtonsComponent;

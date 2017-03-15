@@ -92,5 +92,3 @@ export class DocumentExplorerComponent {
 	}
 
 }
-
-export default DocumentExplorerComponent;

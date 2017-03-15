@@ -244,5 +244,3 @@ export interface JSTreeNode {
 	data:any,
 	type?:any
 }
-
-export default RolesTreeViewComponent;

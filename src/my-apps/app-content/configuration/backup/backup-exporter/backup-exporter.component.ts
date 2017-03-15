@@ -114,4 +114,3 @@ export class BackupExporterComponent implements OnDestroy {
 	}
 }
 
-export default BackupExporterComponent;

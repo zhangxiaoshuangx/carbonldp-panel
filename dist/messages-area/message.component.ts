@@ -86,5 +86,3 @@ export class Types {
 	public static NEGATIVE = "negative";
 	public static ERROR = "error";
 }
-
-export default MessageComponent;

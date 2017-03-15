@@ -74,4 +74,3 @@ export class CollapsibleDirective implements AfterContentInit {
 	}
 }
 
-export default CollapsibleDirective;

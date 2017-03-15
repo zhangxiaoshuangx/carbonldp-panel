@@ -21,5 +21,3 @@ export class ErrorLabelComponent {
 	}
 
 }
-
-export default ErrorLabelComponent;

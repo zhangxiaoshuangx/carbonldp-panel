@@ -13,4 +13,3 @@ export class RelativizeURIPipe implements PipeTransform {
 	}
 }
 
-export default RelativizeURIPipe;

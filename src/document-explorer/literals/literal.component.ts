@@ -1011,5 +1011,3 @@ export interface Literal {
 	"@type"?:string;
 	"@language"?:string;
 }
-
-export default LiteralComponent;

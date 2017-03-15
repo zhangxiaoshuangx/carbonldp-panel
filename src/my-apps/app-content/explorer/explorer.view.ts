@@ -23,4 +23,3 @@ export class ExplorerView {
 
 }
 
-export default ExplorerView;

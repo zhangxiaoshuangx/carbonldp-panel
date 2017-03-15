@@ -86,5 +86,3 @@ export class ListsComponent implements OnInit {
 		this.onGoToNamedFragment.emit( id );
 	}
 }
-
-export default ListsComponent;

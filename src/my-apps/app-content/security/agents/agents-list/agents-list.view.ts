@@ -23,4 +23,3 @@ export class AgentsListView {
 
 }
 
-export default AgentsListView;

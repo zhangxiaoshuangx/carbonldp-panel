@@ -25,5 +25,3 @@ export class RolesBrowserView {
 	}
 
 }
-
-export default RolesBrowserView;

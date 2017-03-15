@@ -73,4 +73,3 @@ export class AppContextService {
 	}
 }
 
-export default AppContextService;

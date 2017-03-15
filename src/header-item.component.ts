@@ -36,4 +36,3 @@ export class HeaderItemComponent implements AfterViewInit {
 	}
 }
 
-export default HeaderItemComponent;

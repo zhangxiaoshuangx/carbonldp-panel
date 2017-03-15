@@ -10,4 +10,3 @@ import "semantic-ui/semantic";
 export class DashboardView {
 }
 
-export default DashboardView;

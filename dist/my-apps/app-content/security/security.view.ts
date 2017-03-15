@@ -12,4 +12,3 @@ export class SecurityView {
 
 }
 
-export default SecurityView;

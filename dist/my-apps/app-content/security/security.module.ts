@@ -78,4 +78,3 @@ import { RoleResolver } from "./roles/role.resolver";
 } )
 export class SecurityModule {
 }
-export default SecurityModule;

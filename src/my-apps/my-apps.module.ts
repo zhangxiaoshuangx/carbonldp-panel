@@ -56,4 +56,3 @@ import { AppContextService } from "./app-context.service";
 } )
 export class MyAppsModule {
 }
-export default MyAppsModule;

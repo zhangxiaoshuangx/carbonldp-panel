@@ -49,4 +49,3 @@ export class AgentDetailsView {
 
 }
 
-export default AgentDetailsView;

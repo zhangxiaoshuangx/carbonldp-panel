@@ -95,5 +95,3 @@ export class LiteralsComponent implements OnInit {
 		return this.literals.filter( ( literal:LiteralRow ) => typeof literal.modified === "undefined" && typeof literal.deleted === "undefined" );
 	}
 }
-
-export default LiteralsComponent;

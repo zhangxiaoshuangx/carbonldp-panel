@@ -45,4 +45,3 @@ export class AgentCreatorView {
 
 }
 
-export default AgentCreatorView;

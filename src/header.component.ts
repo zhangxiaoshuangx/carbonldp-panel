@@ -38,4 +38,3 @@ export class HeaderComponent implements AfterContentInit {
 	}
 }
 
-export default HeaderComponent;

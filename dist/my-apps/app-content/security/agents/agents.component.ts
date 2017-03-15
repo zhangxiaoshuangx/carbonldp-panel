@@ -18,4 +18,3 @@ export class AgentsComponent {
 
 }
 
-export default AgentsComponent;

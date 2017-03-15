@@ -84,5 +84,3 @@ export class RolesChooserComponent implements AfterViewInit {
 		this.selectedRoles.push( role );
 	}
 }
-
-export default RolesChooserComponent;

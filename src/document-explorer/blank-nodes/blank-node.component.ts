@@ -234,5 +234,3 @@ export class BlankNodeRecords {
 	deletions:Map<string,PropertyRow> = new Map<string, PropertyRow>();
 	additions:Map<string,PropertyRow> = new Map<string, PropertyRow>();
 }
-
-export default BlankNodeComponent;

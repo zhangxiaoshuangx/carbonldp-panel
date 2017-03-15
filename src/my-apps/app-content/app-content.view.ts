@@ -37,4 +37,3 @@ export class AppContentView {
 	}
 }
 
-export default AppContentView;

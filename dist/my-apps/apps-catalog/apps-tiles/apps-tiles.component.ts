@@ -20,4 +20,3 @@ export class AppsTilesComponent {
 	}
 }
 
-export default AppsTilesComponent;

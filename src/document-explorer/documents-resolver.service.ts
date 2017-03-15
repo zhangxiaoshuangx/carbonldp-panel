@@ -110,4 +110,3 @@ export class DocumentsResolverService {
 	}
 }
 
-export default DocumentsResolverService;

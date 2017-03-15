@@ -174,5 +174,3 @@ export class BlankNodesRecords {
 		this.additions.clear();
 	}
 }
-
-export default BlankNodesComponent;

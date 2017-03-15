@@ -77,5 +77,3 @@ export class ErrorMessageGenerator {
 		return tempMessage;
 	}
 }
-
-export default ErrorMessageGenerator;

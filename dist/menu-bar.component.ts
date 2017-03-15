@@ -67,4 +67,3 @@ export class MenuBarComponent {
 	}
 }
 
-export default MenuBarComponent;

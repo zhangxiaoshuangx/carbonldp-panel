@@ -62,4 +62,3 @@ export class SidebarComponent {
 	}
 }
 
-export default SidebarComponent;

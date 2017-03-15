@@ -192,4 +192,3 @@ export interface MockBackup extends PersistedDocument.Class {
 	fileIdentifier?:string;
 }
 
-export default BackupsListComponent;

@@ -77,4 +77,3 @@ export class DocumentExplorerModule {
 	}
 
 }
-export default DocumentExplorerModule;

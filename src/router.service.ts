@@ -35,5 +35,3 @@ export class RouterService {
 		return this.router.isActive( fullRoute, exact );
 	}
 }
-
-export default RouterService;

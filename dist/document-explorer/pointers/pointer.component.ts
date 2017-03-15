@@ -202,4 +202,3 @@ export interface Pointer {
 	"@id":string;
 }
 
-export default PointerComponent;

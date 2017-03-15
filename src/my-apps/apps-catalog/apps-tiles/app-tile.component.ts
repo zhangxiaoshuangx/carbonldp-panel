@@ -20,4 +20,3 @@ export class AppTileComponent {
 	}
 }
 
-export default AppTileComponent;

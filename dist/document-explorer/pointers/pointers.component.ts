@@ -90,5 +90,3 @@ export class PointersComponent implements OnInit {
 		this.onGoToNamedFragment.emit( id );
 	}
 }
-
-export default PointersComponent;

@@ -45,4 +45,3 @@ export interface Header {
 	value:string;
 }
 
-export default AppsListComponent;

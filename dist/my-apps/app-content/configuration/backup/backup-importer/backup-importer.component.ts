@@ -299,4 +299,3 @@ export class ImportStatus {
 		this.succeed = true;
 	}
 }
-export default BackupImporterComponent;

@@ -177,4 +177,3 @@ export class NamedFragmentsRecords {
 		this.additions.clear();
 	}
 }
-export default NamedFragmentsComponent;

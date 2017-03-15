@@ -102,4 +102,3 @@ export class DocumentCreatorComponent implements AfterViewInit {
 
 }
 
-export default DocumentCreatorComponent;

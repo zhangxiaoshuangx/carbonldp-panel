@@ -47,4 +47,3 @@ export class Util {
 	}
 }
 
-export default Class;

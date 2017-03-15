@@ -200,5 +200,3 @@ export class Mode {
 
 	static get TURTLE():string { return "text/turtle"; }
 }
-
-export default Class;

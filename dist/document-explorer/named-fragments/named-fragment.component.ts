@@ -220,4 +220,3 @@ export class NamedFragmentRecords {
 	additions:Map<string,PropertyRow> = new Map<string, PropertyRow>();
 }
 
-export default NamedFragmentComponent;

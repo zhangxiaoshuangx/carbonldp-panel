@@ -199,4 +199,3 @@ export class CreateAppComponent implements OnInit {
 	}
 }
 
-export default CreateAppComponent;

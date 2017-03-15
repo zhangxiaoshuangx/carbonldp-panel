@@ -107,5 +107,3 @@ export class RoleDeleterComponent implements AfterViewInit {
 	}
 
 }
-
-export default RoleDeleterComponent;

@@ -60,5 +60,3 @@ export interface HeaderLogo {
 	image:string;
 	route:any[];
 }
-
-export default HeaderService;

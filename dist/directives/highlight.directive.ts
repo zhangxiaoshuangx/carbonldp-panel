@@ -60,4 +60,3 @@ export class HighlightDirective implements AfterViewInit {
 	}
 }
 
-export default HighlightDirective;

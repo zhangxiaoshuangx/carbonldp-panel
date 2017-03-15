@@ -751,4 +751,3 @@ export interface SPARQLTypes {
 	query:string;
 	update:string;
 }
-export default SPARQLClientComponent;

@@ -76,4 +76,3 @@ export class DocumentDeleterComponent implements AfterViewInit {
 
 }
 
-export default DocumentDeleterComponent;

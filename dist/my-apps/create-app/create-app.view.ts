@@ -11,4 +11,3 @@ import "semantic-ui/semantic";
 export class CreateAppView {
 }
 
-export default CreateAppView;
