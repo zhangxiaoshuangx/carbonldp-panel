@@ -1,0 +1,60 @@
+import { ElementRef, OnInit, OnDestroy } from "@angular/core";
+import * as App from "carbonldp/App";
+import * as PersistedDocument from "carbonldp/PersistedDocument";
+import { BackupsService } from "../backups.service";
+import { JobsService } from "../../job/jobs.service";
+import { Message } from "carbonldp-panel/messages-area/message.component";
+import "semantic-ui/semantic";
+export declare class BackupImporterComponent implements OnInit, OnDestroy {
+    appContext: App.Context;
+    element: ElementRef;
+    monitorExecutionInterval: number;
+    importFormModel: {
+        uri: string;
+        backup: string;
+        backupFile: string;
+    };
+    backupFileBlob: Blob;
+    backupFileArray: any[];
+    backups: PersistedDocument.Class[];
+    backupsService: BackupsService;
+    jobsService: JobsService;
+    running: ImportStatus;
+    uploading: ImportStatus;
+    creating: ImportStatus;
+    executing: ImportStatus;
+    errorMessages: Message[];
+    errorMessage: Message;
+    constructor(element: ElementRef, backupsService: BackupsService, jobsService: JobsService);
+    ngOnInit(): void;
+    getBackups(): void;
+    onImportBackup(form: any): void;
+    executeImport(importJob: PersistedDocument.Class): Promise<PersistedDocument.Class>;
+    monitorExecution(importJobExecution: PersistedDocument.Class): Promise<PersistedDocument.Class>;
+    ngOnDestroy(): void;
+    private checkImportJobExecution(importJobExecution);
+    onFileChange(event: any): void;
+    onInputLostFocus(control: any): void;
+    enableAllInputs(): void;
+    canDisplayImportButtonLoading(): boolean;
+    uploadBackup(file: Blob): void;
+    createBackupImport(backupURI: string): Promise<any>;
+    private getHTTPErrorMessage(error, content);
+    finishImport(): void;
+    checkForFailedTasks(): boolean;
+    removeMessage(index: number): void;
+}
+export declare class ImportStatus {
+    private _active;
+    private _done;
+    private _failed;
+    private _succeed;
+    active: boolean;
+    done: boolean;
+    failed: boolean;
+    succeed: boolean;
+    start(): void;
+    finish(): void;
+    fail(): void;
+    success(): void;
+}
