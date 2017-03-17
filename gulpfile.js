@@ -17,6 +17,7 @@ const ts = require( "gulp-typescript" );
 const jeditor = require( "gulp-json-editor" );
 
 const tslint = require( "gulp-tslint" );
+const exec = require( "child_process" ).exec;
 
 let config = {
 	source: {
@@ -32,6 +33,10 @@ let config = {
 	dist: {
 		tsOutput: "dist",
 		all: "dist/**/*",
+		typescript: "dist/**/*.ts",
+	},
+	compiled: {
+		all: "compiled/**/*"
 	}
 };
 
@@ -79,6 +84,10 @@ gulp.task( "clean:dist", ( done ) => {
 	return del( config.dist.all, done );
 } );
 
+gulp.task( "clean:compiled", ( done ) => {
+	return del( config.compiled.all, done );
+} );
+
 gulp.task( "compile:styles", () => {
 	return gulp.src( config.source.styles )
 		.pipe( sourcemaps.init() )
@@ -97,24 +106,10 @@ gulp.task( "compile:templates", () => {
 		.pipe( gulp.dest( "dist" ) );
 } );
 
-
-gulp.task( "compile:typescript", () => {
-	let tsProject = ts.createProject( "tsconfig.json", {
-		"declaration": true
+gulp.task( "compile:typescript", function( cb ) {
+	exec( "node_modules/.bin/ngc -p tsconfig.json", function( err, stdout, stderr ) {
+		cb( err );
 	} );
-
-	let tsResults = gulp.src( config.source.typescript )
-		.pipe( sourcemaps.init() )
-		.pipe( tsProject() );
-
-	return merge( [
-		tsResults.dts
-			.pipe( gulp.dest( config.dist.tsOutput ) )
-		,
-		tsResults.js
-			.pipe( sourcemaps.write( "." ) )
-			.pipe( gulp.dest( config.dist.tsOutput ) )
-	] );
 } );
 
 gulp.task( "copy:typescript", () => {
