@@ -7,6 +7,8 @@
 		"experimentalDecorators": true,
 		"moduleResolution": "node",
 		"allowSyntheticDefaultImports": true,
+		"outDir": "dist",
+		"declaration": true,
 		"baseUrl": ".",
 		"paths": {
 			"angular2-carbonldp/*": [ "../angular2-carbonldp/dist/*" ],
@@ -21,10 +23,16 @@
 	},
 	"exclude": [
 		"dist",
+		"carbonldp-js-sdk/*",
+		"angular2-carbonldp/*",
 		"node_modules/*",
 		"node_modules/typescript",
 		"typings/custom",
 		"typings/globals",
 		"typings/index.d.ts"
-	]
+	],
+	"angularCompilerOptions": {
+		"genDir": "compiled",
+		"skipTemplateCodegen": true
+	}
 }
