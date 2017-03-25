@@ -10,6 +10,13 @@ import { EditAppView } from "./edit-app/edit-app.view";
 import { ExplorerView } from "./explorer/explorer.view";
 import { ConfigurationView } from "./configuration/configuration.view";
 
+// TODO: When AOT works correctly, remove this import
+import { SecurityModule } from "carbonldp-panel/my-apps/app-content/security/security.module";
+// TODO: When AOT works correctly, remove this export. It's being exported because otherwise rollup will remove the imported module
+export function exportSecurityModule() {
+	return SecurityModule;
+}
+
 export const AppContentRoutes:Routes = [
 	{
 		path: "",
