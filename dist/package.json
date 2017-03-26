@@ -17,9 +17,6 @@
     "type": "git",
     "url": "https://github.com/CarbonLDP/carbon-panel.git"
   },
-  "main": "index.js",
-  "typings": "index.d.ts",
-  "jspm": {},
   "peerDependencies": {
     "@angular/common": "2.4.9",
     "@angular/compiler": "2.4.9",
