@@ -1,23 +1,9 @@
 "use strict";
 
-const fs = require( "fs" );
 const del = require( "del" );
-
 const gulp = require( "gulp" );
-const util = require( "gulp-util" );
 const runSequence = require( "run-sequence" );
-const merge = require( "merge2" );
-
-const sass = require( "gulp-sass" );
-const autoprefixer = require( "gulp-autoprefixer" );
-
-const sourcemaps = require( "gulp-sourcemaps" );
-const ts = require( "gulp-typescript" );
-
 const jeditor = require( "gulp-json-editor" );
-
-const tslint = require( "gulp-tslint" );
-const exec = require( "child_process" ).exec;
 
 let config = {
 	source: {
@@ -34,9 +20,6 @@ let config = {
 		tsOutput: "dist",
 		all: "dist/**/*",
 		typescript: "dist/**/*.ts",
-	},
-	compiled: {
-		all: "compiled/**/*"
 	}
 };
 
@@ -72,9 +55,6 @@ gulp.task( "build:prepare-npm-package|copy:package-json", () => {
 			delete json.scripts;
 			delete json.devDependencies;
 
-			json.main = json.main.replace( "dist/", "" );
-			json.typings = json.typings.replace( "dist/", "" );
-
 			return json;
 		} ) )
 		.pipe( gulp.dest( config.dist.tsOutput ) );
@@ -84,59 +64,22 @@ gulp.task( "clean:dist", ( done ) => {
 	return del( config.dist.all, done );
 } );
 
-gulp.task( "clean:compiled", ( done ) => {
-	return del( config.compiled.all, done );
-} );
-
-gulp.task( "compile:styles", () => {
-	return gulp.src( config.source.styles )
-		.pipe( sourcemaps.init() )
-		.pipe( sass().on( "error", sass.logError ) )
-		.pipe( autoprefixer( {
-			browsers: [ "last 2 versions" ]
-		} ) )
-		.pipe( sourcemaps.write( "." ) )
-		.pipe( gulp.dest( "dist" ) )
-		;
-} );
-
-gulp.task( "compile:templates", () => {
-	// TODO: Minify
-	return gulp.src( config.source.templates )
-		.pipe( gulp.dest( "dist" ) );
-} );
-
-gulp.task( "compile:typescript", function( cb ) {
-	exec( "node_modules/.bin/ngc -p tsconfig.json", function( err, stdout, stderr ) {
-		cb( err );
-	} );
-} );
-
-gulp.task( "copy:typescript", () => {
-	return gulp.src( "src/**/*.ts", {
-		base: "src"
-	} ).pipe( gulp.dest( "dist" ) );
-} );
 gulp.task( "copy:styles", () => {
 	return gulp.src( "src/**/*.scss", {
 		base: "src"
 	} ).pipe( gulp.dest( "dist" ) );
 } );
+
 gulp.task( "copy:templates", () => {
 	return gulp.src( "src/**/*.html", {
 		base: "src"
 	} ).pipe( gulp.dest( "dist" ) );
 } );
 
-gulp.task( "lint", [ "lint:typescript" ] );
-
-gulp.task( "lint:typescript", () => {
-	return gulp.src( config.source.typescript )
-		.pipe( tslint( {
-			tslint: require( "tslint" )
-		} ) )
-		.pipe( tslint.report( "prose" ) )
-		;
+gulp.task( "copy:typescript", () => {
+	return gulp.src( "src/**/*.ts", {
+		base: "src"
+	} ).pipe( gulp.dest( "dist" ) );
 } );
 
 gulp.task( "watch", ( done ) => {
