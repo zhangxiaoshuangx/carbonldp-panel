@@ -30,9 +30,5 @@
 		"typings/custom",
 		"typings/globals",
 		"typings/index.d.ts"
-	],
-	"angularCompilerOptions": {
-		"genDir": "compiled",
-		"skipTemplateCodegen": true
-	}
+	]
 }
