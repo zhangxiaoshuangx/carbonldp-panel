@@ -4,6 +4,8 @@
 # Include your project-specific ignores in this section
 # ----- Project ignores
 
+/compiled/*
+
 src/**/*.js
 src/**/*.map
 
