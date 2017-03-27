@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 
-import { Carbon } from "carbonldp/Carbon";
+import { Class as Carbon } from "carbonldp/Carbon";
 import * as App from "carbonldp/App";
 import * as HTTP from "carbonldp/HTTP";
 import * as Response from "carbonldp/HTTP/Response";
