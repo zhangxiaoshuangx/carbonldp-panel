@@ -48,7 +48,7 @@ export class RoleDetailsComponent {
 	@Input() mode:string = Modes.READ;
 	@Input() role:PersistedRole.Class = <any>Role.Factory.create( "New Role" );
 	@Input() appContext:App.Context;
-	@Input() selectedRole:string|PersistedRole.Class;
+	@Input() selectedRole:string | PersistedRole.Class;
 
 	@Output() onClose:EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output() onSuccess:EventEmitter<string> = new EventEmitter<string>();
@@ -113,7 +113,12 @@ export class RoleDetailsComponent {
 		this.rolesService.saveAndRefresh( this.appContext, role ).then( ( [ updatedRole, [ saveResponse, refreshResponse ] ]:[ PersistedRole.Class, [ HTTP.Response.Class, HTTP.Response.Class ] ] ) => {
 			return this.editRoleAgents( role, roleData.agents );
 		} ).then( () => {
-			return ! role.parentRole ? this.parentRole.addMember( role ) : new Promise( ( resolve, reject ) => { resolve( this.parentRole )} );
+			if( role.id.endsWith( "roles/app-admin/" ) )
+				return new Promise( ( resolve, reject ) => { resolve( role )} );
+			else if( ! role.parentRole )
+				return this.parentRole.addMember( role );
+			else
+				return new Promise( ( resolve, reject ) => { resolve( this.parentRole )} );
 		} ).then( () => {
 			return role.refresh();
 		} ).then( () => {
