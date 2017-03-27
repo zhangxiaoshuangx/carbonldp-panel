@@ -26,7 +26,7 @@ export class RolesService {
 	public get( slugOrURI:string, appContext:App.Context ):Promise<PersistedRole.Class> {
 		let uri:string = appContext.getBaseURI() + `roles/${slugOrURI}/`;
 		if( URI.Util.isAbsolute( slugOrURI ) ) uri = slugOrURI;
-		let existingRoles:Map <string, PersistedRole.Class> = this.appContextsRoles.get( appContext.getBaseURI() );
+		let existingRoles:Map<string, PersistedRole.Class> = this.appContextsRoles.get( appContext.getBaseURI() );
 		existingRoles = typeof existingRoles === "undefined" ? new Map<string, PersistedRole.Class>() : existingRoles;
 		return appContext.documents.get<PersistedRole.Class>( uri ).then( ( [ role, response ]:[ PersistedRole.Class, HTTP.Response.Class ] ) => {
 			existingRoles.set( role.id, role );
@@ -36,7 +36,7 @@ export class RolesService {
 
 	public getAll( appContext:App.Context, limit?:number, page?:number, orderBy?:string, ascending:boolean = true ):Promise<PersistedRole.Class[]> {
 		let uri:string = appContext.getBaseURI() + "roles/";
-		let existingRoles:Map <string, PersistedRole.Class> = this.appContextsRoles.get( appContext.getBaseURI() );
+		let existingRoles:Map<string, PersistedRole.Class> = this.appContextsRoles.get( appContext.getBaseURI() );
 		existingRoles = typeof existingRoles === "undefined" ? new Map<string, PersistedRole.Class>() : existingRoles;
 
 		let preferences:RetrievalPreferences = {},
@@ -76,7 +76,7 @@ export class RolesService {
 		if( typeof limit !== "undefined" ) preferences.limit = limit;
 		if( typeof page !== "undefined" ) preferences.offset = page * limit;
 
-		return this.carbon.documents.getChildren<PersistedRole.Class>( uri, preferences ).then( ( [ roles, response ]:[ PersistedRole.Class[], HTTP.Response.Class ] ) => {
+		return appContext.documents.getChildren<PersistedRole.Class>( uri, preferences ).then( ( [ roles, response ]:[ PersistedRole.Class[], HTTP.Response.Class ] ) => {
 			roles.filter( ( role:PersistedRole.Class ) => ! existingRoles.has( role.id ) )
 				.forEach( ( role:PersistedRole.Class ) => existingRoles.set( role.id, role ) );
 
@@ -87,7 +87,7 @@ export class RolesService {
 		} );
 	}
 
-	public create( appContext:App.Context, parentRole:string|PersistedRole.Class, role:PersistedRole.Class, slug?:string ):Promise<PersistedRole.Class> {
+	public create( appContext:App.Context, parentRole:string | PersistedRole.Class, role:PersistedRole.Class, slug?:string ):Promise<PersistedRole.Class> {
 		class MockedRoles extends Roles.Class {}
 		let roles:Roles.Class = new MockedRoles( appContext );
 		return roles.createChild( parentRole, <Role.Class & PersistedRole.Class>role, slug ).then( ( [ role, response ]:[ PersistedRole.Class, HTTP.Response.Class ] ) => {

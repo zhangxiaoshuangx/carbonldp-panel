@@ -94,7 +94,7 @@ export class AgentsService {
 		if( typeof page !== "undefined" ) preferences.offset = page * limit;
 
 
-		return this.carbon.documents.getMembers<PersistedAgent.Class>( uri, false, preferences ).then( ( [ agents, response ]:[ PersistedAgent.Class[], HTTP.Response.Class ] ) => {
+		return appContext.documents.getMembers<PersistedAgent.Class>( uri, false, preferences ).then( ( [ agents, response ]:[ PersistedAgent.Class[], HTTP.Response.Class ] ) => {
 			agents.filter( ( agent:PersistedAgent.Class ) => ! existingAgents.has( agent.id ) )
 				.forEach( ( agent:PersistedAgent.Class ) => existingAgents.set( agent.id, agent ) );
 
