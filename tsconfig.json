@@ -1,11 +1,14 @@
 {
 	"compilerOptions": {
 		"target": "es5",
-		"module": "system",
+		"module": "commonjs",
 		"noImplicitAny": false,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"moduleResolution": "node",
+		"allowSyntheticDefaultImports": true,
+		"outDir": "dist",
+		"declaration": true,
 		"baseUrl": ".",
 		"paths": {
 			"angular2-carbonldp/*": [ "../angular2-carbonldp/dist/*" ],
@@ -20,6 +23,8 @@
 	},
 	"exclude": [
 		"dist",
+		"carbonldp-js-sdk/*",
+		"angular2-carbonldp/*",
 		"node_modules/*",
 		"node_modules/typescript",
 		"typings/custom",

@@ -1,22 +1,12 @@
 "use strict";
 
-const fs = require( "fs" );
 const del = require( "del" );
-
 const gulp = require( "gulp" );
-const util = require( "gulp-util" );
 const runSequence = require( "run-sequence" );
-const merge = require( "merge2" );
-
-const sass = require( "gulp-sass" );
-const autoprefixer = require( "gulp-autoprefixer" );
-
-const sourcemaps = require( "gulp-sourcemaps" );
-const ts = require( "gulp-typescript" );
-
 const jeditor = require( "gulp-json-editor" );
-
-const tslint = require( "gulp-tslint" );
+const merge = require( "merge2" );
+const ts = require( "gulp-typescript" );
+const sourcemaps = require( "gulp-sourcemaps" );
 
 let config = {
 	source: {
@@ -30,8 +20,10 @@ let config = {
 		],
 	},
 	dist: {
+		tsCompiled: "compiled",
 		tsOutput: "dist",
 		all: "dist/**/*",
+		typescript: "dist/**/*.ts",
 	}
 };
 
@@ -40,7 +32,7 @@ gulp.task( "default", [ "build" ] );
 gulp.task( "build", [ "clean:dist" ], ( done ) => {
 	runSequence(
 		"clean:dist",
-		[ "compile:typescript", "compile:templates", "compile:styles", "build:prepare-npm-package" ],
+		[ "compile:typescript", "copy:typescript", "copy:templates", "copy:styles", "build:prepare-npm-package" ],
 		done
 	);
 } );
@@ -67,9 +59,6 @@ gulp.task( "build:prepare-npm-package|copy:package-json", () => {
 			delete json.scripts;
 			delete json.devDependencies;
 
-			json.main = json.main.replace( "dist/", "" );
-			json.typings = json.typings.replace( "dist/", "" );
-
 			return json;
 		} ) )
 		.pipe( gulp.dest( config.dist.tsOutput ) );
@@ -79,24 +68,35 @@ gulp.task( "clean:dist", ( done ) => {
 	return del( config.dist.all, done );
 } );
 
-gulp.task( "compile:styles", () => {
-	return gulp.src( config.source.styles )
-		.pipe( sourcemaps.init() )
-		.pipe( sass().on( "error", sass.logError ) )
-		.pipe( autoprefixer( {
-			browsers: [ "last 2 versions" ]
-		} ) )
-		.pipe( sourcemaps.write( "." ) )
-		.pipe( gulp.dest( "dist" ) )
-		;
+gulp.task( "clean:compiled", ( done ) => {
+	return del( config.dist.tsCompiled, done );
 } );
 
-gulp.task( "compile:templates", () => {
-	// TODO: Minify
-	return gulp.src( config.source.templates )
-		.pipe( gulp.dest( "dist" ) );
+gulp.task( "copy:styles", () => {
+	return gulp.src( "src/**/*.scss", {
+		base: "src"
+	} ).pipe( gulp.dest( "dist" ) );
 } );
 
+gulp.task( "copy:templates", () => {
+	return gulp.src( "src/**/*.html", {
+		base: "src"
+	} ).pipe( gulp.dest( "dist" ) );
+} );
+
+gulp.task( "copy:typescript", () => {
+	return gulp.src( "src/**/*.ts", {
+		base: "src"
+	} ).pipe( gulp.dest( "dist" ) );
+} );
+
+gulp.task( "compile", ( done ) => {
+	runSequence(
+		"clean:compiled",
+		[ "compile:typescript" ],
+		done
+	);
+} );
 
 gulp.task( "compile:typescript", () => {
 	let tsProject = ts.createProject( "tsconfig.json", {
@@ -109,41 +109,30 @@ gulp.task( "compile:typescript", () => {
 
 	return merge( [
 		tsResults.dts
-			.pipe( gulp.dest( config.dist.tsOutput ) )
+			.pipe( gulp.dest( config.dist.tsCompiled ) )
 		,
 		tsResults.js
 			.pipe( sourcemaps.write( "." ) )
-			.pipe( gulp.dest( config.dist.tsOutput ) )
+			.pipe( gulp.dest( config.dist.tsCompiled ) )
 	] );
-} );
-
-gulp.task( "lint", [ "lint:typescript" ] );
-
-gulp.task( "lint:typescript", () => {
-	return gulp.src( config.source.typescript )
-		.pipe( tslint( {
-			tslint: require( "tslint" )
-		} ) )
-		.pipe( tslint.report( "prose" ) )
-		;
 } );
 
 gulp.task( "watch", ( done ) => {
 	runSequence(
-		[ "compile:styles", "compile:templates", "compile:typescript" ],
+		[ "copy:styles", "copy:templates", "copy:typescript" ],
 		[ "watch:styles", "watch:templates", "watch:typescript" ],
 		done
 	);
 } );
 
 gulp.task( "watch:styles", () => {
-	return gulp.watch( config.source.styles, [ "compile:styles" ] );
+	return gulp.watch( config.source.styles, [ "copy:styles" ] );
 } );
 
 gulp.task( "watch:templates", () => {
-	return gulp.watch( config.source.templates, [ "compile:templates" ] );
+	return gulp.watch( config.source.templates, [ "copy:templates" ] );
 } );
 
 gulp.task( "watch:typescript", () => {
-	return gulp.watch( config.source.typescript, [ "compile:typescript" ] );
+	return gulp.watch( config.source.typescript, [ "copy:typescript" ] );
 } );

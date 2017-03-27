@@ -21,12 +21,12 @@
 	</div>
 	<div class="actions">
 		<button class="ui black deny button" title="Cancel deletion" type="button"
-		        [disabled]="deleting"
+		        [disabled]="deletingAgent"
 		        (click)="hideDeleteAgentForm()">No
 		</button>
 		<button class="ui red button" title="Confirm deletion" type="submit"
 		        [ngClass]="{loading:deletingAgent, disabled:deletingAgent}"
-		        [disabled]="deleting">Yes
+		        [disabled]="deletingAgent">Yes
 		</button>
 	</div>
 </form>

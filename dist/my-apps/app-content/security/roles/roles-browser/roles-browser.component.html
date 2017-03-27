@@ -1,0 +1,51 @@
+<div class="ui grid segment">
+	<div class="stretched row">
+		<div class="ui active inverted dimmer" *ngIf="loading">
+			<div class="ui text loader">Loading...</div>
+		</div>
+		<div class="error messages" *ngIf="messages.length > 0">
+			<template ngFor let-message="$implicit" [ngForOf]="messages" let-i="index">
+				<cp-message [message]="message" [type]="'error'" [closable]="true"></cp-message>
+			</template>
+		</div>
+		<cp-roles-tree-view class="six wide column tree"
+		                    [appContext]="appContext"
+		                    [refreshNode]="onRefresh"
+		                    [deletedNode]="onDelete"
+		                    (onDoubleClickRole)="resolveRole($event); mode = Modes.READ;"
+		                    (onSelectRole)="selectedRole=$event"
+		                    (onShowCreateRoleForm)="mode = Modes.CREATE"
+		                    (onShowDeleteRoleForm)="roleDeleter.show()"
+		                    (onLoading)="loading=$event"
+		                    (onError)="handleError($event)"></cp-roles-tree-view>
+		<div *ngIf="loading"
+		     class="ui ten wide column role details basic segment">
+			<div class="ui message">
+				<div class="content">
+					<div class="header">
+						Just one second
+					</div>
+					<p>Please wait while the role is being loaded...</p>
+				</div>
+			</div>
+		</div>
+		<cp-role-details *ngIf="!!activeRole && !loading && mode!==Modes.CREATE"
+		                 class="ten wide column role details"
+		                 [role]="activeRole"
+		                 [appContext]="appContext"
+		                 (onSuccess)="onSuccessEdit($event)">
+		</cp-role-details>
+		<cp-role-details *ngIf="!!activeRole && !loading && mode===Modes.CREATE"
+		                 class="ten wide column role details"
+		                 [mode]="'CREATE'"
+		                 [appContext]="appContext"
+		                 [embedded]="false"
+		                 [selectedRole]="selectedRole"
+		                 (onClose)="mode=Modes.READ;"
+		                 (onSuccess)="onSuccessCreate($event)"></cp-role-details>
+		<cp-role-deleter #roleDeleter
+		                 [role]="selectedRole"
+		                 [appContext]="appContext"
+		                 (onSuccess)="onSuccessDelete($event)"></cp-role-deleter>
+	</div>
+</div>

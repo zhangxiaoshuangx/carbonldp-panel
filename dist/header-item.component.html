@@ -13,11 +13,11 @@
 		</template>
 	</div>
 </div>
-<a *ngIf="! ( item.children && item.children.length ) && item.route" class="item" [routerLink]="item.route" [ngClass]="{ active: routerService.isActive( item.route ) }">
+<a *ngIf="(! ( item.children && item.children.length ) && (!!item.route))" class="item" [routerLink]="item.route" [ngClass]="{ active: routerService.isActive( item.route ) }">
 	<i *ngIf="item.icon" [class]="item.icon"></i>
 	{{item.name}}
 </a>
-<a *ngIf="! ( item.children && item.children.length ) && ! item.route && item.onClick" class="item" (click)="item.onClick.emit( $event )">
+<a *ngIf="! ( item.children && item.children.length ) && ! item.route && !!item.onClick" class="item" (click)="item.onClick.emit( $event )">
 	<i *ngIf="item.icon" [class]="item.icon"></i>
 	{{item.name}}
 </a>

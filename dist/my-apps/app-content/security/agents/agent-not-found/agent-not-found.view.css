@@ -1,9 +1,0 @@
-:host {
-  display: block; }
-  :host .timer {
-    font-size: 10em; }
-  :host .no-agents.segment {
-    color: #ffffff;
-    font-size: 1.3em; }
-
-/*# sourceMappingURL=agent-not-found.view.css.map */
