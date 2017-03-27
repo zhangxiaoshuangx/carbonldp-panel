@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, Output, EventEmitter, OnInit, AfterViewInit } from "@angular/core";
 
-import { Carbon } from "carbonldp/Carbon";
+import { Class as Carbon } from "carbonldp/Carbon";
 import { Class as Context } from "carbonldp/Context";
 import * as SPARQL from "carbonldp/SPARQL";
 import * as HTTP from "carbonldp/HTTP";
