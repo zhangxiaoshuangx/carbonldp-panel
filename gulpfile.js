@@ -68,6 +68,10 @@ gulp.task( "clean:dist", ( done ) => {
 	return del( config.dist.all, done );
 } );
 
+gulp.task( "clean:compiled", ( done ) => {
+	return del( config.dist.tsCompiled, done );
+} );
+
 gulp.task( "copy:styles", () => {
 	return gulp.src( "src/**/*.scss", {
 		base: "src"
@@ -84,6 +88,14 @@ gulp.task( "copy:typescript", () => {
 	return gulp.src( "src/**/*.ts", {
 		base: "src"
 	} ).pipe( gulp.dest( "dist" ) );
+} );
+
+gulp.task( "compile", ( done ) => {
+	runSequence(
+		"clean:compiled",
+		[ "compile:typescript" ],
+		done
+	);
 } );
 
 gulp.task( "compile:typescript", () => {
