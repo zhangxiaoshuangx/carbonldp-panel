@@ -52,6 +52,7 @@ Common components, services and utilities shared between different panel project
 - `copy:styles`: Copies style files (scss) and copies them into the `dist` directory
 - `copy:templates`: Copies template files (html) to the `dist` directory
 - `copy:typescript`: Copies typescript files (ts) to the `dist` directory
+- `compile:typescript`: Compiles typescript files (ts) into the `compiled` directory
 - `watch`: Sets up a service to watch for any change to any source file and run the associated tasks to them. Really useful for development
 - `watch:styles`: Watches for changes in style files (sass/scss)
 - `watch:templates`: Watches for changes in template files (html)

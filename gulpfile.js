@@ -4,6 +4,9 @@ const del = require( "del" );
 const gulp = require( "gulp" );
 const runSequence = require( "run-sequence" );
 const jeditor = require( "gulp-json-editor" );
+const merge = require( "merge2" );
+const ts = require( "gulp-typescript" );
+const sourcemaps = require( "gulp-sourcemaps" );
 
 let config = {
 	source: {
@@ -17,6 +20,7 @@ let config = {
 		],
 	},
 	dist: {
+		tsCompiled: "compiled",
 		tsOutput: "dist",
 		all: "dist/**/*",
 		typescript: "dist/**/*.ts",
@@ -80,6 +84,25 @@ gulp.task( "copy:typescript", () => {
 	return gulp.src( "src/**/*.ts", {
 		base: "src"
 	} ).pipe( gulp.dest( "dist" ) );
+} );
+
+gulp.task( "compile:typescript", () => {
+	let tsProject = ts.createProject( "tsconfig.json", {
+		"declaration": true
+	} );
+
+	let tsResults = gulp.src( config.source.typescript )
+		.pipe( sourcemaps.init() )
+		.pipe( tsProject() );
+
+	return merge( [
+		tsResults.dts
+			.pipe( gulp.dest( config.dist.tsCompiled ) )
+		,
+		tsResults.js
+			.pipe( sourcemaps.write( "." ) )
+			.pipe( gulp.dest( config.dist.tsCompiled ) )
+	] );
 } );
 
 gulp.task( "watch", ( done ) => {
