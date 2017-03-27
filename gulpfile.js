@@ -32,7 +32,7 @@ gulp.task( "default", [ "build" ] );
 gulp.task( "build", [ "clean:dist" ], ( done ) => {
 	runSequence(
 		"clean:dist",
-		[ "copy:typescript", "copy:templates", "copy:styles", "build:prepare-npm-package" ],
+		[ "compile:typescript", "copy:typescript", "copy:templates", "copy:styles", "build:prepare-npm-package" ],
 		done
 	);
 } );
