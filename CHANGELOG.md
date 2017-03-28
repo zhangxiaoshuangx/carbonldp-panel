@@ -1,3 +1,18 @@
+# 0.8.0 (2017/03/27)
+
+- Completed #47 - Make library AOT compliant
+- Changed code to make it [AOT compliant](https://github.com/rangle/angular-2-aot-sandbox#current-status) by doing the following:
+  - Replaced all template and style imports to use templateUrl and styleUrls instead
+  - Removed all default exports
+- Cleaned unnecessary gulp tasks
+- Updated `carbonldp` to `v0.42.0`
+- Updated `angular2-carbonldp` to `v0.5.0`
+- Updated `@angular` packages to `v2.4.9`
+
+### Breaking Changes:
+- The `dist` folder now serves `.ts` and `.scss` files instead of the old `.js` and `.css` files due to the incompatibility of AOT compiling when using this project as a package
+
+
 # 0.7.1 (2017/02/23)
 
 - Updated `angular2-carbonldp` to `v0.4.2`
