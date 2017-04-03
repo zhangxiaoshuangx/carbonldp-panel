@@ -34,7 +34,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<template ngFor let-blankNode="$implicit" [ngForOf]="blankNodes" let-i="index">
+			<ng-template ngFor let-blankNode="$implicit" [ngForOf]="blankNodes" let-i="index">
 				<tr [ngClass]="{ added:!!blankNode.added, modified:!!blankNode.modified }"
 				    (click)="openBlankNode(blankNode)">
 					<td>
@@ -61,7 +61,7 @@
 						</div>
 					</td>
 				</tr>
-			</template>
+			</ng-template>
 		</tbody>
 	</table>
 	<div class="ui message" *ngIf="!blankNodes || blankNodes.length===0">

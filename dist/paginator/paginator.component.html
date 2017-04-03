@@ -1,5 +1,5 @@
 <div class="ui right floated pagination menu">
-	<template ngFor let-page [ngForOf]="pages" let-index="index" let-first="first" let-last="last">
+	<ng-template ngFor let-page [ngForOf]="pages" let-index="index" let-first="first" let-last="last">
 		<a class="icon item" [ngClass]="{disabled: activePage===0}" (click)="previous()" *ngIf="first">
 			<i class="left chevron icon"></i>
 		</a>
@@ -11,5 +11,5 @@
 		<a class="icon item" [ngClass]="{disabled: activePage===(pages.length-1)}" (click)="next()" *ngIf="last">
 			<i class="right chevron icon"></i>
 		</a>
-	</template>
+	</ng-template>
 </div>

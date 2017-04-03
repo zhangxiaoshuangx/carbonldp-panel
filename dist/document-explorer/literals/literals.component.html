@@ -8,7 +8,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<template ngFor let-literal="$implicit" [ngForOf]="literals" let-i="index">
+		<ng-template ngFor let-literal="$implicit" [ngForOf]="literals" let-i="index">
 			<tr class="cp-literal top aligned" [ngClass]="{'modified-literal':!!literal.modified, 'added-literal':!!literal.added}" *ngIf="!literal.deleted"
 			    [literal]="literal"
 			    [canEdit]="canEdit"
@@ -16,6 +16,6 @@
 			    (onSave)="saveLiteral($event, literal, i)"
 			    (onDeleteLiteral)="deleteLiteral($event, i)"
 			    (onEditMode)="editModeChanged($event)"></tr>
-		</template>
+		</ng-template>
 	</tbody>
 </table>

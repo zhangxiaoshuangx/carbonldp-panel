@@ -6,7 +6,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<template ngFor let-pointer="$implicit" [ngForOf]="pointers" let-i="index">
+		<ng-template ngFor let-pointer="$implicit" [ngForOf]="pointers" let-i="index">
 			<tr class="cp-pointer top aligned" [ngClass]="{'modified-pointer':!!pointer.modified, 'added-pointer':!!pointer.added}" *ngIf="!pointer.deleted"
 			    [pointer]="pointer"
 			    [documentURI]="documentURI"
@@ -17,6 +17,6 @@
 			    (onGoToBNode)="goToBNode($event)"
 			    (onSave)="savePointer($event, pointer, i)"
 			    (onDeletePointer)="deletePointer($event, i)"></tr>
-		</template>
+		</ng-template>
 	</tbody>
 </table>

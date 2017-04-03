@@ -1,22 +1,22 @@
-<template ngFor let-item [ngForOf]="items">
-	<template [ngIf]="item.type === 'link'">
+<ng-template ngFor let-item [ngForOf]="items">
+	<ng-template [ngIf]="item.type === 'link'">
 		<a class="item"
 		   [ngClass]="{ active: routerService.isActive( item.route ) }"
 		   [routerLink]="item.route">
 			<i *ngIf="item.icon" [class]="item.icon"></i>
 			{{ item.name }}
 		</a>
-	</template>
-	<template [ngIf]="item.type === 'divider'">
+	</ng-template>
+	<ng-template [ngIf]="item.type === 'divider'">
 		<div class="ui horizontal inverted divider">
 			<i *ngIf="item.icon" [class]="item.icon"></i>
 			{{ item.name }}
 		</div>
-	</template>
-	<template [ngIf]="item.type === 'group'">
+	</ng-template>
+	<ng-template [ngIf]="item.type === 'group'">
 		<cp-sidebar-items [items]="item.children"></cp-sidebar-items>
-	</template>
-	<template [ngIf]="item.type === 'submenu'">
+	</ng-template>
+	<ng-template [ngIf]="item.type === 'submenu'">
 		<a class="item submenu"
 		   suiCollapsible
 		   [(suiActive)]="item.open"
@@ -32,5 +32,5 @@
 				<cp-sidebar-items [items]="item.children"></cp-sidebar-items>
 			</div>
 		</a>
-	</template>
-</template>
+	</ng-template>
+</ng-template>

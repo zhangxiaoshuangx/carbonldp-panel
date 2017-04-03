@@ -33,7 +33,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<template ngFor let-namedFragment="$implicit" [ngForOf]="namedFragments" let-i="index">
+			<ng-template ngFor let-namedFragment="$implicit" [ngForOf]="namedFragments" let-i="index">
 				<tr [ngClass]="{ added:!!namedFragment.added, modified:!!namedFragment.modified }"
 				    (click)="openNamedFragment(namedFragment)">
 					<td>
@@ -55,7 +55,7 @@
 						</div>
 					</td>
 				</tr>
-			</template>
+			</ng-template>
 		</tbody>
 	</table>
 	<div class="ui message" *ngIf="!namedFragments || namedFragments.length===0">

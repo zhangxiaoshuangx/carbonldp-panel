@@ -4,7 +4,7 @@
 </button>
 <div class="ui divider" *ngIf="canEdit"></div>
 <div class="ui divided items">
-	<template ngFor let-propertyRow="$implicit" [ngForOf]="properties" let-i="index">
+	<ng-template ngFor let-propertyRow="$implicit" [ngForOf]="properties" let-i="index">
 		<cp-property class="property item"
 		             [attr.data-tar]="propertyRow.copy? propertyRow.copy.name : propertyRow.added.name"
 
@@ -26,5 +26,5 @@
 		             (onGoToBlankNode)="openBlankNode( $event )"
 		             (onGoToNamedFragment)="openNamedFragment( $event )">
 		</cp-property>
-	</template>
+	</ng-template>
 </div>

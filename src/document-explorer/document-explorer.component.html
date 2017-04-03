@@ -2,9 +2,9 @@
 
 	<div class="stretched row">
 		<div class="error messages" *ngIf="messages.length > 0">
-			<template ngFor let-message="$implicit" [ngForOf]="messages" let-i="index">
+			<ng-template ngFor let-message="$implicit" [ngForOf]="messages" let-i="index">
 				<cp-message [message]="message" [type]="'error'" [closable]="true"></cp-message>
-			</template>
+			</ng-template>
 		</div>
 		<cp-document-treeview class="five wide column treeview-container"
 		                      [documentContext]="documentContext"

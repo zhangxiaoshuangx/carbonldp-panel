@@ -26,7 +26,7 @@
 		<th>@language</th>
 		<th>Actions</th>
 	</tr>
-	<template ngFor let-item="$implicit" [ngForOf]="tempList" let-i="index" let-isFirst="first" let-isLast="last">
+	<ng-template ngFor let-item="$implicit" [ngForOf]="tempList" let-i="index" let-isFirst="first" let-isLast="last">
 		<tr #literal
 		    class="cp-literal" [ngClass]="{'top aligned':literal.mode ==='EDIT','modified-literal':!!item.modified, 'added-literal':!!item.added}" *ngIf="!item.deleted && isLiteral(item)"
 		    [literal]="item"
@@ -57,7 +57,7 @@
 		    (onGoToNamedFragment)="goToNamedFragment($event)"
 		    (onDeletePointer)="deleteItem($event, i)">
 		</tr>
-	</template>
+	</ng-template>
 	<tr *ngIf="tempList.length === 0">
 		<td colspan="4">
 			<div class="ui message">
